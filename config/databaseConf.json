@@ -1,0 +1,10 @@
+{
+ 
+  "type" : "mongodb",
+  "host" : "localhost",
+  "port" : 27017,
+  "database" : "database name",
+  "username" : "user name",
+  "password" : "user password"
+  
+}

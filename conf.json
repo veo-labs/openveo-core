@@ -1,0 +1,42 @@
+{
+  "routes" : {
+    "public" : {
+      "get /logout" : "app/server/controllers/authenticationController.logoutAction",
+      "post /authenticate" : "app/server/controllers/authenticationController.authenticateAction",
+      "/login" : "app/server/controllers/defaultController.defaultAction"
+    },
+    "admin" : {
+      "*" : "app/server/controllers/authenticationController.restrictAction"
+    }
+  },
+  "backOffice": {
+    "menu" : [
+      {
+        "label" : "Home",
+        "path" : "/admin"
+      }
+    ],
+    "scriptLibFiles" : [
+      "/lib/angular/angular.js",
+      "/lib/angular-route/angular-route.js",
+      "/lib/angular-animate/angular-animate.js",
+      "/js/authentication/AuthenticationApp.js",
+      "/js/storage/StorageApp.js",
+      "/js/route/RouteApp.js"
+    ],
+    "scriptFiles" : [
+      "/js/ov/OvApp.js",
+      "/js/ov/MainController.js",
+      "/js/ov/LoginController.js",
+      "/js/ov/HomeController.js"
+    ],
+    "cssFiles" : [
+      "/lib/bootstrap/dist/css/bootstrap.min.css",
+      "/css/common.css",
+      "/css/login.css"
+    ]
+  },
+  "viewsFolders" : [
+    "app/server/views"
+  ]
+}

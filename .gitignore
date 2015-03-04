@@ -1,0 +1,30 @@
+# Linux
+.directory
+*~
+.*.swp
+
+# OS X
+.DS_Store*
+Icon?
+._*
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Windows XP
+ehthumbs.db
+
+# Logs
+logs
+*.log
+
+# Project npm dependencies
+node_modules/*
+
+# Keep openveo-api internal module
+!node_modules/openveo-api
+node_modules/openveo-api/node_modules
+
+# Bower libraries
+public/lib

@@ -1,0 +1,12 @@
+body{ padding-top: 50px; }
+html, body, .container{ height: 100%; }
+
+/* Vertically align container */
+.container{ display: table; vertical-align: middle; }
+.vertical-center-row{ display: table-cell; vertical-align: middle; }
+
+/* 
+ * Hide all angularsjs element with ng-hide class to avoid blink while
+ * page loading.
+ */
+.ng-hide{ display: none !important; }

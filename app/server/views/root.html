@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="ov" ng-controller="MainController" ng-strict-di>
+  <head>
+    <title ng-bind="'OpenVeo - ' + title"></title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{#css}}
+      <link rel="stylesheet" type="text/css" href="{{.}}">
+    {{/css}}
+    
+    <script>
+      var plugins = [{{{angularJsModules}}}];
+    </script>
+  </head>
+
+  <body>
+    
+    <nav ng-show="openedMenu" class="navbar navbar-fixed-top navbar-default ng-hide">
+      <div class="container">
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            {{#menu}}
+              <li>
+                <a href="{{path}}">{{label}}</a>
+              </li>
+            {{/menu}}
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <a href="/logout" ng-click="logout()">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div ng-view class="row" ng-class="{'vertical-center-row': verticalAlign}"></div>
+    </div>
+    
+    {{#librariesScripts}}
+      <script type="text/javascript" src="{{.}}"></script>
+    {{/librariesScripts}}
+    
+    {{#scripts}}
+      <script type="text/javascript" src="{{.}}"></script>
+    {{/scripts}}
+
+  </body>
+  
+</html>

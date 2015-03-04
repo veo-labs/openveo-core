@@ -1,0 +1,8 @@
+{
+ 
+  "fileName" : "path to log file (e.g. /tmp/openveo.log)",
+  "level" : "info",
+  "maxFileSize" : 1048576,
+  "maxFiles" : 2
+  
+}
