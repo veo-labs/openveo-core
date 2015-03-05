@@ -20,6 +20,9 @@ process.require = function(filePath){
   return require(path.normalize(process.root + "/" + filePath));
 };
 
+// Initialize logger
+process.require("app/server/logger.js");
+
 // Module files
 var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
 var routeLoader = process.require("app/server/loaders/routeLoader");
@@ -31,9 +34,6 @@ var databaseConf = process.require("config/databaseConf.json");
 var conf = process.require("conf.json");
 
 var server;
-
-// Initialize logger
-process.require("app/server/logger.js");
 
 // Retrieve initialized logger
 var logger = winston.loggers.get("openveo");
