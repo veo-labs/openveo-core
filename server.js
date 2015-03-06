@@ -196,7 +196,7 @@ async.series([
   function(callback){
 
     // Handle default action
-    app.all("/admin/*", DefaultController.defaultAction); 
+    app.all("/admin*", DefaultController.defaultAction);
     
     // Handle not found files
     app.all("*", DefaultController.notFoundAction);
