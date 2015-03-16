@@ -18,13 +18,18 @@
      * home page. Otherwise, set the form as on error.
      */
     $scope.signIn = function(){
-      authenticationService.login($scope.userName, $scope.password).then(function(result){
-        authenticationService.setUserInfo(result.data);
-        $location.path("/admin");
-      }, function(error){
-        $scope.onError = true;
-        $scope.userName = $scope.password = "";
-      });
+      var loginPromise = authenticationService.login($scope.userName, $scope.password);
+
+      if(loginPromise){
+        loginPromise.then(function(result){
+          authenticationService.setUserInfo(result.data);
+          $location.path("/admin");
+        }, function(error){
+          $scope.onError = true;
+          $scope.userName = $scope.password = "";
+        });
+      }
+
     };
 
   }
