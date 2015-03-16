@@ -43,6 +43,8 @@ describe("pluginLoader", function(){
         assert.equal(loadedPlugin.mountPath, "/example");
         assert.isDefined(loadedPlugin.publicDirectory);
         assert.isString(loadedPlugin.publicDirectory);
+        assert.isDefined(loadedPlugin.i18nDirectory);
+        assert.isString(loadedPlugin.i18nDirectory);
         assert.isDefined(loadedPlugin.routes);
         assert.isArray(loadedPlugin.routes);
         assert.isDefined(loadedPlugin.adminRoutes);

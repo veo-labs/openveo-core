@@ -15,6 +15,7 @@ describe("LoginController", function(){
       $httpBackend = _$httpBackend_;
       $location = _$location_;
       $controller = _$controller_;
+      $httpBackend.when("GET", /.*/).respond(200, "");
       authRequestHandler = $httpBackend.when("POST", "/authenticate");
     }));
     

@@ -1,0 +1,9 @@
+{
+  "SIGN_IN" : "Se connecter",
+  "LOGIN" : "Utilisateur",
+  "LOGIN_DESCRIPTION" : "Entrer le nom d'utilisateur",
+  "PASSWORD" : "Mot de passe",
+  "PASSWORD_DESCRIPTION" : "Entrer le mot de passe",
+  "SUBMIT" : "Connexion",
+  "ERROR" : "Utilisateur et / ou mot de passe incorrect"
+}

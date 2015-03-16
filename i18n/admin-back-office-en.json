@@ -1,0 +1,11 @@
+{
+  "MENU" : {
+    "HOME" : "Home",
+    "DASHBOARD" : "Dashboard",
+    "LOGOUT" : "Logout"
+  },
+  "HOME" : {
+    "TITLE" : "OpenVeo home page",
+    "DESCRIPTION" : "Use menu to access the different pages of the administration"
+  }
+}

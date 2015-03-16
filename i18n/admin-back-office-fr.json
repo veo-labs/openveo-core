@@ -1,0 +1,11 @@
+{
+  "MENU" : {
+    "HOME" : "Accueil",
+    "DASHBOARD" : "Tableau de bord",
+    "LOGOUT" : "Déconnexion"
+  },
+  "HOME" : {
+    "TITLE" : "OpenVeo accueil",
+    "DESCRIPTION" : "Utilisez le menu pour accéder aux différentes pages d'administration"
+  }
+}

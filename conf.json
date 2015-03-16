@@ -3,26 +3,29 @@
     "public" : {
       "get /logout" : "app/server/controllers/authenticationController.logoutAction",
       "post /authenticate" : "app/server/controllers/authenticationController.authenticateAction",
-      "/login" : "app/server/controllers/defaultController.defaultAction"
+      "/login" : "app/server/controllers/defaultController.defaultAction",
+      "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getDictionaryAction"
     },
     "admin" : {
-      "*" : "app/server/controllers/authenticationController.restrictAction"
+      "*" : "app/server/controllers/authenticationController.restrictAction",
+      "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getAdminDictionaryAction"
     }
   },
   "backOffice": {
     "menu" : [
       {
-        "label" : "Home",
+        "label" : "MENU.HOME",
         "path" : "/admin"
       }
     ],
     "scriptLibFiles" : [
       "/lib/angular/angular.js",
       "/lib/angular-route/angular-route.js",
-      "/lib/angular-animate/angular-animate.js",
+      "/lib/angular-cookies/angular-cookies.js",
       "/js/authentication/AuthenticationApp.js",
       "/js/storage/StorageApp.js",
-      "/js/route/RouteApp.js"
+      "/js/route/RouteApp.js",
+      "/js/i18n/TranslateApp.js"
     ],
     "scriptFiles" : [
       "/js/ov/OvApp.js",

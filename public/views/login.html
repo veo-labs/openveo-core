@@ -1,31 +1,31 @@
 <div class="col-sm-4"></div>
 <div class="col-sm-4" id="loginForm">
 
-  <h3>OpenVeo / Sign in</h3>
+  <h3 ng-bind="'SIGN_IN' | translate"></h3>
   <div class="col-sm-12">
 
     <div ng-controller="LoginController">
       <form name="loginForm" ov-shake ng-submit="signIn()" novalidate>
           
-        <div ng-show="onError" class="alert alert-danger ng-hide" role="alert">Wrong login and / or password</div>
+        <div ng-show="onError" class="alert alert-danger ng-hide" role="alert" ng-bind="'ERROR' | translate"></div>
         
         <div class="form-group" ng-class="{'has-error': loginForm.userName.$invalid && loginForm.$submitted}">
-          <label>Login</label>
+          <label ng-bind="'LOGIN' | translate"></label>
           <div class="input-group">
             <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-            <input type="text" name="userName" class="form-control" placeholder="Enter user name" ng-model="userName" ng-model-options="{updateOn: 'blur'}" required>
+            <input type="text" name="userName" class="form-control" placeholder="[['LOGIN_DESCRIPTION' | translate]]" ng-model="userName" ng-model-options="{updateOn: 'blur'}" required>
           </div>
         </div>
 
         <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid && loginForm.$submitted}">
-          <label>Password</label>
+          <label ng-bind="'PASSWORD' | translate"></label>
           <div class="input-group">
             <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
-            <input type="password" name="password" class="form-control" placeholder="Enter password" ng-model="password" ng-model-options="{updateOn: 'blur'}" required>
+            <input type="password" name="password" class="form-control" placeholder="[['PASSWORD_DESCRIPTION' | translate]]" ng-model="password" ng-model-options="{updateOn: 'blur'}" required>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" ng-bind="'SUBMIT' | translate"></button>
       </form>
     </div>
 

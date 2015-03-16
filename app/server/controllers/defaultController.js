@@ -34,25 +34,25 @@ module.exports.defaultAction = function(request, response, next){
   // Got sub plugins
   if(plugins){
 
-    plugins.forEach(function(subPlugin){
+    plugins.forEach(function(plugin){
 
       // Plugin has a name and has a back office page configured.
       // It must have an angularjs module associated to it
-      if(subPlugin.name && subPlugin.menu)
-        angularJsModules.push("\"" + subPlugin.name.toLowerCase() + "\"");
+      if(plugin.name && plugin.menu)
+        angularJsModules.push("\"" + plugin.name.toLowerCase() + "\"");
 
       // Plugin has JavaScript libraries files to load
-      if(subPlugin["scriptLibFiles"] && util.isArray(subPlugin["scriptLibFiles"]))
-        response.locals.librariesScripts = response.locals.librariesScripts.concat(subPlugin["scriptLibFiles"]);
+      if(plugin["scriptLibFiles"] && util.isArray(plugin["scriptLibFiles"]))
+        response.locals.librariesScripts = response.locals.librariesScripts.concat(plugin["scriptLibFiles"]);
 
       // Plugin has JavaScript files to load
       // Load files before main plugin JavaScript files
-      if(subPlugin["scriptFiles"] && util.isArray(subPlugin["scriptFiles"]))
-        response.locals.scripts = subPlugin["scriptFiles"].concat(response.locals.scripts);
+      if(plugin["scriptFiles"] && util.isArray(plugin["scriptFiles"]))
+        response.locals.scripts = plugin["scriptFiles"].concat(response.locals.scripts);
 
       // Plugin has CSS files to load
-      if(subPlugin["cssFiles"] && util.isArray(subPlugin["cssFiles"]))
-        response.locals.css = response.locals.css.concat(subPlugin["cssFiles"]);
+      if(plugin["cssFiles"] && util.isArray(plugin["cssFiles"]))
+        response.locals.css = response.locals.css.concat(plugin["cssFiles"]);
 
     });
   }

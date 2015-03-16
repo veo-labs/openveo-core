@@ -22,13 +22,13 @@
           <ul class="nav navbar-nav">
             {{#menu}}
               <li>
-                <a href="{{path}}">{{label}}</a>
+                <a href="{{path}}" ng-bind="'{{label}}' | translate"></a>
               </li>
             {{/menu}}
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <a href="/logout" ng-click="logout()">Logout</a>
+              <a href="/logout" ng-click="logout()" ng-bind="'MENU.LOGOUT' | translate"></a>
             </li>
           </ul>
         </div>

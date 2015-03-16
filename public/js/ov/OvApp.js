@@ -3,11 +3,11 @@
   "use strict"
   
   var moduleDependencies = [
-    "ngAnimate",
     "ngRoute",
     "ov.authentication",
     "ov.storage",
-    "ov.route"
+    "ov.route",
+    "ov.i18n"
   ];
   
   // Loads all openveo sub plugins as dependencies of the module "ov"
@@ -52,7 +52,12 @@
     ovRouteProvider.when("/admin", {
       templateUrl: "views/home.html",
       controller: "HomeController",
-      title: "Home"
+      title: "Home",
+      resolve : {
+        i18n : ["i18nService", function(i18nService){
+          return i18nService.addDictionary("back-office", true);
+        }]
+      }
     });
     
     // Register /login route without authentication
@@ -61,6 +66,9 @@
       templateUrl: "views/login.html",
       controller: "LoginController",
       resolve : {
+        i18n : ["i18nService", function(i18nService){
+          return i18nService.addDictionary("login");
+        }],
         auth : ["$q", "authenticationService", function($q, authenticationService){
           var userInfo = authenticationService.getUserInfo();
 

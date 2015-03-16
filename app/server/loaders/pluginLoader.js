@@ -171,6 +171,18 @@ module.exports.loadPlugin = function(pluginPath, callback){
         });
       },
       function(callback){
+
+        // Test if an i18n directory exists at plugin's root level
+        fs.exists(path.join(pluginPath, "i18n"), function(exists){
+
+          if(exists)
+            plugin.i18nDirectory = path.join(pluginPath, "i18n");
+
+          callback();
+
+        });
+      },
+      function(callback){
         
         // Test if a file "conf.json" exists at plugin root level
         fs.exists(path.join(pluginPath, "conf.json"), function(exists){
