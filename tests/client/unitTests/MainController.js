@@ -42,14 +42,14 @@ describe("MainController", function(){
 
     it("Should not display menu if user is not authenticated", function(){
       childScope.$emit("$routeChangeSuccess");
-      assert.notOk($scope.openedMenu);
+      assert.notOk($scope.menu);
     });      
 
     it("Should display menu if user is authenticated", function(){
 
       authenticationService.setUserInfo({"username" : "openveo"});
       childScope.$emit("$routeChangeSuccess");
-      assert.ok($scope.openedMenu);
+      assert.ok($scope.menu);
     });
 
   }); 
@@ -104,7 +104,7 @@ describe("MainController", function(){
 
       assert.isNull(authenticationService.getUserInfo());
       assert.equal($location.path(), "/login");
-      assert.notOk($scope.openedMenu);
+      assert.notOk($scope.menu);
     });
     
     it("Should redirect to /login if logout failed", function(){
@@ -115,7 +115,7 @@ describe("MainController", function(){
       
       assert.isNull(authenticationService.getUserInfo());
       assert.equal($location.path(), "/login");
-      assert.notOk($scope.openedMenu);  
+      assert.notOk($scope.menu);
     });
     
     afterEach(function(){

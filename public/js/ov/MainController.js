@@ -11,7 +11,7 @@
    * by the main controller.
    */
   function MainController($scope, $location, $route, authenticationService){
-    $scope.openedMenu = false;
+    $scope.menu = false;
     
     /**
      * Logs out the actual user.
@@ -22,11 +22,11 @@
       authenticationService.logout().then(function(){
         authenticationService.setUserInfo();
         $location.path("/login");
-        $scope.openedMenu = false;
+        $scope.menu = false;
       }, function(error){
         authenticationService.setUserInfo();
         $location.path("/login");
-        $scope.openedMenu = false;
+        $scope.menu = false;
       });
     };
 
@@ -37,7 +37,7 @@
       var userInfo = authenticationService.getUserInfo();
 
       if(userInfo)
-        $scope.openedMenu = true;
+        $scope.menu = true;
 
       // Change page title
       $scope.title = $route.current && $route.current.title || "";
