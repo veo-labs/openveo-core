@@ -4,7 +4,11 @@
 var path = require("path");
 var fs = require("fs");
 var async = require("async");
+var winston = require("winston");
 var openVeoAPI = require("openveo-api");
+
+// Get logger
+var logger = winston.loggers.get("openveo");
 
 // Module files
 var applicationStorage = openVeoAPI.applicationStorage;
@@ -71,14 +75,21 @@ module.exports.getTranslations = function(dictionary, code, prefix, callback){
 
       });
       
-      // Main application
-      if(i === 0 && (translationFile || languageFile || defaultTranslationFile))
-        translations = require(i18nDirectories[i] + "/" + (translationFile || languageFile || defaultTranslationFile));
+      try{
       
-      // Plugins
-      else if(translationFile || languageFile || defaultTranslationFile){
-        translations = translations || {};
-        openVeoAPI.util.merge(translations, require(i18nDirectories[i] + "/" + (translationFile || languageFile ||  defaultTranslationFile))); 
+        // Main application
+        if(i === 0 && (translationFile || languageFile || defaultTranslationFile))
+          translations = require(i18nDirectories[i] + "/" + (translationFile || languageFile || defaultTranslationFile));
+
+        // Plugins
+        else if(translationFile || languageFile || defaultTranslationFile){
+          translations = translations || {};
+          openVeoAPI.util.merge(translations, require(i18nDirectories[i] + "/" + (translationFile || languageFile ||  defaultTranslationFile))); 
+        }
+
+      }
+      catch(e){
+        logger.error("An error occured while loading a translations dictionary with message : " + e.message);
       }
 
       i++;
