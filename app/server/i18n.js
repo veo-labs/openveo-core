@@ -69,10 +69,6 @@ module.exports.getTranslations = function(dictionary, code, prefix, callback){
         else if(fileName === dictionary + "-" + language + ".json")
           languageFile = fileName;
 
-        // File name matches only the name
-        else if(fileName === dictionary + "-en.json")
-          defaultTranslationFile = fileName;
-
       });
       
       // Main application
