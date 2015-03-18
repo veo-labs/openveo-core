@@ -154,7 +154,7 @@
     var getTranslationFromDictionary = function(id, translations){
       if(id && translations){
         try{
-          return eval("translations." + id);
+          return eval("translations." + id) || id;
         }
         catch(e){
           return id;
