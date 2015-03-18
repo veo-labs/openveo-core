@@ -12,10 +12,37 @@
   /**
    * Defines an internationalization service to manage
    * string translations.
+   * TODO Make it a provider to configure the list of supported languages
    */
   function I18nService($http, $route, $cookies){
     var currentLanguage = $cookies.language || navigator.language || navigator.browserLanguage;
     var translations = {};
+    var supportedLanguages = [];
+
+    var init = function(){
+      supportedLanguages = [
+        {
+          "value" : "en",
+          "label" : "ENGLISH"
+        },
+        {
+          "value" : "fr",
+          "label" : "FRENCH"
+        }
+      ];
+
+      // Verify if current language is supported, otherwise
+      // set language to the first one in the list of supported languages
+      if(!isLanguageSupported(currentLanguage)){
+        var language = currentLanguage.split("-")[0];
+        if(isLanguageSupported(language))
+          setLanguage(language);
+        else
+          setLanguage(supportedLanguages[0].value);
+      }
+      else
+        setActiveLanguage();
+    };
 
     /**
      * Adds a new dictionary, to the translation table, for the current
@@ -74,12 +101,20 @@
     
     /**
      * Gets current language.
-     * @return The current language country code (e.g en-US) 
+     * @return String The current language country code (e.g en-US)
      */
     var getLanguage = function(){
       return currentLanguage;
     };
     
+    /**
+     * Gets supported languages.
+     * @return Array The list of supported languages
+     */
+    var getLanguages = function(){
+      return supportedLanguages;
+    };
+
     /**
      * Sets current language.
      * Changing the current language will reload the current route.
@@ -88,9 +123,48 @@
      * code (e.g en-CA)
      */
     var setLanguage = function(language){
-      currentLanguage = language;
-      $cookies.language = currentLanguage;
-      $route.reload();
+      if(isLanguageSupported(language)){
+        currentLanguage = language;
+        $cookies.language = currentLanguage;
+        setActiveLanguage(currentLanguage);
+        $route.reload();
+      }
+    };
+
+    /**
+     * Tests if a language is supported.
+     * @param String language The language code to test
+     * @return Boolean true if supported, false otherwise
+     */
+    var isLanguageSupported = function(language){
+      for(var i = 0 ; i < supportedLanguages.length ; i++){
+         if(language === supportedLanguages[i].value)
+           return true;
+      }
+
+      return false;
+    };
+
+    /**
+     * Gets full name of a language by its code.
+     * @param String language The language code
+     * @return String The language full name
+     */
+    var getLanguageName = function(language){
+      for(var i = 0 ; i < supportedLanguages.length ; i++){
+         if(language === supportedLanguages[i].value)
+           return supportedLanguages[i].label;
+      }
+
+      return null;
+    };
+
+    /**
+     * Sets current language to active and the other one to inactive.
+     */
+    var setActiveLanguage = function(){
+      for(var i = 0 ; i < supportedLanguages.length ; i++)
+        supportedLanguages[i].active = supportedLanguages[i].value === currentLanguage;
     };
 
     /**
@@ -100,7 +174,7 @@
      * if several dictionaries are loaded
      */
     var translate = function(id, dictionary){
-      
+
       // If the dictionary exists, get translation from
       // that dictionary
       if(dictionary && translations[dictionary]){
@@ -164,13 +238,18 @@
       return id;
     };
     
+    init();
+
     return{
       addDictionary : addDictionary,
       removeDictionary : removeDictionary,
       getDictionary : getDictionary,
       getLanguage: getLanguage,
+      getLanguages : getLanguages,
       setLanguage: setLanguage,
-      translate: translate
+      translate: translate,
+      isLanguageSupported : isLanguageSupported,
+      getLanguageName : getLanguageName
     };
   }
   

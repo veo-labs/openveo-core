@@ -21,12 +21,18 @@ describe("TranslateApp", function(){
   }); 
   
   it("Should be able to set the language", function(){
-    i18nService.setLanguage("en-US");
-    assert.equal(i18nService.getLanguage(), "en-US");
+    i18nService.setLanguage("en");
+    assert.equal(i18nService.getLanguage(), "en");
   });
   
+  it("Should not set language if not supported", function(){
+    i18nService.setLanguage("en");
+    i18nService.setLanguage("notSupportedLanguage");
+    assert.equal(i18nService.getLanguage(), "en");
+  });
+
   it("Should use browser language by default", function(){
-    assert.equal(i18nService.getLanguage(), navigator.language || navigator.browserLanguage);
+    assert.equal(i18nService.getLanguage(), (navigator.language || navigator.browserLanguage).split("-")[0]);
   });
   
   it("Should be able to add a dictionary of translations", function(){
@@ -104,17 +110,23 @@ describe("TranslateApp", function(){
   });  
 
   it("Should return the english translation if no others", function(){
-    $httpBackend.when("GET", /.*getDictionary.*/).respond(200, {
-      "TRANSLATION_ID" : "English translation"
+    $httpBackend.when("GET", /.*getDictionary.*fr.*/).respond(200, {
+      "TRANSLATION_ID" : "Traduction française"
     });
+    $httpBackend.when("GET", /.*getDictionary.*en.*/).respond(200, {
+      "TRANSLATION_ID" : "English translation",
+      "ONLY_IN_ENGLISH_DICTIONARY" : "In english"
+    });
+    
+    i18nService.setLanguage("fr");
+    i18nService.addDictionary("publicDictionary");
+    $httpBackend.flush();
     
     i18nService.setLanguage("en");
     i18nService.addDictionary("publicDictionary");
     $httpBackend.flush();
-    i18nService.setLanguage("es");
-    
-    assert.equal(i18nService.getLanguage(), "es");
-    assert.equal(i18nService.translate("TRANSLATION_ID"), "English translation");
+
+    assert.equal(i18nService.translate("ONLY_IN_ENGLISH_DICTIONARY"), "In english");
   });
 
   it("Should be able to translate an id with a filter", function(){
@@ -130,4 +142,18 @@ describe("TranslateApp", function(){
     assert.equal(translateFilter("TRANSLATION_ID", "publicDictionary"), "Some translation");
   });  
   
+  it("Should define a list of supported languages", function(){
+    var languages = i18nService.getLanguages();
+    assert.isDefined(languages);
+    assert.isNotNull(languages);
+    assert.isArray(languages);
+    assert.ok(languages.length > 0);
+  });
+
+  it("Should be able to tell if a language is supported or not", function(){
+    assert.ok(i18nService.isLanguageSupported("en"));
+    assert.ok(i18nService.isLanguageSupported("fr"));
+    assert.notOk(i18nService.isLanguageSupported("notSupported"));
+  });
+
 });

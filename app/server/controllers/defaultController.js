@@ -58,7 +58,6 @@ module.exports.defaultAction = function(request, response, next){
   }
 
   response.locals.angularJsModules = angularJsModules.join(",");
-  response.locals.menu = applicationStorage.getMenu();
   response.render("root", response.locals);
 };
 

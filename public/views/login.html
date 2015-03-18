@@ -1,7 +1,6 @@
 <div class="col-sm-4"></div>
 <div class="col-sm-4" id="loginForm">
-
-  <h3 ng-bind="'SIGN_IN' | translate"></h3>
+  <img src="/images/logo.png" alt="OpenVeo">
   <div class="col-sm-12">
 
     <div ng-controller="LoginController">
@@ -23,6 +22,11 @@
             <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
             <input type="password" name="password" class="form-control" placeholder="[['PASSWORD_DESCRIPTION' | translate]]" ng-model="password" ng-model-options="{updateOn: 'blur'}" required>
           </div>
+        </div>
+
+        <div class="form-group">
+          <select class="form-control" ng-model="language" ng-change="changeLanguage(this.language)" ng-options="language.value as (language.label | translate) for language in languages">
+          </select>
         </div>
 
         <button type="submit" class="btn btn-primary" ng-bind="'SUBMIT' | translate"></button>

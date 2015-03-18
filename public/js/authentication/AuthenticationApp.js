@@ -76,7 +76,7 @@
 
     return {
       login : login,
-      logout: logout,
+      logout : logout,
       getUserInfo : getUserInfo,
       setUserInfo : setUserInfo
     };

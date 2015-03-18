@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="ov" ng-controller="MainController" ng-strict-di>
   <head>
-    <title ng-bind="'OpenVeo - ' + title"></title>
+    <title ng-bind="title | translate"></title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -16,17 +16,42 @@
 
   <body>
     
-    <nav ng-if="menu" ng-show="menu" class="navbar navbar-fixed-top navbar-default ng-hide">
+    <nav ng-if="displayMainMenu" class="navbar navbar-default navbar-static-top">
       <div class="container">
-        <div id="navbar" class="navbar-collapse collapse">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar" ng-click="toggleResponsiveMenu()">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/admin">
+            <img alt="OpenVeo" src="/images/logo.png">
+          </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse" ng-class="{'in' : isResponsiveMenuOpened}">
           <ul class="nav navbar-nav">
-            {{#menu}}
-              <li>
-                <a href="{{path}}" ng-bind="'{{label}}' | translate"></a>
-              </li>
-            {{/menu}}
+            <li ng-if="!item.length" ng-repeat="(holder, item) in menu" ng-class="{'active' : item.active}">
+              <a href="[[item.path]]" ng-bind="item.label | translate"></a>
+            </li>
+            <li ng-if="item.length" ng-repeat="(holder, item) in menu" class="dropdown" ng-click="toggleSubMenu($event)">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span ng-bind="holder | translate"></span><span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="subItem in item" ng-class="{'active' : subItem.active}">
+                  <a href="[[subItem.path]]" ng-bind="subItem.label | translate"></a>
+                </li>
+              </ul>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown" ng-click="toggleSubMenu($event)">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span ng-bind="language | translate"></span><span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li ng-repeat="language in languages" ng-class="{'active' : language.active}">
+                  <a href="#" ng-click="changeLanguage(language.value)" ng-bind="language.label | translate"></a>
+                </li>
+              </ul>
+            </li>
             <li>
               <a href="/logout" ng-click="logout()" ng-bind="'MENU.LOGOUT' | translate"></a>
             </li>

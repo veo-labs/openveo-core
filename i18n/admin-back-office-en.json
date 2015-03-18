@@ -1,10 +1,13 @@
 {
+  "FRENCH" : "French",
+  "ENGLISH" : "English",
   "MENU" : {
     "HOME" : "Home",
     "DASHBOARD" : "Dashboard",
     "LOGOUT" : "Logout"
   },
   "HOME" : {
+    "PAGE_TITLE" : "Openveo - Home",
     "TITLE" : "OpenVeo home page",
     "DESCRIPTION" : "Use menu to access the different pages of the administration"
   }

@@ -1,8 +1,7 @@
-body{ padding-top: 50px; }
 html, body, .container{ height: 100%; }
 
 /* Vertically align container */
-.container{ display: table; vertical-align: middle; }
+body > .container{ display: table; vertical-align: middle; }
 .vertical-center-row{ display: table-cell; vertical-align: middle; }
 
 /* 
@@ -10,3 +9,6 @@ html, body, .container{ height: 100%; }
  * page loading.
  */
 .ng-hide{ display: none !important; }
+
+/* Menu */
+.navbar-brand{ padding-top: 10px; }

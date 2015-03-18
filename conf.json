@@ -8,16 +8,15 @@
     },
     "admin" : {
       "*" : "app/server/controllers/authenticationController.restrictAction",
+      "/getMenu" : "app/server/controllers/menuController.getMenuAction",
       "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getAdminDictionaryAction"
     }
   },
   "backOffice": {
-    "menu" : [
-      {
-        "label" : "MENU.HOME",
-        "path" : "/admin"
-      }
-    ],
+    "menu" : {
+      "label" : "MENU.HOME",
+      "path" : "/admin"
+    },
     "scriptLibFiles" : [
       "/lib/angular/angular.js",
       "/lib/angular-route/angular-route.js",
@@ -31,7 +30,8 @@
       "/js/ov/OvApp.js",
       "/js/ov/MainController.js",
       "/js/ov/LoginController.js",
-      "/js/ov/HomeController.js"
+      "/js/ov/HomeController.js",
+      "/js/ov/MenuService.js"
     ],
     "cssFiles" : [
       "/lib/bootstrap/dist/css/bootstrap.min.css",

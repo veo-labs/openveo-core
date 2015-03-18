@@ -1,10 +1,13 @@
 {
+  "FRENCH" : "Français",
+  "ENGLISH" : "Anglais",
   "MENU" : {
     "HOME" : "Accueil",
     "DASHBOARD" : "Tableau de bord",
     "LOGOUT" : "Déconnexion"
   },
   "HOME" : {
+    "PAGE_TITLE" : "Openveo - Accueil",
     "TITLE" : "OpenVeo accueil",
     "DESCRIPTION" : "Utilisez le menu pour accéder aux différentes pages d'administration"
   }

@@ -46,23 +46,18 @@
    * Routes which require authentication are registered using 
    * the ovRouteProvider which is a wrapper to the $routeProvider.
    */
-  app.config(["ovRouteProvider", "$routeProvider", "$locationProvider", function(ovRouteProvider, $routeProvider, $locationProvider){
+  app.config(["ovRouteProvider", "$routeProvider", "$locationProvider",  function(ovRouteProvider, $routeProvider, $locationProvider){
 
     // Register /admin route with authentication
     ovRouteProvider.when("/admin", {
       templateUrl: "views/home.html",
       controller: "HomeController",
-      title: "Home",
-      resolve : {
-        i18n : ["i18nService", function(i18nService){
-          return i18nService.addDictionary("back-office", true);
-        }]
-      }
+      title: "HOME.PAGE_TITLE"
     });
     
     // Register /login route without authentication
     $routeProvider.when("/login", {
-      title: "Sign in",
+      title: "PAGE_TITLE",
       templateUrl: "views/login.html",
       controller: "LoginController",
       resolve : {

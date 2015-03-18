@@ -71,14 +71,6 @@ describe("i18n", function(){
         assert.equal(translations.MENU.EXAMPLE, "Example");
         done();
       });
-    });    
-    
-    it("should be able to use english translation as the default one", function(done){
-      i18n.getTranslations("back-office", "es", "admin-", function(translations){
-        assert.equal(translations.MENU.DASHBOARD, "Dashboard");
-        assert.equal(translations.MENU.EXAMPLE, "Example");
-        done();
-      });
     });
     
   });

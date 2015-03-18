@@ -1,9 +1,11 @@
 {
-  "SIGN_IN" : "Sign in",
+  "PAGE_TITLE" : "Openveo - Sign In",
   "LOGIN" : "User",
   "LOGIN_DESCRIPTION" : "Enter user name",
   "PASSWORD" : "Password",
   "PASSWORD_DESCRIPTION" : "Enter password",
   "SUBMIT" : "Submit",
-  "ERROR" : "Wrong user and / or password"
+  "ERROR" : "Wrong user and / or password",
+  "FRENCH" : "French",
+  "ENGLISH" : "English"
 }

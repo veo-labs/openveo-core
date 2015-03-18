@@ -2,7 +2,7 @@
 
   "use strict"
 
-  var app = angular.module("ov.route", ["ngRoute", "ov.authentication"]);
+  var app = angular.module("ov.route", ["ngRoute", "ov.authentication", "ov.i18n"]);
   
   app.provider("ovRoute", OvRouteProvider);
   OvRouteProvider.$inject = ["$routeProvider"];
@@ -23,6 +23,14 @@
         return $q.reject({ authenticated: false });
     }];
 
+    var i18n = ["i18nService", function(i18nService){
+      return i18nService.addDictionary("back-office", true);
+    }];
+
+    var menu = ["menuService", function(menuService){
+      return menuService.loadMenu();
+    }];
+
     // Wrap $routeProvider when method
     this.when = function(path, route){
       if(angular.isObject(route)){
@@ -33,6 +41,12 @@
         if(!route.resolve["auth"])
           route.resolve["auth"] = auth;
         
+        if(!route.resolve["i18nCommon"])
+          route.resolve["i18nCommon"] = i18n;
+
+        if(!route.resolve["menuCommon"])
+          route.resolve["menuCommon"] = menu;
+
         if(path.indexOf("/admin") != 0)
           path = "/admin" + path;
  
