@@ -199,7 +199,7 @@ async.series([
     app.all("/admin*", DefaultController.defaultAction);
     
     // Handle not found files
-    app.all("*", DefaultController.notFoundAction);
+    app.all("*", DefaultController.defaultAction);
     
     // Handle server errors
     app.use(function(error, request, response, next){
