@@ -161,8 +161,10 @@ async.series([
           }
           
           // Found back end menu configuration for the plugin
-          if(loadedPlugin.menu)
-            menu[loadedPlugin.name] = loadedPlugin.menu;
+          if(loadedPlugin.menu){
+            var menuName = loadedPlugin.name.charAt(0).toUpperCase() + loadedPlugin.name.substring(1);
+            menu[menuName] = loadedPlugin.menu;
+          }
           
           // Found a list of folders containing views for the plugin
           if(loadedPlugin.viewsFolders)
