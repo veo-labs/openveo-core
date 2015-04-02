@@ -4,7 +4,7 @@
   <div class="col-sm-12">
 
     <div ng-controller="LoginController">
-      <form name="loginForm" ov-shake ng-submit="signIn()" novalidate>
+      <form name="loginForm" ng-submit="signIn()" novalidate>
           
         <div ng-show="onError" class="alert alert-danger ng-hide" role="alert" ng-bind="'ERROR' | translate"></div>
         
