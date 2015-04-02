@@ -12,3 +12,6 @@ body > .container{ display: table; vertical-align: middle; }
 
 /* Menu */
 .navbar-brand{ padding-top: 10px; }
+
+/* Forms */
+form small{ color: #a8a8a8; }

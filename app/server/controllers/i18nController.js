@@ -4,7 +4,10 @@
 var i18n = process.require("app/server/i18n.js");
 
 /**
- * Gets a dictionary of translations by its name.
+ * Gets a public dictionary of translations by its name.
+ * Expects two GET parameters :
+ *  - dictionary The name of the dictionary
+ *  - code The language code
  * If no dictionary is found, a JSON 404 Not Found response is send back.
  */
 module.exports.getDictionaryAction = function(request, response, next){
@@ -18,6 +21,9 @@ module.exports.getDictionaryAction = function(request, response, next){
 
 /**
  * Gets a dictionary, with restricted access, by its name.
+ * Expects two GET parameters :
+ *  - dictionary The name of the dictionary
+ *  - code The language code
  * To restrict access to the dictionary, all dictionaries with 
  * restricted access must be prefixed by "admin-".
  * If no dictionary is found, a JSON 404 Not Found response is send back 

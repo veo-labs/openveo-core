@@ -6,7 +6,8 @@ var passport = require("passport");
 /**
  * Establishes requests authentication using module passport.
  * If authentication fails, an HTTP code 401 is returned to the client.
- * If authentication succeeds, an HTTP code 200 is returned to the client.
+ * If authentication succeeds, an HTTP code 200 is returned to the client
+ * with user information as a JSON Object.
  */
 module.exports.authenticateAction = function(request, response, next){
   
@@ -45,8 +46,8 @@ module.exports.logoutAction = function(request, response, next){
 };
 
 /**
- * Checks if request is authenticated, if not return an HTTP code
- * 401 with appropriate page.
+ * Checks if current request is authenticated.
+ * If not send back an HTTP code 401 with appropriate page.
  */
 module.exports.restrictAction = function(request, response, next){
 

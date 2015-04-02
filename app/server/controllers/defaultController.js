@@ -13,8 +13,9 @@ var applicationConf = process.require("conf.json");
 var logger = winston.loggers.get("openveo");
 
 /**
- * Handles back office default action, if no other action were performed
- * display the main back office template.
+ * Handles back office default action to display main HTML.
+ * If no other action were performed display the main back
+ * office template.
  * Configuration files of the openveo plugin and openveo sub plugins
  * are used to retrieve the list of files to load within the template. 
  * JavaScript libraries, JavaScript files and CSS files.
@@ -64,7 +65,7 @@ module.exports.defaultAction = function(request, response, next){
 /**
  * Handles forgotten requests.
  * Depending on request Accept HTTP header, either an HTML content, 
- * a JSON content or a text content will be returned,  
+ * a JSON content or a text content will be returned with a 404 code.
  */
 module.exports.notFoundAction = function(request, response, next){
   logger.warn("404 Not Found", {method : request.method, path : request.url, headers : request.headers});

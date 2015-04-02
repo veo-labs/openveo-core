@@ -24,7 +24,8 @@
       "/js/authentication/AuthenticationApp.js",
       "/js/storage/StorageApp.js",
       "/js/route/RouteApp.js",
-      "/js/i18n/I18nApp.js"
+      "/js/i18n/I18nApp.js",
+      "/js/edit/EditApp.js"
     ],
     "scriptFiles" : [
       "/js/ov/OvApp.js",
