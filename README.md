@@ -4,12 +4,20 @@ OpenVeo is an association of components to take benefits of media recording devi
 
 OpenVeo is :
   * A node.js program
-  * An Express HTTP server with a front end and back end
+  * An Express HTTP server with front and back ends
 
 ## Plugins
 
+TODO
+
 ## Installation
+
+TODO
 
 ### Requirements
 
+TODO
+
 ## License
+
+TODO
