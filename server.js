@@ -40,7 +40,11 @@ var logger = winston.loggers.get("openveo");
 
 // Retrieve back office menu and views folders from configuration
 var menu = { core : conf["backOffice"]["menu"] };
-var viewsFolders = conf["viewsFolders"];
+var viewsFolders = [];
+
+conf["viewsFolders"].forEach(function(folder){
+  viewsFolders.push(path.normalize(process.root + "/" + folder));
+});
 
 // Create express application and main routers
 // One router for the font end "/"
@@ -85,8 +89,8 @@ app.use(function(request, response, next){
 
 // Load and apply main routes from configuration to
 // public and back end routers
-applyRoutes(routeLoader.decodeRoutes(__dirname, conf["routes"]["public"]), router);
-applyRoutes(routeLoader.decodeRoutes(__dirname, conf["routes"]["admin"]), adminRouter);
+applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["public"]), router);
+applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["admin"]), adminRouter);
 
 // Mount public and back end routers
 app.use("/admin", adminRouter);
@@ -117,7 +121,7 @@ async.series([
   // Load openveo sub plugins under node_modules directory
   function(callback){
     
-    pluginLoader.loadPlugins(path.join(process.cwd() ,"node_modules"), function(error, plugins){
+    pluginLoader.loadPlugins(path.join(process.root, "node_modules"), function(error, plugins){
       
       // An error occurred when loading plugins
       // The server must not be launched, exit process
@@ -175,7 +179,7 @@ async.series([
         });
         
         // Set main public directory to be served first as the static server
-        app.use(express.static("public", staticServerOptions));
+        app.use(express.static(path.normalize(process.root + "/public"), staticServerOptions));
         
         // Set plugins public directories as additionnal static servers
         publicDirectories.forEach(function(publicDirectory){
