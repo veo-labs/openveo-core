@@ -26,7 +26,7 @@ process.require("app/server/logger.js");
 // Module files
 var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
 var routeLoader = process.require("app/server/loaders/routeLoader");
-var DefaultController = process.require("app/server/controllers/DefaultController.js");
+var DefaultController = process.require("app/server/controllers/defaultController.js");
 
 // Configuration files
 var serverConf = process.require("config/serverConf.json");
