@@ -324,11 +324,12 @@ var getPluginsPaths = function(startingPath, callback){
 
     // Open directory
     fs.readdir(startingPath, function(error, resources){
-      var pendingFilesNumber = resources.length;
 
       // Failed reading directory
       if(error)
         return callback(error);
+
+      var pendingFilesNumber = resources.length;
 
       // No more pending resources, done for this directory 
       if(!pendingFilesNumber)
