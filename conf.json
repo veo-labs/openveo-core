@@ -13,10 +13,17 @@
     }
   },
   "backOffice": {
-    "menu" : {
-      "label" : "MENU.HOME",
-      "path" : "/admin"
-    },
+    "menu" : [
+      {
+        "label" : "MENU.WEB_SERVICE",
+        "subMenu" : [
+          {
+            "label" : "MENU.APPLICATIONS",
+            "path" : "/admin/ws/be/applications"
+          }
+        ]
+      }
+    ],
     "scriptLibFiles" : [
       "/lib/angular/angular.js",
       "/lib/angular-route/angular-route.js",

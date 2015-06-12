@@ -39,7 +39,7 @@ var server;
 var logger = winston.loggers.get("openveo");
 
 // Retrieve back office menu and views folders from configuration
-var menu = { core : conf["backOffice"]["menu"] };
+var menu = conf["backOffice"]["menu"] || [];
 var viewsFolders = [];
 
 conf["viewsFolders"].forEach(function(folder){
@@ -165,10 +165,8 @@ async.series([
           }
           
           // Found back end menu configuration for the plugin
-          if(loadedPlugin.menu){
-            var menuName = loadedPlugin.name.charAt(0).toUpperCase() + loadedPlugin.name.substring(1);
-            menu[menuName] = loadedPlugin.menu;
-          }
+          if(loadedPlugin.menu)
+            menu = menu.concat(loadedPlugin.menu);
           
           // Found a list of folders containing views for the plugin
           if(loadedPlugin.viewsFolders)

@@ -30,19 +30,21 @@
           </a>
         </div>
         <div id="navbar" class="navbar-collapse collapse" ng-class="{'in' : isResponsiveMenuOpened}">
+
           <ul class="nav navbar-nav">
-            <li ng-if="!item.length" ng-repeat="(holder, item) in menu" ng-class="{'active' : item.active}">
+            <li ng-if="!item.subMenu || !item.subMenu.length" ng-repeat="(holder, item) in menu" ng-class="{'active' : item.active}">
               <a href="[[item.path]]" ng-bind="item.label | translate"></a>
             </li>
-            <li ng-if="item.length" ng-repeat="(holder, item) in menu" class="dropdown" ng-click="toggleSubMenu($event)">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span ng-bind="holder | translate"></span><span class="caret"></span></a>
+            <li ng-if="item.subMenu && item.subMenu.length" ng-repeat="(holder, item) in menu" class="dropdown" ng-click="toggleSubMenu($event)">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span ng-bind="item.label | translate"></span><span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li ng-repeat="subItem in item" ng-class="{'active' : subItem.active}">
+                <li ng-repeat="subItem in item.subMenu" ng-class="{'active' : subItem.active}">
                   <a href="[[subItem.path]]" ng-bind="subItem.label | translate"></a>
                 </li>
               </ul>
             </li>
           </ul>
+
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown" ng-click="toggleSubMenu($event)">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span ng-bind="language | translate"></span><span class="caret"></span></a>
@@ -56,6 +58,7 @@
               <a href="/logout" ng-click="logout()" ng-bind="'MENU.LOGOUT' | translate"></a>
             </li>
           </ul>
+
         </div>
       </div>
     </nav>
