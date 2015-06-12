@@ -6,6 +6,7 @@ describe("EditApp", function(){
   var $compile, $rootScope, element;
   
   beforeEach(module("ov.edit"));
+  beforeEach(module("ov.i18n"));
   
   beforeEach(inject(function(_$compile_, _$rootScope_){
     $rootScope = _$rootScope_;
@@ -21,67 +22,15 @@ describe("EditApp", function(){
       scope.$digest();
     }));
     
-    it("Should be able to add a new field", function(){
+    it("Should be able to add a new element scope", function(){
       var ovFormController = element.controller("ovForm");
       var formController = element.controller("form");
       var isolateScope = element.isolateScope();
-      isolateScope.fields = [];
-      ovFormController.addField({ fieldProperty : "propertyValue" }, formController);
+      isolateScope.elements = [];
+      ovFormController.addElement({ fieldProperty : "propertyValue" }, formController);
       
-      assert.equal(isolateScope.fields.length, 1);
-      assert.equal(isolateScope.fields[0].fieldProperty, "propertyValue");
-    });
-    
-    it("Should be able to attach a field controller to form controller", function(done){
-      var isolateScope = element.isolateScope();
-      var ovFormController = element.controller("ovForm");
-      var modelController = {};
-      var formController = {
-        $addControl : function(controller){
-          assert.strictEqual(modelController, controller);
-          done();
-        }
-      };
-      isolateScope.fields = [];
-      ovFormController.addField({ fieldProperty : "propertyValue" }, formController);
-      ovFormController.addFieldController(modelController);
-    });  
-    
-    it("Should be able to remove a field controller from form controller", function(done){
-      var isolateScope = element.isolateScope();
-      var ovFormController = element.controller("ovForm");
-      var modelController = {};
-      var formController = {
-        $removeControl : function(controller){
-          assert.strictEqual(modelController, controller);
-          done();
-        }
-      };
-      isolateScope.fields = [];
-      ovFormController.addField({ fieldProperty : "propertyValue" }, formController);
-      ovFormController.removeFieldController(modelController);
-    });
-    
-    it("Should be able to validate the form controller", function(){
-      var isolateScope = element.isolateScope();
-      var ovFormController = element.controller("ovForm");
-      var modelController = {};
-      var formController = {
-        $setValidity : function(validationErrorKey, isValid){
-          this.valid = isValid;
-        }, 
-        valid : false
-      };
-
-      isolateScope.fields = [];
-      ovFormController.addField({ fieldProperty : "propertyValue", validateField : function(){return true; } }, formController);
-      
-      ovFormController.validateForm();
-      assert.ok(formController.valid);
-      
-      ovFormController.addField({ fieldProperty2 : "propertyValue2", validateField : function(){ return false; } }, formController);
-      ovFormController.validateForm();
-      assert.notOk(formController.valid);
+      assert.equal(isolateScope.elements.length, 1);
+      assert.equal(isolateScope.elements[0].fieldProperty, "propertyValue");
     });
 
   });
@@ -94,17 +43,17 @@ describe("EditApp", function(){
       ovFormLink = _ovFormLink_;
     }));
     
-    it("Should be able to cancel fields edition", function(){
+    it("Should be able to cancel all elements edition", function(){
       var scope = $rootScope.$new();
-      var isResetField = false;
-      var isDisplayField = false;
+      var isResetElement = false;
+      var isDisplayElement = false;
       
-      scope.fields = [{
-        resetField : function(){
-          isResetField = true;
+      scope.elements = [{
+        resetElement : function(){
+          isResetElement = true;
         },
-        displayField : function(){
-          isDisplayField = true;
+        displayElement : function(){
+          isDisplayElement = true;
         }
       }];
       var formController = {};
@@ -112,17 +61,17 @@ describe("EditApp", function(){
       formController.cancelEdition();
       
       assert.isDefined(formController.cancelEdition);
-      assert.ok(isResetField);
-      assert.ok(isDisplayField);
+      assert.ok(isResetElement);
+      assert.ok(isDisplayElement);
     });
     
-    it("Should be able to open fields edition", function(){
+    it("Should be able to open all elements edition", function(){
       var scope = $rootScope.$new();
-      var isEditField = false;
+      var isEditElement = false;
       
-      scope.fields = [{
-        editField : function(){
-          isEditField = true;
+      scope.elements = [{
+        editElement : function(){
+          isEditElement = true;
         }
       }];
       
@@ -131,16 +80,16 @@ describe("EditApp", function(){
       formController.openEdition();
       
       assert.isDefined(formController.openEdition);
-      assert.ok(isEditField);
+      assert.ok(isEditElement);
     });
     
-    it("Should be able to close fields edition", function(){
+    it("Should be able to close all elements edition", function(){
       var scope = $rootScope.$new();
-      var isDisplayField = false;
+      var isDisplayElement = false;
       
-      scope.fields = [{
-        displayField : function(){
-          isDisplayField = true;
+      scope.elements = [{
+        displayElement : function(){
+          isDisplayElement = true;
         }
       }];
       
@@ -149,121 +98,132 @@ describe("EditApp", function(){
       formController.closeEdition();
       
       assert.isDefined(formController.closeEdition);
-      assert.ok(isDisplayField);
+      assert.ok(isDisplayElement);
     });    
     
   });
   
   describe("ov-editable directive", function(){
-    var ovEditableLink, $rootScope, $timeout, scope, cloneScope, rootElement, element;
-
-    beforeEach(inject(function(_ovEditableLink_, _$rootScope_, _$timeout_){
+    var ovEditableLink, $rootScope, rootElement, scope;
+    
+    beforeEach(inject(function(_ovEditableLink_, _$rootScope_){
       $rootScope = _$rootScope_;
-      $timeout = _$timeout_;
       ovEditableLink = _ovEditableLink_;
-      
       scope = $rootScope.$new();
-      cloneScope = $rootScope.$new();
-      cloneScope.value = "Initial value";
-      cloneScope.name = "fieldName";
-      scope.ovValue = "Initial value";
-      scope.ovType = "text";
-      
       rootElement = angular.element("<form ov-form name='testForm'></form>");
       rootElement = $compile(rootElement)(scope);
       scope.$digest();
-      
-      element = angular.element("<input type='text' ng-model='value' name='[[name]]' required/>");
-      element = $compile(element)(cloneScope);
     }));
     
-    it("Should be able to initialize the directive and its transluded content", function(){
-      var isAddField = false;
-      var isAddFieldController = false;
+    it("Should add the element to the of-form element", function(){
+      var isAddElement = false;
+      scope.ovValue = "Text value";
+      scope.ovRequired = "true";
+      scope.ovType = "text";
+      scope.ovDisabled = "true";
+      scope.ovName = "textName";
+      
       var controllers = [
         {
-          addField : function(fieldScope){
-            isAddField = true;
+          addElement : function(fieldScope){
+            isAddElement = true;
             assert.strictEqual(scope, fieldScope);
-          },
-          addFieldController : function(controller){
-            isAddFieldController = true;
-            assert.isDefined(controller);
-            assert.isNotNull(controller);
-            assert.equal(controller.$modelValue, scope.ovValue);
           }
         }
       ];
+      ovEditableLink(scope, rootElement, null, controllers, null);
+      assert.ok(isAddElement);
+    });  
+    
+    it("Should display the text version of the element by default", function(){
+      var isAddElement = false;
+      scope.ovValue = "Text value";
+      scope.ovRequired = "true";
+      scope.ovType = "text";
+      scope.ovDisabled = "true";
+      scope.ovName = "textName";
       
-      ovEditableLink(scope, rootElement, null, controllers, function(transclude){
-        transclude([element[0]], cloneScope);
-      });
-      
-      $timeout.flush();
-      assert.ok(isAddField);
-      assert.ok(isAddFieldController);
-      assert.equal(rootElement.html(), "<span>" + scope.ovValue + "</span>");
+      var controllers = [
+        {
+          addElement : function(fieldScope){}
+        }
+      ];
+      ovEditableLink(scope, rootElement, null, controllers, null);
+      assert.equal(rootElement.html(), "<span>Text value</span>");
     });
     
-    it("Should be able to switch between edition and display modes", function(){
+    it("Should be able to edit the element", function(){
+      var isAddElement = false;
+      scope.ovValue = "Text value";
+      scope.ovRequired = "true";
+      scope.ovType = "text";
+      scope.ovDisabled = "true";
+      scope.ovName = "textName";
+      
       var controllers = [
         {
-          addField : function(fieldScope){},
-          addFieldController : function(controller){}
+          addElement : function(fieldScope){}
         }
       ];
-      
-      ovEditableLink(scope, rootElement, null, controllers, function(transclude){
-        transclude([element[0]], cloneScope);
-      });
-      
-      $timeout.flush();
-      scope.editField();
-
-      var child = rootElement.children()[0];
-      var childNg = angular.element(child)
-      
-      assert.equal(child.tagName.toLowerCase(), "input");
-      assert.equal(childNg.attr("ng-model"), "value");
-      assert.equal(childNg.attr("name"), "[[name]]");
-      
-      scope.displayField();
-      assert.equal(rootElement.html(), "<span>" + scope.ovValue + "</span>");
+      ovEditableLink(scope, rootElement, null, controllers, null);
+      scope.editElement();
     });
-
-    it("Should be able to validate field", function(){
+    
+    it("Should throw an error if editable element type is not supported", function(){
+      scope.ovType = "notSupported";
+      
       var controllers = [
         {
-          addField : function(fieldScope){},
-          addFieldController : function(controller){}
+          addElement : function(fieldScope){}
         }
       ];
-
-      ovEditableLink(scope, rootElement, null, controllers, function(transclude){
-        transclude([element[0]], cloneScope);
-      });
-
-      $timeout.flush();
-      assert.equal(scope.validateField(), element.controller("ngModel").$valid);
-
+      try{
+        ovEditableLink(scope, rootElement, null, controllers, null);
+      }
+      catch(e){
+        assert.ok(true); 
+      }
+    });    
+    
+    it("Should support type text", function(){
+      scope.ovValue = "Text value";
+      scope.ovType = "text";
+      scope.ovName = "textName";
+      
+      var controllers = [
+        {
+          addElement : function(fieldScope){}
+        }
+      ];
+      ovEditableLink(scope, rootElement, null, controllers, null);
     });
-
-    it("Should be able to reset field to its initial value", function(){
+    
+    it("Should support type select", function(){
+      scope.ovValue = ["value"];
+      scope.ovType = "select";
+      scope.ovName = "selectName";
+      scope.ovOptions = [];
+      
       var controllers = [
         {
-          addField : function(fieldScope){},
-          addFieldController : function(controller){}
+          addElement : function(fieldScope){}
         }
       ];
-
-      ovEditableLink(scope, rootElement, null, controllers, function(transclude){
-        transclude([element[0]], cloneScope);
-      });
-
-      $timeout.flush();
-      scope.ovValue = "new value";
-      scope.resetField();
-      assert.equal(scope.ovValue, "Initial value");
+      ovEditableLink(scope, rootElement, null, controllers, null);
+    });
+    
+    it("Should support type checkbox", function(){
+      scope.ovValue = ["value"];
+      scope.ovType = "checkbox";
+      scope.ovName = "checkboxName";
+      scope.ovOptions = [];
+      
+      var controllers = [
+        {
+          addElement : function(fieldScope){}
+        }
+      ];
+      ovEditableLink(scope, rootElement, null, controllers, null);
     });
     
   });

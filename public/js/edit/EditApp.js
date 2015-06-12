@@ -5,35 +5,76 @@
   /**
    * Defines an application to facilitate inline editions of properties.
    * It defines two directives : 
-   *  - ov-form As an attribute to transform an angular form into an
-   *    inline editable form. ov-form exposes three methods : 
+   *  - ov-form As an HTML attribute to transform an angular form into an
+   *    inline editable form. ov-form exposes three methods to 
+   *    sub directives :
    *    - openEdition
    *      Make all ov-editable elements editable
    *    - closeEdition
    *      Make all ov-editable elements non editable
    *    - cancelEdition
    *      Cancel the edition (reset values) and close the edition
-   *  - ov-editable As an element to add an inline editable element.
+   *  - ov-editable As an element to add an inline editable element
    *    Supported types are : 
    *    - text (transformed into an input text in edition)
+   *    - checkbox (transformed into a list of checkboxes in edition)
+   *    - select (transformed into a combobox in edition)
    *
-   * ov-editable elements must be within a form element with attribute 
-   * ov-form.
+   * ov-editable elements must be within an HTML form element
+   * with the ov-form attribute.
+   *
+   * ov-editable defines several attributes : 
+   *  - ov-type : The type of the editable element, one of 
+   *    text, checkbox or select
+   *  - ov-name : The name of the form element
+   *  - ov-value : The value of the element, it depends on the type 
+   *    of the element, a single String for "text" type, an array 
+   *    of Strings for "select" and "checkbox" types
+   *  - ov-options : Only used for elements of types "select"
+   *    and "checkbox", this is the list of options as
+   *    [
+   *      {
+   *        "value" : "option1",
+   *        "label" : "option 1"
+   *      },
+   *      {
+   *        "value" : "option2",
+   *        "label" : "option 2"
+   *      }
+   *    ]
+   *  - ov-required : An expression evaluated into a boolean to indicate
+   *    if the element is required or not
+   *  - ov-disabled : An expression evaluated into a boolean to indicate
+   *    if the element can be edited or not
+   *  - ov-multiple : Only for elements of type "select", a boolean to 
+   *    indicate if the element can have several values or not
    *
    * e.g.
    * <!-- The name of the form is also important to access 
-   *      ov-form methods
+   *      ov-form exposed methods
    * -->
-   * <form ov-form name="myForm" ng-submit="saveForm()">
-   *  <ov-editable ov-value="value" ov-type="text"></ov-editable>
-   *  <button type="button" ng-click="cancelEdition.cancelEdition()"></button>
+   * <form ov-form name="myForm" ng-submit="myForm.$valid && saveForm()" novalidate>
+   *
+   *    <!-- Example of a text editable element -->
+   *    <ov-editable ov-name="textElementName" ov-value="textValue" ov-type="text" ov-required="true" ov-disabled="true">
+   *    </ov-editable>
+   * 
+   *    <!-- Example of checkbox editable element -->
+   *    <ov-editable ov-name="checkboxElementName" ov-options="checkboxElementOptions" ov-value="checkboxElementValues" ov-type="checkbox" ov-required="false" ov-disabled="false">
+   *    </ov-editable>
+   * 
+   *    <!-- Example of select editable element -->
+   *    <ov-editable ov-name="selectElementName" ov-options="selectElementOptions" ov-value="selectElementValues" ov-type="select" ov-required="false" ov-disabled="false">
+   *    </ov-editable>   
+   *
+   *    <button type="button" ng-click="myForm.cancelEdition()"></button>
    * </form>
    */
   var app = angular.module("ov.edit", []);
   app.directive("ovForm", ovForm);
   app.directive("ovEditable", ovEditable);
   ovForm.$inject = ["ovFormLink"];
-  ovEditable.$inject = ["ovEditableLink", "$compile"];
+  ovEditable.$inject = ["ovEditableLink"]
 
   function ovForm(ovFormLink){
     return{
@@ -43,56 +84,20 @@
       link : ovFormLink,
       controller: ["$scope", function($scope){
         var form;
-        $scope.fields = [];
+        $scope.elements = [];
         
         /**
-         * Adds an editable field.
-         * @param Object field The field scope to attach
+         * Adds ov-editable element scope to the form controller to be 
+         * able to have form validation.
+         * @param Object elementScope The element scope to attach
          * @param Object formController The form controller to attach
-         * the field to
+         * the element to
          */
-        this.addField = function(field, formController){
+        this.addElement = function(elementScope, formController){
           form = formController;
-          $scope.fields.push(field);
+          $scope.elements.push(elementScope);
         };
         
-        /**
-         * Attaches field's model controller to the form controller.
-         * This will attach the field model controller to the form to be 
-         * able to keep benefit of the validation system.
-         * @param Object controller The ng model controller associated to 
-         * the field
-         */
-        this.addFieldController = function(controller){
-          if(controller)
-            form.$addControl(controller);
-        };
-        
-        /**
-         * Removes field model controller from form controller.
-         * @param Object controller The ng model controller associated to 
-         * the field
-         */
-        this.removeFieldController = function(controller){
-          if(controller)
-            form.$removeControl(controller);
-        };
-        
-        /**
-         * Validates form by validating each field.
-         * TODO Find a way to attach the field to the form that the 
-         * status of the form is automatically updated when the status
-         * of a field has changed.
-         */
-        this.validateForm = function(){
-          var valid = true;
-          
-          for(var i = 0 ; i < $scope.fields.length ; i++)
-            if(!$scope.fields[i].validateField())
-              valid = false;
-          
-          form.$setValidity(null, valid);
-        };
       }]
     };
   };
@@ -101,8 +106,10 @@
     return function(scope, element, attrs, formController){
 
       /**
-       * Cancels edition.
-       * This will reset all editable fields to their initial value.
+       * Cancels edition of all editable elements.
+       * This will reset all editable elements to their initial value.
+       * This method is exposed to the HTML form element marked with 
+       * attribute ov-form.
        */
       formController.cancelEdition = function(){
         cancelEdition();
@@ -110,37 +117,41 @@
       };
       
       /**
-       * Opens the edition.
-       * It transforms all editable fields into form elements.
+       * Opens the edition of all editable elements.
+       * It transforms all editable elements into form elements.
+       * This method is exposed to the HTML form element marked with 
+       * attribute ov-form.
        */
       formController.openEdition = function(){
         openCloseEdition(true);
-      };      
+      };
       
       /**
-       * Closes the edition.
-       * It transforms all form elements into simple texts.
+       * Closes the edition of all editable elements.
+       * It transforms all editable elements into simple texts.
+       * This method is exposed to the HTML form element marked with 
+       * attribute ov-form.
        */      
       formController.closeEdition = function(){
         openCloseEdition(false);
       };
       
       /**
-       * Resets all editable fields to their original value.
+       * Resets all editable elements to their original value.
        */
       var cancelEdition = function(){
-        for(var i = 0 ; i < scope.fields.length ; i++)
-          scope.fields[i].resetField();
+        for(var i = 0 ; i < scope.elements.length ; i++)
+          scope.elements[i].resetElement();
       };
       
       /**
-       * Toggles the edition. 
+       * Toggles the edition of all editable elements. 
        * @param Boolean open true to open the edition mode, false
        * for the display mode
        */
       var openCloseEdition = function(open){
-        for(var i = 0 ; i < scope.fields.length ; i++){
-          open ? scope.fields[i].editField() : scope.fields[i].displayField();
+        for(var i = 0 ; i < scope.elements.length ; i++){
+          open ? scope.elements[i].editElement() : scope.elements[i].displayElement();
         }
       };
     };
@@ -153,129 +164,86 @@
       transclude : true,
       scope : {
         ovValue : "=",
+        ovOptions : "=?",
+        ovRequired : "@",
         ovType : "@",
-        ovOptions : "=?"
+        ovMultiple : "@",
+        ovDisabled : "=?",
+        ovName : "@"
       },
       link : ovEditableLink
     };
   };
   
-  app.factory("ovEditableLink", ["$compile", "$timeout", function($compile, $timeout){
+  app.factory("ovEditableLink", ["$compile", "$injector", function($compile, $injector){
     return function(scope, element, attrs, controllers, transclude){
-      var transcludeElements, formElement, initialValue, formElementController;
+      var editableElement;
       var ovFormController = controllers[0];
-
-      /**
-       * Sets field's value.
-       * @param String value The new value for the field
-       */
-      var setFieldValue = function(value){
-        if(!formElement)
-          return;
-
-          scope.ovValue = value;
-      };
-
-      /**
-       * Opens field edition mode. 
-       * It transforms the field into an editable field.
-       */
-      scope.editField = function(){
-        element.html("");
-        
-        // Text field
-        if(scope.ovType === "text"){
+      
+      // Get an instance of the editable element depending on
+      // it's type
+      switch(scope.ovType){
           
-          // Set a change listener on field to launch form validation
-          formElement.on("change", function(event){
-            scope.$apply(function(){
-              ovFormController.validateForm();
-            });
-          });
+        // Text editable element
+        case "text" :
+          var TextEditableElement = $injector.get("OvTextEditableElement");
+          editableElement = new TextEditableElement(scope.ovName, scope.ovValue, scope.ovRequired);
+        break; 
           
-        }
+        // Select editable element
+        case "select" :
+          var SelectEditableElement = $injector.get("OvSelectEditableElement");
+          editableElement = new SelectEditableElement(scope.ovName, scope.ovValue, scope.ovRequired, scope.ovOptions, scope.ovMultiple, scope);
+        break;
+          
+        // Checkbox editable element
+        case "checkbox" :
+          var CheckboxEditableElement = $injector.get("OvCheckboxEditableElement");
+          editableElement = new CheckboxEditableElement(scope.ovName, scope.ovValue, scope.ovRequired, scope.ovOptions, scope);
+        break;
+          
+        default : 
+          throw new Error("Editable element type " + scope.ovType + " is not supported");
+        break;
+
+      }
+      
+      /**
+       * Opens element edition mode.
+       * It transforms the element into an editable one.
+       */
+      scope.editElement = function(){
+        element.empty();
         
-        element.append(transcludeElements);
-        $compile(formElement)(scope.$parent);
+        var editableElementForm = editableElement.getFormDisplay();
         
+        // Add editable HTML to the element
+        // The new HTML needs to be compiled because it contains 
+        // angular instructions
+        element.append(editableElementForm);
+        $compile(editableElementForm)(scope);
       };
       
       /**
-       * Displays field into static mode.
+       * Displays element into text.
        */
-      scope.displayField = function(){
+      scope.displayElement = function(){
+        element.empty();
         
-        // Text
-        if(scope.ovType === "text")
-          formElement.off("change");
-
-        initialValue = scope.ovValue;
-        element.html("<span>" + scope.ovValue + "</span>");
-        
+        var editableElementText = editableElement.getTextDisplay();
+        element.append(editableElementText);        
       };
       
       /**
-       * Resets field with its initial value.
+       * Resets element to its initial value.
        */
-      scope.resetField = function(){
-        setFieldValue(initialValue);
+      scope.resetElement = function(){
+        editableElement.reset();
       };
       
-      /**
-       * Tests if the field is valid or not using the ng model controller.
-       * @return Boolean true if valid, false otherwise
-       */
-      scope.validateField = function(){
-        return formElementController && formElementController.$valid;
-      };
-      
-      /**
-       * Handles destroy event to remove field ng model controller from 
-       * form controller when scope is destroyed.
-       */
-      scope.$on("destroy", function(){
-         ovFormController.removeFieldController(formElementController);
-      });
-      
-      transclude(function(clone, cloneScope){
-        transcludeElements = clone;
-        
-        // Retrieve the form element from transcluded elements
-        // (because other HTML elements can be in 
-        // the transcluded elements)
-        for(var i = 0 ; i < transcludeElements.length ; i++){
-          var tagName = transcludeElements[i].tagName && transcludeElements[i].tagName.toLowerCase();
-          if((scope.ovType === "text" && tagName === "input")
-            || (scope.ovType === "select" && tagName === "select")
-          ){
-            formElement = angular.element(transcludeElements[i]);
-            
-            // Wait for next loop to let parser creates the ng model
-            // controller
-            $timeout(function(){
-
-              // Set field value
-              initialValue = scope.ovValue || "";
-              setFieldValue(initialValue);
-
-              // Add editable field to the form and display field
-              ovFormController.addField(scope, controllers[1]);
-              scope.displayField();
-
-              // Retrieve field ng model controller
-              formElementController = formElement.controller("ngModel");
-
-              // Attach field ng model controller to the form controller
-              ovFormController.addFieldController(formElementController);
-
-            });
-
-            return;
-          }
-        }
-
-      });
-
+      // By default display the element as text
+      scope.displayElement();
+      ovFormController.addElement(scope, controllers[1]);
     };
   }]);
 

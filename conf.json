@@ -32,7 +32,11 @@
       "/js/storage/StorageApp.js",
       "/js/route/RouteApp.js",
       "/js/i18n/I18nApp.js",
-      "/js/edit/EditApp.js"
+      "/js/edit/EditApp.js",
+      "/js/edit/editable-elements/EditableElementInterface.js",
+      "/js/edit/editable-elements/CheckboxEditableElement.js",
+      "/js/edit/editable-elements/TextEditableElement.js",
+      "/js/edit/editable-elements/SelectEditableElement.js"
     ],
     "scriptFiles" : [
       "/js/ov/OvApp.js",
