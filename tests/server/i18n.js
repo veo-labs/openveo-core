@@ -28,7 +28,7 @@ describe("i18n", function(){
   
   describe("getTranslations", function(){
 
-    it("should return a JSON object", function(done){
+    it("Should return a JSON object", function(done){
       i18n.getTranslations("languages", "fr", null, function(translations){
         assert.isDefined(translations);
         assert.isObject(translations);
@@ -37,35 +37,35 @@ describe("i18n", function(){
       });
     });
     
-    it("should return null if no translation found", function(done){
+    it("Should return null if no translation found", function(done){
       i18n.getTranslations("no-translation", "fr", null, function(translations){
         assert.isNull(translations);
         done();
       });
     });
     
-    it("should return null if dictionary is not specified", function(done){
+    it("Should return null if dictionary is not specified", function(done){
       i18n.getTranslations(null, "fr", null, function(translations){
         assert.isNull(translations);
         done();
       });
     });    
     
-    it("should be able to get translation of a particular language", function(done){
+    it("Should be able to get translation of a particular language", function(done){
       i18n.getTranslations("login", "en", null, function(translations){
         assert.equal(translations.LOGIN, "User");
         done();
       });
     });    
     
-    it("should be able to get a translation by language and country code", function(done){
+    it("Should be able to get a translation by language and country code", function(done){
       i18n.getTranslations("canadian", "en-CA", null, function(translations){
         assert.equal(translations.DOLLAR, "Loonie");
         done();
       });
     });
     
-    it("should be able to get both plugin translations and openveo translations (merged)", function(done){
+    it("Should be able to get both plugin translations and openveo translations (merged)", function(done){
       i18n.getTranslations("back-office", "en", "admin-", function(translations){
         assert.equal(translations.MENU.DASHBOARD, "Dashboard");
         assert.equal(translations.MENU.EXAMPLE, "Example");

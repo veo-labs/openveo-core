@@ -23,20 +23,20 @@ describe("routeLoader", function(){
       adminRoutes = routeLoader.decodeRoutes(path.join(__dirname, "plugins", "node_modules", "openveo-example"), pluginConf["routes"]["admin"]);
     });
 
-    it("should load 4 public routes and ignores 3", function(){
+    it("Should load 4 public routes and ignores 3", function(){
       assert.equal(routes.length, 4);
     });
     
-    it("should load 6 admin routes", function(){
+    it("Should load 6 admin routes", function(){
       assert.equal(adminRoutes.length, 6);
     });
 
-    it("should load routes as an array of objects", function(){
+    it("Should load routes as an array of objects", function(){
       assert.isArray(routes);
       assert.isObject(routes[0]);
     });
     
-    it("should be able to load routes with several actions", function(){
+    it("Should be able to load routes with several actions", function(){
       var countRoutes = 0;
       adminRoutes.forEach(function(adminRoute){
         if(adminRoute.path === "*" && adminRoute.method === "all")
@@ -46,7 +46,7 @@ describe("routeLoader", function(){
       assert.equal(countRoutes, 2);
     });
 
-    it("should load objects with properties \"method\", \"path\" and \"action\"", function(){
+    it("Should load objects with properties \"method\", \"path\" and \"action\"", function(){
       assert.isDefined(routes[0].method);
       assert.isDefined(routes[0].path);
       assert.isDefined(routes[0].action);

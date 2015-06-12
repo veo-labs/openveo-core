@@ -21,7 +21,7 @@ describe("defaultController", function(){
   
   describe("defaultAction", function(){
 
-    it("should display the main template of the back office", function(done){
+    it("Should display the main template of the back office", function(done){
 
       response.status = function(){};
       response.render = function(templateName, variables){
@@ -41,7 +41,7 @@ describe("defaultController", function(){
   
   describe("notFoundAction", function(){
 
-    it("should display the 404 page, with status 404, if client accepts html", function(done){
+    it("Should display the 404 page, with status 404, if client accepts html", function(done){
       
       request.url = "/test";
       request.accepts = function(acceptHeader){
@@ -63,7 +63,7 @@ describe("defaultController", function(){
       });
     });
     
-    it("should send back JSON, with status 404, if client accepts JSON", function(done){
+    it("Should send back JSON, with status 404, if client accepts JSON", function(done){
       
       request.url = "/test";
       request.accepts = function(acceptHeader){
@@ -84,7 +84,7 @@ describe("defaultController", function(){
       });
     });
     
-    it("should send back text, with status 404, if client does not accept HTML or JSON", function(done){
+    it("Should send back text, with status 404, if client does not accept HTML or JSON", function(done){
       
       request.url = "/test";
       request.accepts = function(acceptHeader){
