@@ -20,13 +20,16 @@ process.require = function(filePath){
   return require(path.normalize(process.root + "/" + filePath));
 };
 
+var oAuth = process.require("app/server/oauth/oAuth.js");
+
 // Initialize logger
 process.require("app/server/logger.js");
 
 // Module files
 var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
 var routeLoader = process.require("app/server/loaders/routeLoader");
-var DefaultController = process.require("app/server/controllers/defaultController.js");
+var defaultController = process.require("app/server/controllers/defaultController.js");
+var oAuthController = process.require("app/server/controllers/oAuthController.js");
 
 // Configuration files
 var serverConf = process.require("config/serverConf.json");
@@ -40,6 +43,7 @@ var logger = winston.loggers.get("openveo");
 
 // Retrieve back office menu and views folders from configuration
 var menu = conf["backOffice"]["menu"] || [];
+var webServiceScopes = conf["webServiceScopes"] || {};
 var viewsFolders = [];
 
 conf["viewsFolders"].forEach(function(folder){
@@ -49,9 +53,11 @@ conf["viewsFolders"].forEach(function(folder){
 // Create express application and main routers
 // One router for the font end "/"
 // One router for the back end "/admin"
+// One router for the web service "/ws"
 var app = express();
 var router = express.Router();
 var adminRouter = express.Router();
+var webServiceRouter = express.Router();
 
 // Remove x-powered-by http header
 app.set("x-powered-by", false);
@@ -70,6 +76,12 @@ var staticServerOptions = {
   }
 };
 
+// Log each request method, path and headers
+app.use(function(request, response, next){
+  logger.info({method : request.method, path : request.url, headers : request.headers});
+  next();
+});
+
 // Load all middlewares which need to operate
 // on each request
 // The cookieParser and session middlewares are required 
@@ -81,18 +93,14 @@ app.use(session({ secret: serverConf["sessionSecret"], saveUninitialized: true, 
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Log each request method, path and headers
-app.use(function(request, response, next){
-  logger.info({method : request.method, path : request.url, headers : request.headers});
-  next();
-});
+// Web service routes
+webServiceRouter.use(oAuth.inject());
+webServiceRouter.post("/token", oAuth.controller.token);
+webServiceRouter.all("*", oAuth.middleware.bearer);
+webServiceRouter.all("*", oAuthController.validateScopesAction);
 
-// Load and apply main routes from configuration to
-// public and back end routers
-applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["public"]), router);
-applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["admin"]), adminRouter);
-
-// Mount public and back end routers
+// Mount routers
+app.use("/ws", webServiceRouter);
 app.use("/admin", adminRouter);
 app.use("/", router);
 
@@ -112,7 +120,13 @@ async.series([
       applicationStorage.setDatabase(db);
       
       // Initialize passport (authentication manager)
-      process.require("app/server/passport.js");      
+      process.require("app/server/passport.js");
+
+      // Load and apply main routes from configuration to
+      // public, back end and webservice routers
+      applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["public"]), router);
+      applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["admin"]), adminRouter);
+      applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["ws"]), webServiceRouter);
 
       callback();
     });
@@ -163,6 +177,19 @@ async.series([
             // Mount admin router to the express application
             app.use("/admin" + loadedPlugin.mountPath, loadedPlugin.adminRouter);
           }
+
+          // Mount plugin web service router to the plugin
+          // web service mount path
+          if(loadedPlugin.webServiceRouter && loadedPlugin.mountPath){
+
+            // Found routes for the plugin
+            // Apply routes to the web service router
+            if(loadedPlugin.webServiceRoutes)
+              applyRoutes(loadedPlugin.webServiceRoutes, loadedPlugin.webServiceRouter);
+
+            // Mount web service router to the express application
+            app.use("/ws" + loadedPlugin.mountPath, loadedPlugin.webServiceRouter);
+          }
           
           // Found back end menu configuration for the plugin
           if(loadedPlugin.menu)
@@ -171,6 +198,12 @@ async.series([
           // Found a list of folders containing views for the plugin
           if(loadedPlugin.viewsFolders)
             viewsFolders = viewsFolders.concat(loadedPlugin.viewsFolders);
+
+          // Found a list of web service scopes for the plugin
+          if(loadedPlugin.webServiceScopes){
+            for(var scopeName in loadedPlugin.webServiceScopes)
+              webServiceScopes[scopeName] = loadedPlugin.webServiceScopes[scopeName];
+          }
 
           logger.info("Plugin " + loadedPlugin.name + " successfully loaded");
           
@@ -188,6 +221,7 @@ async.series([
         app.set("views", viewsFolders);
 
         applicationStorage.setMenu(menu);
+        applicationStorage.setWebServiceScopes(webServiceScopes);
 
       }
 
@@ -200,10 +234,10 @@ async.series([
   function(callback){
 
     // Handle default action
-    app.all("/admin*", DefaultController.defaultAction);
+    app.all("/admin*", defaultController.defaultAction);
     
     // Handle not found files
-    app.all("*", DefaultController.defaultAction);
+    app.all("*", defaultController.defaultAction);
     
     // Handle server errors
     app.use(function(error, request, response, next){

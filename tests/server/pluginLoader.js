@@ -17,7 +17,7 @@ describe("pluginLoader", function(){
   
   describe("loadPlugins", function(){
 
-    it("should load plugins example and subExample", function(done){
+    it("Should load plugins example and subExample", function(done){
       pluginLoader.loadPlugins(path.join(__dirname, "plugins", "node_modules"), function(error, plugins){
         assert.ok(!error && plugins);
         assert.isArray(plugins);
@@ -32,7 +32,7 @@ describe("pluginLoader", function(){
   
   describe("loadPlugin", function(){
 
-    it("should load plugin example with a public router and an admin router", function(done){
+    it("Should load plugin example with a public router, an admin router and a webservice router", function(done){
       pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "openveo-example"), function(error, loadedPlugin){
         assert.isObject(loadedPlugin);
         assert.isDefined(loadedPlugin.router);
@@ -49,6 +49,8 @@ describe("pluginLoader", function(){
         assert.isArray(loadedPlugin.routes);
         assert.isDefined(loadedPlugin.adminRoutes);
         assert.isArray(loadedPlugin.adminRoutes);
+        assert.isDefined(loadedPlugin.webServiceRoutes);
+        assert.isArray(loadedPlugin.webServiceRoutes);
         assert.isDefined(loadedPlugin.scriptLibFiles);
         assert.isArray(loadedPlugin.scriptLibFiles);   
         assert.isDefined(loadedPlugin.scriptFiles);
@@ -57,11 +59,12 @@ describe("pluginLoader", function(){
         assert.isArray(loadedPlugin.cssFiles);                
         assert.equal(loadedPlugin.routes.length, 4);
         assert.equal(loadedPlugin.adminRoutes.length, 6);
+        assert.equal(loadedPlugin.webServiceRoutes.length, 6);
         done();
       });
     });
     
-    it("should load plugin subExample", function(done){
+    it("Should load plugin subExample", function(done){
       pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "openveo-subExample"), function(error, loadedPlugin){
         assert.isObject(loadedPlugin);
         assert.isUndefined(loadedPlugin.router);

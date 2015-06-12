@@ -3,14 +3,14 @@
   "use strict"
   
   app.controller("MainController", MainController);
-  MainController.$inject = ["$scope", "$location", "$route", "authenticationService", "menuService", "i18nService", "$window"];
+  MainController.$inject = ["$scope", "$location", "$route", "authenticationService", "menuService", "applicationService", "i18nService", "$window"];
 
   /**
    * Defines the main controller parent of all controllers in the
    * application. All actions not handled in partials are handled
    * by the main controller.
    */
-  function MainController($scope, $location, $route, authenticationService, menuService, i18nService, $window){
+  function MainController($scope, $location, $route, authenticationService, menuService, applicationService, i18nService, $window){
     $scope.displayMainMenu = false;
     $scope.isResponsiveMenuOpened = false;
     $scope.languages = i18nService.getLanguages();
@@ -57,20 +57,13 @@
      * page.
      */
     $scope.logout = function(){
-      authenticationService.logout().then(function(){
-        authenticationService.setUserInfo();
-        $location.path("/login");
-        $scope.menu = false;
-        $scope.displayMainMenu = false;
-        menuService.destroyMenu();
-      }, function(error){
-        authenticationService.setUserInfo();
-        $location.path("/login");
-        $scope.displayMainMenu = false;
-        $scope.menu = false;
-        menuService.destroyMenu();
-      });
+      authenticationService.logout().then(logout, logout);
     };
+
+    // Listen to logout request event to logout the user
+    $scope.$on("logout", function(){
+      $scope.logout();
+    });
 
     // Listen to route change success event to 
     // set new page title and offers access to the menu if 
@@ -100,6 +93,21 @@
         $location.path("/admin"); 
     });
     
+    /**
+     * Logs out the user. 
+     * Remove user information, remove all admin informations
+     * and broadcast a loggedOut event to children controllers.
+     */
+    function logout(error){
+      authenticationService.setUserInfo();
+      $location.path("/login");
+      $scope.menu = false;
+      $scope.displayMainMenu = false;
+      menuService.destroyMenu();
+      applicationService.destroyApplications();
+      $scope.$broadcast("loggedOut");
+    }
+
   }
   
 })(angular.module("ov"));

@@ -9,7 +9,12 @@
     "admin" : {
       "*" : "app/server/controllers/authenticationController.restrictAction",
       "/getMenu" : "app/server/controllers/menuController.getMenuAction",
-      "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getAdminDictionaryAction"
+      "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getAdminDictionaryAction",
+      "get /ws/applications" : "app/server/controllers/applicationController.getApplicationsAction",
+      "get /ws/scopes" : "app/server/controllers/applicationController.getScopesAction",
+      "put /ws/application" : "app/server/controllers/applicationController.addApplicationAction",
+      "delete /ws/application/:id" : "app/server/controllers/applicationController.removeApplicationAction",
+      "post /ws/updateApplication/:id" : "app/server/controllers/applicationController.updateApplicationAction"
     }
   },
   "backOffice": {
@@ -43,7 +48,9 @@
       "/js/ov/MainController.js",
       "/js/ov/LoginController.js",
       "/js/ov/HomeController.js",
-      "/js/ov/MenuService.js"
+      "/js/ov/ApplicationController.js",
+      "/js/ov/MenuService.js",
+      "/js/ov/ApplicationService.js"
     ],
     "cssFiles" : [
       "/lib/bootstrap/dist/css/bootstrap.min.css",

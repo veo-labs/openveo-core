@@ -2,7 +2,8 @@
   "FRENCH" : "French",
   "ENGLISH" : "English",
   "MENU" : {
-    "HOME" : "Home",
+    "WEB_SERVICE" : "Web Service",
+    "APPLICATIONS" : "Applications",
     "DASHBOARD" : "Dashboard",
     "LOGOUT" : "Logout"
   },
@@ -10,5 +11,27 @@
     "PAGE_TITLE" : "Openveo - Home",
     "TITLE" : "OpenVeo home page",
     "DESCRIPTION" : "Use menu to access the different pages of the administration"
+  },
+  "APPLICATIONS" : {
+    "PAGE_TITLE" : "Openveo - Applications",
+    "TITLE" : "Web Service applications",
+    "INFO" : "An application lets you grant access to the OpenVeo web service for a specific client application. Create an application, attribute access to some web service end points and issue to the client application owner, the generated client id and client secret.",
+    "NO_APPLICATIONS" : "No application at the moment",
+    "NAME_COLUMN" : "Name",
+    "ACTIONS_COLUMN" : "Actions",
+    "REMOVE" : "Remove",
+    "ATTR_NAME" : "Name",
+    "ATTR_ID" : "Client Id",
+    "ATTR_SECRET" : "Client Secret",
+    "ATTR_SCOPES" : "Scopes",
+    "FORM_EDIT" : "Edit",
+    "FORM_CANCEL" : "Cancel",
+    "FORM_SAVE" : "Save",
+    "ADD_APPLICATION" : "Add an application",
+    "FORM_ADD_NAME" : "Name",
+    "FORM_ADD_NAME_DESC" : "Name of the client application",
+    "FORM_ADD_SCOPES" : "Scopes",
+    "FORM_ADD_SCOPES_DESC" : "List of permissions for the client application",
+    "FORM_ADD_BUTTON" : "Add"
   }
 }

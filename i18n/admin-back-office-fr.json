@@ -2,7 +2,8 @@
   "FRENCH" : "Français",
   "ENGLISH" : "Anglais",
   "MENU" : {
-    "HOME" : "Accueil",
+    "WEB_SERVICE" : "Web Service",
+    "APPLICATIONS" : "Applications",
     "DASHBOARD" : "Tableau de bord",
     "LOGOUT" : "Déconnexion"
   },
@@ -10,5 +11,27 @@
     "PAGE_TITLE" : "Openveo - Accueil",
     "TITLE" : "OpenVeo accueil",
     "DESCRIPTION" : "Utilisez le menu pour accéder aux différentes pages d'administration"
+  },
+  "APPLICATIONS" : {
+    "PAGE_TITLE" : "Openveo - Applications",
+    "TITLE" : "Web Service applications",
+    "INFO" : "Une application vous permet de définir des droits d'accés au web service OpenVeo par application cliente. Créez une application, définissez ses droits d'accés au web service et communiquez, au propriétaire de l'application cliente, l'id et la clé générée.",
+    "NO_APPLICATIONS" : "Pas d'application pour le moment",
+    "NAME_COLUMN" : "Nom",
+    "ACTIONS_COLUMN" : "Actions",
+    "REMOVE" : "Supprimer",
+    "ATTR_NAME" : "Nom",
+    "ATTR_ID" : "Id client",
+    "ATTR_SECRET" : "Clé client",
+    "ATTR_SCOPES" : "Accés",
+    "FORM_EDIT" : "Editer",
+    "FORM_CANCEL" : "Annuler",
+    "FORM_SAVE" : "Enregistrer",
+    "ADD_APPLICATION" : "Ajouter une application",
+    "FORM_ADD_NAME" : "Nom",
+    "FORM_ADD_NAME_DESC" : "Nom de l'application cliente",
+    "FORM_ADD_SCOPES" : "Accés",
+    "FORM_ADD_SCOPES_DESC" : "Listes de permissions pour l'application cliente",
+    "FORM_ADD_BUTTON" : "Ajouter"
   }
 }

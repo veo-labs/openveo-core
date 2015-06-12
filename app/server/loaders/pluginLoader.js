@@ -194,6 +194,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
               var pluginConf = require(path.join(pluginPath, "conf.json"));
               
               plugin.custom = pluginConf["custom"] || null;
+              plugin.webServiceScopes = pluginConf["webServiceScopes"] || null;
               
               // Got views folders for this plugin
               if(pluginConf["viewsFolders"] && pluginConf["viewsFolders"].length){
@@ -211,7 +212,8 @@ module.exports.loadPlugin = function(pluginPath, callback){
               // Retrieve public and admin routes
               if(pluginRoutes){
                 plugin.routes = pluginRoutes["public"] && routeLoader.decodeRoutes(pluginPath, pluginRoutes["public"]);
-                plugin.adminRoutes = pluginRoutes["admin"] && routeLoader.decodeRoutes(pluginPath, pluginRoutes["admin"])
+                plugin.adminRoutes = pluginRoutes["admin"] && routeLoader.decodeRoutes(pluginPath, pluginRoutes["admin"]);
+                plugin.webServiceRoutes = pluginRoutes["ws"] && routeLoader.decodeRoutes(pluginPath, pluginRoutes["ws"]);
               }
               
               if(backEndConf){

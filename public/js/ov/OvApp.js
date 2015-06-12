@@ -74,6 +74,22 @@
         }]
       }
     }).otherwise("/admin");
+
+    // Register /admin/ws/applications route with authentication
+    // Also retrieve the list of applications
+    ovRouteProvider.when("/admin/ws/be/applications", {
+      templateUrl: "views/applications.html",
+      controller: "ApplicationController",
+      title: "APPLICATIONS.PAGE_TITLE",
+      resolve: {
+        applications : ["applicationService", function(applicationService){
+          return applicationService.loadApplications();
+        }],
+        scopes : ["applicationService", function(applicationService){
+          return applicationService.loadScopes();
+        }]
+      }
+    });
     
     $locationProvider.html5Mode(true);
 

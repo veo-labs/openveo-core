@@ -61,7 +61,7 @@ module.exports.decodeRoutes = function(pluginPath, routes){
       // If not an array, make it an array
       else
         actions.push(routes[match]);
-      
+
       actions.forEach(function(action){
         
         // e.g. app/server/controllers/TestController.getTestAction
@@ -91,7 +91,7 @@ module.exports.decodeRoutes = function(pluginPath, routes){
 
           }
           catch(e){
-             logger.warn(e.message, {action : "decodeRoutes"});
+            logger.warn(e.message, {action : "decodeRoutes"});
           }
 
         }

@@ -1,0 +1,108 @@
+<div class="applications">
+  <h2 ng-bind="'APPLICATIONS.TITLE' | translate"></h2>
+  <div class="well well-lg" ng-bind="'APPLICATIONS.INFO' | translate"></div>
+  <p class="ng-hide" ng-show="!applications.length" ng-bind="'APPLICATIONS.NO_APPLICATIONS' | translate"></p>
+  
+  <div class="ng-hide" ng-show="applications.length">
+  
+    <div class="row header">
+      <div class="col-xs-12 col-sm-10"><strong ng-bind="'APPLICATIONS.NAME_COLUMN' | translate"></strong></div>
+      <div class="col-xs-2 hidden-xs"><strong ng-bind="'APPLICATIONS.ACTIONS_COLUMN' | translate"></strong></div>      
+    </div>
+    
+    <div class="row line bg-success" ng-repeat="application in applications">
+      <div class="col-xs-12 col-sm-10" ng-click="toggleApplicationDetails(application)">
+        <span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !application.opened, 'glyphicon-chevron-down' : application.opened}"></span> <strong>[[application.name]]</strong>
+      </div>
+      <div class="col-xs-2 hidden-xs">
+        <div class="actions dropdown" ng-click="toggleSubMenu($event)">
+          <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+          <ul class="dropdown-menu" role="menu">          
+            <li role="presentation"><a role="menuitem" href="#" ng-click="removeApplication(application)" ng-bind="'APPLICATIONS.REMOVE' | translate"></a></li>
+          </ul>
+        </div>
+      </div>      
+      <div class="row" ng-if="application.opened">
+        <div class="col-xs-12 detail">
+          <form ov-form name="editForm" ng-submit="editForm.$valid && saveApplication(editForm, application)" novalidate>
+            <ul>
+
+              <li class="form-inline">
+                <div class="form-group">
+                  <label class="label label-default control-label" ng-bind="'APPLICATIONS.ATTR_NAME' | translate"></label>
+                  <ov-editable ov-name="name" ov-value="application.name" ov-type="text" ov-required="true" ov-disabled="editForm.saving" ng-class="{'has-error': editForm.name.$invalid && editForm.$submitted}">
+                  </ov-editable>
+                </div>
+              </li>
+              
+              <li class="form-inline">
+                <label class="label label-default" ng-bind="'APPLICATIONS.ATTR_ID' | translate"></label>
+                <input type="text" ng-model="application.id" class="form-control" ng-disabled="true" />
+              </li>
+              
+              <li class="form-inline">
+                <label class="label label-default" ng-bind="'APPLICATIONS.ATTR_SECRET' | translate"></label>
+                <input type="text" ng-model="application.secret" class="form-control" ng-disabled="true" />
+              </li>
+              
+              <li class="form-inline">
+                <div class="form-group">
+                  <label class="label label-default control-label" ng-bind="'APPLICATIONS.ATTR_SCOPES' | translate"></label>
+                  <ov-editable ov-name="scopes" ov-options="scopesOptions" ov-value="application.scopesValues" ov-type="checkbox" ov-required="false" ov-disabled="editForm.saving" ng-class="{'has-error': editForm.scopes.$invalid && editForm.$submitted}">
+                  </ov-editable>
+                </div>
+              </li>
+              
+            </ul>
+            
+            <div class="btn-group" role="group" ng-show="!editForm.edition">
+              <button type="button" ng-click="openEdition(editForm);" class="btn btn-primary" ng-bind="'APPLICATIONS.FORM_EDIT' | translate"></button>
+            </div>
+            <div class="btn-group" role="group" ng-show="editForm.edition">
+              <button type="button" ng-click="cancelEdition(editForm)" class="btn btn-default" ng-bind="'APPLICATIONS.FORM_CANCEL' | translate" ng-disabled="application.saving"></button>
+              <button ng-show="editForm.edition" type="submit" class="btn btn-primary" ng-bind="'APPLICATIONS.FORM_SAVE' | translate" ng-disabled="application.saving"></button>
+            </div>
+          </form>
+          
+        </div>
+      </div>      
+    </div>
+    
+  </div>
+  
+  <hr/>
+  
+  <div class="row">
+    <div class="col-xs-12 col-sm-6">
+      <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span ng-bind="'APPLICATIONS.ADD_APPLICATION' | translate"></span></h4>
+      <form class="form-horizontal" name="addForm" ng-submit="addForm.$valid && addApplication(addForm)" novalidate>
+        
+        <div class="form-group" ng-class="{'has-error': addForm.applicationName.$invalid && addForm.$submitted}">
+          <label for="applicationName" ng-bind="'APPLICATIONS.FORM_ADD_NAME' | translate"></label>
+          <input type="text" name="applicationName" class="has-error form-control" id="applicationName" placeholder="[['APPLICATIONS.FORM_ADD_NAME' | translate]]" ng-model="applicationName" ng-disabled="addForm.saving" required>
+          <small><em ng-bind="'APPLICATIONS.FORM_ADD_NAME_DESC' | translate"></em></small>
+        </div>
+        
+        <div class="form-group">
+          <label ng-bind="'APPLICATIONS.FORM_ADD_SCOPES' | translate"></label>
+          
+          <div>
+            <label ng-repeat="(scopeName, scope) in scopes" class="checkbox-inline">
+              <input type="checkbox" name="applicationScopes" id="applicationScopes" ng-disabled="addForm.saving" ng-model="scope.activated"> <span ng-bind="scope.name | translate"></span>
+            </label>          
+          </div>
+          
+          <div>
+            <small><em ng-bind="'APPLICATIONS.FORM_ADD_SCOPES_DESC' | translate"></em></small>
+          </div>
+        </div>        
+        
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary" ng-bind="'APPLICATIONS.FORM_ADD_BUTTON' | translate" ng-disabled="addForm.saving"></button>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+  
+</div>
