@@ -20,8 +20,8 @@
     "url": "http://github.com/TODO"
   },
   "scripts": {
-	"preinstall" : "npm install -g karma && npm install -g bower",
-    "postinstall": "bower install",
+    "preinstall": "npm install -g karma && npm install -g bower",
+    "postinstall": "bower install --allow-root",
     "test-client": "karma start tests/client/karmaConf.js",
     "test-server": "mocha -R spec tests/server/*.js",
     "test-server-all": "mocha -R spec tests/server/*.js && mocha -R spec node_modules/openveo-*/tests/server/*.js"
