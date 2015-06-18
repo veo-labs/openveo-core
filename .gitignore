@@ -32,3 +32,15 @@ node_modules/openveo-test/node_modules
 
 # Bower libraries
 public/lib
+
+# IDE
+nbproject/
+config/
+
+#Deliver
+dump/
+build/
+
+#Sass
+.sass-cache/
+
