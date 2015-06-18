@@ -1,0 +1,31 @@
+@import "compass/css3/animation";
+
+/**
+ * CSS3 Keyframes cross browser
+ * @param $name: keyframe name
+ */
+@mixin keyframes($name) {
+  @include keyframes($name){
+    @content;
+  }
+}
+
+/**
+ * CSS3 Animation cross browser
+ * @param $name: animation name
+ * @param $duration: animation duration (s, ms)
+ * @param $timing-function: animation timing function (default: ease)
+ * @param $iteration-count: animation iteration count (default: inifinite)
+ * @param $direction: animation direction (default: notmal)
+ * @param $fill-mode: animation fill mode (default: forwards)
+ * @param $play-state: animation play stage (default: running)
+ */
+@mixin animation($name, $duration: 1s, $timing-function: ease, $delay: 0s, $iteration-count: infinite, $direction: normal, $fill-mode: forwards, $play-state: running) {
+  animation-name: #{$name};
+  animation-duration: #{$duration};
+  animation-iteration-count: #{$iteration-count};
+  animation-direction: #{$direction};
+  animation-timing-function: #{$timing-function};
+  animation-fill-mode: #{$fill-mode};
+  animation-delay: #{$delay};
+}

@@ -1,0 +1,14 @@
+// Define cross browser support
+// http://compass-style.org/reference/compass/support/
+
+$debug-browser-support: true;
+
+$browser-minimum-versions: (
+  "ie": "9",
+  "chrome": "36",
+  "firefox": "24",
+  "safari": "5.1",
+  "opera": "24"
+);
+
+@import "compass/support";

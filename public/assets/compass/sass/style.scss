@@ -1,0 +1,59 @@
+/**
+ * Initialize stylesheet with base CSS, mixins and helper, then your css, and extern css package
+ */
+@import "base/base";
+
+// add support responsive
+@import "base/on-responsive";
+@import "base/browser-support";
+
+/**
+ * Mixins / Helper / Function
+ */
+@import "mixins/responsive";
+@import "mixins/animation";
+@import "mixins/retina";
+
+/**
+ * Your CSS for specific HTML elements
+ */
+@import "elements/all";
+
+/**
+ * Your CSS for all modules
+ */
+@import "modules/all";
+
+html, body, .container{ height: 100%; }
+
+/* Vertically align container */
+body > .container{ display: table; vertical-align: middle; }
+.vertical-center-row{ display: table-cell; vertical-align: middle; }
+
+/* 
+ * Hide all angularsjs element with ng-hide class to avoid blink while
+ * page loading.
+ */
+.ng-hide{ display: none !important; }
+
+/* Menu */
+.navbar-brand{ padding-top: 10px; }
+
+/* Forms */
+form small{ color: #a8a8a8; }
+
+/* Lists */
+.line { border-radius: 3px; }
+.line a{ color: #000; }
+.line > div{ height: 40px; line-height: 40px; }
+.line > div:first-child{ cursor: pointer; overflow: hidden; }
+.line .glyphicon{ cursor: pointer; }
+.line .actions { display: inline; }
+
+/* List details */
+.detail { line-height: initial; padding-bottom: 10px; }
+.detail ul{ list-style: none; padding-left: 35px; }
+.detail li{ line-height: 22px; }
+.detail .btn-group{ margin-left: 35px; }
+.detail .label{ margin-right: 5px; }
+.detail input{ margin: 1px 0; }

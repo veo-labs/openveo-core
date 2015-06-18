@@ -34,9 +34,19 @@
       }
     ],
     "scriptLibFiles" : [
+      "/lib/jquery/dist/jquery.min.js",
+      "/lib/datatables/media/js/jquery.dataTables.min.js",
+      
+      
       "/lib/angular/angular.js",
       "/lib/angular-route/angular-route.js",
       "/lib/angular-cookies/angular-cookies.js",
+      "/lib/angular-datatables/dist/angular-datatables.min.js",
+      "/lib/angular-bootstrap/ui-bootstrap.min.js",
+      "/lib/angular-touch/angular-touch.min.js",
+      "/lib/angular-ui-tree/angular-ui-tree.min.js",
+      
+      
       "/js/authentication/AuthenticationApp.js",
       "/js/storage/StorageApp.js",
       "/js/route/RouteApp.js",
@@ -57,9 +67,10 @@
       "/js/ov/ApplicationService.js"
     ],
     "cssFiles" : [
-      "/lib/bootstrap/dist/css/bootstrap.min.css",
-      "/css/common.css",
-      "/css/login.css"
+      "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
+      "/lib/datatables/media/css/jquery.dataTables.min.css",
+      "/assets/css/bootstrap.css",
+      "/assets/css/style.css"
     ]
   },
   "viewsFolders" : [

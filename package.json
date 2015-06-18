@@ -20,7 +20,7 @@
     "url": "http://github.com/TODO"
   },
   "scripts": {
-    "preinstall": "npm install -g karma && npm install -g bower",
+    "init-environment": "npm install -g karma && npm install -g bower",
     "postinstall": "bower install --allow-root",
     "test-client": "karma start tests/client/karmaConf.js",
     "test-server": "mocha -R spec tests/server/*.js",
@@ -43,6 +43,12 @@
   },
   "devDependencies": {
     "chai": "^1.10.0",
+    "grunt": "^0.4.5",
+    "grunt-cli": "^0.1.13",
+    "grunt-contrib-compass": "^1.0.3",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-init": "^0.3.2",
     "karma": "^0.12.31",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.7",
@@ -51,6 +57,7 @@
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.1.0",
+    "node-sass": "3.2.0",
     "nodemon": "^1.3.7"
   },
   "engines": {

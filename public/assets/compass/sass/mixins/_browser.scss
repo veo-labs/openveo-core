@@ -1,0 +1,10 @@
+/**
+ * Cross browser user-select
+ * @param: $select-mode (default: initial)
+ */
+@mixin user-select($select-mode: initial) {
+  -webkit-user-select: $select-mode;
+  -moz-user-select:    $select-mode;
+  -ms-user-select:     $select-mode;
+  user-select:         $select-mode;
+}

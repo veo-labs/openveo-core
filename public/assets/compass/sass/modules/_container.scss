@@ -1,0 +1,17 @@
+/*.container{
+	width: 1024px;
+	height: 100%;
+	margin: 0 auto;
+
+	@include mobile(){
+		background: yellow;
+	}
+
+	@include tablet(){
+		background: aqua;
+	}
+
+	@include desktop(){
+		background: grey;
+	}
+}*/
