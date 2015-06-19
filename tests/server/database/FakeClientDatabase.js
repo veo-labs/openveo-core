@@ -1,8 +1,13 @@
 "use strict"
 
+var util = require("util");
+var openVeoAPI = require("openveo-api");
+var Database = openVeoAPI.Database;
+
 function FakeClientDatabase(){}
 
 module.exports = FakeClientDatabase;
+util.inherits(FakeClientDatabase, Database);
 
 FakeClientDatabase.prototype.get = function(collection, criteria, projection, limit, callback){
 
@@ -46,7 +51,14 @@ FakeClientDatabase.prototype.get = function(collection, criteria, projection, li
           }
         ]);
       }
+      else if(criteria.id === "client-1")
+        callback(null, {});
     break; 
+      
+    case "clients" : 
+      if(criteria.id === "client-1")
+        callback(null, {});
+    break;
   }
   
 };

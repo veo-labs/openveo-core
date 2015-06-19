@@ -24,7 +24,7 @@ describe("ApplicationService", function(){
   
   it("Should be able to ask server for the list of applications", function(){
     $httpBackend.when("GET", /.*/).respond(200, "");
-    $httpBackend.expectGET("/admin/ws/applications");
+    $httpBackend.expectGET("/admin/crud/application");
     applicationService.loadApplications();
     $httpBackend.flush();
   });
@@ -38,7 +38,7 @@ describe("ApplicationService", function(){
   
   it("Should be able to ask server to remove an application", function(){
     $httpBackend.when("GET", /.*/).respond(200, "");
-    $httpBackend.expectDELETE("/admin/ws/application/1");
+    $httpBackend.expectDELETE("/admin/crud/application/1");
     applicationService.removeApplication(1);
     $httpBackend.flush();
   });
@@ -61,7 +61,7 @@ describe("ApplicationService", function(){
       }
     };
     
-    $httpBackend.expectPUT("/admin/ws/application", application);
+    $httpBackend.expectPUT("/admin/crud/application", application);
     applicationService.addApplication(application.name, application.scopes);
     $httpBackend.flush();
   });  
@@ -83,14 +83,14 @@ describe("ApplicationService", function(){
         }                  
       }
     };
-    $httpBackend.expectPOST("/admin/ws/updateApplication/1", application);
+    $httpBackend.expectPOST("/admin/crud/application/1", application);
     applicationService.updateApplication(1, application.name, application.scopes);
     $httpBackend.flush();
   });
   
   it("Should be able to store applications", function(){
-    $httpBackend.when("GET", "/admin/ws/applications").respond(200, [
-      {
+    $httpBackend.when("GET", "/admin/crud/application").respond(200, {
+      entities : [{
         name : "Example",
         scopes : {
           scope1 : {
@@ -104,9 +104,9 @@ describe("ApplicationService", function(){
             activated : true
           }                  
         }
-      }]
+      }]}
     );
-    $httpBackend.expectGET("/admin/ws/applications");
+    $httpBackend.expectGET("/admin/crud/application");
     applicationService.loadApplications();
     $httpBackend.flush();
     

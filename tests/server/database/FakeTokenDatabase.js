@@ -1,8 +1,13 @@
 "use strict"
 
+var util = require("util");
+var openVeoAPI = require("openveo-api");
+var Database = openVeoAPI.Database;
+
 function FakeTokenDatabase(){}
 
 module.exports = FakeTokenDatabase;
+util.inherits(FakeTokenDatabase, Database);
 
 FakeTokenDatabase.prototype.get = function(collection, criteria, projection, limit, callback){
   

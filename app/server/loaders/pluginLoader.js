@@ -9,6 +9,7 @@ var openVeoAPI = require("openveo-api");
 
 // Module files
 var routeLoader = process.require("/app/server/loaders/routeLoader");
+var entityLoader = process.require("/app/server/loaders/entityLoader");
 
 // Get logger
 var logger = winston.loggers.get("openveo");
@@ -216,6 +217,11 @@ module.exports.loadPlugin = function(pluginPath, callback){
                 plugin.webServiceRoutes = pluginRoutes["ws"] && routeLoader.decodeRoutes(pluginPath, pluginRoutes["ws"]);
               }
               
+              // Got entities
+              if(pluginConf["entities"])
+                plugin.entities = pluginConf["entities"] && entityLoader.decodeEntities(pluginPath, pluginConf["entities"]);
+
+              // Got back end conf
               if(backEndConf){
               
                 // Retrieve back end menu pages from plugin conf

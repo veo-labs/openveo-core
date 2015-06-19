@@ -10,7 +10,7 @@ process.require = function(filePath){
   return require(path.normalize(process.root + "/" + filePath));
 };
 
-var routeLoader = require("../../app/server/loaders/routeLoader.js");
+var routeLoader = process.require("app/server/loaders/routeLoader.js");
 var pluginConf = require("./plugins/node_modules/openveo-example/conf.json");
 
 describe("routeLoader", function(){

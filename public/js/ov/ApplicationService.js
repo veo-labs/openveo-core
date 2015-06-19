@@ -9,7 +9,7 @@
    * Defines service to manage the web service applications.
    */
   function ApplicationService($http, $q){
-    var basePath = "/admin/ws/";
+    var basePath = "/admin/";
     var applications, scopes;
     
     /**
@@ -21,13 +21,13 @@
       if(!applications){
         
         // Get applications from server
-        return $http.get(basePath + "applications").success(function(applicationsObj){
-          applications = applicationsObj;
+        return $http.get(basePath + "crud/application").success(function(applicationsObj){
+          applications = applicationsObj.entities;
         });
 
       }
 
-      return $q.when({data : applications});
+      return $q.when({data : {entities : applications}});
     };
     
     /**
@@ -39,7 +39,7 @@
       if(!scopes){
         
         // Get scopes from server
-        return $http.get(basePath + "scopes").success(function(scopesObj){
+        return $http.get(basePath + "ws/scopes").success(function(scopesObj){
           scopes = scopesObj;
         });
 
@@ -77,7 +77,7 @@
      * @param Array scopes The list of application's scopes
      */
     var addApplication = function(name, scopes){
-      return $http.put(basePath + "application", {
+      return $http.put(basePath + "crud/application", {
         name : name,
         scopes : scopes
       });
@@ -90,7 +90,7 @@
      * @param Array scopes The list of application's scopes
      */
     var updateApplication = function(id, name, scopes){
-      return $http.post(basePath + "updateApplication/" + id, {
+      return $http.post(basePath + "crud/application/" + id, {
         name : name,
         scopes : scopes
       });
@@ -102,7 +102,7 @@
      * @return HttpPromise The HTTP promise
      */
     var removeApplication = function(id){
-      return $http.delete(basePath + "application/" + id);
+      return $http.delete(basePath + "crud/application/" + id);
     };    
 
     return{

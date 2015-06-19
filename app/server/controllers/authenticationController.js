@@ -22,7 +22,7 @@ module.exports.authenticateAction = function(request, response, next){
     // No user was found for the given login / password
     // Send back a 401 Not Authorized
     if(!user)
-      return response.sendStatus(401);
+      return response.status(401).send();
     
     // Establish a session, authenticate the request
     request.login(user, function(error){
@@ -42,7 +42,7 @@ module.exports.authenticateAction = function(request, response, next){
  */
 module.exports.logoutAction = function(request, response, next){
   request.logout();
-  response.sendStatus(200);
+  response.status(200).send();
 };
 
 /**

@@ -36,7 +36,6 @@ describe("accessToken", function(){
 
     it("Should be able to get client application information by token", function(done){
       accessToken.fetchByToken("2", function(error, token){
-        console.log(token);
         assert.isDefined(token);
         done();
       });

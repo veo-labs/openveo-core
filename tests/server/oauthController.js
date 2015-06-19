@@ -31,7 +31,7 @@ describe("oauthController", function(){
       }
     ); 
     oauthController = process.require("app/server/controllers/oauthController.js");
-    request = { oauth2 : {}};
+    request = { oauth2 : {}, method : "GET"};
     response = { };
   });
   

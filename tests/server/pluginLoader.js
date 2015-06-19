@@ -11,7 +11,7 @@ process.require = function(filePath){
 };
 
 // Module files
-var pluginLoader = require("../../app/server/loaders/pluginLoader.js");
+var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
 
 describe("pluginLoader", function(){
   

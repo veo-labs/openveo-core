@@ -18,7 +18,7 @@ describe("ApplicationController", function(){
   beforeEach(function(){
      applications = {
        data : {
-         applications : [
+         entities : [
           {
             id : "7bff6606c8fc4e1259ff44342ad870502dbcf9d5",
             name : "Example",
@@ -93,8 +93,8 @@ describe("ApplicationController", function(){
   describe("removeApplication", function(){
 
     it("Should be able to remove an application if not saving", function(){
-      $httpBackend.when("DELETE", "/admin/ws/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(200);
-      $httpBackend.expectDELETE("/admin/ws/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
+      $httpBackend.when("DELETE", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(200);
+      $httpBackend.expectDELETE("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
 
       $controller("ApplicationController", {
         $scope: $scope,
@@ -112,8 +112,8 @@ describe("ApplicationController", function(){
     });
 
     it("Should logout user if a 401 is returned by the server", function(done){
-      $httpBackend.when("DELETE", "/admin/ws/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(401);
-      $httpBackend.expectDELETE("/admin/ws/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
+      $httpBackend.when("DELETE", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(401);
+      $httpBackend.expectDELETE("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
 
       $rootScope.logout = function(){
         done();
@@ -134,8 +134,8 @@ describe("ApplicationController", function(){
   describe("saveApplication", function(){
 
     it("Should be able to save an application if not already saving", function(done){
-      $httpBackend.when("POST", "/admin/ws/updateApplication/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(200);
-      $httpBackend.expectPOST("/admin/ws/updateApplication/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
+      $httpBackend.when("POST", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(200);
+      $httpBackend.expectPOST("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
 
       $controller("ApplicationController", {
         $scope: $scope,
@@ -161,8 +161,8 @@ describe("ApplicationController", function(){
     });
 
     it("Should logout user if a 401 is returned by the server", function(done){
-      $httpBackend.when("POST", "/admin/ws/updateApplication/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(401);
-      $httpBackend.expectPOST("/admin/ws/updateApplication/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
+      $httpBackend.when("POST", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(401);
+      $httpBackend.expectPOST("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
 
       $rootScope.logout = function(){
         done();
@@ -224,7 +224,7 @@ describe("ApplicationController", function(){
   describe("addApplication", function(){
     
     it("Should be able to add a new application", function(){
-      $httpBackend.when("PUT", "/admin/ws/application").respond(200, { application : {
+      $httpBackend.when("PUT", "/admin/crud/application").respond(200, { entity : {
         id : "new application id",
         name : "New application",
         scopes : {
@@ -241,7 +241,7 @@ describe("ApplicationController", function(){
         },
         secret : "new application secret"
       }});
-      $httpBackend.expectPUT("/admin/ws/application");
+      $httpBackend.expectPUT("/admin/crud/application");
       
       $controller("ApplicationController", {
         $scope: $scope,
@@ -257,8 +257,8 @@ describe("ApplicationController", function(){
     });
     
     it("Should logout user if a 401 is returned by the server", function(done){
-      $httpBackend.when("PUT", "/admin/ws/application").respond(401);
-      $httpBackend.expectPUT("/admin/ws/application");
+      $httpBackend.when("PUT", "/admin/crud/application").respond(401);
+      $httpBackend.expectPUT("/admin/crud/application");
       
       $rootScope.logout = function(){
         done();

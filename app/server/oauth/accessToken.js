@@ -3,10 +3,10 @@
 // Module dependencies
 var crypto = require("crypto");
 var openVeoAPI = require("openveo-api");
-var TokenProvider = process.require("app/server/providers/TokenProvider.js");
+var TokenModel = process.require("app/server/models/TokenModel.js");
 
 var applicationStorage = openVeoAPI.applicationStorage;
-var tokenProvider;
+var tokenModel;
 var accessToken = {};
 
 /**
@@ -35,13 +35,13 @@ var accessToken = {};
  */
 accessToken.create = function(userId, clientId, scopes, ttl, callback){
   var token = crypto.randomBytes(64).toString("hex");
-  var provider = getTokenProvider();
+  var model = getTokenModel();
   
   // Before adding the token, remove all tokens for this client
-  provider.removeTokensByClientId(clientId);
+  model.removeTokensByClientId(clientId);
 
   // Save the new token
-  provider.addToken(token, clientId, scopes, new Date().getTime() + ttl * 1000, function(error){
+  model.add(token, clientId, scopes, new Date().getTime() + ttl * 1000, function(error){
     callback(error, token);
   });
 };
@@ -71,8 +71,8 @@ accessToken.create = function(userId, clientId, scopes, ttl, callback){
  *    }
  */
 accessToken.fetchByToken = function(token, callback){
-  var provider = getTokenProvider();
-  provider.getToken(token, callback);
+  var model = getTokenModel();
+  model.getTokenByValue(token, callback);
 };
 
 /**
@@ -90,12 +90,12 @@ accessToken.ttl = 3600;
 module.exports = accessToken;
 
 /**
- * Gets TokenProvider instance. 
- * @return TokenProvider The TokenProvider instance
+ * Gets TokenModel instance.
+ * @return TokenModel The TokenModel instance
  */
-function getTokenProvider(){
-  if(!tokenProvider)
-    tokenProvider = new TokenProvider(applicationStorage.getDatabase());
+function getTokenModel(){
+  if(!tokenModel)
+    tokenModel = new TokenModel();
   
-  return tokenProvider;
+  return tokenModel;
 }

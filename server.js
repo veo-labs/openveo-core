@@ -27,7 +27,8 @@ process.require("app/server/logger.js");
 
 // Module files
 var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
-var routeLoader = process.require("app/server/loaders/routeLoader");
+var routeLoader = process.require("app/server/loaders/routeLoader.js");
+var entityLoader = process.require("app/server/loaders/entityLoader.js");
 var defaultController = process.require("app/server/controllers/defaultController.js");
 var oAuthController = process.require("app/server/controllers/oAuthController.js");
 
@@ -44,6 +45,7 @@ var logger = winston.loggers.get("openveo");
 // Retrieve back office menu and views folders from configuration
 var menu = conf["backOffice"]["menu"] || [];
 var webServiceScopes = conf["webServiceScopes"] || {};
+var entities = {};
 var viewsFolders = [];
 
 conf["viewsFolders"].forEach(function(folder){
@@ -128,6 +130,14 @@ async.series([
       applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["admin"]), adminRouter);
       applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["ws"]), webServiceRouter);
 
+      // Build core entities
+      var decodedEntities = entityLoader.decodeEntities(process.root + "/", conf["entities"]);
+
+      if(decodedEntities){
+        for(var type in decodedEntities)
+          entities[type] = new decodedEntities[type]();
+      }
+
       callback();
     });
   },
@@ -205,6 +215,12 @@ async.series([
               webServiceScopes[scopeName] = loadedPlugin.webServiceScopes[scopeName];
           }
 
+          // Found a list of entities for the plugin
+          if(loadedPlugin.entities){
+            for(var type in loadedPlugin.entities)
+              entities[type] = new loadedPlugin.entities[type]();
+          }
+
           logger.info("Plugin " + loadedPlugin.name + " successfully loaded");
           
         });
@@ -222,6 +238,7 @@ async.series([
 
         applicationStorage.setMenu(menu);
         applicationStorage.setWebServiceScopes(webServiceScopes);
+        applicationStorage.setEntities(entities);
 
       }
 

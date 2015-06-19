@@ -9,7 +9,7 @@
    * Defines the applications controller for the applications page.
    */
   function ApplicationController($scope, applicationService, applications, scopes){
-    $scope.applications = applications.data.applications;
+    $scope.applications = applications.data.entities;
     $scope.scopes = scopes.data.scopes;
     $scope.scopesOptions = [];
     
@@ -126,7 +126,7 @@
       applicationService.addApplication($scope.applicationName, scopes).success(function(data, status, headers, config){
         form.saving = false;
         resetAddForm(form);
-        $scope.applications.push(data.application);
+        $scope.applications.push(data.entity);
         prepareApplicationsScopes();
       }).error(function(data, status, headers, config){
         form.saving = false;

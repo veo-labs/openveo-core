@@ -2,10 +2,10 @@
 
 // Module dependencies
 var openVeoAPI = require("openveo-api");
-var ClientProvider = process.require("app/server/providers/ClientProvider.js");
+var ClientModel = process.require("app/server/models/ClientModel.js");
 
 var applicationStorage = openVeoAPI.applicationStorage;
-var clientProvider;
+var clientModel;
 var client = {};
 
 /**
@@ -42,9 +42,8 @@ client.getId = function(oAuthClient){
  * }
  */
 client.fetchById = function(id, callback){
-  var provider = getClientProvider();
-  
-  provider.getClientById(id, callback);
+  var model = getClientModel();
+  model.getOne(id, callback);
 };
 
 /**
@@ -82,12 +81,12 @@ client.checkScope = function(oAuthClient, scope){
 module.exports = client;
 
 /**
- * Gets ClientProvider instance. 
- * @return ClientProvider The ClientProvider instance
+ * Gets ClientModel instance.
+ * @return ClientModel The ClientModel instance
  */
-function getClientProvider(){
-  if(!clientProvider)
-    clientProvider = new ClientProvider(applicationStorage.getDatabase());
+function getClientModel(){
+  if(!clientModel)
+    clientModel = new ClientModel();
   
-  return clientProvider;
+  return clientModel;
 }

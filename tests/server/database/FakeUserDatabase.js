@@ -1,11 +1,16 @@
 "use strict"
 
+var util = require("util");
+var openVeoAPI = require("openveo-api");
+var Database = openVeoAPI.Database;
+
 function FakeUserDatabase(){}
 
 module.exports = FakeUserDatabase;
+util.inherits(FakeUserDatabase, Database);
 
 FakeUserDatabase.prototype.get = function(collection, criteria, projection, limit, callback){
-  console.log(criteria);
+
   switch(collection){
     case "users" : 
       if(!criteria){

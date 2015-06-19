@@ -4,10 +4,10 @@
 var passport = require("passport");
 var openVeoAPI = require("openveo-api");
 var LocalStrategy = require("passport-local").Strategy;
-var UserProvider = openVeoAPI.UserProvider;
+var UserModel = process.require("app/server/models/UserModel.js");
 var applicationStorage = openVeoAPI.applicationStorage;
 
-var userProvider = new UserProvider(applicationStorage.getDatabase());
+var userModel = new UserModel();
 
 // Define a passport authentication strategy.
 // "userName" and "password" field must be send using a POST 
@@ -18,7 +18,7 @@ passport.use(new LocalStrategy(
     passwordField: "password"
   },
   function(username, password, done){
-    userProvider.getUserByCredentials(username, password, function(error, user){
+    userModel.getUserByCredentials(username, password, function(error, user){
       if(error)
         done(null, false);
       else
@@ -37,11 +37,10 @@ passport.serializeUser(function(user, done){
 // When subsequent requests are received, the ID is used to find
 // the user, which will be restored to req.user.
 passport.deserializeUser(function(id, done){
-  userProvider.getUserById(id, function(error, user){
+  userModel.getOne(id, function(error, user){
     if(error)
       done(null, false);
     else
       done(null, user);
   });
-  
 });
