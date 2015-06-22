@@ -10,7 +10,7 @@
     "angular-bootstrap": "~0.13.0",
     "angular-datatables": "~0.4.3",
     "angular-ui-tree": "~2.5.0",
-    "bootstrap-sass-official": "~3.3.5"
+    "bootstrap-sass": "~3.3.5"
   },
   "devDependencies": {
     "angular-animate": "~1.4.1",

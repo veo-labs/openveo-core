@@ -22,7 +22,7 @@ module.exports = function(grunt) {
           public: ['public'],
           css: ['<%= project.public %>/css'],
           js: ['<%= project.public %>/js'],
-          font: ['<%= project.public %>/lib/bootstrap-sass-official/assets/fonts/'],
+          font: ['../lib/bootstrap-sass/assets/fonts/'],
           
           uglify: ['build/uglify']
       },      
