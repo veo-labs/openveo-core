@@ -33,44 +33,54 @@
         ]
       }
     ],
-    "scriptLibFiles" : [
-      "/lib/jquery/dist/jquery.min.js",
-      "/lib/datatables/media/js/jquery.dataTables.min.js",
-      
-      
-      "/lib/angular/angular.js",
-      "/lib/angular-route/angular-route.js",
-      "/lib/angular-cookies/angular-cookies.js",
-      "/lib/angular-datatables/dist/angular-datatables.min.js",
-      "/lib/angular-bootstrap/ui-bootstrap.min.js",
-      "/lib/angular-touch/angular-touch.min.js",
-      "/lib/angular-ui-tree/angular-ui-tree.min.js",
-      
-      
-      "/js/authentication/AuthenticationApp.js",
-      "/js/storage/StorageApp.js",
-      "/js/route/RouteApp.js",
-      "/js/i18n/I18nApp.js",
-      "/js/edit/EditApp.js",
-      "/js/edit/editable-elements/EditableElementInterface.js",
-      "/js/edit/editable-elements/CheckboxEditableElement.js",
-      "/js/edit/editable-elements/TextEditableElement.js",
-      "/js/edit/editable-elements/SelectEditableElement.js"
-    ],
-    "scriptFiles" : [
-      "/js/ov/OvApp.js",
-      "/js/ov/MainController.js",
-      "/js/ov/LoginController.js",
-      "/js/ov/HomeController.js",
-      "/js/ov/ApplicationController.js",
-      "/js/ov/MenuService.js",
-      "/js/ov/ApplicationService.js"
-    ],
+    "scriptLibFiles" : {
+      "base" : [
+        "/lib/jquery/dist/jquery.min.js",
+        "/lib/datatables/media/js/jquery.dataTables.min.js",
+
+        "/lib/angular/angular.js",
+        "/lib/angular-route/angular-route.js",
+        "/lib/angular-cookies/angular-cookies.js",
+        "/lib/angular-datatables/dist/angular-datatables.min.js",
+        "/lib/angular-bootstrap/ui-bootstrap.min.js",
+        "/lib/angular-touch/angular-touch.min.js",
+        "/lib/angular-ui-tree/dist/angular-ui-tree.min.js"
+      ],
+      "dev" : [
+        "authentication/AuthenticationApp.js",
+        "storage/StorageApp.js",
+        "route/RouteApp.js",
+        "i18n/I18nApp.js",
+        "edit/EditApp.js",
+        "edit/editable-elements/EditableElementInterface.js",
+        "edit/editable-elements/CheckboxEditableElement.js",
+        "edit/editable-elements/TextEditableElement.js",
+        "edit/editable-elements/SelectEditableElement.js"
+      ],
+      "prod" : [
+        "/js/libOpenveo.js"
+      ]
+    },
+    "scriptFiles" : {
+      "dev" : [
+        "ov/OvApp.js",
+        "ov/MainController.js",
+        "ov/LoginController.js",
+        "ov/HomeController.js",
+        "ov/ApplicationController.js",
+        "ov/MenuService.js",
+        "ov/ApplicationService.js"
+      ],
+      "prod" : [
+        "/js/openveo.js"
+      ]
+       
+    },
     "cssFiles" : [
       "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
       "/lib/datatables/media/css/jquery.dataTables.min.css",
-      "/assets/css/bootstrap.css",
-      "/assets/css/style.css"
+      "/css/bootstrap.css",
+      "/css/style.css"
     ]
   },
   "viewsFolders" : [

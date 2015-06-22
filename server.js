@@ -38,6 +38,7 @@ var databaseConf = process.require("config/databaseConf.json");
 var conf = process.require("conf.json");
 
 var server;
+var env = ( process.env.NODE_ENV == 'production')?'prod':'dev';
 
 // Retrieve initialized logger
 var logger = winston.loggers.get("openveo");
@@ -226,7 +227,11 @@ async.series([
         });
         
         // Set main public directory to be served first as the static server
+
         app.use(express.static(path.normalize(process.root + "/public"), staticServerOptions));
+        if(env=="dev"){
+          app.use(express.static(path.normalize(process.root + "/app/client/assets/js"), staticServerOptions));
+        }
         
         // Set plugins public directories as additionnal static servers
         publicDirectories.forEach(function(publicDirectory){

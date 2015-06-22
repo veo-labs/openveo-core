@@ -4,6 +4,7 @@
 var util = require("util");
 var winston = require("winston");
 var openVeoAPI = require("openveo-api");
+var path = require("path");
 
 // Module files
 var applicationStorage = openVeoAPI.applicationStorage;
@@ -11,6 +12,8 @@ var applicationConf = process.require("conf.json");
 
 // Get logger
 var logger = winston.loggers.get("openveo");
+
+var env = ( process.env.NODE_ENV == 'production')?'prod':'dev';
 
 /**
  * Handles back office default action to display main HTML.
@@ -25,11 +28,13 @@ module.exports.defaultAction = function(request, response, next){
   // Retrieve openveo sub plugins
   var plugins = applicationStorage.getPlugins();
   var angularJsModules = [];
-  
+
   // Retrieve the list of scripts and css files from 
   // application configuration and sub plugins configuration
-  response.locals.librariesScripts = applicationConf["backOffice"]["scriptLibFiles"] || [];
-  response.locals.scripts = applicationConf["backOffice"]["scriptFiles"] || [];
+  response.locals.librariesScriptsBase = applicationConf["backOffice"]["scriptLibFiles"]['base'] || [];
+  response.locals.librariesScripts = applicationConf["backOffice"]["scriptLibFiles"][env] || [];
+  response.locals.librariesScripts = response.locals.librariesScriptsBase.concat(response.locals.librariesScripts);
+  response.locals.scripts = applicationConf["backOffice"]["scriptFiles"][env] || [];
   response.locals.css = applicationConf["backOffice"]["cssFiles"] || [];
   
   // Got sub plugins

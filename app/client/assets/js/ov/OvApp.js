@@ -9,7 +9,9 @@
     "ov.route",
     "ov.i18n",
     "ui.bootstrap",
-    "datatables"
+    "ui.tree",
+    "datatables",
+    "ngTouch"
   ];
 
   // Loads all openveo sub plugins as dependencies of the module "ov"
