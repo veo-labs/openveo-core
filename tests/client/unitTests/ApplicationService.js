@@ -2,21 +2,27 @@
 
 window.assert = chai.assert;
 
+// ApplicationService.js
 describe("ApplicationService", function(){
+  var $httpBackend, applicationService;
   
+  // Load openveo application
   beforeEach(module("ov"));
     
-  var $httpBackend, applicationService;
-
+  // Dependencies injections
   beforeEach(inject(function(_$httpBackend_, _applicationService_){
     $httpBackend = _$httpBackend_;
     applicationService = _applicationService_;
+  }));
 
+  // Prepares HTTP responses
+  beforeEach(function(){
     $httpBackend.when("POST", /.*/).respond(200, "");
     $httpBackend.when("DELETE", /.*/).respond(200, "");
     $httpBackend.when("PUT", /.*/).respond(200, "");
-  }));
+  });
   
+  // Checks if no HTTP request stays without response
   afterEach(function(){
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
@@ -52,16 +58,11 @@ describe("ApplicationService", function(){
           description : "description 1",
           name : "name 1",
           activated : true
-        },
-        scope2 : {
-          description : "description 2",
-          name : "name 2",
-          activated : true
-        }                  
+        }
       }
     };
-    
     $httpBackend.expectPUT("/admin/crud/application", application);
+
     applicationService.addApplication(application.name, application.scopes);
     $httpBackend.flush();
   });  
@@ -75,12 +76,7 @@ describe("ApplicationService", function(){
           description : "description 1",
           name : "name 1",
           activated : true
-        },
-        scope2 : {
-          description : "description 2",
-          name : "name 2",
-          activated : true
-        }                  
+        }
       }
     };
     $httpBackend.expectPOST("/admin/crud/application/1", application);
@@ -97,12 +93,7 @@ describe("ApplicationService", function(){
             description : "description 1",
             name : "name 1",
             activated : true
-          },
-          scope2 : {
-            description : "description 2",
-            name : "name 2",
-            activated : true
-          }                  
+          }
         }
       }]}
     );
@@ -122,20 +113,13 @@ describe("ApplicationService", function(){
           description : "description 1",
           name : "name 1",
           activated : true
-        },
-        scope2 : {
-          description : "description 2",
-          name : "name 2",
-          activated : true
         }                  
       }
     );
     $httpBackend.expectGET("/admin/ws/scopes");
     applicationService.loadScopes();
     $httpBackend.flush();
-    
-    var scopes = applicationService.getScopes();
-    assert.isDefined(scopes);
+    assert.isDefined(applicationService.getScopes());
   });  
 
 });

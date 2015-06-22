@@ -3,18 +3,18 @@
 // Module dependencies
 var path = require("path");
 var assert = require("chai").assert;
+var ut = require("openveo-test").generator;
 
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-
-var routeLoader = process.require("app/server/loaders/routeLoader.js");
-var pluginConf = require("./plugins/node_modules/openveo-example/conf.json");
-
+// routeLoader.js
 describe("routeLoader", function(){
+  var routeLoader, pluginConf;
 
+  before(function(){
+    pluginConf = require("./plugins/node_modules/openveo-example/conf.json");
+    routeLoader = process.require("app/server/loaders/routeLoader.js");
+  });
+
+  // decodeRoutes method
   describe("decodeRoutes", function(){
     var routes, adminRoutes; 
 

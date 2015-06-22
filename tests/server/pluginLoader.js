@@ -3,18 +3,17 @@
 // Module dependencies
 var path = require("path");
 var assert = require("chai").assert;
+var ut = require("openveo-test").generator;
 
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-
-// Module files
-var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
-
+// pluginLoader.js
 describe("pluginLoader", function(){
+  var pluginLoader;
+
+  before(function(){
+   pluginLoader = process.require("app/server/loaders/pluginLoader.js");
+  });
   
+  // loadPlugins method
   describe("loadPlugins", function(){
 
     it("Should load plugins example and subExample", function(done){
@@ -30,6 +29,7 @@ describe("pluginLoader", function(){
 
   });
   
+  // loadPlugin method
   describe("loadPlugin", function(){
 
     it("Should load plugin example with a public router, an admin router and a webservice router", function(done){

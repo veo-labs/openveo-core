@@ -2,28 +2,35 @@
 
 window.assert = chai.assert;
 
+// CheckboxEditableElement.js
 describe("CheckboxEditableElement", function(){
-  var $rootScope, element, $injector, OvEditableElementInterface, scope;
+  var $rootScope, element, $injector, OvEditableElementInterface, scope, CheckboxEditableElement;
   
-  beforeEach(module("ov.edit"));
-  beforeEach(module("ov.i18n"));
+  // Load openveo, authentication and storage modules
+  beforeEach(function(){
+    module("ov.edit");
+    module("ov.i18n");
+  });
+
+  // Dependencies injections
   beforeEach(inject(function(_$injector_, _$rootScope_, _OvEditableElementInterface_){
     $rootScope = _$rootScope_;
     $injector = _$injector_;
     OvEditableElementInterface = _OvEditableElementInterface_;
-    scope = $rootScope.$new(); 
   }));
 
+  // Prepates the CheckboxEditableElement
+  beforeEach(function(){
+    scope = $rootScope.$new();
+    CheckboxEditableElement = $injector.get("OvCheckboxEditableElement");
+  });
+
   it("Should expose a CheckboxEditableElement object", function(){
-    var CheckboxEditableElement = $injector.get("OvCheckboxEditableElement"); 
     assert.isDefined(CheckboxEditableElement);
     assert.isFunction(CheckboxEditableElement);
   });
   
   it("Should be able to set a new value", function(){
-    scope = $rootScope.$new(); 
-    var CheckboxEditableElement = $injector.get("OvCheckboxEditableElement"); 
-    
     var checkboxElement = new CheckboxEditableElement("test", ["value"], false, [{
        value: "option1",
        label: "option 1"
@@ -31,14 +38,14 @@ describe("CheckboxEditableElement", function(){
     
     assert.equal(checkboxElement.value[0], "value");
     assert.equal(checkboxElement.value.length, 1);
+
     checkboxElement.setValue(["new value"]);
+
     assert.equal(checkboxElement.value[0], ["new value"]);
     assert.equal(checkboxElement.value.length, 1);
   });
   
   it("Should be of type OvEditableElementInterface", function(){
-    scope = $rootScope.$new(); 
-    var CheckboxEditableElement = $injector.get("OvCheckboxEditableElement");
     var checkboxElement = new CheckboxEditableElement("test", ["value"], false, [{
        value: "option1",
        label: "option 1"
@@ -47,8 +54,6 @@ describe("CheckboxEditableElement", function(){
   });
   
   it("Should be able to generate text display as a comma separated list of values", function(){
-    scope = $rootScope.$new(); 
-    var CheckboxEditableElement = $injector.get("OvCheckboxEditableElement");
     var checkboxElement = new CheckboxEditableElement("test", ["option1", "option2"], false, [{
        value: "option1",
        label: "option 1"
@@ -61,8 +66,6 @@ describe("CheckboxEditableElement", function(){
   });
   
   it("Should display an empty span if no values for text display", function(){
-    scope = $rootScope.$new(); 
-    var CheckboxEditableElement = $injector.get("OvCheckboxEditableElement");
     var checkboxElement = new CheckboxEditableElement("test", [], false, [{
        value: "option1",
        label: "option 1"
@@ -75,8 +78,6 @@ describe("CheckboxEditableElement", function(){
   });
   
   it("Should display an empty span if value does not correspond to any options", function(){
-    scope = $rootScope.$new(); 
-    var CheckboxEditableElement = $injector.get("OvCheckboxEditableElement");
     var checkboxElement = new CheckboxEditableElement("test", ["option1"], false, [{
        value: "wrongOption",
        label: "wrong option"

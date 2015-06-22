@@ -1,44 +1,39 @@
 "use strict"
 
-var path = require("path");
+// Module dependencies
 var assert = require("chai").assert;
-var openVeoAPI = require("openveo-api");
+var ut = require("openveo-test").generator;
 
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-var applicationStorage = openVeoAPI.applicationStorage;
-
+// client.js
 describe("client", function(){
-  
   var client;
   
   before(function(){
-    var FakeClientDatabase = require("./database/FakeClientDatabase.js");
-    applicationStorage.setDatabase(new FakeClientDatabase());
+    ut.generateSuccessDatabase();
     client = process.require("app/server/oauth/client.js");
   });
   
+  // getId method
   describe("getId", function(){
 
-    it("Should return the given client id", function(){
+    it("Should return the value of the id property of the given client", function(){
       assert.equal(client.getId({id : "id"}), "id");
     });
 
   });
   
+  // fetchById method
   describe("fetchById", function(){
 
     it("Should be able to get client application information by id", function(done){
-      client.fetchById("client-1", function(error, client){
+      client.fetchById("1", function(error, client){
         done();
       });
     });
 
   });
   
+  // checkSecret method
   describe("checkSecret", function(){
 
     it("Should be able to verify client's application secret", function(){
@@ -48,6 +43,7 @@ describe("client", function(){
 
   }); 
   
+  // checkGranType method
   describe("checkGrantType", function(){
 
     it("Should validate only grant type client_credentials", function(){

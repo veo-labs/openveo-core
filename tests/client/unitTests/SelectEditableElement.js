@@ -2,43 +2,50 @@
 
 window.assert = chai.assert;
 
+// SelectEditableElement.js
 describe("SelectEditableElement", function(){
-  var $rootScope, element, $injector, OvEditableElementInterface, scope;
+  var $rootScope, element, $injector, OvEditableElementInterface, scope, SelectEditableElement;
   
-  beforeEach(module("ov.edit"));
-  beforeEach(module("ov.i18n"));
+  // Load openveo, authentication and storage modules
+  beforeEach(function(){
+    module("ov.edit");
+    module("ov.i18n");
+  });
+
+  // Dependencies injections
   beforeEach(inject(function(_$injector_, _$rootScope_, _OvEditableElementInterface_){
     $rootScope = _$rootScope_;
     $injector = _$injector_;
     OvEditableElementInterface = _OvEditableElementInterface_;
-    scope = $rootScope.$new(); 
   }));
 
+  // Initializes tests
+  beforeEach(function(){
+    SelectEditableElement = $injector.get("OvSelectEditableElement");
+    scope = $rootScope.$new();
+  });
+
   it("Should expose a SelectEditableElement object", function(){
-    var SelectEditableElement = $injector.get("OvSelectEditableElement"); 
     assert.isDefined(SelectEditableElement);
     assert.isFunction(SelectEditableElement);
   });
   
   it("Should be able to set a new value", function(){
-    scope = $rootScope.$new(); 
-    var SelectEditableElement = $injector.get("OvSelectEditableElement"); 
-    
     var selectElement = new SelectEditableElement("test", ["value"], false, [{
        value: "option1",
        label: "option 1"
     }], true, scope);
-    
+
     assert.equal(selectElement.value[0], "value");
     assert.equal(selectElement.value.length, 1);
+
     selectElement.setValue(["new value"]);
     assert.equal(selectElement.value[0], ["new value"]);
+
     assert.equal(selectElement.value.length, 1);
   });
   
   it("Should be of type OvEditableElementInterface", function(){
-    scope = $rootScope.$new(); 
-    var SelectEditableElement = $injector.get("OvSelectEditableElement");
     var selectElement = new SelectEditableElement("test", ["value"], false, [{
        value: "option1",
        label: "option 1"
@@ -47,8 +54,6 @@ describe("SelectEditableElement", function(){
   });
   
   it("Should be able to generate text display as a comma separated list of values", function(){
-    scope = $rootScope.$new(); 
-    var SelectEditableElement = $injector.get("OvSelectEditableElement");
     var selectElement = new SelectEditableElement("test", ["option1", "option2"], false, [{
        value: "option1",
        label: "option 1"
@@ -61,8 +66,6 @@ describe("SelectEditableElement", function(){
   });
   
   it("Should display an empty span if no values for text display", function(){
-    scope = $rootScope.$new(); 
-    var SelectEditableElement = $injector.get("OvSelectEditableElement");
     var selectElement = new SelectEditableElement("test", [], false, [{
        value: "option1",
        label: "option 1"
@@ -75,8 +78,6 @@ describe("SelectEditableElement", function(){
   });
   
   it("Should display an empty span if value does not correspond to any options", function(){
-    scope = $rootScope.$new(); 
-    var SelectEditableElement = $injector.get("OvSelectEditableElement");
     var selectElement = new SelectEditableElement("test", ["option1"], false, [{
        value: "wrongOption",
        label: "wrong option"

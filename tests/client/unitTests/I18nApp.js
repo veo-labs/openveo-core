@@ -2,19 +2,27 @@
 
 window.assert = chai.assert;
 
-describe("TranslateApp", function(){
-  var i18nService, $httpBackend, $filter;
+// i18nApp.js
+describe("i18nApp", function(){
+  var i18nService, $httpBackend, $filter, $cookies;
   
+  // Load i18n module
   beforeEach(module("ov.i18n"));
   
+  // Dependencies injections
   beforeEach(inject(function(_i18nService_, _$cookies_, _$httpBackend_, _$filter_){
-    var $cookies = _$cookies_;
+    $cookies = _$cookies_;
     $filter = _$filter_;
     i18nService = _i18nService_;
     $httpBackend = _$httpBackend_;
-    $cookies.language = null;
   }));
   
+  // Initialize tests
+  beforeEach(function(){
+    $cookies.language = null;
+  });
+
+  // Checks if no HTTP request stays without response
   afterEach(function(){
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
@@ -35,7 +43,7 @@ describe("TranslateApp", function(){
     assert.equal(i18nService.getLanguage(), (navigator.language || navigator.browserLanguage).split("-")[0]);
   });
   
-  it("Should be able to add a dictionary of translations", function(){
+  it("Should be able to request a dictionary of translations", function(){
     $httpBackend.when("GET", /.*getDictionary.*/).respond(200, {
       "TRANSLATION_ID" : "Translated text"
     });

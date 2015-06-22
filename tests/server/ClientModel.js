@@ -1,25 +1,18 @@
 "use strict"
 
-var path = require("path");
+// Module dependencies
 var assert = require("chai").assert;
 var openVeoAPI = require("openveo-api");
+var ut = require("openveo-test").generator;
 
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-
-var applicationStorage = openVeoAPI.applicationStorage;
-var ClientModel = process.require("app/server/models/ClientModel.js");
-
+// ClientModel.js
 describe("CientModel", function(){
   var clientModel;
   
+  // Initializes tests
   before(function(){
-    var FakeClientDatabase = require("./database/FakeClientDatabase.js");
-    applicationStorage.setDatabase(new FakeClientDatabase());
-
+    var ClientModel = process.require("app/server/models/ClientModel.js");
+    ut.generateSuccessDatabase();
     clientModel = new ClientModel();
   });
   
@@ -27,9 +20,10 @@ describe("CientModel", function(){
     assert.ok(clientModel instanceof openVeoAPI.EntityModel);
   });
   
+  // add method
   describe("add", function(){
 
-    it("Should be able to add a client application", function(){
+    it("Should be able to add a new client application", function(){
       
       clientModel.add({
         name : "Name of the client",
@@ -37,11 +31,6 @@ describe("CientModel", function(){
           scope1 : {
             description : "description 1",
             name : "name 1",
-            activated : true
-          },
-          scope2 : {
-            description : "description 2",
-            name : "name 2",
             activated : true
           }
         }
@@ -60,11 +49,6 @@ describe("CientModel", function(){
           scope1 : {
             description : "description 1",
             name : "name 1",
-            activated : true
-          },
-          scope2 : {
-            description : "description 2",
-            name : "name 2",
             activated : true
           }
         }
@@ -88,6 +72,7 @@ describe("CientModel", function(){
 
   });
   
+  // update method
   describe("update", function(){
     
     it("Should be able to update a client application", function(){
@@ -99,15 +84,10 @@ describe("CientModel", function(){
             description : "description 1",
             name : "name 1",
             activated : true
-          },
-          scope2 : {
-            description : "description 2",
-            name : "name 2",
-            activated : true
           }
         }
       }, function(error){
-        assert.isUndefined(error);
+        assert.isNull(error);
       });
       
     });

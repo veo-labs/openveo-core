@@ -2,12 +2,14 @@
 
 window.assert = chai.assert;
 
+// OvApp.js
 describe("OvApp", function(){
+  var $rootScope, $controller, $httpBackend, authenticationService, $route, $location;
   
+  // Load openveo module
   beforeEach(module("ov"));
     
-  var $rootScope, $controller, $httpBackend, authenticationService, $route, $location;
-
+  // Dependencies injections
   beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_, _authenticationService_, _$route_, _$location_){
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
@@ -15,7 +17,10 @@ describe("OvApp", function(){
     authenticationService = _authenticationService_;
     $route = _$route_;
     $location = _$location_;
-    
+  }));
+
+  // Initializes tests
+  beforeEach(function(){
     $controller("MainController", {
       $scope: $rootScope.$new(),
       authenticationService: authenticationService,
@@ -23,7 +28,7 @@ describe("OvApp", function(){
     });
     
     $httpBackend.when("GET", /.*/).respond(200, "");
-  }));
+  });
   
   it("Should register /login and /admin routes", function(){
     assert.isDefined($route.routes["/admin"]);

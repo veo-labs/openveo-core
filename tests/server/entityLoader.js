@@ -3,18 +3,18 @@
 // Module dependencies
 var path = require("path");
 var assert = require("chai").assert;
+var ut = require("openveo-test").generator;
 
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-
-var entityLoader = process.require("app/server/loaders/entityLoader.js");
-var pluginConf = require("./plugins/node_modules/openveo-example/conf.json");
-
+// entityLoader.js
 describe("entityLoader", function(){
+  var entityLoader, pluginConf;
 
+  before(function(){
+    pluginConf = require("./plugins/node_modules/openveo-example/conf.json");
+    entityLoader = process.require("app/server/loaders/entityLoader.js");
+  });
+
+  // decodeEntities method
   describe("decodeEntities", function(){
 
     it("Should be able to load entities associated models", function(){

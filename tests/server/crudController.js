@@ -1,39 +1,37 @@
 "use strict"
 
-var path = require("path");
+// Module dependencies
 var assert = require("chai").assert;
 var openVeoAPI = require("openveo-api");
-
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-
 var applicationStorage = openVeoAPI.applicationStorage;
-var ClientModel = process.require("app/server/models/ClientModel.js");
-var FakeSuccessDatabase = require("./database/FakeSuccessDatabase.js");
-var FakeFailDatabase = require("./database/FakeFailDatabase.js");
+var ut = require("openveo-test").generator;
 
+// crudController.js
 describe("crudController", function(){
   var request, response, crudController;
   
   beforeEach(function(){
-    applicationStorage.setDatabase(new FakeSuccessDatabase());
+    var ClientModel = process.require("app/server/models/ClientModel.js");
+
+    ut.generateSuccessDatabase();
     applicationStorage.setEntities({
       "application" : new ClientModel()
     });
     
     crudController = process.require("app/server/controllers/crudController.js");
-    request = { params : { 
-      type : "application"
-    } };
-    response = { };
+
+    response = {};
+    request = {
+      params : {
+        type : "application"
+      }
+    };
   });
   
+  // getEntitiesAction method
   describe("getEntitiesAction", function(){
 
-    it("Should be able to send back a list of entities as a JSON object", function(done){
+    it("Should be able to get a list of entities as a JSON object", function(done){
 
       response.status = function(){return this;};
       response.send = function(data){
@@ -80,10 +78,8 @@ describe("crudController", function(){
     });
       
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
-      applicationStorage.setDatabase(new FakeFailDatabase());
-      applicationStorage.setEntities({
-        "application" : new ClientModel()
-      });      
+      ut.generateFailDatabase();
+
       response.status = function(status){
         assert.equal(status, 500);
         return this;
@@ -101,6 +97,7 @@ describe("crudController", function(){
 
   }); 
   
+  // addEntityAction method
   describe("addEntityAction", function(){
 
     it("Should be able to add a new entity", function(done){
@@ -110,11 +107,6 @@ describe("crudController", function(){
           scope1 : {
             description : "description 1",
             name : "name 1",
-            activated : true
-          },
-          scope2 : {
-            description : "description 2",
-            name : "name 2",
             activated : true
           }
         }
@@ -136,6 +128,7 @@ describe("crudController", function(){
     it("Should return an HTTP code 400 if type is not found in url parameters", function(done){
       request.params = {};
       request.body = {};
+
       response.status = function(status){
         assert.equal(status, 400);
         return this;
@@ -167,11 +160,9 @@ describe("crudController", function(){
     });  
     
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
+      ut.generateFailDatabase();
+
       request.body = {};
-      applicationStorage.setDatabase(new FakeFailDatabase());
-      applicationStorage.setEntities({
-        "application" : new ClientModel()
-      });      
       response.status = function(status){
         assert.equal(status, 500);
         return this;
@@ -189,6 +180,7 @@ describe("crudController", function(){
 
   });  
   
+  // updateEntityAction method
   describe("updateEntityAction", function(){
     
     it("Should be able to update an entity", function(done){
@@ -199,11 +191,6 @@ describe("crudController", function(){
           scope1 : {
             description : "description 1",
             name : "name 1",
-            activated : true
-          },
-          scope2 : {
-            description : "description 2",
-            name : "name 2",
             activated : true
           }
         }
@@ -225,6 +212,7 @@ describe("crudController", function(){
     it("Should return an HTTP code 400 if type is not found in url parameters", function(done){
       request.params = { id : "1" };
       request.body = {};
+
       response.status = function(status){
         assert.equal(status, 400);
         return this;
@@ -242,6 +230,7 @@ describe("crudController", function(){
     it("Should return an HTTP code 400 if id is not found in url parameters", function(done){
       request.params = { type : "application" };
       request.body = {};
+
       response.status = function(status){
         assert.equal(status, 400);
         return this;
@@ -273,12 +262,10 @@ describe("crudController", function(){
     });     
     
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
+      ut.generateFailDatabase();
+
       request.params = { id: "1", type : "application"};
       request.body = {};
-      applicationStorage.setDatabase(new FakeFailDatabase());
-      applicationStorage.setEntities({
-        "application" : new ClientModel()
-      });
       response.status = function(status){
         assert.equal(status, 500);
         return this;
@@ -296,6 +283,7 @@ describe("crudController", function(){
     
   });
   
+  // removeEntityAction method
   describe("removeEntityAction", function(){
 
     it("Should be able to remove an entity", function(done){
@@ -347,11 +335,9 @@ describe("crudController", function(){
     }); 
     
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
+      ut.generateFailDatabase();
+
       request.params = { id: "2", type : "application" };
-      applicationStorage.setDatabase(new FakeFailDatabase());
-      applicationStorage.setEntities({
-        "application" : new ClientModel()
-      });
       response.status = function(status){
         assert.equal(status, 500);
         return this;
@@ -369,6 +355,7 @@ describe("crudController", function(){
     
   });
   
+  // getEntityAction method
   describe("getEntityAction", function(){
 
     it("Should be able to retrieve an entity", function(done){
@@ -420,11 +407,9 @@ describe("crudController", function(){
     }); 
     
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
+      ut.generateFailDatabase();
+
       request.params = { id: "3", type : "application" };
-      applicationStorage.setDatabase(new FakeFailDatabase());
-      applicationStorage.setEntities({
-        "application" : new ClientModel()
-      });
       response.status = function(status){
         assert.equal(status, 500);
         return this;

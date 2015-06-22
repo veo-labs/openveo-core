@@ -1,26 +1,19 @@
 "use strict"
 
-var path = require("path");
+// Module dependencies
 var assert = require("chai").assert;
-var openVeoAPI = require("openveo-api");
+var ut = require("openveo-test").generator;
 
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-var applicationStorage = openVeoAPI.applicationStorage;
-
+// accessToken.js file
 describe("accessToken", function(){
-  
   var accessToken;
   
   before(function(){
-    var FakeTokenDatabase = require("./database/FakeTokenDatabase.js");
-    applicationStorage.setDatabase(new FakeTokenDatabase());    
+    ut.generateSuccessDatabase();
     accessToken = process.require("app/server/oauth/accessToken.js");
   });
   
+  // create method
   describe("create", function(){
 
     it("Should be able to create an access token for a client application", function(done){
@@ -32,6 +25,7 @@ describe("accessToken", function(){
 
   });
   
+  // fetchByToken method
   describe("fetchByToken", function(){
 
     it("Should be able to get client application information by token", function(done){
@@ -41,8 +35,9 @@ describe("accessToken", function(){
       });
     });
 
-  });  
+  });
   
+  // checkTTL method
   describe("checkTTL", function(){
 
     it("Should be able to verify if the token is still valid", function(){

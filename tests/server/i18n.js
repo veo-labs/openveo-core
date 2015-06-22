@@ -1,31 +1,29 @@
 "use strict"
 
-var openVeoAPI = require("openveo-api");
+// Module dependencies
 var path = require("path");
 var assert = require("chai").assert;
-
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-
-var i18n = process.require("app/server/i18n.js");
+var openVeoAPI = require("openveo-api");
+var ut = require("openveo-test").generator;
 var applicationStorage = openVeoAPI.applicationStorage;
 
+// i18n.js
 describe("i18n", function(){
+  var i18n;
 
-  beforeEach(function(){
+  before(function(){
     applicationStorage.setPlugins(
       [
         {
-          name : "example", 
-          "i18nDirectory" : path.normalize(__dirname + "/i18n")
+          name : "example",
+          i18nDirectory : path.normalize(__dirname + "/i18n")
         }
       ]
     );
+    i18n = process.require("app/server/i18n.js");
   });
   
+  // getTranslations method
   describe("getTranslations", function(){
 
     it("Should return a JSON object", function(done){

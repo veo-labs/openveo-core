@@ -2,31 +2,38 @@
 
 window.assert = chai.assert;
 
+// TextEditableElement.js
 describe("TextEditableElement", function(){
-  var element, $injector, OvEditableElementInterface;
+  var element, $injector, OvEditableElementInterface, TextEditableElement;
   
-  beforeEach(module("ov.edit"));
-  beforeEach(module("ov.i18n"));
+  // Load openveo, authentication and storage modules
+  beforeEach(function(){
+    module("ov.edit");
+    module("ov.i18n");
+  });
+
+  // Dependencies injections
   beforeEach(inject(function(_$injector_, _OvEditableElementInterface_){
     $injector = _$injector_;
     OvEditableElementInterface = _OvEditableElementInterface_;
   }));
 
+  // Initializes tests
+  beforeEach(function(){
+    TextEditableElement = $injector.get("OvTextEditableElement");
+  });
+
   it("Should expose a TextEditableElement object", function(){
-    var TextEditableElement = $injector.get("OvTextEditableElement"); 
     assert.isDefined(TextEditableElement);
     assert.isFunction(TextEditableElement);
   });
   
   it("Should be of type OvEditableElementInterface", function(){
-    var TextEditableElement = $injector.get("OvTextEditableElement");
     var textElement = new TextEditableElement("test", "value", false);
     assert.ok(textElement instanceof OvEditableElementInterface);
   });  
   
   it("Should be able to set a new value", function(){
-    var TextEditableElement = $injector.get("OvTextEditableElement"); 
-    
     var textElement = new TextEditableElement("test", "value", false);
     
     assert.equal(textElement.value, "value");
@@ -35,8 +42,6 @@ describe("TextEditableElement", function(){
   });
   
   it("Should throw an exception if name is not defined", function(){
-    var TextEditableElement = $injector.get("OvTextEditableElement"); 
-    
     try{
       var textElement = new TextEditableElement();
     }
@@ -46,7 +51,6 @@ describe("TextEditableElement", function(){
   });
   
   it("Should set value to \"\" if not defined", function(){
-    var TextEditableElement = $injector.get("OvTextEditableElement");
     var textElement = new TextEditableElement("test");
     assert.equal(textElement.value, "");
     textElement.setValue(null);
@@ -54,7 +58,6 @@ describe("TextEditableElement", function(){
   });
   
   it("Should be able to generate text display", function(){
-    var TextEditableElement = $injector.get("OvTextEditableElement");
     var textElement = new TextEditableElement("test", "value", true);
     assert.equal(angular.element('<div>').append(textElement.getTextDisplay().clone()).html(), "<span>value</span>");
   }); 

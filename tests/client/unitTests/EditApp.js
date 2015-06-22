@@ -2,30 +2,41 @@
 
 window.assert = chai.assert;
 
+// EditApp.js
 describe("EditApp", function(){
-  var $compile, $rootScope, element;
+  var $compile, $rootScope, element, scope;
   
-  beforeEach(module("ov.edit"));
-  beforeEach(module("ov.i18n"));
+  // Load openveo, authentication and storage modules
+  beforeEach(function(){
+    module("ov.edit");
+    module("ov.i18n");
+  });
   
+  // Dependencies injections
   beforeEach(inject(function(_$compile_, _$rootScope_){
     $rootScope = _$rootScope_;
     $compile = _$compile_;
   }));
-  
+
+  // Prepares scope
+  beforeEach(function(){
+    scope = $rootScope.$new();
+  });
+
+  // ov-form directive
   describe("ov-form directive", function(){
     
-    beforeEach(inject(function(){
-      var scope = $rootScope.$new(); 
+    beforeEach(function(){
       element = angular.element("<form ov-form name='testForm'></form>");
       element = $compile(element)(scope);
       scope.$digest();
-    }));
-    
+    });
+
     it("Should be able to add a new element scope", function(){
       var ovFormController = element.controller("ovForm");
       var formController = element.controller("form");
       var isolateScope = element.isolateScope();
+
       isolateScope.elements = [];
       ovFormController.addElement({ fieldProperty : "propertyValue" }, formController);
       
@@ -35,19 +46,22 @@ describe("EditApp", function(){
 
   });
   
+  // ov-form link service
   describe("ovFormLink service", function(){
-    var ovFormLink, $rootScope;
+    var ovFormLink, formController, isResetElement, isDisplayElement, isEditElement;
 
-    beforeEach(inject(function(_ovFormLink_, _$rootScope_){
-      $rootScope = _$rootScope_;
+    // Dependencies injections
+    beforeEach(inject(function(_ovFormLink_){
       ovFormLink = _ovFormLink_;
     }));
     
+    // Initializes tests
+    beforeEach(function(){
+      formController = {};
+      isResetElement = isDisplayElement = isEditElement = false;
+    });
+
     it("Should be able to cancel all elements edition", function(){
-      var scope = $rootScope.$new();
-      var isResetElement = false;
-      var isDisplayElement = false;
-      
       scope.elements = [{
         resetElement : function(){
           isResetElement = true;
@@ -56,18 +70,16 @@ describe("EditApp", function(){
           isDisplayElement = true;
         }
       }];
-      var formController = {};
+
       ovFormLink(scope, null, null, formController);
       formController.cancelEdition();
-      
+
       assert.isDefined(formController.cancelEdition);
       assert.ok(isResetElement);
       assert.ok(isDisplayElement);
     });
     
     it("Should be able to open all elements edition", function(){
-      var scope = $rootScope.$new();
-      var isEditElement = false;
       
       scope.elements = [{
         editElement : function(){
@@ -75,7 +87,6 @@ describe("EditApp", function(){
         }
       }];
       
-      var formController = {};
       ovFormLink(scope, null, null, formController);
       formController.openEdition();
       
@@ -84,8 +95,6 @@ describe("EditApp", function(){
     });
     
     it("Should be able to close all elements edition", function(){
-      var scope = $rootScope.$new();
-      var isDisplayElement = false;
       
       scope.elements = [{
         displayElement : function(){
@@ -93,7 +102,6 @@ describe("EditApp", function(){
         }
       }];
       
-      var formController = {};
       ovFormLink(scope, null, null, formController);
       formController.closeEdition();
       
@@ -103,20 +111,24 @@ describe("EditApp", function(){
     
   });
   
+  // <ov-editable> directive
   describe("ov-editable directive", function(){
-    var ovEditableLink, $rootScope, rootElement, scope;
+    var ovEditableLink, rootElement, isAddElement;
     
-    beforeEach(inject(function(_ovEditableLink_, _$rootScope_){
-      $rootScope = _$rootScope_;
+    // Dependencies injections
+    beforeEach(inject(function(_ovEditableLink_){
       ovEditableLink = _ovEditableLink_;
-      scope = $rootScope.$new();
+    }));
+
+    // Prepares ov-form element and element data
+    beforeEach(function(){
+      isAddElement = false;
       rootElement = angular.element("<form ov-form name='testForm'></form>");
       rootElement = $compile(rootElement)(scope);
       scope.$digest();
-    }));
+    });
     
     it("Should add the element to the of-form element", function(){
-      var isAddElement = false;
       scope.ovValue = "Text value";
       scope.ovRequired = "true";
       scope.ovType = "text";
@@ -136,7 +148,6 @@ describe("EditApp", function(){
     });  
     
     it("Should display the text version of the element by default", function(){
-      var isAddElement = false;
       scope.ovValue = "Text value";
       scope.ovRequired = "true";
       scope.ovType = "text";
@@ -153,7 +164,6 @@ describe("EditApp", function(){
     });
     
     it("Should be able to edit the element", function(){
-      var isAddElement = false;
       scope.ovValue = "Text value";
       scope.ovRequired = "true";
       scope.ovType = "text";

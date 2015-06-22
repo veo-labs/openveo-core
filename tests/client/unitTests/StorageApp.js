@@ -2,13 +2,16 @@
 
 window.assert = chai.assert;
 
+// StorageApp.js
 describe("StorageApp", function(){
   var storage, provider;
   
+  // Load module storage
   beforeEach(module("ov.storage", function(storageProvider){
     provider = storageProvider;
   }));
   
+  // Dependencies injections
   beforeEach(inject(function(_storage_){
     storage = _storage_;
   }));

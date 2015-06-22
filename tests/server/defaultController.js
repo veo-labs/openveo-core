@@ -1,24 +1,20 @@
 "use strict"
 
-var path = require("path");
+// Module dependencies
 var assert = require("chai").assert;
+var ut = require("openveo-test").generator;
 
-// Set module root directory
-process.root = path.join(__dirname, "../../");
-process.require = function(filePath){
-  return require(path.normalize(process.root + "/" + filePath));
-};
-
-var defaultController = process.require("app/server/controllers/defaultController.js");
-
+// defaultController.js
 describe("defaultController", function(){
-  var request, response;
+  var request, response, defaultController;
   
   before(function(){
+    defaultController = process.require("app/server/controllers/defaultController.js");
     request = { params : {} };
     response = { locals : {} };
   });  
   
+  // defaultAction method
   describe("defaultAction", function(){
 
     it("Should display the main template of the back office", function(done){
@@ -39,6 +35,7 @@ describe("defaultController", function(){
     
   });
   
+  // notFoundAction method
   describe("notFoundAction", function(){
 
     it("Should display the 404 page, with status 404, if client accepts html", function(done){
@@ -94,7 +91,7 @@ describe("defaultController", function(){
       response.type = function(type){
         assert.equal(type, "txt");
         return this;
-      };      
+      };
       
       response.status = function(status){
         assert.equal(status, 404);

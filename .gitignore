@@ -26,5 +26,9 @@ node_modules/*
 !node_modules/openveo-api
 node_modules/openveo-api/node_modules
 
+# Keep openveo-test internal module
+!node_modules/openveo-test
+node_modules/openveo-test/node_modules
+
 # Bower libraries
 public/lib

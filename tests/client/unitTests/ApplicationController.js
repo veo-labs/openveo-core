@@ -2,21 +2,24 @@
 
 window.assert = chai.assert;
 
+// ApplicationController.js
 describe("ApplicationController", function(){
-
-  beforeEach(module("ov"));
-
   var $rootScope, $controller, $httpBackend, $scope, applications, scopes;
 
+  // Load openveo application
+  beforeEach(module("ov"));
+
+  // Dependencies injections
   beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_){
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
     $controller = _$controller_;
-    $scope = $rootScope.$new();
   }));
 
+  // Generates scope and data
   beforeEach(function(){
-     applications = {
+    $scope = $rootScope.$new();
+    applications = {
        data : {
          entities : [
           {
@@ -56,33 +59,29 @@ describe("ApplicationController", function(){
         }
       }
     };
+
+    $controller("ApplicationController", {
+      $scope: $scope,
+      applications : applications,
+      scopes : scopes
+    });
   });
   
+  // Checks if no HTTP request stays without response
   afterEach(function(){
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
   
+  // toggleApplicationDetails method
   describe("toggleApplicationDetails", function(){
     
     it("Should be able to open the application details", function(){
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
-
       $scope.toggleApplicationDetails($scope.applications[0]);
       assert.ok($scope.applications[0].opened);
     });
     
     it("Should not open / close application details if application is saving", function(){
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
-
       $scope.applications[0].saving = true;
       $scope.toggleApplicationDetails($scope.applications[0]);
       assert.notOk($scope.applications[0].opened);
@@ -90,23 +89,19 @@ describe("ApplicationController", function(){
     
   });
   
+  // removeApplication method
   describe("removeApplication", function(){
 
     it("Should be able to remove an application if not saving", function(){
       $httpBackend.when("DELETE", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(200);
       $httpBackend.expectDELETE("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
 
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
-
       $scope.applications[0].saving = true;
       $scope.removeApplication($scope.applications[0]);
 
       $scope.applications[0].saving = false;
       $scope.removeApplication($scope.applications[0]);
+
       $httpBackend.flush();
       assert.equal($scope.applications.length, 0);
     });
@@ -119,29 +114,18 @@ describe("ApplicationController", function(){
         done();
       };
 
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
-
       $scope.removeApplication($scope.applications[0]);
       $httpBackend.flush();
     });
 
   });  
   
+  // saveApplication method
   describe("saveApplication", function(){
 
     it("Should be able to save an application if not already saving", function(done){
       $httpBackend.when("POST", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(200);
       $httpBackend.expectPOST("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
-
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
 
       var form = {
         edition : true,
@@ -157,6 +141,7 @@ describe("ApplicationController", function(){
       $scope.applications[0].saving = false;
       $scope.applications[0].title = "title";
       $scope.saveApplication(form, $scope.applications[0]);
+
       $httpBackend.flush();
     });
 
@@ -168,26 +153,16 @@ describe("ApplicationController", function(){
         done();
       };
 
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
-
       $scope.saveApplication({}, $scope.applications[0]);
       $httpBackend.flush();
     });
 
   });  
   
+  // toggleEdition method
   describe("toggleEdition", function(){
 
     it("Should be able to cancel application edition", function(done){
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
 
       var form = {
         edition : true,
@@ -201,11 +176,6 @@ describe("ApplicationController", function(){
     });
 
     it("Should be able to open application edition", function(done){
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
 
       var form = {
         edition : false,
@@ -221,6 +191,7 @@ describe("ApplicationController", function(){
     
   });    
   
+  // addApplication method
   describe("addApplication", function(){
     
     it("Should be able to add a new application", function(){
@@ -232,26 +203,15 @@ describe("ApplicationController", function(){
             description : "description 1",
             name : "name 1",
             activated : true
-          },
-          scope2 : {
-            description : "description 2",
-            name : "name 2",
-            activated : true
-          }                  
+          }
         },
         secret : "new application secret"
       }});
       $httpBackend.expectPUT("/admin/crud/application");
       
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
-      
       $scope.applicationName = "Application name";
-      
       $scope.addApplication({});
+
       $httpBackend.flush();
       assert.equal($scope.applications.length, 2);
     });
@@ -263,16 +223,10 @@ describe("ApplicationController", function(){
       $rootScope.logout = function(){
         done();
       };
-      
-      $controller("ApplicationController", {
-        $scope: $scope,
-        applications : applications,
-        scopes : scopes
-      });
-      
-      $scope.applicationName = "Application name";   
-      
+
+      $scope.applicationName = "Application name";
       $scope.addApplication({});
+
       $httpBackend.flush();
     });    
 

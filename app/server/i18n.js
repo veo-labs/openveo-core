@@ -57,7 +57,6 @@ module.exports.getTranslations = function(dictionary, code, prefix, callback){
 
     // Iterate through i18n directories
     directoriesFiles.forEach(function(directoryFiles){
-      
       var translationFile, languageFile, defaultTranslationFile;
       
       // Iterate through directory files
