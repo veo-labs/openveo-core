@@ -10,7 +10,8 @@
     "angular-bootstrap": "~0.13.0",
     "angular-datatables": "~0.4.3",
     "angular-ui-tree": "~2.5.0",
-    "bootstrap-sass": "~3.3.5"
+    "bootstrap-sass": "~3.3.5",
+    "multirange": "val-samonte/angular-multirange"
   },
   "devDependencies": {
     "angular-animate": "~1.4.1",

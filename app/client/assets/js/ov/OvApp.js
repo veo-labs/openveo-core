@@ -11,7 +11,8 @@
     "ui.bootstrap",
     "ui.tree",
     "datatables",
-    "ngTouch"
+    "ngTouch",
+    "vds.multirange"
   ];
 
   // Loads all openveo sub plugins as dependencies of the module "ov"
