@@ -44,3 +44,7 @@ build/
 #Sass
 .sass-cache/
 
+#Compiled file
+/public/js/*
+/public/css/*
+
