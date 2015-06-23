@@ -44,7 +44,8 @@
         "/lib/angular-datatables/dist/angular-datatables.min.js",
         "/lib/angular-bootstrap/ui-bootstrap.min.js",
         "/lib/angular-touch/angular-touch.min.js",
-        "/lib/angular-ui-tree/dist/angular-ui-tree.min.js"
+        "/lib/angular-ui-tree/dist/angular-ui-tree.min.js",
+        "/lib/multirange/multirange.js"
       ],
       "dev" : [
         "authentication/AuthenticationApp.js",
@@ -79,6 +80,7 @@
     "cssFiles" : [
       "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
       "/lib/datatables/media/css/jquery.dataTables.min.css",
+      "/lib/multirange/multirange.css",
       "/css/bootstrap.css",
       "/css/style.css"
     ]
