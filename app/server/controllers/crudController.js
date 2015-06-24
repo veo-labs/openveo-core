@@ -19,7 +19,7 @@ module.exports.getEntitiesAction = function(request, response, next){
     if(model){
       model.get(function(error, entities){
         if(error){
-          logger.error(error && error.message);
+          logger.error(error.message);
           response.status(500).send();
         }
         else
@@ -50,7 +50,7 @@ module.exports.getEntityAction = function(request, response, next){
     if(model){
       model.getOne(request.params.id, function(error, entity){
         if(error){
-          logger.error(error && error.message);
+          logger.error(error.message);
           response.status(500).send();
         }
         else
@@ -80,9 +80,9 @@ module.exports.updateEntityAction = function(request, response, next){
     var model = getEntityModel(request.params.type);
     
     if(model){
-      model.update(request.params.id, request.body, function(error){
-        if(error){
-          logger.error(error && error.message);
+      model.update(request.params.id, request.body, function(error, numberOfUpdatedItems){
+        if(error || numberOfUpdatedItems === 0){
+          logger.error((error && error.message) || "Failed to update " + request.params.type + " with id " + request.params.id);
           response.status(500).send();
         }
         else
@@ -113,7 +113,7 @@ module.exports.addEntityAction = function(request, response, next){
     if(model){
       model.add(request.body, function(error, entity){
         if(error){
-          logger.error(error && error.message);
+          logger.error(error.message);
           response.status(500).send();
         }
         else
@@ -142,9 +142,9 @@ module.exports.removeEntityAction = function(request, response, next){
     var model = getEntityModel(request.params.type);
     
     if(model){
-      model.remove(request.params.id, function(error){
-        if(error){
-          logger.error(error && error.message);
+      model.remove(request.params.id, function(error, numberOfRemovedItems){
+        if(error || numberOfRemovedItems === 0){
+          logger.error((error && error.message) || "Failed to remove " + request.params.type + " with id " + request.params.id);
           response.status(500).send();
         }
         else
