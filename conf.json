@@ -33,7 +33,8 @@
         "subMenu" : [
           {
             "label" : "MENU.APPLICATIONS",
-            "path" : "/admin/ws/be/applications"
+            "path" : "/admin/ws/be/applications",
+            "permission" : "read-application"
           }
         ]
       },
@@ -42,11 +43,13 @@
         "subMenu" : [
           {
             "label" : "MENU.USERS",
-            "path" : "/admin/be/users"
+            "path" : "/admin/be/users",
+            "permission" : "read-user"
           },
           {
             "label" : "MENU.ROLES",
-            "path" : "/admin/be/roles"
+            "path" : "/admin/be/roles",
+            "permission" : "read-role"
           }
         ]
       }
