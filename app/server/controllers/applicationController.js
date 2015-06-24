@@ -16,14 +16,19 @@ var logger = winston.loggers.get("openveo");
  * {
  *  "videos" : {
  *    "name" : "Name of the scope",
- *    "description" : "Scope description",
- *    "paths" : [
- *      "scope/path/1"
- *    ]
+ *    "description" : "Scope description"
  *  }
  * }
  */
 module.exports.getScopesAction = function(request, response, next){
   var scopes = applicationStorage.getWebServiceScopes();
-  response.send({ scopes : scopes });
+  var lightScopes = {};
+
+  for(var scopeId in scopes){
+    lightScopes[scopeId] = {
+      name : scopes[scopeId].name,
+      description : scopes[scopeId].description
+    };
+  }
+  response.send({ scopes : lightScopes });
 };
