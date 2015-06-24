@@ -21,7 +21,7 @@ describe("AuthenticationApp", function(){
 
   // Prepares HTTP responses
   beforeEach(function(){
-    $httpBackend.when("POST", /.*/).respond(200, {"username" : "openveo"});
+    $httpBackend.when("POST", /.*/).respond(200, {"email" : "openveo"});
     $httpBackend.when("GET", /.*/).respond(200, "");
   });
 
@@ -33,7 +33,7 @@ describe("AuthenticationApp", function(){
   
   it("Should be able to authenticate a user", function(){
     $httpBackend.expectPOST("/authenticate", {
-      "userName" : "openveo",
+      "email" : "openveo",
       "password" : "openveo"
     });
     
@@ -62,7 +62,7 @@ describe("AuthenticationApp", function(){
 
   it("Should be able to get / set authenticated user information", function(){
     authenticationService.setUserInfo({
-      "userName" : "openveo"
+      "email" : "openveo"
     });
     
     assert.isDefined(authenticationService.getUserInfo());

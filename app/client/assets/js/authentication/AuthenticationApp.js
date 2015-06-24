@@ -29,14 +29,14 @@
 
     /**
      * Signs in using the given credentials.
-     * @param String userName The login
+     * @param String email The email
      * @param String password The password
      * @return HttpPromise The authentication promise
      */
-    var login = function(userName, password){
-      if(userName && password){
+    var login = function(email, password){
+      if(email && password){
         return $http.post("/authenticate", {
-          "userName" : userName,
+          "email" : email,
           "password" : password
         });
       }

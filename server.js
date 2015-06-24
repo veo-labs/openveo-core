@@ -47,6 +47,7 @@ var logger = winston.loggers.get("openveo");
 // Retrieve back office menu and views folders from configuration
 var menu = conf["backOffice"]["menu"] || [];
 var webServiceScopes = conf["webServiceScopes"] || {};
+var permissions = conf["permissions"] || {};
 var entities = {};
 var viewsFolders = [];
 
@@ -217,6 +218,12 @@ async.series([
               webServiceScopes[scopeName] = loadedPlugin.webServiceScopes[scopeName];
           }
 
+          // Found a list of permissions for the plugin
+          if(loadedPlugin.permissions){
+            for(var permissionName in loadedPlugin.permissions)
+              permissions[permissionName] = loadedPlugin.permissions[permissionName];
+          }
+
           // Found a list of entities for the plugin
           if(loadedPlugin.entities){
             for(var type in loadedPlugin.entities)
@@ -242,9 +249,17 @@ async.series([
         // Set views folders for template engine
         app.set("views", viewsFolders);
 
+        // Generate permissions for entities
+        var crudPermissions = generateCRUDPermissions(entities);
+
+        // Add crud permissions to the list of permissions
+        for(var permission in crudPermissions)
+          permissions[permission] = crudPermissions[permission];
+
         applicationStorage.setMenu(menu);
         applicationStorage.setWebServiceScopes(webServiceScopes);
         applicationStorage.setEntities(entities);
+        applicationStorage.setPermissions(permissions);
 
       }
 
@@ -289,4 +304,64 @@ function applyRoutes(routes, router){
       router[route.method](route.path, route.action);
     });
   }
+}
+
+/**
+ * Generates CRUD permissions using entities.
+ * @param Object entities The list of entities
+ * e.g
+ * {
+ *   "application" : "app/server/models/ClientModel"
+ * }
+ * @return Object Permissions for the given entities
+ * e.g.
+ * {
+ *   create-application : {
+ *     name : "PERMISSIONS.CREATE_APPLICATION_NAME",
+ *     description : "PERMISSIONS.CREATE_APPLICATION_DESCRIPTION",
+ *     paths : [ "put /crud/application*" ]
+ *   },
+ *   read-application : {
+ *     name : "PERMISSIONS.READ_APPLICATION_NAME",
+ *     description : "PERMISSIONS.READ_APPLICATION_DESCRIPTION",
+ *     paths : [ "get /crud/application*" ]
+ *   },  
+ *   update-application : {
+ *     name : "PERMISSIONS.UPDATE_APPLICATION_NAME",
+ *     description : "PERMISSIONS.UPDATE_APPLICATION_DESCRIPTION",
+ *     paths : [ "post /crud/application*" ]
+ *   },
+ *   delete-application : {
+ *     name : "PERMISSIONS.DELETE_APPLICATION_NAME",
+ *     description : "PERMISSIONS.DELETE_APPLICATION_DESCRIPTION",
+ *     paths : [ "delete /crud/application*" ]
+ *   }
+ * }
+ */
+function generateCRUDPermissions(entities){
+  var permissions = {};
+
+  if(entities){
+    var operations = {
+      "create" : "put /crud/",
+      "read" : "get /crud/",
+      "update" : "post /crud/",
+      "delete" : "delete /crud/"
+    };
+
+    for(var entityId in entities){
+      var entityIdUpperCase = entityId.toUpperCase();
+
+      for(var operation in operations){
+        var operationUpperCase = operation.toUpperCase();
+        permissions[operation + "-" + entityId] = {
+          name : "PERMISSIONS." + operationUpperCase + "_" + entityIdUpperCase + "_NAME",
+          description : "PERMISSIONS." + operationUpperCase + "_" + entityIdUpperCase + "_DESCRIPTION",
+          paths : [ operations[operation] + entityId + "*" ]
+        };
+      }
+
+    }
+  }
+  return permissions;
 }

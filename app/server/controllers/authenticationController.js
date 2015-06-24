@@ -2,6 +2,8 @@
 
 // Module dependencies
 var passport = require("passport");
+var openVeoAPI = require("openveo-api");
+var applicationStorage = openVeoAPI.applicationStorage;
 
 /**
  * Establishes requests authentication using module passport.
@@ -52,8 +54,29 @@ module.exports.logoutAction = function(request, response, next){
 module.exports.restrictAction = function(request, response, next){
 
   // User is authenticated, keep going
-  if(request.isAuthenticated())
+  if(request.isAuthenticated()){
+
+    // Get requested permission for this request
+    var permission = getPermissionByUrl(request.url, request.method);
+
+    // No particular permission requested : access granted by default
+    if(!permission || !request.user.roles || request.user.id == 0)
       return next();
+
+    // Checks if user has permission on this url
+    // Iterates through user roles to find if requested permission
+    // is part of his privileges
+    for(var i = 0 ; i < request.user.roles.length ; i++){
+      var role = request.user.roles[i];
+
+      // Found permission : access granted
+      if(role.permissions[permission] && role.permissions[permission].activated){
+        return next();
+      }
+
+    }
+
+  }
 
   // Not authenticated
   response.status(401);
@@ -71,6 +94,59 @@ module.exports.restrictAction = function(request, response, next){
   }
   
   // Text content
-  response.type("txt").send("Not authenticated");  
-  
+  response.type("txt").send("Not authenticated");
+
 };
+
+/**
+ * Gets the list of permissions and return it as a JSON object.
+ * Returns a JSON object as :
+ * {
+ *  "readApplications" : {
+ *    "name" : "Name of the permission",
+ *    "description" : "Description of the permission"
+ *  }
+ * }
+ */
+module.exports.getPermissionsAction = function(request, response, next){
+  var permissions = applicationStorage.getPermissions();
+  var lightPermissions = {};
+
+  for(var permissionId in permissions){
+    lightPermissions[permissionId] = {
+       name : permissions[permissionId].name,
+       description : permissions[permissionId].description
+    };
+  }
+
+  response.send({ permissions : lightPermissions });
+};
+
+/**
+ * Retrieves the permission corresponding to the couple url / http method.
+ * @param String url An url
+ * @param String httpMethod The http method (POST, GET, PUT, DELETE)
+ * @return String The permission id if found, null otherwise
+ */
+function getPermissionByUrl(url, httpMethod){
+  var permissions = applicationStorage.getPermissions();
+
+  for(var id in permissions){
+
+    if(permissions[id].paths){
+
+      for(var i = 0 ; i < permissions[id].paths.length ; i++){
+        var pathPattern = permissions[id].paths[i].replace(/\//g, "\\/").replace(/\*/g, ".*");
+        var pattern = new RegExp("^(get|post|delete|put)? ?" + pathPattern.toLowerCase());
+
+        if(pattern.test(httpMethod.toLowerCase() + " " + url))
+          return id;
+
+      }
+
+    }
+
+  }
+
+  return null;
+}

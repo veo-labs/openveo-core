@@ -5,24 +5,26 @@ var passport = require("passport");
 var openVeoAPI = require("openveo-api");
 var LocalStrategy = require("passport-local").Strategy;
 var UserModel = process.require("app/server/models/UserModel.js");
+var RoleModel = process.require("app/server/models/RoleModel.js");
 var applicationStorage = openVeoAPI.applicationStorage;
 
 var userModel = new UserModel();
+var roleModel = new RoleModel();
 
 // Define a passport authentication strategy.
-// "userName" and "password" field must be send using a POST 
+// "email" and "password" field must be send using a POST
 // request to authenticate.
 passport.use(new LocalStrategy(
   {
-    usernameField: "userName",
+    usernameField: "email",
     passwordField: "password"
   },
-  function(username, password, done){
-    userModel.getUserByCredentials(username, password, function(error, user){
+  function(email, password, done){
+    userModel.getUserByCredentials(email, password, function(error, user){
       if(error)
         done(null, false);
       else
-        done(null, user);
+        getUserRoles(user, done);
     });
   }
 ));
@@ -41,6 +43,34 @@ passport.deserializeUser(function(id, done){
     if(error)
       done(null, false);
     else
-      done(null, user);
+      getUserRoles(user, done);
   });
 });
+
+/**
+ * Gets user roles details.
+ * @param Object user The user
+ * @param Function callback Function to call when its done
+ *  - Error An error if something went wrong, null otherwise
+ *  - Object The upgraded user with roles details
+ */
+function getUserRoles(user, callback){
+  
+  // Get user permissions by roles
+  if(user.roles){
+    
+    var ids = [];
+     for(var id in user.roles)
+       ids.push(id);    
+    
+    roleModel.getByIds(ids, function(error, roles){
+      if(error)
+        callback(null, false);
+      else{
+        user.roles = roles;
+        callback(null, user);
+      }
+    });
+  }
+  
+}

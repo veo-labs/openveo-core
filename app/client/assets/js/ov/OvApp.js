@@ -97,6 +97,38 @@
             }]
         }
       });
+    
+      // Register /admin/be/users route with authentication
+      // Also retrieve the list of users and roles
+      ovRouteProvider.when("/admin/be/users", {
+        templateUrl: "views/users.html",
+        controller: "UserController",
+        title: "USERS.PAGE_TITLE",
+        resolve: {
+          users : ["userService", function(userService){
+            return userService.loadUsers();
+          }],
+          roles : ["userService", function(userService){
+            return userService.loadRoles();
+          }]
+        }
+      });
+
+      // Register /admin/be/roles route with authentication
+      // Also retrieve the list of roles and permissions
+      ovRouteProvider.when("/admin/be/roles", {
+        templateUrl: "views/roles.html",
+        controller: "RoleController",
+        title: "ROLES.PAGE_TITLE",
+        resolve: {
+          roles : ["userService", function(userService){
+            return userService.loadRoles();
+          }],
+          permissions : ["userService", function(userService){
+            return userService.loadPermissions();
+          }]
+        }
+      });    
 
       $locationProvider.html5Mode(true);
 

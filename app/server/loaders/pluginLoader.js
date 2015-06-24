@@ -196,6 +196,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
               
               plugin.custom = pluginConf["custom"] || null;
               plugin.webServiceScopes = pluginConf["webServiceScopes"] || null;
+              plugin.permissions = pluginConf["permissions"] || null;
               
               // Got views folders for this plugin
               if(pluginConf["viewsFolders"] && pluginConf["viewsFolders"].length){

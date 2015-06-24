@@ -8,11 +8,11 @@
           
         <div ng-show="onError" class="alert alert-danger ng-hide" role="alert" ng-bind="'ERROR' | translate"></div>
         
-        <div class="form-group" ng-class="{'has-error': loginForm.userName.$invalid && loginForm.$submitted}">
+        <div class="form-group" ng-class="{'has-error': loginForm.userEmail.$invalid && loginForm.$submitted}">
           <label ng-bind="'LOGIN' | translate"></label>
           <div class="input-group">
             <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-            <input type="text" name="userName" class="form-control" placeholder="[['LOGIN_DESCRIPTION' | translate]]" ng-model="userName" ng-model-options="{updateOn: 'blur'}" required>
+            <input type="text" name="userEmail" class="form-control" placeholder="[['LOGIN_DESCRIPTION' | translate]]" ng-model="userEmail" ng-model-options="{updateOn: 'blur'}" required>
           </div>
         </div>
 

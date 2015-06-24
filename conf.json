@@ -10,6 +10,7 @@
       "*" : "app/server/controllers/authenticationController.restrictAction",
       "/getMenu" : "app/server/controllers/menuController.getMenuAction",
       "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getAdminDictionaryAction",
+      "get /permissions" : "app/server/controllers/authenticationController.getPermissionsAction",
       "get /ws/scopes" : "app/server/controllers/applicationController.getScopesAction",
       "get /crud/:type/:id" : "app/server/controllers/crudController.getEntityAction",
       "get /crud/:type" : "app/server/controllers/crudController.getEntitiesAction",
@@ -21,7 +22,9 @@
   },
   "entities" : {
     "application" : "app/server/models/ClientModel",
-    "taxonomy" : "app/server/models/TaxonomyModel"
+    "taxonomy" : "app/server/models/TaxonomyModel",
+    "user" : "app/server/models/UserModel",
+    "role" : "app/server/models/RoleModel"
   },
   "backOffice": {
     "menu" : [
@@ -31,6 +34,19 @@
           {
             "label" : "MENU.APPLICATIONS",
             "path" : "/admin/ws/be/applications"
+          }
+        ]
+      },
+      {
+        "label" : "MENU.PERMISSIONS",
+        "subMenu" : [
+          {
+            "label" : "MENU.USERS",
+            "path" : "/admin/be/users"
+          },
+          {
+            "label" : "MENU.ROLES",
+            "path" : "/admin/be/roles"
           }
         ]
       }
@@ -74,7 +90,10 @@
         "ov/LoginController.js",
         "ov/HomeController.js",
         "ov/ApplicationController.js",
+      	"ov/RoleController.js",
+      	"ov/UserController.js",
         "ov/MenuService.js",
+		"ov/UserService.js",
         "ov/ApplicationService.js"
       ],
       "prod" : [

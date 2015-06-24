@@ -56,7 +56,11 @@ describe("pluginLoader", function(){
         assert.isDefined(loadedPlugin.scriptFiles);
         assert.isArray(loadedPlugin.scriptFiles);          
         assert.isDefined(loadedPlugin.cssFiles);
-        assert.isArray(loadedPlugin.cssFiles);                
+        assert.isArray(loadedPlugin.cssFiles);
+        assert.isDefined(loadedPlugin.webServiceScopes);
+        assert.isObject(loadedPlugin.webServiceScopes);
+        assert.isDefined(loadedPlugin.permissions);
+        assert.isObject(loadedPlugin.permissions);
         assert.equal(loadedPlugin.routes.length, 4);
         assert.equal(loadedPlugin.adminRoutes.length, 6);
         assert.equal(loadedPlugin.webServiceRoutes.length, 6);

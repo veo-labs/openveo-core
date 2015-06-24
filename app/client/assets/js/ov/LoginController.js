@@ -23,12 +23,12 @@
     };
 
     /**
-     * Signs in using the login form information (userName and password).
+     * Signs in using the login form information (userEmail and password).
      * If user successfully signed in, redirect to the back office 
      * home page. Otherwise, set the form as on error.
      */
     $scope.signIn = function(){
-      var loginPromise = authenticationService.login($scope.userName, $scope.password);
+      var loginPromise = authenticationService.login($scope.userEmail, $scope.password);
 
       if(loginPromise){
         loginPromise.then(function(result){
@@ -36,7 +36,7 @@
           $location.path("/admin");
         }, function(error){
           $scope.onError = true;
-          $scope.userName = $scope.password = "";
+          $scope.userEmail = $scope.password = "";
         });
       }
 

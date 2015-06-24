@@ -40,7 +40,7 @@ describe("LoginController", function(){
     });
     
     it("Should set onError property when sign in fails", function(){
-      scope.userName = "openveo";
+      scope.userEmail = "openveo";
       scope.password = "openveo";
       
       $controller("LoginController", {
@@ -55,12 +55,12 @@ describe("LoginController", function(){
 
       // Expect onError to be true
       assert.ok(scope.onError);
-      assert.equal(scope.userName, "");
+      assert.equal(scope.userEmail, "");
       assert.equal(scope.password, "");
     });
     
     it("Should set location to /admin when user successfully signs in", function(){
-      scope.userName = "openveo";
+      scope.userEmail = "openveo";
       scope.password = "openveo";
       
       authRequestHandler.respond(200, "");

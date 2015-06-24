@@ -28,7 +28,6 @@ describe("applicationController", function(){
       response.send = function(data){
         assert.isDefined(data);
         assert.isObject(data.scopes);
-        assert.strictEqual(data.scopes, applicationStorage.getWebServiceScopes());
         done();
       };
 
