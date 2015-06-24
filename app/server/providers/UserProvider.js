@@ -34,7 +34,8 @@ UserProvider.prototype.getUserByCredentials = function(name, password, callback)
  * @param String id The user id
  * @param Function callback Function to call when it's done
  *   - Error The error if an error occurred, null otherwise
- *   - Object The user 
+ *   - Object The user
+ * @Override
  */
 UserProvider.prototype.getOne = function(id, callback){
   this.database.get(this.collection, {"id" : id}, { "password" : 0 }, 1, function(error, data){

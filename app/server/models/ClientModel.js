@@ -81,6 +81,8 @@ ClientModel.prototype.add = function(data, callback){
  * }
  * @param Function callback The function to call when it's done
  *   - Error The error if an error occurred, null otherwise
+ *   - Number The number of updated items
+ * @Override
  */
 ClientModel.prototype.update = function(id, data, callback){
   var client = {};

@@ -24,6 +24,7 @@ util.inherits(TokenModel, openVeoAPI.EntityModel);
  * @param Number ttl The title to live in milliseconds of the token
  * @param Function callback The function to call when it's done
  *   - Error The error if an error occurred, null otherwise
+ * @Override
  */
 TokenModel.prototype.add = function(token, clientId, scopes, ttl, callback){
   this.provider.add({
