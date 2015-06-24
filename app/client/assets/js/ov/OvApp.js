@@ -12,6 +12,7 @@
     "ui.tree",
     "datatables",
     "ngTouch",
+    "formly",
     "vds.multirange"
   ];
 

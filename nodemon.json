@@ -3,7 +3,8 @@
   "ignore": [
     ".git",
     ".sass-cache",
-    "node_modules/**/node_modules"
+    "node_modules/**/node_modules",
+    "node_modules/**/public"
   ],
   "verbose": true,
   "execMap": {

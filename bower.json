@@ -11,10 +11,15 @@
     "angular-datatables": "~0.4.3",
     "angular-ui-tree": "~2.5.0",
     "bootstrap-sass": "~3.3.5",
-    "multirange": "val-samonte/angular-multirange"
+    "multirange": "val-samonte/angular-multirange",
+    "api-check": "~7.5.0",
+    "angular-formly": "~6.15.1"
   },
   "devDependencies": {
     "angular-animate": "~1.4.1",
     "angular-mocks": "~1.4.1"
+  },
+  "resolutions": {
+    "angular": "~1.4.1"
   }
 }
