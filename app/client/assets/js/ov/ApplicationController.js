@@ -73,10 +73,12 @@
       application.saving = true;
       form.saving = true;
       
-      var applicationScopes = angular.copy($scope.scopes);
+      var applicationScopes = {};
       
-      for(var scopeName in applicationScopes){
-        applicationScopes[scopeName].activated = application.scopesValues.indexOf(scopeName) > -1;
+      for(var scopeName in $scope.scopes){
+        applicationScopes[scopeName] = {
+          activated : application.scopesValues.indexOf(scopeName) > -1
+        }
       }
       
 
@@ -123,8 +125,9 @@
       
       // Get selected scopes
       for(var scopeName in $scope.scopes){
-        scopes[scopeName] = {name : scopeName};
-        scopes[scopeName].activated = $scope.scopes[scopeName].activated || false;
+        scopes[scopeName] = {
+          activated : $scope.scopes[scopeName].activated || false
+        };
       }
       
       
