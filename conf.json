@@ -15,11 +15,13 @@
       "get /crud/:type" : "app/server/controllers/crudController.getEntitiesAction",
       "post /crud/:type/:id" : "app/server/controllers/crudController.updateEntityAction",
       "put /crud/:type" : "app/server/controllers/crudController.addEntityAction",
-      "delete /crud/:type/:id" : "app/server/controllers/crudController.removeEntityAction"
+      "delete /crud/:type/:id" : "app/server/controllers/crudController.removeEntityAction",
+      "get /getTaxonomy/:name" : "app/server/controllers/TaxonomyController.getTaxonomyAction"
     }
   },
   "entities" : {
-    "application" : "app/server/models/ClientModel"
+    "application" : "app/server/models/ClientModel",
+    "taxonomy" : "app/server/models/TaxonomyModel"
   },
   "backOffice": {
     "menu" : [

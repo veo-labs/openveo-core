@@ -44,7 +44,7 @@
     $scope.removeApplication = function(application){
       if(!application.saving){
         application.saving = true;
-        applicationService.removeApplication(application.id).success(function(data, status, headers, config){
+        applicationService.removeEntity("application",application.id).success(function(data, status, headers, config){
           var index = 0;
 
           // Look for application index
@@ -78,8 +78,12 @@
       for(var scopeName in applicationScopes){
         applicationScopes[scopeName].activated = application.scopesValues.indexOf(scopeName) > -1;
       }
+      
 
-      applicationService.updateApplication(application.id, application.name, applicationScopes).success(function(data, status, headers, config){
+      applicationService.updateEntity("application", application.id,{
+        name : application.name,
+        scopes : applicationScopes
+      }).success(function(data, status, headers, config){
         application.saving = form.saving = false;
         form.edition = false;
         form.closeEdition();
@@ -123,7 +127,11 @@
         scopes[scopeName].activated = $scope.scopes[scopeName].activated || false;
       }
       
-      applicationService.addApplication($scope.applicationName, scopes).success(function(data, status, headers, config){
+      
+      applicationService.addEntity("application", {
+        name : $scope.applicationName,
+        scopes : scopes
+      }).success(function(data, status, headers, config){
         form.saving = false;
         resetAddForm(form);
         $scope.applications.push(data.entity);

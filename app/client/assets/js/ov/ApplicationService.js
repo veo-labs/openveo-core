@@ -70,50 +70,47 @@
     var destroyApplications = function(){
       applications = null;
     };
-    
-    /**
-     * Adds a new application.
-     * @param String name The name of the application
-     * @param Array scopes The list of application's scopes
-     */
-    var addApplication = function(name, scopes){
-      return $http.put(basePath + "crud/application", {
-        name : name,
-        scopes : scopes
-      });
-    };
 
+     
     /**
-     * Updates application.
-     * @param String id The id of the application to update
-     * @param String name The name of the application
-     * @param Array scopes The list of application's scopes
+     * Adds a new Entity.
+     * @param String entityType Type of entity
+     * @param String data Data object
      */
-    var updateApplication = function(id, name, scopes){
-      return $http.post(basePath + "crud/application/" + id, {
-        name : name,
-        scopes : scopes
-      });
+    var addEntity = function(entityType, data){
+      return $http.put(basePath + "crud/" +entityType, data);
     };
-
     /**
-     * Removes an application.
-     * @param String id The id of the application to remove
+     * Updates Entity.
+     * @param String entityType Type of entity
+     * @param String id The id of the entity to update
+     * @param String data Data object
      * @return HttpPromise The HTTP promise
      */
-    var removeApplication = function(id){
-      return $http.delete(basePath + "crud/application/" + id);
-    };    
+    var updateEntity = function(entityType, id, data){
+      return $http.post(basePath + "crud/" +entityType+'/'+id, data);
+    };
+        /**
+     * Removes an Entity.
+     * @param String entityType Type of entity
+     * @param String id The id of the entity to update
+     * @return HttpPromise The HTTP promise
+     */
+    var removeEntity = function(entityType, id){
+      return $http.delete(basePath + "crud/" +entityType+'/'+id);
+    };  
 
     return{
       loadApplications : loadApplications,
-      removeApplication : removeApplication,
-      loadScopes : loadScopes,
-      getApplications : getApplications,
-      getScopes : getScopes,
       destroyApplications : destroyApplications,
-      addApplication : addApplication,
-      updateApplication : updateApplication
+      getApplications : getApplications,
+      
+      loadScopes : loadScopes,
+      getScopes : getScopes,
+
+      addEntity: addEntity,
+      updateEntity: updateEntity,
+      removeEntity: removeEntity
     };
 
   }
