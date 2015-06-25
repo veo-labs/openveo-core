@@ -8,6 +8,7 @@ var session = require("express-session");
 var passport = require("passport");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
+var jsonPath = require('JSONPath');
 var winston = require("winston");
 var path = require("path");
 var async = require("async");

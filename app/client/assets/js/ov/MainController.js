@@ -4,13 +4,13 @@
   
   app.controller("MainController", MainController);
   MainController.$inject = ["$scope", "$location", "$route", "authenticationService", "menuService", "applicationService", "i18nService", "$window"];
-
+  
   /**
    * Defines the main controller parent of all controllers in the
    * application. All actions not handled in partials are handled
    * by the main controller.
    */
-  function MainController($scope, $location, $route, authenticationService, menuService, applicationService, i18nService, $window){
+  function MainController($scope, $location, $route, authenticationService, menuService, applicationService, i18nService, $window, jsonPath){
     $scope.displayMainMenu = false;
     $scope.isResponsiveMenuOpened = false;
     $scope.languages = i18nService.getLanguages();

@@ -13,7 +13,8 @@
     "datatables",
     "ngTouch",
     "formly",
-    "vds.multirange"
+    "vds.multirange",
+    "ngJSONPath"
   ];
 
   // Loads all openveo sub plugins as dependencies of the module "ov"

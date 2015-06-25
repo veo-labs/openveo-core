@@ -27,6 +27,7 @@
     "test-server-all": "mocha -R spec tests/server/*.js && mocha -R spec node_modules/openveo-*/tests/server/*.js"
   },
   "dependencies": {
+    "JSONPath": "^0.10.0",
     "async": "^0.9.0",
     "body-parser": "^1.10.2",
     "consolidate": "^0.10.0",
