@@ -30,6 +30,7 @@ process.require("app/server/logger.js");
 var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
 var routeLoader = process.require("app/server/loaders/routeLoader.js");
 var entityLoader = process.require("app/server/loaders/entityLoader.js");
+var permissionLoader = process.require("app/server/loaders/permissionLoader.js");
 var defaultController = process.require("app/server/controllers/defaultController.js");
 var oAuthController = process.require("app/server/controllers/oAuthController.js");
 
@@ -47,7 +48,7 @@ var logger = winston.loggers.get("openveo");
 // Retrieve back office menu and views folders from configuration
 var menu = conf["backOffice"]["menu"] || [];
 var webServiceScopes = conf["webServiceScopes"] || {};
-var permissions = conf["permissions"] || {};
+var permissions = conf["permissions"] || [];
 var entities = {};
 var viewsFolders = [];
 
@@ -218,17 +219,15 @@ async.series([
               webServiceScopes[scopeName] = loadedPlugin.webServiceScopes[scopeName];
           }
 
-          // Found a list of permissions for the plugin
-          if(loadedPlugin.permissions){
-            for(var permissionName in loadedPlugin.permissions)
-              permissions[permissionName] = loadedPlugin.permissions[permissionName];
-          }
-
           // Found a list of entities for the plugin
           if(loadedPlugin.entities){
             for(var type in loadedPlugin.entities)
               entities[type] = new loadedPlugin.entities[type]();
           }
+
+          // Found a list of permissions for the plugin
+          if(loadedPlugin.permissions)
+            permissions = permissions.concat(loadedPlugin.permissions);
 
           logger.info("Plugin " + loadedPlugin.name + " successfully loaded");
           
@@ -250,16 +249,15 @@ async.series([
         app.set("views", viewsFolders);
 
         // Generate permissions for entities
-        var crudPermissions = generateCRUDPermissions(entities);
+        var crudPermissions = permissionLoader.generateCRUDPermissions(entities);
 
         // Add crud permissions to the list of permissions
-        for(var permission in crudPermissions)
-          permissions[permission] = crudPermissions[permission];
+        permissions = crudPermissions.concat(permissions);
 
         applicationStorage.setMenu(menu);
         applicationStorage.setWebServiceScopes(webServiceScopes);
         applicationStorage.setEntities(entities);
-        applicationStorage.setPermissions(permissions);
+        applicationStorage.setPermissions(permissionLoader.groupOrphanedPermissions(permissions));
 
       }
 
@@ -304,64 +302,4 @@ function applyRoutes(routes, router){
       router[route.method](route.path, route.action);
     });
   }
-}
-
-/**
- * Generates CRUD permissions using entities.
- * @param Object entities The list of entities
- * e.g
- * {
- *   "application" : "app/server/models/ClientModel"
- * }
- * @return Object Permissions for the given entities
- * e.g.
- * {
- *   create-application : {
- *     name : "PERMISSIONS.CREATE_APPLICATION_NAME",
- *     description : "PERMISSIONS.CREATE_APPLICATION_DESCRIPTION",
- *     paths : [ "put /crud/application*" ]
- *   },
- *   read-application : {
- *     name : "PERMISSIONS.READ_APPLICATION_NAME",
- *     description : "PERMISSIONS.READ_APPLICATION_DESCRIPTION",
- *     paths : [ "get /crud/application*" ]
- *   },  
- *   update-application : {
- *     name : "PERMISSIONS.UPDATE_APPLICATION_NAME",
- *     description : "PERMISSIONS.UPDATE_APPLICATION_DESCRIPTION",
- *     paths : [ "post /crud/application*" ]
- *   },
- *   delete-application : {
- *     name : "PERMISSIONS.DELETE_APPLICATION_NAME",
- *     description : "PERMISSIONS.DELETE_APPLICATION_DESCRIPTION",
- *     paths : [ "delete /crud/application*" ]
- *   }
- * }
- */
-function generateCRUDPermissions(entities){
-  var permissions = {};
-
-  if(entities){
-    var operations = {
-      "create" : "put /crud/",
-      "read" : "get /crud/",
-      "update" : "post /crud/",
-      "delete" : "delete /crud/"
-    };
-
-    for(var entityId in entities){
-      var entityIdUpperCase = entityId.toUpperCase();
-
-      for(var operation in operations){
-        var operationUpperCase = operation.toUpperCase();
-        permissions[operation + "-" + entityId] = {
-          name : "PERMISSIONS." + operationUpperCase + "_" + entityIdUpperCase + "_NAME",
-          description : "PERMISSIONS." + operationUpperCase + "_" + entityIdUpperCase + "_DESCRIPTION",
-          paths : [ operations[operation] + entityId + "*" ]
-        };
-      }
-
-    }
-  }
-  return permissions;
 }

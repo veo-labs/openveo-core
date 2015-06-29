@@ -36,6 +36,12 @@
     "DELETE_ROLE_NAME" : "Supprimer les rôles",
     "DELETE_ROLE_DESCRIPTION" : "Supprimer les rôles et leurs permissions",
     "ACCESS_APPLICATION_PAGE_NAME" : "Accés à la page des applications",
+    "GROUP_OTHERS" : "Autres permissions",
+    "GROUP_APPLICATION" : "Web Service",
+    "GROUP_USER" : "Utilisateurs",
+    "GROUP_ROLE" : "Rôles",
+    "GROUP_PROPERTY" : "Propriétés",
+    "GROUP_VIDEO" : "Vidéos"
   },
   "HOME" : {
     "PAGE_TITLE" : "Openveo - Accueil",

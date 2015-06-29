@@ -111,11 +111,10 @@
        
     },
     "cssFiles" : [
-      "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
-      "/lib/datatables/media/css/jquery.dataTables.min.css",
-      "/lib/multirange/multirange.css",
-      "/css/bootstrap.css",
-      "/css/style.css"
+      "/lib/bootstrap/dist/css/bootstrap.min.css",
+      "/css/common.css",
+      "/css/login.css",
+      "/css/roles.css"
     ]
   },
   "viewsFolders" : [

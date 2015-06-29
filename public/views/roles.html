@@ -38,8 +38,28 @@
               <li class="form-inline">
                 <div class="form-group">
                   <label class="label label-default control-label" ng-bind="'ROLES.ATTR_PERMISSIONS' | translate"></label>
-                  <ov-editable ov-name="permissions" ov-options="permissionsOptions" ov-value="role.permissionsValues" ov-type="checkbox" ov-required="false" ov-disabled="editForm.saving" ng-class="{'has-error': editForm.permissions.$invalid && editForm.$submitted}">
-                  </ov-editable>
+
+                  <div ng-repeat="permission in role.permissionsValues" ng-include="'rolePermissionsGroup'"></div>
+                  <script type="text/ng-template" id="rolePermissionsGroup">
+
+                    <div ng-if="permission.options && permission.values">
+                      <div class="panel panel-primary">
+                        <div class="panel-heading" ng-bind="permission.label | translate"></div>
+                        <div class="panel-body">
+                          <ov-editable ov-name="permissions" ov-options="permission.options" ov-value="permission.values" ov-type="checkbox" ov-required="false" ov-disabled="editForm.saving" ng-class="{'has-error': editForm.permissions.$invalid && editForm.$submitted}"></ov-editable> 
+
+                          <div ng-if="permission.permissions && permission.values">
+                            <div ng-repeat="permission in permission.permissions" ng-include="'rolePermissionsGroup'"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div ng-if="permission.permissions && !permission.values">
+                      <div ng-repeat="permission in permission.permissions" ng-include="'rolePermissionsGroup'"></div>
+                    </div>
+
+                  </script>
                 </div>
               </li>
               
@@ -63,24 +83,47 @@
   <hr/>
   
   <div class="row">
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-12 col-sm-12">
       <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span ng-bind="'ROLES.ADD_ROLE' | translate"></span></h4>
       <form class="form-horizontal" name="addForm" ng-submit="addForm.$valid && addRole(addForm)" novalidate>
         
-        <div class="form-group" ng-class="{'has-error': addForm.roleName.$invalid && addForm.$submitted}">
-          <label for="roleName" ng-bind="'ROLES.FORM_ADD_NAME' | translate"></label>
-          <input type="text" name="roleName" class="has-error form-control" id="roleName" placeholder="[['ROLES.FORM_ADD_NAME' | translate]]" ng-model="roleName" ng-disabled="addForm.saving" required>
-          <small><em ng-bind="'ROLES.FORM_ADD_NAME_DESC' | translate"></em></small>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <div class="form-group" ng-class="{'has-error': addForm.roleName.$invalid && addForm.$submitted}">
+              <label for="roleName" ng-bind="'ROLES.FORM_ADD_NAME' | translate"></label>
+              <input type="text" name="roleName" class="has-error form-control" id="roleName" placeholder="[['ROLES.FORM_ADD_NAME' | translate]]" ng-model="roleName" ng-disabled="addForm.saving" required>
+              <small><em ng-bind="'ROLES.FORM_ADD_NAME_DESC' | translate"></em></small>
+            </div>
+          </div>
         </div>
         
         <div class="form-group">
           <label ng-bind="'ROLES.FORM_ADD_PERMISSIONS' | translate"></label>
+
+          <div ng-repeat="permission in addRolePermissions" ng-include="'permissionGroup'"></div>
           
-          <div>
-            <label ng-repeat="(permissionName, permission) in permissions" class="checkbox-inline">
-              <input type="checkbox" name="rolePermissions" id="rolePermissions" ng-disabled="addForm.saving" ng-model="permission.activated"> <span ng-bind="permission.name | translate"></span>
-            </label>
-          </div>
+          <script type="text/ng-template" id="permissionGroup">
+
+            <div ng-if="permission.options && permission.values">
+              <div class="panel panel-primary">
+                <div class="panel-heading" ng-bind="permission.label | translate"></div>
+                <div class="panel-body">
+                  <label ng-repeat="option in permission.options" class="checkbox-inline">
+                    <input type="checkbox" name="rolePermissions" ng-disabled="addForm.saving" ng-model="option.activated"> <span ng-bind="option.label | translate"></span>
+                  </label>
+
+                  <div ng-if="permission.permissions && permission.values">
+                    <div ng-repeat="permission in permission.permissions" ng-include="'permissionGroup'"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div ng-if="permission.permissions && !permission.values">
+              <div ng-repeat="permission in permission.permissions" ng-include="'permissionGroup'"></div>
+            </div>
+
+          </script>
           
           <div>
             <small><em ng-bind="'ROLES.FORM_ADD_PERMISSIONS_DESC' | translate"></em></small>

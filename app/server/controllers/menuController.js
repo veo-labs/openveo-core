@@ -126,8 +126,11 @@ function isAuthorized(user, permission){
     for(var i = 0 ; i < user.roles.length ; i++){
       var role = user.roles[i];
 
-      if(role.permissions[permission] && role.permissions[permission].activated)
-        return true;
+      for(var j = 0 ; j < role.permissions.length ; j++){
+        if(role.permissions[j].id === permission && role.permissions[j].activated)
+          return true;
+      }
+
     }
 
   }

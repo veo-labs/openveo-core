@@ -54,28 +54,32 @@ module.exports.logoutAction = function(request, response, next){
 module.exports.restrictAction = function(request, response, next){
   var httpErrorCode = 401;
 
-  // User is authenticated, keep going
+  // User is authenticated
   if(request.isAuthenticated()){
     httpErrorCode = 403;
 
     // Get requested permission for this request
-    var permission = getPermissionByUrl(request.url, request.method);
+    var permission = getPermissionByUrl(applicationStorage.getPermissions(), request.url, request.method);
 
     // No particular permission requested : access granted by default
-    if(!permission || !request.user.roles || request.user.id == 0)
+    // Also always grant access to primary user 0
+    if(!permission || request.user.id == 0)
       return next();
 
     // Checks if user has permission on this url
     // Iterates through user roles to find if requested permission
     // is part of his privileges
-    for(var i = 0 ; i < request.user.roles.length ; i++){
-      var role = request.user.roles[i];
+    if(request.user.roles){
+      for(var i = 0 ; i < request.user.roles.length ; i++){
+        var role = request.user.roles[i];
 
-      // Found permission : access granted
-      if(role.permissions[permission] && role.permissions[permission].activated){
-        return next();
+        // Found permission : access granted
+        for(var j = 0 ; j < role.permissions.length ; j++){
+          if(role.permissions[j].id === permission && role.permissions[j].activated)
+            return next();
+        }
+
       }
-
     }
 
   }
@@ -101,51 +105,73 @@ module.exports.restrictAction = function(request, response, next){
 };
 
 /**
- * Gets the list of permissions and return it as a JSON object.
+ * Gets the tree of groups / permissions and return it as a JSON object.
  * Returns a JSON object as :
- * {
- *  "readApplications" : {
- *    "name" : "Name of the permission",
- *    "description" : "Description of the permission"
+ * [
+ *  {
+ *    "label" : "Permissions group",
+ *    "permissions" : [
+ *      {
+ *        "id" : "perm-1",
+ *        "name" : "Name of the permission",
+ *        "description" : "Description of the permission"
+ *      }
+ *      ...
+ *    ]
  *  }
- * }
+ *  ...
+ * ]
  */
 module.exports.getPermissionsAction = function(request, response, next){
   var permissions = applicationStorage.getPermissions();
-  var lightPermissions = {};
-
-  for(var permissionId in permissions){
-    lightPermissions[permissionId] = {
-       name : permissions[permissionId].name,
-       description : permissions[permissionId].description
-    };
-  }
-
-  response.send({ permissions : lightPermissions });
+  response.send({ permissions : permissions });
 };
 
 /**
- * Retrieves the permission corresponding to the couple url / http method.
+ * Retrieves, recursively, the permission corresponding to the
+ * couple url / http method.
+ * @param Object permissions The tree of permissions
+ * e.g.
+ * [
+ *  {
+ *    "label" : "Permissions group",
+ *    "permissions" : [
+ *      {
+ *        "id" : "perm-1",
+ *        "name" : "Name of the permission",
+ *        "description" : "Description of the permission"
+ *      }
+ *      ...
+ *    ]
+ *  }
+ *  ...
+ * ]
  * @param String url An url
  * @param String httpMethod The http method (POST, GET, PUT, DELETE)
  * @return String The permission id if found, null otherwise
  */
-function getPermissionByUrl(url, httpMethod){
-  var permissions = applicationStorage.getPermissions();
+function getPermissionByUrl(permissions, url, httpMethod){
+  for(var i = 0 ; i < permissions.length ; i++){
 
-  for(var id in permissions){
+    // Single permission
+    if(permissions[i].id){
+      if(permissions[i].paths){
+        for(var j = 0 ; j < permissions[i].paths.length ; j++){
+          var pathPattern = permissions[i].paths[j].replace(/\//g, "\\/").replace(/\*/g, ".*");
+          var pattern = new RegExp("^(get|post|delete|put)? ?" + pathPattern.toLowerCase());
 
-    if(permissions[id].paths){
-
-      for(var i = 0 ; i < permissions[id].paths.length ; i++){
-        var pathPattern = permissions[id].paths[i].replace(/\//g, "\\/").replace(/\*/g, ".*");
-        var pattern = new RegExp("^(get|post|delete|put)? ?" + pathPattern.toLowerCase());
-
-        if(pattern.test(httpMethod.toLowerCase() + " " + url))
-          return id;
-
+          if(pattern.test(httpMethod.toLowerCase() + " " + url))
+            return permissions[i].id;
+        }
       }
+    }
 
+    // Group of permissions
+    else if(permissions[i].label){
+      var permissionId = getPermissionByUrl(permissions[i].permissions, url, httpMethod);
+
+      if(permissionId)
+        return permissionId;
     }
 
   }

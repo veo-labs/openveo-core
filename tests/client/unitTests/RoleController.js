@@ -4,7 +4,7 @@ window.assert = chai.assert;
 
 // RoleController.js
 describe("RoleController", function(){
-  var $rootScope, $controller, $httpBackend, $scope, roles, permissions;
+  var $rootScope, $controller, $httpBackend, scope, roles, permissions;
 
   // Load openveo application
   beforeEach(module("ov"));
@@ -18,21 +18,23 @@ describe("RoleController", function(){
 
   // Generates scope and data
   beforeEach(function(){
-    $scope = $rootScope.$new();
+    scope = $rootScope.$new();
     roles = {
        data : {
          entities : [
           {
             id : "146574894654",
             name : "Example",
-            permissions : {
-              perm1 : {
+            permissions : [
+              {
+                id : "perm1",
                 activated : true
               },
-              perm2 : {
+              {
+                id : "perm2",
                 activated : true
-              }                  
-            }
+              }
+            ]
           }
         ]
       }
@@ -40,23 +42,41 @@ describe("RoleController", function(){
 
     permissions = {
       data : {
-        permissions : {
-          perm1 : {
-            description : "description 1",
-            name : "name 1",
-            activated : true
-          },
-          perm2 : {
-            description : "description 2",
-            name : "name 2",
-            activated : true
+        permissions : [
+          {
+            label : "Group label",
+            permissions : [
+              {
+                id : "perm1",
+                description : "description 1",
+                name : "name 1",
+                activated : true
+              },
+              {
+                id : "perm2",
+                description : "description 2",
+                name : "name 2",
+                activated : true
+              },
+              {
+                label : "Group 2 label",
+                permissions : [
+                  {
+                    id : "perm3",
+                    description : "description 3",
+                    name : "name 3",
+                    activated : true
+                  }
+                ]
+              }
+            ]
           }
-        }
+        ]
       }
     };
 
     $controller("RoleController", {
-      $scope: $scope,
+      $scope: scope,
       roles : roles,
       permissions : permissions
     });
@@ -72,14 +92,14 @@ describe("RoleController", function(){
   describe("toggleRoleDetails", function(){
     
     it("Should be able to open the role details", function(){
-      $scope.toggleRoleDetails($scope.roles[0]);
-      assert.ok($scope.roles[0].opened);
+      scope.toggleRoleDetails(scope.roles[0]);
+      assert.ok(scope.roles[0].opened);
     });
     
     it("Should not open / close role details if role is saving", function(){
-      $scope.roles[0].saving = true;
-      $scope.toggleRoleDetails($scope.roles[0]);
-      assert.notOk($scope.roles[0].opened);
+      scope.roles[0].saving = true;
+      scope.toggleRoleDetails(scope.roles[0]);
+      assert.notOk(scope.roles[0].opened);
     });
     
   });
@@ -91,14 +111,14 @@ describe("RoleController", function(){
       $httpBackend.when("DELETE", "/admin/crud/role/146574894654").respond(200);
       $httpBackend.expectDELETE("/admin/crud/role/146574894654");
 
-      $scope.roles[0].saving = true;
-      $scope.removeRole($scope.roles[0]);
+      scope.roles[0].saving = true;
+      scope.removeRole(scope.roles[0]);
 
-      $scope.roles[0].saving = false;
-      $scope.removeRole($scope.roles[0]);
+      scope.roles[0].saving = false;
+      scope.removeRole(scope.roles[0]);
 
       $httpBackend.flush();
-      assert.equal($scope.roles.length, 0);
+      assert.equal(scope.roles.length, 0);
     });
 
     it("Should logout user if a 401 is returned by the server", function(done){
@@ -109,7 +129,7 @@ describe("RoleController", function(){
         done();
       };
 
-      $scope.removeRole($scope.roles[0]);
+      scope.removeRole(scope.roles[0]);
       $httpBackend.flush();
     });
 
@@ -130,12 +150,12 @@ describe("RoleController", function(){
         }
       };
 
-      $scope.roles[0].saving = true;
-      $scope.saveRole(form, $scope.roles[0]);
+      scope.roles[0].saving = true;
+      scope.saveRole(form, scope.roles[0]);
 
-      $scope.roles[0].saving = false;
-      $scope.roles[0].title = "title";
-      $scope.saveRole(form, $scope.roles[0]);
+      scope.roles[0].saving = false;
+      scope.roles[0].title = "title";
+      scope.saveRole(form, scope.roles[0]);
 
       $httpBackend.flush();
     });
@@ -148,7 +168,7 @@ describe("RoleController", function(){
         done();
       };
 
-      $scope.saveRole({}, $scope.roles[0]);
+      scope.saveRole({}, scope.roles[0]);
       $httpBackend.flush();
     });
 
@@ -167,7 +187,7 @@ describe("RoleController", function(){
         }
       };
 
-      $scope.cancelEdition(form);
+      scope.cancelEdition(form);
     });
 
     it("Should be able to open role edition", function(done){
@@ -180,7 +200,7 @@ describe("RoleController", function(){
         }
       };
 
-      $scope.openEdition(form);
+      scope.openEdition(form);
 
     });
     
@@ -203,11 +223,11 @@ describe("RoleController", function(){
       }});
       $httpBackend.expectPUT("/admin/crud/role");
       
-      $scope.roleName = "Role name";
-      $scope.addRole({});
+      scope.roleName = "Role name";
+      scope.addRole({});
 
       $httpBackend.flush();
-      assert.equal($scope.roles.length, 2);
+      assert.equal(scope.roles.length, 2);
     });
     
     it("Should logout user if a 401 is returned by the server", function(done){
@@ -218,12 +238,35 @@ describe("RoleController", function(){
         done();
       };
 
-      $scope.roleName = "Role name";
-      $scope.addRole({});
+      scope.roleName = "Role name";
+      scope.addRole({});
 
       $httpBackend.flush();
     });
 
   });  
   
+  // prepareRolesPermissions method
+  describe("prepareRolesPermissions", function(){
+
+    it("Should prepare the list of permissions for add form", function(){
+      assert.isArray(scope.addRolePermissions);
+      assert.equal(scope.addRolePermissions[0].label, scope.permissions[0].label);
+      assert.isArray(scope.addRolePermissions[0].options);
+      assert.isArray(scope.addRolePermissions[0].values);
+    });
+
+  });
+
+  it("Should prepare the list of permissions for each role", function(){
+      assert.isArray(scope.roles[0].permissionsValues);
+      assert.equal(scope.roles[0].permissionsValues[0].label, scope.permissions[0].label);
+      assert.isArray(scope.roles[0].permissionsValues[0].options);
+      assert.isArray(scope.roles[0].permissionsValues[0].values);
+      assert.equal(scope.roles[0].permissionsValues[0].values[0], "perm1");
+      assert.equal(scope.roles[0].permissionsValues[0].values[1], "perm2");
+      assert.isArray(scope.roles[0].permissionsValues[0].permissions);
+      assert.isArray(scope.roles[0].permissionsValues[0].permissions[0].values);
+  });
+
 });

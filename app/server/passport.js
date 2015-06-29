@@ -60,8 +60,9 @@ function getUserRoles(user, callback){
   if(user.roles){
     
     var ids = [];
-     for(var id in user.roles)
-       ids.push(id);    
+    for(var id in user.roles)
+      if(user.roles[id].activated)
+        ids.push(id);
     
     roleModel.getByIds(ids, function(error, roles){
       if(error)

@@ -27,7 +27,7 @@ describe("authenticationController", function(){
       response.status = function(status){return this;};
       response.send = function(data){
         assert.isDefined(data);
-        assert.isObject(data.permissions);
+        assert.isArray(data.permissions);
         done();
       };
 
@@ -66,7 +66,7 @@ describe("authenticationController", function(){
     });
     
     it("Should grant access to user with the right permission", function(done){
-      request = { 
+      request = {
         method : "GET",
         url : "/crud/application",
         params : {},
@@ -74,11 +74,12 @@ describe("authenticationController", function(){
           id : 1,
           roles: [
             {
-              permissions : {
-                perm1 : {
+              permissions : [
+                {
+                  id : "perm1",
                   activated : true 
                 }
-              }
+              ]
             }
           ]
         },
