@@ -39,7 +39,7 @@
         ]
       },
       {
-        "label" : "MENU.PERMISSIONS",
+        "label" : "MENU.RIGHTS",
         "subMenu" : [
           {
             "label" : "MENU.USERS",
