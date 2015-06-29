@@ -52,9 +52,11 @@ module.exports.logoutAction = function(request, response, next){
  * If not send back an HTTP code 401 with appropriate page.
  */
 module.exports.restrictAction = function(request, response, next){
+  var httpErrorCode = 401;
 
   // User is authenticated, keep going
   if(request.isAuthenticated()){
+    httpErrorCode = 403;
 
     // Get requested permission for this request
     var permission = getPermissionByUrl(request.url, request.method);
@@ -79,22 +81,22 @@ module.exports.restrictAction = function(request, response, next){
   }
 
   // Not authenticated
-  response.status(401);
+  response.status(httpErrorCode);
   
   // HTML content
   if(request.accepts("html")){
-    response.render("401");  
-    return; 
+    response.render(httpErrorCode);
+    return;
   }
   
   // JSON content
   if(request.accepts("json")){
-    response.send({ error: "Not authenticated" });
+    response.send({ error: httpErrorCode });
     return;
   }
   
   // Text content
-  response.type("txt").send("Not authenticated");
+  response.type("txt").send(httpErrorCode);
 
 };
 
