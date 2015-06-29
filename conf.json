@@ -26,6 +26,12 @@
     "user" : "app/server/models/UserModel",
     "role" : "app/server/models/RoleModel"
   },
+  "permissions" : [
+    {
+      "id" : "access-application-page",
+      "name" : "PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME"
+    }
+  ],
   "backOffice": {
     "menu" : [
       {
@@ -34,7 +40,7 @@
           {
             "label" : "MENU.APPLICATIONS",
             "path" : "/admin/ws/be/applications",
-            "permission" : "read-application"
+            "permission" : "access-application-page"
           }
         ]
       },

@@ -34,7 +34,8 @@
     "UPDATE_ROLE_NAME" : "Edit roles",
     "UPDATE_ROLE_DESCRIPTION" : "Edit roles with permissions",
     "DELETE_ROLE_NAME" : "Remove roles",
-    "DELETE_ROLE_DESCRIPTION" : "Remove roles with permissions"
+    "DELETE_ROLE_DESCRIPTION" : "Remove roles with permissions",
+    "ACCESS_APPLICATION_PAGE_NAME" : "Access applications page",
   },
   "HOME" : {
     "PAGE_TITLE" : "Openveo - Home",
