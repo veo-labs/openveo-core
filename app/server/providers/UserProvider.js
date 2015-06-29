@@ -30,6 +30,19 @@ UserProvider.prototype.getUserByCredentials = function(email, password, callback
 };
 
 /**
+ * Gets a user by its email.
+ * @param String email The email of the user
+ * @param Function callback Function to call when it's done
+ *   - Error The error if an error occurred, null otherwise
+ *   - Object The user
+ */
+UserProvider.prototype.getUserByEmail = function(email, callback){
+  this.database.get(this.collection, { "email" : email }, { "password" : 0 }, 1, function(error, data){
+    callback(error, data && data[0]);
+  });
+};
+
+/**
  * Gets a list of users.
  * It's not possible to get locked users as part of the results.
  * @param Function callback The function to call when it's done

@@ -89,13 +89,13 @@
         
         <div class="form-group" ng-class="{'has-error': addForm.userPassword.$invalid && addForm.$submitted}">
           <label for="userPassword" ng-bind="'USERS.FORM_ADD_PASSWORD' | translate"></label>
-          <input type="text" name="userPassword" class="has-error form-control" id="userPassword" placeholder="[['USERS.FORM_ADD_PASSWORD' | translate]]" ng-model="userPassword" ng-disabled="addForm.saving" required>
+          <input type="password" name="userPassword" class="has-error form-control" id="userPassword" placeholder="[['USERS.FORM_ADD_PASSWORD' | translate]]" ng-model="userPassword" ng-disabled="addForm.saving" required>
           <small><em ng-bind="'USERS.FORM_ADD_PASSWORD_DESC' | translate"></em></small>
         </div>
         
         <div class="form-group" ng-class="{'has-error': addForm.userPasswordValidate.$invalid && addForm.$submitted}">
           <label for="userPasswordValidate" ng-bind="'USERS.FORM_ADD_PASSWORD_VALIDATE' | translate"></label>
-          <input type="text" name="userPasswordValidate" class="has-error form-control" id="userPasswordValidate" placeholder="[['USERS.FORM_ADD_PASSWORD_VALIDATE' | translate]]" ng-model="userPasswordValidate" ng-disabled="addForm.saving" required>
+          <input type="password" name="userPasswordValidate" class="has-error form-control" id="userPasswordValidate" placeholder="[['USERS.FORM_ADD_PASSWORD_VALIDATE' | translate]]" ng-model="userPasswordValidate" ng-disabled="addForm.saving" required>
           <small><em ng-bind="'USERS.FORM_ADD_PASSWORD_VALIDATE_DESC' | translate"></em></small>
         </div>
         

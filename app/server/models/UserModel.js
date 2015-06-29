@@ -52,6 +52,8 @@ UserModel.prototype.getUserByCredentials = function(email, password, callback){
  * @Override
  */
 UserModel.prototype.add = function(data, callback){
+  var self = this;
+
   if(!data.name || !data.email || !data.password){
     callback(new Error("Requires name, email and password to add a user"));
     return;
@@ -63,20 +65,36 @@ UserModel.prototype.add = function(data, callback){
     return;
   }
 
-  // Encrypt password
-  password = crypto.createHmac("sha256", hashKey).update(data.password).digest("hex");
+  // Validate email
+  if(!(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(data.email))){
+    callback(new Error("Invalid email address"));
+    return;
+  }
 
-  // Build user object
-  var user = {
-    id : Date.now().toString(),
-    name : data.name,
-    email : data.email,
-    password : password
-  };
-  if(data.roles) user["roles"] = data.roles;
+  // Verify if the email address is not already used
+  this.provider.getUserByEmail(data.email, function(error, user){
+    if(error || user)
+      callback(new Error("Email not available"));
+    else{
 
-  this.provider.add(user, function(error){
-    delete user["password"];
-    callback(error, user);
+      // Encrypt password
+      password = crypto.createHmac("sha256", hashKey).update(data.password).digest("hex");
+
+      // Build user object
+      var user = {
+        id : Date.now().toString(),
+        name : data.name,
+        email : data.email,
+        password : password
+      };
+      if(data.roles) user["roles"] = data.roles;
+
+      self.provider.add(user, function(error){
+        delete user["password"];
+        callback(error, user);
+      });
+
+    }
   });
+
 };
