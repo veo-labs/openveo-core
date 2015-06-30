@@ -3,12 +3,12 @@
   "use strict"
 
   app.controller("ApplicationController", ApplicationController);
-  ApplicationController.$inject = ["$scope", "applicationService", "applications", "scopes"];
+  ApplicationController.$inject = ["$scope", "entityService", "applications", "scopes"];
 
   /**
    * Defines the applications controller for the applications page.
    */
-  function ApplicationController($scope, applicationService, applications, scopes){
+  function ApplicationController($scope, entityService, applications, scopes){
     $scope.applications = applications.data.entities;
     $scope.scopes = scopes.data.scopes;
     $scope.scopesOptions = [];
@@ -44,7 +44,7 @@
     $scope.removeApplication = function(application){
       if(!application.saving){
         application.saving = true;
-        applicationService.removeEntity("application",application.id).success(function(data, status, headers, config){
+        entityService.removeEntity("application", application.id).success(function(data, status, headers, config){
           var index = 0;
 
           // Look for application index
@@ -82,7 +82,7 @@
       }
       
 
-      applicationService.updateEntity("application", application.id,{
+      entityService.updateEntity("application", application.id,{
         name : application.name,
         scopes : applicationScopes
       }).success(function(data, status, headers, config){
@@ -131,7 +131,7 @@
       }
       
       
-      applicationService.addEntity("application", {
+      entityService.addEntity("application", {
         name : $scope.applicationName,
         scopes : scopes
       }).success(function(data, status, headers, config){

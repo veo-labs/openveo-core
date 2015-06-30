@@ -40,48 +40,6 @@ describe("ApplicationService", function(){
     $httpBackend.expectGET("/admin/ws/scopes");
     applicationService.loadScopes();
     $httpBackend.flush();
-  });  
-  
-  it("Should be able to ask server to remove an application", function(){
-    $httpBackend.when("GET", /.*/).respond(200, "");
-    $httpBackend.expectDELETE("/admin/crud/application/1");
-    applicationService.removeApplication(1);
-    $httpBackend.flush();
-  });
-
-  it("Should be able to ask server to add a new application", function(){
-    $httpBackend.when("GET", /.*/).respond(200, "");
-    var application = {
-      name : "Example",
-      scopes : {
-        scope1 : {
-          description : "description 1",
-          name : "name 1",
-          activated : true
-        }
-      }
-    };
-    $httpBackend.expectPUT("/admin/crud/application", application);
-
-    applicationService.addApplication(application.name, application.scopes);
-    $httpBackend.flush();
-  });  
-  
-  it("Should be able to ask server to update an application", function(){
-    $httpBackend.when("GET", /.*/).respond(200, "");
-    var application = {
-      name : "Example",
-      scopes : {
-        scope1 : {
-          description : "description 1",
-          name : "name 1",
-          activated : true
-        }
-      }
-    };
-    $httpBackend.expectPOST("/admin/crud/application/1", application);
-    applicationService.updateApplication(1, application.name, application.scopes);
-    $httpBackend.flush();
   });
   
   it("Should be able to store applications", function(){

@@ -64,7 +64,6 @@
       "base" : [
         "/lib/jquery/dist/jquery.min.js",
         "/lib/datatables/media/js/jquery.dataTables.min.js",
-
         "/lib/api-check/dist/api-check.min.js",
         "/lib/angular/angular.js",
         "/lib/angular-route/angular-route.js",
@@ -83,6 +82,7 @@
         "route/RouteApp.js",
         "i18n/I18nApp.js",
         "edit/EditApp.js",
+        "entity/EntityApp.js",
         "edit/editable-elements/EditableElementInterface.js",
         "edit/editable-elements/CheckboxEditableElement.js",
         "edit/editable-elements/TextEditableElement.js",

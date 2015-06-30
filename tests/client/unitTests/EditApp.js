@@ -6,7 +6,7 @@ window.assert = chai.assert;
 describe("EditApp", function(){
   var $compile, $rootScope, element, scope;
   
-  // Load openveo, authentication and storage modules
+  // Load edit and i18n modules
   beforeEach(function(){
     module("ov.edit");
     module("ov.i18n");

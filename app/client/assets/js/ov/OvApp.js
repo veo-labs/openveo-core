@@ -8,6 +8,7 @@
     "ov.storage",
     "ov.route",
     "ov.i18n",
+    "ov.entity",
     "ui.bootstrap",
     "ui.tree",
     "datatables",
