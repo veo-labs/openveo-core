@@ -21,7 +21,7 @@ passport.use(new LocalStrategy(
   },
   function(email, password, done){
     userModel.getUserByCredentials(email, password, function(error, user){
-      if(error)
+      if(error || !user)
         done(null, false);
       else
         getUserRoles(user, done);
@@ -40,7 +40,7 @@ passport.serializeUser(function(user, done){
 // the user, which will be restored to req.user.
 passport.deserializeUser(function(id, done){
   userModel.getOne(id, function(error, user){
-    if(error)
+    if(error || !user)
       done(null, false);
     else
       getUserRoles(user, done);
