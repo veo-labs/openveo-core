@@ -66,7 +66,7 @@ UserModel.prototype.add = function(data, callback){
   }
 
   // Validate email
-  if(!(/[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(data.email))){
+  if(!isEmailValid(data.email)){
     callback(new Error("Invalid email address"));
     return;
   }
@@ -98,3 +98,52 @@ UserModel.prototype.add = function(data, callback){
   });
 
 };
+
+/**
+ * Update a user.
+ * @param String id The id of the user to update
+ * @param Object data A user object
+ * e.g.
+ * {
+ *   name : "User name",
+ *   email : "User email",
+ *   password : "User password",
+ *   passwordValidate : "User password",
+ *   roles : []
+ * }
+ * @param Function callback The function to call when it's done
+ *   - Error The error if an error occurred, null otherwise
+ * @Override
+ */
+UserModel.prototype.update = function(id, data, callback){
+  var self = this;
+
+  // Validate password
+  if(data.password && data.password !== data.passwordValidate){
+    callback(new Error("Passwords does not match"));
+    return;
+  }
+
+  // Validate email
+  if(data.email && !isEmailValid(data.email)){
+    callback(new Error("Invalid email address"));
+    return;
+  }
+
+  // Verify if the email address is not already used
+  this.provider.getUserByEmail(data.email, function(error, user){
+    if(error || (user && user.id != id))
+      callback(new Error("Email not available"));
+    else
+      self.provider.update(id, data, callback);
+  });
+};
+
+/**
+ * Checks if an email address is valid or not.
+ * @param String email The email address
+ * @return true if the email is valid, false otherwise
+ */
+function isEmailValid(email){
+  return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(email);
+}
