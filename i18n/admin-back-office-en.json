@@ -35,13 +35,22 @@
     "UPDATE_ROLE_DESCRIPTION" : "Edit roles with permissions",
     "DELETE_ROLE_NAME" : "Remove roles",
     "DELETE_ROLE_DESCRIPTION" : "Remove roles with permissions",
+    "CREATE_TAXONOMY_NAME" : "Create taxonomies",
+    "CREATE_TAXONOMY_DESCRIPTION" : "Create taxonomies and terms",
+    "READ_TAXONOMY_NAME" : "See taxonomies",
+    "READ_TAXONOMY_DESCRIPTION" : "List all taxonomies and terms",
+    "UPDATE_TAXONOMY_NAME" : "Edit taxonomies",
+    "UPDATE_TAXONOMY_DESCRIPTION" : "Edit taxonomies and terms",
+    "DELETE_TAXONOMY_NAME" : "Remove taxonomies",
+    "DELETE_TAXONOMY_DESCRIPTION" : "Remove taxonomies and terms",
     "ACCESS_APPLICATION_PAGE_NAME" : "Access applications page",
     "GROUP_OTHERS" : "Other permissions",
     "GROUP_APPLICATION" : "Web Service",
     "GROUP_USER" : "Users",
     "GROUP_ROLE" : "Roles",
     "GROUP_PROPERTY" : "Properties",
-    "GROUP_VIDEO" : "Vidéos"
+    "GROUP_VIDEO" : "Vidéos",
+    "GROUP_TAXONOMY" : "Taxonomies"
   },
   "HOME" : {
     "PAGE_TITLE" : "Openveo - Home",
