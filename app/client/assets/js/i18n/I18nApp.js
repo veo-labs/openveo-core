@@ -15,7 +15,7 @@
    * TODO Make it a provider to configure the list of supported languages
    */
   function I18nService($http, $route, $cookies){
-    var currentLanguage = $cookies.language || navigator.language || navigator.browserLanguage;
+    var currentLanguage = $cookies.get("language") || navigator.language || navigator.browserLanguage;
     var translations = {};
     var supportedLanguages = [];
 
@@ -125,7 +125,7 @@
     var setLanguage = function(language){
       if(isLanguageSupported(language)){
         currentLanguage = language;
-        $cookies.language = currentLanguage;
+        $cookies.put("language", currentLanguage);
         setActiveLanguage(currentLanguage);
         $route.reload();
       }
