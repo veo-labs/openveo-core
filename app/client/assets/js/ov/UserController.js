@@ -3,12 +3,12 @@
   "use strict"
 
   app.controller("UserController", UserController);
-  UserController.$inject = ["$scope", "userService", "users", "roles"];
+  UserController.$inject = ["$scope", "entityService", "users", "roles"];
 
   /**
    * Defines the users controller for the users page.
    */
-  function UserController($scope, userService, users, roles){
+  function UserController($scope, entityService, users, roles){
     $scope.users = users.data.entities;
     $scope.roles = roles.data.entities;
     $scope.rolesOptions = [];
@@ -44,7 +44,7 @@
     $scope.removeUser = function(user){
       if(!user.saving){
         user.saving = true;
-        userService.removeUser(user.id).success(function(data, status, headers, config){
+        entityService.removeEntity("user", user.id).success(function(data, status, headers, config){
           var index = 0;
 
           // Look for user index
@@ -75,15 +75,18 @@
       
       var roles = {};
       
-      /*for(var roleId in $scope.roles)
-        roles.push(roleId);*/
-      for(var roleId in $scope.roles){
-        roles[roleId] = {
-          activated : user.rolesValues.indexOf(roleId) > -1
+      for(var i = 0 ; i < $scope.roles.length ; i++){
+        var role = $scope.roles[i];
+        roles[role.id] = {
+          activated : user.rolesValues.indexOf(role.id) > -1
         }
-      }      
+      }
 
-      userService.updateUser(user.id, user.name, user.email, roles).success(function(data, status, headers, config){
+      entityService.updateEntity("user", user.id, {
+        name : user.name, 
+        email : user.email, 
+        roles : roles
+      }).success(function(data, status, headers, config){
         user.saving = form.saving = false;
         form.edition = false;
         form.closeEdition();
@@ -130,7 +133,13 @@
         }
       }
       
-      userService.addUser($scope.userName, $scope.userEmail, $scope.userPassword, $scope.userPasswordValidate, roles).success(function(data, status, headers, config){
+      entityService.addEntity("user", {
+        name :$scope.userName, 
+        email : $scope.userEmail, 
+        password : $scope.userPassword, 
+        passwordValidate : $scope.userPasswordValidate, 
+        roles : roles
+      }).success(function(data, status, headers, config){
         form.saving = false;
         resetAddForm(form);
         $scope.users.push(data.entity);

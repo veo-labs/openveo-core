@@ -3,12 +3,12 @@
   "use strict"
 
   app.controller("RoleController", RoleController);
-  RoleController.$inject = ["$scope", "userService", "roles", "permissions"];
+  RoleController.$inject = ["$scope", "entityService", "roles", "permissions"];
 
   /**
    * Defines the roles controller for the roles page.
    */
-  function RoleController($scope, userService, roles, permissions){
+  function RoleController($scope, entityService, roles, permissions){
     $scope.roles = roles.data.entities;
     $scope.permissions = permissions.data.permissions;
     $scope.addRolePermissions = prepareRolePermission($scope.permissions);
@@ -36,7 +36,7 @@
     $scope.removeRole = function(role){
       if(!role.saving){
         role.saving = true;
-        userService.removeRole(role.id).success(function(data, status, headers, config){
+        entityService.removeEntity("role", role.id).success(function(data, status, headers, config){
           var index = 0;
 
           // Look for role index
@@ -67,7 +67,10 @@
       
       var rolePermissions = getRolePermissionsValues(role.permissionsValues, true);
 
-      userService.updateRole(role.id, role.name, rolePermissions).success(function(data, status, headers, config){
+      entityService.updateEntity("role", role.id, {
+        name : role.name, 
+        permissions : rolePermissions
+      }).success(function(data, status, headers, config){
         role.saving = form.saving = false;
         form.edition = false;
         form.closeEdition();
@@ -106,7 +109,10 @@
       
       var permissions = getRolePermissionsValues($scope.addRolePermissions);
       
-      userService.addRole($scope.roleName, permissions).success(function(data, status, headers, config){
+      entityService.addEntity("role", {
+        name : $scope.roleName, 
+        permissions : permissions
+      }).success(function(data, status, headers, config){
         form.saving = false;
         resetAddForm(form);
         $scope.roles.push(data.entity);
