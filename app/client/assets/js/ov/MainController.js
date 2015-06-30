@@ -104,7 +104,7 @@
       $scope.menu = false;
       $scope.displayMainMenu = false;
       menuService.destroyMenu();
-      applicationService.destroyApplications();
+      applicationService.destroy();
       userService.destroy();
       $scope.$broadcast("loggedOut");
     }

@@ -67,11 +67,13 @@
     /**
      * Destroys applications instance.
      */
+    var destroy = function(){
+      applications = scopes = null;
     };
 
     return{
       loadApplications : loadApplications,
-      destroyApplications : destroyApplications,
+      destroy : destroy,
       getApplications : getApplications,
       
       loadScopes : loadScopes,
