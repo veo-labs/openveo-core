@@ -23,7 +23,9 @@ passport.use(new LocalStrategy(
     userModel.getUserByCredentials(email, password, function(error, user){
       if(error || !user)
         done(null, false);
-      else
+      else if (user.id == 0)
+        done(null, user);
+      else 
         getUserRoles(user, done);
     });
   }
@@ -42,6 +44,8 @@ passport.deserializeUser(function(id, done){
   userModel.getOne(id, function(error, user){
     if(error || !user)
       done(null, false);
+    else if (user.id == 0)
+        done(null, user);
     else
       getUserRoles(user, done);
   });
