@@ -62,8 +62,8 @@
         </div>
       </div>
     </nav>
-
     <div class="container">
+      <alert ng-repeat="alert in alerts" type="[[alert.type]]" close="alert.close()"><span ng-bind="alert.msg"></span></alert>
       <div ng-view class="row" ng-class="{'vertical-center-row': verticalAlign}"></div>
     </div>
     

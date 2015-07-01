@@ -18,6 +18,9 @@
       "put /crud/:type" : "app/server/controllers/crudController.addEntityAction",
       "delete /crud/:type/:id" : "app/server/controllers/crudController.removeEntityAction",
       "get /getTaxonomy/:name" : "app/server/controllers/TaxonomyController.getTaxonomyAction"
+    },
+    "ws": {
+      "get /getEntities/:name" : "app/server/controllers/crudController.getEntitiesAction"
     }
   },
   "entities" : {
@@ -32,6 +35,15 @@
       "name" : "PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME"
     }
   ],
+  "webServiceScopes" : {
+    "video" : {
+      "name" : "WS_SCOPES.GET_VIDEO_NAME",
+      "description" : "WS_SCOPES.GET_VIDEO_DESCRIPTON",
+      "paths" : [
+        "get /ws/getEntities/video"
+      ]
+    }
+  },
   "backOffice": {
     "menu" : [
       {
@@ -83,6 +95,7 @@
         "i18n/I18nApp.js",
         "edit/EditApp.js",
         "entity/EntityApp.js",
+        "alert/AlertApp.js",
         "edit/editable-elements/EditableElementInterface.js",
         "edit/editable-elements/CheckboxEditableElement.js",
         "edit/editable-elements/TextEditableElement.js",

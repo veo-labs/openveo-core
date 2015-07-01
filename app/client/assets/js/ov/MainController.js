@@ -3,14 +3,14 @@
   "use strict"
   
   app.controller("MainController", MainController);
-  MainController.$inject = ["$scope", "$location", "$route", "authenticationService", "menuService", "applicationService", "userService", "i18nService", "$window"];
+  MainController.$inject = ["$scope", "$location", "$route", "authenticationService", "menuService", "applicationService", "userService", "i18nService", "alertService", "$window"];
   
   /**
    * Defines the main controller parent of all controllers in the
    * application. All actions not handled in partials are handled
    * by the main controller.
    */
-  function MainController($scope, $location, $route, authenticationService, menuService, applicationService, userService, i18nService, $window, jsonPath){
+  function MainController($scope, $location, $route, authenticationService, menuService, applicationService, userService, i18nService, alertService, $window, jsonPath){
     $scope.displayMainMenu = false;
     $scope.isResponsiveMenuOpened = false;
     $scope.languages = i18nService.getLanguages();
@@ -56,9 +56,15 @@
      * This will remove user information and redirect to the login
      * page.
      */
+    
     $scope.logout = function(){
       authenticationService.logout().then(logout, logout);
     };
+    
+    // Listen to alert add
+    $scope.$on("setAlert", function(event, type, msg, timeout){
+      alertService.add(type, msg, timeout);
+    });
 
     // Listen to logout request event to logout the user
     $scope.$on("logout", function(){

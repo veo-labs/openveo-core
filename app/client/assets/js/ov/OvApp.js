@@ -9,6 +9,7 @@
     "ov.route",
     "ov.i18n",
     "ov.entity",
+    "ov.alert",
     "ui.bootstrap",
     "ui.tree",
     "datatables",
