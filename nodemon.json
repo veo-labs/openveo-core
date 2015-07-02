@@ -4,7 +4,10 @@
     ".git",
     ".sass-cache",
     "node_modules/**/node_modules",
-    "node_modules/**/public"
+    "node_modules/**/public",
+    "app/client",
+    "config",
+    "tasks"
   ],
   "verbose": true,
   "execMap": {
@@ -14,7 +17,7 @@
     "."
   ],
   "env": {
-    "NODE_ENV": "development"
+    "NODE_ENV": "production"
   },
   "ext": "js json"
 }

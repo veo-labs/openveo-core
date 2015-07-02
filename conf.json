@@ -77,8 +77,8 @@
         "/lib/jquery/dist/jquery.min.js",
         "/lib/datatables/media/js/jquery.dataTables.min.js",
         "/lib/api-check/dist/api-check.min.js",
-        "/lib/angular/angular.js",
-        "/lib/angular-route/angular-route.js",
+        "/lib/angular/angular.min.js",
+        "/lib/angular-route/angular-route.min.js",
         "/lib/angular-cookies/angular-cookies.js",
         "/lib/angular-datatables/dist/angular-datatables.min.js",
         "/lib/angular-bootstrap/ui-bootstrap-tpls.min.js",
@@ -124,6 +124,7 @@
        
     },
     "cssFiles" : [
+      "/lib/angular/angular-csp.css",
       "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
       "/lib/datatables/media/css/jquery.dataTables.min.css",
       "/lib/multirange/multirange.css",
@@ -132,6 +133,6 @@
     ]
   },
   "viewsFolders" : [
-    "app/server/views"
+    "app/client/admin/views"
   ]
 }

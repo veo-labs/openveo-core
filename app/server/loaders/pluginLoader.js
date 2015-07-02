@@ -13,6 +13,7 @@ var entityLoader = process.require("/app/server/loaders/entityLoader");
 
 // Get logger
 var logger = winston.loggers.get("openveo");
+var env = ( process.env.NODE_ENV == 'production')?'prod':'dev';
 
 /**
  * Recursively and asynchronously load all npm plugins prefixed by "openveo-" under the given path.
@@ -230,7 +231,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
 
                 // Retrieve back end scripts and css from plugin conf
                 plugin.scriptLibFiles = backEndConf["scriptLibFiles"] || null;
-                plugin.scriptFiles = backEndConf["scriptFiles"] || null;
+                plugin.scriptFiles = backEndConf["scriptFiles"][env] || null;
                 plugin.cssFiles = backEndConf["cssFiles"] || null;
                 
               }

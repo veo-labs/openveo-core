@@ -234,15 +234,17 @@ async.series([
         });
         
         // Set main public directory to be served first as the static server
-
         app.use(express.static(path.normalize(process.root + "/public"), staticServerOptions));
         if(env=="dev"){
-          app.use(express.static(path.normalize(process.root + "/app/client/assets/js"), staticServerOptions));
+          app.use(express.static(path.normalize(process.root + "/app/client/admin/js"), staticServerOptions));
         }
         
         // Set plugins public directories as additionnal static servers
         publicDirectories.forEach(function(publicDirectory){
           app.use(express.static(publicDirectory, staticServerOptions));
+          if(env=="dev"){
+            app.use(express.static(path.normalize(publicDirectory + "/../app/client/admin/js"), staticServerOptions));
+          }
         });
 
         // Set views folders for template engine
