@@ -1,0 +1,32 @@
+.navbar-default .navbar-toggle{
+  background-color: $navbar-default-bg;
+  border: 1px solid transparent;
+  float:left;
+  @include desktop-and-tablet(){
+    display: block;
+  }
+  &:hover{
+    background-color: #fff;
+    border: 1px solid $navbar-default-bg;
+    .icon-bar{
+      background-color: $navbar-default-bg;
+    }
+  }
+  &:focus{
+    .icon-bar{
+      background-color: $navbar-default-bg;
+    }
+  }
+}
+.navbar-right{
+  @include mobile(){
+    float: right !important;
+    display: flex;
+  }
+}
+.container{
+  .navbar-header{
+    float: left;
+    margin-left:0;
+  }
+}

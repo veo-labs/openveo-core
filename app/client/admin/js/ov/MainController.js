@@ -15,6 +15,7 @@
     $scope.isResponsiveMenuOpened = false;
     $scope.languages = i18nService.getLanguages();
     $scope.language = i18nService.getLanguageName(i18nService.getLanguage());
+    $scope.indexOpen = -1;
 
     /**
      * Opens / closes the main menu while displayed in small devices.
@@ -50,6 +51,17 @@
       else
         element.addClass("open");
     };
+    
+    $scope.toggleSidebarSubMenu = function (id) {
+
+      if ($scope.indexOpen == -1)
+        $scope.indexOpen = id;
+      else if ($scope.indexOpen == id)
+        $scope.indexOpen = -1;
+      else
+        $scope.indexOpen = id;
+    };
+    
 
     /**
      * Logs out the actual user.

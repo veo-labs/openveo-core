@@ -124,11 +124,12 @@
        
     },
     "cssFiles" : [
+      "/css/bootstrap.css",
       "/lib/angular/angular-csp.css",
+      "/lib/angular/angular-bootstrap/ui-bootstrap-csp.css",
       "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
       "/lib/datatables/media/css/jquery.dataTables.min.css",
       "/lib/multirange/multirange.css",
-      "/css/bootstrap.css",
       "/css/style.css"
     ]
   },

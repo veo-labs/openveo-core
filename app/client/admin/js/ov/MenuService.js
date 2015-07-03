@@ -55,9 +55,11 @@
         for(var menuItem in menu){
           
           // Sub menu
-          if(angular.isArray(menu[menuItem])){
-            for(var i = 0 ; i < menu[menuItem].length ; i++){
-              menu[menuItem][i].active = menu[menuItem][i].path === path;
+          if(angular.isArray(menu[menuItem].subMenu)){
+            menu[menuItem].active = false;
+            for(var i = 0 ; i < menu[menuItem].subMenu.length ; i++){
+              menu[menuItem].subMenu[i].active = menu[menuItem].subMenu[i].path === path;
+              menu[menuItem].active = menu[menuItem].active || menu[menuItem].subMenu[i].active;
             }
           }
           
