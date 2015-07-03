@@ -1,5 +1,5 @@
 module.exports = {
-  compass: {
+  compassPublish: {
     files: '**/*.scss',
     tasks: ['compass:publishdev']
   }
