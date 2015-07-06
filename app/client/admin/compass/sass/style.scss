@@ -30,7 +30,7 @@ html, body, .container{ height: 100%; }
 
 /* Vertically align container */
 body > .container{ display: table; vertical-align: middle; }
-.vertical-center-row{ display: table-cell; vertical-align: middle; }
+.vertical-center-row{ vertical-align: middle; }
 
 /* 
  * Hide all angularsjs element with ng-hide class to avoid blink while
