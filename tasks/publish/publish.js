@@ -5,7 +5,7 @@ module.exports = {
   srcjs: ['<%= publish.admin %>/js/'],
   sass: ['<%= publish.admin %>/compass/sass'],
   public: ['<%= publish.basePath %>/public'],
-  css: ['<%= publish.public %>/css'],
+  css: ['<%= publish.public %>/publish/css'],
   js: ['<%= publish.public %>/publish/js'],
   uglify: ['<%= publish.basePath %>/build/uglify']
 }
