@@ -1,5 +1,8 @@
 #loginForm{ 
-  box-shadow: 0px 0px 18px 0px #ccc;
+  box-shadow: 0px 0px 0px 0px transparent;
+  top:0px;
+  position:relative;
+  transition: all 0.3s ease;
   padding: 0 0 10px; 
 
   button{ 
@@ -10,4 +13,12 @@
     margin: 0 auto; 
     padding: 20px 0;
   }
+  &:hover{
+     top:-6px;
+     box-shadow: 0px 4px 10px 1px #ccc;
+  }
+}
+
+.login-screen{
+  margin: 100px auto 30px auto;
 }

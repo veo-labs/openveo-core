@@ -16,9 +16,6 @@ $sidebar-submenu-bg : #fff;
 #wrapper {
   padding-left: 0;
   transition: all 0.5s ease 0.2s;
-  @include desktop-and-tablet(){
-    padding-left: 250px;
-  }
 
   #sidebar-wrapper {
     background: $sidebar-bg none repeat scroll 0 0;
@@ -30,31 +27,29 @@ $sidebar-submenu-bg : #fff;
     transition: all 0.5s ease 0s;
     width: 0;
     z-index: 1000;
-    @include desktop-and-tablet(){
-      width: 250px;
-    }
+    overflow:hidden;
+    
   }
 
   #page-content-wrapper {
-    /*padding: 15px;*/
+    overflow-x: hidden;
     position: absolute;
     width: 100%;
     @include desktop-and-tablet(){
-      /*padding: 20px;*/
       position: relative;
     }
+    #content{
+        margin-top:80px;
+      }
   }
 
   &.toggled {
+    transition: all 0.5s ease 0s;
     padding-left: 250px;
-    @include desktop-and-tablet(){
-      padding-left: 0;
-    }
+
     #sidebar-wrapper {
+      transition: all 0.5s ease 0.2s;
       width: 250px;
-      @include desktop-and-tablet(){
-        width:0;
-      }
 
     }
     #page-content-wrapper {

@@ -12,16 +12,22 @@
    */
   function MainController($scope, $location, $route, authenticationService, menuService, applicationService, userService, i18nService, alertService, $window, jsonPath){
     $scope.displayMainMenu = false;
-    $scope.isResponsiveMenuOpened = false;
+    $scope.isResponsiveMenuClosed = true;
     $scope.languages = i18nService.getLanguages();
     $scope.language = i18nService.getLanguageName(i18nService.getLanguage());
     $scope.indexOpen = -1;
+    $scope.menuDropdownIsOpen = false;
 
     /**
      * Opens / closes the main menu while displayed in small devices.
      */
     $scope.toggleResponsiveMenu = function(){
-      $scope.isResponsiveMenuOpened = !$scope.isResponsiveMenuOpened;
+      $scope.isResponsiveMenuClosed = !$scope.isResponsiveMenuClosed;
+    };
+    
+    $scope.closeResponsiveMenu = function(){
+      if(!$scope.isResponsiveMenuClosed)
+        $scope.isResponsiveMenuClosed = true;
     };
 
     /**
@@ -35,22 +41,6 @@
       $window.location.reload();
     };
 
-    /**
-     * Toggles the sub menu associated to the event.
-     * @param Event event Click event on the sub menu
-     */
-    $scope.toggleSubMenu = function(event){
-      var element = angular.element(event.target);
-
-      // Retrieve bootstrap dropdown menu to toggle it
-      while(!element.hasClass("dropdown"))
-        element = element.parent();
-
-      if(element.hasClass("open"))
-        element.removeClass("open");
-      else
-        element.addClass("open");
-    };
     
     $scope.toggleSidebarSubMenu = function (id) {
 
@@ -94,8 +84,6 @@
         $scope.displayMainMenu = ($scope.menu) ? true : false;
         menuService.setActiveMenuItem();
       }
-
-      $scope.isResponsiveMenuOpened = false;
 
       // Change page title
       $scope.title = $route.current && $route.current.title || "";
