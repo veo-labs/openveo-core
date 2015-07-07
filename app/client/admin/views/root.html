@@ -77,7 +77,7 @@
           </li>
         </ul>
       </div>
-      <div id="page-content-wrapper" ng-click="closeResponsiveMenu()">
+      <div id="page-content-wrapper" ng-click="closeResponsiveMenu()" ng-swipe-left="closeResponsiveMenu()" ng-swipe-right="openResponsiveMenu()">
         <div class="container">
           <div  ng-if="displayMainMenu" id="content">
 
@@ -86,10 +86,8 @@
 
           </div>
           <div ng-if="!displayMainMenu" class="login-screen">
-            <div class="container">
               <alert ng-repeat="alert in alerts" type="[[alert.type]]" close="alert.close()"><span ng-bind="alert.msg"></span></alert>
               <div ng-view ng-class="{'vertical-center-row': verticalAlign}"></div>
-            </div>
           </div>
         </div>
       </div>

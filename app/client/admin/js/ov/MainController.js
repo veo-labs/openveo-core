@@ -26,8 +26,13 @@
     };
     
     $scope.closeResponsiveMenu = function(){
-      if(!$scope.isResponsiveMenuClosed)
+      if(!$scope.isResponsiveMenuClosed && $scope.displayMainMenu)
         $scope.isResponsiveMenuClosed = true;
+    };
+    
+    $scope.openResponsiveMenu = function(){
+      if($scope.isResponsiveMenuClosed && $scope.displayMainMenu )
+        $scope.isResponsiveMenuClosed = false;
     };
 
     /**
@@ -83,7 +88,7 @@
         $scope.menu = menuService.getMenu();
         $scope.displayMainMenu = ($scope.menu) ? true : false;
         menuService.setActiveMenuItem();
-      }
+      } else  $scope.displayMainMenu = false;
 
       // Change page title
       $scope.title = $route.current && $route.current.title || "";
