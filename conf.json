@@ -20,7 +20,7 @@
       "get /getTaxonomy/:name" : "app/server/controllers/TaxonomyController.getTaxonomyAction"
     },
     "ws": {
-      "get /getEntities/:name" : "app/server/controllers/crudController.getEntitiesAction"
+      "get /getEntities/:type" : "app/server/controllers/crudController.getEntitiesAction"
     }
   },
   "entities" : {
@@ -40,7 +40,7 @@
       "name" : "WS_SCOPES.GET_VIDEO_NAME",
       "description" : "WS_SCOPES.GET_VIDEO_DESCRIPTON",
       "paths" : [
-        "get /ws/getEntities/video"
+        "get /getEntities/video"
       ]
     }
   },
