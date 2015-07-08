@@ -3,6 +3,7 @@
 // Module dependencies
 var passport = require("passport");
 var openVeoAPI = require("openveo-api");
+var pathUtil = process.require("app/server/path.js");
 var applicationStorage = openVeoAPI.applicationStorage;
 
 /**
@@ -157,10 +158,9 @@ function getPermissionByUrl(permissions, url, httpMethod){
     if(permissions[i].id){
       if(permissions[i].paths){
         for(var j = 0 ; j < permissions[i].paths.length ; j++){
-          var pathPattern = permissions[i].paths[j].replace(/\//g, "\\/").replace(/\*/g, ".*");
-          var pattern = new RegExp("^(get|post|delete|put)? ?" + pathPattern.toLowerCase());
+          var path = permissions[i].paths[j];
 
-          if(pattern.test(httpMethod.toLowerCase() + " " + url))
+          if(pathUtil.validate(httpMethod + " " + url, path))
             return permissions[i].id;
         }
       }

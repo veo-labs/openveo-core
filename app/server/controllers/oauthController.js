@@ -3,6 +3,7 @@
 // Module dependencies
 var winston = require("winston");
 var openVeoAPI = require("openveo-api");
+var pathUtil = process.require("app/server/path.js");
 
 // Module files
 var applicationStorage = openVeoAPI.applicationStorage;
@@ -51,15 +52,15 @@ function getScopeByUrl(url, httpMethod){
   
   for(var id in scopes){
     
+    // Got paths associated to the scope
     if(scopes[id].paths){
       
+      // Iterate through the list of paths
       for(var i = 0 ; i < scopes[id].paths.length ; i++){
-        var pathPattern = scopes[id].paths[i].replace(/\//g, "\\/").replace(/\*/g, ".*");
-        var pattern = new RegExp("^(get|post|delete|put)? ?" + pathPattern.toLowerCase());
+        var path = scopes[id].paths[i];
         
-        if(pattern.test(httpMethod.toLowerCase() + " " + url))
+        if(pathUtil.validate(httpMethod + " " + url, path))
           return id;
-
       }
       
     }
