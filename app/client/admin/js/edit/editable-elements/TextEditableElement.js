@@ -41,7 +41,7 @@
      * @return JQLite The form to edit the text
      */
     TextEditableElement.prototype.getFormDisplay = function(){
-      var form = angular.element("<input type='text' ng-model='ovValue' name='" + this.name + "' " + ((this.required) ? "required" : "") + " ng-disabled='ovDisabled'/>");
+      var form = angular.element("<input class='form-control' type='text' ng-model='ovValue' name='" + this.name + "' " + ((this.required) ? "required" : "") + " ng-disabled='ovDisabled'/>");
       
       return form;
     };

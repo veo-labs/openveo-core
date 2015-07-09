@@ -242,6 +242,16 @@ async.series([
         // Set plugins public directories as additionnal static servers
         publicDirectories.forEach(function(publicDirectory){
           app.use(express.static(publicDirectory, staticServerOptions));
+          
+          /**
+           * TODO **************************************
+           * HACK en attendant que les fichiers custom soient concaténés.
+           */
+          app.use(express.static(path.normalize(publicDirectory + "/../app/client/front/js"), staticServerOptions));
+          /**
+           * HACK en attendant que les fichiers custom soient concaténés.
+           * TODO **************************************
+           */
           if(env=="dev"){
             app.use(express.static(path.normalize(publicDirectory + "/../app/client/admin/js"), staticServerOptions));
           }

@@ -85,7 +85,7 @@
       if(!this.value)
         return null;
       
-      this.select = angular.element("<select name='" + this.name + "' " + ((this.multiple) ? "multiple" : "") + " " + ((this.required) ? "required" : "") + "></select>");
+      this.select = angular.element("<select class='form-control' name='" + this.name + "' " + ((this.multiple) ? "multiple" : "") + " " + ((this.required) ? "required" : "") + "></select>");
       
       // Add select options
       for(var i in this.options){
