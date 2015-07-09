@@ -15,7 +15,8 @@
     "ngTouch",
     "formly",
     "vds.multirange",
-    "ngJSONPath"
+    "ngJSONPath",
+    "ngTasty"
   ];
 
   // Loads all openveo sub plugins as dependencies of the module "ov"

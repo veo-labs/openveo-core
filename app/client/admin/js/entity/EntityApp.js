@@ -42,11 +42,43 @@
     var removeEntity = function(entityType, id){
       return $http.delete(basePath + "crud/" + entityType + "/" + id);
     };  
+    
+    /**
+     * Get one Entity by Id
+     * @param {type} entityType
+     * @param {type} id
+     * @returns {unresolved}
+     */
+    var getEntity = function(entityType, id){
+       return $http.get(basePath + "crud/" + entityType+ "/" + id);
+    }
+    
+    /**
+     * Get all entities filter by param
+     * @param {type} entityType
+     * @param {type} param
+     * @returns {unresolved}
+     */    
+    var getEntities = function(entityType, param){
+       return $http.post("search/" + entityType, param);
+    }
+    
+    /**
+     * Get all entities
+     * @param {type} entityType
+     * @returns {unresolved}
+     */ 
+    var getAllEntities = function(entityType){
+       return $http.get(basePath + "crud/" + entityType);
+    }
 
     return{
       addEntity: addEntity,
       updateEntity: updateEntity,
-      removeEntity: removeEntity
+      removeEntity: removeEntity,
+      getEntity: getEntity,
+      getEntities: getEntities,
+      getAllEntities: getAllEntities,
     };
 
   }
