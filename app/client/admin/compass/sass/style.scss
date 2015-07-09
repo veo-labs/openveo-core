@@ -47,10 +47,9 @@ form small{ color: #a8a8a8; }
 /* Lists */
 .line { border-radius: 3px; }
 .line a{ color: #000; }
-.line > div{ height: 40px; line-height: 40px; }
+.line > div{ height: 40px; line-height: 38px; }
 .line > div:first-child{ cursor: pointer; overflow: hidden; }
 .line .glyphicon{ cursor: pointer; }
-.line .actions { display: inline; }
 
 /* List details */
 .detail { line-height: initial; padding-bottom: 10px; }

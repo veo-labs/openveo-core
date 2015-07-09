@@ -33,7 +33,7 @@ module.exports = function (grunt) {
 
 
 // only watch core scss
-  grunt.registerTask('default', ['watch']);
+  grunt.registerTask('default', ['compass:dist','compass:publishdist','watch']);
   
 // uglify and concat core
   grunt.registerTask('concatcore', ['uglify:prod', 'concat:lib', "concat:js"]);
