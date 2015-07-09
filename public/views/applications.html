@@ -5,12 +5,12 @@
   
   <div class="ng-hide" ng-show="applications.length">
   
-    <div class="row header">
+    <div class="header">
       <div class="col-xs-12 col-sm-10"><strong ng-bind="'APPLICATIONS.NAME_COLUMN' | translate"></strong></div>
       <div class="col-xs-2 hidden-xs"><strong ng-bind="'APPLICATIONS.ACTIONS_COLUMN' | translate"></strong></div>      
     </div>
     
-    <div class="row line bg-success" ng-repeat="application in applications">
+    <div class="line bg-success" ng-repeat="application in applications">
       <div class="col-xs-12 col-sm-10" ng-click="toggleApplicationDetails(application)">
         <span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !application.opened, 'glyphicon-chevron-down' : application.opened}"></span> <strong>[[application.name]]</strong>
       </div>
@@ -24,7 +24,7 @@
           </ul>
         </div>
       </div>      
-      <div class="row" ng-if="application.opened">
+      <div ng-if="application.opened">
         <div class="col-xs-12 detail">
           <form ov-form name="editForm" ng-submit="editForm.$valid && saveApplication(editForm, application)" novalidate>
             <ul>
@@ -74,7 +74,6 @@
   
   <hr/>
   
-  <div class="row">
     <div class="col-xs-12 col-sm-6">
       <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> <span ng-bind="'APPLICATIONS.ADD_APPLICATION' | translate"></span></h4>
       <form class="form-horizontal" name="addForm" ng-submit="addForm.$valid && addApplication(addForm)" novalidate>
@@ -104,7 +103,6 @@
         </div>
         
       </form>
-    </div>
   </div>
   
 </div>

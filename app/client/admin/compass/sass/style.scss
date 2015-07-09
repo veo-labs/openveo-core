@@ -45,11 +45,31 @@ body > .container{ display: table; vertical-align: middle; }
 form small{ color: #a8a8a8; }
 
 /* Lists */
-.line { border-radius: 3px; }
-.line a{ color: #000; }
-.line > div{ height: 40px; line-height: 38px; }
-.line > div:first-child{ cursor: pointer; overflow: hidden; }
-.line .glyphicon{ cursor: pointer; }
+
+.line { 
+  border-radius: 3px;
+  display:table; 
+  width:100%;
+  a{ 
+    color: #000; 
+  }
+  &.even{
+    background-color:  #ebebeb;
+  }
+  &:first-child{ 
+    border-top: 1px solid #ddd;
+  }
+  & > div{ 
+    height: 40px;
+    line-height: 40px;
+    border:1px solid #ddd;
+    border-top:0 none;
+    
+    &:first-child{ cursor: pointer; overflow: hidden;}
+  }
+  
+  .glyphicon{ cursor: pointer; }
+}
 
 /* List details */
 .detail { line-height: initial; padding-bottom: 10px; }
