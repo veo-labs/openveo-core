@@ -43,38 +43,3 @@ body > .container{ display: table; vertical-align: middle; }
 
 /* Forms */
 form small{ color: #a8a8a8; }
-
-/* Lists */
-
-.line { 
-  border-radius: 3px;
-  display:table; 
-  width:100%;
-  a{ 
-    color: #000; 
-  }
-  &.even{
-    background-color:  #ebebeb;
-  }
-  &:first-child{ 
-    border-top: 1px solid #ddd;
-  }
-  & > div{ 
-    height: 40px;
-    line-height: 37px;
-    border:1px solid #ddd;
-    border-top:0 none;
-    
-    &:first-child{ cursor: pointer; overflow: hidden;}
-  }
-  
-  .glyphicon{ cursor: pointer; }
-}
-
-/* List details */
-.detail { line-height: initial; padding-bottom: 10px; }
-.detail ul{ list-style: none; padding-left: 35px; }
-.detail li{ line-height: 22px; }
-.detail .btn-group{ margin-left: 35px; }
-.detail .label{ margin-right: 5px; }
-.detail input{ margin: 1px 0; }

@@ -70,6 +70,7 @@
       "base" : [
         "/lib/api-check/dist/api-check.min.js",
         "/lib/angular/angular.min.js",
+        "/lib/angular-animate/angular-animate.min.js",
         "/lib/angular-route/angular-route.min.js",
         "/lib/angular-cookies/angular-cookies.js",
         "/lib/angular-bootstrap/ui-bootstrap-tpls.min.js",

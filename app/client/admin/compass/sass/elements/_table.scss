@@ -1,0 +1,82 @@
+
+/* Lists */
+
+.line { 
+  border-radius: 3px;
+  display:table; 
+  width:100%;
+  line-height: 37px;
+  a{ 
+    color: #000; 
+  }
+  &.even{
+    background-color:  #ebebeb;
+  }
+  &:first-child{ 
+    border-top: 1px solid #ddd;
+  }
+  & > .table-cell{ 
+    height: 40px;
+    line-height: 37px;
+    /*border:1px solid #ddd;*/
+    border-top:0 none;
+    
+    &:first-child{ cursor: pointer; overflow: hidden;}
+  }
+  .open-tab{
+    overflow:hidden;
+  }
+  
+  .glyphicon{ cursor: pointer; }
+}
+
+.table{
+  &>thead{
+    &>tr{
+      &> th{
+        padding: 0 20px;
+        line-height: 37px;
+      }
+    }
+  } 
+  &>tbody{
+    &>tr{
+      &> td{
+        padding: 0 20px;
+        line-height: 37px;
+      }
+    }
+  }
+}
+
+
+.open-tab-animate {
+  &.ng-enter{
+    transition:all 0.5s ease;
+    max-height:0;
+    opacity:0;
+    &.ng-enter-active{
+      max-height:999px;
+       opacity:1;
+    }
+  }
+  &.ng-leave {
+     max-height:999px;
+     opacity:1;
+    transition:all 0.5s ease;
+    &.ng-leave-active{
+      max-height:0;
+       opacity:0;
+    }
+  }
+}
+
+
+
+/* List details */
+.detail { line-height: initial; padding-bottom: 10px; }
+.detail ul{ list-style: none; padding-left: 35px; }
+.detail li{ line-height: 22px; }
+.detail .btn-group{ margin-left: 35px; }
+.detail .label{ margin-right: 5px; }
+.detail input{ margin: 1px 0; }
