@@ -23,7 +23,7 @@ module.exports = function (grunt) {
 
   grunt.initConfig(config);
   grunt.config.merge(loadConfig('./tasks/core'));
-  grunt.config.merge(loadConfig('./tasks/publish'));
+//  grunt.config.merge(loadConfig('./tasks/publish'));
 
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -33,20 +33,21 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-karma');
 
 // only watch core scss
-  grunt.registerTask('default', ['compass:dist','compass:publishdist','watch']);
+  grunt.registerTask('default', ['compass:dev','compass:publishdev','watch']);
+//  grunt.registerTask('default', ['compass:publishdev','watch']);
   
 // uglify and concat core
   grunt.registerTask('concatcore', ['uglify:prod', 'concat:lib', "concat:js"]);
   
 // uglify and concat publish
-  grunt.registerTask('concatpublish', ['uglify:publishprod', "concat:publishjs"]);
+//  grunt.registerTask('concatpublish', ['uglify:publishprod', "concat:publishjs"]);
   
 // core Prod process (CSS+JS)
-  grunt.registerTask('coreprod', ['compass:dist', "concatcore"]);
+  grunt.registerTask('prod', ['compass:dist', "concatcore"]);
 
 // Publish Prod process (CSS+JS)
-  grunt.registerTask('publishprod', ['compass:publishdist', "concatpublish"]);
+//  grunt.registerTask('publishprod', ['compass:publishdist', "concatpublish"]);
 
 // All prod process
-  grunt.registerTask('prod', ['coreprod', "publishprod"]);
+//  grunt.registerTask('prod', ['coreprod', "publishprod"]);
 };
