@@ -27,10 +27,10 @@ module.exports = function(config){
       "public/lib/angular-formly/dist/formly.js",
       "public/lib/multirange/multirange.js",
       "public/lib/ng-jsonpath/dist/ng-jsonpath.js",
-      "app/client/assets/js/authentication/AuthenticationApp.js",
-      "app/client/assets/js/route/RouteApp.js",
-      "app/client/assets/js/ov/OvApp.js",
-      "app/client/assets/js/**/*.js",
+      "app/client/admin/js/authentication/AuthenticationApp.js",
+      "app/client/admin/js/route/RouteApp.js",
+      "app/client/admin/js/ov/OvApp.js",
+      "app/client/admin/js/**/*.js",
       "tests/client/unitTests/*.js"
     ],
 

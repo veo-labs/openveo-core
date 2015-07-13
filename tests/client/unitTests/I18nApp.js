@@ -18,8 +18,8 @@ describe("i18nApp", function(){
   }));
   
   // Initialize tests
-  beforeEach(function(){
-    $cookies.language = null;
+  afterEach(function(){
+    $cookies.remove("language");
   });
 
   // Checks if no HTTP request stays without response

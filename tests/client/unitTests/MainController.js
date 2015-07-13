@@ -46,11 +46,11 @@ describe("MainController", function(){
   describe("toggleResponsiveMenu", function(){
 
     it("Should be able to toggle responsive menu", function(){
-      assert.notOk(scope.isResponsiveMenuOpened);
+      assert.ok(scope.isResponsiveMenuClosed);
       scope.toggleResponsiveMenu();
-      assert.ok(scope.isResponsiveMenuOpened);
+      assert.notOk(scope.isResponsiveMenuClosed);
       scope.toggleResponsiveMenu();
-      assert.notOk(scope.isResponsiveMenuOpened);
+      assert.ok(scope.isResponsiveMenuClosed);
     });
 
   });
@@ -64,42 +64,6 @@ describe("MainController", function(){
       scope.changeLanguage(languages[1].value);
 
       assert.equal(i18nService.getLanguage(), languages[1].value);
-    });
-
-  });
-
-  // toggleSubMenu method
-  describe("toggleSubMenu", function(){
-
-    it("Should be able to open / close a dropdown", function(){
-      var li = document.createElement("li");
-      var a = document.createElement("a");
-      var span1 = document.createElement("span1");
-      var span2 = document.createElement("span2");
-
-      li.setAttribute("class", "dropdown");
-
-      a.appendChild(span1);
-      a.appendChild(span2);
-      li.appendChild(a);
-
-      scope.toggleSubMenu({target : li});
-      assert.ok(angular.element(li).hasClass("open"));
-      scope.toggleSubMenu({target : li});
-      assert.notOk(angular.element(li).hasClass("open"));
-      scope.toggleSubMenu({target : a});
-      assert.ok(angular.element(li).hasClass("open"));
-      scope.toggleSubMenu({target : a});
-      assert.notOk(angular.element(li).hasClass("open"));
-      scope.toggleSubMenu({target : span1});
-      assert.ok(angular.element(li).hasClass("open"));
-      scope.toggleSubMenu({target : span1});
-      assert.notOk(angular.element(li).hasClass("open"));
-      scope.toggleSubMenu({target : span2});
-      assert.ok(angular.element(li).hasClass("open"));
-      scope.toggleSubMenu({target : span2});
-      assert.notOk(angular.element(li).hasClass("open"));
-
     });
 
   });
