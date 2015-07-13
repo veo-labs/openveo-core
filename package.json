@@ -19,10 +19,6 @@
     "type": "git",
     "url": "http://github.com/TODO"
   },
-  "scripts": {
-    "init-environment": "npm install -g karma && npm install -g bower",
-    "postinstall": "bower install --allow-root"
-  },
   "dependencies": {
     "JSONPath": "^0.10.0",
     "async": "^0.9.0",
