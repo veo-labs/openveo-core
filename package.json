@@ -21,10 +21,7 @@
   },
   "scripts": {
     "init-environment": "npm install -g karma && npm install -g bower",
-    "postinstall": "bower install --allow-root",
-    "test-client": "karma start tests/client/karmaConf.js",
-    "test-server": "mocha -R spec tests/server/*.js",
-    "test-server-all": "mocha -R spec tests/server/*.js && mocha -R spec node_modules/openveo-*/tests/server/*.js"
+    "postinstall": "bower install --allow-root"
   },
   "dependencies": {
     "JSONPath": "^0.10.0",
@@ -53,12 +50,15 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-extend-config": "^0.9.2",
     "grunt-init": "^0.3.2",
+    "grunt-karma": "^0.11.2",
+    "grunt-mocha-test": "^0.12.7",
     "karma": "^0.12.31",
     "karma-chai": "^0.1.0",
     "karma-chrome-launcher": "^0.1.7",
     "karma-firefox-launcher": "^0.1.4",
     "karma-ie-launcher": "^0.1.5",
     "karma-mocha": "^0.1.10",
+    "karma-ng-html2js-preprocessor": "^0.1.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.1.0",
     "node-sass": "3.2.0",

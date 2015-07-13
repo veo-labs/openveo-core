@@ -16,7 +16,6 @@ function loadConfig(path) {
 
 
 module.exports = function (grunt) {
-
   var config = {
     pkg: grunt.file.readJSON('package.json'),
     env: process.env,
@@ -30,7 +29,8 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
-
+  grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-karma');
 
 // only watch core scss
   grunt.registerTask('default', ['compass:dist','compass:publishdist','watch']);
