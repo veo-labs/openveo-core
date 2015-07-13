@@ -10,7 +10,7 @@ module.exports = {
   },
   dist: {
     options: {
-      sourcemap: true,
+      sourcemap: false,
       sassDir: '<%= project.sass %>',
       cssDir: '<%= project.css %>',
       fontsDir: '<%= project.font %>',
