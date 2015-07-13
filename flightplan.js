@@ -26,10 +26,8 @@ var config = require('./flightplan/config'),
 plan.target('preproduction', config.briefing.destinations['preproduction']);
 plan.target('production', config.briefing.destinations['production']);
 
-
-// run commands on localhost
-plan.local(['deploy', 'package'], function (local) {
-  gitRepo;
+//Set configuration variables
+plan.local(['deploy','init','install', 'package', 'upload' ,'extract'], function (local){
   if (gitRepo === undefined) {
     var repo = local.prompt('Would you deploy Core or Publish? [co, pu]');
     
@@ -45,14 +43,16 @@ plan.local(['deploy', 'package'], function (local) {
     }
     newReleaseDir = path.join(releaseDir, deployDir);
   }
+});
+
+// run commands on localhost to package 
+plan.local(['deploy', 'package'], function (local) {
 
   if (gitTag === undefined) {
     gitTag = local.prompt('Enter the version number or branch git to deploy? [ex: 1.2.3]');
   }
   archiveName = archivePrefix + gitTag.replace(/\//g, '_') + '.tar.gz';
   sha1 = local.git('show-ref --hash --heads --tags ' + gitTag).stdout.replace(/[\n\t\r]/g,"");
-  // Remove tmp directory
-  local.rm('-rf ' + tmpDir);
   // Create tmp directory
   local.mkdir('-p ' + path.join(tmpDir, 'sources'));
   // Checkout tag and run build
@@ -62,28 +62,28 @@ plan.local(['deploy', 'package'], function (local) {
     // Add Version
     local.echo('"' + gitTag + '" > VERSION');
     local.echo('"' + sha1 + '" >> VERSION');
-    // Compile sass
-//    local.exec('compass compile PATH/TO/config-prod.rb  --force');
 
-    // Get dependancies to deploy with source code
-    if (gitTag !== 'develop') {
-      local.exec('npm install --production');
-    } else {
-      local.exec('npm install --production');
-    }
-    //install core openveo-api
+    // Install Grunt to compile js and CSS
+    local.exec("sudo npm install glob grunt grunt-cli grunt-contrib-compass grunt-contrib-concat grunt-contrib-uglify grunt-contrib-watch grunt-extend-config grunt-init");
     if(gitRepo == config.gitCoreRepository){
-      local.with('cd node_modules/openveo-api'), function(){
-        local.exec('npm install --production');
-      }
+      // Install bootstrap to compile bootstrap css for a core deployement
+      local.exec("bower install bootstrap-sass");
     }
+    //Launch compile
+    local.exec("grunt prod");
+
     // Remove unused stuffs
-    local.rm('-rf tests flightplan');
-    // Remove non production controllers
+    local.rm('-rf tests flightplan flightplan.js public/lib app/client/admin/compass app/client/admin/js .sass-cache build tasks Gruntfile.js nodemon.json .git* ');
+    // Remove unused modules (all exept openveo*)
+    local.with('cd node_modules', function () {
+      local.exec('sudo find * -maxdepth 0 -name "openveo*" -prune -o -exec rm -rf "{}" ";"');
+    });
     
     // Compress archive
     local.tar('-zcf ../../' + archiveName + ' * .??*');
   });
+  // Remove tmp directory
+    local.exec('sudo rm -rf ' + tmpDir);
 });
 
 // Create remote directories
@@ -133,7 +133,7 @@ plan.remote(['deploy', 'extract'], function(remote) {
     remote.ln('-s ' + path.join(releaseDir,'..', 'shared', 'log') + ' ' + path.join('log'));
     
     var sharedParametersFile = path.join(releaseDir, '..', 'shared', 'config');
-    remote.exec('[ "$(ls -A  '+sharedParametersFile+' )"] && echo "config already exist" || cp '+ path.join(newReleaseDir,'config','*') +' ' + sharedParametersFile);
+    remote.exec('test -z "$(ls -A '+sharedParametersFile+')" && echo "config already exist" || cp '+ path.join(newReleaseDir,'config','*') +' ' + sharedParametersFile);
     remote.rm('-rf config');
     remote.ln('-s ' + path.join(releaseDir,'..', 'shared', 'config') + ' ' + path.join('config'));   
   });
@@ -143,18 +143,43 @@ plan.remote(['deploy', 'extract'], function(remote) {
        remote.ln('-s ' + path.join(config.destinationDirectory[plateform], 'openveo-publish','current') + ' openveo-publish');
     });
   }
-
-
-  // Link current folder on the new release
-  remote.log('link folder to web root');
-  remote.rm('-f ' + currentReleaseLink);
-  remote.ln('-s ' + newReleaseDir + ' ' + currentReleaseLink);
+  if(gitRepo == config.gitPublishRepository){
+    remote.with('cd ' + newReleaseDir + '/node_modules/', function(){
+       remote.ln('-s ' + path.join(config.destinationDirectory[plateform], 'openveo','current','node_modules','openveo-api') + ' openveo-api' );
+       remote.ln('-s ' + path.join(config.destinationDirectory[plateform],'openveo-player','current')+' openveo-player' );
+    });
+  }
 });
 
 // Remote provisioning
-plan.remote(['provision-remote'], function(remote) {
+plan.remote(['deploy','provision-remote'], function(remote) {
   remote.exec("sudo npm install -g karma");
   remote.exec("sudo npm install -g bower");
+});
+
+// install on remote with production conf
+plan.remote(['deploy','install'], function(remote) {
+  remote.with('cd ' + newReleaseDir, function () {
+    remote.exec("sudo npm install --production");
+    remote.exec("bower install --production");
+  });
+  
+  if(gitRepo == config.gitCoreRepository){
+     remote.with('cd node_modules/openveo-api/' , function(){
+       remote.exec("sudo npm install --production");
+     });
+  }
+});
+
+// Link current folder on the new release
+plan.remote(['deploy', 'finalize'], function (remote){
+  currentReleaseDir = remote.exec('readlink current || echo ' + newReleaseDir, {
+    failsafe: true,
+    exec : { cwd : config.destinationDirectory[plateform]}
+  }).stdout;
+  remote.log('link folder to web root');
+  remote.rm('-f ' + currentReleaseLink);
+  remote.ln('-s ' + newReleaseDir + ' ' + currentReleaseLink);
 });
 
 // Rollback management
