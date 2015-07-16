@@ -20,7 +20,8 @@
       "get /getTaxonomy/:name" : "app/server/controllers/TaxonomyController.getTaxonomyAction"
     },
     "ws": {
-      "get /getEntities/:type" : "app/server/controllers/crudController.getEntitiesAction"
+      "get /:type/:id" : "app/server/controllers/crudController.getEntityAction",
+      "get /:type" : "app/server/controllers/crudController.getEntitiesAction"
     }
   },
   "entities" : {
