@@ -8,10 +8,10 @@ var ut = require("openveo-test").generator;
 
 // crudController.js
 describe("crudController", function(){
-  var request, response, crudController;
+  var request, response, crudController, ClientModel;
   
   beforeEach(function(){
-    var ClientModel = process.require("app/server/models/ClientModel.js");
+    ClientModel = process.require("app/server/models/ClientModel.js");
 
     ut.generateSuccessDatabase();
     applicationStorage.setEntities({
@@ -45,53 +45,36 @@ describe("crudController", function(){
     });
     
     it("Should return an HTTP code 400 if type is not found in url parameters", function(done){
+      request = { params : {} };
       
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
+      crudController.getEntitiesAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
         done();
-      };
-
-      crudController.getEntitiesAction(request, response, function(){
-        assert.ok(false);
       });
     });
       
     it("Should return an HTTP code 500 if type does not correspond to an existing entity", function(done){
       request.params.type = "wrongType";
       request.body = {};
-      response.status = function(status){
-        assert.equal(status, 500);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.getEntitiesAction(request, response, function(){
-        assert.ok(false);
+      crudController.getEntitiesAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 500);
+        done();
       });
     });
       
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
       ut.generateFailDatabase();
+      applicationStorage.setEntities({
+        "application" : new ClientModel()
+      });
 
-      response.status = function(status){
-        assert.equal(status, 500);
-        return this;
-      };
-      
-      response.send = function(data){
-        assert.ok(true);
+      crudController.getEntitiesAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 500);
         done();
-      };
-
-      crudController.getEntitiesAction(request, response, function(){
-        assert.ok(false);
       });
     });
 
@@ -129,52 +112,35 @@ describe("crudController", function(){
       request.params = {};
       request.body = {};
 
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
+      crudController.addEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
         done();
-      };
-
-      crudController.addEntityAction(request, response, function(){
-        assert.ok(false);
       });
     });  
     
     it("Should return an HTTP code 400 if body is empty", function(done){
       request.params = { type: "application"};
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.addEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.addEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
+        done();
       });
     });  
     
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
       ut.generateFailDatabase();
+      applicationStorage.setEntities({
+        "application" : new ClientModel()
+      });
 
       request.body = {};
-      response.status = function(status){
-        assert.equal(status, 500);
-        return this;
-      };
-      
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.addEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.addEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 500);
+        done();
       });
     });
 
@@ -213,17 +179,10 @@ describe("crudController", function(){
       request.params = { id : "1" };
       request.body = {};
 
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
+      crudController.updateEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
         done();
-      };
-
-      crudController.updateEntityAction(request, response, function(){
-        assert.ok(false);
       });
     });    
     
@@ -231,53 +190,36 @@ describe("crudController", function(){
       request.params = { type : "application" };
       request.body = {};
 
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
+      crudController.updateEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
         done();
-      };
-
-      crudController.updateEntityAction(request, response, function(){
-        assert.ok(false);
       });
     });    
     
     it("Should return an HTTP code 400 if body is empty", function(done){
       request.params = { id: "1", type : "application" };
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.updateEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.updateEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
+        done();
       });
-    });     
+    });
     
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
       ut.generateFailDatabase();
+      applicationStorage.setEntities({
+        "application" : new ClientModel()
+      });
 
       request.params = { id: "1", type : "application"};
       request.body = {};
-      response.status = function(status){
-        assert.equal(status, 500);
-        return this;
-      };
-      
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.updateEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.updateEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 500);
+        done();
       });
     });
     
@@ -304,52 +246,36 @@ describe("crudController", function(){
     
     it("Should return an HTTP code 400 if type is not found in url parameters", function(done){
       request.params = { id : "1" };
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.removeEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.removeEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
+        done();
       });
     });    
     
     it("Should return an HTTP code 400 if id is not found in url parameters", function(done){
       request.params = { type : "application" };
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.removeEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.removeEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
+        done();
       });
     }); 
     
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
       ut.generateFailDatabase();
+      applicationStorage.setEntities({
+        "application" : new ClientModel()
+      });
 
       request.params = { id: "2", type : "application" };
-      response.status = function(status){
-        assert.equal(status, 500);
-        return this;
-      };
-      
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.removeEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.removeEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 500);
+        done();
       });
     });    
     
@@ -376,52 +302,36 @@ describe("crudController", function(){
     
     it("Should return an HTTP code 400 if type is not found in url parameters", function(done){
       request.params = { id : "3" };
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.getEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.getEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
+        done();
       });
     });    
     
     it("Should return an HTTP code 400 if id is not found in url parameters", function(done){
       request.params = { type : "application" };
-      response.status = function(status){
-        assert.equal(status, 400);
-        return this;
-      };
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.getEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.getEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 400);
+        done();
       });
     }); 
     
     it("Should return an HTTP code 500 if something wen't wrong", function(done){
       ut.generateFailDatabase();
+      applicationStorage.setEntities({
+        "application" : new ClientModel()
+      });
 
       request.params = { id: "3", type : "application" };
-      response.status = function(status){
-        assert.equal(status, 500);
-        return this;
-      };
-      
-      response.send = function(data){
-        assert.ok(true);
-        done();
-      };
 
-      crudController.getEntityAction(request, response, function(){
-        assert.ok(false);
+      crudController.getEntityAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 500);
+        done();
       });
     });    
     

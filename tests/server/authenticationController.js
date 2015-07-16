@@ -87,13 +87,9 @@ describe("authenticationController", function(){
           return true; 
         }
       };
-      
-      response.status = function(status){return this;};
-      response.send = function(data){
-        assert.ok(false);
-      };
 
-      authenticationController.restrictAction(request, response, function(){
+      authenticationController.restrictAction(request, response, function(error){
+        assert.isUndefined(error);
         done();
       });
       
@@ -115,16 +111,11 @@ describe("authenticationController", function(){
           return (format === "json");
         }
       };
-      
-      response.status = function(status){
-        return this;
-      };
-      response.send = function(data){
-        done();
-      };
 
-      authenticationController.restrictAction(request, response, function(){
-        assert.ok(false);
+      authenticationController.restrictAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 403);
+        done();
       });
       
     });     

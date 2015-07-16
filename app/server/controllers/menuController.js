@@ -27,7 +27,7 @@ module.exports.getMenuAction = function(request, response, next){
 
   }
   else
-    response.status(404).send();
+    next();
 };
 
 /**

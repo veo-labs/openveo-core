@@ -3,6 +3,7 @@
 // Module dependencies
 var winston = require("winston");
 var openVeoAPI = require("openveo-api");
+var errors = process.require("app/server/httpErrors.js");
 
 var TaxonomyModel = process.require("app/server/models/TaxonomyModel.js");
 var taxonomyModel = new TaxonomyModel();
@@ -29,10 +30,9 @@ module.exports.getTaxonomyAction = function(request, response, next){
   if(request.params.name){
     taxonomyModel.getByName(request.params.name, function(error, taxonomy){
       if(error){
-        logger.error(error && error.message);
-        response.status(500).send();
+        next(errors.GET_TAXONOMY_ERROR);
       }
-      else{       
+      else{
         if (taxonomy === undefined) taxonomy = {name:request.params.name, tree:[]}
         response.send({ taxonomy : taxonomy });
       }
@@ -41,5 +41,5 @@ module.exports.getTaxonomyAction = function(request, response, next){
 
   // Missing id of the taxonomy
   else
-    response.status(400).send();
+    next(errors.GET_TAXONOMY_MISSING_PARAMETERS);
 };

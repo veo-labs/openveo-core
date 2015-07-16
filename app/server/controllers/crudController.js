@@ -3,6 +3,7 @@
 // Module dependencies
 var winston = require("winston");
 var openVeoAPI = require("openveo-api");
+var errors = process.require("app/server/httpErrors.js");
 
 // Get logger
 var logger = winston.loggers.get("openveo");
@@ -19,8 +20,7 @@ module.exports.getEntitiesAction = function(request, response, next){
     if(model){
       model.get(function(error, entities){
         if(error){
-          logger.error(error.message);
-          response.status(500).send();
+          next(errors.GET_ENTITIES_ERROR);
         }
         else
           response.send({ entities : entities });
@@ -28,13 +28,15 @@ module.exports.getEntitiesAction = function(request, response, next){
     }
     
     // No model implemented for this type of entity
-    else
-      response.status(500).send();
+    else{
+      next(errors.GET_ENTITIES_UNKNOWN);
+    }
   }
   
   // Missing the type of entities
-  else
-    response.status(400).send();
+  else{
+    next(errors.GET_ENTITIES_MISSING_PARAMETERS);
+  }
 };
 
 /**
@@ -50,8 +52,7 @@ module.exports.getEntityAction = function(request, response, next){
     if(model){
       model.getOne(request.params.id, function(error, entity){
         if(error){
-          logger.error(error.message);
-          response.status(500).send();
+          next(errors.GET_ENTITY_ERROR);
         }
         else
           response.send({ entity : entity });
@@ -59,13 +60,15 @@ module.exports.getEntityAction = function(request, response, next){
     }
     
     // No model implemented for this type of entity
-    else
-      response.status(500).send();
+    else{
+      next(errors.GET_ENTITY_UNKNOWN);
+    }
   }
   
   // Missing type and / or id of the entity
-  else
-    response.status(400).send();
+  else{
+    next(errors.GET_ENTITY_MISSING_PARAMETERS);
+  }
 };
 
 /**
@@ -82,8 +85,7 @@ module.exports.updateEntityAction = function(request, response, next){
     if(model){
       model.update(request.params.id, request.body, function(error, numberOfUpdatedItems){
         if(error || numberOfUpdatedItems === 0){
-          logger.error((error && error.message) || "Failed to update " + request.params.type + " with id " + request.params.id);
-          response.status(500).send();
+          next(errors.UPDATE_ENTITY_ERROR);
         }
         else
           response.send();
@@ -91,13 +93,15 @@ module.exports.updateEntityAction = function(request, response, next){
     }
     
     // No model implemented for this type of entity
-    else
-      response.status(500).send();
+    else{
+      next(errors.UPDATE_ENTITY_UNKNOWN);
+    }
   }
   
   // Missing type and / or id of the entity
-  else
-    response.status(400).send();
+  else{
+    next(errors.UPDATE_ENTITY_MISSING_PARAMETERS);
+  }
 };
 
 /**
@@ -113,8 +117,7 @@ module.exports.addEntityAction = function(request, response, next){
     if(model){
       model.add(request.body, function(error, entity){
         if(error){
-          logger.error(error.message);
-          response.status(500).send();
+          next(errors.ADD_ENTITY_ERROR);
         }
         else
           response.send({entity  : entity});
@@ -122,13 +125,15 @@ module.exports.addEntityAction = function(request, response, next){
     }
     
     // No model implemented for this type of entity
-    else
-      response.status(500).send();
+    else{
+      next(errors.ADD_ENTITY_UNKNOWN);
+    }
   }
   
-  // Missing type and / or id of the entity
-  else
-    response.status(400).send();
+  // Missing type and / or body
+  else{
+    next(errors.ADD_ENTITY_MISSING_PARAMETERS);
+  }
 };
 
 /**
@@ -144,8 +149,7 @@ module.exports.removeEntityAction = function(request, response, next){
     if(model){
       model.remove(request.params.id, function(error, numberOfRemovedItems){
         if(error || numberOfRemovedItems === 0){
-          logger.error((error && error.message) || "Failed to remove " + request.params.type + " with id " + request.params.id);
-          response.status(500).send();
+          next(errors.REMOVE_ENTITY_ERROR);
         }
         else
           response.send();
@@ -153,13 +157,15 @@ module.exports.removeEntityAction = function(request, response, next){
     }
     
     // No model implemented for this type of entity
-    else
-      response.status(500).send();
+    else{
+      next(errors.REMOVE_ENTITY_UNKNOWN);
+    }
   }
   
   // Missing type and / or id of the entity
-  else
-    response.status(400).send();
+  else{
+    next(errors.REMOVE_ENTITY_MISSING_PARAMETERS);
+  }
 };
 
 /**

@@ -4,6 +4,7 @@
 var passport = require("passport");
 var openVeoAPI = require("openveo-api");
 var pathUtil = process.require("app/server/path.js");
+var errors = process.require("app/server/httpErrors.js");
 var applicationStorage = openVeoAPI.applicationStorage;
 
 /**
@@ -20,12 +21,12 @@ module.exports.authenticateAction = function(request, response, next){
     // An error occurred while authenticating
     // Dispatch the error
     if(error)
-      return next(error);
+      return next(errors.BACK_END_AUTHENTICATION_ERROR);
     
     // No user was found for the given login / password
     // Send back a 401 Not Authorized
     if(!user)
-      return response.status(401).send();
+      return next(errors.BACK_END_AUTHENTICATION_FAILED);
     
     // Establish a session, authenticate the request
     request.login(user, function(error){
@@ -53,11 +54,11 @@ module.exports.logoutAction = function(request, response, next){
  * If not send back an HTTP code 401 with appropriate page.
  */
 module.exports.restrictAction = function(request, response, next){
-  var httpErrorCode = 401;
+  var error = errors.BACK_END_UNAUTHORIZED;
 
   // User is authenticated
   if(request.isAuthenticated()){
-    httpErrorCode = 403;
+    error = errors.BACK_END_FORBIDDEN;
 
     // Get requested permission for this request
     var permission = getPermissionByUrl(applicationStorage.getPermissions(), request.url, request.method);
@@ -86,22 +87,7 @@ module.exports.restrictAction = function(request, response, next){
   }
 
   // Not authenticated
-  response.status(httpErrorCode);
-  
-  // HTML content
-  if(request.accepts("html")){
-    response.render(httpErrorCode);
-    return;
-  }
-  
-  // JSON content
-  if(request.accepts("json")){
-    response.send({ error: httpErrorCode });
-    return;
-  }
-  
-  // Text content
-  response.type("txt").send(httpErrorCode);
+  return next(error);
 
 };
 

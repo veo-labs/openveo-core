@@ -2,6 +2,7 @@
 
 // Module files
 var i18n = process.require("app/server/i18n.js");
+var errors = process.require("app/server/httpErrors.js");
 
 /**
  * Gets a public dictionary of translations by its name.
@@ -14,8 +15,9 @@ module.exports.getDictionaryAction = function(request, response, next){
   i18n.getTranslations(request.params.dictionary.replace(/^admin-/, ""), request.params.code, null, function(translations){
     if(translations)
       response.send(translations);
-    else      
-      response.status(404).send({ error: "Not found" });
+    else{
+      next(errors.I18N_DICTIONARY_NOT_FOUND);
+    }
   });
 };
 
@@ -33,7 +35,8 @@ module.exports.getAdminDictionaryAction = function(request, response, next){
   i18n.getTranslations(request.params.dictionary, request.params.code, "admin-", function(translations){
     if(translations)
       response.send(translations);
-    else      
-      response.status(404).send({ error: "Not found" });
+    else{
+      next(errors.I18N_DICTIONARY_NOT_FOUND);
+    }
   });
 };

@@ -4,6 +4,7 @@
 var winston = require("winston");
 var openVeoAPI = require("openveo-api");
 var pathUtil = process.require("app/server/path.js");
+var errors = process.require("app/server/httpErrors.js");
 
 // Module files
 var applicationStorage = openVeoAPI.applicationStorage;
@@ -31,13 +32,12 @@ module.exports.validateScopesAction = function(request, response, next){
     // Access refused
     else{
       logger.warn("Access refused for client " + request.oauth2.accessToken.clientId + " for path " + request.url + " with method " + request.method);
-      response.status(403).send("Requires a token with the " + scope + " scope");
+      next(errors.WS_FORBIDDEN);
     }
 
   }
   else{
-    logger.warn("Access refused for unknown client");
-    response.status(403).send("Forbidden");
+    next(errors.WS_UNAUTHORIZED);
   }
 };
 

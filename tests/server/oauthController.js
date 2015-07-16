@@ -53,16 +53,10 @@ describe("oauthController", function(){
          }
       };
 
-      response.status = function(status){
-        assert.equal(status, 403);
-        return this;
-      };
-      response.send = function(data){
+      oauthController.validateScopesAction(request, response, function(error){
+        assert.isDefined(error);
+        assert.equal(error.httpCode, 403);
         done();
-      };
-
-      oauthController.validateScopesAction(request, response, function(){
-        assert(false);
       });
     });
 
