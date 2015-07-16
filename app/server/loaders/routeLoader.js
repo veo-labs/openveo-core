@@ -106,3 +106,26 @@ module.exports.decodeRoutes = function(pluginPath, routes){
   return decodedRoutes;
   
 };
+
+/**
+ * Applies a list of routes to a router.
+ * @param Array routes The list of routes to apply
+ * e.g.
+ * [
+ *   {
+ *     method : "get",
+ *     path : "/logout",
+ *     action : [Function]
+ *   }
+ *   ...
+ * ]
+ * @param Object router An express router to attach the routes to
+ */
+module.exports.applyRoutes = function(routes, router){
+  if(routes && routes.length && router){
+    routes.forEach(function(route){
+      logger.debug("Route loaded", {"route" : route.method + " " + route.path});
+      router[route.method](route.path, route.action);
+    });
+  }
+}

@@ -206,7 +206,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
                   plugin.viewsFolders.push(path.join(pluginPath, viewsFolder));
                 });
               }
-              
+
               // Retrieve routes and back end conf from plugin conf
               var pluginRoutes = pluginConf["routes"];
               var backEndConf = pluginConf["backOffice"];
@@ -219,6 +219,21 @@ module.exports.loadPlugin = function(pluginPath, callback){
                 plugin.webServiceRoutes = pluginRoutes["ws"] && routeLoader.decodeRoutes(pluginPath, pluginRoutes["ws"]);
               }
               
+              // Found routes for the plugin
+              // Apply routes to the public router
+              if(plugin.routes && plugin.router)
+                routeLoader.applyRoutes(plugin.routes, plugin.router);
+
+              // Found admin routes for the plugin
+              // Apply routes to the admin router
+              if(plugin.adminRoutes && plugin.adminRouter)
+                routeLoader.applyRoutes(plugin.adminRoutes, plugin.adminRouter);
+
+              // Found routes for the plugin
+              // Apply routes to the web service router
+              if(plugin.webServiceRoutes && plugin.webServiceRouter)
+                routeLoader.applyRoutes(plugin.webServiceRoutes, plugin.webServiceRouter);
+
               // Got entities
               if(pluginConf["entities"])
                 plugin.entities = pluginConf["entities"] && entityLoader.decodeEntities(pluginPath, pluginConf["entities"]);
@@ -237,7 +252,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
               }
             }
             catch(e){
-               logger.warn(e.message, {action : "loadPlugin", plugin : plugin.name});
+              logger.warn(e.message, {action : "loadPlugin", plugin : plugin.name});
               callback(new Error(e.message));
               return;
             }

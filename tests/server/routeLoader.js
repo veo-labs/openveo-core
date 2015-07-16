@@ -57,4 +57,67 @@ describe("routeLoader", function(){
 
   });
 
+  // applyRoutes method
+  describe("applyRoutes", function(){
+
+    it("Should be able to apply a route to an express router", function(done){
+
+      var routes = [
+        {
+          method : "get",
+          path : "/get",
+          action : function(){}
+        },
+        {
+          method : "post",
+          path : "/post",
+          action : function(){}
+        },
+        {
+          method : "put",
+          path : "/put",
+          action : function(){}
+        },
+        {
+          method : "delete",
+          path : "/delete",
+          action : function(){}
+        },
+        {
+          method : "all",
+          path : "/all",
+          action : function(){}
+        }
+      ];
+
+      var router = {
+        get: function(path, action){
+          assert.equal(path, "/get");
+          assert.isFunction(action);
+        },
+        post: function(path, action){
+          assert.equal(path, "/post");
+          assert.isFunction(action);
+        },
+        put: function(path, action){
+          assert.equal(path, "/put");
+          assert.isFunction(action);
+        },
+        delete: function(path, action){
+          assert.equal(path, "/delete");
+          assert.isFunction(action);
+        },
+        all: function(path, action){
+          assert.equal(path, "/all");
+          assert.isFunction(action);
+          done();
+        }
+      };
+
+      routeLoader.applyRoutes(routes, router);
+
+    });
+
+  });
+
 });
