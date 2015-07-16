@@ -35,15 +35,6 @@
       "name" : "PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME"
     }
   ],
-  "webServiceScopes" : {
-    "video" : {
-      "name" : "WS_SCOPES.GET_VIDEO_NAME",
-      "description" : "WS_SCOPES.GET_VIDEO_DESCRIPTON",
-      "paths" : [
-        "get /getEntities/video"
-      ]
-    }
-  },
   "backOffice": {
     "menu" : [
       {

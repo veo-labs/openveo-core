@@ -10,10 +10,6 @@
     "DASHBOARD" : "Dashboard",
     "LOGOUT" : "Logout"
   },
-  "WS_SCOPES" : {
-    "GET_VIDEO_NAME": "Video getter",
-    "GET_VIDEO_DESCRIPTION" :  "Get all video entities"
-  },
   "PERMISSIONS" : {
     "CREATE_APPLICATION_NAME" : "Create applications",
     "CREATE_APPLICATION_DESCRIPTION" : "Create Web Service client applications",

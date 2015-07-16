@@ -10,10 +10,6 @@
     "DASHBOARD" : "Tableau de bord",
     "LOGOUT" : "Déconnexion"
   },
-  "WS_SCOPES" : {
-    "GET_VIDEO_NAME": "Video getter",
-    "GET_VIDEO_DESCRIPTION" :  "Get all video entities"
-  },
   "PERMISSIONS" : {
     "CREATE_APPLICATION_NAME" : "Créer des applications",
     "CREATE_APPLICATION_DESCRIPTION" : "Créer des applications clientes accédant au Web Service",
