@@ -7,9 +7,6 @@ var winston = require("winston");
 var openVeoAPI = require("openveo-api");
 var applicationStorage = openVeoAPI.applicationStorage;
 
-// Retrieve logger
-var logger = winston.loggers.get("openveo");
-
 /**
  * Gets the list of scopes and return it as a JSON object.
  * Returns a JSON object as :
