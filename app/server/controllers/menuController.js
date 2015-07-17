@@ -1,13 +1,27 @@
 "use strict"
 
+/** 
+ * @module core-controllers
+ */
+
+/**
+ * Provides route actions to access back end menu.
+ *
+ * @class menuController
+ */
+
 // Module dependencies
 var openVeoAPI = require("openveo-api");
 var applicationStorage = openVeoAPI.applicationStorage;
 
 /**
  * Gets the backend menu as a JSON object.
- * If menu is empty a 404 Not Found is sent.
+ *
+ * If menu is empty a 404 Not Found is sent.  
  * Menu is filtered regarding user permissions.
+ * 
+ * @method getMenuAction
+ * @static  
  */
 module.exports.getMenuAction = function(request, response, next){
   var menu = applicationStorage.getMenu();
@@ -33,29 +47,12 @@ module.exports.getMenuAction = function(request, response, next){
 /**
  * Filters the given menu depending on user permissions and requested
  * menu items permissions.
- * @param Array menu The menu to filter
- * e.g.
- * [
- *   {
- *     "label" : "MENU.PUBLISH",
- *     "subMenu" : [
- *       {
- *         "label" : "MENU.VIDEOS",
- *         "path" : "/admin/publish/be/videos"
- *       },
- *       {
- *         "label" : "MENU.WATCHER",
- *         "path" : "/admin/publish/be/watcher",
- *         "permission" : "manage-watcher"
- *       },
- *       {
- *         "label" : "MENU.PROPERTIES",
- *         "path" : "/admin/publish/be/properties"
- *       }
- *     ]
- *   }
- * ]
- * @param Object user The authenticated user
+ *
+ * @method filterMenuByPermissions
+ * @private
+ * @static  
+ * @param {Array} menu The menu to filter
+ * @param {Object} user The authenticated user
  */
 function filterMenuByPermissions(menu, user){
   var filteredMenu = [];
@@ -117,8 +114,12 @@ function filterMenuByPermissions(menu, user){
 
 /**
  * Checks if user has the given permission.
- * @param Object user The user to test
- * @param String permission The permission id to check
+ *
+ * @method isAuthorized
+ * @private
+ * @static  
+ * @param {Object} user The user to test
+ * @param {String} permission The permission id to check
  */
 function isAuthorized(user, permission){
   if(user && user.roles){

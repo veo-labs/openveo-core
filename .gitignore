@@ -48,3 +48,5 @@ build/
 /public/js/*
 /public/css/*
 
+# Documentation (yuidoc)
+doc

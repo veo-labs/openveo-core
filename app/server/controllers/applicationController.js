@@ -1,5 +1,16 @@
 "use strict"
 
+/** 
+ * @module core-controllers
+ */
+
+/**
+ * Provides route actions for all requests relative to the Web Service
+ * client applications and scopes.
+ *
+ * @class applicationController
+ */
+
 // Module dependencies
 var util = require("util");
 var crypto = require("crypto");
@@ -9,13 +20,17 @@ var applicationStorage = openVeoAPI.applicationStorage;
 
 /**
  * Gets the list of scopes and return it as a JSON object.
- * Returns a JSON object as :
- * {
- *  "videos" : {
- *    "name" : "Name of the scope",
- *    "description" : "Scope description"
- *  }
- * }
+ *
+ * @example
+ *     {
+ *       "videos" : {
+ *         "name" : "Name of the scope",
+ *         "description" : "Scope description"
+ *       }
+ *     }
+ *
+ * @method getScopesAction
+ * @static
  */
 module.exports.getScopesAction = function(request, response, next){
   var scopes = applicationStorage.getWebServiceScopes();

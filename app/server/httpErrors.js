@@ -1,6 +1,17 @@
 "use strict"
 
-// HTTP Error codes
+/**
+ * The list of HTTP errors with, for each error, its associated
+ * hexadecimal code and HTTP return code.  
+ * HTTP errors are sent by {{#crossLinkModule "controllers"}}{{/crossLinkModule}}.
+ *
+ * @example
+ *     var httpErrors = process.require("app/server/httpErrors.js");
+ *     console.log(httpErrors.UNKNOWN_ERROR);
+ *
+ * @module core-http-errors
+ * @main core-http-errors
+ */
 module.exports = {
   
   // General errors

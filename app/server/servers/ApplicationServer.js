@@ -1,5 +1,9 @@
 "use scrict"
 
+/** 
+ * @module core-servers 
+ */
+
 // Module dependencies
 var path = require("path");
 var util = require("util");
@@ -23,11 +27,19 @@ var applicationStorage = openVeoAPI.applicationStorage;
 
 /**
  * Application's environment mode.
+ *
+ * @property env
+ * @type String
+ * @private
  */
 var env = (process.env.NODE_ENV == "production") ? "prod" : "dev";
 
 /**
  * Common options for all static servers delivering static files.
+ *
+ * @property staticServerOptions
+ * @type Object
+ * @private
  */
 var staticServerOptions = {
   extensions: ["htm", "html"],
@@ -38,8 +50,12 @@ var staticServerOptions = {
 };
 
 /**
- * Creates an ApplicationServer.
- * Initialize the express application and routers.
+ * ApplicationServer creates an HTTP server for the openveo application,
+ * which serves front and back end pages.
+ *
+ * @class ApplicationServer
+ * @constructor
+ * @extends Server
  */
 function ApplicationServer(){
   var self = this;
@@ -92,7 +108,8 @@ util.inherits(ApplicationServer, Server);
  * Applies all routes, found in configuration, to the public and
  * the admin routers.
  *
- * @param Database db The application database 
+ * @method onDatabaseAvailable
+ * @param {Database} db The application database 
  */
 ApplicationServer.prototype.onDatabaseAvailable = function(db){
 
@@ -108,32 +125,12 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db){
 
 /**
  * Mounts plugin.
+ *
  * Mounts plugin's public directories, public router, admin router, menu
  * views folders and permissions.
  *
- * @param Object plugin The available openveo plugin
- * e.g.
- * {
- *   router: [Function],
- *   adminRouter: [Function],
- *   webServiceRouter: [Function],
- *   mountPath: "/publish",
- *   name: "publish",
- *   publicDirectory: "/home/veo-labs/openveo/node_modules/openveo-publish/public",
- *   i18nDirectory: "/home/veo-labs/openveo/node_modules/openveo-publish/i18n",
- *   custom: [Object],
- *   webServiceScopes: [Object],
- *   permissions: [Array],
- *   viewsFolders: [Array],
- *   routes: [Array],
- *   adminRoutes: [Array],
- *   webServiceRoutes: [Array],
- *   entities: [Object],
- *   menu: [Array],
- *   scriptLibFiles: [Array],
- *   scriptFiles: [Array],
- *   cssFiles: [Array]
- * }
+ * @method onPluginAvailable
+ * @param {Object} plugin The available openveo plugin
  */
 ApplicationServer.prototype.onPluginAvailable = function(plugin){
   
@@ -166,29 +163,8 @@ ApplicationServer.prototype.onPluginAvailable = function(plugin){
 /**
  * Starts the plugin when loaded.
  *
- * @param Object plugin The available openveo plugin
- * e.g.
- * {
- *   router: [Function],
- *   adminRouter: [Function],
- *   webServiceRouter: [Function],
- *   mountPath: "/publish",
- *   name: "publish",
- *   publicDirectory: "/home/veo-labs/openveo/node_modules/openveo-publish/public",
- *   i18nDirectory: "/home/veo-labs/openveo/node_modules/openveo-publish/i18n",
- *   custom: [Object],
- *   webServiceScopes: [Object],
- *   permissions: [Array],
- *   viewsFolders: [Array],
- *   routes: [Array],
- *   adminRoutes: [Array],
- *   webServiceRoutes: [Array],
- *   entities: [Object],
- *   menu: [Array],
- *   scriptLibFiles: [Array],
- *   scriptFiles: [Array],
- *   cssFiles: [Array]
- * } 
+ * @method onPluginLoaded
+ * @param {Object} plugin The available openveo plugin 
  */
 ApplicationServer.prototype.onPluginLoaded = function(plugin){
   
@@ -200,10 +176,14 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin){
 
 /**
  * Finalizes the ApplicationServer initialization.
+ *
  * Mounts the public directories of core and plugins, sets views
  * folders, sets permissions and set default route and error handling.
  * Default route must load the main view due to AngularJS single 
  * application.
+ *
+ * @method onPluginsLoaded 
+ * @param {Object} plugin The available openveo plugin 
  */
 ApplicationServer.prototype.onPluginsLoaded = function(plugin){
   var self = this;
@@ -259,6 +239,8 @@ ApplicationServer.prototype.onPluginsLoaded = function(plugin){
 
 /**
  * Starts the HTTP server.
+ *
+ * @method startServer 
  */
 ApplicationServer.prototype.startServer = function(){
   

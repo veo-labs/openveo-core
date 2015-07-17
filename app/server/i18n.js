@@ -1,5 +1,14 @@
 "use strict"
 
+/**
+ * Provides functions to help translates the application. Translations 
+ * are grouped in dictionaries.
+ *
+ * @module core-i18n
+ * @class core-i18n
+ * @main core-i18n
+ */
+
 // Module dependencies
 var path = require("path");
 var fs = require("fs");
@@ -19,13 +28,27 @@ var applicationStorage = openVeoAPI.applicationStorage;
  * If the same dictionary name is found twice (same file name in
  * different i18n directories), dictionaries are merged.
  *
- * @param String dictionary The name of the dictionary, this is the name 
- * of the dictionary file without extension and without the prefix if
- * prefix is set
- * @param String code The language country code (e.g. en-US)
- * @param String prefix The prefix of the dictionary file to retrieve
- * @param Function Callback function to call when its done
- *  - Object translations A JavaScript object containing all translations 
+ * @example
+ *     var i18n = process.require("app/server/i18n.js");
+ *     i18n.getTranslations("login", "fr-FR", null, function(translations){
+ *       console.log(translations);
+ *     });
+ *
+ * @example
+ *     var i18n = process.require("app/server/i18n.js");
+ *     i18n.getTranslations("back-office", "en", "admin", function(translations){
+ *       console.log(translations);
+ *     });
+ *
+ * @method getTranslations
+ * @async
+ * @param {String} dictionary The name of the dictionary, this is 
+ * the name of the dictionary file without extension and without 
+ * the prefix if prefix is set
+ * @param {String} code The language country code (e.g. en-US)
+ * @param {String} prefix The prefix of the dictionary file to retrieve
+ * @param {Function} callback Function to call when its done
+ *  - *Object* A JavaScript object containing all translations
  */
 module.exports.getTranslations = function(dictionary, code, prefix, callback){
   var translations = null;

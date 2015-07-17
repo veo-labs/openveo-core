@@ -1,5 +1,15 @@
 "use strict"
 
+/** 
+ * @module core-controllers
+ */
+
+/**
+ * Provides route actions to deal with errors.
+ *
+ * @class errorController
+ */
+
 // Module dependencies
 var winston = require("winston");
 var errors = process.require("app/server/httpErrors.js");
@@ -9,7 +19,9 @@ var logger = winston.loggers.get("openveo");
 
 /**
  * Handles requests which does not correspond to anything.
- * Send back an error with an HTTP 404.
+ *
+ * @method notFoundAction
+ * @static  
  */
 module.exports.notFoundAction = function(request, response, next){  
   next(errors.PATH_NOT_FOUND);
@@ -17,14 +29,18 @@ module.exports.notFoundAction = function(request, response, next){
 
 /**
  * Handles all errors.
- * @param Object error An error object with error code, HTTP code and
- * the error module
- * e.g.
- * {
- *   code: 1,
- *   httpCode: 500,
- *   module: "core"
- * }
+ *
+ * @example
+ *     {
+ *       "code" : 1,
+ *       "httpCode" : 500,
+ *       "module" : "core"
+ *     }
+ * 
+ * @method errorAction
+ * @static  
+ * @param {Object} error An error object with error code, HTTP code 
+ * and the error module
  */
 module.exports.errorAction = function(error, request, response, next){
   if(!error)

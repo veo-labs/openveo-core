@@ -1,5 +1,16 @@
 "use strict"
 
+/** 
+ * @module core-controllers
+ */
+
+/**
+ * Provides route actions for all requests relative to Web Service 
+ * authentication.
+ *
+ * @class oauthController
+ */
+
 // Module dependencies
 var winston = require("winston");
 var openVeoAPI = require("openveo-api");
@@ -14,7 +25,11 @@ var logger = winston.loggers.get("openveo");
 
 /**
  * Validates scopes for the given token depending on requested url.
+ *
  * Revoke access to the service if client does not have permission.
+ *
+ * @method validateScopesAction
+ * @static  
  */
 module.exports.validateScopesAction = function(request, response, next){
   
@@ -43,9 +58,13 @@ module.exports.validateScopesAction = function(request, response, next){
 
 /**
  * Retrieves the scope corresponding to the couple url / http method.
- * @param String url An url
- * @param String httpMethod The http method (POST, GET, PUT, DELETE)
- * @return String The scope id if found, null otherwise
+ *
+ * @method getScopeByUrl
+ * @private
+ * @static  
+ * @param {String} url An url
+ * @param {String} httpMethod The http method (POST, GET, PUT, DELETE)
+ * @return {String} The scope id if found, null otherwise
  */
 function getScopeByUrl(url, httpMethod){
   var scopes = applicationStorage.getWebServiceScopes();

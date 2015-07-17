@@ -1,5 +1,9 @@
 "use strict"
 
+/** 
+ * @module core-oauth
+ */
+
 // Module dependencies
 var oAuthLib = require("oauth20-provider");
 var client = process.require("app/server/oauth/client.js");

@@ -1,5 +1,15 @@
 "use strict"
 
+/** 
+ * @module core-oauth
+ */
+
+/**
+ * Provides functions to interface oauth tokens and openveo Web Service.
+ *
+ * @class accessToken
+ */
+
 // Module dependencies
 var crypto = require("crypto");
 var openVeoAPI = require("openveo-api");
@@ -11,27 +21,19 @@ var accessToken = {};
 
 /**
  * Create access token and save it in database.
+ * 
  * It will previously remove all tokens associated to the client.
  *
- * @param String userId User identifier associated to the OAuth client
- * @param String clientId OAuth client id
- * @param Object scopes The list of scopes
- * {
- *   "scope1" : {
- *     "description" : "description 1",
- *     "name" : "name 1",
- *     "activated" : true
- *   },
- *   "scope2" : {
- *     "description" : "description 2",
- *     "name" : "name 2",
- *     "activated" : true
- *   }
- * }  
- * @param Number ttl Token time to live (in seconds)
- * @param Function callback with :
- *  - Object An error if something went wrong or null if everything is fine
- *  - String The access token
+ * @method create
+ * @static  
+ * @async
+ * @param {String} userId User identifier associated to the OAuth client
+ * @param {String} clientId OAuth client id
+ * @param {Object} scopes The list of scopes
+ * @param {Number} ttl Token time to live (in seconds)
+ * @param {Function} callback with :
+ *  - **Object** An error if something went wrong or null if everything is fine
+ *  - **String** The access token
  */
 accessToken.create = function(userId, clientId, scopes, ttl, callback){
   var token = crypto.randomBytes(64).toString("hex");
@@ -48,27 +50,15 @@ accessToken.create = function(userId, clientId, scopes, ttl, callback){
 
 /**
  * Fetches accessToken object by token.
- * @param String token Client's access token
- * @param Function callback with :
- *  - Object An error is something went wrong or null if everything 
+ *
+ * @method fetchByToken
+ * @static  
+ * @async
+ * @param {String} token Client's access token
+ * @param {Function} callback with :
+ *  - **Object** An error is something went wrong or null if everything 
  * went fine
- *  - Object The access token
- *    {
- *      token : "756157bd2f1ffd0bb3945198411a0c568d653e02953180b58e0a4c770d07e068e2806e1b603b865d7124a422a9654a49c27f36c5499576368104bebd7f59fd51",
- *      clientId : "9f334536352a995af2be1cce83a9c71c243666b8",
- *      scopes : {
- *        scope1 : {
- *          description : "description 1",
- *          name : "name 1",
- *          activated : true
- *        },
- *        scope2 : {
- *          description : "description 2",
- *          name : "name 2",
- *          activated : true
- *        }
- *      }
- *    }
+ *  - **Object** The access token
  */
 accessToken.fetchByToken = function(token, callback){
   var model = getTokenModel();
@@ -77,8 +67,11 @@ accessToken.fetchByToken = function(token, callback){
 
 /**
  * Check if token is valid and not expired.
- * @param Object token The access token 
- * @return Boolean true if the token is valid, false otherwise
+ *
+ * @method checkTTL
+ * @static  
+ * @param {Object} token The access token 
+ * @return {Boolean} true if the token is valid, false otherwise
  */
 accessToken.checkTTL = function(token){
   return (token.ttl > new Date().getTime());
@@ -91,7 +84,10 @@ module.exports = accessToken;
 
 /**
  * Gets TokenModel instance.
- * @return TokenModel The TokenModel instance
+ *
+ * @method getTokenModel
+ * @private
+ * @return {TokenModel} The TokenModel instance
  */
 function getTokenModel(){
   if(!tokenModel)

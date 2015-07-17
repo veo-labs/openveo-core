@@ -1,5 +1,15 @@
 "use scrict"
 
+/** 
+ * @module core-loaders
+ */
+
+/**
+ * Provides functions to load openveo plugins.
+ *
+ * @class pluginLoader
+ */
+
 // Module dependencies
 var fs = require("fs");
 var path = require("path");
@@ -21,15 +31,26 @@ var env = ( process.env.NODE_ENV == 'production')?'prod':'dev';
  * If the same plugin is encountered several times, the top level one 
  * will be kept.
  *
- * @param String startingPath Root path from where looking for 
+ * @example
+ *     var pluginLoader = process.require("app/server/lodaers/pluginLoader.js");
+ *
+ *     // Load all potential openveo plugins from directory /node_modules
+ *     pluginLoader.loadPlugins("/node_modules", function(error, plugins){
+ *       console.log(plugins);
+ *     }
+ *
+ * @method loadPlugins
+ * @static  
+ * @async
+ * @param {String} startingPath Root path from where looking for 
  * openveo-* plugins.
- * @param Function callback A callback with two arguments :
- *    - Error An Error object or null
- *    - Array A list of Plugin objects
+ * @param {Function} callback A callback with two arguments :
+ *    - **Error** An Error object or null
+ *    - **Array** A list of Plugin objects
  */
 module.exports.loadPlugins = function(startingPath, callback){
   var self = this;
-  
+
   // Get the list of plugins absolute paths
   getPluginsPaths(startingPath, function(error, pluginsPaths){
 
@@ -91,20 +112,31 @@ module.exports.loadPlugins = function(startingPath, callback){
  *    does not match any of the files in the public directory of the main 
  *    plugin, it will look to the public directory of sub plugins
  *  - A conf.json file describing several things : 
- *    * public and admin routes
- *    * The back end menu items for the plugin
- *    * A list of JavaScript libraries files to load while accessing the
+ *    - public and admin routes
+ *    - The back end menu items for the plugin
+ *    - A list of JavaScript libraries files to load while accessing the
  *      back end page
- *    * A list of JavaScript files to load while accessing the back 
+ *    - A list of JavaScript files to load while accessing the back 
  *      end page
- *    * A list of CSS files to load while accessing the back end page
+ *    - A list of CSS files to load while accessing the back end page
  *  - The plugin main file as an Object inherited from the 
  *    Plugin Object (see Plugin.js in openveo-api module)
  * 
- * @param String pluginPath Absolute path to the plugin directory
- * @param Function callback A callback with two arguments :
- *    - Error An Error object or null
- *    - Plugin The loaded plugin or null
+ * @example
+ *     var pluginLoader = process.require("app/server/lodaers/pluginLoader.js");
+ *
+ *     // Load a plugin
+ *     pluginLoader.loadPlugin("/node_modules/openveo-publish", function(error, loadedPlugin){
+ *       console.log(loadedPlugin);
+ *     }
+ *
+ * @method loadPlugin
+ * @static  
+ * @async
+ * @param {String} pluginPath Absolute path to the plugin directory
+ * @param {Function} callback A callback with two arguments :
+ *    - **Error** An Error object or null
+ *    - **Plugin** The loaded plugin or null
  */
 module.exports.loadPlugin = function(pluginPath, callback){
   
@@ -292,20 +324,20 @@ module.exports.loadPlugin = function(pluginPath, callback){
  * Filters the list of plugins paths in case the same plugin appears
  * multiple time at different paths. Filters to keep only the most 
  * top level one.
- *
- * e.g
  * 
- * Before filter : 
- * [ 
- *  "/openveo/node_modules/openveo-plugin1",
- *  "/openveo/node_modules/openveo-plugin2/node_modules/openveo-plugin1"
- * ] 
+ * @example
+ *     var pluginsPaths = [ 
+ *       "/openveo/node_modules/openveo-plugin1",
+ *       "/openveo/node_modules/openveo-plugin2/node_modules/openveo-plugin1"
+ *     ];
+ *     console.log(filterPluginsPaths(pluginsPaths));
+ *     // [ "/openveo/node_modules/openveo-plugin1" ]
  *
- * After filter :
- * [ "/openveo/node_modules/openveo-plugin1" ]
- *
- * @param Array pluginsPaths The list of plugins paths to analyze
- * @return Array The filtered list of plugins paths
+ * @method filterPluginsPaths
+ * @private
+ * @static  
+ * @param {Array} pluginsPaths The list of plugins paths to analyze
+ * @return {Array} The filtered list of plugins paths
  */
 var filterPluginsPaths = function(pluginsPaths){
   var filteredPaths = [];
@@ -350,11 +382,22 @@ var filterPluginsPaths = function(pluginsPaths){
  * It assumes that the startingPath argument correspond to a valid
  * directory path.
  *
- * @param String startingPath Root path from where looking for 
+ * @example
+ *     getPluginsPaths("/node_modules", function(error, pluginsPaths){
+ *       console.log(pluginsPaths);
+ *       // [
+ *       //   '/home/veo-labs/openveo/node_modules/openveo-publish
+ *       // ]
+ *     };
+ *
+ * @method getPluginPaths
+ * @private
+ * @static  
+ * @param {String} startingPath Root path from where looking for 
  * openveo-* plugins.
- * @param Function callback A callback with two arguments :
- *    - Error An Error object or null
- *    - Array The list of plugins paths
+ * @param {Function} callback A callback with two arguments :
+ *    - **Error** An Error object or null
+ *    - **Array** The list of plugins paths
  */
 var getPluginsPaths = function(startingPath, callback){
 

@@ -1,5 +1,16 @@
 "use scrict"
 
+/** 
+ * @module core-loaders
+ */
+
+/**
+ * Provides functions to load routes from core and plugins
+ * configuration.
+ *
+ * @class routeLoader
+ */
+
 // Module dependencies
 var path = require("path");
 var util = require("util");
@@ -12,32 +23,32 @@ var logger = winston.loggers.get("openveo");
  * Gets the list of routes from a route configuration object with,
  * for each one, the method, the path and the action to call.
  *
- * @param String pluginPath The root path of the plugin associated to the routes
- * @param Object routes An object of routes as follow : 
- * {
- *   "get /test" : "app/server/controllers/TestController.getTestAction",
- *   "post /test" : "app/server/controllers/TestController.postTestAction",
- *   "/anotherTest" : "app/server/controllers/TestController.anotherTestAction",
- *   "/" : "app/server/controllers/HomeController.homeAction",
- *   "*" : [
- *      "app/server/controllers/HomeController.homeAction",
- *      "app/server/controllers/HomeController.defaultAction"
- *    ]
- * }
- * @return Array The decoded list of routes as follow : 
- * [
- *   {
- *     "method" : "get",
- *     "path" : "/test",
- *     "action" : Function
- *   },
- *   {
- *     "method" : "post",
- *     "path" : "test",
- *     "action" : Function
- *   }
- *   ...
- * ]
+ * @example
+ *     var routeLoader = process.require("app/server/loaders/routeLoader.js");
+ *     var routes = {
+ *       "get /test" : "app/server/controllers/TestController.getTestAction",
+ *       "post /test" : "app/server/controllers/TestController.postTestAction"
+ *     };
+ *     
+ *     console.log(routeLoader.decodeRoutes("/", routes));
+ *     // [
+ *     //   {
+ *     //     "method" : "get",
+ *     //     "path" : "/test",
+ *     //     "action" : Function
+ *     //   },
+ *     //   {
+ *     //     "method" : "post",
+ *     //     "path" : "test",
+ *     //     "action" : Function
+ *     //   }
+ *     // ]
+ *
+ * @method decodeRoutes
+ * @static  
+ * @param {String} pluginPath The root path of the plugin associated to the routes
+ * @param {Object} routes An object of routes as follow : 
+ * @return {Array} The decoded list of routes as follow : 
  */
 module.exports.decodeRoutes = function(pluginPath, routes){
    
@@ -109,17 +120,24 @@ module.exports.decodeRoutes = function(pluginPath, routes){
 
 /**
  * Applies a list of routes to a router.
- * @param Array routes The list of routes to apply
+ *
+ * @example
+ *     var router = express.Router();
+ *     var routeLoader = process.require("app/server/loaders/routeLoader.js");
+ *     var routes = [
+ *       {
+ *         method : "get",
+ *         path : "/logout",
+ *         action : [Function]
+ *       }
+ *     ];
+ *     routeLoader.applyRoutes(routes, router);
+ *
+ * @method applyRoutes
+ * @static  
+ * @param {Array} routes The list of routes to apply
  * e.g.
- * [
- *   {
- *     method : "get",
- *     path : "/logout",
- *     action : [Function]
- *   }
- *   ...
- * ]
- * @param Object router An express router to attach the routes to
+ * @param {Object} router An express router to attach the routes to
  */
 module.exports.applyRoutes = function(routes, router){
   if(routes && routes.length && router){

@@ -1,5 +1,23 @@
 "use strict"
 
+/** 
+ * @module core-controllers
+ */
+
+/**
+ * Provides route actions for all CRUD (Create Read Update Delete)
+ * operations on entities.  
+ * When an entity is defined by the core or a plugin, 5 routes will be 
+ * automatically handled by the crudController.
+ * - A route to get one entity
+ * - A route to get a list of entities
+ * - A route to add an entity
+ * - A route to update an entity
+ * - A route to delete an entity
+ *
+ * @class crudController
+ */
+
 // Module dependencies
 var winston = require("winston");
 var openVeoAPI = require("openveo-api");
@@ -10,8 +28,17 @@ var logger = winston.loggers.get("openveo");
 
 /**
  * Gets a list of entities.
+ *
  * Expects the following url parameters :
- *  - type The type of entities to retrieve
+ *  - **type** The type of entities to retrieve
+ *
+ * @example
+ *     {
+ *       "entities" : [ ... ]
+ *     }
+ *
+ * @method getEntitiesAction
+ * @static  
  */
 module.exports.getEntitiesAction = function(request, response, next){
   if(request.params.type){
@@ -41,9 +68,18 @@ module.exports.getEntitiesAction = function(request, response, next){
 
 /**
  * Gets a specific entity.
+ *
  * Expects the following url parameters : 
- *  - type The type of the entity to retrieve
- *  - id The id of the entity to retrieve
+ *  - **type** The type of the entity to retrieve
+ *  - **id** The id of the entity to retrieve
+ *
+ * @example
+ *     {
+ *       "entity" : { ... }
+ *     } 
+ *
+ * @method getEntityAction
+ * @static  
  */
 module.exports.getEntityAction = function(request, response, next){
   if(request.params.type && request.params.id){
@@ -72,11 +108,16 @@ module.exports.getEntityAction = function(request, response, next){
 };
 
 /**
- * Updates an entity..
+ * Updates an entity.
+ *
  * Expects the following url parameters : 
- *  - type The type of the entity to retrieve
- *  - id The id of the entity to update
- * Expects data in body.
+ *  - **type** The type of the entity to retrieve
+ *  - **id** The id of the entity to update
+ *
+ * Also expects data in body.
+ *
+ * @method updateEntityAction
+ * @static  
  */
 module.exports.updateEntityAction = function(request, response, next){
   if(request.params.type && request.params.id && request.body){
@@ -106,9 +147,14 @@ module.exports.updateEntityAction = function(request, response, next){
 
 /**
  * Adds an entity.
+ *
  * Expects the following url parameters : 
- *  - type The type of the entity to add
- * Expects entity data in body.
+ *  - **type** The type of the entity to add
+ *
+ * Also expects entity data in body.
+ *
+ * @method addEntityAction
+ * @static  
  */
 module.exports.addEntityAction = function(request, response, next){
   if(request.params.type && request.body){
@@ -138,9 +184,13 @@ module.exports.addEntityAction = function(request, response, next){
 
 /**
  * Removes an entity.
+ *
  * Expects the following url parameters : 
- *  - type The type of the entity to remove
- *  - id The id of the entity to remove
+ *  - **type** The type of the entity to remove
+ *  - **id** The id of the entity to remove
+ *
+ * @method removeEntityAction
+ * @static  
  */
 module.exports.removeEntityAction = function(request, response, next){
   if(request.params.type && request.params.id){
@@ -170,8 +220,12 @@ module.exports.removeEntityAction = function(request, response, next){
 
 /**
  * Gets entity model.
- * @param String type The type of entity
- * @return EntityModel An instance of an EntityModel
+ *
+ * @method getEntityModel
+ * @private
+ * @static  
+ * @param {String} type The type of entity
+ * @return {EntityModel} An instance of an EntityModel
  */
 var getEntityModel = function(type){
   var entities = openVeoAPI.applicationStorage.getEntities();

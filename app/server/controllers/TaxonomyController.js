@@ -1,5 +1,15 @@
 "use strict"
 
+/** 
+ * @module core-controllers
+ */
+
+/**
+ * Provides route actions to manage taxonomies.
+ *
+ * @class taxonomyController
+ */
+
 // Module dependencies
 var winston = require("winston");
 var openVeoAPI = require("openveo-api");
@@ -14,19 +24,24 @@ var logger = winston.loggers.get("openveo");
 
 /**
  * Gets information about a taxonomy.
+ *
  * Expects one GET parameter :
- *  - id The id of the taxonomy
- * Return information about the taxonomy as a JSON object :
- * {
- *   taxonomy : {
- *     id : 123456789,
- *     ...
- *   }
- * }
+ * - **id** The id of the taxonomy
+ *
+ * Return information about the taxonomy as a JSON object.
+ *
+ * @example
+ *     {
+ *       "taxonomy" : {
+ *         "id" : 123456789,
+ *         ...
+ *       }
+ *     }
+ *
+ * @method getTaxonomyAction
+ * @static
  */
 module.exports.getTaxonomyAction = function(request, response, next){
-  console.log('-------------------');
-   console.log(request.params.name);
   if(request.params.name){
     taxonomyModel.getByName(request.params.name, function(error, taxonomy){
       if(error){

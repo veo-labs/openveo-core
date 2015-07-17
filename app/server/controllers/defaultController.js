@@ -1,5 +1,16 @@
 "use strict"
 
+/** 
+ * @module core-controllers
+ */
+
+/**
+ * Provides default route action to deal with angularJS single page
+ * application.
+ *
+ * @class defaultController
+ */
+
 // Module dependencies
 var util = require("util");
 var winston = require("winston");
@@ -18,11 +29,15 @@ var env = ( process.env.NODE_ENV == 'production')?'prod':'dev';
 
 /**
  * Handles back office default action to display main HTML.
+ *
  * If no other action were performed display the main back
- * office template.
+ * office template.  
  * Configuration files of the openveo plugin and openveo sub plugins
- * are used to retrieve the list of files to load within the template. 
+ * are used to retrieve the list of files to load within the template.  
  * JavaScript libraries, JavaScript files and CSS files.
+ *
+ * @method defaultAction
+ * @static  
  */
 module.exports.defaultAction = function(request, response, next){
 

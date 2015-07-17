@@ -53,10 +53,14 @@ passport.deserializeUser(function(id, done){
 
 /**
  * Gets user roles details.
- * @param Object user The user
- * @param Function callback Function to call when its done
- *  - Error An error if something went wrong, null otherwise
- *  - Object The upgraded user with roles details
+ *
+ * @async
+ * @method getUserRoles
+ * @private
+ * @param {Object} user The user
+ * @param {Function} callback Function to call when its done
+ *  - *Error* An error if something went wrong, null otherwise
+ *  - *Object* The upgraded user with roles details
  */
 function getUserRoles(user, callback){
   

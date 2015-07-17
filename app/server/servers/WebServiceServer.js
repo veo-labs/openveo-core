@@ -1,5 +1,9 @@
 "use scrict"
 
+/** 
+ * @module core-servers 
+ */
+
 // Module dependencies
 var util = require("util");
 var express = require("express");
@@ -15,10 +19,13 @@ var logger = openVeoAPI.logger.get("openveo");
 var conf = process.require("conf.json");
 
 /**
- * Creates a WebServiceServer.
- * Initialize the express application and routers.
+ * WebServiceServer creates an HTTP server for the openveo web service.
+ *
+ * @class WebServiceServer
+ * @constructor
+ * @extends Server
  */
-function WebServiceServer(app){
+function WebServiceServer(){
   Server.prototype.init.call(this);
   
   // Create router
@@ -51,7 +58,8 @@ util.inherits(WebServiceServer, Server);
 /**
  * Applies all routes, found in configuration, to the router.
  *
- * @param Database db The application database 
+ * @method onDatabaseAvailable
+ * @param {Database} db The application database 
  */
 WebServiceServer.prototype.onDatabaseAvailable = function(db){
   
@@ -63,29 +71,8 @@ WebServiceServer.prototype.onDatabaseAvailable = function(db){
 /**
  * Mounts plugin's router.
  *
- * @param Object plugin The available openveo plugin
- * e.g.
- * {
- *   router: [Function],
- *   adminRouter: [Function],
- *   webServiceRouter: [Function],
- *   mountPath: "/publish",
- *   name: "publish",
- *   publicDirectory: "/home/veo-labs/openveo/node_modules/openveo-publish/public",
- *   i18nDirectory: "/home/veo-labs/openveo/node_modules/openveo-publish/i18n",
- *   custom: [Object],
- *   webServiceScopes: [Object],
- *   permissions: [Array],
- *   viewsFolders: [Array],
- *   routes: [Array],
- *   adminRoutes: [Array],
- *   webServiceRoutes: [Array],
- *   entities: [Object],
- *   menu: [Array],
- *   scriptLibFiles: [Array],
- *   scriptFiles: [Array],
- *   cssFiles: [Array]
- * }
+ * @method onPluginAvailable
+ * @param {Object} plugin The available openveo plugin
  */
 WebServiceServer.prototype.onPluginAvailable = function(plugin){
   
@@ -98,8 +85,11 @@ WebServiceServer.prototype.onPluginAvailable = function(plugin){
 
 /**
  * Sets errors routes.
+ *
  * Sets errors routes when all plugins are loaded to handle not found 
  * endpoints and errors.
+ *
+ * @method onPluginsLoaded
  */
 WebServiceServer.prototype.onPluginsLoaded = function(){
   
@@ -111,6 +101,8 @@ WebServiceServer.prototype.onPluginsLoaded = function(){
 
 /**
  * Starts the HTTP server.
+ *
+ * @method startServer
  */
 WebServiceServer.prototype.startServer = function(){
   

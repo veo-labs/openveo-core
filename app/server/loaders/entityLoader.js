@@ -1,5 +1,16 @@
 "use scrict"
 
+/** 
+ * @module core-loaders
+ */
+
+/**
+ * Provides functions to interpret entities definition from core and 
+ * plugin's configuration.
+ *
+ * @class entityLoader
+ */
+
 // Module dependencies
 var path = require("path");
 var util = require("util");
@@ -13,16 +24,23 @@ var logger = winston.loggers.get("openveo");
  * Gets the list of entities from a route configuration object with,
  * for each one, its type and its associated Model Object.
  *
- * @param String pluginPath The root path of the plugin associated to 
+ * @example
+ *     var entityLoader= process.require("app/server/loaders/entityLoader.js");
+ *     var entities = { 
+ *       "application": "app/server/models/ClientModel" 
+ *     };
+ *
+ *     console.log(entityLoader.decodeEntities("/", entities));
+ *     // {
+ *     //  "application" : [EntityModel object]
+ *     // }
+ *
+ * @method decodeEntities
+ * @static  
+ * @param {String} pluginPath The root path of the plugin associated to 
  * the routes
- * @param Object entities An object of routes as follow : 
- * {
- *   "application" : "app/server/models/ClientModel"
- * }
- * @return Object The list of entities models by types
- * {
- *   "application" : [EntityModel object]
- * }
+ * @param {Object} entities An object of routes
+ * @return {Object} The list of entities models by types
  */
 module.exports.decodeEntities = function(pluginPath, entities){
   var decodedEntities = {};

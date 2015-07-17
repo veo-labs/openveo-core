@@ -31,6 +31,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-contrib-yuidoc');
 
 // only watch core scss
   grunt.registerTask('default', ['compass:dev','watch']);

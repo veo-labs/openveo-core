@@ -1,5 +1,9 @@
 "use scrict"
 
+/** 
+ * @module core-models
+ */
+
 // Module dependencies
 var crypto = require("crypto");
 var util = require("util");
@@ -11,7 +15,11 @@ var UserProvider = process.require("app/server/providers/UserProvider.js");
 var hashKey = "Plji9Qhu8d";
 
 /**
- * Creates a UserModel.
+ * Defines a UserModel class to manipulate back end users.
+ *
+ * @class UserModel
+ * @constructor
+ * @extends EntityModel
  */
 function UserModel(){
   openVeoAPI.EntityModel.prototype.init.call(this, new UserProvider(openVeoAPI.applicationStorage.getDatabase()));
@@ -22,11 +30,14 @@ util.inherits(UserModel, openVeoAPI.EntityModel);
 
 /**
  * Gets a user by credentials.
- * @param String email The email of the user
- * @param String password The password of the user
- * @param Function callback The function to call when it's done
- *   - Error The error if an error occurred, null otherwise
- *   - Object The user
+ *
+ * @method getUserByCredentials
+ * @async
+ * @param {String} email The email of the user
+ * @param {String} password The password of the user
+ * @param {Function} callback The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Object** The user
  */
 UserModel.prototype.getUserByCredentials = function(email, password, callback){
 
@@ -38,18 +49,23 @@ UserModel.prototype.getUserByCredentials = function(email, password, callback){
 
 /**
  * Adds a new user.
- * @param Object data A user object
- * e.g.
- * {
- *   name : "User name",
- *   email : "User email",
- *   password : "User password",
- *   passwordValidate : "User password",
- *   roles : []
- * }
- * @param Function callback The function to call when it's done
- *   - Error The error if an error occurred, null otherwise
- * @Override
+ *
+ * @example
+ *     var UserModel = new process.require("app/server/models/UserModel.js");
+ *     var user = new UserModel();
+ *     user.add({
+ *       name : "User name",
+ *       email : "User email",
+ *       password : "User password",
+ *       passwordValidate : "User password",
+ *       roles : []
+ *     }, callback);
+ *
+ * @method add
+ * @async
+ * @param {Object} data A user object
+ * @param {Function} callback The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
  */
 UserModel.prototype.add = function(data, callback){
   var self = this;
@@ -101,19 +117,24 @@ UserModel.prototype.add = function(data, callback){
 
 /**
  * Update a user.
- * @param String id The id of the user to update
- * @param Object data A user object
- * e.g.
- * {
- *   name : "User name",
- *   email : "User email",
- *   password : "User password",
- *   passwordValidate : "User password",
- *   roles : []
- * }
- * @param Function callback The function to call when it's done
- *   - Error The error if an error occurred, null otherwise
- * @Override
+ *
+ * @example
+ *     var UserModel = new process.require("app/server/models/UserModel.js");
+ *     var user = new UserModel();
+ *     user.update("1", {
+ *       name : "User name",
+ *       email : "User email",
+ *       password : "User password",
+ *       passwordValidate : "User password",
+ *       roles : []
+ *     }, callback);
+ *
+ * @method update
+ * @async 
+ * @param {String} id The id of the user to update
+ * @param {Object} data A user object
+ * @param {Function} callback The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
  */
 UserModel.prototype.update = function(id, data, callback){
   var self = this;
@@ -141,8 +162,10 @@ UserModel.prototype.update = function(id, data, callback){
 
 /**
  * Checks if an email address is valid or not.
- * @param String email The email address
- * @return true if the email is valid, false otherwise
+ *
+ * @method isEmailValid
+ * @param {String} email The email address
+ * @return {Boolean} true if the email is valid, false otherwise
  */
 function isEmailValid(email){
   return /[a-z0-9!#$%&'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(email);

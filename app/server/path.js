@@ -1,23 +1,39 @@
 "use strict"
 
 /**
+ * Provides functions to manipulate HTTP paths handled by the server.
+ *
+ * @module core-path
+ * @class core-path
+ * @main core-path
+ */
+
+/**
  * Validates a path regarding a rule.
- * @param String path The path to validate
- * e.g.
- * get /publish/videos
+ *
+ * @example
+ *     var path = process.require("app/server/path.js");
+ *     path.validate("get /test", "get /test"); // true
+ *     path.validate("get /test", "/test"); // true
+ *     path.validate("get /test", "/*"); // true
+ *     path.validate("get /test", "*"); // true
+ *     path.validate("post /test", "post /test"); // true
+ *     path.validate("put /test", "put /test"); // true
+ *     path.validate("delete /test", "delete /test"); // true
+ *     path.validate("/test", "/test"); // true
+ *     path.validate("get /test", ""); // false
+ *     path.validate("get /test", "/"); // false
+ *     path.validate("get /test", "/other"); // false
+ *     path.validate("get /test", "post /test"); // false
+ *     path.validate("get /test", "post"); // false
+ *     path.validate("get /test", "get"); // false
+ *     path.validate("get /test", "unknwon /test"); // false
+ *
+ * @method validate
+ * @param {String} path The path to validate
  * @param String rule The rule to validate path
- * e.g.
- * Rules which validates the above path :
- * get /publish/videos*
- * get /publish/videos
- * get /publish/*
- * /publish/videos
- * 
- * Rules which does not validate the above path : 
- * post /publish/videos
- * put /publish/videos
- * get /publish/video
- * @return Boolean true if the rule validates the path, false otherwise
+ * @return {Boolean} true if the rule validates the path, false
+ * otherwise
  */
 module.exports.validate = function(path, rule){
   if(path && rule){

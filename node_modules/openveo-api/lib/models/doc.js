@@ -1,0 +1,5 @@
+/**
+ * Models.
+ *
+ * @module api-models
+ */
