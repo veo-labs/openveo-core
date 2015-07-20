@@ -23,6 +23,7 @@ module.exports = function (grunt) {
 
   grunt.initConfig(config);
   grunt.config.merge(loadConfig('./tasks/core'));
+  grunt.config.merge(loadConfig('./tasks/publish'));
 
   grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-watch');
