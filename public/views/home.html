@@ -1,4 +1,23 @@
 <div>
   <h1 ng-bind="'HOME.TITLE' | translate"></h1>
   <p ng-bind="'HOME.DESCRIPTION' | translate"></p>
+  
+  <hr>
+
+  <button class="btn btn-default" ng-click="open()">Version</button>
+  <script type="text/ng-template" id="versionModal.html">
+        <div class="modal-header">
+            <button type="button" class="close" ng-click="close()">
+              <span aria-hidden="true">x</span>
+            </button>
+            <h3 class="modal-title">Version</h3>
+        </div>
+        <div class="modal-body">
+            <ul>
+                <li ng-repeat="item in items">
+                  [[ item.name ]] : [[ item.version ]]
+                </li>
+            </ul>
+        </div>
+    </script>
 </div>

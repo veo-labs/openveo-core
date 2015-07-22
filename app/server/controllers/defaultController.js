@@ -9,6 +9,7 @@ var path = require("path");
 // Module files
 var applicationStorage = openVeoAPI.applicationStorage;
 var applicationConf = process.require("conf.json");
+var applicationVersion = process.require("package.json");
 
 // Get logger
 var logger = winston.loggers.get("openveo");
@@ -36,6 +37,7 @@ module.exports.defaultAction = function(request, response, next){
   response.locals.librariesScripts = response.locals.librariesScriptsBase.concat(response.locals.librariesScripts);
   response.locals.scripts = applicationConf["backOffice"]["scriptFiles"][env] || [];
   response.locals.css = applicationConf["backOffice"]["cssFiles"] || [];
+  response.locals.version = [{name:applicationVersion["name"], version:applicationVersion["version"]}] || [];
   
   // Got sub plugins
   if(plugins){
@@ -60,9 +62,13 @@ module.exports.defaultAction = function(request, response, next){
       if(plugin["cssFiles"] && util.isArray(plugin["cssFiles"]))
         response.locals.css = response.locals.css.concat(plugin["cssFiles"]);
 
+      //Plugin version
+      if(plugin["version"] && util.isArray(plugin["version"]))
+        response.locals.version = response.locals.version.concat(plugin["version"]);
     });
   }
-
+  
+  response.locals.version = JSON.stringify(response.locals.version);
   response.locals.angularJsModules = angularJsModules.join(",");
   response.render("root", response.locals);
   

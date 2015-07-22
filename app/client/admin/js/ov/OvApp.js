@@ -12,7 +12,6 @@
     "ov.alert",
     "ui.bootstrap",
     "ui.tree",
-    "datatables",
     "ngTouch",
     "formly",
     "vds.multirange",
@@ -22,7 +21,6 @@
   // Loads all openveo sub plugins as dependencies of the module "ov"
   if (typeof plugins !== "undefined") {
     angular.forEach(plugins, function (pluginToLoad) {
-
       try {
 
         // If a module exists for a sub plugin 
