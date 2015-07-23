@@ -137,7 +137,7 @@ plan.local(["localDeploy"], function(local){
     project.package(local);
     project.prepareReleaseDir(local);
     project.copy(local);
-    project.removeOld(remote);
+    project.removeOld(local);
     project.extract(local);
     project.linkShared(local);
     project.install(local);
