@@ -22,9 +22,6 @@ module.exports = {
 
     // List of browsers to execute tests on
     browsers: [
-      "Firefox",
-      "Chrome",
-      "IE",
       "PhantomJS"
     ],
 
