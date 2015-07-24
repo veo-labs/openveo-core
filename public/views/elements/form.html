@@ -1,0 +1,19 @@
+<div class="col-xs-12 detail" ng-controller="FormController as vm">
+  <form novalidate class="form-horizontal" ng-init='vm.model = row'>
+    <formly-form model="vm.model" fields="vm.fields" options="vm.options" form="vm.form" editable-form onaftersave="vm.onSubmit()" root-el="form">
+      <!-- button to show form -->
+      <button type="button" class="btn btn-default" ng-click="vm.form.$show()" ng-show="!vm.form.$visible">
+        Edit
+      </button>
+      <!-- buttons to submit / cancel form -->
+      <span ng-show="vm.form.$visible">
+        <button type="submit" class="btn btn-primary" ng-disabled="vm.form.$waiting">
+          Save
+        </button>
+        <button type="button" class="btn btn-default" ng-disabled="vm.form.$waiting" ng-click="vm.form.$cancel()">
+          Cancel
+        </button>
+      </span>
+    </formly-form>
+  </form>
+</div>

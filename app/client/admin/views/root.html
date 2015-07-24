@@ -79,7 +79,7 @@
           </li>
         </ul>
       </div>
-      <div id="page-content-wrapper" ng-click="closeResponsiveMenu()" ng-swipe-left="closeResponsiveMenu()" ng-swipe-right="openResponsiveMenu()">
+      <div id="page-content-wrapper" ng-click="swiping ? ( swiping = false ) : closeResponsiveMenu()" ng-swipe-disable-mouse ng-swipe-left="swiping=true;closeResponsiveMenu()" ng-swipe-right="swiping=true;openResponsiveMenu()">
         <div class="container">
           <div  ng-if="displayMainMenu" id="content">
 

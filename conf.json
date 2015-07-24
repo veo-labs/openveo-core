@@ -69,7 +69,7 @@
     "scriptLibFiles" : {
       "base" : [
         "/lib/api-check/dist/api-check.min.js",
-        "/lib/angular/angular.min.js",
+        "/lib/angular/angular.js",
         "/lib/angular-animate/angular-animate.min.js",
         "/lib/angular-route/angular-route.min.js",
         "/lib/angular-cookies/angular-cookies.js",
@@ -77,6 +77,8 @@
         "/lib/angular-touch/angular-touch.min.js",
         "/lib/angular-ui-tree/dist/angular-ui-tree.min.js",
         "/lib/angular-formly/dist/formly.min.js",
+        "/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js",
+        "/lib/angular-xeditable/dist/js/xeditable.min.js",
         "/lib/multirange/multirange.js",
         "/lib/ng-jsonpath/dist/ng-jsonpath.min.js",
         "/lib/ng-tasty/ng-tasty-tpls.min.js"
@@ -89,6 +91,7 @@
         "edit/EditApp.js",
         "entity/EntityApp.js",
         "alert/AlertApp.js",
+        "tableForm/tableForm.js",
         "edit/editable-elements/EditableElementInterface.js",
         "edit/editable-elements/CheckboxEditableElement.js",
         "edit/editable-elements/TextEditableElement.js",
@@ -121,7 +124,7 @@
       "/lib/angular/angular-csp.css",
       "/lib/angular-bootstrap/ui-bootstrap-csp.css",
       "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
-      "/lib/datatables/media/css/jquery.dataTables.min.css",
+      "/lib/angular-xeditable/dist/css/xeditable.css",
       "/lib/multirange/multirange.css",
       "/css/style.css"
     ]

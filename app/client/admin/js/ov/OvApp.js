@@ -10,13 +10,16 @@
     "ov.i18n",
     "ov.entity",
     "ov.alert",
+    "ov.tableForm",
     "ui.bootstrap",
     "ui.tree",
     "ngTouch",
+    "ngTasty",
     "formly",
+    "formlyBootstrap",
+    "xeditable",
     "vds.multirange",
     "ngJSONPath",
-    "ngTasty",
     "ngAnimate"
   ];
 
@@ -49,7 +52,57 @@
     $interpolateProvider.startSymbol("[[");
     $interpolateProvider.endSymbol("]]");
   }
+  
+  app.run(["editableOptions", "formlyConfig",function (editableOptions, formlyConfig) {
 
+    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+    formlyConfig.setWrapper({
+      name: 'horizontalBootstrapLabel',
+      template: [
+        '<label for="[[::id]]" class="col-sm-3 control-label">',
+        '[[to.label]] [[to.required ? "*" : ""]]',
+        '</label>',
+        '<div class="col-sm-9">',
+        '<formly-transclude></formly-transclude>',
+        '</div>'
+      ].join(' ')
+    });
+    //input type
+    formlyConfig.setType({
+      extends: 'input',
+      template: '<div class="editable"><span editable-text="model[options.key]" e-name="[[::id]]">[[ model[options.key] || "empty" ]]</span></div>',
+      name: 'editableInput'
+    });
+    formlyConfig.setType({
+      extends: 'select',
+      template: '<div class="editable">\n\
+<span editable-select="model[options.key]" e-name="[[::id]]" e-ng-options="s.value as s.name for s in to.options">\n\
+[[ (to.options | filter:{value: model[options.key]})[0].name || "Not set" ]]\n\
+</div>',
+      name: 'editableSelect'
+    });
+    //horizontal-inputType
+    formlyConfig.setType({
+      name: 'horizontalInput',
+      extends: 'input',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalExtendInput',
+      extends: 'editableInput',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalSelect',
+      extends: 'select',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalExtendSelect',
+      extends: 'editableSelect',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+  }]);
   /**
    * Configures application main routes and set location mode to HTML5.
    * Routes which require authentication are registered using 
