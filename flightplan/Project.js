@@ -110,7 +110,10 @@ Project.prototype.package = function(server){
   server.log("Package " + this.projectName);
     
   this.archiveName = this.archivePrefix + this.gitRef.replace(/\//g, "_") + ".tar.gz";
-  this.sha1 = server.git("show-ref --hash --heads --tags " + this.gitRef).stdout.replace(/[\n\t\r]/g, "");
+  this.sha1 = server.git("show-ref --hash --heads --tags " + this.gitRef).stdout;
+
+  if(this.sha1)
+    this.sha1 = this.sha1.replace(/[\n\t\r]/g, "");
   
   // Remove unused stuffs before packaging
   this.cleanProject(server);
