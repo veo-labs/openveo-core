@@ -89,7 +89,7 @@ Project.prototype.compile = function(server){
   server.with("cd " + path.join(this.tmpDir, "sources"), function(){
     
     // Install Grunt to compile js and CSS
-    server.exec("npm install glob grunt grunt-contrib-compass grunt-contrib-concat grunt-contrib-uglify grunt-contrib-watch grunt-extend-config grunt-init grunt-mocha-test grunt-karma");
+    server.exec("npm install glob grunt grunt-contrib-compass grunt-contrib-concat grunt-contrib-uglify grunt-contrib-watch grunt-extend-config grunt-init grunt-mocha-test grunt-karma grunt-contrib-yuidoc");
     
     // Before compiling hook
     self.beforeCompiling(server);
