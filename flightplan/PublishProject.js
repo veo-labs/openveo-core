@@ -41,6 +41,15 @@ PublishProject.prototype.extract = function(server){
      server.ln("-s " + path.join(destinationDirectory, "openveo", "current", "node_modules", "openveo-api") + " openveo-api");
   });
 
+  if(this.isProduction){
+
+    // Create a symbolic link to openveo-test from openveo-publish
+    server.with("cd " + this.newReleaseDir + "/node_modules/", function(){
+       server.ln("-s " + path.join(destinationDirectory, "openveo", "current", "node_modules", "openveo-test") + " openveo-test");
+    });
+
+  }
+
   // Create a symbolic link to openveo-player from openveo-publish
   server.mkdir("-p " + path.join(this.newReleaseDir, "public/publish/lib"));
   server.with("cd " + this.newReleaseDir + "/public/publish/lib/", function(){
