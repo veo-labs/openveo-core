@@ -41,7 +41,7 @@ PublishProject.prototype.extract = function(server){
      server.ln("-s " + path.join(destinationDirectory, "openveo", "current", "node_modules", "openveo-api") + " openveo-api");
   });
 
-  if(this.isProduction){
+  if(!this.isProduction){
 
     // Create a symbolic link to openveo-test from openveo-publish
     server.with("cd " + this.newReleaseDir + "/node_modules/", function(){
