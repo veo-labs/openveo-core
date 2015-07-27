@@ -1,7 +1,8 @@
 <div class="container" ng-controller="DataTableController as dataTable">
   <div class="datatable form-group" >
+    <div class="search-title" ng-bind="'UI.SEARCH_BY' | translate"></div>
     <div class="col-sm-3" ng-repeat="(key, value) in dataTable.filterBy" >
-      <label class="control-label"><span ng-bind="'PROPERTIES.SEARCH_BY'"></span> [[key]] :</label>
+      <label class="control-label"></span> [[key]] :</label>
       <input type="text" class="form-control input-sm" ng-model="dataTable.filterBy[key]" />
     </div>
   </div>
@@ -10,8 +11,11 @@
       <thead tasty-thead bind-not-sort-by="dataTable.notSortBy" ></thead>
       <tbody>
         <tr ng-repeat-start="row in dataTable.rows" ng-class="$index%2?'even':'odd'">
-          <td class="line col-sm-10" ng-repeat="property in dataTable.header" ng-if="property.key != 'action'">
-            <div ng-click="dataTable.toggleRowDetails(row)" class="table-cell"><span class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></span> <strong>[[row[property.key]; ]]</strong></div>
+          <td ng-click="dataTable.toggleRowDetails(row)"  class="line col-sm-10" ng-repeat="property in dataTable.header" ng-if="property.key != 'action'">
+            <div class="table-cell"><span ng-if="$first" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></span>
+              <strong ng-if="!property.type || property.type == 'text'">[[row[property.key] ;]]</strong>
+              <strong ng-if="property.type && property.type == 'date'">[[row[property.key] | date:'MM/dd/yyyy' ]]</strong>
+            </div>
           </td>
           <td ng-if='dataTable.actions'>
             <div class="col-xs-2 hidden-xs">
@@ -20,19 +24,19 @@
                   Action <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" >  
-                  <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='action.condition(row)'>
-                    <a role="menuitem" href="#" ng-click="action.callback(row)" ng-bind="action.label"></a>
+                  <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='!action.condition || action.condition(row)'>
+                    <a role="menuitem" href="#" ng-click="action.callback(row); dataTable.reloadCallback();" ng-bind="action.label"></a>
                   </li>
                 </ul>
               </div>
             </div>
           </td>
         </tr>
-        <tr ng-repeat-end ng-if="row.opened" class="open-tab open-tab-animate" ng-class="$index%2?'even':'odd'">
-          <td colspan=[[dataTable.header.length-1]]> 
-            <ng-include src="'views/elements/form.html'"></ng-include>
-          </td>
-        </tr>
+        <tr ng-repeat-end ng-if="row.opened" class="open-tab detail open-tab-animate" ng-class="$index%2?'even':'odd'">
+          <td colspan=[[dataTable.header.length]]> 
+      <ng-include src="'views/elements/dataTableForm.html'"></ng-include>
+      </td>
+      </tr>
       </tbody>
     </table>
     <div tasty-pagination></div>

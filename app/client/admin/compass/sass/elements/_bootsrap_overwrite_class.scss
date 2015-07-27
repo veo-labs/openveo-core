@@ -1,0 +1,29 @@
+@import "compass/css3/transition";
+.collapse{
+  display:block;
+  overflow:hidden;
+  @include single-transition(all, 0.35s, ease);
+  opacity:0;
+}
+.in {
+  @include single-transition(all, 0.35s, ease);
+  transition: all 0.35s ease;
+  display: block;
+  overflow:hidden;
+  opacity:1;
+}
+
+
+.modal-dialog{
+ .modal-header{
+    /*border-radius: 6px 6px 0 0;*/
+    background-color: #1fbbeb;
+    color: white;
+  }
+  .modal-content{
+    border-radius:0;
+  }
+  .modal-body{
+    color:#006DA3;
+  }
+}

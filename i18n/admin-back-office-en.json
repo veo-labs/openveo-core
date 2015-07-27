@@ -126,5 +126,11 @@
     "FORM_ADD_PERMISSIONS" : "Permissions",
     "FORM_ADD_PERMISSIONS_DESC" : "List of permissions for the role",
     "FORM_ADD_BUTTON" : "Add"
+  },
+  "UI" : {
+    "SEARCH_BY" : "Search by",
+    "ACTIONS_COLUMN" : "Actions",
+    "SAVE_ERROR" : "An error occured while saving form! Please retry later.",
+    "SAVE_SUCCESS" : "New value successfully saved."
   }
 }

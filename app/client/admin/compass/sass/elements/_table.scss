@@ -30,6 +30,7 @@
   .glyphicon{ cursor: pointer; }
 }
 
+
 .table{
   &>thead{
     &>tr{
@@ -49,23 +50,52 @@
   }
 }
 
+/* List details */
+.detail { 
+  line-height: initial;
+  padding-bottom: 10px; 
+  ul{
+    list-style: none;
+    padding-left: 35px; 
+  }
+  li{ line-height: 22px; }
+  .label{ margin-right: 5px; }
+  input{ margin: 1px 0; }
+  .btn-group{ margin-left: 35px; }
+}
+
+
+
+
+.table-striped > tbody > tr{
+  &:nth-of-type(odd){
+    background: white;
+  }
+  &.odd{
+    background-color:#eee;
+  }
+  &.open-tab > td{
+    border:0 none;
+  }
+}
 
 .open-tab-animate {
+  transition:all 1s ease;
   &.ng-enter{
-    transition:all 0.5s ease;
-    max-height:0;
+    max-height:0px;
     opacity:0;
+
     &.ng-enter-active{
-      max-height:999px;
+      max-height:400px;
        opacity:1;
     }
   }
   &.ng-leave {
-     max-height:999px;
+     max-height:400px;
      opacity:1;
-    transition:all 0.5s ease;
+    
     &.ng-leave-active{
-      max-height:0;
+      max-height:0px;
        opacity:0;
     }
   }
@@ -73,15 +103,6 @@
 
 
 
-/* List details */
-.detail { line-height: initial; padding-bottom: 10px; }
-.detail ul{ list-style: none; padding-left: 35px; }
-.detail li{ line-height: 22px; }
-.detail .btn-group{ margin-left: 35px; }
-.detail .label{ margin-right: 5px; }
-.detail input{ margin: 1px 0; }
-
 .datatable.form-group{
   margin: 30px auto;
-  display: flex;
 }

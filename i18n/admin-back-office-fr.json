@@ -126,5 +126,11 @@
     "FORM_ADD_PERMISSIONS" : "Permissions",
     "FORM_ADD_PERMISSIONS_DESC" : "Liste des permissions pour le rôle",
     "FORM_ADD_BUTTON" : "Ajouter"
+  },
+  "UI" : {
+    "SEARCH_BY" : "Rechercher par",
+    "ACTIONS_COLUMN" : "Actions",
+    "SAVE_ERROR" : "Une erreur n'as pas permis la sauvegarde du fomulaire ! Merci de réessayer ultérieurement.",
+    "SAVE_SUCCESS" : "Nouvelle valeur enregistrée."
   }
 }
