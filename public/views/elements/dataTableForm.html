@@ -1,5 +1,5 @@
 <div class="col-xs-12 detail" ng-controller="FormEditController as fec">
-   <form novalidate class="form-horizontal" ng-init='fec.model = row'>
+   <form novalidate class="form-horizontal" ng-init='fec.init(row);'>
     <formly-form model="fec.model" fields="fec.fields" options="fec.options" form="fec.form" editable-form onaftersave="fec.onSubmit()" root-el="form">
       <!-- button to show form -->
       <button type="button" class="btn btn-default" ng-click="fec.form.$show()" ng-show="!fec.form.$visible">

@@ -15,7 +15,8 @@
     "angular-xeditable": "~0.1.9",
     "angular-formly": "~6.20.1",
     "angular-formly-templates-bootstrap": "~6.0.0",
-    "api-check": "~7.5.0"
+    "api-check": "~7.5.0",
+    "angular-sanitize": "~1.4.3"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.3"

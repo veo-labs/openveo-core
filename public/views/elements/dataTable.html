@@ -11,10 +11,12 @@
       <thead tasty-thead bind-not-sort-by="dataTable.notSortBy" ></thead>
       <tbody>
         <tr ng-repeat-start="row in dataTable.rows" ng-class="$index%2?'even':'odd'">
-          <td ng-click="dataTable.toggleRowDetails(row)"  class="line col-sm-10" ng-repeat="property in dataTable.header" ng-if="property.key != 'action'">
-            <div class="table-cell"><span ng-if="$first" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></span>
-              <strong ng-if="!property.type || property.type == 'text'">[[row[property.key] ;]]</strong>
-              <strong ng-if="property.type && property.type == 'date'">[[row[property.key] | date:'MM/dd/yyyy' ]]</strong>
+          <td ng-click="dataTable.toggleRowDetails(row, dataTable.conditionTogleDetail(row))"  class="line col-sm-10" ng-repeat="entities in dataTable.header" ng-if="entities.key != 'action'">
+            <div class="table-cell"><span ng-if="$first && dataTable.conditionTogleDetail(row)" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></span>
+              <strong ng-if="!entities.type || entities.type == 'text'">[[dataTable.getDescendantProp(row, entities.key) ;]]</strong>
+              <span ng-if="entities.type && entities.type == 'date'">[[dataTable.getDescendantProp(row, entities.key) | date:'dd/MM/yyyy' ]]</span>
+              <span ng-if="entities.type && entities.type == 'category'">[[dataTable.getDescendantProp(row, entities.key) | category:categories ]]</span>
+              <span ng-if="entities.type && entities.type == 'status'" ng-bind-html="dataTable.getDescendantProp(row, entities.key) | status:row.status:row.errorCode "></span>
             </div>
           </td>
           <td ng-if='dataTable.actions'>
@@ -34,9 +36,9 @@
         </tr>
         <tr ng-repeat-end ng-if="row.opened" class="open-tab detail open-tab-animate" ng-class="$index%2?'even':'odd'">
           <td colspan=[[dataTable.header.length]]> 
-      <ng-include src="'views/elements/dataTableForm.html'"></ng-include>
-      </td>
-      </tr>
+            <ng-include src="'views/elements/dataTableForm.html'"></ng-include>
+          </td>
+        </tr>
       </tbody>
     </table>
     <div tasty-pagination></div>
