@@ -1,7 +1,7 @@
 
 /* Lists */
 
-.line { 
+/*.line { 
   border-radius: 3px;
   display:table; 
   width:100%;
@@ -18,7 +18,7 @@
   & > .table-cell{ 
     height: 40px;
     line-height: 37px;
-    /*border:1px solid #ddd;*/
+    border:1px solid #ddd;
     border-top:0 none;
     
     &:first-child{ cursor: pointer; overflow: hidden;}
@@ -28,7 +28,7 @@
   }
   
   .glyphicon{ cursor: pointer; }
-}
+}*/
 
 
 .table{
@@ -52,8 +52,12 @@
 
 /* List details */
 .detail { 
-  line-height: initial;
-  padding-bottom: 10px; 
+  line-height: 10px;
+  span.editable{
+    top: 7px;
+    position: relative;
+  }
+/*  padding-bottom: 10px; 
   ul{
     list-style: none;
     padding-left: 35px; 
@@ -61,7 +65,7 @@
   li{ line-height: 22px; }
   .label{ margin-right: 5px; }
   input{ margin: 1px 0; }
-  .btn-group{ margin-left: 35px; }
+  .btn-group{ margin-left: 35px; }*/
 }
 
 
@@ -80,29 +84,45 @@
 }
 
 .open-tab-animate {
-  transition:all 1s ease;
-  &.ng-enter{
+  /*display:block;*/
+  .detail>form{
+    overflow:hidden;
+    transition:all 0.4s ease;
+  }
+  
+  &.ng-enter .detail>form{
+
     max-height:0px;
     opacity:0;
+    &.ng-enter-active .detail>form{
 
-    &.ng-enter-active{
       max-height:400px;
-       opacity:1;
+      opacity:1;
     }
   }
-  &.ng-leave {
-     max-height:400px;
-     opacity:1;
-    
-    &.ng-leave-active{
+  &.ng-leave .detail>form{
+
+    max-height:400px;
+    opacity:1;
+
+    &.ng-leave-active .detail>form{
       max-height:0px;
-       opacity:0;
+      opacity:0;
     }
   }
 }
 
 
 
-.datatable.form-group{
-  margin: 30px auto;
+.datatable{
+  .search-form{
+    margin: 15px auto 40px;
+  }
+  .search-title{
+    margin: 15px;
+  }
+  .search-fields{
+    display: inline-block;
+    width: 100%;
+  }
 }

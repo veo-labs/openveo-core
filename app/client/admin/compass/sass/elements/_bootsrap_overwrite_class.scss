@@ -1,16 +1,24 @@
 @import "compass/css3/transition";
-.collapse{
+.collapsing{
+   @include single-transition(all, 0.2s, ease);
+}
+
+.in-add {
   display:block;
   overflow:hidden;
-  @include single-transition(all, 0.35s, ease);
   opacity:0;
+  &.in-add-active{
+  opacity:1;
+  }
 }
-.in {
-  @include single-transition(all, 0.35s, ease);
-  transition: all 0.35s ease;
-  display: block;
+
+.in-remove{
+  display:block;
   overflow:hidden;
   opacity:1;
+  &.in-remove-active{
+    opacity:0;
+  }
 }
 
 

@@ -59,10 +59,10 @@
     formlyConfig.setWrapper({
       name: 'horizontalBootstrapLabel',
       template: [
-        '<label for="[[::id]]" class="col-sm-3 control-label">',
+        '<label for="[[::id]]" class="col-md-4 control-label">',
         '[[to.label]] [[to.required ? "*" : ""]]',
         '</label>',
-        '<div class="col-sm-9">',
+        '<div class="col-md-8">',
         '<formly-transclude></formly-transclude>',
         '</div>'
       ].join(' ')
