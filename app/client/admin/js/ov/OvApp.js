@@ -56,6 +56,10 @@
   app.run(["editableOptions", "formlyConfig",function (editableOptions, formlyConfig) {
 
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+    formlyConfig.templateManipulators.postWrapper.push(function(template, options, scope) {
+      return template.replace('{{', '[[').replace('}}', ']]');
+    });
+
     formlyConfig.setWrapper({
       name: 'horizontalBootstrapLabel',
       template: [

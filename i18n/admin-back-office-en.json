@@ -131,6 +131,11 @@
     "SEARCH_BY" : "Search by",
     "ACTIONS_COLUMN" : "Actions",
     "SAVE_ERROR" : "An error occured while saving form! Please retry later.",
-    "SAVE_SUCCESS" : "New value successfully saved."
+    "SAVE_SUCCESS" : "New value successfully saved.",
+    "REMOVE" : "Remove",
+    "FORM_EDIT" : "Edit",
+    "FORM_CANCEL" : "Cancel",
+    "FORM_SAVE" : "Save",
+    "VIEW" : "View"
   }
 }

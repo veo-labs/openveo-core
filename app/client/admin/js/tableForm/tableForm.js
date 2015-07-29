@@ -78,7 +78,7 @@
         fec.originalFields = angular.copy(fec.fields);
       }, function () {
         fec.options.resetModel();
-        $scope.$emit("setAlert", 'error', $filter('translate')('UI.SAVE_ERROR'), 4000);
+        $scope.$emit("setAlert", 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
       });
     }
     fec.options = {};
@@ -101,7 +101,7 @@
         tableReloadEventService.broadcast();
         $scope.$emit("setAlert", 'success', $filter('translate')('UI.SAVE_SUCCESS'), 4000);
       }, function () {
-        $scope.$emit("setAlert", 'error', $filter('translate')('UI.SAVE_ERROR'), 4000);
+        $scope.$emit("setAlert", 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
       });
     }
     vm.options = {};
@@ -116,7 +116,7 @@
   function DataTableController($scope, entityService) {
     var dataTable = this;
     //init value
-    dataTable.rows = {};
+    dataTable.rows = $scope.tableContainer.rows || {};
     dataTable.entityType = $scope.tableContainer.entityType || "";
     dataTable.conditionTogleDetail = $scope.tableContainer.conditionTogleDetail || function(val){return true};
     dataTable.filterBy = angular.copy($scope.tableContainer.filterBy);

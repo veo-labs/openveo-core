@@ -131,6 +131,11 @@
     "SEARCH_BY" : "Rechercher par",
     "ACTIONS_COLUMN" : "Actions",
     "SAVE_ERROR" : "Une erreur n'as pas permis la sauvegarde du fomulaire ! Merci de réessayer ultérieurement.",
-    "SAVE_SUCCESS" : "Nouvelle valeur enregistrée."
+    "SAVE_SUCCESS" : "Nouvelle valeur enregistrée.",
+    "REMOVE" : "Supprimer",
+    "FORM_EDIT" : "Editer",
+    "FORM_CANCEL" : "Annuler",
+    "FORM_SAVE" : "Enregistrer",
+    "VIEW" : "Voir"
   }
 }
