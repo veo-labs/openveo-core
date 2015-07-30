@@ -97,6 +97,9 @@ Project.prototype.compile = function(server){
     // Launch compilation
     server.exec("grunt prod");
     
+    // Retrieve bower dependencies
+    server.exec("bower install --allow-root" + ((self.isProduction) ? " --production" : ""));
+
   });
 };
 
@@ -149,7 +152,7 @@ Project.prototype.cleanProject = function(server){
       server.rm("-rf tests app/client/admin/js tasks Gruntfile.js");
     
     // Remove unused stuffs
-    server.rm("-rf flightplan flightplan.js public/lib app/client/admin/compass .sass-cache build nodemon.json .git*");
+    server.rm("-rf flightplan flightplan.js app/client/admin/compass .sass-cache build nodemon.json .git*");
     
     // Remove unused modules (all except openveo*)
     server.with("cd node_modules", function(){
@@ -281,10 +284,9 @@ Project.prototype.install = function(server){
   var self = this;
   server.log("Installs " + this.projectName + " dependencies");
   
-  // Retrieve npm and bower dependencies
+  // Retrieve npm dependencies
   server.with("cd " + this.newReleaseDir, function(){
     server.exec("npm install" + ((self.isProduction) ? " --production" : ""));
-    server.exec("bower install --allow-root" + ((self.isProduction) ? " --production" : ""));
   });
 };
 
