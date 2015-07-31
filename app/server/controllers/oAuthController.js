@@ -8,7 +8,7 @@
  * Provides route actions for all requests relative to Web Service 
  * authentication.
  *
- * @class oauthController
+ * @class oAuthController
  */
 
 // Module dependencies
