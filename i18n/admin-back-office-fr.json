@@ -63,21 +63,16 @@
     "INFO" : "Une application vous permet de définir des droits d'accés au web service OpenVeo par application cliente. Créez une application, définissez ses droits d'accés au web service et communiquez, au propriétaire de l'application cliente, l'id et la clé générée.",
     "NO_APPLICATIONS" : "Pas d'application pour le moment",
     "NAME_COLUMN" : "Nom",
-    "ACTIONS_COLUMN" : "Actions",
     "REMOVE" : "Supprimer",
     "ATTR_NAME" : "Nom",
     "ATTR_ID" : "Id client",
     "ATTR_SECRET" : "Clé client",
     "ATTR_SCOPES" : "Accés",
-    "FORM_EDIT" : "Editer",
-    "FORM_CANCEL" : "Annuler",
-    "FORM_SAVE" : "Enregistrer",
     "ADD_APPLICATION" : "Ajouter une application",
     "FORM_ADD_NAME" : "Nom",
     "FORM_ADD_NAME_DESC" : "Nom de l'application cliente",
     "FORM_ADD_SCOPES" : "Accés",
-    "FORM_ADD_SCOPES_DESC" : "Listes de permissions pour l'application cliente",
-    "FORM_ADD_BUTTON" : "Ajouter"
+    "FORM_ADD_SCOPES_DESC" : "Listes de permissions pour l'application cliente"
   },
   "USERS" : {
     "PAGE_TITLE" : "Openveo - Utilisateurs",
@@ -86,14 +81,9 @@
     "NO_DATA" : "Pas d'utilisateur pour le moment",
     "NO_ROLE" : "Pas de rôle pour le moment, vous pouvez créer des rôles à partir de la page d'administration \"Rôles\".",
     "NAME_COLUMN" : "Nom",
-    "ACTIONS_COLUMN" : "Actions",
-    "REMOVE" : "Supprimer",
     "ATTR_NAME" : "Nom",
     "ATTR_EMAIL" : "Email",
     "ATTR_ROLE" : "Rôle",
-    "FORM_EDIT" : "Editer",
-    "FORM_CANCEL" : "Annuler",
-    "FORM_SAVE" : "Enregistrer",
     "ADD_USER" : "Ajouter un utilisateur",
     "FORM_ADD_NAME" : "Nom",
     "FORM_ADD_NAME_DESC" : "Nom de l'utilisateur",
@@ -104,8 +94,7 @@
     "FORM_ADD_PASSWORD_VALIDATE" : "Confirmation du mot de passe",
     "FORM_ADD_PASSWORD_VALIDATE_DESC" : "Validation du mot de passe", 
     "FORM_ADD_ROLE" : "Rôles",
-    "FORM_ADD_ROLE_DESC" : "Rôles de l'utilisateur",
-    "FORM_ADD_BUTTON" : "Ajouter"
+    "FORM_ADD_ROLE_DESC" : "Rôles de l'utilisateur"
   },
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Rôles",
@@ -136,6 +125,7 @@
     "FORM_EDIT" : "Editer",
     "FORM_CANCEL" : "Annuler",
     "FORM_SAVE" : "Enregistrer",
+    "FORM_ADD" : "Ajouter",
     "VIEW" : "Voir"
   }
 }

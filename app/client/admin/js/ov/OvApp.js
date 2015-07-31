@@ -20,7 +20,8 @@
     "xeditable",
     "vds.multirange",
     "ngJSONPath",
-    "ngAnimate"
+    "ngAnimate",
+    "checklist-model"
   ];
 
   // Loads all openveo sub plugins as dependencies of the module "ov"
@@ -57,7 +58,7 @@
 
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
     formlyConfig.templateManipulators.postWrapper.push(function(template, options, scope) {
-      return template.replace('{{', '[[').replace('}}', ']]');
+      return template.replace(/{{/g, '[[').replace(/]}}/g, '];]]').replace(/}}/g, ']]');
     });
 
     formlyConfig.setWrapper({
@@ -71,11 +72,21 @@
         '</div>'
       ].join(' ')
     });
+    formlyConfig.setType({
+      name:"emptyrow",
+      template:'<div class="well well-sm">[[to.message]]</div>',
+      wrapper:['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
     //input type
     formlyConfig.setType({
       extends: 'input',
-      template: '<div class="editable"><span editable-text="model[options.key]" e-name="[[::id]]">[[ model[options.key] || "empty" ]]</span></div>',
-      name: 'editableInput'
+      template: '<div class="editable"><span editable-text="model[options.key]" e-name="[[::id]]" onbeforesave="checkNotEmpty($data)">[[ model[options.key] || "empty" ]]</span></div>',
+      name: 'editableInput',
+      link: /* @ngInject */ function(scope, el, attrs) {
+        scope.checkNotEmpty = function(data){
+          if (scope.to.required && data.length==0) return "You must type a value.";
+        }
+      }
     });
     formlyConfig.setType({
       extends: 'select',
@@ -84,6 +95,28 @@
 [[ (to.options | filter:{value: model[options.key]})[0].name || "Not set" ]]\n\
 </div>',
       name: 'editableSelect'
+    });
+    formlyConfig.setType({
+      extends: 'multiCheckbox',
+      template: '<div class="editable">\n\
+<span editable-checklist="model[options.key]" e-name="[[::id]]" e-ng-options="s.id as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n\
+[[ showChecked() ]]\n\
+</div>',
+      name: 'editableChecklist',
+      link: /* @ngInject */ function(scope, el, attrs) {
+        scope.showChecked = function(){
+          var selected = [];
+          angular.forEach(scope.to.options, function (s) {
+            if (scope.model[scope.options.key].indexOf(s.id) >= 0) {
+              selected.push(s.name);
+            }
+          });
+          return selected.length ? selected.join(', ') : 'Not set';
+        };
+        scope.checkNotEmpty = function(data){
+          if (scope.to.required && data.length==0) return "You must choose a value.";
+        }
+      }
     });
     //horizontal-inputType
     formlyConfig.setType({
@@ -106,6 +139,17 @@
       extends: 'editableSelect',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
+    formlyConfig.setType({
+      name: 'horizontalCheckList',
+      extends: 'multiCheckbox',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalExtendCheckList',
+      extends: 'editableChecklist',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    
   }]);
   /**
    * Configures application main routes and set location mode to HTML5.
@@ -148,9 +192,6 @@
         controller: "ApplicationController",
         title: "APPLICATIONS.PAGE_TITLE",
         resolve: {
-          applications: ["applicationService", function (applicationService) {
-              return applicationService.loadApplications();
-            }],
           scopes: ["applicationService", function (applicationService) {
               return applicationService.loadScopes();
             }]
@@ -164,9 +205,6 @@
         controller: "UserController",
         title: "USERS.PAGE_TITLE",
         resolve: {
-          users : ["userService", function(userService){
-            return userService.loadUsers();
-          }],
           roles : ["userService", function(userService){
             return userService.loadRoles();
           }]

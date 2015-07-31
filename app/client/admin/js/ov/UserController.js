@@ -1,66 +1,106 @@
-(function(app){
-  
+(function (app) {
+
   "use strict"
 
   app.controller("UserController", UserController);
-  UserController.$inject = ["$scope", "entityService", "users", "roles"];
+  UserController.$inject = ["$scope", "$filter", "userService", "entityService", "roles"];
 
   /**
-   * Defines the users controller for the users page.
+   * Defines the user controller for the user page.
    */
-  function UserController($scope, entityService, users, roles){
-    $scope.users = users.data.entities;
+  function UserController($scope, $filter, userService, entityService, roles) {
+  
     $scope.roles = roles.data.entities;
-    $scope.rolesOptions = [];
-    
-    // Prepare the list of options for roles checkboxes
-    for(var roleId in $scope.roles){
-      $scope.rolesOptions.push({
-        label : $scope.roles[roleId].name,
-        value : $scope.roles[roleId].id
-      });
+    /**
+     * 
+     * DATATABLE
+     */
+    var scopeDataTable = $scope.tableContainer = {};
+    scopeDataTable.entityType = "user";
+    scopeDataTable.filterBy = {
+      'name': ''
+    };
+    scopeDataTable.header = [{
+        'key': "name",
+        'name': $filter('translate')('USERS.NAME_COLUMN')
+      },
+      {
+        'key': "action",
+        'name': $filter('translate')('UI.ACTIONS_COLUMN')
+      }];
+
+    scopeDataTable.actions = [{
+        "label": $filter('translate')('UI.REMOVE'),
+        "condition": function(row) {return !row.locked;},
+        "callback": function (row) {
+          removeRow(row);
+        }
+      }];
+    scopeDataTable.conditionTogleDetail = function (row) {
+      return !row.locked;
     }
-    
-    prepareUsersRoles();
+
 
     /**
-     * Toggles the users detail.
-     * Can't open / close detail of the user if its saving.
-     * @param Object user The user associated to the form
+     * FORM
      */
-    $scope.toggleUserDetails = function(user){
-      if(!user.saving){
-        for(var i = 0 ; i < $scope.users.length ; i++){
-          $scope.users[i].opened = ($scope.users[i].id === user.id) ? !$scope.users[i].opened : false;
+    var scopeEditForm = $scope.editFormContainer = {};
+    scopeEditForm.model = {};
+    scopeEditForm.fields = [
+      {
+        // the key to be used in the model values
+        // so this will be bound to vm.user.username
+        key: 'name',
+        type: 'horizontalExtendInput',
+        templateOptions: {
+          label: $filter('translate')('USERS.ATTR_NAME'),
+          required: true
+        }
+      },
+      {
+        key: 'email',
+        type: 'horizontalExtendInput',
+        templateOptions: {
+          label: $filter('translate')('USERS.ATTR_EMAIL'),
+          required: true
+        }
+      }]
+    if($scope.roles.length != 0) scopeEditForm.fields.push(
+      {
+        key: 'roles',
+        type: 'horizontalExtendCheckList',
+        templateOptions: {
+          label: $filter('translate')('USERS.ATTR_ROLE'),
+          required: true,
+          options: $scope.roles,
+          valueProp: 'id',
+          labelProp: 'name',
         }
       }
-    };
-    
+    );
+
+    scopeEditForm.onSubmit = function (model, successCb, errorCb) {
+      saveUser(model, successCb, errorCb);
+    }
+
     /**
      * Removes the user.
      * Can't remove a user if its saving.
      * @param Object user The user to remove
      */
-    $scope.removeUser = function(user){
-      if(!user.saving){
-        user.saving = true;
-        entityService.removeEntity("user", user.id).success(function(data, status, headers, config){
-          var index = 0;
-
-          // Look for user index
-          for(index = 0 ; index < $scope.users.length ; index++){
-            if($scope.users[index].id === user.id)
-              break;
-          }
-
-          // Remove user from the list of users
-          $scope.users.splice(index, 1);
-
-        }).error(function(data, status, headers, config){
-          user.saving = false;
-          if(status === 401)
-            $scope.$parent.logout();
-        });
+    var removeRow = function (row) {
+      if (!row.saving) {
+        row.saving = true;
+        entityService.removeEntity('user', row.id)
+                .success(function (data) {
+                  $scope.$emit("setAlert", 'success', 'users deleted', 4000);
+                })
+                .error(function (data, status, headers, config) {
+                  $scope.$emit("setAlert", 'danger', 'Fail remove users! Try later.', 4000);
+                  row.saving = false;
+                  if (status === 401)
+                    $scope.$parent.logout();
+                });
       }
     };
 
@@ -69,116 +109,130 @@
      * @param Object form The angular edition form controller
      * @param Object user The user associated to the form
      */
-    $scope.saveUser = function(form, user){
+    var saveUser = function(user, successCb, errorCb){
       user.saving = true;
-      form.saving = true;
-      
-      var roles = {};
-      
-      for(var i = 0 ; i < $scope.roles.length ; i++){
-        var role = $scope.roles[i];
-        roles[role.id] = {
-          activated : user.rolesValues.indexOf(role.id) > -1
-        }
-      }
 
       entityService.updateEntity("user", user.id, {
         name : user.name, 
         email : user.email, 
-        roles : roles
+        roles : user.roles
       }).success(function(data, status, headers, config){
-        user.saving = form.saving = false;
-        form.edition = false;
-        form.closeEdition();
-        $scope.toggleUserDetails(user);
+        user.saving = false;
+        successCb();
       }).error(function(data, status, headers, config){
-        user.saving = form.saving = false;
+        user.saving = false;
+        errorCb();
         if(status === 401)
           $scope.$parent.logout();
       });
     };
-    
+
     /**
-     * Opens user edition.
-     * @param Object form The angular edition form controller
+     *  FORM Add user
+     *  
      */
-    $scope.openEdition = function(form){
-      form.edition = true;
-      form.openEdition();
-    };
-    
-    /**
-     * Cancels user edition.
-     * @param Object form The angular edition form controller
-     */
-    $scope.cancelEdition = function(form){
-      form.edition = false;
-      form.cancelEdition();
-    };
-    
+
+    var scopeAddForm = $scope.addFormContainer = {};
+    scopeAddForm.model = {};
+    scopeAddForm.fields = [
+      {
+        // the key to be used in the model values
+        // so this will be bound to vm.user.username
+        key: 'name',
+        type: 'horizontalInput',
+        templateOptions: {
+          label: $filter('translate')('USERS.FORM_ADD_NAME'),
+          required: true,
+          description : $filter('translate')('USERS.FORM_ADD_NAME_DESC')
+        }
+      },
+      {
+        key: 'email',
+        type: 'horizontalInput',
+        templateOptions: {
+          type: "email",
+          label: $filter('translate')('USERS.FORM_ADD_EMAIL'),
+          required: true,
+          description : $filter('translate')('USERS.FORM_ADD_EMAIL_DESC')
+        },
+        expressionProperties: {
+          'templateOptions.disabled': '!model.name' // disabled when username is blank
+        }
+      },
+      {
+        key: 'password',
+        type: 'horizontalInput',
+        templateOptions: {
+          type: 'password',
+          label: $filter('translate')('USERS.FORM_ADD_PASSWORD'),
+          required: true,
+          description : $filter('translate')('USERS.FORM_ADD_PASSWORD_DESC')
+        },
+        expressionProperties: {
+          'templateOptions.disabled': '!model.email' // disabled when username is blank
+        }
+      },
+      {
+        key: 'passwordValidate',
+        type: 'horizontalInput',
+        templateOptions: {
+          type: 'password',
+          label: $filter('translate')('USERS.FORM_ADD_PASSWORD_VALIDATE'),
+          required: true,
+          description : $filter('translate')('USERS.FORM_ADD_PASSWORD_VALIDATE_DESC')
+        },
+        expressionProperties: {
+          'templateOptions.disabled': '!model.password' // disabled when username is blank
+        }
+      }
+    ];
+    if($scope.roles.length == 0)
+      scopeAddForm.fields.push({
+        noFormControl :true,
+        type:"emptyrow",
+        templateOptions: {
+          label:  $filter('translate')('USERS.FORM_ADD_ROLE'),
+          message: $filter('translate')('USERS.NO_ROLE')
+        }
+      });
+    else 
+      scopeAddForm.fields.push(
+              {
+                key: 'roles',
+                type: 'horizontalCheckList',
+                templateOptions: {
+                  label: $filter('translate')('USERS.FORM_ADD_ROLE'),
+                  required: true,
+                  options: $scope.roles,
+                  valueProp: 'id',
+                  labelProp: 'name',
+                  description: $filter('translate')('USERS.FORM_ADD_ROLE_DESC')
+                },
+                expressionProperties: {
+                  'templateOptions.disabled': '!model.passwordValidate' // disabled when username is blank
+                }
+              }
+      );
+
+   
+   
+    scopeAddForm.onSubmit = function (model, successCb, errorCb) {
+      addUser(model, successCb, errorCb);
+    }
+
     /**
      * Adds a user.
      * @param Object form The angular form controller
      */
-    $scope.addUser = function(form){
-      form.saving = true;
-      var roles = {};
-      
-      // Get selected roles
-      for(var roleId in $scope.roles){
-        if($scope.roles[roleId].activated){
-          roles[$scope.roles[roleId].id] = {
-            activated : $scope.roles[roleId].activated
-          }
-        }
-      }
-      
-      entityService.addEntity("user", {
-        name :$scope.userName, 
-        email : $scope.userEmail, 
-        password : $scope.userPassword, 
-        passwordValidate : $scope.userPasswordValidate, 
-        roles : roles
-      }).success(function(data, status, headers, config){
-        form.saving = false;
-        resetAddForm(form);
-        $scope.users.push(data.entity);
-        prepareUsersRoles();
+    var addUser = function(model, successCb, errorCb){     
+      entityService.addEntity("user", model).success(function(data, status, headers, config){
+        successCb();
       }).error(function(data, status, headers, config){
-        form.saving = false;
+        errorCb();
         if(status === 401)
           $scope.$parent.logout();
       });
     };
-    
-    /**
-     * Resets add's form values.
-     * @param Object form The formular to reset
-     */
-    function resetAddForm(form){
-      $scope.userName = $scope.userEmail = $scope.userPassword = $scope.userPasswordValidate = null;
-      form.$submitted = false;
-      for(var roleId in $scope.roles)
-        $scope.roles[roleId].activated = false;
-    }
-    
-    /**
-     * Prepares activated roles by users.
-     */
-    function prepareUsersRoles(){
-      
-      // Prepare the list of values for user's roles
-      for(var i = 0 ; i < $scope.users.length ; i++){
-        var user = $scope.users[i];
-        user["rolesValues"] = [];
-
-        for(var roleId in user["roles"])
-          if(user["roles"][roleId].activated)
-            user["rolesValues"].push(roleId);
-      }
-      
-    }
-
   }
 
-})(angular.module("ov"));
+})(angular.module("ov.publish"));

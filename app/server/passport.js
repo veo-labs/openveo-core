@@ -66,13 +66,7 @@ function getUserRoles(user, callback){
   
   // Get user permissions by roles
   if(user.roles){
-    
-    var ids = [];
-    for(var id in user.roles)
-      if(user.roles[id].activated)
-        ids.push(id);
-    
-    roleModel.getByIds(ids, function(error, roles){
+    roleModel.getByIds(user.roles, function(error, roles){
       if(error)
         callback(null, false);
       else{

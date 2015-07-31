@@ -63,21 +63,15 @@
     "INFO" : "An application lets you grant access to the OpenVeo web service for a specific client application. Create an application, attribute access to some web service end points and issue to the client application owner, the generated client id and client secret.",
     "NO_APPLICATIONS" : "No application at the moment",
     "NAME_COLUMN" : "Name",
-    "ACTIONS_COLUMN" : "Actions",
-    "REMOVE" : "Remove",
     "ATTR_NAME" : "Name",
     "ATTR_ID" : "Client Id",
     "ATTR_SECRET" : "Client Secret",
     "ATTR_SCOPES" : "Scopes",
-    "FORM_EDIT" : "Edit",
-    "FORM_CANCEL" : "Cancel",
-    "FORM_SAVE" : "Save",
     "ADD_APPLICATION" : "Add an application",
     "FORM_ADD_NAME" : "Name",
     "FORM_ADD_NAME_DESC" : "Name of the client application",
     "FORM_ADD_SCOPES" : "Scopes",
-    "FORM_ADD_SCOPES_DESC" : "List of permissions for the client application",
-    "FORM_ADD_BUTTON" : "Add"
+    "FORM_ADD_SCOPES_DESC" : "List of permissions for the client application"
   },
   "USERS" : {
     "PAGE_TITLE" : "Openveo - Users",
@@ -86,14 +80,9 @@
     "NO_DATA" : "No user at the moment",
     "NO_ROLE" : "No role at the moment, you can create roles in the administration page \"Roles\".",
     "NAME_COLUMN" : "Name",
-    "ACTIONS_COLUMN" : "Actions",
-    "REMOVE" : "Remove",
     "ATTR_NAME" : "Name",
     "ATTR_EMAIL" : "Email",
     "ATTR_ROLE" : "Role",
-    "FORM_EDIT" : "Edit",
-    "FORM_CANCEL" : "Cancel",
-    "FORM_SAVE" : "Save",
     "ADD_USER" : "Add a user",
     "FORM_ADD_NAME" : "Name",
     "FORM_ADD_NAME_DESC" : "Name of the user",
@@ -104,8 +93,7 @@
     "FORM_ADD_PASSWORD_VALIDATE" : "Confirm password",
     "FORM_ADD_PASSWORD_VALIDATE_DESC" : "Password validation",
     "FORM_ADD_ROLE" : "Roles",
-    "FORM_ADD_ROLE_DESC" : "User roles",
-    "FORM_ADD_BUTTON" : "Add"
+    "FORM_ADD_ROLE_DESC" : "User roles"
   },
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Roles",
@@ -136,6 +124,7 @@
     "FORM_EDIT" : "Edit",
     "FORM_CANCEL" : "Cancel",
     "FORM_SAVE" : "Save",
+    "FORM_ADD" : "Add",
     "VIEW" : "View"
   }
 }

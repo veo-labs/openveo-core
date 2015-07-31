@@ -104,6 +104,22 @@
     var destroy = function(){
       users = roles = permissions = null;
     };
+    
+        
+    var cacheClear = function(type){
+      if(!type) users = roles = permissions = null;
+      else switch(type){
+        case "users":
+          users = null;
+          break;
+        case "roles":
+          roles = null;
+          break;
+        case "permissions":
+          permissions = null;
+          break;
+      }
+    }
 
     return{
       loadRoles : loadRoles,
@@ -112,7 +128,8 @@
       getRoles : getRoles,
       getUsers : getUsers,
       getPermissions : getPermissions,
-      destroy : destroy
+      destroy : destroy,
+      cacheClear : cacheClear
     };
 
   }

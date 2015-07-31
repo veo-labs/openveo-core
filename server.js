@@ -27,7 +27,7 @@ var databaseConf = process.require("config/databaseConf.json");
 var loggerConf = process.require("config/loggerConf.json");
 
 var entities = {};
-var webServiceScopes = conf["webServiceScopes"] || {};
+var webServiceScopes = conf["webServiceScopes"] || [];
 var server;
 var logger;
 
@@ -93,7 +93,7 @@ async.series([
           // Found a list of web service scopes for the plugin
           if(loadedPlugin.webServiceScopes){
             for(var scopeName in loadedPlugin.webServiceScopes)
-              webServiceScopes[scopeName] = loadedPlugin.webServiceScopes[scopeName];
+              webServiceScopes = webServiceScopes.concat(loadedPlugin.webServiceScopes[scopeName]);
           }            
 
           // Found a list of entities for the plugin

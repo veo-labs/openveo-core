@@ -34,13 +34,14 @@ var applicationStorage = openVeoAPI.applicationStorage;
  */
 module.exports.getScopesAction = function(request, response, next){
   var scopes = applicationStorage.getWebServiceScopes();
-  var lightScopes = {};
-
-  for(var scopeId in scopes){
-    lightScopes[scopeId] = {
-      name : scopes[scopeId].name,
-      description : scopes[scopeId].description
-    };
+  var lightScopes = [];
+  for(var i = 0; i < scopes.length; i++){
+    var scope = scopes[i];
+    lightScopes.push({
+      id : scope.id,
+      name : scope.name,
+      description : scope.description
+    });
   }
   response.send({ scopes : lightScopes });
 };

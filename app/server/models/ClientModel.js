@@ -36,18 +36,20 @@ util.inherits(ClientModel, openVeoAPI.EntityModel);
  *       id : "Client id",
  *       secret : "Client secret",
  *       name : "Name of the client",
- *       scopes : {
- *        scope1 : {
+ *       scopes : [
+ *        {
+ *         id: "scope1",
  *         description : "description 1",
  *         name : "name 1",
  *         activated : true
  *        },
- *        scope2 : {
+ *        {
+ *         id: "scope2",
  *         description : "description 2",
  *         name : "name 2",
  *         activated : true
  *        }
- *      }
+ *      ]
  *     }, callback);
  *
  * @method add
@@ -81,18 +83,20 @@ ClientModel.prototype.add = function(data, callback){
  *     var client = new ClientModel();
  *     client.update("1", {
  *       name : "New client name",
- *       scopes : {
- *        scope1 : {
+ *       scopes : [
+ *        {
+ *         id : "scope1",
  *         description : "description 1",
  *         name : "name 1",
  *         activated : true
  *        },
- *        scope2 : {
+ *        {
+ *         id : "scope2",
  *         description : "description 2",
  *         name : "name 2",
  *         activated : true
  *        }
- *      }
+ *      ]
  *     }, callback);
  *
  *
