@@ -44,6 +44,7 @@ Project.prototype.init = function(config, options, target){
   this.targetDir = this.config.destinationDirectory[this.target];
   this.releaseDir = path.join(this.targetDir, "release");
   this.currentReleaseLink = path.join(this.targetDir, "current");
+  this.versionDir = (this.config.versionDestinationDirectory && this.config.versionDestinationDirectory[this.target]) ? this.config.versionDestinationDirectory[this.target] : null;
   
 };
 
@@ -306,6 +307,27 @@ Project.prototype.publish = function(server){
   server.log("Link folder to web root");
   server.rm("-f " + this.currentReleaseLink);
   server.ln("-s " + this.newReleaseDir + " " + this.currentReleaseLink);
+
+  this.publishVersion(server);
+};
+
+/**
+ * Publish version of the project and changelog.
+ *
+ * Changelog is the CHANGELOG.md file at the root of the project.
+ * Version is stored in a separated file.
+ * Both version file and CHANGELOG.md file are published in the directory
+ * specified in configuration.
+ *
+ * @param Transport server The server on which working
+ */
+Project.prototype.publishVersion = function(server){
+  if(this.versionDir){
+    server.log("Publish version of project " + this.projectName);
+
+    server.exec("echo " + this.gitRef + " > " + path.join(this.versionDir, this.projectName + "-version"));
+    server.cp(path.join(this.newReleaseDir, "CHANGELOG.md") + " " + path.join(this.versionDir, this.projectName + "-CHANGELOG.md"));
+  }
 };
 
 /**
