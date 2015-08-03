@@ -5,13 +5,13 @@ var assert = require("chai").assert;
 var openVeoAPI = require("openveo-api");
 var ut = require("openveo-test").generator;
 
-// oauthController.js
-describe("oauthController", function(){
-  var request, response, oauthController;
+// oAuthController.js
+describe("oAuthController", function(){
+  var request, response, oAuthController;
   
   before(function(){
     ut.generateWebServiceScopes();
-    oauthController = process.require("app/server/controllers/oauthController.js");
+    oAuthController = process.require("app/server/controllers/oAuthController.js");
     request = { oauth2 : {}, method : "GET"};
     response = { };
   });
@@ -36,7 +36,7 @@ describe("oauthController", function(){
         assert(false);
       };
 
-      oauthController.validateScopesAction(request, response, function(){
+      oAuthController.validateScopesAction(request, response, function(){
         done();
       });
     });
@@ -53,7 +53,7 @@ describe("oauthController", function(){
          }
       };
 
-      oauthController.validateScopesAction(request, response, function(error){
+      oAuthController.validateScopesAction(request, response, function(error){
         assert.isDefined(error);
         assert.equal(error.httpCode, 403);
         done();
