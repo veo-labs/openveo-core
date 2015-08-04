@@ -12,6 +12,11 @@ process.require = function(filePath){
   return require(path.normalize(process.root + "/" + filePath));
 };
 
+// Define a custom require function to load modules of the core from plugins
+process.requireModule = function(moduleName){
+  return require(moduleName);
+};
+
 // Loaders
 var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
 var entityLoader = process.require("app/server/loaders/entityLoader.js");

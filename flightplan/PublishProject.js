@@ -35,11 +35,6 @@ PublishProject.prototype.extract = function(server){
   Project.prototype.extract.call(this, server);
   
   var destinationDirectory = this.config.destinationDirectory[this.target];
-  
-  // Create a symbolic link to openveo-api from openveo-publish
-  server.with("cd " + this.newReleaseDir + "/node_modules/", function(){
-     server.ln("-s " + path.join(destinationDirectory, "openveo", "current", "node_modules", "openveo-api") + " openveo-api");
-  });
 
   if(!this.isProduction){
 
