@@ -27,7 +27,7 @@ var server;
 var logger;
 
 // Web Service
-if((process.argv.length > 2 && (process.argv[2] === "-ws" || process.argv[3] === "--ws"))){
+if((process.argv.length > 2 && (process.argv[2] === "-ws" || process.argv[2] === "--ws"))){
   logger = openVeoAPI.logger.get("openveo", loggerConf.ws);
   var WebServiceServer = process.require("app/server/servers/WebServiceServer.js");
   server = new WebServiceServer();
