@@ -1,4 +1,4 @@
-"use scrict"
+"use strict"
 
 /** 
  * @module core-providers 
