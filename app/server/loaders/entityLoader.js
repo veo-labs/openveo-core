@@ -46,7 +46,7 @@ module.exports.decodeEntities = function(pluginPath, entities){
   var decodedEntities = {};
   
   if(entities){
-    for(type in entities){
+    for(var type in entities){
 
       try{
         var model = require(path.join(pluginPath, entities[type] + ".js"));
