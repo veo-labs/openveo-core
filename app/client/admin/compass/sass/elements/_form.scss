@@ -7,5 +7,42 @@
 }
 .form-submit-bouton{
   margin:5px auto 15px;
+  text-align: center;
+}
+.add-form{
+  .form-group{
+    margin-bottom:0;
+  }
 }
 
+.formly-field{
+  .panel{
+    margin: 0 0 5px 10px;
+    .panel-heading{
+      border-bottom:0 none;
+      cursor:pointer;
+    }
+  }
+  
+  span.editable-input label {
+    display: block;
+  }
+  
+  &.formly-field-group{
+    .form-group{
+      margin-bottom:0;
+    }
+    .panel-body{
+      padding-left:30px;
+    }
+    .panel-body span.editable{
+      top:0;
+    }
+    .panel-body label{
+      font-weight: inherit; 
+    }
+  }
+  .well{
+    margin-bottom:0;
+  }
+}

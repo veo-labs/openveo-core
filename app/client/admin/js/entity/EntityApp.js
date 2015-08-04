@@ -60,7 +60,7 @@
      * @returns {unresolved}
      */    
     var getEntities = function(entityType, param){
-       return $http.post("search/" + entityType, param);
+       return $http.post(basePath + "search/" + entityType, param);
     }
     
     /**

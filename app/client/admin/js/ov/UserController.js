@@ -224,7 +224,8 @@
      * Adds a user.
      * @param Object form The angular form controller
      */
-    var addUser = function(model, successCb, errorCb){     
+    var addUser = function(model, successCb, errorCb){   
+      if(!model.roles) model.roles = [];
       entityService.addEntity("user", model).success(function(data, status, headers, config){
         successCb();
       }).error(function(data, status, headers, config){
@@ -235,4 +236,4 @@
     };
   }
 
-})(angular.module("ov.publish"));
+})(angular.module("ov"));

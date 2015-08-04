@@ -60,7 +60,16 @@
     formlyConfig.templateManipulators.postWrapper.push(function(template, options, scope) {
       return template.replace(/{{/g, '[[').replace(/]}}/g, '];]]').replace(/}}/g, ']]');
     });
-
+    formlyConfig.setWrapper({
+        name: 'collapse',
+        template: ['<div class="panel panel-default">',
+          '<div for="[[::id]]" class="panel-heading" ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">[[to.labelCollapse]]</div>',
+          '<div class="panel-body" collapse="isCollapsed">',
+          '<formly-transclude></formly-transclude>',
+          '</div></div>'
+        ].join(' ')
+      });
+    
     formlyConfig.setWrapper({
       name: 'horizontalBootstrapLabel',
       template: [
@@ -218,9 +227,6 @@
         controller: "RoleController",
         title: "ROLES.PAGE_TITLE",
         resolve: {
-          roles : ["userService", function(userService){
-            return userService.loadRoles();
-          }],
           permissions : ["userService", function(userService){
             return userService.loadPermissions();
           }]

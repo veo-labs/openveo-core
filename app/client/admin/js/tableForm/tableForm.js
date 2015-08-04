@@ -68,14 +68,14 @@
     fec.init = function(row){
       fec.model = row;
       if($scope.editFormContainer.init) $scope.editFormContainer.init(row) ;
-      fec.fields = $scope.editFormContainer.fields;
+      fec.fields = angular.copy($scope.editFormContainer.fields);
       fec.originalFields = angular.copy(fec.fields);
     };
     
     fec.onSubmit = function () {
       $scope.editFormContainer.onSubmit(fec.model, function () {
         fec.options.updateInitialValue();
-        fec.originalFields = angular.copy(fec.fields);
+//        fec.originalFields = angular.copy(fec.fields);
       }, function () {
         fec.options.resetModel();
         $scope.$emit("setAlert", 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);

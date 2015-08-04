@@ -160,10 +160,10 @@
       }
     ];
     if($scope.scopes.length == 0)
-      scopeAddForm.fields.push[{
+      scopeAddForm.fields.push({
         noFormControl: true,
         template: '<p>' + $filter('translate')('APPLICATIONS.NO_APPLICATIONS') + '</p>'
-      }];
+      });
     else 
       scopeAddForm.fields.push({
         key: 'scopes',
@@ -200,4 +200,4 @@
     };
   }
 
-})(angular.module("ov.publish"));
+})(angular.module("ov"));

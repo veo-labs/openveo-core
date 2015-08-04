@@ -4,8 +4,7 @@
       "get /logout" : "app/server/controllers/authenticationController.logoutAction",
       "post /authenticate" : "app/server/controllers/authenticationController.authenticateAction",
       "/login" : "app/server/controllers/defaultController.defaultAction",
-      "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getDictionaryAction",
-      "post /search/:type" : "app/server/controllers/searchController.searchEntitiesAction"
+      "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getDictionaryAction"
     },
     "admin" : {
       "*" : "app/server/controllers/authenticationController.restrictAction",
@@ -18,7 +17,8 @@
       "post /crud/:type/:id" : "app/server/controllers/crudController.updateEntityAction",
       "put /crud/:type" : "app/server/controllers/crudController.addEntityAction",
       "delete /crud/:type/:id" : "app/server/controllers/crudController.removeEntityAction",
-      "get /getTaxonomy/:name" : "app/server/controllers/TaxonomyController.getTaxonomyAction"
+      "get /getTaxonomy/:name" : "app/server/controllers/TaxonomyController.getTaxonomyAction",
+      "post /search/:type" : "app/server/controllers/searchController.searchEntitiesAction"
       
     },
     "ws": {

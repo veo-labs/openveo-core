@@ -1,0 +1,23 @@
+.mdi.icon{
+  width:400px;
+  height:400px;
+  font-size: 200px;
+  z-index:-1;
+  position: absolute;
+  opacity : 0.3;
+  left:0;
+  top:150px;
+  @include single-transition(all, 0.2s, ease);
+  @include tablet(){
+    font-size: 100px;
+  }
+  @include mobile(){
+    text-align:right;
+    font-size: 50px;
+  }
+  
+  color: $brand-primary;
+  #wrapper.toggled &{
+    color: #888;
+  }
+}
