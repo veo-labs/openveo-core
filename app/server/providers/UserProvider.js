@@ -115,5 +115,5 @@ UserProvider.prototype.update = function(id, data, callback){
  *   - **Number** The number of removed items
  */
 UserProvider.prototype.remove = function(id, callback){
-  this.database.remove(this.collection, {id : id, locked : { $ne : true }}, callback);
+  this.database.remove(this.collection, {id :{$in : id}, locked : { $ne : true }}, callback);
 };

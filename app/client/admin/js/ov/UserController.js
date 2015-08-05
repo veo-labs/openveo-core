@@ -22,18 +22,23 @@
     };
     scopeDataTable.header = [{
         'key': "name",
-        'name': $filter('translate')('USERS.NAME_COLUMN')
+        'name': $filter('translate')('USERS.NAME_COLUMN'),
+        "class": ['col-xs-12 col-sm-11']
       },
       {
         'key': "action",
-        'name': $filter('translate')('UI.ACTIONS_COLUMN')
+        'name': $filter('translate')('UI.ACTIONS_COLUMN'),
+        "class":[' hidden-xs col-sm-1']
       }];
 
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "condition": function(row) {return !row.locked;},
         "callback": function (row) {
-          removeRow(row);
+          removeRows([row.id]);
+        },
+        "global": function(selected){
+          removeRows(selected);
         }
       }];
     scopeDataTable.conditionTogleDetail = function (row) {
@@ -88,20 +93,16 @@
      * Can't remove a user if its saving.
      * @param Object user The user to remove
      */
-    var removeRow = function (row) {
-      if (!row.saving) {
-        row.saving = true;
-        entityService.removeEntity('user', row.id)
+    var removeRows = function (selected) {
+        entityService.removeEntity('user', selected.join(','))
                 .success(function (data) {
                   $scope.$emit("setAlert", 'success', 'users deleted', 4000);
                 })
                 .error(function (data, status, headers, config) {
                   $scope.$emit("setAlert", 'danger', 'Fail remove users! Try later.', 4000);
-                  row.saving = false;
                   if (status === 401)
                     $scope.$parent.logout();
                 });
-      }
     };
 
     /**
@@ -225,8 +226,14 @@
      * @param Object form The angular form controller
      */
     var addUser = function(model, successCb, errorCb){   
-      if(!model.roles) model.roles = [];
-      entityService.addEntity("user", model).success(function(data, status, headers, config){
+      var entity = {
+        name :model.userName, 
+        email : model.userEmail, 
+        password : model.userPassword, 
+        passwordValidate : model.userPasswordValidate, 
+        roles : model.roles || []
+      };
+      entityService.addEntity("user", entity).success(function(data, status, headers, config){
         successCb();
       }).error(function(data, status, headers, config){
         errorCb();

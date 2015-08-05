@@ -1,37 +1,8 @@
 
-/* Lists */
-
-/*.line { 
-  border-radius: 3px;
-  display:table; 
-  width:100%;
-  line-height: 37px;
-  a{ 
-    color: #000; 
-  }
-  &.even{
-    background-color:  #ebebeb;
-  }
-  &:first-child{ 
-    border-top: 1px solid #ddd;
-  }
-  & > .table-cell{ 
-    height: 40px;
-    line-height: 37px;
-    border:1px solid #ddd;
-    border-top:0 none;
-    
-    &:first-child{ cursor: pointer; overflow: hidden;}
-  }
-  .open-tab{
-    overflow:hidden;
-  }
-  
-  .glyphicon{ cursor: pointer; }
-}*/
-
-
 .table{
+  .checkbox-row{
+    text-align: center;
+  }
   &>thead{
     &>tr{
       &> th{
@@ -45,6 +16,9 @@
       &> td{
         padding: 0 20px;
         line-height: 37px;
+        &:nth-of-type(2){
+          padding-left:0px;
+        }
       }
     }
   }
@@ -67,9 +41,6 @@
   input{ margin: 1px 0; }
   .btn-group{ margin-left: 35px; }*/
 }
-
-
-
 
 .table-striped > tbody > tr{
   &:nth-of-type(odd){
@@ -116,7 +87,7 @@
 
 .datatable{
   .search-form{
-    margin: 15px auto 40px;
+    margin: 15px auto 15px;
   }
   .search-title{
     margin: 15px;
@@ -125,4 +96,36 @@
     display: inline-block;
     width: 100%;
   }
+  .allactions {
+     margin: 0px auto 15px;
+    .dropdown{
+      display: inline;
+    }
+    .dropdown-toggle {
+      line-height: 22px;
+      border-left: 0px none;
+    }
+  }
+  .animate-action{
+    transition:all 0.4s ease;
+    &.ng-enter{
+
+      left:20px;
+      opacity:0;
+      &.ng-enter-active{
+        left:0px;
+        opacity:1;
+      }
+    }
+    &.ng-leave{
+      opacity:1;
+      left:0px;
+      &.ng-leave-active{
+        opacity:0;
+        left:20px;
+      }
+    }
+  }
 }
+
+

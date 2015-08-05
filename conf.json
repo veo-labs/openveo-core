@@ -19,7 +19,6 @@
       "delete /crud/:type/:id" : "app/server/controllers/crudController.removeEntityAction",
       "get /getTaxonomy/:name" : "app/server/controllers/TaxonomyController.getTaxonomyAction",
       "post /search/:type" : "app/server/controllers/searchController.searchEntitiesAction"
-      
     },
     "ws": {
       "get /:type/:id" : "app/server/controllers/crudController.getEntityAction",

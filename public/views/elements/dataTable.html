@@ -8,13 +8,31 @@
       </div>
     </div>
   </div>
+  <div class="allactions btn-group" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll">
+    <div class="btn btn-default">
+    <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll()">
+     </div>
+    <div class="animate-action" dropdown  ng-if="dataTable.isRowSelected">
+      <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
+        Action <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" role="menu" >  
+        <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='dataTable.verifyCondition(action)'>
+          <a role="menuitem" href="#" ng-click="dataTable.executeGlobalAction(action); dataTable.reloadCallback();" ng-bind="action.label"></a>
+        </li>
+      </ul>
+    </div>
+  </div>
   <div tasty-table bind-theme="dataTable.customTheme" bind-reload="dataTable.reloadCallback" bind-resource-callback="dataTable.getResource" bind-init="dataTable.init" bind-filters="dataTable.filterBy">
     <table class="table table-striped table-condensed">
-      <thead tasty-thead bind-not-sort-by="dataTable.notSortBy" ></thead>
+      <thead tasty-thead bind-template-url="dataTable.showSelectAll?'views/elements/head.html':''" bind-not-sort-by="dataTable.notSortBy" ></thead>
       <tbody>
         <tr ng-repeat-start="row in dataTable.rows" ng-class="$index%2?'even':'odd'">
-          <td ng-click="dataTable.toggleRowDetails(row, dataTable.conditionTogleDetail(row))"  class="line col-sm-10" ng-repeat="entities in dataTable.header" ng-if="entities.key != 'action'">
-            <div class="table-cell"><span ng-if="$first && dataTable.conditionTogleDetail(row)" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></span>
+          <td class="checkbox-row" ng-if="dataTable.showSelectAll">
+            <div class="table-cell"><input type="checkbox"  ng-model="row.selected" ng-checked="row.selected" ng-click="dataTable.uncheckOne()"></div>
+          </td>
+          <td ng-click="dataTable.toggleRowDetails(row, dataTable.conditionTogleDetail(row))"  class="line" ng-repeat="entities in dataTable.header" ng-if="entities.key != 'action'">
+            <div class="table-cell" ><span ng-if="$first && dataTable.conditionTogleDetail(row)" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></span>
               <strong ng-if="!entities.type || entities.type == 'text'">[[dataTable.getDescendantProp(row, entities.key) ;]]</strong>
               <span ng-if="entities.type && entities.type == 'date'">[[dataTable.getDescendantProp(row, entities.key) | date:'dd/MM/yyyy' ]]</span>
               <span ng-if="entities.type && entities.type == 'category'">[[dataTable.getDescendantProp(row, entities.key) | category:categories ]]</span>
@@ -22,7 +40,7 @@
             </div>
           </td>
           <td ng-if='dataTable.actions'>
-            <div class="col-xs-2 hidden-xs">
+            <div class="col-sm-1 hidden-xs">
               <div class="btn-group" dropdown>
                 <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
                   Action <span class="caret"></span>
@@ -37,7 +55,7 @@
           </td>
         </tr>
         <tr ng-repeat-end ng-if="row.opened" class="open-tab detail open-tab-animate" ng-class="$index%2?'even':'odd'">
-          <td colspan=[[dataTable.header.length]]> 
+          <td colspan='[[dataTable.header.length+dataTable.showSelectAll]]'> 
             <ng-include src="'views/elements/dataTableForm.html'"></ng-include>
           </td>
         </tr>

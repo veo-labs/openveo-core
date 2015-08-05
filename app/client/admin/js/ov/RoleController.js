@@ -3,12 +3,12 @@
   "use strict"
 
   app.controller("RoleController", RoleController);
-  RoleController.$inject = ["$scope", "$filter", "entityService", "permissions"];
+  RoleController.$inject = ["$scope", "$filter", "entityService", "userService", "permissions"];
 
   /**
    * Defines the user controller for the user page.
    */
-  function RoleController($scope, $filter, entityService, permissions) {
+  function RoleController($scope, $filter, entityService, userService, permissions) {
   
     $scope.permissions = permissions.data.permissions;
     translatePermissions();
@@ -34,17 +34,22 @@
     };
     scopeDataTable.header = [{
         'key': "name",
-        'name': $filter('translate')('ROLES.NAME_COLUMN')
+        'name': $filter('translate')('ROLES.NAME_COLUMN'),
+        "class": ['col-xs-12 col-sm-11']
       },
       {
         'key': "action",
-        'name': $filter('translate')('UI.ACTIONS_COLUMN')
+        'name': $filter('translate')('UI.ACTIONS_COLUMN'),
+        "class": [' hidden-xs col-sm-1']
       }];
 
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "callback": function (row) {
-          removeRow(row);
+          removeRows([row.id]);
+        },
+        "global": function(selected){
+          removeRows(selected);
         }
       }];
 
@@ -111,24 +116,21 @@
     }
 
     /**
-     * Removes the user.
-     * Can't remove a user if its saving.
-     * @param Object user The user to remove
+     * Removes the role.
+     * Can't remove a role if its saving.
+     * @param Object role The role to remove
      */
-    var removeRow = function (row) {
-      if (!row.saving) {
-        row.saving = true;
-        entityService.removeEntity('role', row.id)
+    var removeRows = function (selected) {
+        entityService.removeEntity('role', selected.join(','))
                 .success(function (data) {
-                  $scope.$emit("setAlert", 'success', 'Role deleted', 4000);
+                  userService.cacheClear("roles");
+                  $scope.$emit("setAlert", 'success', 'role deleted', 4000);
                 })
                 .error(function (data, status, headers, config) {
-                  $scope.$emit("setAlert", 'danger', 'Fail remove Role! Try later.', 4000);
-                  row.saving = false;
+                  $scope.$emit("setAlert", 'danger', 'Fail remove role! Try later.', 4000);
                   if (status === 401)
                     $scope.$parent.logout();
                 });
-      }
     };
 
     /**
@@ -144,6 +146,7 @@
       entityService.updateEntity("role", permission.id, entity).success(function(data, status, headers, config){
         permission.saving = false;
         permission.permissions = angular.copy(entity.permissions);
+        userService.cacheClear("roles");
         successCb();
       }).error(function(data, status, headers, config){
         permission.saving = false;
@@ -224,6 +227,7 @@
       var entity = getEntitiesFromModel(model);
       entityService.addEntity("role", entity).success(function(data, status, headers, config){
        model.permissions = angular.copy(entity.permissions);
+       userService.cacheClear("roles");
        successCb();
       }).error(function(data, status, headers, config){
         errorCb();

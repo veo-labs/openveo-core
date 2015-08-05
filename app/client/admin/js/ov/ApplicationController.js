@@ -30,17 +30,22 @@
     };
     scopeDataTable.header = [{
         'key': "name",
-        'name': $filter('translate')('APPLICATIONS.NAME_COLUMN')
+        'name': $filter('translate')('APPLICATIONS.NAME_COLUMN'),
+        "class": ['col-xs-12 col-sm-11']
       },
       {
         'key': "action",
-        'name': $filter('translate')('UI.ACTIONS_COLUMN')
+        'name': $filter('translate')('UI.ACTIONS_COLUMN'),
+        "class": [' hidden-xs col-sm-1']
       }];
 
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "callback": function (row) {
-          removeRow(row);
+          removeRows([row.id]);
+        },
+        "global": function(selected){
+          removeRows(selected);
         }
       }];
 
@@ -97,24 +102,20 @@
     }
 
     /**
-     * Removes the user.
-     * Can't remove a user if its saving.
-     * @param Object user The user to remove
+     * Removes the application.
+     * Can't remove a application if its saving.
+     * @param Object application The application to remove
      */
-    var removeRow = function (row) {
-      if (!row.saving) {
-        row.saving = true;
-        entityService.removeEntity('application', row.id)
-                .success(function (data) {
-                  $scope.$emit("setAlert", 'success', 'Application deleted', 4000);
-                })
-                .error(function (data, status, headers, config) {
-                  $scope.$emit("setAlert", 'danger', 'Fail remove Application! Try later.', 4000);
-                  row.saving = false;
-                  if (status === 401)
-                    $scope.$parent.logout();
-                });
-      }
+    var removeRows = function (selected) {
+      entityService.removeEntity('application', selected.join(','))
+              .success(function (data) {
+                $scope.$emit("setAlert", 'success', 'Application deleted', 4000);
+              })
+              .error(function (data, status, headers, config) {
+                $scope.$emit("setAlert", 'danger', 'Fail remove Application! Try later.', 4000);
+                if (status === 401)
+                  $scope.$parent.logout();
+              });
     };
 
     /**
