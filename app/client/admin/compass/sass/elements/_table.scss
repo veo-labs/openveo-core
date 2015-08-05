@@ -6,8 +6,17 @@
   &>thead{
     &>tr{
       &> th{
+        
         padding: 0 20px;
         line-height: 37px;
+        transition:all 0.4s ease;
+        &.sortable{
+         cursor:pointer;
+        }
+        &.active{
+          color: white;
+          background-color: $brand-primary;
+        }
       }
     }
   } 
