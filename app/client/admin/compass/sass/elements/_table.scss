@@ -69,31 +69,42 @@
 
 .open-tab-animate {
   /*display:block;*/
+  transition:all 0.4s ease;
+  
   .detail>form{
     overflow:hidden;
+
+    opacity:1;
     transition:all 0.4s ease;
   }
-  
-  &.ng-enter .detail>form{
 
-    max-height:0px;
-    opacity:0;
-    &.ng-enter-active .detail>form{
-
-      max-height:400px;
-      opacity:1;
-    }
-  }
-  &.ng-leave .detail>form{
-
-    max-height:400px;
-    opacity:1;
-
-    &.ng-leave-active .detail>form{
+  &.ng-enter {
+    .detail>form{
       max-height:0px;
       opacity:0;
     }
   }
+  &.ng-enter-active{
+    .detail>form{
+      max-height:800px;
+      opacity:1;
+    }
+  }
+
+  &.ng-leave {
+    .detail>form{
+      max-height:800px;
+      opacity:1;
+    }
+  }
+
+  &.ng-leave-active{
+    .detail>form{
+      max-height:0px;
+      opacity:0;
+    }
+  }
+
 }
 
 
