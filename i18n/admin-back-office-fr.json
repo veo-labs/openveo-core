@@ -126,6 +126,7 @@
     "FORM_CANCEL" : "Annuler",
     "FORM_SAVE" : "Enregistrer",
     "FORM_ADD" : "Ajouter",
-    "VIEW" : "Voir"
+    "VIEW" : "Voir",
+    "SELECT_ALL" : "Sélectionner toute les lignes"
   }
 }

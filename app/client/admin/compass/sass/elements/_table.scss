@@ -9,13 +9,13 @@
         padding: 0 20px;
         line-height: 37px;
         transition:all 0.4s ease;
-        background-size: 0% 100%;
+        background-size: 100% 200%;
         background-image: linear-gradient(to bottom, white 50%, $brand-primary 50%);
         &.sortable{
          cursor:pointer;
         }
         &.active{
-          background-position: 100% 200%;
+          background-position: 0 100%;
           color: white;
         }
       }

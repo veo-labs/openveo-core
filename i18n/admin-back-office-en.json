@@ -125,6 +125,7 @@
     "FORM_CANCEL" : "Cancel",
     "FORM_SAVE" : "Save",
     "FORM_ADD" : "Add",
-    "VIEW" : "View"
+    "VIEW" : "View",
+    "SELECT_ALL" : "Select all rows"
   }
 }

@@ -8,8 +8,8 @@
       </div>
     </div>
   </div>
-  <div class="allactions btn-group" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll">
-    <div class="btn btn-default">
+  <div class="allactions btn-group" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0">
+    <div class="btn btn-default"  popover="[['UI.SELECT_ALL' | translate]]" popover-trigger="mouseenter">
     <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll()">
      </div>
     <div class="animate-action" dropdown  ng-if="dataTable.isRowSelected">
