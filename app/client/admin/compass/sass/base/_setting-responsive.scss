@@ -16,7 +16,7 @@ $mq-breakpoints: (
 $mq-static-breakpoint: desktop;
 
 // display active breakpoint in the top corner during development
-$mq-show-breakpoints: (mobile, mobileLandscape, tablet, desktop, wide);
+/*$mq-show-breakpoints: (mobile, mobileLandscape, tablet, desktop, wide);*/
 
 // import mq mixin
 @import 'mixins/library/mq';
