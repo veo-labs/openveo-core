@@ -29,7 +29,7 @@ module.exports.getMenuAction = function(request, response, next){
   if(menu){
 
     if(request.user.id != 0){
-
+      
       // Filters menu by permissions
       response.send(filterMenuByPermissions(menu, request.user));
 
@@ -127,11 +127,8 @@ function isAuthorized(user, permission){
     for(var i = 0 ; i < user.roles.length ; i++){
       var role = user.roles[i];
 
-      for(var j = 0 ; j < role.permissions.length ; j++){
-        if(role.permissions[j].id === permission && role.permissions[j].activated)
+      if(role.permissions.indexOf(permission) >=0)
           return true;
-      }
-
     }
 
   }

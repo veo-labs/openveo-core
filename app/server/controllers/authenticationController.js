@@ -108,10 +108,7 @@ module.exports.restrictAction = function(request, response, next){
         var role = request.user.roles[i];
 
         // Found permission : access granted
-        for(var j = 0 ; j < role.permissions.length ; j++){
-          if(role.permissions[j].id === permission && role.permissions[j].activated)
-            return next();
-        }
+        if(role.permissions.indexOf(permission)>=0) return next();
 
       }
     }
@@ -181,13 +178,12 @@ module.exports.getPermissionsAction = function(request, response, next){
  */
 function getPermissionByUrl(permissions, url, httpMethod){
   for(var i = 0 ; i < permissions.length ; i++){
-
+    
     // Single permission
     if(permissions[i].id){
       if(permissions[i].paths){
         for(var j = 0 ; j < permissions[i].paths.length ; j++){
           var path = permissions[i].paths[j];
-
           if(pathUtil.validate(httpMethod + " " + url, path))
             return permissions[i].id;
         }
