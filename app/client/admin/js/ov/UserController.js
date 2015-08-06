@@ -227,10 +227,10 @@
      */
     var addUser = function(model, successCb, errorCb){   
       var entity = {
-        name :model.userName, 
-        email : model.userEmail, 
-        password : model.userPassword, 
-        passwordValidate : model.userPasswordValidate, 
+        name :model.name, 
+        email : model.email, 
+        password : model.password, 
+        passwordValidate : model.passwordValidate, 
         roles : model.roles || []
       };
       entityService.addEntity("user", entity).success(function(data, status, headers, config){

@@ -94,7 +94,7 @@ UserModel.prototype.add = function(data, callback){
     else{
 
       // Encrypt password
-      password = crypto.createHmac("sha256", hashKey).update(data.password).digest("hex");
+      var password = crypto.createHmac("sha256", hashKey).update(data.password).digest("hex");
 
       // Build user object
       var user = {
