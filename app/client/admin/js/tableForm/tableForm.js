@@ -202,6 +202,7 @@
       return entityService.getEntities(dataTable.entityType, param).then(function (response) {
         dataTable.rows = response.data.rows;
         dataTable.selectAll = false;
+        dataTable.isRowSelected = false;
         return {
           'rows': dataTable.rows,
           'header': dataTable.header,
