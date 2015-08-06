@@ -75,12 +75,13 @@
    */
   function FormEditController($scope, $filter) {
     var fec = this;
+   
     fec.init = function(row){
       fec.model = row;
       //Call init function if defined to set up dynamically some fields
       if($scope.editFormContainer.init) $scope.editFormContainer.init(row) ;
-      fec.fields = angular.copy($scope.editFormContainer.fields);
-      fec.originalFields = angular.copy(fec.fields);
+      fec.fields = $scope.editFormContainer.fields;
+      fec.originalFields = fec.fields;
     };
     
     fec.onSubmit = function () {
@@ -97,6 +98,14 @@
       });
     }
     fec.options = {};
+    fec.editForm = function(){
+      $scope.editFormContainer.pendingEdition = true;
+      fec.form.$show();
+    }
+    fec.cancelForm = function(){
+      $scope.editFormContainer.pendingEdition = false;
+      fec.form.$cancel();
+    }
   }
   
   /**
@@ -107,7 +116,7 @@
   function FormAddController($scope, $filter, tableReloadEventService) {
     var vm = this;
     vm.model = $scope.addFormContainer.model;
-    vm.originalFields = angular.copy(vm.fields);
+//    vm.originalFields = angular.copy(vm.fields);
     vm.fields = $scope.addFormContainer.fields;
     
     vm.onSubmit = function () {

@@ -3,11 +3,11 @@
     <formly-form model="fec.model" fields="fec.fields" options="fec.options" form="fec.form" editable-form onaftersave="fec.onSubmit()" root-el="form">
       <div class="form-submit-bouton col-xs-6 col-xs-push-2">
         <!-- button to show form -->    
-        <button type="button" class="btn btn-default" ng-click="fec.form.$show()" ng-show="!fec.form.$visible" ng-bind="'UI.FORM_EDIT' | translate"></button>
+        <button type="button" class="btn btn-default" ng-click="fec.editForm()" ng-show="!fec.form.$visible" ng-bind="'UI.FORM_EDIT' | translate"></button>
         <!-- buttons to submit / cancel form -->
         <span ng-show="fec.form.$visible">
           <button type="submit" class="btn btn-primary" ng-disabled="fec.form.$invalid || fec.form.$waiting" ng-bind="'UI.FORM_SAVE' | translate"></button>
-          <button type="button" class="btn btn-default" ng-disabled="fec.form.$waiting" ng-click="fec.form.$cancel()" ng-bind="'UI.FORM_CANCEL' | translate"></button>
+          <button type="button" class="btn btn-default" ng-disabled="fec.form.$waiting" ng-click="fec.cancelForm()" ng-bind="'UI.FORM_CANCEL' | translate"></button>
         </span>
       </div>
     </formly-form>
