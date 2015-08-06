@@ -74,11 +74,8 @@ describe("authenticationController", function(){
           id : 1,
           roles: [
             {
-              permissions : [
-                {
-                  id : "perm1",
-                  activated : true 
-                }
+              permissions: [
+                "perm1"
               ]
             }
           ]

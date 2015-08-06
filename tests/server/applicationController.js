@@ -27,7 +27,8 @@ describe("applicationController", function(){
       response.status = function(status){return this;};
       response.send = function(data){
         assert.isDefined(data);
-        assert.isObject(data.scopes);
+        assert.isObject(data);
+        assert.isArray(data.scopes);
         done();
       };
 
