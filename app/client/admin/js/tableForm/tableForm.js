@@ -218,6 +218,7 @@
       if (!row.saving && condition) {
         angular.forEach(dataTable.rows, function (value, key) {
           value.opened = (value.id === row.id) ? !value.opened : false;
+          $scope.editFormContainer.pendingEdition=false;
         })
       }
     };
