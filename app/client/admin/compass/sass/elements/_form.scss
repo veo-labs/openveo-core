@@ -28,21 +28,35 @@
     display: block;
   }
   
+  .form-group{
+      margin-bottom:10px;
+    } 
   &.formly-field-group{
     .form-group{
       margin-bottom:0;
     }
     .panel-body{
-      padding-left:30px;
-    }
-    .panel-body span.editable{
-      top:0;
-    }
-    .panel-body label{
-      font-weight: inherit; 
+      padding:0;
+      div.editable{
+        padding:15px 0 15px 25px;
+        top:0;
+      }
+      span.editable{
+        line-height: 17px;
+        top: 0;
+      }
+      label{
+        font-weight: inherit; 
+      }
+      .radio-group{
+        padding:15px 0 15px 25px;
+      }
     }
   }
   .well{
     margin-bottom:0;
+  }
+  .editable-wrap{
+    margin-left: 15px;
   }
 }
