@@ -1,13 +1,5 @@
 <div class="datatable" ng-controller="DataTableController as dataTable">
-  <div class="search-form form-group" >
-    <div class="search-title" ng-bind="'UI.SEARCH_BY' | translate"></div>
-    <div class="search-fields" >
-      <div class="col-sm-3" ng-repeat="(key, value) in dataTable.filterBy" >
-        <label class="control-label"> [[key]] :</label>
-        <input type="text" class="form-control input-sm" ng-model="dataTable.filterBy[key]" />
-      </div>
-    </div>
-  </div>
+  <div class="control-block">
   <div class="allactions btn-group" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0">
     <div class="btn btn-default"  popover="[['UI.SELECT_ALL' | translate]]" popover-trigger="mouseenter">
     <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll()">
@@ -22,6 +14,16 @@
         </li>
       </ul>
     </div>
+  </div>
+  <div class="search-form form-group" >
+    <div class="search-title" ng-bind="'UI.SEARCH_BY' | translate"></div>
+    <div class="search-fields" >
+      <div class="col-sm-3" ng-repeat="(key, value) in dataTable.filterBy" >
+        <label class="control-label"> [[key]] :</label>
+        <input type="text" class="form-control input-sm" ng-model="dataTable.filterBy[key]" />
+      </div>
+    </div>
+  </div>
   </div>
   <div tasty-table bind-theme="dataTable.customTheme" bind-reload="dataTable.reloadCallback" bind-resource-callback="dataTable.getResource" bind-init="dataTable.init" bind-filters="dataTable.filterBy">
     <table class="table table-striped table-condensed">

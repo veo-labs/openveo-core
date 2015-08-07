@@ -1,6 +1,7 @@
 .table{
   .checkbox-row{
     text-align: center;
+    width: 5%;
   }
   &>thead{
     &>tr{
@@ -111,7 +112,20 @@
 
 .datatable{
   .search-form{
-    margin: 15px auto 15px;
+    margin: 15px 0px;
+    width: 85%;
+    margin-left: 15%;
+    border-left: 1px solid #eee;
+    @include tablet(){
+      width: 82%;
+      margin-left: 18%;
+    }
+    @include mobile(){
+      max-width: 480px;
+      width: auto;
+      margin-left: 130px;
+      
+    }
   }
   .search-title{
     margin: 15px;
@@ -121,7 +135,16 @@
     width: 100%;
   }
   .allactions {
-     margin: 0px auto 15px;
+      float: left;
+      position: absolute;
+      bottom: 0;
+      width: 15%;
+      @include tablet(){
+       width: 18%;
+      }
+      @include mobile(){
+         width: 130px;
+      }
     .dropdown{
       display: inline;
     }
@@ -129,6 +152,10 @@
       line-height: 22px;
       border-left: 0px none;
     }
+  }
+
+  .control-block{
+    position: relative;
   }
   .animate-action{
     transition:all 0.4s ease;
