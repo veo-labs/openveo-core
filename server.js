@@ -17,10 +17,6 @@ process.requireModule = function(moduleName){
   return require(moduleName);
 };
 
-// Loaders
-var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
-var entityLoader = process.require("app/server/loaders/entityLoader.js");
-
 // Configuration
 var conf = process.require("conf.json");
 var databaseConf = process.require("config/databaseConf.json");
@@ -44,6 +40,10 @@ else{
   var ApplicationServer = process.require("app/server/servers/ApplicationServer.js");
   server = new ApplicationServer();
 }
+
+// Loaders
+var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
+var entityLoader = process.require("app/server/loaders/entityLoader.js");
 
 async.series([
 
