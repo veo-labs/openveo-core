@@ -109,10 +109,8 @@ module.exports.restrictAction = function(request, response, next){
 
         // Found permission : access granted
         if(role.permissions.indexOf(permission)>=0) return next();
-
       }
     }
-
   }
 
   // Not authenticated
