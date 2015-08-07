@@ -41,7 +41,7 @@ module.exports.validateScopesAction = function(request, response, next){
     var scope = getScopeByUrl(request.url, request.method);
     
     // Access granted
-    if(scope && request.oauth2.accessToken.scopes[scope.id] && request.oauth2.accessToken.scopes[scope.id].activated)
+    if(scope && request.oauth2.accessToken.scopes.indexOf(scope) > -1)
       next();
     
     // Access refused
@@ -69,14 +69,15 @@ module.exports.validateScopesAction = function(request, response, next){
 function getScopeByUrl(url, httpMethod){
   var scopes = applicationStorage.getWebServiceScopes();
 
-  for(var scope in scopes){
+  for(var i = 0 ; i < scopes.length ; i++){
+    var scope = scopes[i];
     
     // Got paths associated to the scope
     if(scope.paths){
       
       // Iterate through the list of paths
-      for(var i = 0 ; i < scope.paths.length ; i++){
-        var path = scope.paths[i];
+      for(var j = 0 ; j < scope.paths.length ; j++){
+        var path = scope.paths[j];
         
         if(pathUtil.validate(httpMethod + " " + url, path))
           return scope.id;
@@ -86,5 +87,4 @@ function getScopeByUrl(url, httpMethod){
   }
   
   return null;
-  
 }
