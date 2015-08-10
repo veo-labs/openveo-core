@@ -41,6 +41,7 @@
 
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
+        "warningPopup": true,
         "callback": function (row) {
           removeRows([row.id]);
         },

@@ -10,7 +10,7 @@
       </button>
       <ul class="dropdown-menu" role="menu" >  
         <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='dataTable.verifyCondition(action)'>
-          <a role="menuitem" href="#" ng-click="dataTable.executeGlobalAction(action); dataTable.selectAll = false; dataTable.reloadCallback();" ng-bind="action.label"></a>
+          <a role="menuitem" href="#" ng-click="dataTable.executeGlobalAction(action);" ng-bind="action.label"></a>
         </li>
       </ul>
     </div>
@@ -49,7 +49,7 @@
                 </button>
                 <ul class="dropdown-menu" role="menu" >  
                   <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='!action.condition || action.condition(row)'>
-                    <a role="menuitem" href="#" ng-click="action.callback(row); dataTable.selectAll = false; dataTable.reloadCallback();" ng-bind="action.label"></a>
+                    <a role="menuitem" href="#" ng-click="dataTable.prepareSingleAction(action,row)" ng-bind="action.label"></a>
                   </li>
                 </ul>
               </div>
@@ -65,4 +65,17 @@
     </table>
     <div tasty-pagination bind-template-url="'views/elements/pagination.html'"></div>
   </div>
+  
+  
+  <script type="text/ng-template" id="tableModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title" ng-bind="'UI.WARNING' | translate"></h3>
+        </div>
+        <div class="modal-body" ng-bind-html="'UI.WARNING_MODAL_ACTION' | translate">
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()" ng-bind="'UI.FORM_CANCEL' | translate"></button>
+        </div>
+    </script>
 </div>

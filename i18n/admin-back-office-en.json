@@ -132,6 +132,8 @@
     "FORM_SAVE" : "Save",
     "FORM_ADD" : "Add",
     "VIEW" : "View",
-    "SELECT_ALL" : "Select all rows"
+    "SELECT_ALL" : "Select all rows",
+    "WARNING": "Warning",
+    "WARNING_MODAL_ACTION": "You are going to modify permanently your information. <br><br> <h2 class='text-danger text-center'>Are you sure?</h2>"
   }
 }

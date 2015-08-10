@@ -133,6 +133,9 @@
     "FORM_SAVE" : "Enregistrer",
     "FORM_ADD" : "Ajouter",
     "VIEW" : "Voir",
-    "SELECT_ALL" : "Sélectionner toute les lignes"
+    "SELECT_ALL" : "Sélectionner toute les lignes",
+    "WARNING": "Attention",
+    "WARNING_MODAL_ACTION": "Vous vous apprêtez à modifier les informations de façon permanente. <br><br> <h2 class='text-danger text-center'> En êtes vous sûr?</h2>"
+    
   }
 }

@@ -7,14 +7,16 @@
   app.controller("DataTableController", DataTableController);
   app.controller("FormEditController", FormEditController);
   app.controller("FormAddController", FormAddController);
+  app.controller("ModalInstanceTableController", ModalInstanceTableController);
   app.factory("tableReloadEventService", TableReloadEventService);
   app.filter('status',StatusFilter);
   app.filter('category',CategoryFilter);
 
   // Controller for table, form in table and form outside table
-  DataTableController.$inject = ["$scope", "entityService"];
+  DataTableController.$inject = ["$scope", "$modal", "entityService"];
   FormEditController.$inject = ["$scope", "$filter"];
   FormAddController.$inject = ["$scope", "$filter", "tableReloadEventService"];
+  ModalInstanceTableController.$inject = ["$scope", "$modalInstance"];
 
   // Service to reload a displayed table
   TableReloadEventService.$inject = ["$rootScope"];
@@ -96,16 +98,16 @@
         fec.options.resetModel();
         $scope.$emit("setAlert", 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
       });
-    }
+    };
     fec.options = {};
     fec.editForm = function(){
       $scope.editFormContainer.pendingEdition = true;
       fec.form.$show();
-    }
+    };
     fec.cancelForm = function(){
       $scope.editFormContainer.pendingEdition = false;
       fec.form.$cancel();
-    }
+    };
   }
   
   /**
@@ -141,7 +143,7 @@
    * DataTableController
    *  
    */
-  function DataTableController($scope, entityService) {
+  function DataTableController($scope, $modal, entityService) {
     var dataTable = this;
     // All data
     dataTable.rows = $scope.tableContainer.rows || {};
@@ -281,16 +283,59 @@
       return enable;
     }
     
-    // Execute an action on all selected row
+    // Execute an action on row after calling a popup verifying
+    dataTable.prepareSingleAction = function(action, row){
+      if(action.warningPopup)
+        dataTable.openModal(action.callback, row);
+      else {
+        action.callback(row);
+        dataTable.selectAll = false;
+        dataTable.reloadCallback();
+      }
+    }
+    
+    // Execute an action on all selected row after calling a popup verifying
     dataTable.executeGlobalAction = function(action){
+      var selected = dataTable.getSelectedId();
+      dataTable.openModal(action.global, selected);
+    }
+    
+    //Get All selected row id
+    dataTable.getSelectedId = function(){
       var selected = [];
       for(var i=0; i<dataTable.rows.length; i++){
         var  row = dataTable.rows[i];
         if(row.selected && !row.locked)
           selected.push(row.id);
-      }
-      action.global(selected);
+      };
+      return selected;
     }
+    
+    //Open a modal, apply callback on OK promise and reload datatable 
+    dataTable.openModal = function (callback, item) {
+
+      var modalInstance = $modal.open({
+        templateUrl: 'tableModal.html',
+        controller: 'ModalInstanceTableController'
+      });
+      modalInstance.result.then(function(){
+        callback(item);
+        dataTable.selectAll = false;
+        dataTable.reloadCallback();
+      }, function () {
+        
+      });
+    };
+  }
+  
+  function ModalInstanceTableController($scope, $modalInstance) {
+    $scope.ok = function () {
+      $modalInstance.close(true);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
   }
 
 })(angular);
