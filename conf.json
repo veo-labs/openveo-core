@@ -89,14 +89,9 @@
         "storage/StorageApp.js",
         "route/RouteApp.js",
         "i18n/I18nApp.js",
-        "edit/EditApp.js",
         "entity/EntityApp.js",
         "alert/AlertApp.js",
-        "tableForm/tableForm.js",
-        "edit/editable-elements/EditableElementInterface.js",
-        "edit/editable-elements/CheckboxEditableElement.js",
-        "edit/editable-elements/TextEditableElement.js",
-        "edit/editable-elements/SelectEditableElement.js"
+        "tableForm/tableForm.js"
       ],
       "prod" : [
         "/js/libOpenveo.js"
