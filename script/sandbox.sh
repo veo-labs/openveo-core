@@ -1,54 +1,57 @@
+#!/bin/sh
+
 # OPENVEO ******************************* OPENVEO
-echo "*********** Launch openveo sandbox" 
-SER1=rs1/127.0.0.1:27017
-SER2=rs1/127.0.0.1:27018
-SER3=rs1/127.0.0.1:27019
-DUMPOVDIR=/home/voldalys/bkp/db
-VIDEOOVDIR=/home/vodalys/bkp/video
+echo "*********** Launch openveo sandbox"
+SER1=127.0.0.1:27017
+DUMPOVDIR=/home/openveo/bkp/openveo/db/openveo-dump
+VIDEOOVDIR=/home/openveo/bkp/openveo/videos
 
-#kill NodeJs server
-echo "*********** kill NodeJs server" 
-sudo killall -9 node
+# Kill NodeJs processes
+echo "*********** Kill NodeJs processes"
+killall -9 nodejs
 
-#Restore mongodump
-echo "*********** Restore mongodb" 
-sudo /usr/bin/mongorestore --host $SER1,$SER2,$SER3 --drop $DUMPOVDIR
+# Restore openveo database
+echo "*********** Restore openveo database"
+mongorestore -u openveo -p openveo --authenticationDatabase openveo --host $SER1 --drop $DUMPOVDIR
 
-#Remove all unused video file
-echo "*********** Remove unused file" 
-cd /home/vodalys/livraison/openveo-publish
+# Restore videos files
+echo "*********** Restore videos files"
+cd /home/openveo/delivery/openveo-publish
 rm -Rf shared/videos
-cp -R $VIDEOOVDIR shared/videos 
+cp -R $VIDEOOVDIR shared/videos
+chown -R openveo:openveo shared/videos
 
-#Restart server
-echo "*********** Restart server" 
-cd /home/vodalys/livraison/openveo/current
-NODE_ENV="production" && /usr/bin/node server.js
+# Clean tmp directory
+echo "*********** Clean up tmp directory"
+rm -Rf /home/openveo/delivery/openveo-publish/shared/tmp/*
 
+# Restart server
+echo "*********** Start OpenVeo Application server and Web Service server"
+service openveo app start
+service openveo ws start
 
-# MOODLES ******************************* MOODLES
-echo "*********** Launch moodles sandbox" 
-MYSQLUSER = 'root'
-MYSQLPWD = 'root'
-MYSQLDBNAME = 'moodles'
-SQLPATHFILE = /home/vodalys/bkp/moodles/moodles.sql
-MOODLEDATAPATH = /home/vodalys/bkp/moodles/moodledata-2.9/
+# MOODLE ******************************* MOODLE
+echo "*********** Launch moodle sandbox"
+MYSQLUSER=root
+MYSQLPWD=root
+MYSQLDBNAME=moodle
+SQLPATHFILE=/home/openveo/bkp/moodle/db/moodle-dump.sql
+MOODLEDATAPATH=/home/openveo/bkp/moodle/moodledata-2.9
 
-#kill apache2 server
-echo "*********** kill apache2 server" 
-sudo service apache2 stop
+# Stop Nginx
+echo "*********** Stop Nginx"
+service nginx stop
 
-#Restore Mysql
-echo "*********** Restore Mysql" 
-mysql -u MYSQLUSER -p MYSQLPWD  MYSQLDBNAME < SQLPATHFILE
+# Restore moodle database
+echo "*********** Restore moodle database"
+mysql -u $MYSQLUSER -p$MYSQLPWD -e "DROP DATABASE moodle;"
+mysql -u $MYSQLUSER -p$MYSQLPWD -e "CREATE DATABASE moodle;"
+mysql -u $MYSQLUSER -p$MYSQLPWD $MYSQLDBNAME < $SQLPATHFILE
 
-#Remove all unused video file
-echo "*********** Remove unused file" 
-cd /home/vodalys
-rm -Rf moodledata-2.9
-cp -R $MOODLEDATAPATH moodledata-2.9 
+# Restart php-fpm
+echo "*********** Restart php-fpm"
+service php5-fpm restart
 
-#Restart server
-echo "*********** Restart server" 
-sudo service apache2 start
-
+# Start Nginx
+echo "*********** Start Nginx"
+service nginx start
