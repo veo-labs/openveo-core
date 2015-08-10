@@ -185,6 +185,8 @@
     };
     
     if(dataTable.showSelectAll) dataTable.customTheme['templateHeadUrl'] = 'views/elements/head.html';
+    dataTable.customTheme['templateUrl'] = 'views/elements/pagination.html';
+    
     
     //callback to load Resource on filter, pagination or sort change
     dataTable.getResource = function (params, paramsObj) {

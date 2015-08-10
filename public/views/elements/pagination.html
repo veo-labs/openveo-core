@@ -1,0 +1,31 @@
+<div class="row">
+  <div class="col-xs-3 text-left">
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" 
+      ng-repeat="count in listItemsPerPageShow" 
+      ng-class="classPaginationCount(count)" 
+      ng-click="page.setCount(count)" ng-bind="count"></button>
+    </div>
+  </div>
+  <div class="col-xs-6 text-center">
+    <ul class="pagination">
+      <li ng-class="classPageMinRange">
+        <a href ng-click="page.previous()">&laquo;</a>
+      </li>
+      <li ng-repeat="numPage in rangePage" ng-class="classNumPage(numPage)">
+        <a href ng-click="page.get(numPage)">
+          <span ng-bind="numPage"></span>
+          <span class="sr-only" ng-if="classNumPage(numPage)">(current)</span>
+        </a>
+      </li>
+      <li ng-class="classPageMaxRange">
+        <a href ng-click="page.remaining()">&raquo;</a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-3 text-right">
+    <p>Page : <span ng-bind="pagination.page"></span> 
+    / </span> <span ng-bind="pagination.pages"></span>,
+    Total : <span ng-bind="pagination.size"></span></p>
+  </div>
+</div>
