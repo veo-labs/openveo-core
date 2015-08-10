@@ -57,20 +57,6 @@ UserProvider.prototype.getUserByEmail = function(email, callback){
 };
 
 /**
- * Gets a list of users.
- *
- * @method get
- * @async
- * It's not possible to get locked users as part of the results.
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Object** The list of entities
- */
-UserProvider.prototype.get = function(callback){
-  this.database.get(this.collection, { locked : { $ne : true } }, { "_id" : 0 }, -1, callback);
-};
-
-/**
  * Gets a user without its paswword.
  *
  * @method getOne
@@ -84,36 +70,4 @@ UserProvider.prototype.getOne = function(id, callback){
   this.database.get(this.collection, {"id" : id}, { "password" : 0 }, 1, function(error, data){
     callback(error, data && data[0]);
   });
-};
-
-/**
- * Updates a user.
- *
- * It's not possible to update locked users.
- *
- * @method update
- * @async
- * @param {String} id The user id
- * @param {Function} callback Function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The number of updated items
- */
-UserProvider.prototype.update = function(id, data, callback){
-  this.database.update(this.collection, {id : id, locked : { $ne : true }}, data, callback);
-};
-
-/**
- * Removes a user.
- *
- * It's not possible to remove a locked user.
- *
- * @method remove
- * @async
- * @param {String} id The id of the user to remove
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The number of removed items
- */
-UserProvider.prototype.remove = function(id, callback){
-  this.database.remove(this.collection, {id :{$in : id}, locked : { $ne : true }}, callback);
 };
