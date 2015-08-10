@@ -71,7 +71,9 @@
     "FORM_ADD_NAME" : "Name",
     "FORM_ADD_NAME_DESC" : "Name of the client application",
     "FORM_ADD_SCOPES" : "Scopes",
-    "FORM_ADD_SCOPES_DESC" : "List of permissions for the client application"
+    "FORM_ADD_SCOPES_DESC" : "List of permissions for the client application",
+    "REMOVE_SUCCESS" : "Application successfully removed.",
+    "REMOVE_FAIL" : "An error occured. Fail to remove application."
   },
   "USERS" : {
     "PAGE_TITLE" : "Openveo - Users",
@@ -93,7 +95,9 @@
     "FORM_ADD_PASSWORD_VALIDATE" : "Confirm password",
     "FORM_ADD_PASSWORD_VALIDATE_DESC" : "Password validation",
     "FORM_ADD_ROLE" : "Roles",
-    "FORM_ADD_ROLE_DESC" : "User roles"
+    "FORM_ADD_ROLE_DESC" : "User roles",
+    "REMOVE_SUCCESS" : "User successfully removed.",
+    "REMOVE_FAIL" : "An error occured. Fail to remove user."
   },
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Roles",
@@ -113,12 +117,14 @@
     "FORM_ADD_NAME_DESC" : "Name of the role",
     "FORM_ADD_PERMISSIONS" : "Permissions",
     "FORM_ADD_PERMISSIONS_DESC" : "List of permissions for the role",
-    "FORM_ADD_BUTTON" : "Add"
+    "FORM_ADD_BUTTON" : "Add",
+    "REMOVE_SUCCESS" : "Role successfully removed.",
+    "REMOVE_FAIL" : "An error occured. Fail to remove role."
   },
   "UI" : {
     "SEARCH_BY" : "Search by",
     "ACTIONS_COLUMN" : "Actions",
-    "SAVE_ERROR" : "An error occured while saving form! Please retry later.",
+    "SAVE_ERROR" : "An error occured while saving form. Please retry later.",
     "SAVE_SUCCESS" : "New value successfully saved.",
     "REMOVE" : "Remove",
     "FORM_EDIT" : "Edit",

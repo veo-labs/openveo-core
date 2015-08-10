@@ -124,10 +124,10 @@
         entityService.removeEntity('role', selected.join(','))
                 .success(function (data) {
                   userService.cacheClear("roles");
-                  $scope.$emit("setAlert", 'success', 'role deleted', 4000);
+                  $scope.$emit("setAlert", 'success', $filter('translate')('ROLES.REMOVE_SUCCESS'), 4000);
                 })
                 .error(function (data, status, headers, config) {
-                  $scope.$emit("setAlert", 'danger', 'Fail remove role! Try later.', 4000);
+                  $scope.$emit("setAlert", 'danger', $filter('translate')('ROLES.REMOVE_FAIL'), 4000);
                   if (status === 401)
                     $scope.$parent.logout();
                 });

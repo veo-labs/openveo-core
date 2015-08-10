@@ -109,10 +109,10 @@
     var removeRows = function (selected) {
       entityService.removeEntity('application', selected.join(','))
               .success(function (data) {
-                $scope.$emit("setAlert", 'success', 'Application deleted', 4000);
+                $scope.$emit("setAlert", 'success', $filter('translate')('APPLICATIONS.REMOVE_SUCCESS'), 4000);
               })
               .error(function (data, status, headers, config) {
-                $scope.$emit("setAlert", 'danger', 'Fail remove Application! Try later.', 4000);
+                $scope.$emit("setAlert", 'danger', $filter('translate')('APPLICATIONS.REMOVE_FAIL'), 4000);
                 if (status === 401)
                   $scope.$parent.logout();
               });
