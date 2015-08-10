@@ -239,6 +239,16 @@
       while(arr.length && (obj = obj[arr.shift()]));
       return obj;
     }
+    // call to check all selection checkbox
+    dataTable.checkAllCondition = function(){
+      for(var i=0; i<dataTable.rows.length; i++){
+        var row = dataTable.rows[i];
+        if(!row.locked){
+          return true;
+        }
+      }
+      return false;
+    }
     
     // call to check all selection checkbox
     dataTable.checkAll = function () {
@@ -261,7 +271,7 @@
       var enable = true;
       for(var i=0; i<dataTable.rows.length && enable; i++){
         var row = dataTable.rows[i];
-        if(row.selected){
+        if(row.selected && !row.locked){
           var condition = !action.condition || action.condition(row);
           enable = enable && action.global && condition;
         }
@@ -274,7 +284,7 @@
       var selected = [];
       for(var i=0; i<dataTable.rows.length; i++){
         var  row = dataTable.rows[i];
-        if(row.selected)
+        if(row.selected && !row.locked)
           selected.push(row.id);
       }
       action.global(selected);
