@@ -125,6 +125,7 @@
     "TITLE_FILTER": "Name"
   },
   "UI" : {
+    "ALL": "All",
     "SEARCH_BY" : "Search by",
     "ACTIONS_COLUMN" : "Actions",
     "SAVE_ERROR" : "An error occured while saving form. Please retry later.",
