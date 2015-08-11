@@ -25,9 +25,13 @@
      */
     var scopeDataTable = $scope.tableContainer = {};
     scopeDataTable.entityType = "application";
-    scopeDataTable.filterBy = {
-      'name': ''
-    };
+    scopeDataTable.filterBy = [
+      {
+        'key': 'name',
+        'value': '',
+        'label': $filter('translate')('APPLICATIONS.TITLE_FILTER')
+      }
+    ];
     scopeDataTable.header = [{
         'key': "name",
         'name': $filter('translate')('APPLICATIONS.NAME_COLUMN'),

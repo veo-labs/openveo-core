@@ -74,7 +74,8 @@
     "FORM_ADD_SCOPES" : "Accés",
     "FORM_ADD_SCOPES_DESC" : "Listes de permissions pour l'application cliente",
     "REMOVE_SUCCESS" : "L'application à été supprimée.",
-    "REMOVE_FAIL" : "Une erreur est survenue. La suppression de l'application a échoué."
+    "REMOVE_FAIL" : "Une erreur est survenue. La suppression de l'application a échoué.",
+    "TITLE_FILTER": "Nom"
   },
   "USERS" : {
     "PAGE_TITLE" : "Openveo - Utilisateurs",
@@ -98,7 +99,8 @@
     "FORM_ADD_ROLE" : "Rôles",
     "FORM_ADD_ROLE_DESC" : "Rôles de l'utilisateur",
     "REMOVE_SUCCESS" : "L'utilisateur à été supprimé.",
-    "REMOVE_FAIL" : "Une erreur est survenue. La suppression de l'utilisateur a échoué."
+    "REMOVE_FAIL" : "Une erreur est survenue. La suppression de l'utilisateur a échoué.",
+    "TITLE_FILTER": "Nom"
   },
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Rôles",
@@ -120,7 +122,8 @@
     "FORM_ADD_PERMISSIONS_DESC" : "Liste des permissions pour le rôle",
     "FORM_ADD_BUTTON" : "Ajouter",
     "REMOVE_SUCCESS" : "Le rôle à été supprimé.",
-    "REMOVE_FAIL" : "Une erreur est survenue. La suppression du rôle a échoué."
+    "REMOVE_FAIL" : "Une erreur est survenue. La suppression du rôle a échoué.",
+    "TITLE_FILTER": "Nom"
   },
   "UI" : {
     "SEARCH_BY" : "Rechercher par",

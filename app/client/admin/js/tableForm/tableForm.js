@@ -8,6 +8,7 @@
   app.controller("FormEditController", FormEditController);
   app.controller("FormAddController", FormAddController);
   app.controller("ModalInstanceTableController", ModalInstanceTableController);
+  app.controller("DatePickerController", DatePickerController);
   app.factory("tableReloadEventService", TableReloadEventService);
   app.filter('status',StatusFilter);
   app.filter('category',CategoryFilter);
@@ -17,6 +18,7 @@
   FormEditController.$inject = ["$scope", "$filter"];
   FormAddController.$inject = ["$scope", "$filter", "tableReloadEventService"];
   ModalInstanceTableController.$inject = ["$scope", "$modalInstance"];
+  DatePickerController.$inject = ["$scope"];
 
   // Service to reload a displayed table
   TableReloadEventService.$inject = ["$rootScope"];
@@ -69,6 +71,40 @@
     };
     return sharedService;
   };
+  
+  /**
+   * 
+   *  DatePicker
+   *  
+   */
+  function DatePickerController($scope) {
+    var dp = this;
+    
+    dp.today = function () {
+      dp.dt = new Date();
+    };
+    dp.today();
+
+    dp.clear = function () {
+      dp.dt = null;
+    };
+
+    dp.toggleMax = function () {
+      dp.maxDate = dp.maxDate ? null : new Date();
+    };
+    dp.toggleMax();
+
+    dp.open = function () {
+      dp.status.opened = true;
+    };
+
+    dp.dateOptions = {
+      startingDay: 1
+    };
+    dp.status = {
+      opened: false
+    };
+  }
   
   /**
    * 
@@ -198,10 +234,18 @@
       param['sort'] = {};
       param['sort'][paramsObj.sortBy] = paramsObj.sortOrder == "dsc" ? -1 : 1;
       param['filter'] = {};
-      for (var key in dataTable.filterBy) {
-        if ( dataTable.filterBy[key] != "")
-          param['filter'][key] = {"$regex": ".*" + dataTable.filterBy[key] + ".*"}
-      }
+      dataTable.filterBy.forEach(function(filter, key){
+        if (filter.value && filter.value != "") {
+          if (filter.type == "date"){           
+            var date = new Date(filter.value);
+            var datePlus =  new Date(date);
+            datePlus.setDate(date.getDate() + 1);
+            param['filter'][filter.key] = {"$gte": date.getTime(), "$lt":datePlus.getTime()}
+          }else
+            param['filter'][filter.key] = {"$regex": ".*" + filter.value + ".*"}
+        }
+      });
+      
       //call entities that match params
       return entityService.getEntities(dataTable.entityType, param).then(function (response) {
         dataTable.rows = response.data.rows;

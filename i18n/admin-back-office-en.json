@@ -73,7 +73,8 @@
     "FORM_ADD_SCOPES" : "Scopes",
     "FORM_ADD_SCOPES_DESC" : "List of permissions for the client application",
     "REMOVE_SUCCESS" : "Application successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Fail to remove application."
+    "REMOVE_FAIL" : "An error occured. Fail to remove application.",
+    "TITLE_FILTER": "Name"
   },
   "USERS" : {
     "PAGE_TITLE" : "Openveo - Users",
@@ -97,7 +98,8 @@
     "FORM_ADD_ROLE" : "Roles",
     "FORM_ADD_ROLE_DESC" : "User roles",
     "REMOVE_SUCCESS" : "User successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Fail to remove user."
+    "REMOVE_FAIL" : "An error occured. Fail to remove user.",
+    "TITLE_FILTER": "Name"
   },
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Roles",
@@ -119,7 +121,8 @@
     "FORM_ADD_PERMISSIONS_DESC" : "List of permissions for the role",
     "FORM_ADD_BUTTON" : "Add",
     "REMOVE_SUCCESS" : "Role successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Fail to remove role."
+    "REMOVE_FAIL" : "An error occured. Fail to remove role.",
+    "TITLE_FILTER": "Name"
   },
   "UI" : {
     "SEARCH_BY" : "Search by",

@@ -17,9 +17,13 @@
      */
     var scopeDataTable = $scope.tableContainer = {};
     scopeDataTable.entityType = "user";
-    scopeDataTable.filterBy = {
-      'name': ''
-    };
+    scopeDataTable.filterBy = [
+      {
+        'key': 'name',
+        'value': '',
+        'label': $filter('translate')('ROLES.TITLE_FILTER')
+      }
+    ];
     scopeDataTable.header = [{
         'key': "name",
         'name': $filter('translate')('USERS.NAME_COLUMN'),
