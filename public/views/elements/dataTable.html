@@ -29,6 +29,9 @@
               </span>
             </div>
           </div>
+          <div ng-if="filter.type && filter.type=='select'">
+            <select class="form-control input-sm" ng-options="option.value as option.name for option in filter.options" ng-model="dataTable.filterBy[$index].value"></select>
+          </div>
         </div>
       </div>
     </div>
