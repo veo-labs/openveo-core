@@ -1,6 +1,7 @@
 <thead><tr>
     <th ng-repeat="column in columns track by $index" 
-        ng-class="classToShow(column)"
+        ng-class="classToShow(column);"
+        class="[[$last?'last':'']]"
         ng-style="::column.style" ng-click="sortBy(column)" colspan='[[$index==0?"2":"1"]]'>
       <span ng-if="bindOnce" ng-bind="::column.name"></span>
       <span ng-if="!bindOnce" ng-bind="column.name"></span>

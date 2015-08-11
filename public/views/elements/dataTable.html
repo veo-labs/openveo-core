@@ -66,12 +66,14 @@
     <div tasty-pagination bind-template-url="'views/elements/pagination.html'"></div>
   </div>
   
-  
   <script type="text/ng-template" id="tableModal.html">
-        <div class="modal-header">
-            <h3 class="modal-title" ng-bind="'UI.WARNING' | translate"></h3>
+        <div class="modal-header warning">
+            <h2 class="modal-title">
+              <span class="glyphicon glyphicon-alert"></span>
+              <span ng-bind="'UI.WARNING' | translate"></span>
+            </h2>
         </div>
-        <div class="modal-body" ng-bind-html="'UI.WARNING_MODAL_ACTION' | translate">
+        <div class="modal-body text-center" ng-bind-html="'UI.WARNING_MODAL_ACTION' | translate">
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>

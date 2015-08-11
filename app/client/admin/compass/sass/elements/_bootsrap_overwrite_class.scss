@@ -26,9 +26,11 @@
 
 .modal-dialog{
  .modal-header{
-    /*border-radius: 6px 6px 0 0;*/
-    background-color: #1fbbeb;
+    background-color: $brand-primary;
     color: white;
+    &.warning{
+      background-color: $brand-warning;
+    }
   }
   .modal-content{
     border-radius:0;
