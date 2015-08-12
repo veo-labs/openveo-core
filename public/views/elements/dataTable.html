@@ -1,11 +1,11 @@
 <div class="datatable" ng-controller="DataTableController as dataTable">
   <div class="control-block">
-    <div class="allactions btn-group" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0  && dataTable.checkAllCondition()">
-      <div class="btn btn-default"  popover="[['UI.SELECT_ALL' | translate]]" popover-trigger="mouseenter">
-      <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll()">
-       </div>
-      <div class="animate-action" dropdown  ng-if="dataTable.isRowSelected">
-        <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
+    <div class="allactions btn-group " ng-class="dataTable.isRowSelected?'displayAction':''; dataTable.filterBy.length<=2 || dataTable.showFilter?'searchOpen':''" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0  && dataTable.checkAllCondition()">
+      <div class="check-btn btn btn-default btn-sm "  popover="[['UI.SELECT_ALL' | translate]]" popover-trigger="mouseenter" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
+        <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll();$event.stopPropagation();">
+      </div>
+      <div class="animate-action" ng-class="dataTable.isRowSelected?'open':''"  dropdown ng-if="dataTable.isRowSelected">
+        <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
           Action <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" >  
@@ -15,10 +15,13 @@
         </ul>
       </div>
     </div>
-    <div class="search-form form-group" >
-      <div class="search-title" ng-bind="'UI.SEARCH_BY' | translate"></div>
-      <div class="search-fields" >
-        <div class="col-sm-3" ng-repeat="filter in dataTable.filterBy" >
+    <div class="search-form form-group" ng-class="dataTable.isRowSelected?'open':''" ng-init="dataTable.showFilter = dataTable.filterBy.length<=2">
+      <div ng-click="dataTable.showFilter = !dataTable.showFilter" class="search-title" ng-class="dataTable.filterBy.length>2?'cursor':''">
+        <span class="glyphicon glyphicon-search" ></span>
+        <span ng-bind="'UI.SEARCH_BY' | translate"></span>
+      </div>
+      <div class="search-fields" ng-show="dataTable.filterBy.length<=2 || dataTable.showFilter">
+        <div class="col-sm-3 field" ng-repeat="filter in dataTable.filterBy" >
           <label class="control-label"> [[filter.label]] :</label>
           <input type="text" ng-if="!filter.type || filter.type=='text'" class="form-control input-sm" ng-model="dataTable.filterBy[$index].value" />
           <div ng-if="filter.type && filter.type=='date'" ng-controller="DatePickerController as dp">

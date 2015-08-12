@@ -15,7 +15,7 @@ $sidebar-submenu-bg : #fff;
 
 #wrapper {
   padding-left: 0;
-  transition: all 0.5s ease 0.2s;
+  @include single-transition(all, 0.5s, ease, 0.2s);
 
   #sidebar-wrapper {
     background: $sidebar-bg none repeat scroll 0 0;
@@ -24,7 +24,7 @@ $sidebar-submenu-bg : #fff;
     margin-left: -250px;
     overflow-y: auto;
     position: fixed;
-    transition: all 0.5s ease 0s;
+    @include single-transition(all, 0.5s, ease, 0s);
     width: 0;
     z-index: 1000;
     overflow:hidden;
@@ -44,11 +44,11 @@ $sidebar-submenu-bg : #fff;
   }
 
   &.toggled {
-    transition: all 0.5s ease 0s;
+    @include single-transition(all, 0.5s, ease, 0s);
     padding-left: 250px;
 
     #sidebar-wrapper {
-      transition: all 0.5s ease 0.2s;
+      @include single-transition(all, 0.5s, ease, 0.2s);
       width: 250px;
 
     }
@@ -95,14 +95,14 @@ $sidebar-submenu-bg : #fff;
             border-right: 5px solid $sidebar-bg;
            }
         }
-        transition:all 0.5s ease 0s;
+        @include single-transition(all, 0.5s, ease, 0s);
       }
       &.open ul{
         max-height:15em;
         height:auto;
       }
       a {
-        transition:all 0.4s ease 0s;
+        @include single-transition(all, 0.4s, ease, 0s);
         border-right: 0px solid $sidebar-bg;
         z-index:1;
         color: $sidebar-color;

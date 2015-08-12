@@ -6,14 +6,14 @@
   &>thead{
     &>tr{
       &> th{
-        
+
         padding: 0 20px;
         line-height: 37px;
-        transition:all 0.4s ease;
+        @include single-transition(all, 0.4s);
         background-size: 100% 200%;
         background-image: linear-gradient(to bottom, white 50%, $brand-primary 50%);
         &.sortable{
-         cursor:pointer;
+          cursor:pointer;
         }
         &.active{
           background-position: 0 100%;
@@ -48,15 +48,6 @@
     top: 7px;
     position: relative;
   }
-/*  padding-bottom: 10px; 
-  ul{
-    list-style: none;
-    padding-left: 35px; 
-  }
-  li{ line-height: 22px; }
-  .label{ margin-right: 5px; }
-  input{ margin: 1px 0; }
-  .btn-group{ margin-left: 35px; }*/
 }
 
 .table-striped > tbody > tr{
@@ -72,14 +63,13 @@
 }
 
 .open-tab-animate {
-  /*display:block;*/
-  transition:all 0.4s ease;
-  
+  @include single-transition(all, 0.4s);
+
   .detail>form{
     overflow:hidden;
 
     opacity:1;
-    transition:all 0.4s ease;
+    @include single-transition(all, 0.4s);
   }
 
   &.ng-enter {
@@ -115,39 +105,82 @@
 
 .datatable{
   .search-form{
-    margin: 15px 0px;
-    width: 85%;
-    margin-left: 15%;
+    margin: 20px 0px;
+    margin-left: 52px;
     border-left: 1px solid #eee;
-    @include tablet(){
-      width: 82%;
-      margin-left: 18%;
-    }
     @include mobile(){
       max-width: 480px;
-      width: auto;
-      margin-left: 130px;
-      
+    }
+    @include single-transition(margin-left, 0.4s);
+    &.open{
+      margin-left: 120px;
+      @include mobile(){
+        max-width: 480px;
+      }
     }
   }
   .search-title{
     margin: 15px;
+    display: inline-block;
+    &.cursor{
+      cursor:pointer;
+       @include single-transition( color,0.2s);
+      &:hover{
+        color:$brand-primary;
+      }
+    }
   }
   .search-fields{
     display: inline-block;
     width: 100%;
+    @include single-transition(max-height, 0.4s);
+
+    &.ng-hide-remove{
+      overflow: hidden;
+      padding-bottom: 5px;
+      display: block !important;
+      max-height:0px; 
+      &.ng-hide-remove-active {
+        max-height:200px;  
+      }
+    }
+    &.ng-hide-add { 
+      overflow: hidden;
+      padding-bottom: 5px;
+      display: block !important;
+      max-height:200px; 
+      &.ng-hide-add-active{
+        max-height:0px; 
+      }
+    }
+
+
+    .field{
+      .control-label{
+        @include single-transition(all, 0.2s);
+      }
+
+      &:hover .control-label{
+        color:$brand-primary;
+      }
+    }
   }
+
   .allactions {
-      float: left;
-      position: absolute;
-      bottom: 0;
-      width: 15%;
-      @include tablet(){
-       width: 18%;
-      }
-      @include mobile(){
-         width: 130px;
-      }
+    float: left;
+    position: absolute;
+    bottom: 8px;
+    width: 39px;
+    @include single-transition(all, 0.4s);
+    @include transition-delay(0.2s);
+    &.displayAction{
+      width: 120px;
+    }
+    &.searchOpen{     
+      @include transition-delay(0s);
+      bottom: 4px;
+    }
+
     .dropdown{
       display: inline;
     }
@@ -155,16 +188,17 @@
       line-height: 22px;
       border-left: 0px none;
     }
-  }
-
-  .control-block{
-    position: relative;
-  }
-  .animate-action{
-    transition:all 0.4s ease;
+    .check-btn {
+      z-index:10;
+      cursor:pointer;
+      background-color: #fff;
+      input{
+        cursor:pointer;
+      }
+    }
+    
     &.ng-enter{
-
-      left:20px;
+      left:-10px;
       opacity:0;
       &.ng-enter-active{
         left:0px;
@@ -176,7 +210,36 @@
       left:0px;
       &.ng-leave-active{
         opacity:0;
-        left:20px;
+        left:-10px;
+      }
+    }
+  }
+
+  .control-block{
+    position: relative;
+  }
+  .animate-action{
+    @include  single-transition(all, 0.4s) ;    
+    position:absolute;
+
+    &.ng-enter{
+      width:0px;
+      left:-20px;
+      opacity:0;
+      &.ng-enter-active{
+        width:70px;
+        left:35px;
+        opacity:1;
+      }
+    }
+    &.ng-leave{
+      width:70px;
+      opacity:1;
+      left:35px;
+      &.ng-leave-active{
+        width:0px;
+        opacity:0;
+        left:-20px;
       }
     }
   }

@@ -127,7 +127,7 @@
   },
   "UI" : {
     "ALL": "Tous",
-    "SEARCH_BY" : "Rechercher par",
+    "SEARCH_BY" : "Rechercher",
     "ACTIONS_COLUMN" : "Actions",
     "SAVE_ERROR" : "Une erreur n'as pas permis la sauvegarde du fomulaire. Merci de réessayer ultérieurement.",
     "SAVE_SUCCESS" : "Nouvelle valeur enregistrée.",

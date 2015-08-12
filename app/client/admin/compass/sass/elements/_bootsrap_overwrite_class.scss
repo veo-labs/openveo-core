@@ -46,7 +46,7 @@
   z-index:100;
   .alert{
     position:relative;
-    transition:all 0.4s ease;
+    @include single-transition(all, 0.4s);
     box-shadow: 0px 4px 10px 1px #aaa;
     
     &.ng-enter{
