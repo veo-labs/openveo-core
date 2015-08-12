@@ -301,9 +301,11 @@
     // call to check all selection checkbox
     dataTable.checkAll = function () {
         angular.forEach(dataTable.rows, function (row) {
-            row.selected = dataTable.selectAll;
-            dataTable.isRowSelected = dataTable.selectAll;
+            if(!row.locked){
+              row.selected = dataTable.selectAll;
+            }
         });
+        dataTable.isRowSelected = dataTable.selectAll;
     };
     // call to uncheck the global selection checkbox
     dataTable.uncheckOne = function(){
