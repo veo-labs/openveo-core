@@ -27,23 +27,30 @@
   StatusFilter.$inject = ['$filter'];
   CategoryFilter.$inject = ['jsonPath'];
   
- /**
- * 
- * Filter to print Satus in cells
- * 
- */
+  /**
+   * Defines a filter to print status in cells.
+   *
+   * This filter has one optional Number parameter which must be specified
+   * if the input is equal to 8 (error status), to precise the error code.
+   */
   function StatusFilter($filter){
-    return function (input, status, errorCode) {
-      var type = 'label-danger';
-      if(status == 1){
-        if(input == 7) type = 'label-success';
-        if(input == 6) type = 'label-warning';
-      } else if (status == 2){
-        type = 'label-info';
-      }
-      var label = $filter('translate')('VIDEOS.STATE_' + input);
-      if(!status) label = label +'('+errorCode+')';
-      return "<span class='label "+type+"'>"+label+"</span>";
+    return function(input, errorCode){
+      var label = $filter("translate")("VIDEOS.STATE_" + input);
+      var type = "label-danger";
+
+      // Video is published
+      if(input == 7) type = "label-success";
+
+      // Video is sent
+      else if(input == 6) type = "label-warning";
+
+      // All other video states
+      else if (input !== 8) type = "label-info";
+
+      // Video is on error
+      if(input === 8) label = label + "(" + errorCode + ")";
+
+      return "<span class='label " + type + "'>" + label + "</span>";
     };
   };
   
