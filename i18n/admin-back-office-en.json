@@ -126,6 +126,7 @@
   },
   "UI" : {
     "ALL": "All",
+    "EMPTY" : "Not set",
     "SEARCH_BY" : "Search",
     "ACTIONS_COLUMN" : "Actions",
     "SAVE_ERROR" : "An error occured while saving form. Please retry later.",

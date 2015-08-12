@@ -89,7 +89,7 @@
     //input type
     formlyConfig.setType({
       extends: 'input',
-      template: '<div class="editable"><span editable-text="model[options.key]" e-name="[[::id]]" onbeforesave="checkNotEmpty($data)">[[ model[options.key] || "empty" ]]</span></div>',
+      template: '<div class="editable"><span editable-text="model[options.key]" e-name="[[::id]]" onbeforesave="checkNotEmpty($data)">[[ model[options.key] || (\'UI.EMPTY\'|translate) ]]</span></div>',
       name: 'editableInput',
       link: /* @ngInject */ function(scope, el, attrs) {
         scope.checkNotEmpty = function(data){
@@ -101,7 +101,7 @@
       extends: 'select',
       template: '<div class="editable">\n\
 <span editable-select="model[options.key]" e-name="[[::id]]" e-ng-options="s.value as s.name for s in to.options">\n\
-[[ (to.options | filter:{value: model[options.key]})[0].name || "Not set" ]]\n\
+[[ (to.options | filter:{value: model[options.key]})[0].name ||  (\'UI.EMPTY\'|translate) ]]\n\
 </div>',
       name: 'editableSelect'
     });
@@ -109,7 +109,7 @@
       extends: 'multiCheckbox',
       template: '<div class="editable">\n\
 <span editable-checklist="model[options.key]" e-name="[[::id]]" e-ng-options="s.id as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n\
-[[ showChecked() ]]\n\
+[[ showChecked() | translate]]\n\
 </div>',
       name: 'editableChecklist',
       link: /* @ngInject */ function(scope, el, attrs) {
@@ -120,7 +120,7 @@
               selected.push(s.name);
             }
           });
-          return selected.length ? selected.join(', ') : 'Not set';
+          return selected.length ? selected.join(', ') :  'UI.EMPTY' ;
         };
         scope.checkNotEmpty = function(data){
           if (scope.to.required && data.length==0) return "You must choose a value.";
