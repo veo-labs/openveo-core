@@ -5,20 +5,26 @@
   var app = angular.module("ov.entity", []);
 
   app.factory("entityService", EntityService);
-  EntityService.$inject = ["$http", "$q"];
+  EntityService.$inject = ["$http", "$q", "$cacheFactory"];
   
   /**
    * Defines an entity service to create / update or remove an entity.
    */
-  function EntityService($http, $q){
+  function EntityService($http, $q, $cacheFactory){
     var basePath = "/admin/";
-     
+    var entityCache = {};
+        
+    var deleteCache = function(entity){
+      delete entityCache[entity];
+    }
+
     /**
      * Adds a new Entity.
      * @param String entityType Type of entity
      * @param String data Data object
      */
     var addEntity = function(entityType, data){
+      deleteCache(entityType);
       return $http.put(basePath + "crud/" + entityType, data);
     };
     
@@ -30,6 +36,7 @@
      * @return HttpPromise The HTTP promise
      */
     var updateEntity = function(entityType, id, data){
+      deleteCache(entityType);
       return $http.post(basePath + "crud/" + entityType + "/" + id, data);
     };
     
@@ -40,6 +47,7 @@
      * @return HttpPromise The HTTP promise
      */
     var removeEntity = function(entityType, id){
+      deleteCache(entityType);
       return $http.delete(basePath + "crud/" + entityType + "/" + id);
     };  
     
@@ -59,8 +67,21 @@
      * @param {type} param
      * @returns {unresolved}
      */    
-    var getEntities = function(entityType, param){
-       return $http.post(basePath + "search/" + entityType, param);
+    var getEntities = function (entityType, param) {
+      var deferred = $q.defer();
+     
+      var cacheId = JSON.stringify(param);
+      // Return the data if we already have it
+      if (entityCache[entityType] && entityCache[entityType][cacheId]) {
+        deferred.resolve(entityCache[entityType][cacheId]);
+      } else {
+        $http.post(basePath + "search/" + entityType, param).success(function (data) {
+          if(!entityCache[entityType]) entityCache[entityType] = {};
+          entityCache[entityType][cacheId] = {'data': data};
+          deferred.resolve({'data': data});
+        });
+      }
+      return deferred.promise;
     }
     
     /**
@@ -79,6 +100,7 @@
       getEntity: getEntity,
       getEntities: getEntities,
       getAllEntities: getAllEntities,
+      deleteCache: deleteCache
     };
 
   }
