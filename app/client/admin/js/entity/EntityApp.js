@@ -73,11 +73,11 @@
       var cacheId = JSON.stringify(param);
       // Return the data if we already have it
       if (entityCache[entityType] && entityCache[entityType][cacheId]) {
-        deferred.resolve(entityCache[entityType][cacheId]);
+        deferred.resolve(angular.copy(entityCache[entityType][cacheId]));
       } else {
         $http.post(basePath + "search/" + entityType, param).success(function (data) {
           if(!entityCache[entityType]) entityCache[entityType] = {};
-          entityCache[entityType][cacheId] = {'data': data};
+          entityCache[entityType][cacheId] = angular.copy({'data': data});
           deferred.resolve({'data': data});
         });
       }

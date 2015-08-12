@@ -1,10 +1,10 @@
 <div class="datatable" ng-controller="DataTableController as dataTable">
   <div class="control-block">
-    <div class="allactions btn-group " ng-class="dataTable.isRowSelected?'displayAction':''; dataTable.filterBy.length<=2 || dataTable.showFilter?'searchOpen':''" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0  && dataTable.checkAllCondition()">
+    <div class="allactions btn-group " ng-class="{'displayAction':dataTable.isRowSelected, 'searchOpen':dataTable.filterBy.length<=2 || dataTable.showFilter}" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0  && dataTable.checkAllCondition()">
       <div class="check-btn btn btn-default btn-sm "  popover="[['UI.SELECT_ALL' | translate]]" popover-trigger="mouseenter" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
         <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll();$event.stopPropagation();">
       </div>
-      <div class="animate-action" ng-class="dataTable.isRowSelected?'open':''"  dropdown ng-if="dataTable.isRowSelected">
+      <div class="animate-action" ng-class="{'open':dataTable.isRowSelected}"  dropdown ng-if="dataTable.isRowSelected">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
           Action <span class="caret"></span>
         </button>
@@ -15,8 +15,8 @@
         </ul>
       </div>
     </div>
-    <div class="search-form form-group" ng-class="dataTable.isRowSelected?'open':''" ng-init="dataTable.showFilter = dataTable.filterBy.length<=2">
-      <div ng-click="dataTable.showFilter = !dataTable.showFilter" class="search-title" ng-class="dataTable.filterBy.length>2?'cursor':''">
+    <div class="search-form form-group" ng-class="{'open':dataTable.isRowSelected}" ng-init="dataTable.showFilter = dataTable.filterBy.length<=2">
+      <div ng-click="dataTable.showFilter = !dataTable.showFilter" class="search-title" ng-class="{'cursor':dataTable.filterBy.length>2}">
         <span class="glyphicon glyphicon-search" ></span>
         <span ng-bind="'UI.SEARCH_BY' | translate"></span>
       </div>
@@ -47,7 +47,7 @@
           <td class="checkbox-row" ng-if="dataTable.showSelectAll">
             <div class="table-cell" ng-if="!row.locked"><input type="checkbox"  ng-model="row.selected" ng-checked="row.selected" ng-click="dataTable.uncheckOne()"></div>
           </td>
-          <td ng-click="dataTable.toggleRowDetails(row, dataTable.conditionTogleDetail(row))" ng-class="dataTable.conditionTogleDetail(row)?'table-cell':''" class="line" ng-repeat="entities in dataTable.header" ng-if="entities.key != 'action'" ng-init="colspan = $index==(dataTable.header.length-2)&&row.locked ?'3':'1';" colspan="[[colspan]]">
+          <td ng-click="dataTable.toggleRowDetails(row, dataTable.conditionTogleDetail(row))" ng-class="{'first':$index==0, 'table-cell':dataTable.conditionTogleDetail(row)}" class="line" ng-repeat="entities in dataTable.header" ng-if="entities.key != 'action'" ng-init="colspan = $index==(dataTable.header.length-2)&&row.locked ?'3':'1';" colspan="[[colspan]]">
             <span ng-if="$first && dataTable.conditionTogleDetail(row)" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></span>
               <strong ng-if="!entities.type || entities.type == 'text'">[[dataTable.getDescendantProp(row, entities.key) ;]]</strong>
               <span ng-if="entities.type && entities.type == 'date'">[[dataTable.getDescendantProp(row, entities.key) | date:'dd/MM/yyyy' ]]</span>
