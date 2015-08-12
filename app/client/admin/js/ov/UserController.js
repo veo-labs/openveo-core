@@ -38,11 +38,11 @@
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
-        "callback": function (row) {
-          removeRows([row.id]);
+        "callback": function (row, reload) {
+          removeRows([row.id], reload);
         },
-        "global": function(selected){
-          removeRows(selected);
+        "global": function(selected, reload){
+          removeRows(selected, reload);
         }
       }];
     scopeDataTable.conditionTogleDetail = function (row) {
@@ -97,12 +97,12 @@
      * Can't remove a user if its saving.
      * @param Object user The user to remove
      */
-    var removeRows = function (selected) {
+    var removeRows = function (selected, reload) {
         entityService.removeEntity('user', selected.join(','))
                 .success(function (data) {
                   $scope.$emit("setAlert", 'success', $filter('translate')('USERS.REMOVE_SUCCESS') , 4000);
+                  reload();
                 })
-               
                 .error(function (data, status, headers, config) {
                   $scope.$emit("setAlert", 'danger', $filter('translate')('USERS.REMOVE_FAIL'), 4000);
                   if (status === 401)

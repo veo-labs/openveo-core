@@ -46,11 +46,11 @@
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
-        "callback": function (row) {
-          removeRows([row.id]);
+        "callback": function (row, reload) {
+          removeRows([row.id], reload);
         },
-        "global": function(selected){
-          removeRows(selected);
+        "global": function(selected, reload){
+          removeRows(selected, reload);
         }
       }];
 
@@ -111,10 +111,11 @@
      * Can't remove a application if its saving.
      * @param Object application The application to remove
      */
-    var removeRows = function (selected) {
+    var removeRows = function (selected, reload) {
       entityService.removeEntity('application', selected.join(','))
               .success(function (data) {
                 $scope.$emit("setAlert", 'success', $filter('translate')('APPLICATIONS.REMOVE_SUCCESS'), 4000);
+                reload();
               })
               .error(function (data, status, headers, config) {
                 $scope.$emit("setAlert", 'danger', $filter('translate')('APPLICATIONS.REMOVE_FAIL'), 4000);

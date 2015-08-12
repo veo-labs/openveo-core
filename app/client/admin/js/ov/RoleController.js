@@ -50,11 +50,11 @@
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
-        "callback": function (row) {
-          removeRows([row.id]);
+        "callback": function (row, reload) {
+          removeRows([row.id], reload);
         },
-        "global": function(selected){
-          removeRows(selected);
+        "global": function(selected, reload){
+          removeRows(selected, reload);
         }
       }];
 
@@ -125,11 +125,12 @@
      * Can't remove a role if its saving.
      * @param Object role The role to remove
      */
-    var removeRows = function (selected) {
+    var removeRows = function (selected, reload) {
         entityService.removeEntity('role', selected.join(','))
                 .success(function (data) {
                   userService.cacheClear("roles");
                   $scope.$emit("setAlert", 'success', $filter('translate')('ROLES.REMOVE_SUCCESS'), 4000);
+                  reload();
                 })
                 .error(function (data, status, headers, config) {
                   $scope.$emit("setAlert", 'danger', $filter('translate')('ROLES.REMOVE_FAIL'), 4000);

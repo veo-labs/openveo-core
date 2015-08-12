@@ -273,12 +273,12 @@
     
     //function to call manually to reload dataTable
     dataTable.reloadCallback = function () {
+      dataTable.selectAll = false;
     };
     
     //Broadcast listner to reload dataTable (on add row for exemple)
     $scope.$on('reloadDataTable', function() {
         dataTable.reloadCallback();
-         dataTable.selectAll = false;
     });
     
     // helper to get value of en entity by accessing is property by a string 'ob1.prop1.child1'
@@ -329,14 +329,12 @@
       return enable;
     }
     
-    // Execute an action on row after calling a popup verifying
+    // Execute an action on row after calling a popup verifying and reload table
     dataTable.prepareSingleAction = function(action, row){
       if(action.warningPopup)
         dataTable.openModal(action.callback, row);
       else {
-        action.callback(row);
-        dataTable.selectAll = false;
-        dataTable.reloadCallback();
+        action.callback(row, dataTable.reloadCallback);
       }
     }
     
@@ -358,16 +356,14 @@
     }
     
     //Open a modal, apply callback on OK promise and reload datatable 
-    dataTable.openModal = function (callback, item) {
+    dataTable.openModal = function (action, item) {
 
       var modalInstance = $modal.open({
         templateUrl: 'tableModal.html',
         controller: 'ModalInstanceTableController'
       });
       modalInstance.result.then(function(){
-        callback(item);
-        dataTable.selectAll = false;
-        dataTable.reloadCallback();
+        action(item, dataTable.reloadCallback);
       }, function () {
         
       });
