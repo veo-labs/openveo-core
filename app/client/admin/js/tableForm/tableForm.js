@@ -241,8 +241,20 @@
             var datePlus =  new Date(date);
             datePlus.setDate(date.getDate() + 1);
             param['filter'][filter.key] = {"$gte": date.getTime(), "$lt":datePlus.getTime()}
-          }else
-            param['filter'][filter.key] = {"$regex": ".*" + filter.value + ".*"}
+          }
+          else if (filter.type == "select"){
+            var values = [filter.value];
+            if(filter.filterWithChildren) {
+              for (var i = 0; i < filter.options.length; i++) {
+                if (filter.options[i].value === filter.value) {
+                  values = values.concat(filter.options[i].children.split(','));
+                  break;
+                }
+              }
+            }
+            
+            param['filter'][filter.key] = {"$in": values};
+          } else param['filter'][filter.key] = {"$regex": ".*" + filter.value + ".*"}
         }
       });
       
