@@ -1,10 +1,20 @@
 
 
 .angular-ui-tree-handle {
-    background: #fafafa;
-    border: 1px solid #dae2ea;
-    color: #7c9eb2;
-    padding: 10px 10px;
+  background: white;
+  border: 1px solid #ddd;
+  color: #006DA3;
+  padding: 10px 10px;
+  + ol .angular-ui-tree-handle{
+    background: #f6f6f6;
+    &:hover{
+      
+    }
+    
+    + ol .angular-ui-tree-handle{
+      background: #f0f0f0;
+    }
+  }
 }
 
 .angular-ui-tree-handle:hover {
@@ -19,4 +29,25 @@
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+}
+.angular-ui-tree-nodes{
+  @include single-transition(all, 0.4s);
+   
+    &.hidden-add{ 
+      display: block !important;
+      overflow: hidden;
+      max-height: 400px;
+      
+      &.hidden-add-active{ 
+         max-height: 0px;
+      }
+    }
+     &.hidden-remove{
+      display: block !important;
+      overflow: hidden;
+      max-height: 0px;
+      &.hidden-remove-active {
+         max-height: 400px;
+      }
+    }
 }

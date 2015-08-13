@@ -83,13 +83,13 @@
         <div class="container">
           <div  ng-if="displayMainMenu" id="content">
             <div class="alert-container">
-            <alert ng-repeat="alert in alerts" type="[[alert.type]]" close="alert.close()"><span ng-bind="alert.msg"></span></alert>
+            <alert ng-repeat="alert in alerts" type="[[alert.type]]" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
             </div>
             <div ng-view ng-class="{'vertical-center-row': verticalAlign}"></div>
 
           </div>
           <div ng-if="!displayMainMenu" class="login-screen">
-              <alert ng-repeat="alert in alerts" type="[[alert.type]]" close="alert.close()"><span ng-bind="alert.msg"></span></alert>
+              <alert ng-repeat="alert in alerts" type="[[alert.type]]" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
               <div ng-view ng-class="{'vertical-center-row': verticalAlign}"></div>
           </div>
         </div>
