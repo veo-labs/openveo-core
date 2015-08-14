@@ -27,6 +27,79 @@ describe("errorController", function(){
     
   });
   
+  // notFoundPageAction method
+  describe("notFoundPageAction", function(){
+
+    it("Should send an HTML page with http code 404 if HTML is accepted", function(done){
+      request.accepts = function(format){
+        return (format === "html");
+      };
+      request.url = "/notFound";
+
+      response.status = function(status){
+        assert.equal(status, 404);
+      };
+
+      response.render = function(page, data){
+        assert.isDefined(page);
+        assert.isDefined(data);
+        assert.equal(data.url, request.url);
+        done();
+      };
+
+      errorController.notFoundPageAction(request, response, function(error){
+        assert.ok(false);
+      });
+    });
+
+    it("Should send a JSON with http code 404 if HTML is not accepted and JSON is", function(done){
+      request.accepts = function(format){
+        return (format === "json");
+      };
+      request.url = "/notFound";
+
+      response.status = function(status){
+        assert.equal(status, 404);
+      };
+
+      response.send = function(data){
+        assert.isDefined(data);
+        assert.isDefined(data.error);
+        assert.equal(data.url, request.url);
+        done();
+      };
+
+      errorController.notFoundPageAction(request, response, function(error){
+        assert.ok(false);
+      });
+    });
+
+    it("Should send a simple text with http code 404 if neither HTML nor JSON is accepted", function(done){
+      request.accepts = function(format){
+        return false;
+      };
+      request.url = "/notFound";
+
+      response.status = function(status){
+        assert.equal(status, 404);
+      };
+
+      response.type = function(){
+        return this;
+      };
+
+      response.send = function(text){
+        assert.isDefined(text);
+        done();
+      };
+
+      errorController.notFoundPageAction(request, response, function(error){
+        assert.ok(false);
+      });
+    });
+
+  });
+
   // errorAction method
   describe("errorAction", function(){
 

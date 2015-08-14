@@ -58,3 +58,34 @@ module.exports.errorAction = function(error, request, response, next){
     module: error.module
   }});
 };
+
+/**
+ * Handles forgotten requests.
+ *
+ * Depending on request Accept HTTP header, either an HTML content,
+ * a JSON content or a text content will be returned with a 404 code.
+ *
+ * @method notFoundPageAction
+ * @static
+ */
+module.exports.notFoundPageAction = function(request, response, next){
+  logger.warn("404 Not Found", {method : request.method, path : request.url, headers : request.headers});
+
+  response.status(404);
+
+  // HTML content
+  if(request.accepts("html")){
+    response.render("404", { url : request.url });
+    return;
+  }
+
+  // JSON content
+  if(request.accepts("json")){
+    response.send({ error: "Not found", url : request.url });
+    return;
+  }
+
+  // Text content
+  response.type("txt").send(request.url + " not found");
+
+};

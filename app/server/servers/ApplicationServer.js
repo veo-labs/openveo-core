@@ -205,10 +205,6 @@ ApplicationServer.prototype.onPluginsLoaded = function(plugin){
      */
     self.app.use(express.static(path.normalize(publicDirectory + "/../app/client/front/js"), staticServerOptions));
     
-    /**
-     * HACK en attendant que les fichiers custom soient concaténés.
-     * TODO **************************************
-     */
     if(env === "dev"){
       self.app.use(express.static(path.normalize(publicDirectory + "/../app/client/admin/js"), staticServerOptions));
     }
@@ -230,7 +226,7 @@ ApplicationServer.prototype.onPluginsLoaded = function(plugin){
   
   // Handle not found and errors
   this.app.all("/admin*", defaultController.defaultAction);
-  this.app.all("*", defaultController.defaultAction);
+  this.app.all("*", errorController.notFoundPageAction);
   
   // Handle errors
   this.app.use(errorController.errorAction);
