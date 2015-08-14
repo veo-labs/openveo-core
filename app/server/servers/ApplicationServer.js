@@ -24,6 +24,7 @@ var permissionLoader = process.require("app/server/loaders/permissionLoader.js")
 var defaultController = process.require("app/server/controllers/defaultController.js"); 
 var errorController = process.require("app/server/controllers/errorController.js"); 
 var applicationStorage = openVeoAPI.applicationStorage;
+var expressThumbnail = process.require("app/server/servers/ExpressThumbnail.js");
 
 /**
  * Application's environment mode.
@@ -84,6 +85,7 @@ function ApplicationServer(){
     logger.info({method : request.method, path : request.url, headers : request.headers});
     next();
   });
+  this.app.use(expressThumbnail.register(path.normalize(process.root+'/node_modules/openveo-publish/public/publish/videos/')));
 
   // Load all middlewares which need to operate
   // on each request
