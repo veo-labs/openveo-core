@@ -93,17 +93,22 @@
       name: 'editableInput',
       link: /* @ngInject */ function(scope, el, attrs) {
         scope.checkNotEmpty = function(data){
-          if (scope.to.required && data.length==0) return "You must type a value.";
+          if (scope.to.required && (!data || data=="")) return "You must type a value.";
         }
       }
     });
     formlyConfig.setType({
       extends: 'select',
       template: '<div class="editable">\n\
-<span editable-select="model[options.key]" e-name="[[::id]]" e-ng-options="s.value as s.name for s in to.options">\n\
+<span editable-select="model[options.key]" e-name="[[::id]]" e-ng-options="s.value as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n\
 [[ (to.options | filter:{value: model[options.key]})[0].name ||  (\'UI.EMPTY\'|translate) ]]\n\
 </div>',
-      name: 'editableSelect'
+      name: 'editableSelect',
+      link: /* @ngInject */ function(scope, el, attrs) {
+        scope.checkNotEmpty = function(data){
+          if (scope.to.required && (!data || data=="")) return "You must select a value.";
+        }
+      }
     });
     formlyConfig.setType({
       extends: 'multiCheckbox',
