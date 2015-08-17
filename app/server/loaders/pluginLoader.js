@@ -238,6 +238,22 @@ module.exports.loadPlugin = function(pluginPath, callback){
                   plugin.viewsFolders.push(path.join(pluginPath, viewsFolder));
                 });
               }
+              
+              // Got images thumbnailable folders for this plugin
+              var pluginImageProc = pluginConf["imageProcessing"];
+              
+              if(pluginImageProc){
+                if(pluginImageProc["imagesFolders"] &&pluginImageProc["imagesFolders"].length){
+                  plugin.imagesFolders = [];
+                  pluginImageProc["imagesFolders"].forEach(function(imagesFolders){
+                    plugin.imagesFolders.push(path.join(pluginPath, imagesFolders));
+                  });
+                  if(pluginImageProc["imagesStyle"]){
+                    plugin.imagesStyle = pluginImageProc["imagesStyle"];
+                  }
+                }
+                
+              }
 
               // Retrieve routes and back end conf from plugin conf
               var pluginRoutes = pluginConf["routes"];

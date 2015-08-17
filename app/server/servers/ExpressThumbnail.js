@@ -2,7 +2,6 @@ var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');
 var imageMagick = require('gm').subClass({ imageMagick: true });
-var serverImageConf = process.require("conf.json").imageThumbWidth;
 
 var expressThumbnail = module.exports;
 
@@ -14,7 +13,10 @@ expressThumbnail.register = function(rootDir, options) {
   options = options || {};
   options.cacheDir = options.cacheDir || path.join(rootDir, '.thumb');       // cache folder, default to {root dir}/.thumb
   options.quality = options.quality || 90;                                   // compression level, default to 80
-  options.gravity = options.gravity || 'Center';                             // thumbnail gravity, default to Center
+  options.gravity = options.gravity || 'Center';   
+  
+  options.imagesStyle = options.imagesStyle || {};
+  options.imagesStyle['default'] = 10;
 
   return function (req, res, next) {
     var filename = decodeURI(req.url.replace(/\?(.*)/, ''));                 // file name in root dir
@@ -27,7 +29,7 @@ expressThumbnail.register = function(rootDir, options) {
 
       // send converted file from cache
       function sendConverted() {
-        var maxwidth=(serverImageConf[dimension])?(serverImageConf[dimension]):10;     
+        var maxwidth=(options.imagesStyle[dimension])?(options.imagesStyle[dimension]):options.imagesStyle["default"];     
         var convertOptions = {
           filepath: filepath,
           location: location,
@@ -35,7 +37,6 @@ expressThumbnail.register = function(rootDir, options) {
           quality: options.quality,
           gravity: options.gravity
         };
-
         expressThumbnail.convert(convertOptions, function (err) {
           if (err) {
             console.log(err);
@@ -46,7 +47,6 @@ expressThumbnail.register = function(rootDir, options) {
         });
       }
       fs.stat(filepath, function (err, stats) {
-
         // go forward
         if (err || !stats.isFile()) { return next(); }
 

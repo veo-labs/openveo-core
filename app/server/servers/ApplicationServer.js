@@ -62,6 +62,8 @@ function ApplicationServer(){
   var self = this;
   this.viewsFolders = [];
   this.publicDirectories = [];
+  this.imagesFolders = [];
+  this.imagesStyle = {};
   this.menu = conf["backOffice"]["menu"] || [];
   this.permissions = conf["permissions"] || [];
   
@@ -75,6 +77,11 @@ function ApplicationServer(){
   conf["viewsFolders"].forEach(function(folder){
     self.viewsFolders.push(path.normalize(process.root + "/" + folder));
   });
+  // Add core image folder 
+  conf["imageProcessing"]["imagesFolders"].forEach(function(folder){
+    self.imagesFolders.push(path.normalize(process.root + "/" + folder));
+  });
+  self.imagesStyle = conf["imageProcessing"]["imagesStyle"] || {};
   
   // Set mustache as the template engine
   this.app.engine("html", consolidate.mustache);
@@ -85,7 +92,6 @@ function ApplicationServer(){
     logger.info({method : request.method, path : request.url, headers : request.headers});
     next();
   });
-  this.app.use(expressThumbnail.register(path.normalize(process.root+'/node_modules/openveo-publish/public/publish/videos/')));
 
   // Load all middlewares which need to operate
   // on each request
@@ -156,6 +162,15 @@ ApplicationServer.prototype.onPluginAvailable = function(plugin){
   if(plugin.viewsFolders)
     this.viewsFolders = this.viewsFolders.concat(plugin.viewsFolders);
   
+  //Found a list of image
+  if(plugin.imagesFolders){
+    this.imagesFolders = this.imagesFolders.concat(plugin.imagesFolders);
+  
+    if(plugin.imagesStyle) {
+      for (var attrname in plugin.imagesStyle) { this.imagesStyle[attrname] = plugin.imagesStyle[attrname]; }
+    }
+  }
+  
   // Found a list of permissions for the plugin
   if(plugin.permissions)
     this.permissions = this.permissions.concat(plugin.permissions);  
@@ -214,6 +229,11 @@ ApplicationServer.prototype.onPluginsLoaded = function(plugin){
 
   // Set views folders for template engine
   this.app.set("views", this.viewsFolders);
+   
+  // Set Thumbnail generator on image folder
+  this.imagesFolders.forEach(function(folder){
+    self.app.use(expressThumbnail.register( folder+'/', {"imagesStyle" : self.imagesStyle }));
+  });
   
   // Generate permissions for entities
   var entities = applicationStorage.getEntities();
