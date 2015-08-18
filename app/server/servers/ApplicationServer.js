@@ -11,6 +11,7 @@ var express = require("express");
 var consolidate = require("consolidate");
 var mustache = require("mustache");
 var session = require("express-session");
+var MongoStore = require('connect-mongo')(session);
 var passport = require("passport");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
@@ -92,21 +93,6 @@ function ApplicationServer(){
     logger.info({method : request.method, path : request.url, headers : request.headers});
     next();
   });
-
-  // Load all middlewares which need to operate
-  // on each request
-  // The cookieParser and session middlewares are required 
-  // by passport
-  this.app.use(cookieParser());
-  this.app.use(bodyParser.urlencoded({extended: true}));
-  this.app.use(bodyParser.json());
-  this.app.use(session({ secret: serverConf["sessionSecret"], saveUninitialized: true, resave: true }));
-  this.app.use(passport.initialize());
-  this.app.use(passport.session());
-
-  // Mount routers
-  this.app.use("/admin", this.adminRouter);
-  this.app.use("/", this.router);
 }
 
 module.exports = ApplicationServer;
@@ -120,10 +106,36 @@ util.inherits(ApplicationServer, Server);
  * @param {Database} db The application database 
  */
 ApplicationServer.prototype.onDatabaseAvailable = function(db){
+  // Load all middlewares which need to operate
+  // on each request
 
+  //Update Session store with opened database connection
+  //Allowed server to restart without loosing any session
+  this.app.use(session({
+    secret: serverConf["sessionSecret"], 
+    saveUninitialized: true, 
+    resave: true,
+    store: new MongoStore({
+      db: db.db
+    })
+  }));
+
+  // The cookieParser and session middlewares are required 
+  // by passport
+  this.app.use(cookieParser());
+  this.app.use(bodyParser.urlencoded({extended: true}));
+  this.app.use(bodyParser.json());
+  //passport Initialize : Need to be done after session settings DB
+  this.app.use(passport.initialize());
+  this.app.use(passport.session());
+  
   // Initialize passport (authentication manager)
   process.require("app/server/passport.js");
 
+  // Mount routers (Need to be done after passport initialize, session adn authent)
+  this.app.use("/admin", this.adminRouter);
+  this.app.use("/", this.router);
+  
   // Load and apply main routes from configuration to public, back 
   // end routers
   routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf["routes"]["public"]), this.router);
