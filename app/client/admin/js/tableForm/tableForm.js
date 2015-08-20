@@ -119,8 +119,8 @@
    *  
    */
   function FormEditController($scope, $filter) {
+    
     var fec = this;
-   
     fec.init = function(row){
       fec.model = row;
       //Call init function if defined to set up dynamically some fields
@@ -130,20 +130,24 @@
     };
     
     fec.onSubmit = function () {
-      //Call submit function
-      fec.model.saving = true;
-      $scope.editFormContainer.onSubmit(fec.model, function () {
-        //on success 
-        //save value in the fields as initial value
-        fec.options.updateInitialValue();
-        fec.model.saving = false;
-      }, function () {
-        //on error 
-        //reset the form
-        fec.options.resetModel();
+      if ($scope.editFormContainer.onSubmit) {
+        //Call submit function
+        fec.model.saving = true;
+        $scope.editFormContainer.onSubmit(fec.model, function () {
+          //on success 
+          //save value in the fields as initial value
+          fec.options.updateInitialValue();
+          fec.model.saving = false;
+        }, function () {
+          //on error 
+          //reset the form
+          fec.options.resetModel();
+          $scope.$emit("setAlert", 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
+          fec.model.saving = false;
+        });
+      } else {
         $scope.$emit("setAlert", 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
-        fec.model.saving = false;
-      });
+      }
     };
     fec.options = {};
     fec.editForm = function(){
