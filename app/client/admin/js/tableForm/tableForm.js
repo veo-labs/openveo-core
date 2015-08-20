@@ -131,15 +131,18 @@
     
     fec.onSubmit = function () {
       //Call submit function
+      fec.model.saving = true;
       $scope.editFormContainer.onSubmit(fec.model, function () {
         //on success 
         //save value in the fields as initial value
         fec.options.updateInitialValue();
+        fec.model.saving = false;
       }, function () {
         //on error 
         //reset the form
         fec.options.resetModel();
         $scope.$emit("setAlert", 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
+        fec.model.saving = false;
       });
     };
     fec.options = {};
@@ -282,7 +285,7 @@
     
     //function to toggle detail
     dataTable.toggleRowDetails = function (row, condition) {
-      if (!row.saving && condition) {
+      if (condition) {
         angular.forEach(dataTable.rows, function (value, key) {
           value.opened = (value.id === row.id) ? !value.opened : false;
           $scope.editFormContainer.pendingEdition=false;

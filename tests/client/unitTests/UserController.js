@@ -3,49 +3,48 @@
 window.assert = chai.assert;
 
 // UserController.js
-describe("UserController", function(){
+describe("UserController", function () {
   var $rootScope, $controller, $httpBackend, $scope, users, roles;
 
   // Load openveo application
   beforeEach(module("ov"));
 
   // Dependencies injections
-  beforeEach(inject(function(_$rootScope_, _$controller_, _$httpBackend_){
+  beforeEach(inject(function (_$rootScope_, _$controller_, _$httpBackend_) {
     $rootScope = _$rootScope_;
     $httpBackend = _$httpBackend_;
     $controller = _$controller_;
   }));
 
   // Generates scope and data
-  beforeEach(function(){
+  beforeEach(function () {
     $scope = $rootScope.$new();
-    users = {
-       data : {
-         entities : [
-          {
-            id : "146574894654",
-            name : "Example",
-            email : "example@example.com",
-            roles : [ "example" ]
-          }
-        ]
+    $scope.test = {};
+    $scope.test.rows = [
+      {
+        id: "146574894654",
+        name: "Example",
+        email: "example@example.com",
+        roles: ["154867"]
+      },
+      {
+        id: "156789123456",
+        name: "Example2",
+        email: "example2@example2.com",
+        roles: ["154867"]
       }
-    };
+    ];
 
     roles = {
-      data : {
-        entities : [
+      data: {
+        entities: [
           {
-            id : "154867",
-            name : "Role example",
-            permissions : {
-              perm1 : {
-                activated : true
-              },
-              perm2 : {
-                activated : true
-              }
-            }
+            id: "154867",
+            name: "Role example",
+            permissions: [
+              "perm1",
+              "perm2"
+            ]
           }
         ]
       }
@@ -53,171 +52,142 @@ describe("UserController", function(){
 
     $controller("UserController", {
       $scope: $scope,
-      users : users,
-      roles : roles
+      users: users,
+      roles: roles
     });
   });
-  
+
   // Checks if no HTTP request stays without response
-  afterEach(function(){
+  afterEach(function () {
     $httpBackend.verifyNoOutstandingExpectation();
     $httpBackend.verifyNoOutstandingRequest();
   });
-  
-  // toggleUserDetails method
-  describe("toggleUserDetails", function(){
-    
-    it("Should be able to open the user details", function(){
-      $scope.toggleUserDetails($scope.users[0]);
-      assert.ok($scope.users[0].opened);
-    });
-    
-    it("Should not open / close user details if user is saving", function(){
-      $scope.users[0].saving = true;
-      $scope.toggleUserDetails($scope.users[0]);
-      assert.notOk($scope.users[0].opened);
-    });
-    
-  });
-  
-  // removeUser method
-  describe("removeUser", function(){
 
-    it("Should be able to remove a user if not saving", function(){
+  // removeUser method
+  describe("removeUser", function () {
+
+    it("Should be able to remove a user ", function (done) {
+      $httpBackend.when("POST", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
       $httpBackend.when("DELETE", "/admin/crud/user/146574894654").respond(200);
       $httpBackend.expectDELETE("/admin/crud/user/146574894654");
 
-      $scope.users[0].saving = true;
-      $scope.removeUser($scope.users[0]);
-
-      $scope.users[0].saving = false;
-      $scope.removeUser($scope.users[0]);
+      $scope.tableContainer.actions[0].callback($scope.test.rows[0], done);
 
       $httpBackend.flush();
-      assert.equal($scope.users.length, 0);
     });
 
-    it("Should logout user if a 401 is returned by the server", function(done){
+    it("Should be able to remove many users ", function (done) {
+      $httpBackend.when("POST", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
+      $httpBackend.when("DELETE", "/admin/crud/user/146574894654,156789123456").respond(200);
+      $httpBackend.expectDELETE("/admin/crud/user/146574894654,156789123456");
+
+      $scope.tableContainer.actions[0].global([$scope.test.rows[0].id, $scope.test.rows[1].id], done);
+
+      $httpBackend.flush();
+    });
+
+    it("Should logout user if a 401 is returned by the server", function (done) {
+      $httpBackend.when("POST", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
       $httpBackend.when("DELETE", "/admin/crud/user/146574894654").respond(401);
       $httpBackend.expectDELETE("/admin/crud/user/146574894654");
 
-      $rootScope.logout = function(){
+      $rootScope.logout = function () {
         done();
       };
 
-      $scope.removeUser($scope.users[0]);
+      $scope.tableContainer.actions[0].callback($scope.test.rows[0], function () {
+        assert.notOk(true);
+      });
       $httpBackend.flush();
     });
 
-  });  
-  
-  // saveUser method
-  describe("saveUser", function(){
+  });
 
-    it("Should be able to save a user if not already saving", function(done){
+  // saveUser method
+  describe("saveUser", function () {
+
+    it("Should be able to save a user if not already saving", function (done) {
+      $httpBackend.when("DELETE", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
       $httpBackend.when("POST", "/admin/crud/user/146574894654").respond(200);
       $httpBackend.expectPOST("/admin/crud/user/146574894654");
 
-      var form = {
-        edition : true,
-        closeEdition : function(){
-          assert.notOk(this.edition);
-          done();
-        }
-      };
-
-      $scope.users[0].saving = true;
-      $scope.saveUser(form, $scope.users[0]);
-
-      $scope.users[0].saving = false;
-      $scope.users[0].title = "title";
-      $scope.saveUser(form, $scope.users[0]);
+      $scope.editFormContainer.onSubmit($scope.test.rows[0], done, function () {
+        assert.notOk(true);
+      });
 
       $httpBackend.flush();
     });
 
-    it("Should logout user if a 401 is returned by the server", function(done){
+    it("Should logout user if a 401 is returned by the server", function (done) {
+      $httpBackend.when("DELETE", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
       $httpBackend.when("POST", "/admin/crud/user/146574894654").respond(401);
       $httpBackend.expectPOST("/admin/crud/user/146574894654");
 
-      $rootScope.logout = function(){
+      $rootScope.logout = function () {
         done();
       };
 
-      $scope.saveUser({}, $scope.users[0]);
+      $scope.editFormContainer.onSubmit($scope.test.rows[0], function () {
+        assert.notOk(true);
+      }, function () {
+        assert.ok(true);
+      });
       $httpBackend.flush();
     });
 
-  });  
-  
-  // toggleEdition method
-  describe("toggleEdition", function(){
+  });
 
-    it("Should be able to cancel user edition", function(done){
 
-      var form = {
-        edition : true,
-        cancelEdition : function(){
-          assert.notOk(this.edition);
-          done();
-        }
-      };
-
-      $scope.cancelEdition(form);
-    });
-
-    it("Should be able to open user edition", function(done){
-
-      var form = {
-        edition : false,
-        openEdition : function(){
-          assert.ok(this.edition);
-          done();
-        }
-      };
-
-      $scope.openEdition(form);
-
-    });
-    
-  });    
-  
   // addUser method
-  describe("addUser", function(){
-    
-    it("Should be able to add a new user", function(){
-      $httpBackend.when("PUT", "/admin/crud/user").respond(200, { entity : {
-        id : "new user id",
-        name : "New user",
-        email : "user@user.com",
-        roles : [ "role1" ]
-      }});
+  describe("addUser", function () {
+
+    it("Should be able to add a new user", function (done) {
+      $httpBackend.when("DELETE", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("POST", /.*/).respond(200, "");
+      $httpBackend.when("PUT", "/admin/crud/user").respond(200);
       $httpBackend.expectPUT("/admin/crud/user");
-      
-      $scope.userName = "User name";
-      $scope.userEmail = "User name";
-      $scope.userPassword = "User password";
-      $scope.userPasswordValidate = "User password";
-      $scope.addUser({});
+
+      $scope.addFormContainer.onSubmit({},
+              done,
+              function () {
+                assert.notOk(true);
+              }
+      );
 
       $httpBackend.flush();
-      assert.equal($scope.users.length, 2);
     });
-    
-    it("Should logout user if a 401 is returned by the server", function(done){
+
+    it("Should logout user if a 401 is returned by the server", function (done) {
+      $httpBackend.when("DELETE", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("POST", /.*/).respond(200, "");
       $httpBackend.when("PUT", "/admin/crud/user").respond(401);
       $httpBackend.expectPUT("/admin/crud/user");
-      
-      $rootScope.logout = function(){
+
+      $rootScope.logout = function () {
         done();
       };
 
-      $scope.userName = "User name";
-      $scope.addUser({});
+      $scope.addFormContainer.onSubmit({}, function () {
+        assert.notOk(true);
+      }, function () {
+        assert.ok(true);
+      });
 
       $httpBackend.flush();
     });
 
-  });  
-  
+  });
+
 });

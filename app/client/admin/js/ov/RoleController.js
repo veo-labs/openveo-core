@@ -50,6 +50,9 @@
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
+        "condition": function(row){
+          return !row.saving;
+        },
         "callback": function (row, reload) {
           removeRows([row.id], reload);
         },
@@ -122,7 +125,6 @@
 
     /**
      * Removes the role.
-     * Can't remove a role if its saving.
      * @param Object role The role to remove
      */
     var removeRows = function (selected, reload) {
@@ -145,17 +147,12 @@
      * @param Object role The role associated to the form
      */
     var savePerm = function(permission, successCb, errorCb){
-      
-      permission.saving = true;
       var entity = getEntitiesFromModel(permission);
-      
       entityService.updateEntity("role", permission.id, entity).success(function(data, status, headers, config){
-        permission.saving = false;
         permission.permissions = angular.copy(entity.permissions);
         userService.cacheClear("roles");
         successCb();
       }).error(function(data, status, headers, config){
-        permission.saving = false;
         errorCb();
         if(status === 401)
           $scope.$parent.logout();
@@ -242,13 +239,14 @@
       });
     };
     
-    var getEntitiesFromModel = function(model){
+    var getEntitiesFromModel = function(model){     
       var entity = {
         name:model.name, 
         permissions:[]
       };
       angular.forEach(model, function (value, key) {
-        if(key.startsWith('permissions.')){
+        var startsStr = 'permissions.';
+        if(key.slice(0, startsStr.length) == startsStr){
           entity.permissions = entity.permissions.concat(value);
         }
       });

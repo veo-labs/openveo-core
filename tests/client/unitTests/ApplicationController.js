@@ -19,50 +19,52 @@ describe("ApplicationController", function(){
   // Generates scope and data
   beforeEach(function(){
     $scope = $rootScope.$new();
-    applications = {
-       data : {
-         entities : [
+    $scope.test = {};
+    $scope.test.rows = [
           {
             id : "7bff6606c8fc4e1259ff44342ad870502dbcf9d5",
             name : "Example",
-            scopes : {
-              scope1 : {
-                description : "description 1",
-                name : "name 1",
-                activated : true
-              },
-              scope2 : {
-                description : "description 2",
-                name : "name 2",
-                activated : true
-              }                  
-            },
+            scopes : [
+              "scope1",
+              "scope2"
+            ],
             secret : "7532552b97cba918c5118a8a10bb7b5f8dbd5ab0"
+          },
+          {
+            id : "4e125dbcf9d9fa7bff6606c8fc0f44342",
+            name : "Example2",
+            scopes : [
+              "scope2",
+              "scope3"
+            ],
+            secret : "7532552b97cba918c5118a8a10bb7b5f8dbd5ab0"
+          }
+        ];
+
+    scopes = {
+      data : {
+        scopes : [
+          {
+            id : "scope1",
+            description : "description 1",
+            name : "name 1"
+          },
+          {
+            id : "scope2",
+            description : "description 2",
+            name : "name 2"
+          },
+          {
+            id : "scope3",
+            description : "description 3",
+            name : "name 3"
           }
         ]
       }
     };
 
-    scopes = {
-      data : {
-        scopes : {
-          scope1 : {
-            description : "description 1",
-            name : "name 1",
-            activated : true
-          },
-          scope2 : {
-            description : "description 2",
-            name : "name 2",
-            activated : true
-          }
-        }
-      }
-    };
-
     $controller("ApplicationController", {
       $scope: $scope,
-      applications : applications,
       scopes : scopes
     });
   });
@@ -73,40 +75,37 @@ describe("ApplicationController", function(){
     $httpBackend.verifyNoOutstandingRequest();
   });
   
-  // toggleApplicationDetails method
-  describe("toggleApplicationDetails", function(){
-    
-    it("Should be able to open the application details", function(){
-      $scope.toggleApplicationDetails($scope.applications[0]);
-      assert.ok($scope.applications[0].opened);
-    });
-    
-    it("Should not open / close application details if application is saving", function(){
-      $scope.applications[0].saving = true;
-      $scope.toggleApplicationDetails($scope.applications[0]);
-      assert.notOk($scope.applications[0].opened);
-    });
-    
-  });
-  
   // removeApplication method
   describe("removeApplication", function(){
 
-    it("Should be able to remove an application if not saving", function(){
+    it("Should be able to remove an application ", function(done){
+      $httpBackend.when("POST", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
       $httpBackend.when("DELETE", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(200);
       $httpBackend.expectDELETE("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
-
-      $scope.applications[0].saving = true;
-      $scope.removeApplication($scope.applications[0]);
-
-      $scope.applications[0].saving = false;
-      $scope.removeApplication($scope.applications[0]);
+           
+      $scope.tableContainer.actions[0].callback($scope.test.rows[0], done);
 
       $httpBackend.flush();
-      assert.equal($scope.applications.length, 0);
+    });
+    
+    it("Should be able to remove many applications ", function(done){
+      $httpBackend.when("POST", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
+      $httpBackend.when("DELETE", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5,4e125dbcf9d9fa7bff6606c8fc0f44342").respond(200);
+      $httpBackend.expectDELETE("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5,4e125dbcf9d9fa7bff6606c8fc0f44342");
+           
+      $scope.tableContainer.actions[0].global([$scope.test.rows[0].id, $scope.test.rows[1].id], done);
+
+      $httpBackend.flush();
     });
 
     it("Should logout user if a 401 is returned by the server", function(done){
+      $httpBackend.when("POST", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
       $httpBackend.when("DELETE", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(401);
       $httpBackend.expectDELETE("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
 
@@ -114,7 +113,9 @@ describe("ApplicationController", function(){
         done();
       };
 
-      $scope.removeApplication($scope.applications[0]);
+      $scope.tableContainer.actions[0].callback($scope.test.rows[0], function(){
+        assert.notOk("everything");
+      });
       $httpBackend.flush();
     });
 
@@ -123,29 +124,24 @@ describe("ApplicationController", function(){
   // saveApplication method
   describe("saveApplication", function(){
 
-    it("Should be able to save an application if not already saving", function(done){
+    it("Should be able to save an application ", function(done){
+      $httpBackend.when("DELETE", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
       $httpBackend.when("POST", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(200);
       $httpBackend.expectPOST("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
 
-      var form = {
-        edition : true,
-        closeEdition : function(){
-          assert.notOk(this.edition);
-          done();
-        }
-      };
-
-      $scope.applications[0].saving = true;
-      $scope.saveApplication(form, $scope.applications[0]);
-
-      $scope.applications[0].saving = false;
-      $scope.applications[0].title = "title";
-      $scope.saveApplication(form, $scope.applications[0]);
+      $scope.editFormContainer.onSubmit($scope.test.rows[0], done, function(){
+        assert.notOk(true);
+      });
 
       $httpBackend.flush();
     });
 
     it("Should logout user if a 401 is returned by the server", function(done){
+      $httpBackend.when("DELETE", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("PUT", /.*/).respond(200, "");
       $httpBackend.when("POST", "/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5").respond(401);
       $httpBackend.expectPOST("/admin/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5");
 
@@ -153,70 +149,40 @@ describe("ApplicationController", function(){
         done();
       };
 
-      $scope.saveApplication({}, $scope.applications[0]);
+      $scope.editFormContainer.onSubmit($scope.test.rows[0], function(){
+        assert.notOk(true);
+      }, function(){
+        assert.ok(true);
+      });
       $httpBackend.flush();
     });
 
   });  
   
-  // toggleEdition method
-  describe("toggleEdition", function(){
-
-    it("Should be able to cancel application edition", function(done){
-
-      var form = {
-        edition : true,
-        cancelEdition : function(){
-          assert.notOk(this.edition);
-          done();
-        }
-      };
-
-      $scope.cancelEdition(form);
-    });
-
-    it("Should be able to open application edition", function(done){
-
-      var form = {
-        edition : false,
-        openEdition : function(){
-          assert.ok(this.edition);
-          done();
-        }
-      };
-
-      $scope.openEdition(form);
-
-    });
-    
-  });    
-  
   // addApplication method
   describe("addApplication", function(){
     
-    it("Should be able to add a new application", function(){
-      $httpBackend.when("PUT", "/admin/crud/application").respond(200, { entity : {
-        id : "new application id",
-        name : "New application",
-        scopes : {
-          scope1 : {
-            description : "description 1",
-            name : "name 1",
-            activated : true
-          }
-        },
-        secret : "new application secret"
-      }});
+    it("Should be able to add a new application", function(done){
+      $httpBackend.when("DELETE", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("POST", /.*/).respond(200, "");
+      $httpBackend.when("PUT", "/admin/crud/application").respond(200);
       $httpBackend.expectPUT("/admin/crud/application");
       
-      $scope.applicationName = "Application name";
-      $scope.addApplication({});
+      $scope.addFormContainer.onSubmit({},
+        done,
+        function () {
+          assert.notOk(true);
+        }
+      );
 
       $httpBackend.flush();
-      assert.equal($scope.applications.length, 2);
     });
     
     it("Should logout user if a 401 is returned by the server", function(done){
+      $httpBackend.when("DELETE", /.*/).respond(200, "");
+      $httpBackend.when("GET", /.*/).respond(200, "");
+      $httpBackend.when("POST", /.*/).respond(200, "");
       $httpBackend.when("PUT", "/admin/crud/application").respond(401);
       $httpBackend.expectPUT("/admin/crud/application");
       
@@ -224,8 +190,11 @@ describe("ApplicationController", function(){
         done();
       };
 
-      $scope.applicationName = "Application name";
-      $scope.addApplication({});
+      $scope.addFormContainer.onSubmit({}, function(){
+        assert.notOk(true);
+      }, function(){
+        assert.ok(true);
+      });
 
       $httpBackend.flush();
     });    

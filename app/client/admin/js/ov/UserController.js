@@ -38,6 +38,9 @@
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
+        "condition": function(row){
+          return !row.saving;
+        },
         "callback": function (row, reload) {
           removeRows([row.id], reload);
         },
@@ -94,7 +97,6 @@
 
     /**
      * Removes the user.
-     * Can't remove a user if its saving.
      * @param Object user The user to remove
      */
     var removeRows = function (selected, reload) {
@@ -116,17 +118,13 @@
      * @param Object user The user associated to the form
      */
     var saveUser = function(user, successCb, errorCb){
-      user.saving = true;
-
       entityService.updateEntity("user", user.id, {
         name : user.name, 
         email : user.email, 
         roles : user.roles
       }).success(function(data, status, headers, config){
-        user.saving = false;
         successCb();
       }).error(function(data, status, headers, config){
-        user.saving = false;
         errorCb();
         if(status === 401)
           $scope.$parent.logout();

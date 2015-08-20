@@ -46,6 +46,9 @@
     scopeDataTable.actions = [{
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
+        "condition": function(row){
+          return !row.saving;
+        },
         "callback": function (row, reload) {
           removeRows([row.id], reload);
         },
@@ -108,7 +111,6 @@
 
     /**
      * Removes the application.
-     * Can't remove a application if its saving.
      * @param Object application The application to remove
      */
     var removeRows = function (selected, reload) {
@@ -130,16 +132,12 @@
      * @param Object application The application associated to the form
      */
     var saveApplication = function(application, successCb, errorCb){
-      application.saving = true;
-
       entityService.updateEntity("application", application.id, {
         name : application.name,
         scopes : application.scopes
       }).success(function(data, status, headers, config){
-        application.saving = false;
         successCb();
       }).error(function(data, status, headers, config){
-        application.saving = false;
         errorCb();
         if(status === 401)
           $scope.$parent.logout();
