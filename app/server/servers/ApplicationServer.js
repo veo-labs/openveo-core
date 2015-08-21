@@ -228,13 +228,8 @@ ApplicationServer.prototype.onPluginsLoaded = function(plugin){
   this.publicDirectories.forEach(function(publicDirectory){
     self.app.use(express.static(publicDirectory, staticServerOptions));
 
-    /**
-     * TODO **************************************
-     * HACK en attendant que les fichiers custom soient concaténés.
-     */
-    self.app.use(express.static(path.normalize(publicDirectory + "/../app/client/front/js"), staticServerOptions));
-    
     if(env === "dev"){
+      self.app.use(express.static(path.normalize(publicDirectory + "/../app/client/front/js"), staticServerOptions));
       self.app.use(express.static(path.normalize(publicDirectory + "/../app/client/admin/js"), staticServerOptions));
     }
   });

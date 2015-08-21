@@ -25,18 +25,47 @@ module.exports = PlayerProject;
 util.inherits(PlayerProject, Project);
 
 /**
- * Nothing to compile in player project, for now.
+ * Compiles project sources.
  *
  * @param Transport server The server on which working 
  */
-PlayerProject.prototype.compile = function(server){};
+PlayerProject.prototype.compile = function(server){
+  var self = this;
+  server.log("Compile " + this.projectName + " sources");
+
+  server.with("cd " + path.join(this.tmpDir, "sources"), function(){
+
+    // Install Grunt to compile js and CSS
+    server.exec("npm install glob grunt grunt-contrib-compass grunt-contrib-concat grunt-contrib-uglify");
+
+    // Before compiling hook
+    self.beforeCompiling(server);
+
+    // Launch compilation
+    server.exec("grunt dist");
+
+  });
+};
 
 /**
- * Nothing particular to remove.
+ * Removes unused stuffs in project.
  *
  * @param Transport server The server on which working
  */
-PlayerProject.prototype.cleanProject = function(server){};
+PlayerProject.prototype.cleanProject = function(server){
+  var self = this;
+
+  server.with("cd " + path.join(this.tmpDir, "sources"), function(){
+
+    // Keep unit tests and grunt configuration while not in production
+    if(self.isProduction)
+      server.rm("-rf tests js package.json css js");
+
+    // Remove unused stuffs
+    server.rm("-rf node_modules tasks .git* Gruntfile.js");
+
+  });
+};
 
 /**
  * Nothing much to install.
