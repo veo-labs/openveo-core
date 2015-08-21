@@ -55,8 +55,10 @@ async.series([
 
     // Establish connection to the database
     db.connect(function(error){
-      if(error)
+      if(error){
+        logger.error(error && error.message);
         process.exit(0);
+      }
 
       applicationStorage.setDatabase(db);
       server.onDatabaseAvailable(db);
