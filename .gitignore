@@ -22,14 +22,6 @@ logs
 # Project npm dependencies
 node_modules/*
 
-# Keep openveo-api internal module
-!node_modules/openveo-api
-node_modules/openveo-api/node_modules
-
-# Keep openveo-test internal module
-!node_modules/openveo-test
-node_modules/openveo-test/node_modules
-
 # Bower libraries
 public/lib
 
@@ -37,14 +29,14 @@ public/lib
 nbproject/
 config/*
 
-#Deliver
+# Deliver
 dump/
 build/
 
-#Sass
+# Sass
 .sass-cache/
 
-#Compiled file
+# Compiled file
 /public/js/*
 /public/css/*
 
