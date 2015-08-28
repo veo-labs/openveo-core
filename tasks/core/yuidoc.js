@@ -16,19 +16,6 @@ module.exports = {
         }
       }
     }
-  },
-  
-  // API doc
-  api : {
-    name : "<%= pkg.name %>",
-    description : "<%= pkg.description %>",
-    version : "<%= pkg.version %>",
-    "options" : {
-      paths : "node_modules/openveo-api",
-      "outdir" : "./doc/openveo-api",
-      "linkNatives" : true,
-      "exclude" : "tests,node_modules"
-    }
   }
   
 };
