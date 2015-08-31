@@ -2,7 +2,7 @@
 
 // Module dependencies
 var passport = require("passport");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var LocalStrategy = require("passport-local").Strategy;
 var UserModel = process.require("app/server/models/UserModel.js");
 var RoleModel = process.require("app/server/models/RoleModel.js");

@@ -3,14 +3,14 @@
 // Module dependencies
 var path = require("path");
 var assert = require("chai").assert;
-var ut = require("openveo-test").generator;
+var ut = require("@openveo/test").generator;
 
 // routeLoader.js
 describe("routeLoader", function(){
   var routeLoader, pluginConf;
 
   before(function(){
-    pluginConf = require("./plugins/node_modules/openveo-example/conf.json");
+    pluginConf = require("./plugins/node_modules/@openveo/example/conf.json");
     routeLoader = process.require("app/server/loaders/routeLoader.js");
   });
 
@@ -19,8 +19,8 @@ describe("routeLoader", function(){
     var routes, adminRoutes; 
 
     before(function(){
-      routes = routeLoader.decodeRoutes(path.join(__dirname, "plugins", "node_modules", "openveo-example"), pluginConf["routes"]["public"]);
-      adminRoutes = routeLoader.decodeRoutes(path.join(__dirname, "plugins", "node_modules", "openveo-example"), pluginConf["routes"]["admin"]);
+      routes = routeLoader.decodeRoutes(path.join(__dirname, "plugins", "node_modules", "@openveo/example"), pluginConf["routes"]["public"]);
+      adminRoutes = routeLoader.decodeRoutes(path.join(__dirname, "plugins", "node_modules", "@openveo/example"), pluginConf["routes"]["admin"]);
     });
 
     it("Should load 4 public routes and ignores 3", function(){

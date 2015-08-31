@@ -15,7 +15,7 @@
 var util = require("util");
 var crypto = require("crypto");
 var winston = require("winston");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var applicationStorage = openVeoAPI.applicationStorage;
 
 /**

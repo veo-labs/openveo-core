@@ -2,8 +2,8 @@
 
 // Module dependencies
 var assert = require("chai").assert;
-var openVeoAPI = require("openveo-api");
-var ut = require("openveo-test").generator;
+var openVeoAPI = require("@openveo/api");
+var ut = require("@openveo/test").generator;
 
 // ClientModel.js
 describe("CientModel", function(){

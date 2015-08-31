@@ -6,7 +6,7 @@
 
 // Module dependencies
 var util = require("util");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 
 /**
  * Defines a ClientProvider class to get and save Web Service client 

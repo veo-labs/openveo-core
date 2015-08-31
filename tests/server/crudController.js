@@ -2,9 +2,9 @@
 
 // Module dependencies
 var assert = require("chai").assert;
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var applicationStorage = openVeoAPI.applicationStorage;
-var ut = require("openveo-test").generator;
+var ut = require("@openveo/test").generator;
 
 // crudController.js
 describe("crudController", function(){

@@ -12,7 +12,7 @@
  */
 
 // Module dependencies
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var ClientModel = process.require("app/server/models/ClientModel.js");
 
 var applicationStorage = openVeoAPI.applicationStorage;

@@ -14,7 +14,7 @@ var path = require("path");
 var fs = require("fs");
 var async = require("async");
 var winston = require("winston");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 
 // Get logger
 var logger = winston.loggers.get("openveo");

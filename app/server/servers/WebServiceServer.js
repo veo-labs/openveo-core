@@ -7,7 +7,7 @@
 // Module dependencies
 var util = require("util");
 var express = require("express");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var bodyParser = require("body-parser");
 var Server = process.require("app/server/servers/Server.js");
 var oAuth = process.require("app/server/oauth/oAuth.js");

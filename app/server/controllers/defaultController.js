@@ -14,7 +14,7 @@
 // Module dependencies
 var util = require("util");
 var winston = require("winston");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var path = require("path");
 
 // Module files

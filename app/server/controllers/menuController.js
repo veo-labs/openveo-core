@@ -11,7 +11,7 @@
  */
 
 // Module dependencies
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var applicationStorage = openVeoAPI.applicationStorage;
 
 /**

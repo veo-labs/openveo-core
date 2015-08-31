@@ -20,7 +20,7 @@ logs
 *.log
 
 # Project npm dependencies
-node_modules/*
+node_modules
 
 # Bower libraries
 public/lib
@@ -30,8 +30,8 @@ nbproject/
 config/*
 
 # Deliver
-dump/
-build/
+dump
+build
 
 # Sass
 .sass-cache/

@@ -15,7 +15,7 @@ var fs = require("fs");
 var path = require("path");
 var async = require("async");
 var winston = require("winston");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 
 // Module files
 var routeLoader = process.require("/app/server/loaders/routeLoader");
@@ -26,7 +26,7 @@ var logger = winston.loggers.get("openveo");
 var env = ( process.env.NODE_ENV == 'production')?'prod':'dev';
 
 /**
- * Recursively and asynchronously load all npm plugins prefixed by "openveo-" under the given path.
+ * Recursively and asynchronously load all npm plugins prefixed by "@openveo/" under the given path.
  *
  * If the same plugin is encountered several times, the top level one 
  * will be kept.
@@ -42,8 +42,7 @@ var env = ( process.env.NODE_ENV == 'production')?'prod':'dev';
  * @method loadPlugins
  * @static  
  * @async
- * @param {String} startingPath Root path from where looking for 
- * openveo-* plugins.
+ * @param {String} startingPath Root path from where looking for plugins.
  * @param {Function} callback A callback with two arguments :
  *    - **Error** An Error object or null
  *    - **Array** A list of Plugin objects
@@ -120,13 +119,13 @@ module.exports.loadPlugins = function(startingPath, callback){
  *      end page
  *    - A list of CSS files to load while accessing the back end page
  *  - The plugin main file as an Object inherited from the 
- *    Plugin Object (see Plugin.js in openveo-api module)
+ *    Plugin Object (see Plugin.js in @openveo/api module)
  * 
  * @example
  *     var pluginLoader = process.require("app/server/lodaers/pluginLoader.js");
  *
  *     // Load a plugin
- *     pluginLoader.loadPlugin("/node_modules/openveo-publish", function(error, loadedPlugin){
+ *     pluginLoader.loadPlugin("/node_modules/@openveo/publish", function(error, loadedPlugin){
  *       console.log(loadedPlugin);
  *     }
  *
@@ -143,20 +142,19 @@ module.exports.loadPlugin = function(pluginPath, callback){
   var plugin = { path : pluginPath };
 
   // Extract the plugin(s) name(s) from the plugin path
-  // e.g : /www/openveo/node_modules/openveo-plugin1/node_modules/openveo-plugin2
+  // e.g : /www/openveo/node_modules/@openveo/plugin1/node_modules/@openveo/plugin2
   // The plugin to load is openveo-plugin2
   // and is also a subplugin of openveo-plugin1
   var pathChunks = pluginPath.split("node_modules");
   
   // Keep only the plugin parts
-  // e.g : ["/openveo-plugin1/", "/openveo-plugin2"]
+  // e.g : ["/@openveo/plugin1/", "@openveo/plugin2"]
   pathChunks.shift(0);
   
-  // Clean plugins names removing slashes and 
-  // "openveo-" prefix
+  // Clean plugins names removing scope and slashes
   // e.g : ["plugin1", "plugin2"]
   var pluginPathComposition = pathChunks.map(function(pluginName){
-    return pluginName.replace(/^[\/|\\]?openveo-([^/\\]*)[\/|\\]?$/, "$1");
+    return pluginName.replace(/^[\/|\\]?@openveo\/([^/\\]*)[\/|\\]?$/, "$1");
   });
   
   try{
@@ -166,7 +164,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
 
     // Validate that we are sharing the same openveo API and that
     // the main file returned by the plugin is a valid instance
-    // of the Plugin Object from openveo-api plugin
+    // of the Plugin Object from @openveo/api plugin
     if(Plugin.prototype instanceof openVeoAPI.Plugin && pluginPathComposition.length){
       
       // Instanciate the Plugin Object
@@ -343,11 +341,11 @@ module.exports.loadPlugin = function(pluginPath, callback){
  * 
  * @example
  *     var pluginsPaths = [ 
- *       "/openveo/node_modules/openveo-plugin1",
- *       "/openveo/node_modules/openveo-plugin2/node_modules/openveo-plugin1"
+ *       "/openveo/node_modules/@openveo/plugin1",
+ *       "/openveo/node_modules/@openveo/plugin2/node_modules/@openveo/plugin1"
  *     ];
  *     console.log(filterPluginsPaths(pluginsPaths));
- *     // [ "/openveo/node_modules/openveo-plugin1" ]
+ *     // [ "/openveo/node_modules/@openveo/plugin1" ]
  *
  * @method filterPluginsPaths
  * @private
@@ -365,8 +363,8 @@ var filterPluginsPaths = function(pluginsPaths){
     pluginsPaths.forEach(function(pluginPath){
       
       // Extract plugin name
-      // e.g "/openveo/node_modules/openveo-plugin1"
-      // becomes "openveo-plugin1"
+      // e.g "/openveo/node_modules/@openveo/plugin1"
+      // becomes "@openveo/plugin1"
       var pluginName = path.basename(pluginPath);
       
       // Plugin already analyzed
@@ -393,16 +391,16 @@ var filterPluginsPaths = function(pluginsPaths){
 
 /**
  * Recursively and asynchronously analyze the given directory to get
- * npm plugins prefixed by "openveo-".
+ * npm plugins in @openveo scope directory.
  *
  * It assumes that the startingPath argument correspond to a valid
  * directory path.
  *
  * @example
- *     getPluginsPaths("/node_modules", function(error, pluginsPaths){
+ *     getPluginsPaths("/node_modules/@openveo", function(error, pluginsPaths){
  *       console.log(pluginsPaths);
  *       // [
- *       //   '/home/veo-labs/openveo/node_modules/openveo-publish
+ *       //   '/home/veo-labs/openveo/node_modules/@openveo/publish
  *       // ]
  *     };
  *
@@ -410,7 +408,7 @@ var filterPluginsPaths = function(pluginsPaths){
  * @private
  * @static  
  * @param {String} startingPath Root path from where looking for 
- * openveo-* plugins.
+ * @openveo/* plugins.
  * @param {Function} callback A callback with two arguments :
  *    - **Error** An Error object or null
  *    - **Array** The list of plugins paths
@@ -442,18 +440,18 @@ var getPluginsPaths = function(startingPath, callback){
             return callback(error);
 
           // Resource correspond to an openveo plugin
-          if(stats.isDirectory() && resource.indexOf("openveo-") === 0){
+          if(stats.isDirectory()){
             pluginsPaths.push(path.join(startingPath, resource));
 
-            // Test if node_modules directory exists under the 
+            // Test if node_modules/@openveo directory exists under the
             // plugin directory
-            fs.exists(path.join(startingPath, resource, "node_modules"), function(exists){
+            fs.exists(path.join(startingPath, resource, "node_modules", "@openveo"), function(exists){
 
-              // node_modules directory exists
+              // node_modules/@openveo directory exists
               if(exists){
                 
-                // Recursively load openveo- modules inside the new
-                // node_modules directory
+                // Recursively load modules inside the new
+                // node_modules/@openveo directory
                 resources = getPluginsPaths(path.join(startingPath, resource, "node_modules"), function(error, subPluginsPaths){
 
                   if(error)
@@ -478,15 +476,6 @@ var getPluginsPaths = function(startingPath, callback){
 
               }
             });
-            
-            if(!pendingFilesNumber)
-              callback(null, pluginsPaths);
-          }
-          
-          // Resource does not correspond to an openveo plugin
-          // Mark resource as treated
-          else{
-            pendingFilesNumber--;
             
             if(!pendingFilesNumber)
               callback(null, pluginsPaths);

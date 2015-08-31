@@ -6,7 +6,7 @@
 
 // Module dependencies
 var util = require("util");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 
 /**
  * Defines a TaxonomyProvider class to get and save taxonomies.

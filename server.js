@@ -3,7 +3,7 @@
 // Module dependencies
 var path = require("path");
 var async = require("async");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var applicationStorage = openVeoAPI.applicationStorage;
 
 // Set module root directory and define a custom require function
@@ -73,7 +73,7 @@ async.series([
   // Load openveo plugins under node_modules directory
   function(callback){
 
-    pluginLoader.loadPlugins(path.join(process.root, "node_modules"), function(error, plugins){
+    pluginLoader.loadPlugins(path.join(process.root, "node_modules", "@openveo"), function(error, plugins){
 
       // An error occurred when loading plugins
       // The server must not be launched, exit process

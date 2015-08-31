@@ -13,7 +13,7 @@
 
 // Module dependencies
 var winston = require("winston");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var pathUtil = process.require("app/server/path.js");
 var errors = process.require("app/server/httpErrors.js");
 

@@ -6,7 +6,7 @@
 
 // Module dependencies
 var util = require("util");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 
 var TaxonomyProvider = process.require("app/server/providers/TaxonomyProvider.js");
 

@@ -12,7 +12,7 @@
 
 // Module dependencies
 var winston = require("winston");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var errors = process.require("app/server/httpErrors.js");
 
 var TaxonomyModel = process.require("app/server/models/TaxonomyModel.js");

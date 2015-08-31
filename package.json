@@ -1,23 +1,26 @@
 {
-  "name": "openveo",
+  "name": "@openveo/core",
   "version": "0.0.2",
-  "description": "TODO",
-  "private": true,
+  "description": "OpenVeo core application and Web Service",
+  "publishConfig": {
+    "registry": "http://87.98.155.235:4873/"
+  },
   "keywords": [
-    "TODO"
+    "openveo",
+    "veo-labs"
   ],
-  "homepage": "https://github.com/TODO",
+  "homepage": "https://gitlab.com/TODO",
   "bugs": {
-    "url": "https://github.com/TODO"
+    "url": "https://gitlab.com/TODO"
   },
   "license": "TODO",
-  "author": "Vodalys-Labs <info@vodalys-labs.com> (http://www.vodaly-labs.com/)",
+  "author": "Veo-Labs <info@veo-labs.com> (http://www.veo-labs.com/)",
   "files": [
     "An array of files to automatically include in the project's package"
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/TODO"
+    "url": "https://gitlab.com/TODO"
   },
   "dependencies": {
     "JSONPath": "^0.10.0",

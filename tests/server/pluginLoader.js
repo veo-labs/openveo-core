@@ -3,7 +3,7 @@
 // Module dependencies
 var path = require("path");
 var assert = require("chai").assert;
-var ut = require("openveo-test").generator;
+var ut = require("@openveo/test").generator;
 
 // pluginLoader.js
 describe("pluginLoader", function(){
@@ -33,7 +33,7 @@ describe("pluginLoader", function(){
   describe("loadPlugin", function(){
 
     it("Should load plugin example with a public router, an admin router and a webservice router", function(done){
-      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "openveo-example"), function(error, loadedPlugin){
+      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo/example"), function(error, loadedPlugin){
         assert.isObject(loadedPlugin);
         assert.isDefined(loadedPlugin.router);
         assert.isFunction(loadedPlugin.router);
@@ -69,7 +69,7 @@ describe("pluginLoader", function(){
     });
     
     it("Should load plugin subExample", function(done){
-      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "openveo-subExample"), function(error, loadedPlugin){
+      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo/subExample"), function(error, loadedPlugin){
         assert.isObject(loadedPlugin);
         assert.isUndefined(loadedPlugin.router);
         assert.isUndefined(loadedPlugin.mountPath);

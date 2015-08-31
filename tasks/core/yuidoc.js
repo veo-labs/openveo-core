@@ -11,8 +11,8 @@ module.exports = {
       linkNatives : true,
       "external": {
         "data" : {
-          "base" : "../../openveo-api/",
-          "json" : "./doc/openveo-api/data.json"
+          "base" : "../../api/",
+          "json" : "./doc/api/data.json"
         }
       }
     }

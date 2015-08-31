@@ -7,7 +7,7 @@
 // Module dependencies
 var util = require("util");
 var crypto = require("crypto");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 
 var ClientProvider = process.require("app/server/providers/ClientProvider.js");
 

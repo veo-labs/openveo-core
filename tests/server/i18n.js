@@ -3,8 +3,8 @@
 // Module dependencies
 var path = require("path");
 var assert = require("chai").assert;
-var openVeoAPI = require("openveo-api");
-var ut = require("openveo-test").generator;
+var openVeoAPI = require("@openveo/api");
+var ut = require("@openveo/test").generator;
 var applicationStorage = openVeoAPI.applicationStorage;
 
 // i18n.js

@@ -12,7 +12,7 @@
 
 // Module dependencies
 var crypto = require("crypto");
-var openVeoAPI = require("openveo-api");
+var openVeoAPI = require("@openveo/api");
 var TokenModel = process.require("app/server/models/TokenModel.js");
 
 var applicationStorage = openVeoAPI.applicationStorage;
