@@ -80,7 +80,6 @@
         "/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js",
         "/lib/angular-xeditable/dist/js/xeditable.min.js",
         "/lib/checklist-model/checklist-model.js",
-        "/lib/multirange/multirange.js",
         "/lib/ng-jsonpath/dist/ng-jsonpath.min.js",
         "/lib/ng-tasty/ng-tasty-tpls.min.js"
       ],
@@ -121,7 +120,6 @@
       "/lib/angular-bootstrap/ui-bootstrap-csp.css",
       "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
       "/lib/angular-xeditable/dist/css/xeditable.css",
-      "/lib/multirange/multirange.css",
       "/css/style.css"
     ]
   },

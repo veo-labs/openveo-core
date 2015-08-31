@@ -61,6 +61,7 @@
  */
   function CategoryFilter(jsonPath){
     return function(input, rubrics) {
+      //get title of elements in rubrics where id is "input"
       var name = jsonPath(rubrics, '$..*[?(@.id=="'+input+'")].title');
       if (name && name.length>0)  return name[0];
       else return "";
@@ -73,6 +74,7 @@
  */
  function TableReloadEventService($rootScope) {
     var sharedService = {};
+    // deliver a broadcast service to reload datatable
     sharedService.broadcast = function () {
       $rootScope.$broadcast('reloadDataTable');
     };
@@ -121,6 +123,7 @@
   function FormEditController($scope, $filter) {
     
     var fec = this;
+    // init the form on a row
     fec.init = function(row){
       fec.model = row;
       //Call init function if defined to set up dynamically some fields
@@ -129,10 +132,11 @@
       fec.originalFields = fec.fields;
     };
     
+    // When submit the form
     fec.onSubmit = function () {
       if ($scope.editFormContainer.onSubmit) {
-        //Call submit function
         fec.model.saving = true;
+        //Call submit function
         $scope.editFormContainer.onSubmit(fec.model, function () {
           //on success 
           //save value in the fields as initial value
@@ -146,10 +150,13 @@
           fec.model.saving = false;
         });
       } else {
+        //if there is no submit function : alert
         $scope.$emit("setAlert", 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
       }
     };
     fec.options = {};
+    
+    // Toggle between show and editable information
     fec.editForm = function(){
       $scope.editFormContainer.pendingEdition = true;
       fec.form.$show();
@@ -236,7 +243,9 @@
       loadOnInit: true
     };
     
+    //Enable selectAll option
     if(dataTable.showSelectAll) dataTable.customTheme['templateHeadUrl'] = 'views/elements/head.html';
+    //Pagination template
     dataTable.customTheme['templateUrl'] = 'views/elements/pagination.html';
     
     
@@ -324,7 +333,7 @@
       return false;
     }
     
-    // call to check all selection checkbox
+    // call to check all unlocked selection checkbox 
     dataTable.checkAll = function () {
         angular.forEach(dataTable.rows, function (row) {
             if(!row.locked){
@@ -337,12 +346,13 @@
     dataTable.uncheckOne = function(){
         dataTable.selectAll = false;
         dataTable.isRowSelected = false;
+        // if one still selected, isRowSelected = true
         angular.forEach(dataTable.rows, function (row) {
           if(row.selected) dataTable.isRowSelected = true;
         });
     };
     
-    // Verify if an action is enable for all row
+    // Verify if an action is enable for all selected row
     dataTable.verifyCondition = function(action){
       var enable = true;
       for(var i=0; i<dataTable.rows.length && enable; i++){
@@ -391,7 +401,7 @@
       modalInstance.result.then(function(){
         action(item, dataTable.reloadCallback);
       }, function () {
-        
+        // Do nothing
       });
     };
   }

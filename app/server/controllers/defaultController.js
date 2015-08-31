@@ -50,7 +50,9 @@ module.exports.defaultAction = function(request, response, next){
   response.locals.librariesScriptsBase = applicationConf["backOffice"]["scriptLibFiles"]['base'] || [];
   response.locals.librariesScripts = applicationConf["backOffice"]["scriptLibFiles"][env] || [];
   response.locals.librariesScripts = response.locals.librariesScriptsBase.concat(response.locals.librariesScripts);
+  response.locals.scriptsBase = applicationConf["backOffice"]["scriptFiles"]['base'] || [];
   response.locals.scripts = applicationConf["backOffice"]["scriptFiles"][env] || [];
+  response.locals.scripts = response.locals.scriptsBase.concat(response.locals.scripts);
   response.locals.css = applicationConf["backOffice"]["cssFiles"] || [];
   response.locals.version = [{name:applicationVersion["name"], version:applicationVersion["version"]}] || [];
   
@@ -59,19 +61,24 @@ module.exports.defaultAction = function(request, response, next){
 
     plugins.forEach(function(plugin){
 
+
       // Plugin has a name and has a back office page configured.
       // It must have an angularjs module associated to it
       if(plugin.name && plugin.menu)
         angularJsModules.push("\"" + plugin.name.toLowerCase() + "\"");
 
       // Plugin has JavaScript libraries files to load
-      if(plugin["scriptLibFiles"] && util.isArray(plugin["scriptLibFiles"]))
-        response.locals.librariesScripts = response.locals.librariesScripts.concat(plugin["scriptLibFiles"]);
+      if(plugin["scriptLibFiles"] && util.isArray(plugin["scriptLibFiles"]["base"]))
+        response.locals.librariesScripts = response.locals.librariesScripts.concat(plugin["scriptLibFiles"]["base"]);
+      if(plugin["scriptLibFiles"] && util.isArray(plugin["scriptLibFiles"][env]))
+        response.locals.librariesScripts = response.locals.librariesScripts.concat(plugin["scriptLibFiles"][env]);
 
       // Plugin has JavaScript files to load
       // Load files before main plugin JavaScript files
-      if(plugin["scriptFiles"] && util.isArray(plugin["scriptFiles"]))
-        response.locals.scripts = plugin["scriptFiles"].concat(response.locals.scripts);
+      if(plugin["scriptFiles"] && util.isArray(plugin["scriptFiles"]["base"]))
+        response.locals.scripts = plugin["scriptFiles"]["base"].concat(response.locals.scripts);
+      if(plugin["scriptFiles"] && util.isArray(plugin["scriptFiles"][env]))
+        response.locals.scripts = plugin["scriptFiles"][env].concat(response.locals.scripts);
 
       // Plugin has CSS files to load
       if(plugin["cssFiles"] && util.isArray(plugin["cssFiles"]))

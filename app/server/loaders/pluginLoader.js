@@ -294,7 +294,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
 
                 // Retrieve back end scripts and css from plugin conf
                 plugin.scriptLibFiles = backEndConf["scriptLibFiles"] || null;
-                plugin.scriptFiles = backEndConf["scriptFiles"][env] || null;
+                plugin.scriptFiles = backEndConf["scriptFiles"] || null;
                 plugin.cssFiles = backEndConf["cssFiles"] || null;
                 
               }

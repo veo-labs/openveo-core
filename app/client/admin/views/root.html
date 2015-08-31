@@ -4,14 +4,15 @@
     <title ng-bind="title | translate"></title>
     <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    {{=[[ ]]=}}
 
-    {{#css}}
-    <link rel="stylesheet" type="text/css" href="{{.}}">
-    {{/css}}
+    [[#css]]
+    <link rel="stylesheet" type="text/css" href="[[.]]">
+    [[/css]]
 
     <script>
-      var version = {{{version}}};
-      var plugins = [{{{angularJsModules}}}];
+      var version = [[& version]];
+      var plugins = [ [[& angularJsModules]] ];
     </script>
   </head>
 
@@ -66,14 +67,14 @@
       <div ng-if="displayMainMenu" id="sidebar-wrapper">
         <ul class="sidebar-nav">
           <li ng-if="!item.subMenu || !item.subMenu.length" ng-repeat="(holder, item) in menu" ng-class="{'active' : item.active}">
-            <a href="[[item.path]]" ng-bind="item.label | translate"></a>
+            <a href="{{item.path}}" ng-bind="item.label | translate"></a>
           </li>
           <li ng-if="item.subMenu && item.subMenu.length" ng-repeat="(holder, item) in menu"  ng-class="{'open':indexOpen == $index, 'current' : item.active}">
             <a href="#" ng-click="toggleSidebarSubMenu($index)"><i class="icon-angle-down"></i><span ng-bind="item.label | translate"></span></a>
             <ul class="sub-menu">
               <li ng-repeat="subItem in item.subMenu" ng-class="{'current' : subItem.active}">
 
-                <a href="[[subItem.path]]" ><i class="icon-angle-right"></i><span ng-bind="subItem.label | translate"></span></a>
+                <a href="{{subItem.path}}" ><i class="icon-angle-right"></i><span ng-bind="subItem.label | translate"></span></a>
               </li>
             </ul>
           </li>
@@ -83,28 +84,28 @@
         <div class="container">
           <div  ng-if="displayMainMenu" id="content">
             <div class="alert-container">
-            <alert ng-repeat="alert in alerts" type="[[alert.type]]" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
+            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
             </div>
-            <div ng-view ng-class="{'vertical-center-row': verticalAlign}"></div>
+            <div ng-view ng-class="[transitionClass, {'vertical-center-row': verticalAlign}]" class="view"></div>
 
           </div>
           <div ng-if="!displayMainMenu" class="login-screen">
-              <alert ng-repeat="alert in alerts" type="[[alert.type]]" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
-              <div ng-view ng-class="{'vertical-center-row': verticalAlign}"></div>
+              <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
+              <div ng-view ng-class="[transitionClass, {'vertical-center-row': verticalAlign}]" class="view"></div>
           </div>
         </div>
       </div>
     </div>
 
 
-    {{#librariesScripts}}
-    <script type="text/javascript" src="{{.}}"></script>
-    {{/librariesScripts}}
+    [[#librariesScripts]]
+    <script type="text/javascript" src="[[.]]"></script>
+    [[/librariesScripts]]
 
-    {{#scripts}}
-    <script type="text/javascript" src="{{.}}"></script>
-    {{/scripts}}
+    [[#scripts]]
+    <script type="text/javascript" src="[[.]]"></script>
+    [[/scripts]]
 
   </body>
-
+  [[={{ }}=]]
 </html>

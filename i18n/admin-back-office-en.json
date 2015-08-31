@@ -140,6 +140,8 @@
     "SELECT_ALL" : "Select all rows",
     "WARNING": "Warning",
     "WARNING_MODAL_ACTION": "You are going to modify permanently your information. <br> <h2>Are you sure?</h2>",
-    "SHARE": "Share"
+    "SHARE": "Share",
+    "BEGIN": "Begin",
+    "END": "End"
   }
 }

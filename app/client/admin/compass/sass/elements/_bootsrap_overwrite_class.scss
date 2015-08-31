@@ -1,7 +1,11 @@
 @import "compass/css3/transition";
 .collapsing{
-   @include single-transition(all, 0.2s, ease);
+   @include single-transition(all, 0.35s, ease);
 }
+.collapse{
+   min-height: 0; 
+}
+    
 .collapse, .in{
   display:block;
   overflow:hidden;

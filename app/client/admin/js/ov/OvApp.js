@@ -49,21 +49,16 @@
    * Changes the delimiter to avoid conflict with server
    * template rendering engine.
    */
-  function App($interpolateProvider) {
-    $interpolateProvider.startSymbol("[[");
-    $interpolateProvider.endSymbol("]]");
-  }
+  function App($interpolateProvider) {}
   
   app.run(["editableOptions", "formlyConfig",function (editableOptions, formlyConfig) {
 
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
-    formlyConfig.templateManipulators.postWrapper.push(function(template, options, scope) {
-      return template.replace(/{{/g, '[[').replace(/]}}/g, '];]]').replace(/}}/g, ']]');
-    });
+
     formlyConfig.setWrapper({
         name: 'collapse',
         template: ['<div class="panel panel-default">',
-          '<div for="[[::id]]" class="panel-heading" ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">[[to.labelCollapse]]</div>',
+          '<div for="{{::id}}" class="panel-heading" ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">{{to.labelCollapse}}</div>',
           '<div class="panel-body" collapse="isCollapsed">',
           '<formly-transclude></formly-transclude>',
           '</div></div>'
@@ -73,8 +68,8 @@
     formlyConfig.setWrapper({
       name: 'horizontalBootstrapLabel',
       template: [
-        '<label for="[[::id]]" class="col-md-4 control-label">',
-        '[[to.label]] [[to.required ? "*" : ""]]',
+        '<label for="{{::id}}" class="col-md-4 control-label">',
+        '{{to.label}} {{to.required ? "*" : ""}}',
         '</label>',
         '<div class="col-md-8">',
         '<formly-transclude></formly-transclude>',
@@ -83,13 +78,13 @@
     });
     formlyConfig.setType({
       name:"emptyrow",
-      template:'<div class="well well-sm">[[to.message]]</div>',
+      template:'<div class="well well-sm">{{to.message}}</div>',
       wrapper:['horizontalBootstrapLabel', 'bootstrapHasError']
     });
     //input type
     formlyConfig.setType({
       extends: 'input',
-      template: '<div class="editable"><span editable-text="model[options.key]" e-name="[[::id]]" onbeforesave="checkNotEmpty($data)">[[ model[options.key] || (\'UI.EMPTY\'|translate) ]]</span></div>',
+      template: '<div class="editable"><span editable-text="model[options.key]" e-name="{{::id}}" onbeforesave="checkNotEmpty($data)">{{ model[options.key] || (\'UI.EMPTY\'|translate) }}</span></div>',
       name: 'editableInput',
       link: /* @ngInject */ function(scope, el, attrs) {
         scope.checkNotEmpty = function(data){
@@ -100,8 +95,8 @@
     formlyConfig.setType({
       extends: 'select',
       template: '<div class="editable">\n\
-<span editable-select="model[options.key]" e-name="[[::id]]" e-ng-options="s.value as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n\
-[[ (to.options | filter:{value: model[options.key]})[0].name ||  (\'UI.EMPTY\'|translate) ]]\n\
+<span editable-select="model[options.key]" e-name="{{::id}}" e-ng-options="s.value as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n\
+{{ (to.options | filter:{value: model[options.key]})[0].name ||  (\'UI.EMPTY\'|translate) }}\n\
 </div>',
       name: 'editableSelect',
       link: /* @ngInject */ function(scope, el, attrs) {
@@ -113,8 +108,8 @@
     formlyConfig.setType({
       extends: 'multiCheckbox',
       template: '<div class="editable">\n\
-<span editable-checklist="model[options.key]" e-name="[[::id]]" e-ng-options="s.id as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n\
-[[ showChecked() | translate]]\n\
+<span editable-checklist="model[options.key]" e-name="{{::id}}" e-ng-options="s.id as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n\
+{{ showChecked() | translate}}\n\
 </div>',
       name: 'editableChecklist',
       link: /* @ngInject */ function(scope, el, attrs) {
