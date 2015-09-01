@@ -154,7 +154,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
   // Clean plugins names removing scope and slashes
   // e.g : ["plugin1", "plugin2"]
   var pluginPathComposition = pathChunks.map(function(pluginName){
-    return pluginName.replace(/^[\/|\\]?@openveo\/([^/\\]*)[\/|\\]?$/, "$1");
+    return pluginName.replace(/^[\/|\\]?@openveo[\/|\\]([^/\\]*)[\/|\\]?$/, "$1");
   });
   
   try{
@@ -452,7 +452,7 @@ var getPluginsPaths = function(startingPath, callback){
                 
                 // Recursively load modules inside the new
                 // node_modules/@openveo directory
-                resources = getPluginsPaths(path.join(startingPath, resource, "node_modules"), function(error, subPluginsPaths){
+                resources = getPluginsPaths(path.join(startingPath, resource, "node_modules", "@openveo"), function(error, subPluginsPaths){
 
                   if(error)
                     return callback(error);

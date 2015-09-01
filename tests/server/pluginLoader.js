@@ -17,7 +17,7 @@ describe("pluginLoader", function(){
   describe("loadPlugins", function(){
 
     it("Should load plugins example and subExample", function(done){
-      pluginLoader.loadPlugins(path.join(__dirname, "plugins", "node_modules"), function(error, plugins){
+      pluginLoader.loadPlugins(path.join(__dirname, "plugins", "node_modules", "@openveo"), function(error, plugins){
         assert.ok(!error && plugins);
         assert.isArray(plugins);
         assert.equal(plugins.length, 2);
@@ -33,7 +33,7 @@ describe("pluginLoader", function(){
   describe("loadPlugin", function(){
 
     it("Should load plugin example with a public router, an admin router and a webservice router", function(done){
-      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo/example"), function(error, loadedPlugin){
+      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo", "example"), function(error, loadedPlugin){
         assert.isObject(loadedPlugin);
         assert.isDefined(loadedPlugin.router);
         assert.isFunction(loadedPlugin.router);
