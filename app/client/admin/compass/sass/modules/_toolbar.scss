@@ -15,10 +15,11 @@ $sidebar-submenu-bg : #fff;
 
 #wrapper {
   padding-left: 0;
+  height:100%;
   @include single-transition(all, 0.5s, ease, 0.2s);
 
   #sidebar-wrapper {
-    background: $sidebar-bg none repeat scroll 0 0;
+    background:  url("../images/bloc_veobox_header.png") no-repeat 45% 100% $sidebar-bg;
     height: 100%;
     left: 250px;
     margin-left: -250px;
@@ -35,11 +36,15 @@ $sidebar-submenu-bg : #fff;
     overflow-x: hidden;
     position: absolute;
     width: 100%;
+    height:100%;
+    background:  url("../images/bloc_veobox_header_gray.png") no-repeat right bottom fixed #fff;
+   
     @include desktop-and-tablet(){
       position: relative;
     }
     #content{
-        margin-top:80px;
+        margin-top:60px;
+        position: relative;
       }
   }
 

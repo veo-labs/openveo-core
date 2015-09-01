@@ -16,3 +16,52 @@
 	}
 }*/
 
+.view{
+  position:absolute;
+  width:100%;
+}
+/* * * * * * * LR * * * * * * */
+.view.LR{
+  transition: all 1.2s ease ;
+}
+
+.view.LR.ng-enter {
+ transition-delay: 0.2s;
+    left: -140%;
+}
+
+.view.LR.ng-enter-active {
+     left: 0;
+}
+
+.view.LR.ng-leave {
+     
+     left: 0;
+}
+
+.view.LR.ng-leave-active {
+     left: -140%;
+}
+
+/* * * * * * * RL * * * * * * */
+.view.RL{
+    transition: all 1.2s ease;
+}
+
+.view.RL.ng-enter {
+  /*transition-delay: 0.2s;*/
+    left: 140%;
+}
+
+.view.RL.ng-enter-active {
+    left: 0;
+}
+
+.view.RL.ng-leave {
+     /*transition-delay: 0.2s;*/
+    left: 0;
+}
+
+.view.RL.ng-leave-active {
+    left: 140%;
+}

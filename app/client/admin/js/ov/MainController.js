@@ -3,21 +3,21 @@
   "use strict"
   
   app.controller("MainController", MainController);
-  MainController.$inject = ["$scope", "$location", "$route", "authenticationService", "menuService", "applicationService", "userService", "i18nService", "alertService", "$window"];
+  MainController.$inject = ["$rootScope", "$scope", "$location", "$route", "authenticationService", "menuService", "applicationService", "userService", "i18nService", "alertService", "$window"];
   
   /**
    * Defines the main controller parent of all controllers in the
    * application. All actions not handled in partials are handled
    * by the main controller.
    */
-  function MainController($scope, $location, $route, authenticationService, menuService, applicationService, userService, i18nService, alertService, $window, jsonPath){
+  function MainController($rootScope, $scope, $location, $route, authenticationService, menuService, applicationService, userService, i18nService, alertService, $window, jsonPath){
     $scope.displayMainMenu = false;
     $scope.isResponsiveMenuClosed = true;
     $scope.languages = i18nService.getLanguages();
     $scope.language = i18nService.getLanguageName(i18nService.getLanguage());
     $scope.indexOpen = -1;
     $scope.menuDropdownIsOpen = false;
-
+    $scope.newAnimation = "";
     /**
      * Opens / closes the main menu while displayed in small devices.
      */
@@ -78,20 +78,24 @@
       $scope.logout();
     });
 
+    $scope.$on("$routeChangeStart", function(event, route){
+      if(event.targetScope.newAnimation == 'LR') $scope.newAnimation = 'RL';
+      else if(event.targetScope.newAnimation == 'RL') $scope.newAnimation = 'LR';
+      else $scope.newAnimation = "";
+    });
     // Listen to route change success event to 
     // set new page title and offers access to the menu if 
     // user is authenticated
-    $scope.$on("$routeChangeSuccess", function(){
+    $scope.$on("$routeChangeSuccess", function(event, route){
       var userInfo = authenticationService.getUserInfo();
-
       if(userInfo){
         $scope.menu = menuService.getMenu();
         $scope.displayMainMenu = ($scope.menu) ? true : false;
         menuService.setActiveMenuItem();
       } else  $scope.displayMainMenu = false;
-
       // Change page title
       $scope.title = $route.current && $route.current.title || "";
+      $scope.newAnimation = $rootScope.newAnimation;
     });
 
     // Listen to the route change error event

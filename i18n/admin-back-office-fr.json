@@ -137,12 +137,14 @@
     "FORM_CANCEL" : "Annuler",
     "FORM_SAVE" : "Enregistrer",
     "FORM_ADD" : "Ajouter",
+    "FORM_NEW" : "Nouveau",
     "VIEW" : "Voir",
     "SELECT_ALL" : "Sélectionner toute les lignes",
     "WARNING": "Attention",
     "WARNING_MODAL_ACTION": "Vous vous apprêtez à modifier les informations de façon permanente. <br> <h2> En êtes vous sûr?</h2>",
     "SHARE": "Partager",
     "BEGIN": "Début",
-    "END": "Fin"
+    "END": "Fin",
+    "BACK": "Retour"
   }
 }
