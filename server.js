@@ -73,7 +73,7 @@ async.series([
   // Load openveo plugins under node_modules directory
   function(callback){
 
-    pluginLoader.loadPlugins(path.join(process.root, "node_modules", "@openveo"), function(error, plugins){
+    pluginLoader.loadPlugins(path.join(process.root), function(error, plugins){
 
       // An error occurred when loading plugins
       // The server must not be launched, exit process

@@ -59,7 +59,7 @@ module.exports.loadPlugins = function(startingPath, callback){
       callback(error);
       return;
     }
-    
+
     // Filter duplicate plugins to keep only the top level ones
     pluginsPaths = filterPluginsPaths(pluginsPaths);
     var plugins = [];
@@ -71,7 +71,7 @@ module.exports.loadPlugins = function(startingPath, callback){
       pluginsPaths.forEach(function(pluginPath){
         
         // Load the plugin
-        self.loadPlugin(pluginPath, function(error, loadedPlugin){
+        self.loadPlugin(pluginPath, startingPath, function(error, loadedPlugin){
           
           // An error occurred while loading the plugin
           // Skip the plugin and continue loading the other one
@@ -122,7 +122,7 @@ module.exports.loadPlugins = function(startingPath, callback){
  *    Plugin Object (see Plugin.js in @openveo/api module)
  * 
  * @example
- *     var pluginLoader = process.require("app/server/lodaers/pluginLoader.js");
+ *     var pluginLoader = process.require("app/server/loaders/pluginLoader.js");
  *
  *     // Load a plugin
  *     pluginLoader.loadPlugin("/node_modules/@openveo/publish", function(error, loadedPlugin){
@@ -133,30 +133,30 @@ module.exports.loadPlugins = function(startingPath, callback){
  * @static  
  * @async
  * @param {String} pluginPath Absolute path to the plugin directory
+ * @param {String} startingPath Root path from where looking for plugins.
  * @param {Function} callback A callback with two arguments :
  *    - **Error** An Error object or null
  *    - **Plugin** The loaded plugin or null
  */
-module.exports.loadPlugin = function(pluginPath, callback){
+module.exports.loadPlugin = function(pluginPath, startingPath, callback){
   
   var plugin = { path : pluginPath };
 
   // Extract the plugin(s) name(s) from the plugin path
-  // e.g : /www/openveo/node_modules/@openveo/plugin1/node_modules/@openveo/plugin2
-  // The plugin to load is openveo-plugin2
-  // and is also a subplugin of openveo-plugin1
-  var pathChunks = pluginPath.split("node_modules");
+  // e.g : [/www/openveo/]node_modules/@openveo/plugin1/node_modules/@openveo/plugin2
+  // The plugin to load is plugin2 and is also a subplugin of plugin1
+  var pathChunks = pluginPath.replace(startingPath, "").split(path.join("node_modules", "@openveo"));
   
   // Keep only the plugin parts
-  // e.g : ["/@openveo/plugin1/", "@openveo/plugin2"]
+  // e.g : ["/plugin1/", "/plugin2"]
   pathChunks.shift(0);
   
   // Clean plugins names removing scope and slashes
   // e.g : ["plugin1", "plugin2"]
   var pluginPathComposition = pathChunks.map(function(pluginName){
-    return pluginName.replace(/^[\/|\\]?@openveo[\/|\\]([^/\\]*)[\/|\\]?$/, "$1");
+    return pluginName.replace(/^[\/|\\]?([^/\\]*)[\/|\\]?$/, "$1");
   });
-  
+
   try{
 
     // Try to load the main file of the plugin
@@ -175,7 +175,7 @@ module.exports.loadPlugin = function(pluginPath, callback){
       // with the main openveo application
       // e.g "/plugin1"
       plugin.mountPath = "/" + pluginPathComposition.join("/");
-      
+
     }
   }
   catch(e){
@@ -183,6 +183,8 @@ module.exports.loadPlugin = function(pluginPath, callback){
       logger.info("Plugin " + pluginPath + " doesn't have a main file", {action : "loadPlugin", message: e.message});
     else
       logger.error("Error while loading plugin " + pluginPath, {action : "loadPlugin", "error" : e.message});
+
+    return callback(new Error(e.message));
   }
   
   // Complete plugin information adding the name of the plugin
@@ -359,12 +361,12 @@ var filterPluginsPaths = function(pluginsPaths){
   // Got at least one path
   if(pluginsPaths.length){
     var analyzedPaths = {};
-    
+
     pluginsPaths.forEach(function(pluginPath){
-      
+
       // Extract plugin name
       // e.g "/openveo/node_modules/@openveo/plugin1"
-      // becomes "@openveo/plugin1"
+      // becomes "plugin1"
       var pluginName = path.basename(pluginPath);
       
       // Plugin already analyzed
@@ -385,7 +387,7 @@ var filterPluginsPaths = function(pluginsPaths){
       filteredPaths.push(analyzedPaths[i]);
     
   }
-  
+
   return filteredPaths;
 };
 
@@ -416,6 +418,7 @@ var filterPluginsPaths = function(pluginsPaths){
 var getPluginsPaths = function(startingPath, callback){
 
   if(startingPath){
+    startingPath = path.join(startingPath, "node_modules", "@openveo");
     var pluginsPaths = [];
 
     // Open directory
@@ -452,7 +455,7 @@ var getPluginsPaths = function(startingPath, callback){
                 
                 // Recursively load modules inside the new
                 // node_modules/@openveo directory
-                resources = getPluginsPaths(path.join(startingPath, resource, "node_modules", "@openveo"), function(error, subPluginsPaths){
+                resources = getPluginsPaths(path.join(startingPath, resource), function(error, subPluginsPaths){
 
                   if(error)
                     return callback(error);

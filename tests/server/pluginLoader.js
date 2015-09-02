@@ -17,12 +17,13 @@ describe("pluginLoader", function(){
   describe("loadPlugins", function(){
 
     it("Should load plugins example and subExample", function(done){
-      pluginLoader.loadPlugins(path.join(__dirname, "plugins", "node_modules", "@openveo"), function(error, plugins){
+      pluginLoader.loadPlugins(path.join(__dirname, "plugins"), function(error, plugins){
         assert.ok(!error && plugins);
         assert.isArray(plugins);
-        assert.equal(plugins.length, 2);
+        assert.equal(plugins.length, 3);
         assert.equal(plugins[0].name, "example");
         assert.equal(plugins[1].name, "subExample");
+        assert.equal(plugins[2].name, "subExample2");
         done();
       });
     });
@@ -33,7 +34,7 @@ describe("pluginLoader", function(){
   describe("loadPlugin", function(){
 
     it("Should load plugin example with a public router, an admin router and a webservice router", function(done){
-      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo", "example"), function(error, loadedPlugin){
+      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo", "example"), path.join(__dirname, "plugins"), function(error, loadedPlugin){
         assert.isObject(loadedPlugin);
         assert.isDefined(loadedPlugin.router);
         assert.isFunction(loadedPlugin.router);
@@ -69,11 +70,21 @@ describe("pluginLoader", function(){
     });
     
     it("Should load plugin subExample", function(done){
-      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo/subExample"), function(error, loadedPlugin){
+      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo", "subExample"), path.join(__dirname, "plugins"), function(error, loadedPlugin){
         assert.isObject(loadedPlugin);
         assert.isUndefined(loadedPlugin.router);
         assert.isUndefined(loadedPlugin.mountPath);
         assert.equal(loadedPlugin.name, "subExample");
+        done();
+      });
+    });
+
+    it("Should load plugin subExample2 as a sub plugin of subExample", function(done){
+      pluginLoader.loadPlugin(path.join(__dirname, "plugins", "node_modules", "@openveo", "subExample", "node_modules", "@openveo", "subExample2"), path.join(__dirname, "plugins"), function(error, loadedPlugin){
+        assert.isObject(loadedPlugin);
+        assert.isUndefined(loadedPlugin.router);
+        assert.isUndefined(loadedPlugin.mountPath);
+        assert.equal(loadedPlugin.name, "subExample2");
         done();
       });
     });

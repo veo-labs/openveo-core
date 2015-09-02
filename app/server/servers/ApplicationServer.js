@@ -163,12 +163,16 @@ ApplicationServer.prototype.onPluginAvailable = function(plugin){
     this.publicDirectories.push(plugin.publicDirectory);
 
   // Mount plugin public router to the plugin front end mount path
-  if(plugin.router && plugin.mountPath)
+  if(plugin.router && plugin.mountPath){
+    logger.info("Mount routes on path %s", plugin.mountPath);
     this.app.use(plugin.mountPath, plugin.router);
+  }
 
   // Mount the admin router to the plugin back end mount path
-  if(plugin.adminRouter && plugin.mountPath)
+  if(plugin.adminRouter && plugin.mountPath){
+    logger.info("Mount routes on path /amin%s", plugin.mountPath);
     this.app.use("/admin" + plugin.mountPath, plugin.adminRouter);
+  }
 
   // Found back end menu configuration for the plugin
   if(plugin.menu)
