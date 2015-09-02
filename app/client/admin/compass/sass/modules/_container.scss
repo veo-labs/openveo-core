@@ -22,11 +22,11 @@
 }
 /* * * * * * * LR * * * * * * */
 .view.LR{
-  transition: all 1.2s ease ;
+  transition: all 0.7s ease ;
 }
 
 .view.LR.ng-enter {
- transition-delay: 0.2s;
+ 
     left: -140%;
 }
 
@@ -45,11 +45,10 @@
 
 /* * * * * * * RL * * * * * * */
 .view.RL{
-    transition: all 1.2s ease;
+    transition: all 0.7s ease;
 }
 
 .view.RL.ng-enter {
-  /*transition-delay: 0.2s;*/
     left: 140%;
 }
 
@@ -58,7 +57,6 @@
 }
 
 .view.RL.ng-leave {
-     /*transition-delay: 0.2s;*/
     left: 0;
 }
 
