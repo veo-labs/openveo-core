@@ -22,7 +22,6 @@
       <div class="container">
 
         <!-- Only visible on smartphones, menu toggle -->
-
         <div class="navbar-header">
           <button class="navbar-toggle collapsed" type="button" ng-click="toggleResponsiveMenu()">
             <span class="sr-only">Toggle navigation</span>
@@ -32,21 +31,18 @@
           </button>
         </div>
 
-
         <!-- Logo -->
-        <a class="navbar-brand" href="/admin">
+        <a class="navbar-brand" href="/admin" ng-click="closeResponsiveMenu();">
           <img alt="OpenVeo" src="/images/logo-white.png">
         </a>
         <!-- /logo -->
-
-
 
         <!-- /Sidebar Toggler -->
         <!-- Top Right Menu -->
         <ul class="nav navbar-nav navbar-right ">
 
           <li class="dropdown language" dropdown is-open="menuDropdownIsOpen">
-            <a href="#" class="dropdown-toggle" dropdown-toggle role="button"  ng-disabled="disabled"><span ng-bind="language | translate"> </span> <i class="icon-angle-down"></i></a>
+            <a href="#" ng-click="closeResponsiveMenu();" class="dropdown-toggle" dropdown-toggle role="button"  ng-disabled="disabled"><span ng-bind="language | translate"> </span> <i class="icon-angle-down"></i></a>
             <ul class="dropdown-menu" role="menu">
               <li ng-repeat="language in languages" ng-class="{'active' : language.active}">
                 <a href="#" ng-click="changeLanguage(language.value)" ng-bind="language.label | translate"></a>
@@ -54,10 +50,8 @@
             </ul>
           </li>
 
-
-
           <li>
-            <a href="/logout" ng-click="logout()" ng-bind="'MENU.LOGOUT' | translate"></a>
+            <a href="/logout" ng-click="closeResponsiveMenu();logout()" ng-bind="'MENU.LOGOUT' | translate"></a>
           </li>
         </ul>
       </div>
