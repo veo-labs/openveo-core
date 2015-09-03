@@ -31,6 +31,14 @@ $sidebar-submenu-bg : #fff;
     overflow:hidden;
     
   }
+  .close-listener{
+    z-index:10;
+    /*background: rgba(0,0,0,0.5);*/
+    margin-right: -250px;
+    position: absolute;
+    width: 100%;
+    height:100%;
+  }
 
   #page-content-wrapper {
     overflow-x: hidden;
