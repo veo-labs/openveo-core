@@ -5,7 +5,7 @@ module.exports = {
     options: {
       reporter: "spec"
     },
-    src: ["tests/server/*.js"]
+    src: ["tests/server/init.js", "tests/server/*.js"]
   }
   
 };
