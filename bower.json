@@ -10,7 +10,6 @@
     "angular-touch": "~1.4.3",
     "angular-ui-tree": "~2.8.0",
     "bootstrap-sass": "~3.3.5",
-    "multirange": "val-samonte/angular-multirange",
     "ng-jsonpath": "~0.1.3",
     "angular-xeditable": "~0.1.9",
     "angular-formly": "~6.20.1",

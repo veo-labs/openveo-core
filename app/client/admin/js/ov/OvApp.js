@@ -18,7 +18,6 @@
     "formly",
     "formlyBootstrap",
     "xeditable",
-    "vds.multirange",
     "ngJSONPath",
     "ngAnimate",
     "checklist-model"
