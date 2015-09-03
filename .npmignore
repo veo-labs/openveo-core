@@ -15,46 +15,43 @@ Desktop.ini
 ehthumbs.db
 
 # Logs
-logs
 *.log
+/logs
 
 # Project npm dependencies
-node_modules
+/node_modules
 
 # Bower libraries
-public/lib
+/public/lib
 
 # IDE
 nbproject
 
 # Deliver
-build
+/build
 
 # Sass
 .sass-cache
 
 # API examples
-api
-
-# Scripts
-script
+/api
 
 # Unit tests
-tests
+/tests
 
 # Front JavaScript files
-app/client/admin/compass
-app/client/admin/js
+/app/client/admin/compass
+/app/client/admin/js
 
 # Documentation (yuidoc)
-doc
+/doc
 
 # Grunt files
-Gruntfile.js
-tasks
+/Gruntfile.js
+/tasks
 
 # Nodemon
-nodemon.json
+/nodemon.json
 
 # Git
 .gitignore
