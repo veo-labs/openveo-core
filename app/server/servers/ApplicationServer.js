@@ -27,6 +27,8 @@ var errorController = process.require("app/server/controllers/errorController.js
 var applicationStorage = openVeoAPI.applicationStorage;
 var expressThumbnail = process.require("app/server/servers/ExpressThumbnail.js");
 
+var favicon = require('serve-favicon');
+
 /**
  * Application's environment mode.
  *
@@ -83,6 +85,8 @@ function ApplicationServer(){
     self.imagesFolders.push(path.normalize(process.root + "/" + folder));
   });
   self.imagesStyle = conf["imageProcessing"]["imagesStyle"] || {};
+  
+  this.app.use(favicon('public/favicon.ico'));
   
   // Set mustache as the template engine
   this.app.engine("html", consolidate.mustache);
