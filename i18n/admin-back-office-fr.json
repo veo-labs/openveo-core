@@ -127,6 +127,7 @@
   },
   "UI" : {
     "ALL": "Tous",
+    "NONE": "Aucun",
     "EMPTY" : "Aucun",
     "SEARCH_BY" : "Rechercher",
     "ACTIONS_COLUMN" : "Actions",

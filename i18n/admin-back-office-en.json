@@ -126,6 +126,7 @@
   },
   "UI" : {
     "ALL": "All",
+    "NONE" : "None",
     "EMPTY" : "Not set",
     "SEARCH_BY" : "Search",
     "ACTIONS_COLUMN" : "Actions",
