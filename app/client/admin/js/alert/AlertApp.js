@@ -12,21 +12,23 @@
 
     var alertService = {
       add: function (type, msg, timeout) {
-        $rootScope.alerts.push({
+        var alert = {
           type: type,
           msg: msg,
           close: function () {
+            if (alert.timeout) $timeout.cancel(this.timeout);
             return alertService.closeAlert(this);
-          }
-        });
-
-        if (timeout) {
-          $timeout(function () {
-            alertService.closeAlert(this);
-          }, timeout);
+          },
+          
         }
+        if (timeout)
+          alert.timeout = $timeout(function () {
+            alertService.closeAlert(alert);
+          }, timeout);
+        
+        $rootScope.alerts.push(alert);
       },
-      closeAlert: function (alert) {
+      closeAlert: function (alert) {;
         return this.closeAlertIdx($rootScope.alerts.indexOf(alert));
       },
       closeAlertIdx: function (index) {
