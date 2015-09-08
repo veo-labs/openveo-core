@@ -55,7 +55,7 @@ describe("pluginLoader", function(){
         assert.isDefined(loadedPlugin.scriptLibFiles);
         assert.isObject(loadedPlugin.scriptLibFiles);
         assert.isDefined(loadedPlugin.scriptFiles);
-        assert.isArray(loadedPlugin.scriptFiles);
+        assert.isObject(loadedPlugin.scriptFiles);
         assert.isDefined(loadedPlugin.cssFiles);
         assert.isArray(loadedPlugin.cssFiles);
         assert.isDefined(loadedPlugin.webServiceScopes);
