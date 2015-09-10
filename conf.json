@@ -33,9 +33,31 @@
   },
   "permissions" : [
     {
-      "id" : "access-application-page",
-      "name" : "PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME"
+      "id" : "access-applications-page",
+      "name" : "PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME",
+      "description" : "PERMISSIONS.ACCESS_APP_DESCRIPTION",
+      "paths" : [
+        "get /admin/ws/be/applications"
+      ]
+    },
+    {
+      "id" : "access-users-page",
+      "name" : "PERMISSIONS.ACCESS_USER_PAGE_NAME",
+      "description" : "PERMISSIONS.ACCESS_USER_DESCRIPTION",
+      "paths" : [
+        "get /admin/be/users",
+        "get /admin/crud/roles"
+      ]
+    },
+    {
+      "id" : "access-roles-page",
+      "name" : "PERMISSIONS.ACCESS_ROLES_PAGE_NAME",
+      "description" : "PERMISSIONS.ACCESS_ROLES_DESCRIPTION",
+      "paths" : [
+        "get /admin/be/roles"
+      ]
     }
+    
   ],
   "backOffice": {
     "menu" : [
@@ -46,7 +68,7 @@
           {
             "label" : "MENU.APPLICATIONS",
             "path" : "/admin/ws/be/applications",
-            "permission" : "access-application-page"
+            "permission" : "access-applications-page"
           }
         ]
       },
@@ -57,12 +79,12 @@
           {
             "label" : "MENU.USERS",
             "path" : "/admin/be/users",
-            "permission" : "read-user"
+            "permission" : "access-users-page"
           },
           {
             "label" : "MENU.ROLES",
             "path" : "/admin/be/roles",
-            "permission" : "read-role"
+            "permission" : "access-roles-page"
           }
         ]
       }

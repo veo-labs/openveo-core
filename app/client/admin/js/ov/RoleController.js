@@ -25,6 +25,16 @@
     
     /**
      * 
+     * RIGHTS
+     * 
+     */
+    $scope.rights = {};
+    $scope.rights.add = $scope.checkAccess('create-role');
+    $scope.rights.edit = $scope.checkAccess('update-role');
+    $scope.rights.delete = $scope.checkAccess('delete-role');
+    
+    /**
+     * 
      * DATATABLE
      */
     var scopeDataTable = $scope.tableContainer = {};
@@ -51,7 +61,7 @@
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
         "condition": function(row){
-          return !row.saving;
+          return $scope.rights.delete && !row.locked && !row.saving;
         },
         "callback": function (row, reload) {
           removeRows([row.id], reload);
@@ -119,6 +129,9 @@
       });
     }
 
+    scopeEditForm.conditionEditDetail = function (row) {
+      return $scope.rights.edit && !row.locked;
+    }
     scopeEditForm.onSubmit = function (model, successCb, errorCb) {
       savePerm(model, successCb, errorCb);
     }
@@ -163,7 +176,6 @@
      *  FORM Add user
      *  
      */
-
     var scopeAddForm = $scope.addFormContainer = {};
     scopeAddForm.model = {};
     scopeAddForm.fields = [

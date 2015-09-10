@@ -49,7 +49,7 @@
 
         if(path.indexOf("/admin") != 0)
           path = "/admin" + path;
- 
+
         $routeProvider.when(path, route);
       }
       

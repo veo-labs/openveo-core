@@ -77,7 +77,6 @@ module.exports.generateCRUDPermissions = function(entities){
   if(entities){
     var operations = {
       "create" : "put /crud/",
-      "read" : "get /crud/",
       "update" : "post /crud/",
       "delete" : "delete /crud/"
     };

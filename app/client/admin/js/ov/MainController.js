@@ -45,7 +45,6 @@
       i18nService.setLanguage(language);
       $window.location.reload();
     };
-
     
     $scope.toggleSidebarSubMenu = function (id) {
 
@@ -56,7 +55,6 @@
       else
         $scope.indexOpen = id;
     };
-    
 
     /**
      * Logs out the actual user.
@@ -79,16 +77,20 @@
     });
 
     $scope.$on("$routeChangeStart", function(event, route){
-      if(event.targetScope.newAnimation == 'LR') $scope.newAnimation = 'RL';
-      else if(event.targetScope.newAnimation == 'RL') $scope.newAnimation = 'LR';
-      else $scope.newAnimation = "";
+      if(event.targetScope.newAnimation == 'LR') event.currentScope.newAnimation = 'RL';
+      else if(event.targetScope.newAnimation == 'RL') event.currentScope.newAnimation = 'LR';
+      else event.currentScope.newAnimation = "";
     });
     // Listen to route change success event to 
     // set new page title and offers access to the menu if 
     // user is authenticated
     $scope.$on("$routeChangeSuccess", function(event, route){
-      var userInfo = authenticationService.getUserInfo();
-      if(userInfo){
+      $scope.userInfo = authenticationService.getUserInfo();
+      if($scope.userInfo){
+        if(route.access && !$scope.checkAccess(route.access)) {
+          $location.path("/admin");
+          return false;
+        } 
         $scope.menu = menuService.getMenu();
         $scope.displayMainMenu = ($scope.menu) ? true : false;
         menuService.setActiveMenuItem();
@@ -122,8 +124,18 @@
       applicationService.destroy();
       userService.destroy();
       $scope.$broadcast("loggedOut");
+    } 
+    
+    $scope.checkAccess = function (perm) {
+      if ($scope.userInfo) {
+        if ($scope.userInfo.id != 0)
+          return $scope.userInfo.permissions.indexOf(perm) >= 0;
+        else
+          return true;
+      }else
+          return false;
     }
-
+    
   }
   
 })(angular.module("ov"));

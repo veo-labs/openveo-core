@@ -93,23 +93,20 @@ module.exports.restrictAction = function(request, response, next){
     error = errors.BACK_END_FORBIDDEN;
 
     // Get requested permission for this request
-    var permission = getPermissionByUrl(applicationStorage.getPermissions(), request.url, request.method);
-
+    var permissions = getPermissionByUrl(applicationStorage.getPermissions(), request.url, request.method);
+    
     // No particular permission requested : access granted by default
     // Also always grant access to primary user 0
-    if(!permission || request.user.id == 0)
+    if(!permissions || request.user.id == 0)
       return next();
 
     // Checks if user has permission on this url
     // Iterates through user roles to find if requested permission
     // is part of his privileges
-    if(request.user.roles){
-      for(var i = 0 ; i < request.user.roles.length ; i++){
-        var role = request.user.roles[i];
-
+    if(request.user.permissions){
         // Found permission : access granted
-        if(role.permissions.indexOf(permission)>=0) return next();
-      }
+        for(var i = 0; i<permissions.length;i++)
+          if(request.user.permissions.indexOf(permissions[i])>=0) return next();
     }
   }
 
@@ -175,6 +172,7 @@ module.exports.getPermissionsAction = function(request, response, next){
  * @return {String} The permission id if found, null otherwise
  */
 function getPermissionByUrl(permissions, url, httpMethod){
+  var permissionsList = [];
   for(var i = 0 ; i < permissions.length ; i++){
     
     // Single permission
@@ -183,7 +181,7 @@ function getPermissionByUrl(permissions, url, httpMethod){
         for(var j = 0 ; j < permissions[i].paths.length ; j++){
           var path = permissions[i].paths[j];
           if(pathUtil.validate(httpMethod + " " + url, path))
-            return permissions[i].id;
+            permissionsList.push(permissions[i].id);
         }
       }
     }
@@ -193,10 +191,9 @@ function getPermissionByUrl(permissions, url, httpMethod){
       var permissionId = getPermissionByUrl(permissions[i].permissions, url, httpMethod);
 
       if(permissionId)
-        return permissionId;
+        permissionsList.push(permissionId);
     }
-
   }
-
-  return null;
+  if(permissionsList.length == 0) return null;
+  else return permissionsList;
 }

@@ -3,6 +3,7 @@
 // Module dependencies
 var passport = require("passport");
 var openVeoAPI = require("@openveo/api");
+var util = require("@openveo/api/lib/util.js");
 var LocalStrategy = require("passport-local").Strategy;
 var UserModel = process.require("app/server/models/UserModel.js");
 var RoleModel = process.require("app/server/models/RoleModel.js");
@@ -70,6 +71,12 @@ function getUserRoles(user, callback){
       if(error)
         callback(null, false);
       else{
+        user.permissions = [];
+        for(var i=0; i<roles.length; i++){
+          user.permissions = util.joinArray(user.permissions, roles[i].permissions);
+          delete roles[i].permissions;
+        }
+
         user.roles = roles;
         callback(null, user);
       }

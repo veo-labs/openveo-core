@@ -132,6 +132,9 @@
       fec.originalFields = fec.fields;
     };
     
+    //Condition on a row to be edited
+    fec.conditionEditDetail = $scope.editFormContainer.conditionEditDetail || function(val){return true};
+    
     // When submit the form
     fec.onSubmit = function () {
       if ($scope.editFormContainer.onSubmit) {
@@ -206,9 +209,6 @@
     dataTable.rows = $scope.tableContainer.rows || {};
     //Entity to call
     dataTable.entityType = $scope.tableContainer.entityType || "";
-    
-    //Condition on a row to alow toggle detail
-    dataTable.conditionTogleDetail = $scope.tableContainer.conditionTogleDetail || function(val){return true};
     
     //Filter key list
     dataTable.filterBy = angular.copy($scope.tableContainer.filterBy);
@@ -297,13 +297,11 @@
     }
     
     //function to toggle detail
-    dataTable.toggleRowDetails = function (row, condition) {
-      if (condition) {
-        angular.forEach(dataTable.rows, function (value, key) {
-          value.opened = (value.id === row.id) ? !value.opened : false;
-          $scope.editFormContainer.pendingEdition=false;
-        })
-      }
+    dataTable.toggleRowDetails = function (row) {
+      angular.forEach(dataTable.rows, function (value, key) {
+        value.opened = (value.id === row.id) ? !value.opened : false;
+        $scope.editFormContainer.pendingEdition = false;
+      })
     };
     
     //function to call manually to reload dataTable
@@ -322,23 +320,11 @@
       while(arr.length && (obj = obj[arr.shift()]));
       return obj;
     }
-    // call to check all selection checkbox
-    dataTable.checkAllCondition = function(){
-      for(var i=0; i<dataTable.rows.length; i++){
-        var row = dataTable.rows[i];
-        if(!row.locked){
-          return true;
-        }
-      }
-      return false;
-    }
-    
+        
     // call to check all unlocked selection checkbox 
     dataTable.checkAll = function () {
         angular.forEach(dataTable.rows, function (row) {
-            if(!row.locked){
               row.selected = dataTable.selectAll;
-            }
         });
         dataTable.isRowSelected = dataTable.selectAll;
     };
@@ -357,7 +343,7 @@
       var enable = true;
       for(var i=0; i<dataTable.rows.length && enable; i++){
         var row = dataTable.rows[i];
-        if(row.selected && !row.locked){
+        if(row.selected){
           var condition = !action.condition || action.condition(row);
           enable = enable && action.global && condition;
         }
@@ -385,7 +371,7 @@
       var selected = [];
       for(var i=0; i<dataTable.rows.length; i++){
         var  row = dataTable.rows[i];
-        if(row.selected && !row.locked)
+        if(row.selected)
           selected.push(row.id);
       };
       return selected;

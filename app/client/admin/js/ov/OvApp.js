@@ -115,7 +115,7 @@
         scope.showChecked = function(){
           var selected = [];
           angular.forEach(scope.to.options, function (s) {
-            if (scope.model[scope.options.key].indexOf(s.id) >= 0) {
+            if (scope.model[scope.options.key] && scope.model[scope.options.key].indexOf(s.id) >= 0) {
               selected.push(s.name);
             }
           });
@@ -167,7 +167,7 @@
   app.config(["ovRouteProvider", "$routeProvider", "$locationProvider", function (ovRouteProvider, $routeProvider, $locationProvider) {
 
       // Register /admin route with authentication
-      ovRouteProvider.when("/admin", {
+      ovRouteProvider.when("/admin",{
         templateUrl: "views/home.html",
         controller: "HomeController",
         title: "HOME.PAGE_TITLE"
@@ -199,6 +199,7 @@
         templateUrl: "views/applications.html",
         controller: "ApplicationController",
         title: "APPLICATIONS.PAGE_TITLE",
+        access: "access-applications-page",
         resolve: {
           scopes: ["applicationService", function (applicationService) {
               return applicationService.loadScopes();
@@ -212,6 +213,7 @@
         templateUrl: "views/users.html",
         controller: "UserController",
         title: "USERS.PAGE_TITLE",
+        access: "access-users-page",
         resolve: {
           roles : ["userService", function(userService){
             return userService.loadRoles();
@@ -225,6 +227,7 @@
         templateUrl: "views/roles.html",
         controller: "RoleController",
         title: "ROLES.PAGE_TITLE",
+        access: "access-roles-page",
         resolve: {
           permissions : ["userService", function(userService){
             return userService.loadPermissions();

@@ -11,6 +11,19 @@
   function UserController($scope, $filter, userService, entityService, roles) {
   
     $scope.roles = roles.data.entities;
+    
+      
+    /**
+     * 
+     * RIGHTS
+     * 
+     */
+    $scope.rights = {};
+    $scope.rights.add = $scope.checkAccess('create-user');
+    $scope.rights.edit = $scope.checkAccess('update-user');
+    $scope.rights.delete = $scope.checkAccess('delete-user');
+  
+    
     /**
      * 
      * DATATABLE
@@ -39,7 +52,7 @@
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
         "condition": function(row){
-          return !row.saving;
+          return $scope.rights.delete && !row.locked && !row.saving;
         },
         "callback": function (row, reload) {
           removeRows([row.id], reload);
@@ -48,9 +61,6 @@
           removeRows(selected, reload);
         }
       }];
-    scopeDataTable.conditionTogleDetail = function (row) {
-      return !row.locked;
-    }
 
 
     /**
@@ -90,7 +100,9 @@
         }
       }
     );
-
+    scopeEditForm.conditionEditDetail = function (row) {
+      return $scope.rights.edit && !row.locked;
+    }
     scopeEditForm.onSubmit = function (model, successCb, errorCb) {
       saveUser(model, successCb, errorCb);
     }
@@ -135,7 +147,6 @@
      *  FORM Add user
      *  
      */
-
     var scopeAddForm = $scope.addFormContainer = {};
     scopeAddForm.model = {};
     scopeAddForm.fields = [
@@ -232,7 +243,7 @@
       var entity = {
         name :model.name, 
         email : model.email, 
-        password : model.password, 
+        password : model.password,
         passwordValidate : model.passwordValidate, 
         roles : model.roles || []
       };

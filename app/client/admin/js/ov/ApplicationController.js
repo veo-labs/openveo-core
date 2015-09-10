@@ -19,6 +19,19 @@
         value.description= $filter("translate")(value.description);
       });
     }
+    
+        
+    /**
+     * 
+     * RIGHTS
+     * 
+     */
+    $scope.rights = {};
+    $scope.rights.add = $scope.checkAccess('create-application');
+    $scope.rights.edit = $scope.checkAccess('update-application');
+    $scope.rights.delete = $scope.checkAccess('delete-application');
+  
+
     /**
      * 
      * DATATABLE
@@ -47,7 +60,7 @@
         "label": $filter('translate')('UI.REMOVE'),
         "warningPopup": true,
         "condition": function(row){
-          return !row.saving;
+          return $scope.rights.delete && !row.locked && !row.saving;
         },
         "callback": function (row, reload) {
           removeRows([row.id], reload);
@@ -104,7 +117,9 @@
         }
       }
     );
-
+    scopeEditForm.conditionEditDetail = function (row) {
+      return $scope.rights.edit && !row.locked;
+    }
     scopeEditForm.onSubmit = function (model, successCb, errorCb) {
       saveApplication(model, successCb, errorCb);
     }

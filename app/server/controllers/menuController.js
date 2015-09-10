@@ -61,6 +61,7 @@ function filterMenuByPermissions(menu, user){
   for(var i = 0 ; i < menu.length ; i++){
     var menuItem = menu[i];
     var filteredMenuItem = {};
+    if(menuItem.weight) filteredMenuItem.weight = menuItem.weight;
     if(menuItem.label) filteredMenuItem.label = menuItem.label;
     if(menuItem.path) filteredMenuItem.path = menuItem.path;
 
@@ -121,17 +122,10 @@ function filterMenuByPermissions(menu, user){
  * @param {Object} user The user to test
  * @param {String} permission The permission id to check
  */
-function isAuthorized(user, permission){
-  if(user && user.roles){
-
-    for(var i = 0 ; i < user.roles.length ; i++){
-      var role = user.roles[i];
-
-      if(role.permissions.indexOf(permission) >=0)
-          return true;
-    }
-
+function isAuthorized(user, permission) {
+  if (user && user.permissions) {
+    if (user.permissions.indexOf(permission) >= 0)
+      return true;
   }
-
   return false;
 }
