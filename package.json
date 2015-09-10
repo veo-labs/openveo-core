@@ -37,7 +37,6 @@
     "oauth20-provider": "^0.5.1",
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
-    "semver": "^4.3.1",
     "serve-favicon": "^2.3.0",
     "winston": "^0.8.3"
   },
