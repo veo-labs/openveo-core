@@ -13,7 +13,7 @@
   "bugs": {
     "url": "https://gitlab.com/veo-labs/openveo-core/issues"
   },
-  "license": "MIT",
+  "license": "AGPL-3.0",
   "author": "Veo-Labs <info@veo-labs.com> (http://www.veo-labs.com/)",
   "repository": {
     "type": "git",
