@@ -44,7 +44,11 @@ $sidebar-submenu-bg : #fff;
     position: absolute;
     width: 100%;
     height:100%;
+    @include transition(background 0.35s ease);
     background:  url("../images/bloc_veobox_header_gray.png") no-repeat right bottom fixed #fff;
+    &.login{
+       background: url("../images/bloc_veobox_header_blue.png") no-repeat right center fixed #fff;
+    }
    
     @include desktop-and-tablet(){
       position: relative;

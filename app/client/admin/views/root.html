@@ -74,19 +74,14 @@
           </li>
         </ul>
       </div>
-      <div id="page-content-wrapper" >
+      <div id="page-content-wrapper" ng-class="{'login':!displayMainMenu}">
         <div ng-if="!isResponsiveMenuClosed" class='close-listener' ng-click="swiping ? ( swiping = false ) : closeResponsiveMenu()" ng-swipe-disable-mouse ng-swipe-left="swiping=true;closeResponsiveMenu()"></div>
         <div class="container">
-          <div  ng-if="displayMainMenu" id="content">
+          <div id="{{displayMainMenu?'content':''}}" ng-class="{'login-screen':!displayMainMenu}">
             <div class="alert-container">
             <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
             </div>
             <div ng-view ng-class="[{'vertical-center-row': verticalAlign}]" class="view  {{newAnimation}}"></div>
-
-          </div>
-          <div ng-if="!displayMainMenu" class="login-screen">
-              <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
-              <div ng-view ng-class="[{'vertical-center-row': verticalAlign}]" class="view {{newAnimation}}"></div>
           </div>
         </div>
       </div>
