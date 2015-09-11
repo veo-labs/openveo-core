@@ -90,16 +90,48 @@ describe("MainController", function(){
       assert.notOk(scope.isResponsiveMenuOpened);
     });      
 
-    it("Should display menu if user is authenticated", function(){
+    it("Should display menu if user is authenticated and route has its access granted", function(){
+      $route = {
+        title : "Page title"
+      };
       authenticationService.setUserInfo({"username" : "openveo"});
       menuService.getMenu = function(){
         return true;
       };
-      childScope.$emit("$routeChangeSuccess");
+      childScope.$emit("$routeChangeSuccess", $route);
       assert.ok(scope.menu);
       assert.ok(scope.displayMainMenu);
     });
-
+    it("Should display menu if user is authenticated and has permissions to access the route", function(){
+      $route = {
+        title : "Page title",
+        access : "isAllowed"
+      };
+      authenticationService.setUserInfo({"username" : "openveo", permissions:["isAllowed"]});
+      menuService.getMenu = function(){
+        return true;
+      };
+      childScope.$emit("$routeChangeSuccess", $route);
+      assert.ok(scope.menu);
+      assert.ok(scope.displayMainMenu);
+    });
+    
+    it("Should be redirect if user is authenticated and has not permissions to access the route", function(){
+      $route = {
+        title : "Page title",
+        access : "isAllowed"
+      };
+      authenticationService.setUserInfo({"username" : "openveo", permissions:[""]});
+      menuService.getMenu = function(){
+        return true;
+      };
+      childScope.$emit("$routeChangeSuccess", $route);
+      assert.notOk(scope.menu);
+      assert.notOk(scope.displayMainMenu);
+      assert.notOk(scope.isResponsiveMenuOpened);
+      assert.equal($location.path(), "/admin");
+    });
+    
   }); 
 
   // $routeChangeError event handler

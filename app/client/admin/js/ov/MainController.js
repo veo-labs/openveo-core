@@ -128,7 +128,7 @@
     
     $scope.checkAccess = function (perm) {
       if ($scope.userInfo) {
-        if ($scope.userInfo.id != 0)
+        if ($scope.userInfo.id != 0 && $scope.userInfo.permissions && $scope.userInfo.permissions.length !=0)
           return $scope.userInfo.permissions.indexOf(perm) >= 0;
         else
           return true;

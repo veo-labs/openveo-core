@@ -19,6 +19,7 @@ describe("ApplicationController", function(){
   // Generates scope and data
   beforeEach(function(){
     $scope = $rootScope.$new();
+    $scope.checkAccess = function(){return true};
     $scope.test = {};
     $scope.test.rows = [
           {

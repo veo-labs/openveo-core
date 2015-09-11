@@ -74,11 +74,12 @@ describe("authenticationController", function(){
           id : 1,
           roles: [
             {
-              permissions: [
+              id:"role1"
+            }
+          ],
+          permissions:[
                 "perm1"
               ]
-            }
-          ]
         },
         isAuthenticated : function(){
           return true; 
