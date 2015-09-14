@@ -1,5 +1,5 @@
 .navbar-default {
-  @include transition(top 0.2s ease);
+  @include transition(top 0.5s ease 0s);
   &.ng-enter {
     top: -51px;
   }
