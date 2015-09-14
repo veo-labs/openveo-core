@@ -182,7 +182,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback){
     if(e.code === "MODULE_NOT_FOUND")
       logger.info("Plugin " + pluginPath + " doesn't have a main file", {action : "loadPlugin", message: e.message});
     else
-      logger.error("Error while loading plugin " + pluginPath, {action : "loadPlugin", "error" : e.message});
+      logger.error("Error while loading plugin " + pluginPath, {action : "loadPlugin", "error" : e.message, "stack": e.stack});
 
     return callback(new Error(e.message));
   }

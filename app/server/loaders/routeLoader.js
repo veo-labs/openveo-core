@@ -102,7 +102,7 @@ module.exports.decodeRoutes = function(pluginPath, routes){
 
           }
           catch(e){
-            logger.warn(e.message, {action : "decodeRoutes"});
+            logger.warn("Error while loading route " + match, {action : "decodeRoutes", "error" : e.message, "stack": e.stack});
           }
 
         }
