@@ -222,6 +222,8 @@
     //Column unsortable
     dataTable.notSortBy = ["action"];
     
+    dataTable.conditionToggleDetail = $scope.editFormContainer.conditionToggleDetail || function(val){return true};
+    
     //hide selected checkbox
     dataTable.showSelectAll = $scope.tableContainer.showSelectAll || true;
     //is a row selected
@@ -298,10 +300,11 @@
     
     //function to toggle detail
     dataTable.toggleRowDetails = function (row) {
-      angular.forEach(dataTable.rows, function (value, key) {
-        value.opened = (value.id === row.id) ? !value.opened : false;
-        $scope.editFormContainer.pendingEdition = false;
-      })
+      if(dataTable.conditionToggleDetail(row))
+        angular.forEach(dataTable.rows, function (value, key) {
+          value.opened = (value.id === row.id) ? !value.opened : false;
+          $scope.editFormContainer.pendingEdition = false;
+        })
     };
     
     //function to call manually to reload dataTable
