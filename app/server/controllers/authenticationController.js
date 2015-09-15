@@ -103,8 +103,6 @@ module.exports.restrictAction = function(request, response, next){
     // Checks if user has permission on this url
     // Iterates through user roles to find if requested permission
     // is part of his privileges
-    console.log(request.user.permissions);
-    console.log(permissions);
     if(request.user.permissions){
         // Found permission : access granted
         for(var i = 0; i<permissions.length;i++)
