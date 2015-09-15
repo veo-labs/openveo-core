@@ -220,7 +220,20 @@
           }]
         }
       });
-
+      
+      // Register /admin/be/profiles route with authentication
+      // Also retrieve the user profile
+      ovRouteProvider.when("/admin/be/profiles", {
+        templateUrl: "views/profiles.html",
+        controller: "ProfileController",
+        title: "Profiles.PAGE_TITLE",
+        resolve: {
+          user  : [ "authenticationService", function (authenticationService) {
+              return authenticationService.getUserInfo();  
+              }]
+        }
+      });
+      
       // Register /admin/be/roles route with authentication
       // Also retrieve the list of roles and permissions
       ovRouteProvider.when("/admin/be/roles", {

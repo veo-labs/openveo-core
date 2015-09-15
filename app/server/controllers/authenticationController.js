@@ -97,9 +97,9 @@ module.exports.restrictAction = function(request, response, next){
     
     // No particular permission requested : access granted by default
     // Also always grant access to primary user 0
-    if(!permissions || request.user.id == 0)
-      return next();
 
+    if(!permission || request.user.id == 0 || allowProfileModification(request))  
+      return next();
     // Checks if user has permission on this url
     // Iterates through user roles to find if requested permission
     // is part of his privileges
@@ -114,6 +114,14 @@ module.exports.restrictAction = function(request, response, next){
   return next(error);
 
 };
+
+function allowProfileModification(request){
+    var path = "/crud/user/"+request.user.id;
+    if ((request.path === path) && (request.method ==="POST")){
+        return true;
+    }
+    return false;
+}
 
 /**
  * Gets the tree of groups / permissions and return it as a JSON object.

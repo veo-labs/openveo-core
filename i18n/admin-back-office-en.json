@@ -8,6 +8,7 @@
     "USERS" : "Users",
     "APPLICATIONS" : "Applications",
     "DASHBOARD" : "Dashboard",
+    "PROFILES"  : "User profile",
     "LOGOUT" : "Logout"
   },
   "PERMISSIONS" : {
@@ -94,6 +95,18 @@
     "REMOVE_SUCCESS" : "User successfully removed.",
     "REMOVE_FAIL" : "An error occured. Fail to remove user.",
     "TITLE_FILTER": "Name"
+  },
+  "PROFILES" : {
+    "PAGE_TITLE" : "Openveo - Profile",
+    "TITLE" : "User profile",
+    "INFO" : "The user profile is defined by the user's name, email, password and role. Only user name and password could be modified.",
+    "ATTR_NAME" : "Name",
+    "ATTR_EMAIL" : "Email",
+    "ATTR_ROLES" : "Roles",
+    "ATTR_PASSWORD" : "Password",
+    "ATTR_CONFIRM_PASSWORD" : "Confirm password",
+    "ATTR_MODIFY_PASSWORD" : "Modify password",
+    "ATTR_USER_ACCOUNT" : "User account"
   },
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Roles",

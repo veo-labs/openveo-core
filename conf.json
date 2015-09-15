@@ -129,6 +129,7 @@
         "ov/ApplicationController.js",
       	"ov/RoleController.js",
       	"ov/UserController.js",
+        "ov/ProfileController.js",
         "ov/MenuService.js",
 		"ov/UserService.js",
         "ov/ApplicationService.js"

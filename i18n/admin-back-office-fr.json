@@ -8,6 +8,7 @@
     "USERS" : "Utilisateurs",
     "APPLICATIONS" : "Applications",
     "DASHBOARD" : "Tableau de bord",
+    "PROFILES"  : "Profil utilisateur",
     "LOGOUT" : "Déconnexion"
   },
   "PERMISSIONS" : {
@@ -97,6 +98,18 @@
     "REMOVE_SUCCESS" : "L'utilisateur à été supprimé.",
     "REMOVE_FAIL" : "Une erreur est survenue. La suppression de l'utilisateur a échoué.",
     "TITLE_FILTER": "Nom"
+  },
+    "PROFILES" : {
+    "PAGE_TITLE" : "Openveo - Profil",
+    "TITLE" : "Profil utilisateur",
+    "INFO" : "Le profil de l'utilisateur est défini par son nom, son email, son mot de passe et son rôle. Seuls le nom et le mot de passe sont modifiables.",
+    "ATTR_NAME" : "Nom",
+    "ATTR_EMAIL" : "Email",
+    "ATTR_ROLES" : "Rôles",
+    "ATTR_PASSWORD" : "Mot de passe",
+    "ATTR_CONFIRM_PASSWORD" : "Confirmer le mot de passe",
+    "ATTR_MODIFY_PASSWORD" : "Changement de mot de passe",
+    "ATTR_USER_ACCOUNT" : "Compte utilisateur"
   },
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Rôles",

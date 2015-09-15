@@ -140,12 +140,19 @@ UserModel.prototype.update = function(id, data, callback){
   var self = this;
 
   // Validate password
-  if(data.password && data.password !== data.passwordValidate){
-    callback(new Error("Passwords does not match"));
-    return;
+  if(data.password){
+    if(data.password !== data.passwordValidate){
+      callback(new Error("Passwords does not match"));
+      return;
+    }else{
+      // Encrypt password
+      var password = crypto.createHmac("sha256", hashKey).update(data.password).digest("hex");
+      data.password = password;
+      delete data.passwordValidate;
+    }
   }
-
-  // Validate email
+    
+    // Validate email
   if(data.email && !isEmailValid(data.email)){
     callback(new Error("Invalid email address"));
     return;
