@@ -142,6 +142,8 @@
     "SHARE": "Partager",
     "BEGIN": "Début",
     "END": "Fin",
-    "BACK": "Retour"
+    "BACK": "Retour",
+    "NO_COMMON_ACTION" : "Aucune action commune autorisée",
+    "NO_ACTION" : "Aucune action autorisée pour cet item.<br>Il est peut etre vérouillé."
   }
 }

@@ -8,9 +8,13 @@
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
           Action <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" role="menu" >  
-          <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='dataTable.verifyCondition(action)'>
+        
+        <ul class="dropdown-menu" role="menu">  
+          <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='dataTable.verifyCondition(action)' >
             <a role="menuitem" href="#" ng-click="dataTable.executeGlobalAction(action);" ng-bind="action.label"></a>
+          </li>
+          <li role="presentation" ng-if="!dataTable.commonActionExist">
+            <a role="menuitem" href="#" ng-bind="'UI.NO_COMMON_ACTION' | translate"></a>
           </li>
         </ul>
       </div>
@@ -61,9 +65,12 @@
                 <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
                   Action <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" role="menu" >  
-                  <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='!action.condition || action.condition(row)'>
+                <ul class="dropdown-menu" role="menu" ng-init='row.actionExist=false;'>  
+                  <li role="presentation" ng-repeat="action in dataTable.actions" ng-if='!action.condition || action.condition(row)' ng-init='row.actionExist=true;'>
                     <a role="menuitem" href="#" ng-click="dataTable.prepareSingleAction(action,row)" ng-bind="action.label"></a>
+                  </li>
+                  <li role="presentation" ng-if="!row.actionExist">
+                    <a role="menuitem" href="#" ng-bind-html="'UI.NO_ACTION' | translate"></a>
                   </li>
                 </ul>
               </div>

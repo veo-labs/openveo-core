@@ -139,6 +139,8 @@
     "SHARE": "Share",
     "BEGIN": "Begin",
     "END": "End",
-    "BACK": "Back"
+    "BACK": "Back",
+    "NO_COMMON_ACTION" : "No action allowed for all items",
+    "NO_ACTION" : "No action available for this item.<br>It may be locked."
   }
 }

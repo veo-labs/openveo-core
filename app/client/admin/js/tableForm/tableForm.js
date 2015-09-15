@@ -324,8 +324,10 @@
       return obj;
     }
         
+    dataTable.commonActionExist=false;
     // call to check all unlocked selection checkbox 
     dataTable.checkAll = function () {
+        dataTable.commonActionExist=false;
         angular.forEach(dataTable.rows, function (row) {
               row.selected = dataTable.selectAll;
         });
@@ -333,6 +335,7 @@
     };
     // call to uncheck the global selection checkbox
     dataTable.uncheckOne = function(){
+        dataTable.commonActionExist=false;
         dataTable.selectAll = false;
         dataTable.isRowSelected = false;
         // if one still selected, isRowSelected = true
@@ -351,9 +354,10 @@
           enable = enable && action.global && condition;
         }
       }
+      dataTable.commonActionExist=dataTable.commonActionExist || enable;
       return enable;
     }
-    
+        
     // Execute an action on row after calling a popup verifying and reload table
     dataTable.prepareSingleAction = function(action, row){
       if(action.warningPopup)
