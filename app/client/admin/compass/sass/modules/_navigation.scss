@@ -15,7 +15,7 @@
   &.ng-leave-active {
     top: -51px;
   }
-  
+
   .navbar-toggle{
     background-color: $navbar-default-bg;
     border: 1px solid transparent;
@@ -36,13 +36,25 @@
       }
     }
   }
-}
-.navbar-right{
-  @include mobile(){
-    float: right !important;
-    display: flex;
+  .navbar-right{
+    &>li>a{
+      @include transition(color 0.2s);
+    }
+    &>li:hover > a{
+      color: $gray-lighter;
+    }
+
+    @include mobile(){
+      float: right !important;
+      display: flex;
+    }
+    .icon{
+      font-size: 24px;
+      padding: 10px;
+    }
   }
 }
+
 .container{
   .navbar-header{
     float: left;

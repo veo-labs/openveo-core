@@ -8,7 +8,8 @@
     "USERS" : "Utilisateurs",
     "APPLICATIONS" : "Applications",
     "DASHBOARD" : "Tableau de bord",
-    "PROFILES"  : "Profil utilisateur",
+    "PROFILES"  : "Profil",
+    "LANGUAGE" : "Langue",
     "LOGOUT" : "Déconnexion"
   },
   "PERMISSIONS" : {

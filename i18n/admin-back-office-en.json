@@ -8,7 +8,8 @@
     "USERS" : "Users",
     "APPLICATIONS" : "Applications",
     "DASHBOARD" : "Dashboard",
-    "PROFILES"  : "User profile",
+    "PROFILES"  : "Profile",
+    "LANGUAGE" : "Language",
     "LOGOUT" : "Logout"
   },
   "PERMISSIONS" : {
