@@ -153,7 +153,7 @@
     "BEGIN": "Begin",
     "END": "End",
     "BACK": "Back",
-    "NO_COMMON_ACTION" : "No action allowed for all items",
-    "NO_ACTION" : "No action available for this item.<br>It may be locked."
+    "NO_COMMON_ACTION" : "No common action allowed.",
+    "NO_ACTION" : "No action allowed."
   }
 }
