@@ -1,0 +1,22 @@
+{
+
+  "env": {
+  
+    // Add node.js environment globals
+    "node": false,
+    
+    // Add browser environment globals
+    "browser": true,
+    
+    // Add mocha environment globals
+    "mocha": true
+    
+  },
+  "globals": {
+  
+    // Add angular to environment globals but do not authorize to overwrite it
+    angular: false
+  
+  }
+  
+}

@@ -31,9 +31,10 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-contrib-yuidoc');
+  grunt.loadNpmTasks('grunt-eslint');
 
 // only watch core scss
-  grunt.registerTask('default', ['compass:dev','watch']);
+  grunt.registerTask('default', ['compass:dev', 'watch']);
   
 // uglify and concat core
   grunt.registerTask('concatcore', ['uglify:prod', 'concat:lib', "concat:js"]);

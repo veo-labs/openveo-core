@@ -1,0 +1,10 @@
+{
+
+  "env": {
+    
+    // Add mocha environment globals
+    "mocha": true
+    
+  }
+  
+}
