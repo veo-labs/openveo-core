@@ -76,3 +76,29 @@
     }
   }
 }
+
+.navbar-default .navbar-nav .open .dropdown-menu{
+  @include mobile(){
+    position: absolute;
+    left:-57px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    -webkit-box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.175);
+    
+    &>li>a{
+      color: #333;
+      &:hover{
+        color: #333;
+        background-color:#f5f5f5;
+      }
+    }
+    &>.active>a{
+      background-color: $brand-primary;
+      &:hover {
+        color: #fff;
+        background-color: $brand-primary;
+      }
+    }
+  }  
+}
