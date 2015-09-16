@@ -98,7 +98,7 @@ module.exports.restrictAction = function(request, response, next){
     // No particular permission requested : access granted by default
     // Also always grant access to primary user 0
 
-    if(!permission || request.user.id == 0 || allowProfileModification(request))  
+    if(!permissions || request.user.id == 0 || allowProfileModification(request))  
       return next();
     // Checks if user has permission on this url
     // Iterates through user roles to find if requested permission
