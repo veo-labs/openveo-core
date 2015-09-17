@@ -168,7 +168,8 @@
           type: "email",
           label: $filter('translate')('USERS.FORM_ADD_EMAIL'),
           required: true,
-          description : $filter('translate')('USERS.FORM_ADD_EMAIL_DESC')
+          description : $filter('translate')('USERS.FORM_ADD_EMAIL_DESC'),
+          pattern : '^[0-9a-z._-]+@{1}[0-9a-z.-]{2,}[.]{1}[a-z]{2,5}$'
         },
         expressionProperties: {
           'templateOptions.disabled': '!model.name' // disabled when username is blank
