@@ -10,8 +10,6 @@
   app.controller("ModalInstanceTableController", ModalInstanceTableController);
   app.controller("DatePickerController", DatePickerController);
   app.factory("tableReloadEventService", TableReloadEventService);
-  app.filter('status',StatusFilter);
-  app.filter('category',CategoryFilter);
 
   // Controller for table, form in table and form outside table
   DataTableController.$inject = ["$scope", "$modal", "entityService"];
@@ -22,51 +20,6 @@
 
   // Service to reload a displayed table
   TableReloadEventService.$inject = ["$rootScope"];
-  
-  // Filter to display content in the table (cf. dataTable.html)
-  StatusFilter.$inject = ['$filter'];
-  CategoryFilter.$inject = ['jsonPath'];
-  
-  /**
-   * Defines a filter to print status in cells.
-   *
-   * This filter has one optional Number parameter which must be specified
-   * if the input is equal to 8 (error status), to precise the error code.
-   */
-  function StatusFilter($filter){
-    return function(input, errorCode){
-      var label = $filter("translate")("VIDEOS.STATE_" + input);
-      var type = "label-danger";
-
-      // Video is published
-      if(input == 7) type = "label-success";
-
-      // Video is sent
-      else if(input == 6) type = "label-warning";
-
-      // All other video states
-      else if (input !== 8) type = "label-info";
-
-      // Video is on error
-      if(input === 8) label = label + "(" + errorCode + ")";
-
-      return "<span class='label " + type + "'>" + label + "</span>";
-    };
-  };
-  
-/**
- * 
- * Filter to print Category in cells
- * 
- */
-  function CategoryFilter(jsonPath){
-    return function(input, rubrics) {
-      //get title of elements in rubrics where id is "input"
-      var name = jsonPath(rubrics, '$..*[?(@.id=="'+input+'")].title');
-      if (name && name.length>0)  return name[0];
-      else return "";
-    };
-  };
   
 /**
  * 
@@ -242,7 +195,8 @@
       iconDown: 'glyphicon glyphicon-triangle-top',
       listItemsPerPage: [5, 10, 20, 30],
       itemsPerPage: 10,
-      loadOnInit: true
+      loadOnInit: true,
+      cellTheme: $scope.tableContainer.cellTheme
     };
     
     //Enable selectAll option
