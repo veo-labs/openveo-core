@@ -186,8 +186,8 @@
     dataTable.init = {
       'count': 10,
       'page': 1,
-      'sortBy': $scope.tableContainer.init.sortBy || dataTable.header[0]['key'],
-      'sortOrder': $scope.tableContainer.init.sortOrder || 'asc'
+      'sortBy': $scope.tableContainer.init? $scope.tableContainer.init.sortBy : dataTable.header[0]['key'],
+      'sortOrder': $scope.tableContainer.init? $scope.tableContainer.init.sortOrder : 'asc'
     };
    
     dataTable.customTheme = {
@@ -245,9 +245,7 @@
         return {
           'rows': dataTable.rows,
           'header': dataTable.header,
-          'pagination': response.data.pagination,
-          'sortBy': dataTable.init.sortBy,
-          'sortOrder': dataTable.init.sortOrder == -1 ? "dsc" : "asc"
+          'pagination': response.data.pagination
         }
       });
     }
