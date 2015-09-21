@@ -61,6 +61,9 @@
                 );
         }
 
+        scopeEditForm.conditionEditDetail = function (user){
+            return (user.id !== 0);
+        };
         scopeEditForm.onSubmit = function (model, successCb, errorCb) {
             saveProfile(model, successCb, errorCb);
         };
@@ -90,6 +93,9 @@
             }
         };
         
+        $scope.isNotSuperAdmin = function(){
+                return (user.id !=0)
+        };
         /**
          * updates the user password.
          * @param Object user The user associated to the form
@@ -119,15 +125,9 @@
          */
         var saveProfile = function (user, successCb, errorCb) {
             user.saving = true;
-            var roleList = [];
-            var i = 0;
-            for (i = 0; i < user.roles.length; i++) {
-                roleList[i] = user.roles[i].id;
-            }
             entityService.updateEntity("user", user.id, {
-                name: user.name,
-                email: user.email,
-                roles: roleList
+            name: user.name,
+            email: user.email
             }).success(function (data, status, headers, config) {
                 user.saving = false;
                 successCb();

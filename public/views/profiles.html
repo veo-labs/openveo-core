@@ -2,11 +2,11 @@
     <h2 ng-bind="'PROFILES.TITLE' | translate"></h2>
     <div class="well well-lg" ng-bind="'PROFILES.INFO' | translate"></div>
     <div class="container row">
-        <div class='col-md-6 user-info password'>
+        <div class='col-md-6 user-info'>
             <h2 ng-bind="'PROFILES.ATTR_USER_ACCOUNT' | translate"> </h2>
             <ng-include src="'/views/elements/dataTableForm.html'"></ng-include>     
         </div>         
-        <div class="col-md-6 detail ">
+        <div class="col-md-6 detail password" ng-show="isNotSuperAdmin()">
             <h2 ng-bind="'PROFILES.ATTR_MODIFY_PASSWORD' | translate"></h2>
             <form class="form-horizontal"  ng-submit="onSubmit(row)" novalidate  name="profileForm" >
                 <div class="form-group form-inline">
