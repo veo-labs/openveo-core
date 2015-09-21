@@ -186,8 +186,8 @@
     dataTable.init = {
       'count': 10,
       'page': 1,
-      'sortBy': dataTable.header[0]['key'],
-      'sortOrder': 'asc'
+      'sortBy': $scope.tableContainer.init.sortBy || dataTable.header[0]['key'],
+      'sortOrder': $scope.tableContainer.init.sortOrder || 'asc'
     };
    
     dataTable.customTheme = {
