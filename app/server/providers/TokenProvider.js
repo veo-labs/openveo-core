@@ -1,12 +1,12 @@
-"use strict"
+'use strict';
 
-/** 
- * @module core-providers 
+/**
+ * @module core-providers
  */
 
 // Module dependencies
-var util = require("util");
-var openVeoAPI = require("@openveo/api");
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
 
 /**
  * Defines a TokenProvider class to get and save Web Service tokens.
@@ -16,8 +16,8 @@ var openVeoAPI = require("@openveo/api");
  * @extends EntityProvider
  * @param {Database} database The database to interact with
  */
-function TokenProvider(database){
-  openVeoAPI.EntityProvider.prototype.init.call(this, database, "tokens");
+function TokenProvider(database) {
+  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'tokens');
 }
 
 module.exports = TokenProvider;
@@ -32,8 +32,11 @@ util.inherits(TokenProvider, openVeoAPI.EntityProvider);
  * @param {Function} callback Function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-TokenProvider.prototype.removeByClient = function(clientId, callback){
-  this.database.remove(this.collection, { "clientId" : clientId }, callback);
+TokenProvider.prototype.removeByClient = function(clientId, callback) {
+  this.database.remove(this.collection, {
+    clientId: clientId
+  },
+  callback);
 };
 
 /**
@@ -45,8 +48,15 @@ TokenProvider.prototype.removeByClient = function(clientId, callback){
  * @param {Function} callback Function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-TokenProvider.prototype.getByValue = function(token, callback){
-  this.database.get(this.collection, {"token" : token}, { "_id" : 0 }, 1, function(error, data){
-    callback(error, data && data[0]);
-  });
+TokenProvider.prototype.getByValue = function(token, callback) {
+  this.database.get(this.collection,
+    {
+      token: token
+    },
+    {
+      _id: 0
+    },
+    1, function(error, data) {
+      callback(error, data && data[0]);
+    });
 };

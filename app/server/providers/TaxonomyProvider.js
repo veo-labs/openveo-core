@@ -1,12 +1,12 @@
-"use strict"
+'use strict';
 
-/** 
- * @module core-providers 
+/**
+ * @module core-providers
  */
 
 // Module dependencies
-var util = require("util");
-var openVeoAPI = require("@openveo/api");
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
 
 /**
  * Defines a TaxonomyProvider class to get and save taxonomies.
@@ -16,8 +16,8 @@ var openVeoAPI = require("@openveo/api");
  * @extends EntityProvider
  * @param {Database} database The database to interact with
  */
-function TaxonomyProvider(database){
-  openVeoAPI.EntityProvider.prototype.init.call(this, database, "taxonomy");
+function TaxonomyProvider(database) {
+  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'taxonomy');
 }
 
 module.exports = TaxonomyProvider;

@@ -1,6 +1,6 @@
-"use strict"
+'use strict';
 
-/** 
+/**
  * @module core-controllers
  */
 
@@ -11,19 +11,19 @@
  */
 
 // Module dependencies
-var winston = require("winston");
-var errors = process.require("app/server/httpErrors.js");
+var winston = require('winston');
+var errors = process.require('app/server/httpErrors.js');
 
 // Get logger
-var logger = winston.loggers.get("openveo");
+var logger = winston.loggers.get('openveo');
 
 /**
  * Handles requests which does not correspond to anything.
  *
  * @method notFoundAction
- * @static  
+ * @static
  */
-module.exports.notFoundAction = function(request, response, next){  
+module.exports.notFoundAction = function(request, response, next) {
   next(errors.PATH_NOT_FOUND);
 };
 
@@ -36,27 +36,35 @@ module.exports.notFoundAction = function(request, response, next){
  *       "httpCode" : 500,
  *       "module" : "core"
  *     }
- * 
+ *
  * @method errorAction
- * @static  
- * @param {Object} error An error object with error code, HTTP code 
+ * @static
+ * @param {Object} error An error object with error code, HTTP code
  * and the error module
  */
-module.exports.errorAction = function(error, request, response, next){
-  if(!error)
+module.exports.errorAction = function(error, request, response) {
+  if (!error)
     error = errors.UNKNOWN_ERROR;
-  
-  if(!error.module)
-    error.module = "core";
-  
-  logger.error("Error", {code: error.code, module: error.module, method: request.method, path: request.url, headers: request.headers});
-  
+
+  if (!error.module)
+    error.module = 'core';
+
+  logger.error('Error', {
+    code: error.code,
+    module: error.module,
+    method: request.method,
+    path: request.url,
+    headers: request.headers
+  });
+
   // Send response
   response.status(error.httpCode);
-  response.send({ error: {
-    code: error.code,
-    module: error.module
-  }});
+  response.send({
+    error: {
+      code: error.code,
+      module: error.module
+    }
+  });
 };
 
 /**
@@ -68,24 +76,33 @@ module.exports.errorAction = function(error, request, response, next){
  * @method notFoundPageAction
  * @static
  */
-module.exports.notFoundPageAction = function(request, response, next){
-  logger.warn("404 Not Found", {method : request.method, path : request.url, headers : request.headers});
+module.exports.notFoundPageAction = function(request, response) {
+  logger.warn('404 Not Found', {
+    method: request.method,
+    path: request.url,
+    headers: request.headers
+  });
 
   response.status(404);
 
   // HTML content
-  if(request.accepts("html")){
-    response.render("404", { url : request.url });
+  if (request.accepts('html')) {
+    response.render('404', {
+      url: request.url
+    });
     return;
   }
 
   // JSON content
-  if(request.accepts("json")){
-    response.send({ error: "Not found", url : request.url });
+  if (request.accepts('json')) {
+    response.send({
+      error: 'Not found',
+      url: request.url
+    });
     return;
   }
 
   // Text content
-  response.type("txt").send(request.url + " not found");
+  response.type('txt').send(request.url + ' not found');
 
 };

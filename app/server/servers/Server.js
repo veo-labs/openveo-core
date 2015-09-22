@@ -1,55 +1,57 @@
-"use strict"
+'use strict';
 
-/** 
- * @module core-servers 
+/**
+ * @module core-servers
  */
 
 // Module dependencies
-var express = require("express");
+var express = require('express');
 
 /**
  * Defines an HTTP Server. This Class must not be used directly,
  * instead use on of the sub classes.
- * 
+ *
  * @example
- *     var Server = process.require("app/server/servers/Server.js"); 
+ *     var Server = process.require("app/server/servers/Server.js");
  *     function MyServer(app){
  *       Server.prototype.init.call(this);
  *     }
- *     
+ *
  *     module.exports = MyServer;
- *     util.inherits(MyServer, Server); 
+ *     util.inherits(MyServer, Server);
  *
  * @class Server
  * @constructor
  */
-function Server(){}
+function Server() {
+}
 
 /**
  * Initializes the express application.
  *
  * @method init
  */
-Server.prototype.init = function(){
+Server.prototype.init = function() {
   this.app = express();
-  
+
   // Remove x-powered-by http header
-  this.app.set("x-powered-by", false);
-  
+  this.app.set('x-powered-by', false);
+
 };
 
 /**
- * Handles database available event. 
+ * Handles database available event.
  *
  * It assures that the database is loaded and can be accessed.
  *
  * @method onDatabaseAvailable
  * @param {Database} db The application database
  */
-Server.prototype.onDatabaseAvailable = function(db){};
+Server.prototype.onDatabaseAvailable = function() {
+};
 
 /**
- * Handles plugin available event. 
+ * Handles plugin available event.
  *
  * It assures that the given plugin's configuration is available.
  *
@@ -82,7 +84,8 @@ Server.prototype.onDatabaseAvailable = function(db){};
  * @method onPluginAvailable
  * @param {Object} plugin The available openveo plugin
  */
-Server.prototype.onPluginAvailable = function(plugin){};
+Server.prototype.onPluginAvailable = function() {
+};
 
 /**
  * Handles plugin loaded event.
@@ -118,7 +121,8 @@ Server.prototype.onPluginAvailable = function(plugin){};
  * @method onPluginLoaded
  * @param {Object} plugin The available openveo plugin
  */
-Server.prototype.onPluginLoaded = function(plugin){};
+Server.prototype.onPluginLoaded = function() {
+};
 
 /**
  * Handles plugins loaded event.
@@ -127,15 +131,16 @@ Server.prototype.onPluginLoaded = function(plugin){};
  *
  * @method onPluginsLoaded
  */
-Server.prototype.onPluginsLoaded = function(){};
+Server.prototype.onPluginsLoaded = function() {
+};
 
 /**
  * Starts the server.
  *
  * @method startServer
  */
-Server.prototype.startServer = function(){
-  throw new Exception("startServer method not implemented for this server");
+Server.prototype.startServer = function() {
+  throw new Error('startServer method not implemented for this server');
 };
 
 module.exports = Server;

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   prod: {
     files: [
@@ -19,4 +21,4 @@ module.exports = {
       }
     ]
   }
-}
+};

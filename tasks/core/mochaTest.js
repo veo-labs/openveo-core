@@ -1,11 +1,13 @@
+'use strict';
+
 module.exports = {
-  
+
   // Core unit tests
   core: {
     options: {
-      reporter: "spec"
+      reporter: 'spec'
     },
-    src: ["tests/server/init.js", "tests/server/*.js"]
+    src: ['tests/server/init.js', 'tests/server/*.js']
   }
-  
+
 };

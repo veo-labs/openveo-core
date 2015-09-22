@@ -1,12 +1,12 @@
-"use strict"
+'use strict';
 
-/** 
- * @module core-providers 
+/**
+ * @module core-providers
  */
 
 // Module dependencies
-var util = require("util");
-var openVeoAPI = require("@openveo/api");
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
 
 /**
  * Defines a UserProvider class to get and save back end users.
@@ -16,8 +16,8 @@ var openVeoAPI = require("@openveo/api");
  * @extends EntityProvider
  * @param {Database} database The database to interact with
  */
-function UserProvider(database){
-  openVeoAPI.EntityProvider.prototype.init.call(this, database, "users");
+function UserProvider(database) {
+  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'users');
 }
 
 module.exports = UserProvider;
@@ -32,12 +32,20 @@ util.inherits(UserProvider, openVeoAPI.EntityProvider);
  * @param {String} password The password of the user
  * @param {Function} callback Function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
- *   - **Object** The user 
+ *   - **Object** The user
  */
-UserProvider.prototype.getUserByCredentials = function(email, password, callback){
-  this.database.get(this.collection, {"email" : email, "password" : password}, { "password" : 0 }, 1, function(error, data){
-    callback(error, data && data[0]);
-  });
+UserProvider.prototype.getUserByCredentials = function(email, password, callback) {
+  this.database.get(this.collection,
+    {
+      email: email,
+      password: password
+    },
+    {
+      password: 0
+    },
+    1, function(error, data) {
+      callback(error, data && data[0]);
+    });
 };
 
 /**
@@ -50,10 +58,17 @@ UserProvider.prototype.getUserByCredentials = function(email, password, callback
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Object** The user
  */
-UserProvider.prototype.getUserByEmail = function(email, callback){
-  this.database.get(this.collection, { "email" : email }, { "password" : 0 }, 1, function(error, data){
-    callback(error, data && data[0]);
-  });
+UserProvider.prototype.getUserByEmail = function(email, callback) {
+  this.database.get(this.collection,
+    {
+      email: email
+    },
+    {
+      password: 0
+    },
+    1, function(error, data) {
+      callback(error, data && data[0]);
+    });
 };
 
 /**
@@ -66,8 +81,15 @@ UserProvider.prototype.getUserByEmail = function(email, callback){
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Object** The user
  */
-UserProvider.prototype.getOne = function(id, callback){
-  this.database.get(this.collection, {"id" : id}, { "password" : 0 }, 1, function(error, data){
-    callback(error, data && data[0]);
-  });
+UserProvider.prototype.getOne = function(id, callback) {
+  this.database.get(this.collection,
+    {
+      id: id
+    },
+    {
+      password: 0
+    },
+    1, function(error, data) {
+      callback(error, data && data[0]);
+    });
 };

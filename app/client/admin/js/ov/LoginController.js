@@ -1,14 +1,11 @@
-(function(app){
+'use strict';
 
-  "use strict"
-
-  app.controller("LoginController", LoginController);
-  LoginController.$inject = ["$scope", "$location", "authenticationService", "i18nService"];
+(function(app) {
 
   /**
    * Defines the login controller for the login page.
    */
-  function LoginController($scope, $location, authenticationService, i18nService){
+  function LoginController($scope, $location, authenticationService, i18nService) {
     $scope.verticalAlign = true;
     $scope.onError = false;
     $scope.languages = i18nService.getLanguages();
@@ -18,30 +15,33 @@
      * Sets language.
      * @param String language The language code
      */
-    $scope.changeLanguage = function(language){
+    $scope.changeLanguage = function(language) {
       i18nService.setLanguage(language);
     };
 
     /**
      * Signs in using the login form information (userEmail and password).
-     * If user successfully signed in, redirect to the back office 
+     * If user successfully signed in, redirect to the back office
      * home page. Otherwise, set the form as on error.
      */
-    $scope.signIn = function(){
+    $scope.signIn = function() {
       var loginPromise = authenticationService.login($scope.userEmail, $scope.password);
 
-      if(loginPromise){
-        loginPromise.then(function(result){
+      if (loginPromise) {
+        loginPromise.then(function(result) {
           authenticationService.setUserInfo(result.data);
-          $location.path("/admin");
-        }, function(error){
+          $location.path('/admin');
+        }, function() {
           $scope.onError = true;
-          $scope.userEmail = $scope.password = "";
+          $scope.userEmail = $scope.password = '';
         });
       }
 
     };
 
   }
-  
-})(angular.module("ov"));
+
+  app.controller('LoginController', LoginController);
+  LoginController.$inject = ['$scope', '$location', 'authenticationService', 'i18nService'];
+
+})(angular.module('ov'));

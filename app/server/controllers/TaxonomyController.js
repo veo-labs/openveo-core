@@ -1,6 +1,6 @@
-"use strict"
+'use strict';
 
-/** 
+/**
  * @module core-controllers
  */
 
@@ -11,16 +11,10 @@
  */
 
 // Module dependencies
-var winston = require("winston");
-var openVeoAPI = require("@openveo/api");
-var errors = process.require("app/server/httpErrors.js");
+var errors = process.require('app/server/httpErrors.js');
 
-var TaxonomyModel = process.require("app/server/models/TaxonomyModel.js");
+var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
 var taxonomyModel = new TaxonomyModel();
-var applicationStorage = openVeoAPI.applicationStorage;
-
-// Retrieve logger
-var logger = winston.loggers.get("openveo");
 
 /**
  * Gets information about a taxonomy.
@@ -41,15 +35,20 @@ var logger = winston.loggers.get("openveo");
  * @method getTaxonomyAction
  * @static
  */
-module.exports.getTaxonomyAction = function(request, response, next){
-  if(request.params.name){
-    taxonomyModel.getByName(request.params.name, function(error, taxonomy){
-      if(error){
+module.exports.getTaxonomyAction = function(request, response, next) {
+  if (request.params.name) {
+    taxonomyModel.getByName(request.params.name, function(error, taxonomy) {
+      if (error) {
         next(errors.GET_TAXONOMY_ERROR);
-      }
-      else{
-        if (taxonomy === undefined) taxonomy = {name:request.params.name, tree:[]}
-        response.send({ taxonomy : taxonomy });
+      } else {
+        if (taxonomy === undefined)
+          taxonomy = {
+            name: request.params.name,
+            tree: []
+          };
+        response.send({
+          taxonomy: taxonomy
+        });
       }
     });
   }

@@ -1,4 +1,4 @@
-"use strict"
+'use strict';
 
 /**
  * Provides functions to manipulate HTTP paths handled by the server.
@@ -35,37 +35,36 @@
  * @return {Boolean} true if the rule validates the path, false
  * otherwise
  */
-module.exports.validate = function(path, rule){
-  if(path && rule){
+module.exports.validate = function(path, rule) {
+  if (path && rule) {
     path = path.toLowerCase();
     rule = rule.toLowerCase();
-    
+
     // Path and rule are identical, not need to go further
-    if(path === rule)
+    if (path === rule)
       return true;
-  
+
     // e.g. get /publish/videos
     // Extract HTTP method and path ("get" and "/publish/videos")
     var ruleChunks = /^(get|post|delete|put)? ?(\/?.*)$/.exec(rule);
 
     // Got a rule
-    if(ruleChunks && ruleChunks[2]){
+    if (ruleChunks && ruleChunks[2]) {
       var pattern;
-      var rulePattern = ruleChunks[2].replace(/\//g, "\\/").replace(/\*/g, ".*");
+      var rulePattern = ruleChunks[2].replace(/\//g, '\\/').replace(/\*/g, '.*');
 
       // Got HTTP method in rule
-      if(ruleChunks[1])
-        pattern = new RegExp("^" + ruleChunks[1] + " " + rulePattern + "$");
+      if (ruleChunks[1])
+        pattern = new RegExp('^' + ruleChunks[1] + ' ' + rulePattern + '$');
 
-      // No HTTP method in rule, authorize get, post, delete and
-      // put
+      // No HTTP method in rule, authorize get, post, delete and put
       else
-        pattern = new RegExp("^(get|post|delete|put)? ?" + rulePattern + "$");
+        pattern = new RegExp('^(get|post|delete|put)? ?' + rulePattern + '$');
 
-      if(pattern.test(path))
+      if (pattern.test(path))
         return true;
     }
   }
-  
+
   return false;
 };

@@ -1,24 +1,24 @@
-"use strict"
+'use strict';
 
-/** 
+/**
  * @module core-models
  */
 
 // Module dependencies
-var util = require("util");
-var openVeoAPI = require("@openveo/api");
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
 
-var TokenProvider = process.require("app/server/providers/TokenProvider.js");
+var TokenProvider = process.require('app/server/providers/TokenProvider.js');
 
 /**
- * Defines a TokenModel class to manipulate tokens for Web Service 
+ * Defines a TokenModel class to manipulate tokens for Web Service
  * authentication.
  *
  * @class TokenModel
  * @constructor
  * @extends EntityModel
  */
-function TokenModel(){
+function TokenModel() {
   openVeoAPI.EntityModel.prototype.init.call(this, new TokenProvider(openVeoAPI.applicationStorage.getDatabase()));
 }
 
@@ -37,30 +37,31 @@ util.inherits(TokenModel, openVeoAPI.EntityModel);
  * @param {Function} callback The function to call when it's done
  *   - Error The error if an error occurred, null otherwise
  */
-TokenModel.prototype.add = function(token, clientId, scopes, ttl, callback){
+TokenModel.prototype.add = function(token, clientId, scopes, ttl, callback) {
   this.provider.add({
-    "token" : token,
-    "clientId" : clientId,
-    "scopes" : scopes || [],
-    "ttl" : ttl
-  }, function(error){
-    if(callback)
+    token: token,
+    clientId: clientId,
+    scopes: scopes || [],
+    ttl: ttl
+  },
+  function(error) {
+    if (callback)
       callback(error);
   });
 };
 
 /**
  * Removes all tokens associated to a client id.
- * 
+ *
  * @method removeTokensByClientId
  * @async
  * @param {String} clientId The id of the client
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-TokenModel.prototype.removeTokensByClientId = function(clientId, callback){
-  this.provider.removeByClient(clientId, function(error){
-    if(callback)
+TokenModel.prototype.removeTokensByClientId = function(clientId, callback) {
+  this.provider.removeByClient(clientId, function(error) {
+    if (callback)
       callback(error);
   });
 };
@@ -75,6 +76,6 @@ TokenModel.prototype.removeTokensByClientId = function(clientId, callback){
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Object** The token
  */
-TokenModel.prototype.getTokenByValue = function(token, callback){
+TokenModel.prototype.getTokenByValue = function(token, callback) {
   this.provider.getByValue(token, callback);
 };

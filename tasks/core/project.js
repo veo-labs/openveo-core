@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   app: ['./app'],
   admin: ['<%= project.app %>/client/admin'],
@@ -8,4 +10,4 @@ module.exports = {
   js: ['<%= project.public %>/js'],
   font: ['../lib/bootstrap-sass/assets/fonts/'],
   uglify: ['build/uglify']
-}
+};

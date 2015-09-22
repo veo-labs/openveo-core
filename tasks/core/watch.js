@@ -1,6 +1,8 @@
+'use strict';
+
 module.exports = {
-  compass : {
+  compass: {
     files: '**/*.scss',
     tasks: ['compass:dev']
   }
-}
+};

@@ -1,13 +1,13 @@
-"use strict"
+'use strict';
 
-/** 
+/**
  * @module core-models
  */
 
 // Module dependencies
-var util = require("util");
-var openVeoAPI = require("@openveo/api");
-var RoleProvider = process.require("app/server/providers/RoleProvider.js");
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 
 /**
  * Defines a RoleModel class to manipulate user roles for back end
@@ -17,7 +17,7 @@ var RoleProvider = process.require("app/server/providers/RoleProvider.js");
  * @constructor
  * @extends EntityModel
  */
-function RoleModel(){
+function RoleModel() {
   openVeoAPI.EntityModel.prototype.init.call(this, new RoleProvider(openVeoAPI.applicationStorage.getDatabase()));
 }
 
@@ -43,7 +43,7 @@ util.inherits(RoleModel, openVeoAPI.EntityModel);
  *         description : "description 2",
  *         activated : true
  *        }
- *      } 
+ *      }
  *     }, callback);
  *
  * @method add
@@ -52,20 +52,20 @@ util.inherits(RoleModel, openVeoAPI.EntityModel);
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-RoleModel.prototype.add = function(data, callback){
-  if(!data.name || !data.permissions){
-    callback(new Error("Requires name and permissions to add a role"));
+RoleModel.prototype.add = function(data, callback) {
+  if (!data.name || !data.permissions) {
+    callback(new Error('Requires name and permissions to add a role'));
     return;
   }
 
   var role = {
-    id : Date.now().toString(),
-    name : data.name,
-    permissions : data.permissions
+    id: Date.now().toString(),
+    name: data.name,
+    permissions: data.permissions
   };
-  
-  this.provider.add(role, function(error){
-    if(callback)
+
+  this.provider.add(role, function(error) {
+    if (callback)
       callback(error, role);
   });
 };
@@ -80,6 +80,6 @@ RoleModel.prototype.add = function(data, callback){
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Array** The list of roles
  */
-RoleModel.prototype.getByIds = function(roles, callback){
+RoleModel.prototype.getByIds = function(roles, callback) {
   this.provider.getByIds(roles, callback);
 };

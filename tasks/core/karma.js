@@ -1,11 +1,13 @@
+'use strict';
+
 module.exports = {
-  
+
   // Common options for all karma targets
   options: {
-    
+
     // Use mocha and chai for tests
-    frameworks: ["mocha", "chai"],
-    
+    frameworks: ['mocha', 'chai'],
+
     // Web server port
     port: 9876,
 
@@ -14,7 +16,7 @@ module.exports = {
 
     // level of logging
     // possible values: OFF || ERROR || WARN || INFO || DEBUG
-    logLevel: "INFO",
+    logLevel: 'INFO',
 
     // Enable / disable watching file and executing tests whenever
     // any file changes
@@ -22,22 +24,22 @@ module.exports = {
 
     // List of browsers to execute tests on
     browsers: [
-      "PhantomJS"
+      'PhantomJS'
     ],
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: true,
-    
+
     // HTML templates mock
     ngHtml2JsPreprocessor: {
-      moduleName: "templates"
+      moduleName: 'templates'
     }
-    
+
   },
-  
+
   // Core unit tests
   core: {
-    configFile: "tests/client/karmaConf.js"
+    configFile: 'tests/client/karmaConf.js'
   }
 };

@@ -1,6 +1,6 @@
-"use strict"
+'use strict';
 
-/** 
+/**
  * @module core-controllers
  */
 
@@ -11,8 +11,8 @@
  */
 
 // Module files
-var i18n = process.require("app/server/i18n.js");
-var errors = process.require("app/server/httpErrors.js");
+var i18n = process.require('app/server/i18n.js');
+var errors = process.require('app/server/httpErrors.js');
 
 /**
  * Gets a public dictionary of translations by its name.
@@ -31,16 +31,17 @@ var errors = process.require("app/server/httpErrors.js");
  * If no dictionary is found, a JSON 404 Not Found response is send back.
  *
  * @method getDictionaryAction
- * @static  
+ * @static
  */
-module.exports.getDictionaryAction = function(request, response, next){
-  i18n.getTranslations(request.params.dictionary.replace(/^admin-/, ""), request.params.code, null, function(translations){
-    if(translations)
-      response.send(translations);
-    else{
-      next(errors.I18N_DICTIONARY_NOT_FOUND);
-    }
-  });
+module.exports.getDictionaryAction = function(request, response, next) {
+  i18n.getTranslations(request.params.dictionary.replace(/^admin-/, ''), request.params.code, null,
+    function(translations) {
+      if (translations)
+        response.send(translations);
+      else {
+        next(errors.I18N_DICTIONARY_NOT_FOUND);
+      }
+    });
 };
 
 /**
@@ -50,19 +51,19 @@ module.exports.getDictionaryAction = function(request, response, next){
  *  - **dictionary** The name of the dictionary
  *  - **code** The language code
  *
- * To restrict access to the dictionary, all dictionaries with 
+ * To restrict access to the dictionary, all dictionaries with
  * restricted access must be prefixed by "admin-".
- * If no dictionary is found, a JSON 404 Not Found response is send back 
+ * If no dictionary is found, a JSON 404 Not Found response is send back
  * to the client.
  *
  * @method getAdminDictionaryAction
- * @static  
+ * @static
  */
-module.exports.getAdminDictionaryAction = function(request, response, next){
-  i18n.getTranslations(request.params.dictionary, request.params.code, "admin-", function(translations){
-    if(translations)
+module.exports.getAdminDictionaryAction = function(request, response, next) {
+  i18n.getTranslations(request.params.dictionary, request.params.code, 'admin-', function(translations) {
+    if (translations)
       response.send(translations);
-    else{
+    else {
       next(errors.I18N_DICTIONARY_NOT_FOUND);
     }
   });

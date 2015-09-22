@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   dev: {
     options: {
@@ -17,4 +19,4 @@ module.exports = {
       environment: 'production'
     }
   }
-}
+};

@@ -1,14 +1,14 @@
-"use strict"
+'use strict';
 
-/** 
+/**
  * @module core-models
  */
 
 // Module dependencies
-var util = require("util");
-var openVeoAPI = require("@openveo/api");
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
 
-var TaxonomyProvider = process.require("app/server/providers/TaxonomyProvider.js");
+var TaxonomyProvider = process.require('app/server/providers/TaxonomyProvider.js');
 
 /**
  * Defines a TaxonomyModel class to manipulate taxonomies.
@@ -17,7 +17,7 @@ var TaxonomyProvider = process.require("app/server/providers/TaxonomyProvider.js
  * @constructor
  * @extends EntityModel
  */
-function TaxonomyModel(){
+function TaxonomyModel() {
   openVeoAPI.EntityModel.prototype.init.call(this, new TaxonomyProvider(openVeoAPI.applicationStorage.getDatabase()));
 }
 
@@ -26,16 +26,19 @@ util.inherits(TaxonomyModel, openVeoAPI.EntityModel);
 
 /**
  * Gets taxonomy by its name.
- * 
+ *
  * @method getByName
  * @async
  * @param {Object} data A taxonomy object
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  */
-TaxonomyModel.prototype.getByName = function(name, callback){
-  this.provider.getByFilter({name: name}, function(error, taxonomy){
-    if(callback)
+TaxonomyModel.prototype.getByName = function(name, callback) {
+  this.provider.getByFilter({
+    name: name
+  },
+  function(error, taxonomy) {
+    if (callback)
       callback(error, taxonomy);
   });
-}
+};
