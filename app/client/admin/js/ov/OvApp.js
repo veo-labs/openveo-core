@@ -161,8 +161,7 @@
    * Routes which require authentication are registered using
    * the ovRouteProvider which is a wrapper to the $routeProvider.
    */
-  app.config(
-    ['ovRouteProvider', '$routeProvider', '$locationProvider',
+  app.config(['ovRouteProvider', '$routeProvider', '$locationProvider',
     function(ovRouteProvider, $routeProvider, $locationProvider) {
 
       // Register /admin route with authentication
@@ -225,7 +224,7 @@
       ovRouteProvider.when('/admin/be/profiles', {
         templateUrl: 'views/profiles.html',
         controller: 'ProfileController',
-        title: 'Profiles.PAGE_TITLE',
+        title: 'PROFILES.PAGE_TITLE',
         resolve: {
           user: ['authenticationService', function(authenticationService) {
             return authenticationService.getUserInfo();
