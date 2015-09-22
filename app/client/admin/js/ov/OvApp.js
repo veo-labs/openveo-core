@@ -39,122 +39,122 @@
   var app = angular.module('ov', moduleDependencies);
   app.run(['editableOptions', 'formlyConfig', function(editableOptions, formlyConfig) {
 
-      editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
+    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 
-      formlyConfig.setWrapper({
-        name: 'collapse',
-        template: ['<div class="panel panel-default">',
-          '<div for="{{::id}}" class="panel-heading" ng-init="isCollapsed=true" ' +
-                   'ng-click="isCollapsed = !isCollapsed">{{to.labelCollapse}}</div>',
-          '<div class="panel-body" collapse="isCollapsed">',
-          '<formly-transclude></formly-transclude>',
-          '</div></div>'
-        ].join(' ')
-      });
+    formlyConfig.setWrapper({
+      name: 'collapse',
+      template: ['<div class="panel panel-default">',
+        '<div for="{{::id}}" class="panel-heading" ng-init="isCollapsed=true" ' +
+                 'ng-click="isCollapsed = !isCollapsed">{{to.labelCollapse}}</div>',
+        '<div class="panel-body" collapse="isCollapsed">',
+        '<formly-transclude></formly-transclude>',
+        '</div></div>'
+      ].join(' ')
+    });
 
-      formlyConfig.setWrapper({
-        name: 'horizontalBootstrapLabel',
-        template: [
-          '<label for="{{::id}}" class="col-md-4 control-label">',
-          '{{to.label}} {{to.required ? "*" : ""}}',
-          '</label>',
-          '<div class="col-md-8">',
-          '<formly-transclude></formly-transclude>',
-          '</div>'
-        ].join(' ')
-      });
-      formlyConfig.setType({
-        name: 'emptyrow',
-        template: '<div class="well well-sm">{{to.message}}</div>',
-        wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-      });
+    formlyConfig.setWrapper({
+      name: 'horizontalBootstrapLabel',
+      template: [
+        '<label for="{{::id}}" class="col-md-4 control-label">',
+        '{{to.label}} {{to.required ? "*" : ""}}',
+        '</label>',
+        '<div class="col-md-8">',
+        '<formly-transclude></formly-transclude>',
+        '</div>'
+      ].join(' ')
+    });
+    formlyConfig.setType({
+      name: 'emptyrow',
+      template: '<div class="well well-sm">{{to.message}}</div>',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
 
-      // Input type
-      formlyConfig.setType({
-        extends: 'input',
-        template: '<div class="editable"><span editable-text="model[options.key]" e-name="{{::id}}" ' +
-          'onbeforesave="checkNotEmpty($data)">{{ model[options.key] || (\'UI.EMPTY\'|translate) }}</span></div>',
-        name: 'editableInput',
-        link: /* @ngInject */ function(scope) {
-          scope.checkNotEmpty = function(data) {
-            if (scope.to.required && (!data || data == ''))
-              return 'You must type a value.';
-          };
-        }
-      });
-      formlyConfig.setType({
-        extends: 'select',
-        template: '<div class="editable">\n' +
-          '<span editable-select="model[options.key]" e-name="{{::id}}" ' +
-          'e-ng-options="s.value as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n' +
-          '{{ (to.options | filter:{value: model[options.key]})[0].name ||  (\'UI.EMPTY\'|translate) }}\n' +
-          '</div>',
-        name: 'editableSelect',
-        link: /* @ngInject */ function(scope) {
-          scope.checkNotEmpty = function(data) {
-            if (scope.to.required && (!data || data == ''))
-              return 'You must select a value.';
-          };
-        }
-      });
-      formlyConfig.setType({
-        extends: 'multiCheckbox',
-        template: '<div class="editable">\n' +
-          '<span editable-checklist="model[options.key]" e-name="{{::id}}" ' +
-          'e-ng-options="s.id as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n' +
-          '{{ showChecked() | translate}}\n' +
-          '</div>',
-        name: 'editableChecklist',
-        link: /* @ngInject */ function(scope) {
-          scope.showChecked = function() {
-            var selected = [];
-            angular.forEach(scope.to.options, function(s) {
-              if (scope.model[scope.options.key] && scope.model[scope.options.key].indexOf(s.id) >= 0) {
-                selected.push(s.name);
-              }
-            });
-            return selected.length ? selected.join(', ') : 'UI.EMPTY';
-          };
-          scope.checkNotEmpty = function(data) {
-            if (scope.to.required && data.length == 0)
-              return 'You must choose a value.';
-          };
-        }
-      });
+    // Input type
+    formlyConfig.setType({
+      extends: 'input',
+      template: '<div class="editable"><span editable-text="model[options.key]" e-name="{{::id}}" ' +
+        'onbeforesave="checkNotEmpty($data)">{{ model[options.key] || (\'UI.EMPTY\'|translate) }}</span></div>',
+      name: 'editableInput',
+      link: /* @ngInject */ function(scope) {
+        scope.checkNotEmpty = function(data) {
+          if (scope.to.required && (!data || data == ''))
+            return 'You must type a value.';
+        };
+      }
+    });
+    formlyConfig.setType({
+      extends: 'select',
+      template: '<div class="editable">\n' +
+        '<span editable-select="model[options.key]" e-name="{{::id}}" ' +
+        'e-ng-options="s.value as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n' +
+        '{{ (to.options | filter:{value: model[options.key]})[0].name ||  (\'UI.EMPTY\'|translate) }}\n' +
+        '</div>',
+      name: 'editableSelect',
+      link: /* @ngInject */ function(scope) {
+        scope.checkNotEmpty = function(data) {
+          if (scope.to.required && (!data || data == ''))
+            return 'You must select a value.';
+        };
+      }
+    });
+    formlyConfig.setType({
+      extends: 'multiCheckbox',
+      template: '<div class="editable">\n' +
+        '<span editable-checklist="model[options.key]" e-name="{{::id}}" ' +
+        'e-ng-options="s.id as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n' +
+        '{{ showChecked() | translate}}\n' +
+        '</div>',
+      name: 'editableChecklist',
+      link: /* @ngInject */ function(scope) {
+        scope.showChecked = function() {
+          var selected = [];
+          angular.forEach(scope.to.options, function(s) {
+            if (scope.model[scope.options.key] && scope.model[scope.options.key].indexOf(s.id) >= 0) {
+              selected.push(s.name);
+            }
+          });
+          return selected.length ? selected.join(', ') : 'UI.EMPTY';
+        };
+        scope.checkNotEmpty = function(data) {
+          if (scope.to.required && data.length == 0)
+            return 'You must choose a value.';
+        };
+      }
+    });
 
-      // Horizontal-inputType
-      formlyConfig.setType({
-        name: 'horizontalInput',
-        extends: 'input',
-        wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-      });
-      formlyConfig.setType({
-        name: 'horizontalExtendInput',
-        extends: 'editableInput',
-        wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-      });
-      formlyConfig.setType({
-        name: 'horizontalSelect',
-        extends: 'select',
-        wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-      });
-      formlyConfig.setType({
-        name: 'horizontalExtendSelect',
-        extends: 'editableSelect',
-        wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-      });
-      formlyConfig.setType({
-        name: 'horizontalCheckList',
-        extends: 'multiCheckbox',
-        wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-      });
-      formlyConfig.setType({
-        name: 'horizontalExtendCheckList',
-        extends: 'editableChecklist',
-        wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-      });
+    // Horizontal-inputType
+    formlyConfig.setType({
+      name: 'horizontalInput',
+      extends: 'input',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalExtendInput',
+      extends: 'editableInput',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalSelect',
+      extends: 'select',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalExtendSelect',
+      extends: 'editableSelect',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalCheckList',
+      extends: 'multiCheckbox',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalExtendCheckList',
+      extends: 'editableChecklist',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
 
-    }]);
+  }]);
 
   /**
    * Configures application main routes and set location mode to HTML5.
@@ -179,16 +179,16 @@
         controller: 'LoginController',
         resolve: {
           i18n: ['i18nService', function(i18nService) {
-              return i18nService.addDictionary('login');
-            }],
+            return i18nService.addDictionary('login');
+          }],
           auth: ['$q', 'authenticationService', function($q, authenticationService) {
-              var userInfo = authenticationService.getUserInfo();
+            var userInfo = authenticationService.getUserInfo();
 
-              if (userInfo)
-                return $q.reject();
-              else
-                return $q.when();
-            }]
+            if (userInfo)
+              return $q.reject();
+            else
+              return $q.when();
+          }]
         }
       }).otherwise('/admin');
 
@@ -201,8 +201,8 @@
         access: 'access-applications-page',
         resolve: {
           scopes: ['applicationService', function(applicationService) {
-              return applicationService.loadScopes();
-            }]
+            return applicationService.loadScopes();
+          }]
         }
       });
 
@@ -215,8 +215,8 @@
         access: 'access-users-page',
         resolve: {
           roles: ['userService', function(userService) {
-              return userService.loadRoles();
-            }]
+            return userService.loadRoles();
+          }]
         }
       });
 
@@ -228,8 +228,8 @@
         title: 'Profiles.PAGE_TITLE',
         resolve: {
           user: ['authenticationService', function(authenticationService) {
-              return authenticationService.getUserInfo();
-            }]
+            return authenticationService.getUserInfo();
+          }]
         }
       });
 
@@ -242,8 +242,8 @@
         access: 'access-roles-page',
         resolve: {
           permissions: ['userService', function(userService) {
-              return userService.loadPermissions();
-            }]
+            return userService.loadPermissions();
+          }]
         }
       });
 
