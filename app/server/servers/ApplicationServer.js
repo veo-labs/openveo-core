@@ -27,6 +27,7 @@ var applicationStorage = openVeoAPI.applicationStorage;
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
 
 var favicon = require('serve-favicon');
+var mongostoreInstance;
 
 /**
  * Application's environment mode.
@@ -116,6 +117,11 @@ util.inherits(ApplicationServer, Server);
 ApplicationServer.prototype.onDatabaseAvailable = function(db) {
   // Load all middlewares which need to operate
   // on each request
+  if (!mongostoreInstance) {
+    mongostoreInstance = new MongoStore({
+      db: db.db
+    });
+  }
 
   // Update Session store with opened database connection
   // Allowed server to restart without loosing any session
@@ -123,9 +129,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
     secret: serverConf['sessionSecret'],
     saveUninitialized: true,
     resave: true,
-    store: new MongoStore({
-      db: db.db
-    })
+    store: mongostoreInstance
   }));
 
   // The cookieParser and session middlewares are required
