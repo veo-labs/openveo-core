@@ -57,14 +57,22 @@ module.exports.errorAction = function(error, request, response) {
     headers: request.headers
   });
 
-  // Send response
+   // Send response with HTML content
+  if (request.accepts('html') && (error.httpCode == '401' || error.httpCode == '403')) {
+    response.render(error.httpCode, {
+      url: request.url
+    });
+    return;
+  }
+
+  // Send response with JSON content or HTML but not 401 or 403 errorCode
   response.status(error.httpCode);
-  response.send({
-    error: {
-      code: error.code,
-      module: error.module
-    }
-  });
+  response.send({error: {
+    code: error.code,
+    module: error.module
+  }});
+  return;
+
 };
 
 /**
