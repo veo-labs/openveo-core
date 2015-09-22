@@ -1,4 +1,4 @@
-<div class="col-xs-8 detail" ng-controller="FormEditController as fec">
+<div class="detail" ng-controller="FormEditController as fec">
   <form ng-submit="fec.onSubmit()" novalidate class="form-horizontal" name="fec.edit" ng-init='fec.init(row);'>
     <formly-form model="fec.model" fields="fec.fields" options="fec.options" form="fec.form" editable-form onaftersave="fec.onSubmit()" root-el="form">
       <div class="form-submit-bouton col-xs-6 col-xs-push-2" ng-if="fec.conditionEditDetail(row)">
