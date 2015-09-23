@@ -65,9 +65,9 @@ function getPermissionByUrl(permissions, url, httpMethod) {
       // Group of permissions
       var permissionId = getPermissionByUrl(permissions[i].permissions, url, httpMethod);
 
-      if (permissionId)
-        permissionsList.concat(permissionId);
-
+      if (permissionId && permissionId.length > 0) {
+        permissionsList = permissionsList.concat(permissionId);
+      }
     }
   }
   if (permissionsList.length == 0)
