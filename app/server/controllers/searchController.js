@@ -9,15 +9,15 @@ var logger = winston.loggers.get('openveo');
 
 /**
  * Gets entity model.
- * @param String type The type of entity
- * @return EntityModel An instance of an EntityModel
+ * @param {String} type The type of entity
+ * @return {EntityModel} An instance of an EntityModel
  */
-var getEntityModel = function(type) {
+function getEntityModel(type) {
   var entities = openVeoAPI.applicationStorage.getEntities();
 
   if (type)
     return entities[type];
-};
+}
 
 /**
  * Updates an entity..
@@ -39,8 +39,6 @@ module.exports.searchEntitiesAction = function(request, response) {
             response.status(500).send();
           } else {
 
-            // TODO Add Header,
-            // Add paginations
             response.send({
               rows: rows,
               pagination: paginate

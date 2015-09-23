@@ -25,7 +25,7 @@
   }
 
   /**
-   * Defines a modal instance.
+   * Defines a controller for modal instance.
    */
   function ModalInstanceCtrl($scope, $modalInstance, items) {
     $scope.items = items;

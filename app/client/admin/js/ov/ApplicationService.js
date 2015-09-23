@@ -7,15 +7,14 @@
    */
   function ApplicationService($http, $q) {
     var basePath = '/admin/';
-    var applications,
-      scopes;
+    var applications;
+    var scopes;
 
     /**
      * Loads the list of applications from server.
-     * @return Promise The promise used to retrieve applications
-     * from server
+     * @return {Promise} The promise used to retrieve applications from server
      */
-    var loadApplications = function() {
+    function loadApplications() {
       if (!applications) {
 
         // Get applications from server
@@ -30,14 +29,13 @@
           entities: applications
         }
       });
-    };
+    }
 
     /**
-     * Loads the list of scopes from server.
-     * @return Promise The promise used to retrieve applications
-     * from server
+     * Loads the list of scopes available for client applications.
+     * @return {Promise} The promise used to retrieve applications from server
      */
-    var loadScopes = function() {
+    function loadScopes() {
       if (!scopes) {
 
         // Get scopes from server
@@ -50,30 +48,30 @@
       return $q.when({
         data: scopes
       });
-    };
+    }
 
     /**
-     * Gets the scopes.
-     * @param Array The scopes
+     * Gets the available list of scopes for client applications.
+     * @param {Array} The scopes
      */
-    var getScopes = function() {
+    function getScopes() {
       return scopes;
-    };
+    }
 
     /**
      * Gets the applications.
-     * @param Array The applications
+     * @param {Array} The applications
      */
-    var getApplications = function() {
+    function getApplications() {
       return applications;
-    };
+    }
 
     /**
-     * Destroys applications instance.
+     * Destroys ApplicationService cached datas.
      */
-    var destroy = function() {
+    function destroy() {
       applications = scopes = null;
-    };
+    }
 
     return {
       loadApplications: loadApplications,

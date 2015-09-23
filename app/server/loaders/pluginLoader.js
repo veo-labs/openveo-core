@@ -43,7 +43,7 @@ var logger = winston.loggers.get('openveo');
  * @param {Array} pluginsPaths The list of plugins paths to analyze
  * @return {Array} The filtered list of plugins paths
  */
-var filterPluginsPaths = function(pluginsPaths) {
+function filterPluginsPaths(pluginsPaths) {
   var filteredPaths = [];
 
   // Got at least one path
@@ -77,7 +77,7 @@ var filterPluginsPaths = function(pluginsPaths) {
   }
 
   return filteredPaths;
-};
+}
 
 /**
  * Recursively and asynchronously analyze the given directory to get
@@ -103,7 +103,7 @@ var filterPluginsPaths = function(pluginsPaths) {
  *    - **Error** An Error object or null
  *    - **Array** The list of plugins paths
  */
-var getPluginsPaths = function(startingPath, callback) {
+function getPluginsPaths(startingPath, callback) {
 
   if (startingPath) {
     startingPath = path.join(startingPath, 'node_modules', '@openveo');
@@ -178,7 +178,7 @@ var getPluginsPaths = function(startingPath, callback) {
     });
   }
 
-};
+}
 
 /**
  * Recursively and asynchronously load all npm plugins prefixed by "@openveo/" under the given path.

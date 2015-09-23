@@ -51,16 +51,16 @@ passport.use(new LocalStrategy(
     usernameField: 'email',
     passwordField: 'password'
   },
-function(email, password, done) {
-  userModel.getUserByCredentials(email, password, function(error, user) {
-    if (error || !user)
-      done(null, false);
-    else if (user.id == 0)
-      done(null, user);
-    else
-      getUserRoles(user, done);
-  });
-}
+  function(email, password, done) {
+    userModel.getUserByCredentials(email, password, function(error, user) {
+      if (error || !user)
+        done(null, false);
+      else if (user.id == 0)
+        done(null, user);
+      else
+        getUserRoles(user, done);
+    });
+  }
 ));
 
 // In order to support login sessions, Passport serialize and

@@ -20,13 +20,13 @@
      * representation of all its translations.
      * If dictionary does not exist yet, get it from the server.
      *
-     * @param String name The name of the dictionary to retrieve from
+     * @param {String} name The name of the dictionary to retrieve from
      * server
-     * @param Boolean admin true to retrieve a dictionary for the back
+     * @param {Boolean} admin true to retrieve a dictionary for the back
      * office part (which requires authentication), false to get a
      * dictionary without access restriction
      */
-    var addDictionary = function(name, admin) {
+    function addDictionary(name, admin) {
 
       // Dictionary for the currentLanguage
       if (name && (!translations[name] || translations[name][currentLanguage] === undefined)) {
@@ -44,97 +44,97 @@
           translations[name][currentLanguage] = null;
         });
       }
-    };
+    }
 
     /**
      * Removes a dictionary.
-     * @param String name The dictionary name
+     * @param {String} name The dictionary name
      */
-    var removeDictionary = function(name) {
+    function removeDictionary(name) {
       translations[name] && (delete translations[name]);
-    };
+    }
 
     /**
      * Gets a dictionary with all its languages or just for the specific
      * language.
-     * @param String name The dictionary name
-     * @param String language An optional language to retrieve
-     * @return Object The translations contained in the dictionary
+     * @param {String} name The dictionary name
+     * @param {String} language An optional language to retrieve
+     * @return {Object} The translations contained in the dictionary
      */
-    var getDictionary = function(name, language) {
+    function getDictionary(name, language) {
       if (language && translations[name])
         return translations[name][language];
 
       return translations[name];
-    };
+    }
 
     /**
      * Gets current language.
-     * @return String The current language country code (e.g en-US)
+     * @return {String} The current language country code (e.g en-US)
      */
-    var getLanguage = function() {
+    function getLanguage() {
       return currentLanguage;
-    };
+    }
 
     /**
      * Gets supported languages.
-     * @return Array The list of supported languages
+     * @return {Array} The list of supported languages
      */
-    var getLanguages = function() {
+    function getLanguages() {
       return supportedLanguages;
-    };
+    }
 
     /**
      * Tests if a language is supported.
-     * @param String language The language code to test
-     * @return Boolean true if supported, false otherwise
+     * @param {String} language The language code to test
+     * @return {Boolean} true if supported, false otherwise
      */
-    var isLanguageSupported = function(language) {
+    function isLanguageSupported(language) {
       for (var i = 0; i < supportedLanguages.length; i++) {
         if (language === supportedLanguages[i].value)
           return true;
       }
 
       return false;
-    };
+    }
 
     /**
      * Sets current language to active and the other one to inactive.
      */
-    var setActiveLanguage = function() {
+    function setActiveLanguage() {
       for (var i = 0; i < supportedLanguages.length; i++)
         supportedLanguages[i].active = supportedLanguages[i].value === currentLanguage;
-    };
+    }
 
     /**
      * Sets current language.
      * Changing the current language will reload the current route.
      *
-     * @param String language The current language country
+     * @param {String} language The current language country
      * code (e.g en-CA)
      */
-    var setLanguage = function(language) {
+    function setLanguage(language) {
       if (isLanguageSupported(language)) {
         currentLanguage = language;
         $cookies.put('language', currentLanguage);
         setActiveLanguage(currentLanguage);
         $route.reload();
       }
-    };
+    }
 
     /**
      * Gets full name of a language by its code.
-     * @param String language The language code
-     * @return String The language full name
+     * @param {String} language The language code
+     * @return {String} The language full name
      */
-    var getLanguageName = function(language) {
+    function getLanguageName(language) {
       for (var i = 0; i < supportedLanguages.length; i++) {
         if (language === supportedLanguages[i].value)
           return supportedLanguages[i].label;
       }
 
       return null;
-    };
+    }
 
     /**
      * Looks for a translation inside a translations object.
@@ -142,12 +142,12 @@
      * Usage example :
      * getTranslationFromDictionary("HOME.LOGIN", { "HOME" : { "LOGIN" : "The translation to look for" } });
      *
-     * @param String id The id to retrieve (e.g. HOME.LOGIN)
-     * @param Object dictionary Translations where to look for
-     * @return String The translated text corresponding to the given id
+     * @param {String} id The id to retrieve (e.g. HOME.LOGIN)
+     * @param {Object} dictionary Translations where to look for
+     * @return {String} The translated text corresponding to the given id
      * in the translations or the unchanged id if no translation found
      */
-    var getTranslationFromDictionary = function(id, dictionary) {
+    function getTranslationFromDictionary(id, dictionary) {
       if (id && dictionary) {
         var properties = id.split('.');
         var property = dictionary;
@@ -160,15 +160,15 @@
       }
 
       return id;
-    };
+    }
 
     /**
      * Translates the given using current language.
-     * @param String id The id of the translation
-     * @param String dictionary The name of a particular dictionary
+     * @param {String} id The id of the translation
+     * @param {String} dictionary The name of a particular dictionary
      * if several dictionaries are loaded
      */
-    var translate = function(id, dictionary) {
+    function translate(id, dictionary) {
 
       // If the dictionary exists, get translation from
       // that dictionary
@@ -206,9 +206,12 @@
 
         return translatedText;
       }
-    };
+    }
 
-    var init = function() {
+    /**
+     * Initializes supported languages.
+     */
+    function init() {
       supportedLanguages = [
         {
           value: 'en',
@@ -231,7 +234,7 @@
       }
       else
         setActiveLanguage();
-    };
+    }
 
     init();
 
@@ -257,8 +260,8 @@
     /**
      * Translates an id, contained inside a dictionary, into
      * the appropriated text.
-     * @param String id The id of the translation
-     * @param String dictionaryName An optional dictionary to prevent
+     * @param {String} id The id of the translation
+     * @param {String} dictionaryName An optional dictionary to prevent
      * looking in all dictionaries
      */
     return function(id, dictionaryName) {

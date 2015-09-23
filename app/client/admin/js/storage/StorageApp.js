@@ -22,28 +22,29 @@
 
       /**
        * Gets information from storage using the given key.
-       * @param String key The key of the element to retrieve
+       * @param {String} key The key of the element to retrieve
+       * @return The stored value for the given key
        */
-      var getFromStorage = function(key) {
+      function getFromStorage(key) {
         return $window[self.type][self.prefix + key];
-      };
+      }
 
       /**
        * Adds information to the storage.
-       * @param String key The key of the element to add
-       * @param String value The value of the element to add
+       * @param {String} key The key of the element to add
+       * @param {String} value The value of the element to add
        */
-      var addToStorage = function(key, value) {
+      function addToStorage(key, value) {
         $window[self.type][self.prefix + key] = value;
-      };
+      }
 
       /**
        * Removes a key from the storage.
-       * @param String key The key of the element to remove
+       * @param {String} key The key of the element to remove
        */
-      var removeFromStorage = function(key) {
+      function removeFromStorage(key) {
         $window[self.type].removeItem(self.prefix + key);
-      };
+      }
 
       return {
         get: getFromStorage,

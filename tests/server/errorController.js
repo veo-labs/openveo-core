@@ -121,6 +121,10 @@ describe('errorController', function() {
         return this;
       };
 
+      request.accepts = function(type) {
+        return type === 'json';
+      };
+
       response.send = function(data) {
         assert.equal(data.error.code, 25);
         assert.equal(data.error.module, 'core');
@@ -132,21 +136,40 @@ describe('errorController', function() {
       });
     });
 
-    it('Should set module to core if not specified', function(done) {
+    it('Should send back a 401 html page', function(done) {
 
       var error = {
-        httpCode: 400,
+        httpCode: 401,
         code: 26
       };
 
-      response.status = function(status) {
-        assert.equal(status, 400);
-        return this;
+      request.accepts = function(type) {
+        return type === 'html';
       };
 
-      response.send = function(data) {
-        assert.equal(data.error.code, 26);
-        assert.equal(data.error.module, 'core');
+      response.render = function(template) {
+        assert.equal(template, '401');
+        done();
+      };
+
+      errorController.errorAction(error, request, response, function() {
+        assert.ok(false);
+      });
+    });
+
+    it('Should send back a 403 html page', function(done) {
+
+      var error = {
+        httpCode: 403,
+        code: 26
+      };
+
+      request.accepts = function(type) {
+        return type === 'html';
+      };
+
+      response.render = function(template) {
+        assert.equal(template, '403');
         done();
       };
 
@@ -160,6 +183,10 @@ describe('errorController', function() {
       response.status = function(status) {
         assert.equal(status, 500);
         return this;
+      };
+
+      request.accepts = function(type) {
+        return type === 'json';
       };
 
       response.send = function(data) {

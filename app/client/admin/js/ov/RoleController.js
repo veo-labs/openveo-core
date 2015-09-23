@@ -8,7 +8,7 @@
   function RoleController($scope, $filter, entityService, userService, permissions) {
 
     /**
-     * Translates label, name and description of each permission.
+     * Translates label, name and description keys of each permission.
      */
     function translatePermissions() {
       angular.forEach($scope.permissions, function(value) {
@@ -20,7 +20,11 @@
       });
     }
 
-    var getEntitiesFromModel = function(model) {
+    /**
+     * Gets the list of permissions inside a group.
+     * @param {Object} model Roles model
+     */
+    function getEntitiesFromModel(model) {
       var entity = {
         name: model.name,
         permissions: []
@@ -32,17 +36,18 @@
         }
       });
       return entity;
-    };
+    }
 
     /**
-     * Saves role.
-     * @param Object form The angular edition form controller
-     * @param Object role The role associated to the form
+     * Saves a role.
+     * @param {Object} role Role data
+     * @param {Function} successCb Function to call in case of success
+     * @param {Function} errorCb Function to call in case of error
      */
-    var savePerm = function(permission, successCb, errorCb) {
-      var entity = getEntitiesFromModel(permission);
-      entityService.updateEntity('role', permission.id, entity).success(function() {
-        permission.permissions = angular.copy(entity.permissions);
+    function saveRole(role, successCb, errorCb) {
+      var entity = getEntitiesFromModel(role);
+      entityService.updateEntity('role', role.id, entity).success(function() {
+        role.permissions = angular.copy(entity.permissions);
         userService.cacheClear('roles');
         successCb();
       }).error(function(data, status) {
@@ -50,16 +55,18 @@
         if (status === 401)
           $scope.$parent.logout();
       });
-    };
+    }
 
     /**
-     * Adds a user.
-     * @param Object form The angular form controller
+     * Adds a role.
+     * @param {Object} role Role information
+     * @param {Function} successCb Function to call in case of success
+     * @param {Function} errorCb Function to call in case of error
      */
-    var addRole = function(model, successCb, errorCb) {
-      var entity = getEntitiesFromModel(model);
+    function addRole(role, successCb, errorCb) {
+      var entity = getEntitiesFromModel(role);
       entityService.addEntity('role', entity).success(function() {
-        model.permissions = angular.copy(entity.permissions);
+        role.permissions = angular.copy(entity.permissions);
         userService.cacheClear('roles');
         successCb();
       }).error(function(data, status) {
@@ -67,9 +74,14 @@
         if (status === 401)
           $scope.$parent.logout();
       });
-    };
+    }
 
-    var prepareRolePermission = function(perms, rolePermissions) {
+    /**
+     * Prepares permissions for HTMLCheckboxElement(s).
+     * @param {Array} perms The list of permission groups
+     * @param {Array} rolePermissions The list of permission ids
+     */
+    function prepareRolePermission(perms, rolePermissions) {
       var modelPerm = {};
       angular.forEach(perms, function(value, key) {
         angular.forEach(value.permissions, function(valuePerm) {
@@ -81,13 +93,14 @@
         });
       });
       return modelPerm;
-    };
+    }
 
     /**
-     * Removes the role.
-     * @param Object role The role to remove
+     * Removes a list of roles.
+     * @param {Array} selected The list of role ids to remove
+     * @param {Function} reload The reload Function to force reloading the table
      */
-    var removeRows = function(selected, reload) {
+    function removeRows(selected, reload) {
       entityService.removeEntity('role', selected.join(','))
         .success(function() {
           userService.cacheClear('roles');
@@ -99,13 +112,13 @@
           if (status === 401)
             $scope.$parent.logout();
         });
-    };
+    }
 
     $scope.permissions = permissions.data.permissions;
     var accordionArray;
     translatePermissions();
 
-    /**
+    /*
      *
      * RIGHTS
      *
@@ -115,7 +128,7 @@
     $scope.rights.edit = $scope.checkAccess('update-role');
     $scope.rights.delete = $scope.checkAccess('delete-role');
 
-    /**
+    /*
      *
      * DATATABLE
      */
@@ -153,7 +166,7 @@
       }
     }];
 
-    /**
+    /*
      * FORM
      */
     var scopeEditForm = $scope.editFormContainer = {};
@@ -215,10 +228,10 @@
       return $scope.rights.edit && !row.locked;
     };
     scopeEditForm.onSubmit = function(model, successCb, errorCb) {
-      savePerm(model, successCb, errorCb);
+      saveRole(model, successCb, errorCb);
     };
 
-    /**
+    /*
      *  FORM Add user
      *
      */

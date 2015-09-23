@@ -10,60 +10,68 @@
     var basePath = '/admin/';
     var entityCache = {};
 
-    var deleteCache = function(entity) {
+    /**
+     * Deletes cache of the given entity type.
+     * @param {String} entity The entity type
+     */
+    function deleteCache(entity) {
       delete entityCache[entity];
-    };
+    }
 
     /**
      * Adds a new Entity.
-     * @param String entityType Type of entity
-     * @param String data Data object
+     * @param {String} entityType Type of entity
+     * @param {String} data Data description object of the entity
+     * @return {Promise} The HTTP promise
      */
-    var addEntity = function(entityType, data) {
+    function addEntity(entityType, data) {
       deleteCache(entityType);
       return $http.put(basePath + 'crud/' + entityType, data);
-    };
+    }
 
     /**
-     * Updates Entity.
-     * @param String entityType Type of entity
-     * @param String id The id of the entity to update
-     * @param String data Data object
-     * @return HttpPromise The HTTP promise
+     * Updates an entity.
+     * @param {String} entityType Type of entity
+     * @param {String} id The id of the entity to update
+     * @param {String} data Data description object of the entity
+     * @return {Promise} The HTTP promise
      */
-    var updateEntity = function(entityType, id, data) {
+    function updateEntity(entityType, id, data) {
       deleteCache(entityType);
       return $http.post(basePath + 'crud/' + entityType + '/' + id, data);
-    };
+    }
 
     /**
-     * Removes an Entity.
-     * @param String entityType Type of entity
-     * @param String id The id of the entity to update
-     * @return HttpPromise The HTTP promise
+     * Removes an entity.
+     * @param {String} entityType Type of entity
+     * @param {String} id The id of the entity to remove
+     * @return {Promise} The HTTP promise
      */
-    var removeEntity = function(entityType, id) {
+    function removeEntity(entityType, id) {
       deleteCache(entityType);
       return $http.delete(basePath + 'crud/' + entityType + '/' + id);
-    };
+    }
 
     /**
      * Get one Entity by Id
-     * @param {type} entityType
-     * @param {type} id
-     * @returns {unresolved}
+     * @param {String} entityType Type of entity
+     * @param {String} id The id of the entity to remove
+     * @return {Promise} The HTTP promise
      */
-    var getEntity = function(entityType, id) {
+    function getEntity(entityType, id) {
       return $http.get(basePath + 'crud/' + entityType + '/' + id);
-    };
+    }
 
     /**
-     * Get all entities filter by param
-     * @param {type} entityType
-     * @param {type} param
-     * @returns {unresolved}
+     * Get all entities filtered by param.
+     *
+     * @param {String} entityType Type of entity
+     * @param {Object} param Request parameters with a property "filter" with a MongoDB criteria as value, a
+     * property "count" with a MongoDB count as value, a property "page" with the expected page as value and a
+     * property "sort" with a MongoDB sort object as value
+     * @return {Promise} The HTTP promise
      */
-    var getEntities = function(entityType, param) {
+    function getEntities(entityType, param) {
       var deferred = $q.defer();
 
       var cacheId = JSON.stringify(param);
@@ -84,16 +92,16 @@
         });
       }
       return deferred.promise;
-    };
+    }
 
     /**
-     * Get all entities
-     * @param {type} entityType
-     * @returns {unresolved}
+     * Gets all entities of a specific type.
+     * @param {String} entityType Type of entity
+     * @return {Promise} The HTTP promise
      */
-    var getAllEntities = function(entityType) {
+    function getAllEntities(entityType) {
       return $http.get(basePath + 'crud/' + entityType);
-    };
+    }
 
     return {
       addEntity: addEntity,

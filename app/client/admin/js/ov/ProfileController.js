@@ -1,4 +1,5 @@
 'use strict';
+
 (function(app) {
 
   /**
@@ -10,7 +11,11 @@
     $scope.confirmPassword = '';
     $scope.isInValid = true;
 
-    var getRoles = function() {
+    /**
+     * Gets the list of role's names.
+     * @return {String} A comma separated role names
+     */
+    function getRoles() {
       var tmp = '';
       var i = 0;
       for (i = 0; i < user.roles.length - 1; i++) {
@@ -18,13 +23,13 @@
       }
       tmp += user.roles[i].name;
       return tmp;
-    };
+    }
 
     /**
-     * updates the user password.
-     * @param Object user The user associated to the form
+     * Updates user password.
+     * @param {Object} userInfo User data information
      */
-    var updatePassword = function(userInfo) {
+    function updatePassword(userInfo) {
       userInfo.saving = true;
       userInfo.password = $scope.password;
       entityService.updateEntity('user', userInfo.id, {
@@ -40,14 +45,15 @@
         if (status === 401)
           $scope.$parent.logout();
       });
-    };
+    }
 
     /**
-     * Saves the user profile.
-     * @param Object form The angular edition form controller
-     * @param Object user The user associated to the form
+     * Saves user information.
+     * @param {Object} userInfo The user information
+     * @param {Function} successCb Function to call in case of success
+     * @param {Function} errorCb Function to call in case of error
      */
-    var saveProfile = function(userInfo, successCb, errorCb) {
+    function saveProfile(userInfo, successCb, errorCb) {
       userInfo.saving = true;
       entityService.updateEntity('user', userInfo.id, {
         name: userInfo.name,
@@ -61,9 +67,9 @@
         if (status === 401)
           $scope.$parent.logout();
       });
-    };
+    }
 
-    /**
+    /*
      * FORM
      */
     var scopeEditForm = $scope.editFormContainer = {};

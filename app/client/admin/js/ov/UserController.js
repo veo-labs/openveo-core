@@ -9,15 +9,17 @@
 
     /**
      * Adds a user.
-     * @param Object form The angular form controller
+     * @param {Object} user The user data
+     * @param {Function} successCb Function to call in case of success
+     * @param {Function} errorCb Function to call in case of error
      */
-    var addUser = function(model, successCb, errorCb) {
+    function addUser(user, successCb, errorCb) {
       var entity = {
-        name: model.name,
-        email: model.email,
-        password: model.password,
-        passwordValidate: model.passwordValidate,
-        roles: model.roles || []
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        passwordValidate: user.passwordValidate,
+        roles: user.roles || []
       };
       entityService.addEntity('user', entity).success(function() {
         successCb();
@@ -26,13 +28,14 @@
         if (status === 401)
           $scope.$parent.logout();
       });
-    };
+    }
 
     /**
-     * Removes the user.
-     * @param Object user The user to remove
+     * Removes a list of users.
+     * @param {Array} selected The list of user ids to remove
+     * @param {Function} reload The reload Function to force reloading the table
      */
-    var removeRows = function(selected, reload) {
+    function removeRows(selected, reload) {
       entityService.removeEntity('user', selected.join(','))
         .success(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('USERS.REMOVE_SUCCESS'), 4000);
@@ -43,14 +46,15 @@
           if (status === 401)
             $scope.$parent.logout();
         });
-    };
+    }
 
     /**
      * Saves user.
-     * @param Object form The angular edition form controller
-     * @param Object user The user associated to the form
+     * @param {Object} user The user data
+     * @param {Function} successCb Function to call in case of success
+     * @param {Function} errorCb Function to call in case of error
      */
-    var saveUser = function(user, successCb, errorCb) {
+    function saveUser(user, successCb, errorCb) {
       entityService.updateEntity('user', user.id, {
         name: user.name,
         email: user.email,
@@ -62,7 +66,7 @@
         if (status === 401)
           $scope.$parent.logout();
       });
-    };
+    }
 
     $scope.roles = roles.data.entities;
 

@@ -13,7 +13,7 @@
 
     /**
      * Sets language.
-     * @param String language The language code
+     * @param {String} language The language code (e.g fr_FR)
      */
     $scope.changeLanguage = function(language) {
       i18nService.setLanguage(language);

@@ -18,10 +18,11 @@
     }
 
     /**
-     * Removes the application.
-     * @param Object application The application to remove
+     * Removes a list of applications.
+     * @param {Array} selected The list of application ids to remove
+     * @param {Function} reload The reload Function to force reloading the table
      */
-    var removeRows = function(selected, reload) {
+    function removeRows(selected, reload) {
       entityService.removeEntity('application', selected.join(','))
         .success(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('APPLICATIONS.REMOVE_SUCCESS'), 4000);
@@ -32,14 +33,15 @@
           if (status === 401)
             $scope.$parent.logout();
         });
-    };
+    }
 
     /**
      * Saves application.
-     * @param Object form The angular edition form controller
-     * @param Object application The application associated to the form
+     * @param {Object} application The application to save
+     * @param {Function} successCb Function to call in case of success
+     * @param {Function} errorCb Function to call in case of error
      */
-    var saveApplication = function(application, successCb, errorCb) {
+    function saveApplication(application, successCb, errorCb) {
       entityService.updateEntity('application', application.id, {
         name: application.name,
         scopes: application.scopes
@@ -50,21 +52,23 @@
         if (status === 401)
           $scope.$parent.logout();
       });
-    };
+    }
 
     /**
-     * Adds a user.
-     * @param Object form The angular form controller
+     * Adds an application.
+     * @param {Object} application The application to add
+     * @param {Function} successCb Function to call in case of success
+     * @param {Function} errorCb Function to call in case of error
      */
-    var addApplication = function(model, successCb, errorCb) {
-      entityService.addEntity('application', model).success(function() {
+    function addApplication(application, successCb, errorCb) {
+      entityService.addEntity('application', application).success(function() {
         successCb();
       }).error(function(data, status) {
         errorCb();
         if (status === 401)
           $scope.$parent.logout();
       });
-    };
+    }
 
     $scope.scopes = scopes.data.scopes;
     translateScopes();
@@ -117,7 +121,7 @@
       }
     }];
 
-    /**
+    /*
      * FORM
      */
     var scopeEditForm = $scope.editFormContainer = {};
@@ -171,7 +175,7 @@
       saveApplication(model, successCb, errorCb);
     };
 
-    /**
+    /*
      *  FORM Add user
      *
      */

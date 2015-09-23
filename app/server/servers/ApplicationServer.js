@@ -115,6 +115,7 @@ util.inherits(ApplicationServer, Server);
  * @param {Database} db The application database
  */
 ApplicationServer.prototype.onDatabaseAvailable = function(db) {
+
   // Load all middlewares which need to operate
   // on each request
   if (!mongostoreInstance) {

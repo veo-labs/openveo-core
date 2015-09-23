@@ -71,8 +71,6 @@ module.exports.errorAction = function(error, request, response) {
     code: error.code,
     module: error.module
   }});
-  return;
-
 };
 
 /**

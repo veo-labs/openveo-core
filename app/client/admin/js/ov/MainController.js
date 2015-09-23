@@ -8,17 +8,17 @@
    * by the main controller.
    */
   function MainController($rootScope,
-                           $scope,
-                           $location,
-                           $route,
-                           authenticationService,
-                           menuService,
-                           applicationService,
-                           userService,
-                           i18nService,
-                           alertService,
-                           $window
-                          ) {
+     $scope,
+     $location,
+     $route,
+     authenticationService,
+     menuService,
+     applicationService,
+     userService,
+     i18nService,
+     alertService,
+     $window) {
+
     $scope.displayMainMenu = false;
     $scope.isResponsiveMenuClosed = true;
     $scope.languages = i18nService.getLanguages();
@@ -43,9 +43,6 @@
       $scope.$broadcast('loggedOut');
     }
 
-    /**
-     * Opens / closes the main menu while displayed in small devices.
-     */
     $scope.toggleResponsiveMenu = function() {
       $scope.isResponsiveMenuClosed = !$scope.isResponsiveMenuClosed;
     };
@@ -64,7 +61,7 @@
      * Changes the language to the given one.
      * This will reload the page due to the main menu which can't be
      * reloaded.
-     * @param String The new language code
+     * @param {String} The new language code (e.g. fr_FR)
      */
     $scope.changeLanguage = function(language) {
       i18nService.setLanguage(language);
@@ -86,7 +83,6 @@
      * This will remove user information and redirect to the login
      * page.
      */
-
     $scope.logout = function() {
       authenticationService.logout().then(logout, logout);
     };

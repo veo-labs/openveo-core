@@ -31,12 +31,12 @@ var errors = process.require('app/server/httpErrors.js');
  * @param {String} type The type of entity
  * @return {EntityModel} An instance of an EntityModel
  */
-var getEntityModel = function(type) {
+function getEntityModel(type) {
   var entities = openVeoAPI.applicationStorage.getEntities();
 
   if (type)
     return entities[type];
-};
+}
 
 /**
  * Gets a list of entities.

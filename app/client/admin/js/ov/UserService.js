@@ -13,10 +13,9 @@
 
     /**
      * Loads the list of users from server.
-     * @return Promise The promise used to retrieve users
-     * from server
+     * @return {Promise} The promise used to retrieve users from server
      */
-    var loadUsers = function() {
+    function loadUsers() {
       if (!users) {
 
         // Get users from server
@@ -31,14 +30,13 @@
           entities: users
         }
       });
-    };
+    }
 
     /**
      * Loads the list of roles from server.
-     * @return Promise The promise used to retrieve roles
-     * from server
+     * @return {Promise} The promise used to retrieve roles from server
      */
-    var loadRoles = function() {
+    function loadRoles() {
       if (!roles) {
 
         // Get roles from server
@@ -53,14 +51,13 @@
           entities: roles
         }
       });
-    };
+    }
 
     /**
      * Loads the list of permissions from server.
-     * @return Promise The promise used to retrieve permissions
-     * from server
+     * @return {Promise} The promise used to retrieve permissions from server
      */
-    var loadPermissions = function() {
+    function loadPermissions() {
       if (!permissions) {
 
         // Get scopes from server
@@ -73,41 +70,44 @@
       return $q.when({
         data: permissions
       });
-    };
+    }
 
     /**
      * Gets users.
-     * @param Array The users
+     * @param {Array} The users
      */
-    var getUsers = function() {
+    function getUsers() {
       return users;
-    };
+    }
 
     /**
      * Gets roles.
-     * @param Array The roles
+     * @param {Array} The roles
      */
-    var getRoles = function() {
+    function getRoles() {
       return roles;
-    };
+    }
 
     /**
      * Gets permissions.
-     * @param Array The permissions
+     * @param {Array} The permissions
      */
-    var getPermissions = function() {
+    function getPermissions() {
       return permissions;
-    };
+    }
 
     /**
-     * Destroys roles, users and permissions.
+     * Destroys UserService cached data.
      */
-    var destroy = function() {
+    function destroy() {
       users = roles = permissions = null;
-    };
+    }
 
-
-    var cacheClear = function(type) {
+    /**
+     * Deletes cache for the given entity type.
+     * @param {String} type The entity type
+     */
+    function cacheClear(type) {
       if (!type)
         users = roles = permissions = null;
       else
@@ -124,7 +124,7 @@
           default:
             return;
         }
-    };
+    }
 
     return {
       loadRoles: loadRoles,

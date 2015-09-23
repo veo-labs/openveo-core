@@ -5,61 +5,57 @@
 
   /**
    * Defines an authentication service to deal with user authentication.
-   * Exposes methods to deal with user information and to sing in
-   * logout.
+   * Exposes methods to deal with user information and to sign in or logout.
    */
   function AuthenticationService($http, storage) {
     var userInfo;
 
     /**
-     * At service initialization, retrieve user information
-     * from local storage.
+     * Initializes user information from local storage.
      */
-    var init = function() {
+    function init() {
       var info = storage.get('userInfo');
       if (info)
         userInfo = JSON.parse(info);
-    };
-
-    init();
+    }
 
     /**
      * Signs in using the given credentials.
-     * @param String email The email
-     * @param String password The password
-     * @return HttpPromise The authentication promise
+     * @param {String} email The email
+     * @param {String} password The password
+     * @return {Promise} The authentication promise
      */
-    var login = function(email, password) {
+    function login(email, password) {
       if (email && password) {
         return $http.post('/authenticate', {
           email: email,
           password: password
         });
       }
-    };
+    }
 
     /**
-     * Logs out.
-     * @return HttpPromise The logout promise
+     * Logs out user.
+     * @return {Promise} The logout promise
      */
-    var logout = function() {
+    function logout() {
       return $http.get('/logout');
-    };
+    }
 
     /**
      * Gets user information.
-     * @return Object The user description object
+     * @return {Object} The user description object
      */
-    var getUserInfo = function() {
+    function getUserInfo() {
       return userInfo;
-    };
+    }
 
     /**
      * Sets user information.
-     * @param Object The user description object or null to remove
+     * @param {Object} The user description object or null to remove
      * user information
      */
-    var setUserInfo = function(info) {
+    function setUserInfo(info) {
       if (info) {
         storage.set('userInfo', JSON.stringify(info));
         userInfo = info;
@@ -67,7 +63,9 @@
         userInfo = null;
         storage.remove('userInfo');
       }
-    };
+    }
+
+    init();
 
     return {
       login: login,

@@ -12,23 +12,23 @@
    */
   function OvRouteProvider($routeProvider) {
     var auth = ['$q', 'authenticationService', function($q, authenticationService) {
-        var userInfoPromise = authenticationService.getUserInfo();
+      var userInfoPromise = authenticationService.getUserInfo();
 
-        if (userInfoPromise)
-          return $q.when(userInfoPromise);
-        else
-          return $q.reject({
-            authenticated: false
-          });
-      }];
+      if (userInfoPromise)
+        return $q.when(userInfoPromise);
+      else
+        return $q.reject({
+          authenticated: false
+        });
+    }];
 
     var i18n = ['i18nService', function(i18nService) {
-        return i18nService.addDictionary('back-office', true);
-      }];
+      return i18nService.addDictionary('back-office', true);
+    }];
 
     var menu = ['menuService', function(menuService) {
-        return menuService.loadMenu();
-      }];
+      return menuService.loadMenu();
+    }];
 
     // Wrap $routeProvider when method
     this.when = function(path, route) {

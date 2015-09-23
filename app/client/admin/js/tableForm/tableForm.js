@@ -5,8 +5,7 @@
   var app = angular.module('ov.tableForm', ['ov.i18n', 'ngSanitize']);
 
   /**
-   *
-   * Service reload Table
+   * Defines a service reload Table
    */
   function TableReloadEventService($rootScope) {
     var sharedService = {};
@@ -19,9 +18,7 @@
   }
 
   /**
-   *
-   *  DatePicker
-   *
+   *  Defines a DatePicker controller.
    */
   function DatePickerController() {
     var self = this;
@@ -53,9 +50,7 @@
   }
 
   /**
-   *
-   * FormController
-   *
+   * Defines a FormEditController.
    */
   function FormEditController($scope, $filter) {
 
@@ -117,9 +112,7 @@
   }
 
   /**
-   *
-   * FormController
-   *
+   * Defines a FormAddController.
    */
   function FormAddController($scope, $filter, tableReloadEventService) {
     var self = this;
@@ -148,9 +141,7 @@
   }
 
   /**
-   *
-   * DataTableController
-   *
+   * Defines a DataTableController.
    */
   function DataTableController($scope, $modal, entityService) {
     var self = this;

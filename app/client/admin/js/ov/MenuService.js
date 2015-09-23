@@ -12,7 +12,7 @@
      * Sets menu items corresponding to the actual path to active and the
      * others to inactive.
      */
-    var setActiveMenuItem = function() {
+    function setActiveMenuItem() {
       if (menu) {
         var path = $location.path();
 
@@ -32,13 +32,13 @@
             menu[menuItem].active = menu[menuItem].path === path;
         }
       }
-    };
+    }
 
     /**
      * Loads the menu from server.
-     * @return Promise The promise used to retrieve menu from server
+     * @return {Promise} The promise used to retrieve menu from server
      */
-    var loadMenu = function() {
+    function loadMenu() {
       if (!menu) {
 
         // Get menu from server
@@ -50,22 +50,22 @@
       }
 
       return $q.when(menu);
-    };
+    }
 
     /**
      * Gets the menu.
-     * @param Object The menu
+     * @param {Object} The menu
      */
-    var getMenu = function() {
+    function getMenu() {
       return menu;
-    };
+    }
 
     /**
-     * Destroys menu instance.
+     * Destroys MenuService cached data.
      */
-    var destroyMenu = function() {
+    function destroyMenu() {
       menu = null;
-    };
+    }
 
     return {
       loadMenu: loadMenu,
