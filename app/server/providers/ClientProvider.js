@@ -43,6 +43,7 @@ ClientProvider.prototype.getOne = function(id, callback) {
       _id: 0
     },
     1, function(error, data) {
-    callback(error, data && data[0]);
-  });
+      callback(error, data && data[0]);
+    }
+  );
 };
