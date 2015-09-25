@@ -269,13 +269,6 @@
       self.reloadCallback();
     });
 
-    // helper to get value of en entity by accessing is property by a string 'ob1.prop1.child1'
-    this.getDescendantProp = function(obj, desc) {
-      var arr = desc.split('.');
-      while (arr.length && (obj = obj[arr.shift()]))
-        return obj;
-    };
-
     this.commonActionExist = false;
 
     // call to check all unlocked selection checkbox
