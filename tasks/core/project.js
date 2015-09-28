@@ -8,6 +8,6 @@ module.exports = {
   public: ['public'],
   css: ['<%= project.public %>/css'],
   js: ['<%= project.public %>/js'],
-  font: ['../lib/bootstrap-sass/assets/fonts/'],
+  font: ['../../lib/bootstrap-sass/assets/fonts/'],
   uglify: ['build/uglify']
 };
