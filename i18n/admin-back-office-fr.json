@@ -159,6 +159,7 @@
     "END": "Fin",
     "BACK": "Retour",
     "NO_COMMON_ACTION" : "Aucune action commune autorisée.",
-    "NO_ACTION" : "Aucune action autorisée."
+    "NO_ACTION" : "Aucune action autorisée.",
+    "REQUIRED_FIELD" : "Ce champs est obligatoire"
   }
 }

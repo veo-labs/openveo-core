@@ -37,7 +37,7 @@
   }
 
   var app = angular.module('ov', moduleDependencies);
-  app.run(['editableOptions', 'formlyConfig', function(editableOptions, formlyConfig) {
+  app.run(['editableOptions', 'formlyConfig', '$filter', function(editableOptions, formlyConfig, $filter) {
 
     editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
 
@@ -78,7 +78,7 @@
       link: /* @ngInject */ function(scope) {
         scope.checkNotEmpty = function(data) {
           if (scope.to.required && (!data || data == ''))
-            return 'You must type a value.';
+            return $filter('translate')('UI.REQUIRED_FIELD');
         };
       }
     });
@@ -93,7 +93,7 @@
       link: /* @ngInject */ function(scope) {
         scope.checkNotEmpty = function(data) {
           if (scope.to.required && (!data || data == ''))
-            return 'You must select a value.';
+            return $filter('translate')('UI.REQUIRED_FIELD');
         };
       }
     });
@@ -117,7 +117,7 @@
         };
         scope.checkNotEmpty = function(data) {
           if (scope.to.required && data.length == 0)
-            return 'You must choose a value.';
+            return $filter('translate')('UI.REQUIRED_FIELD');
         };
       }
     });
