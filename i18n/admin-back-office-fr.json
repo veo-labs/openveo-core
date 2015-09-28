@@ -110,7 +110,8 @@
     "ATTR_PASSWORD" : "Mot de passe",
     "ATTR_CONFIRM_PASSWORD" : "Confirmer le mot de passe",
     "ATTR_MODIFY_PASSWORD" : "Changement du mot de passe",
-    "ATTR_USER_ACCOUNT" : "Compte utilisateur"
+    "ATTR_USER_ACCOUNT" : "Compte utilisateur",
+    "UPDATE_IN_NEXT_SESSION" : "Attention : La modification de profil ne sera effective que lors de la prochaine session."
   },
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Rôles",

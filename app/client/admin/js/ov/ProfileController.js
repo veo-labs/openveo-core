@@ -41,7 +41,7 @@
         $scope.$emit('setAlert', 'success', $filter('translate')('UI.SAVE_SUCCESS'), 4000);
         $scope.password = '';
         $scope.confirmPassword = '';
-        $scope.isInValid = true; 
+        $scope.isInValid = true;
       }).error(function(data, status) {
         userInfo.saving = false;
         $scope.$emit('setAlert', 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
@@ -64,6 +64,7 @@
       }).success(function() {
         userInfo.saving = false;
         successCb();
+        $scope.$emit('setAlert', 'warning', $filter('translate')('PROFILES.UPDATE_IN_NEXT_SESSION'), 0);
       }).error(function(data, status) {
         userInfo.saving = false;
         errorCb();
