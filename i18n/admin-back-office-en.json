@@ -15,7 +15,9 @@
   "PERMISSIONS" : {
     "CREATE_APPLICATION_NAME" : "Create applications",
     "CREATE_APPLICATION_DESCRIPTION" : "Create Web Service client applications",
-    "UPDATE_APPLICATION_NAME" : "Edit applications",
+    "READ_APPLICATION_NAME" : "View applications",
+    "READ_APPLICATION_DESCRIPTION" : "View Web Service applications",
+	"UPDATE_APPLICATION_NAME" : "Edit applications",
     "UPDATE_APPLICATION_DESCRIPTION" : "Edit Web Service applications",
     "DELETE_APPLICATION_NAME" : "Remove applications",
     "DELETE_APPLICATION_DESCRIPTION" : "Remove Web Service applications",
@@ -45,7 +47,7 @@
     "GROUP_USER" : "Users",
     "GROUP_ROLE" : "Roles",
     "GROUP_PROPERTY" : "Properties",
-    "GROUP_VIDEO" : "Vidéos",
+    "GROUP_VIDEO" : "Videos",
     "GROUP_TAXONOMY" : "Taxonomies"
   },
   "HOME" : {
@@ -56,7 +58,7 @@
   "APPLICATIONS" : {
     "PAGE_TITLE" : "Openveo - Applications",
     "TITLE" : "Web Service applications",
-    "INFO" : "An application lets you grant access to the OpenVeo web service for a specific client application. Create an application, attribute access to some web service end points and issue to the client application owner, the generated client id and client secret.",
+    "INFO" : "An application offers an entry point to the OpenVeo webservice for client applications. It defines acces permissions for each client application. Create an application, attribute access to some web service end points and issue to the client application owner, the generated client id and client secret.",
     "NO_APPLICATIONS" : "No application at the moment",
     "NAME_COLUMN" : "Name",
     "ATTR_NAME" : "Name",
@@ -69,15 +71,15 @@
     "FORM_ADD_SCOPES" : "Scopes",
     "FORM_ADD_SCOPES_DESC" : "List of permissions for the client application",
     "REMOVE_SUCCESS" : "Application successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Fail to remove application.",
+    "REMOVE_FAIL" : "An error occured. Failed to remove application.",
     "TITLE_FILTER": "Name"
   },
   "USERS" : {
     "PAGE_TITLE" : "Openveo - Users",
     "TITLE" : "Users and roles",
-    "INFO" : "Each user is defined by a name, an email and a role, his role give him access to a back end features.",
-    "NO_DATA" : "No user at the moment",
-    "NO_ROLE" : "No role at the moment, you can create roles in the administration page \"Roles\".",
+    "INFO" : "Each user is defined by a name, an email and a role. His role defines his access permissions to back end features.",
+    "NO_DATA" : "No user for the moment",
+    "NO_ROLE" : "No role for the moment, you can create roles in the administration page \"Roles\".",
     "NAME_COLUMN" : "Name",
     "ATTR_NAME" : "Name",
     "ATTR_EMAIL" : "Email",
@@ -94,7 +96,7 @@
     "FORM_ADD_ROLE" : "Roles",
     "FORM_ADD_ROLE_DESC" : "User roles",
     "REMOVE_SUCCESS" : "User successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Fail to remove user.",
+    "REMOVE_FAIL" : "An error occured. Failed to remove user.",
     "TITLE_FILTER": "Name"
   },
   "PROFILES" : {
@@ -112,8 +114,8 @@
   "ROLES" : {
     "PAGE_TITLE" : "Openveo - Roles",
     "TITLE" : "Roles and permissions",
-    "INFO" : "Each role is defined by a set of permissions, each permission defining access to a back end feature.",
-    "NO_DATA" : "No role at the moment",
+    "INFO" : "Each role is defined by a set of permissions. Each permission defines access to a back end feature.",
+    "NO_DATA" : "No role for the moment",
     "NAME_COLUMN" : "Name",
     "ACTIONS_COLUMN" : "Actions",
     "REMOVE" : "Remove",
@@ -129,7 +131,7 @@
     "FORM_ADD_PERMISSIONS_DESC" : "List of permissions for the role",
     "FORM_ADD_BUTTON" : "Add",
     "REMOVE_SUCCESS" : "Role successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Fail to remove role.",
+    "REMOVE_FAIL" : "An error occured. Failed to remove role.",
     "TITLE_FILTER": "Name"
   },
   "UI" : {
