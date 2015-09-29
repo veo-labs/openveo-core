@@ -140,8 +140,8 @@ module.exports.updateEntityAction = function(request, response, next) {
     var model = getEntityModel(request.params.type);
 
     if (model) {
-      model.update(request.params.id, request.body, function(error, numberOfUpdatedItems) {
-        if (error || numberOfUpdatedItems === 0) {
+      model.update(request.params.id, request.body, function(error, stack) {
+        if (error || (stack && stack.result && stack.result.nModified === 0)) {
           next(errors.UPDATE_ENTITY_ERROR);
         }
         else
@@ -216,8 +216,8 @@ module.exports.removeEntityAction = function(request, response, next) {
 
     if (model) {
       var arrayId = request.params.id.split(',');
-      model.remove(arrayId, function(error, numberOfRemovedItems) {
-        if (error || numberOfRemovedItems === 0) {
+      model.remove(arrayId, function(error, stack) {
+        if (error || (stack && stack.result && (stack.result.ok === 0 || stack.result.n != arrayId.length))) {
           next(errors.REMOVE_ENTITY_ERROR);
         }
         else
