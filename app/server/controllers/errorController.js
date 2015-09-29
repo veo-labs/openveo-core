@@ -42,7 +42,7 @@ module.exports.notFoundAction = function(request, response, next) {
  * @param {Object} error An error object with error code, HTTP code
  * and the error module
  */
-module.exports.errorAction = function(error, request, response) {
+module.exports.errorAction = function(error, request, response, next) {
   if (!error)
     error = errors.UNKNOWN_ERROR;
 
@@ -111,5 +111,4 @@ module.exports.notFoundPageAction = function(request, response) {
 
   // Text content
   response.type('txt').send(request.url + ' not found');
-
 };
