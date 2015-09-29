@@ -64,7 +64,7 @@ var staticServerOptions = {
 function ApplicationServer() {
   var self = this;
   this.viewsFolders = [];
-  this.publicDirectories = [];
+  this.assets = [];
   this.imagesFolders = [];
   this.imagesStyle = {};
   this.menu = conf['backOffice']['menu'] || [];
@@ -72,9 +72,9 @@ function ApplicationServer() {
 
   Server.prototype.init.call(this);
 
-  // Create public and admin routers
+  // Create public and private routers
   this.router = express.Router();
-  this.adminRouter = express.Router();
+  this.privateRouter = express.Router();
 
   // Add core views folders to the list of folders
   conf['viewsFolders'].forEach(function(folder) {
@@ -87,7 +87,8 @@ function ApplicationServer() {
   });
   self.imagesStyle = conf['imageProcessing']['imagesStyle'] || {};
 
-  this.app.use(favicon('public/favicon.ico'));
+  // Apply favicon
+  this.app.use(favicon('assets/favicon.ico'));
 
   // Set mustache as the template engine
   this.app.engine('html', consolidate.mustache);
@@ -109,7 +110,7 @@ util.inherits(ApplicationServer, Server);
 
 /**
  * Applies all routes, found in configuration, to the public and
- * the admin routers.
+ * the private routers.
  *
  * @method onDatabaseAvailable
  * @param {Database} db The application database
@@ -148,21 +149,26 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
   // Initialize passport (authentication manager)
   process.require('app/server/passport.js');
 
-  // Mount routers (Need to be done after passport initialize, session adn authent)
-  this.app.use('/admin', this.adminRouter);
+  // Set main assets directory to be served first as the static server
+  this.app.use(express.static(path.normalize(process.root + '/assets'), staticServerOptions));
+
+  if (env === 'dev')
+    this.app.use(express.static(path.normalize(process.root + '/app/client/admin/js'), staticServerOptions));
+
+  // Mount routers (Need to be done after passport initialize, session and authent)
+  this.app.use('/be', this.privateRouter);
   this.app.use('/', this.router);
 
-  // Load and apply main routes from configuration to public, back
-  // end routers
+  // Load and apply main routes from configuration to public and private routers
   routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['public']), this.router);
-  routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['admin']), this.adminRouter);
+  routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['private']), this.privateRouter);
 
 };
 
 /**
  * Mounts plugin.
  *
- * Mounts plugin's public directories, public router, admin router, menu
+ * Mounts plugin's assets directories, public router, private router, menu
  * views folders and permissions.
  *
  * @method onPluginAvailable
@@ -170,20 +176,30 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
  */
 ApplicationServer.prototype.onPluginAvailable = function(plugin) {
 
-  // If plugin has a public directory, load it as a static server
-  if (plugin.publicDirectory)
-    this.publicDirectories.push(plugin.publicDirectory);
+  // If plugin has an assets directory, it will be loaded as a static server
+  if (plugin.assets && plugin.mountPath) {
+    logger.info('Mount ' + plugin.assets + ' on ' + plugin.mountPath);
+    this.app.use(plugin.mountPath, express.static(plugin.assets, staticServerOptions));
 
-  // Mount plugin public router to the plugin front end mount path
+    if (env === 'dev') {
+      var frontJSPath = path.normalize(plugin.assets + '/../app/client/front/js');
+      var adminJSPath = path.normalize(plugin.assets + '/../app/client/admin/js');
+      this.app.use(plugin.mountPath, express.static(frontJSPath, staticServerOptions));
+      this.app.use(plugin.mountPath, express.static(adminJSPath, staticServerOptions));
+    }
+
+  }
+
+  // Mount plugin router to the plugin mount path
   if (plugin.router && plugin.mountPath) {
     logger.info('Mount routes on path %s', plugin.mountPath);
     this.app.use(plugin.mountPath, plugin.router);
   }
 
-  // Mount the admin router to the plugin back end mount path
-  if (plugin.adminRouter && plugin.mountPath) {
-    logger.info('Mount routes on path /amin%s', plugin.mountPath);
-    this.app.use('/admin' + plugin.mountPath, plugin.adminRouter);
+  // Mount the private router to the plugin private mount path
+  if (plugin.privateRouter && plugin.mountPath) {
+    logger.info('Mount routes on path /be%s', plugin.mountPath);
+    this.app.use('/be' + plugin.mountPath, plugin.privateRouter);
   }
 
   // Found back end menu configuration for the plugin
@@ -194,7 +210,7 @@ ApplicationServer.prototype.onPluginAvailable = function(plugin) {
   if (plugin.viewsFolders)
     this.viewsFolders = this.viewsFolders.concat(plugin.viewsFolders);
 
-  // Found a list of image
+  // Found images folders to process
   if (plugin.imagesFolders) {
     this.imagesFolders = this.imagesFolders.concat(plugin.imagesFolders);
 
@@ -228,7 +244,7 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin) {
 /**
  * Finalizes the ApplicationServer initialization.
  *
- * Mounts the public directories of core and plugins, sets views
+ * Mounts the assets directories of core and plugins, sets views
  * folders, sets permissions and set default route and error handling.
  * Default route must load the main view due to AngularJS single
  * application.
@@ -238,23 +254,6 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin) {
  */
 ApplicationServer.prototype.onPluginsLoaded = function() {
   var self = this;
-
-  // Set main public directory to be served first as the static server
-  this.app.use(express.static(path.normalize(process.root + '/public'), staticServerOptions));
-
-  if (env === 'dev') {
-    this.app.use(express.static(path.normalize(process.root + '/app/client/admin/js'), staticServerOptions));
-  }
-
-  // Set plugins public directories as additionnal static servers
-  this.publicDirectories.forEach(function(publicDirectory) {
-    self.app.use(express.static(publicDirectory, staticServerOptions));
-
-    if (env === 'dev') {
-      self.app.use(express.static(path.normalize(publicDirectory + '/../app/client/front/js'), staticServerOptions));
-      self.app.use(express.static(path.normalize(publicDirectory + '/../app/client/admin/js'), staticServerOptions));
-    }
-  });
 
   // Set views folders for template engine
   this.app.set('views', this.viewsFolders);
@@ -278,7 +277,7 @@ ApplicationServer.prototype.onPluginsLoaded = function() {
   applicationStorage.setMenu(this.menu);
 
   // Handle not found and errors
-  this.app.all('/admin*', defaultController.defaultAction);
+  this.app.all('/be*', defaultController.defaultAction);
   this.app.all('*', errorController.notFoundPageAction);
 
   // Handle errors

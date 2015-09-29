@@ -36,15 +36,19 @@ describe('OvApp', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
   });
 
-  it('Should register /login and /admin routes', function() {
-    assert.isDefined($route.routes['/admin']);
+  it('Should register /login, /, /applications, /roles, /users, /profiles routes', function() {
+    assert.isDefined($route.routes['/']);
     assert.isDefined($route.routes['/login']);
+    assert.isDefined($route.routes['/applications']);
+    assert.isDefined($route.routes['/roles']);
+    assert.isDefined($route.routes['/users']);
+    assert.isDefined($route.routes['/profiles']);
   });
 
   it('Should route to /login if user is not authenticated', function() {
     $httpBackend.expectGET('views/home.html');
 
-    $location.path('/admin');
+    $location.path('/');
     $httpBackend.flush();
     assert.equal($location.path(), '/login');
   });
@@ -57,26 +61,26 @@ describe('OvApp', function() {
     assert.equal($location.path(), '/login');
   });
 
-  it('Should be able to route to /admin', function() {
+  it('Should be able to route to /', function() {
     $httpBackend.expectGET('views/home.html');
 
     authenticationService.setUserInfo({
       username: 'openveo'
     });
 
-    $location.path('/admin');
+    $location.path('/');
     $httpBackend.flush();
-    assert.equal($location.path(), '/admin');
+    assert.equal($location.path(), '/');
   });
 
-  it('Should redirect to /admin if no routes found', function() {
+  it('Should redirect to / if no routes found', function() {
     authenticationService.setUserInfo({
       username: 'openveo'
     });
 
     $location.path('/somethingThatDoesNotExist');
     $httpBackend.flush();
-    assert.equal($location.path(), '/admin');
+    assert.equal($location.path(), '/');
   });
 
 });

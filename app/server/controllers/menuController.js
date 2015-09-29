@@ -114,21 +114,20 @@ function filterMenuByPermissions(menu, user) {
  */
 module.exports.getMenuAction = function(request, response, next) {
   var menu = applicationStorage.getMenu();
-
   if (menu) {
 
-    if (request.user.id != 0) {
+    if (request.user && request.user.id != 0) {
 
       // Filters menu by permissions
       response.send(filterMenuByPermissions(menu, request.user));
 
-    }
+    } else {
 
-    // User is the administrator (do not filter menu)
-    else
+      // User is the administrator (do not filter menu)
       response.send(menu);
 
-  }
-  else
+    }
+
+  } else
     next();
 };

@@ -83,7 +83,7 @@ function getPermissionByUrl(permissions, url, httpMethod) {
  * @param {Object} request The express request object handled by the server
  * @return {Boolean} true if the page is the user profile page, false otherwise
  */
-function allowProfileModification(request) {
+function isUserProfileUrl(request) {
   var path = '/crud/user/' + request.user.id;
   return ((request.path === path) && (request.method === 'POST'));
 }
@@ -156,33 +156,36 @@ module.exports.logoutAction = function(request, response) {
  * @static
  */
 module.exports.restrictAction = function(request, response, next) {
-  var error = errors.BACK_END_UNAUTHORIZED;
 
   // User is authenticated
   if (request.isAuthenticated()) {
-    error = errors.BACK_END_FORBIDDEN;
+    var error = errors.BACK_END_FORBIDDEN;
 
     // Get requested permission for this request
     var permissions = getPermissionByUrl(applicationStorage.getPermissions(), request.url, request.method);
 
     // No particular permission requested : access granted by default
     // Also always grant access to primary user 0
-    if (!permissions || request.user.id == 0 || allowProfileModification(request))
+    if (!permissions || request.user.id == 0 || isUserProfileUrl(request))
       return next();
 
     // Checks if user has permission on this url
     // Iterates through user roles to find if requested permission
     // is part of his privileges
     if (request.user.permissions) {
+
       // Found permission : access granted
       for (var i = 0; i < permissions.length; i++)
         if (request.user.permissions.indexOf(permissions[i]) >= 0)
           return next();
+
     }
+
+    return next(error);
   }
 
   // Not authenticated
-  return next(error);
+  return next();
 
 };
 

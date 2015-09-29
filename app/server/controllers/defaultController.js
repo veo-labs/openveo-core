@@ -59,7 +59,6 @@ module.exports.defaultAction = function(request, response) {
 
     plugins.forEach(function(plugin) {
 
-
       // Plugin has a name and has a back office page configured.
       // It must have an angularjs module associated to it
       if (plugin.name && plugin.menu)

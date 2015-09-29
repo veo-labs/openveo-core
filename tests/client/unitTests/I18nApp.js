@@ -79,7 +79,7 @@ describe('i18nApp', function() {
   });
 
   it('Should be able to add a dictionary with restricted access', function() {
-    $httpBackend.when('GET', /admin\/.*getDictionary.*/).respond(200, {
+    $httpBackend.when('GET', /be\/.*getDictionary.*/).respond(200, {
       TRANSLATION_ID: 'Translated text'
     });
     i18nService.addDictionary('adminDictionary', true);
@@ -100,7 +100,7 @@ describe('i18nApp', function() {
   });
 
   it('Should be able to translate an id using a precise directory', function() {
-    $httpBackend.when('GET', /admin.*getDictionary.*/).respond(200, {
+    $httpBackend.when('GET', /be.*getDictionary.*/).respond(200, {
       TRANSLATION_ID: 'Translated text from admin dictionary'
     });
     $httpBackend.when('GET', /.*getDictionary.*/).respond(200, {

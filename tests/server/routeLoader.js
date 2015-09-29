@@ -16,22 +16,22 @@ describe('routeLoader', function() {
 
   // decodeRoutes method
   describe('decodeRoutes', function() {
-    var routes,
-      adminRoutes;
+    var routes;
+    var privateRoutes;
 
     before(function() {
       routes = routeLoader.decodeRoutes(path.join(__dirname, 'plugins', 'node_modules', '@openveo/example'),
         pluginConf['routes']['public']);
-      adminRoutes = routeLoader.decodeRoutes(path.join(__dirname, 'plugins', 'node_modules', '@openveo/example'),
-        pluginConf['routes']['admin']);
+      privateRoutes = routeLoader.decodeRoutes(path.join(__dirname, 'plugins', 'node_modules', '@openveo/example'),
+        pluginConf['routes']['private']);
     });
 
     it('Should load 4 public routes and ignores 3', function() {
       assert.equal(routes.length, 4);
     });
 
-    it('Should load 6 admin routes', function() {
-      assert.equal(adminRoutes.length, 6);
+    it('Should load 6 private routes', function() {
+      assert.equal(privateRoutes.length, 6);
     });
 
     it('Should load routes as an array of objects', function() {
@@ -41,8 +41,8 @@ describe('routeLoader', function() {
 
     it('Should be able to load routes with several actions', function() {
       var countRoutes = 0;
-      adminRoutes.forEach(function(adminRoute) {
-        if (adminRoute.path === '*' && adminRoute.method === 'all')
+      privateRoutes.forEach(function(privateRoute) {
+        if (privateRoute.path === '*' && privateRoute.method === 'all')
           countRoutes++;
       });
 

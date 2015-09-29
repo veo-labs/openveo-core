@@ -164,8 +164,8 @@
   app.config(['ovRouteProvider', '$routeProvider', '$locationProvider',
     function(ovRouteProvider, $routeProvider, $locationProvider) {
 
-      // Register /admin route with authentication
-      ovRouteProvider.when('/admin', {
+      // Register / route with authentication
+      ovRouteProvider.when('/', {
         templateUrl: 'views/home.html',
         controller: 'HomeController',
         title: 'HOME.PAGE_TITLE'
@@ -189,11 +189,11 @@
               return $q.when();
           }]
         }
-      }).otherwise('/admin');
+      }).otherwise('/');
 
-      // Register /admin/ws/applications route with authentication
+      // Register /applications route with authentication
       // Also retrieve the list of applications
-      ovRouteProvider.when('/admin/ws/be/applications', {
+      ovRouteProvider.when('/applications', {
         templateUrl: 'views/applications.html',
         controller: 'ApplicationController',
         title: 'APPLICATIONS.PAGE_TITLE',
@@ -205,9 +205,9 @@
         }
       });
 
-      // Register /admin/be/users route with authentication
-      // Also retrieve the list of users and roles
-      ovRouteProvider.when('/admin/be/users', {
+      // Register /users route with authentication
+      // Also retrieve the list of roles
+      ovRouteProvider.when('/users', {
         templateUrl: 'views/users.html',
         controller: 'UserController',
         title: 'USERS.PAGE_TITLE',
@@ -219,9 +219,9 @@
         }
       });
 
-      // Register /admin/be/profiles route with authentication
+      // Register /profiles route with authentication
       // Also retrieve the user profile
-      ovRouteProvider.when('/admin/be/profiles', {
+      ovRouteProvider.when('/profiles', {
         templateUrl: 'views/profiles.html',
         controller: 'ProfileController',
         title: 'PROFILES.PAGE_TITLE',
@@ -232,9 +232,9 @@
         }
       });
 
-      // Register /admin/be/roles route with authentication
-      // Also retrieve the list of roles and permissions
-      ovRouteProvider.when('/admin/be/roles', {
+      // Register /roles route with authentication
+      // Also retrieve the list of permissions
+      ovRouteProvider.when('/roles', {
         templateUrl: 'views/roles.html',
         controller: 'RoleController',
         title: 'ROLES.PAGE_TITLE',
@@ -249,5 +249,6 @@
       $locationProvider.html5Mode(true);
 
     }]);
+
 
 })(angular);

@@ -31,20 +31,20 @@ describe('ApplicationService', function() {
 
   it('Should be able to ask server for the list of applications', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
-    $httpBackend.expectGET('/admin/crud/application');
+    $httpBackend.expectGET('/be/crud/application');
     applicationService.loadApplications();
     $httpBackend.flush();
   });
 
   it('Should be able to ask server for the list of scopes', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
-    $httpBackend.expectGET('/admin/ws/scopes');
+    $httpBackend.expectGET('/be/ws/scopes');
     applicationService.loadScopes();
     $httpBackend.flush();
   });
 
   it('Should be able to store applications', function() {
-    $httpBackend.when('GET', '/admin/crud/application').respond(200, {
+    $httpBackend.when('GET', '/be/crud/application').respond(200, {
       entities: [{
         name: 'Example',
         scopes: {
@@ -57,7 +57,7 @@ describe('ApplicationService', function() {
       }]
     }
     );
-    $httpBackend.expectGET('/admin/crud/application');
+    $httpBackend.expectGET('/be/crud/application');
     applicationService.loadApplications();
     $httpBackend.flush();
 
@@ -67,7 +67,7 @@ describe('ApplicationService', function() {
   });
 
   it('Should be able to store scopes', function() {
-    $httpBackend.when('GET', '/admin/ws/scopes').respond(200,
+    $httpBackend.when('GET', '/be/ws/scopes').respond(200,
       {
         scope1: {
           description: 'description 1',
@@ -76,7 +76,7 @@ describe('ApplicationService', function() {
         }
       }
     );
-    $httpBackend.expectGET('/admin/ws/scopes');
+    $httpBackend.expectGET('/be/ws/scopes');
     applicationService.loadScopes();
     $httpBackend.flush();
     assert.isDefined(applicationService.getScopes());

@@ -30,7 +30,7 @@
       if (loginPromise) {
         loginPromise.then(function(result) {
           authenticationService.setUserInfo(result.data);
-          $location.path('/admin');
+          $location.path('/');
         }, function() {
           $scope.onError = true;
           $scope.userEmail = $scope.password = '';

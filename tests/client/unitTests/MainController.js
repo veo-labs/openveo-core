@@ -160,7 +160,7 @@ describe('MainController', function() {
       assert.notOk(scope.menu);
       assert.notOk(scope.displayMainMenu);
       assert.notOk(scope.isResponsiveMenuOpened);
-      assert.equal($location.path(), '/admin');
+      assert.equal($location.path(), '/');
     });
 
   });
@@ -175,9 +175,9 @@ describe('MainController', function() {
       assert.equal($location.path(), '/login');
     });
 
-    it('Should redirect user to /admin if authentication succeeded', function() {
+    it('Should redirect user to / if authentication succeeded', function() {
       childScope.$emit('$routeChangeError');
-      assert.equal($location.path(), '/admin');
+      assert.equal($location.path(), '/');
     });
 
   });

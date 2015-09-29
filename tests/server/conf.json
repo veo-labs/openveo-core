@@ -12,7 +12,7 @@
   "backOffice": {
     "menu" : [
       {
-        "label" : "Home", 
+        "label" : "Home",
         "path" : "/admin"
       }
     ],
@@ -20,20 +20,20 @@
       "/lib/angular/angular.js",
       "/lib/angular-route/angular-route.js",
       "/lib/angular-animate/angular-animate.js",
-      "/dist/js/authentication/AuthenticationApp.js",
-      "/dist/js/storage/StorageApp.js",
-      "/dist/js/route/RouteApp.js"
+      "/authentication/AuthenticationApp.js",
+      "/storage/StorageApp.js",
+      "/route/RouteApp.js"
     ],
     "scriptFiles" : [
-      "/dist/js/ov/OvApp.js",
-      "/dist/js/ov/MainController.js",
-      "/dist/js/ov/LoginController.js",
-      "/dist/js/ov/HomeController.js"
+      "/ov/OvApp.js",
+      "/ov/MainController.js",
+      "/ov/LoginController.js",
+      "/ov/HomeController.js"
     ],
     "cssFiles" : [
       "/lib/bootstrap/dist/css/bootstrap.min.css",
-      "/dist/css/common.css",
-      "/dist/css/login.css"
+      "/be/css/common.css",
+      "/be/css/login.css"
     ]
   },
   "viewsFolders" : [

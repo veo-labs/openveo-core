@@ -35,7 +35,7 @@ describe('AuthenticationApp', function() {
   });
 
   it('Should be able to authenticate a user', function() {
-    $httpBackend.expectPOST('/authenticate', {
+    $httpBackend.expectPOST('/be/authenticate', {
       email: 'openveo',
       password: 'openveo'
     });
@@ -50,7 +50,7 @@ describe('AuthenticationApp', function() {
   });
 
   it('Should be able to logout the authenticated user', function() {
-    $httpBackend.expectGET('/logout');
+    $httpBackend.expectGET('/be/logout');
 
     authenticationService.logout().then(function() {
       authenticationService.setUserInfo();

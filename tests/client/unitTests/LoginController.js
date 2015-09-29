@@ -35,7 +35,7 @@ describe('LoginController', function() {
     beforeEach(function() {
       scope = $rootScope.$new();
       $httpBackend.when('GET', /.*/).respond(200, '');
-      authRequestHandler = $httpBackend.when('POST', '/authenticate');
+      authRequestHandler = $httpBackend.when('POST', '/be/authenticate');
     });
 
     // Checks if no HTTP request stays without response
@@ -79,7 +79,7 @@ describe('LoginController', function() {
       $httpBackend.flush();
 
       // Expect onError to be true
-      assert.equal($location.path(), '/admin');
+      assert.equal($location.path(), '/');
     });
 
   });

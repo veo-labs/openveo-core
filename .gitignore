@@ -23,7 +23,7 @@ ehthumbs.db
 /node_modules
 
 # Bower libraries
-/public/lib
+/assets/lib
 
 # IDE
 nbproject/
@@ -35,8 +35,8 @@ nbproject/
 .sass-cache
 
 # Compiled file
-/public/js/*
-/public/css/*
+/assets/be/js/*
+/assets/be/css/*
 
 # Documentation (yuidoc)
 /doc

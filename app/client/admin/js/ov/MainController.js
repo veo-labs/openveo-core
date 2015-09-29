@@ -115,7 +115,7 @@
       $scope.userInfo = authenticationService.getUserInfo();
       if ($scope.userInfo) {
         if (route.access && !$scope.checkAccess(route.access)) {
-          $location.path('/admin');
+          $location.path('/');
           return false;
         }
         $scope.menu = menuService.getMenu();
@@ -136,7 +136,7 @@
       if (eventObj && eventObj.authenticated === false)
         $location.path('/login');
       else
-        $location.path('/admin');
+        $location.path('/');
     });
 
     $scope.checkAccess = function(perm) {

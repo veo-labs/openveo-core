@@ -6,6 +6,7 @@
    * Defines a menu service to manage the menu of the application.
    */
   function MenuService($http, $q, $location) {
+    var basePath = '/be/';
     var menu;
 
     /**
@@ -42,7 +43,7 @@
       if (!menu) {
 
         // Get menu from server
-        return $http.get('/admin/getMenu').success(function(menuObj) {
+        return $http.get(basePath + 'getMenu').success(function(menuObj) {
           menu = menuObj;
           setActiveMenuItem();
         });

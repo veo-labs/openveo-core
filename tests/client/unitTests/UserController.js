@@ -78,8 +78,8 @@ describe('UserController', function() {
       $httpBackend.when('POST', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('DELETE', '/admin/crud/user/146574894654').respond(200);
-      $httpBackend.expectDELETE('/admin/crud/user/146574894654');
+      $httpBackend.when('DELETE', '/be/crud/user/146574894654').respond(200);
+      $httpBackend.expectDELETE('/be/crud/user/146574894654');
 
       $scope.tableContainer.actions[0].callback($scope.test.rows[0], done);
 
@@ -90,8 +90,8 @@ describe('UserController', function() {
       $httpBackend.when('POST', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('DELETE', '/admin/crud/user/146574894654,156789123456').respond(200);
-      $httpBackend.expectDELETE('/admin/crud/user/146574894654,156789123456');
+      $httpBackend.when('DELETE', '/be/crud/user/146574894654,156789123456').respond(200);
+      $httpBackend.expectDELETE('/be/crud/user/146574894654,156789123456');
 
       $scope.tableContainer.actions[0].global([$scope.test.rows[0].id, $scope.test.rows[1].id], done);
 
@@ -102,8 +102,8 @@ describe('UserController', function() {
       $httpBackend.when('POST', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('DELETE', '/admin/crud/user/146574894654').respond(401);
-      $httpBackend.expectDELETE('/admin/crud/user/146574894654');
+      $httpBackend.when('DELETE', '/be/crud/user/146574894654').respond(401);
+      $httpBackend.expectDELETE('/be/crud/user/146574894654');
 
       $rootScope.logout = function() {
         done();
@@ -124,8 +124,8 @@ describe('UserController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('POST', '/admin/crud/user/146574894654').respond(200);
-      $httpBackend.expectPOST('/admin/crud/user/146574894654');
+      $httpBackend.when('POST', '/be/crud/user/146574894654').respond(200);
+      $httpBackend.expectPOST('/be/crud/user/146574894654');
 
       $scope.editFormContainer.onSubmit($scope.test.rows[0], done, function() {
         assert.notOk(true);
@@ -138,8 +138,8 @@ describe('UserController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('POST', '/admin/crud/user/146574894654').respond(401);
-      $httpBackend.expectPOST('/admin/crud/user/146574894654');
+      $httpBackend.when('POST', '/be/crud/user/146574894654').respond(401);
+      $httpBackend.expectPOST('/be/crud/user/146574894654');
 
       $rootScope.logout = function() {
         done();
@@ -163,8 +163,8 @@ describe('UserController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('POST', /.*/).respond(200, '');
-      $httpBackend.when('PUT', '/admin/crud/user').respond(200);
-      $httpBackend.expectPUT('/admin/crud/user');
+      $httpBackend.when('PUT', '/be/crud/user').respond(200);
+      $httpBackend.expectPUT('/be/crud/user');
 
       $scope.addFormContainer.onSubmit({},
         done,
@@ -180,8 +180,8 @@ describe('UserController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('POST', /.*/).respond(200, '');
-      $httpBackend.when('PUT', '/admin/crud/user').respond(401);
-      $httpBackend.expectPUT('/admin/crud/user');
+      $httpBackend.when('PUT', '/be/crud/user').respond(401);
+      $httpBackend.expectPUT('/be/crud/user');
 
       $rootScope.logout = function() {
         done();

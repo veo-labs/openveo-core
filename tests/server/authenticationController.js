@@ -99,31 +99,6 @@ describe('authenticationController', function() {
 
     });
 
-    it('Should forbid access to user without permission', function(done) {
-      request = {
-        method: 'GET',
-        url: '/crud/application',
-        params: {},
-        user: {
-          id: 1,
-          roles: []
-        },
-        isAuthenticated: function() {
-          return true;
-        },
-        accepts: function(format) {
-          return (format === 'json');
-        }
-      };
-
-      authenticationController.restrictAction(request, response, function(error) {
-        assert.isDefined(error);
-        assert.equal(error.httpCode, 403);
-        done();
-      });
-
-    });
-
   });
 
 });

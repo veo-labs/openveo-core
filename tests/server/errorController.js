@@ -143,8 +143,13 @@ describe('errorController', function() {
         code: 26
       };
 
+
       request.accepts = function(type) {
         return type === 'html';
+      };
+
+      response.status = function() {
+        return this;
       };
 
       response.render = function(template) {
@@ -166,6 +171,10 @@ describe('errorController', function() {
 
       request.accepts = function(type) {
         return type === 'html';
+      };
+
+      response.status = function() {
+        return this;
       };
 
       response.render = function(template) {

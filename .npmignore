@@ -22,7 +22,7 @@ ehthumbs.db
 /node_modules
 
 # Bower libraries
-/public/lib
+/assets/lib
 
 # IDE
 nbproject

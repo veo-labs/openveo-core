@@ -36,7 +36,7 @@ describe('EntityApp', function() {
 
     it('Should be able to ask server to remove an entity', function() {
       $httpBackend.when('GET', /.*/).respond(200, '');
-      $httpBackend.expectDELETE('/admin/crud/role/1');
+      $httpBackend.expectDELETE('/be/crud/role/1');
       entityService.removeEntity('role', 1);
       $httpBackend.flush();
     });
@@ -51,7 +51,7 @@ describe('EntityApp', function() {
           }
         }
       };
-      $httpBackend.expectPUT('/admin/crud/role', role);
+      $httpBackend.expectPUT('/be/crud/role', role);
 
       entityService.addEntity('role', {
         name: role.name,
@@ -70,7 +70,7 @@ describe('EntityApp', function() {
           }
         }
       };
-      $httpBackend.expectPOST('/admin/crud/role/1', role);
+      $httpBackend.expectPOST('/be/crud/role/1', role);
       entityService.updateEntity('role', '1', {
         name: role.name,
         permissions: role.permissions

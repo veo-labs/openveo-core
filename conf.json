@@ -1,15 +1,14 @@
 {
   "routes" : {
     "public" : {
-      "get /logout" : "app/server/controllers/authenticationController.logoutAction",
-      "post /authenticate" : "app/server/controllers/authenticationController.authenticateAction",
-      "/login" : "app/server/controllers/defaultController.defaultAction",
-      "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getDictionaryAction"
+      "get /getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getDictionaryAction"
     },
-    "admin" : {
+    "private" : {
+      "post /authenticate" : "app/server/controllers/authenticationController.authenticateAction",
       "*" : "app/server/controllers/authenticationController.restrictAction",
-      "/getMenu" : "app/server/controllers/menuController.getMenuAction",
-      "/getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getAdminDictionaryAction",
+      "get /logout" : "app/server/controllers/authenticationController.logoutAction",
+      "get /getMenu" : "app/server/controllers/menuController.getMenuAction",
+      "get /getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getAdminDictionaryAction",
       "get /permissions" : "app/server/controllers/authenticationController.getPermissionsAction",
       "get /ws/scopes" : "app/server/controllers/applicationController.getScopesAction",
       "get /crud/:type/:id" : "app/server/controllers/crudController.getEntityAction",
@@ -35,29 +34,21 @@
     {
       "id" : "access-applications-page",
       "name" : "PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME",
-      "description" : "PERMISSIONS.ACCESS_APP_DESCRIPTION",
-      "paths" : [
-        "get /admin/ws/be/applications"
-      ]
+      "description" : "PERMISSIONS.ACCESS_APP_DESCRIPTION"
     },
     {
       "id" : "access-users-page",
       "name" : "PERMISSIONS.ACCESS_USER_PAGE_NAME",
       "description" : "PERMISSIONS.ACCESS_USER_DESCRIPTION",
       "paths" : [
-        "get /admin/be/users",
-        "get /admin/crud/roles"
+        "get /crud/roles"
       ]
     },
     {
       "id" : "access-roles-page",
       "name" : "PERMISSIONS.ACCESS_ROLES_PAGE_NAME",
-      "description" : "PERMISSIONS.ACCESS_ROLES_DESCRIPTION",
-      "paths" : [
-        "get /admin/be/roles"
-      ]
+      "description" : "PERMISSIONS.ACCESS_ROLES_DESCRIPTION"
     }
-    
   ],
   "backOffice": {
     "menu" : [
@@ -67,7 +58,7 @@
         "subMenu" : [
           {
             "label" : "MENU.APPLICATIONS",
-            "path" : "/admin/ws/be/applications",
+            "path" : "applications",
             "permission" : "access-applications-page"
           }
         ]
@@ -78,12 +69,12 @@
         "subMenu" : [
           {
             "label" : "MENU.USERS",
-            "path" : "/admin/be/users",
+            "path" : "users",
             "permission" : "access-users-page"
           },
           {
             "label" : "MENU.ROLES",
-            "path" : "/admin/be/roles",
+            "path" : "roles",
             "permission" : "access-roles-page"
           }
         ]
@@ -96,7 +87,7 @@
         "/lib/angular-animate/angular-animate.min.js",
         "/lib/angular-route/angular-route.min.js",
         "/lib/angular-cookies/angular-cookies.js",
-        "/lib/angular-bootstrap/ui-bootstrap-tpls.min.js",
+        "/lib/angular-bootstrap/ui-bootstrap-tpls.js",
         "/lib/angular-touch/angular-touch.min.js",
         "/lib/angular-sanitize/angular-sanitize.min.js",
         "/lib/angular-ui-tree/dist/angular-ui-tree.min.js",
@@ -108,44 +99,43 @@
         "/lib/ng-tasty/ng-tasty-tpls.min.js"
       ],
       "dev" : [
-        "authentication/AuthenticationApp.js",
-        "storage/StorageApp.js",
-        "route/RouteApp.js",
-        "i18n/I18nApp.js",
-        "entity/EntityApp.js",
-        "alert/AlertApp.js",
-        "tableForm/tableForm.js"
+        "/authentication/AuthenticationApp.js",
+        "/storage/StorageApp.js",
+        "/route/RouteApp.js",
+        "/i18n/I18nApp.js",
+        "/entity/EntityApp.js",
+        "/alert/AlertApp.js",
+        "/tableForm/tableForm.js"
       ],
       "prod" : [
-        "/js/libOpenveo.js"
+        "/be/js/libOpenveo.js"
       ]
     },
     "scriptFiles" : {
       "dev" : [
-        "ov/OvApp.js",
-        "ov/MainController.js",
-        "ov/LoginController.js",
-        "ov/HomeController.js",
-        "ov/ApplicationController.js",
-      	"ov/RoleController.js",
-      	"ov/UserController.js",
-        "ov/ProfileController.js",
-        "ov/MenuService.js",
-		"ov/UserService.js",
-        "ov/ApplicationService.js"
+        "/ov/OvApp.js",
+        "/ov/MainController.js",
+        "/ov/LoginController.js",
+        "/ov/HomeController.js",
+        "/ov/ApplicationController.js",
+      	"/ov/RoleController.js",
+      	"/ov/UserController.js",
+        "/ov/ProfileController.js",
+        "/ov/MenuService.js",
+		"/ov/UserService.js",
+        "/ov/ApplicationService.js"
       ],
       "prod" : [
-        "/js/openveo.js"
+        "/be/js/openveo.js"
       ]
-       
     },
     "cssFiles" : [
-      "/css/bootstrap.css",
+      "/be/css/bootstrap.css",
       "/lib/angular/angular-csp.css",
       "/lib/angular-bootstrap/ui-bootstrap-csp.css",
       "/lib/angular-ui-tree/dist/angular-ui-tree.min.css",
       "/lib/angular-xeditable/dist/css/xeditable.css",
-      "/css/style.css"
+      "/be/css/style.css"
     ]
   },
   "viewsFolders" : [

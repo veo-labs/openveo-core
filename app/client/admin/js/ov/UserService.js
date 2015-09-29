@@ -6,7 +6,7 @@
    * Defines service to manage users, roles and permissions.
    */
   function UserService($http, $q) {
-    var basePath = '/admin/';
+    var basePath = '/be/';
     var users,
       roles,
       permissions;

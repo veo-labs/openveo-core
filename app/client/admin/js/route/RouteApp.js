@@ -46,8 +46,8 @@
         if (!route.resolve['menuCommon'])
           route.resolve['menuCommon'] = menu;
 
-        if (path.indexOf('/admin') != 0)
-          path = '/admin' + path;
+        if (path.indexOf('/') != 0)
+          path = '/' + path;
 
         $routeProvider.when(path, route);
       }

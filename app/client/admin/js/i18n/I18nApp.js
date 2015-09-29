@@ -32,7 +32,7 @@
       if (name && (!translations[name] || translations[name][currentLanguage] === undefined)) {
         admin || (admin = false);
 
-        var path = admin ? '/admin/' : '/';
+        var path = admin ? '/be/' : '/';
         path += 'getDictionary/' + name + '/' + currentLanguage;
 
         // Get dictionary

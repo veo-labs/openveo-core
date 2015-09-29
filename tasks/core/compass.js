@@ -4,8 +4,8 @@ module.exports = {
   dev: {
     options: {
       sourcemap: true,
-      sassDir: '<%= project.sass %>',
-      cssDir: '<%= project.css %>',
+      sassDir: '<%= project.beSASS %>',
+      cssDir: '<%= project.beCSSAssets %>',
       fontsDir: '<%= project.font %>',
       environment: 'development'
     }
@@ -13,8 +13,8 @@ module.exports = {
   dist: {
     options: {
       sourcemap: false,
-      sassDir: '<%= project.sass %>',
-      cssDir: '<%= project.css %>',
+      sassDir: '<%= project.beSASS %>',
+      cssDir: '<%= project.beCSSAssets %>',
       fontsDir: '<%= project.font %>',
       environment: 'production'
     }

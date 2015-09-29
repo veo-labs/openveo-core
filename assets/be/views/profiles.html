@@ -4,8 +4,8 @@
     <div class="container row">
         <div class='col-md-6 user-info'>
             <h2 ng-bind="'PROFILES.ATTR_USER_ACCOUNT' | translate"> </h2>
-            <ng-include src="'/views/elements/dataTableForm.html'"></ng-include>     
-        </div>         
+            <ng-include src="'views/elements/dataTableForm.html'"></ng-include>
+        </div>
         <div class="col-md-6 detail password" ng-show="isNotSuperAdmin()">
             <h2 ng-bind="'PROFILES.ATTR_MODIFY_PASSWORD' | translate"></h2>
             <form class="form-horizontal"  ng-submit="onSubmit(row)" novalidate  name="profileForm" >
@@ -16,7 +16,7 @@
                 <div class="form-group  form-inline">
                     <label for="confirmPassword" class='col-md-4 control-label' ng-bind="'PROFILES.ATTR_CONFIRM_PASSWORD' | translate"></label>
                     <input id="confirmPassword" class='col-md-8 form-control' type="password"  required='true'   ng-change="checkValid()" name="confirmPassword" ng-model="confirmPassword" />
-                </div>  
+                </div>
                 <!-- buttons to submit / cancel form -->
                 <div class="form-submit-bouton col-xs-6 col-xs-push-2">
                     <span >
@@ -24,7 +24,7 @@
                         <button type="button" class="btn btn-default" ng-click="cancelForm()" ng-bind="'UI.FORM_CANCEL' | translate"></button>
                     </span>
                 </div>
-            </form> 
+            </form>
         </div>
     </div>
 </div>

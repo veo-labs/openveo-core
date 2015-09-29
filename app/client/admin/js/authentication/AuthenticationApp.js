@@ -8,6 +8,7 @@
    * Exposes methods to deal with user information and to sign in or logout.
    */
   function AuthenticationService($http, storage) {
+    var basePath = '/be/';
     var userInfo;
 
     /**
@@ -27,7 +28,7 @@
      */
     function login(email, password) {
       if (email && password) {
-        return $http.post('/authenticate', {
+        return $http.post(basePath + 'authenticate', {
           email: email,
           password: password
         });
@@ -39,7 +40,7 @@
      * @return {Promise} The logout promise
      */
     function logout() {
-      return $http.get('/logout');
+      return $http.get(basePath + 'logout');
     }
 
     /**

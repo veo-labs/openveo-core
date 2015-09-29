@@ -22,7 +22,7 @@ module.exports = {
       });
       return files;
     }()),
-    dest: '<%= project.js %>/libOpenveo.js'
+    dest: '<%= project.beJSAssets %>/libOpenveo.js'
   },
   js: {
     src: (function() {
@@ -32,6 +32,6 @@ module.exports = {
       });
       return files;
     }()),
-    dest: '<%= project.js %>/openveo.js'
+    dest: '<%= project.beJSAssets %>/openveo.js'
   }
 };

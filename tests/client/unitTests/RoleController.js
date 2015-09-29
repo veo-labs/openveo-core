@@ -99,8 +99,8 @@ describe('RoleController', function() {
       $httpBackend.when('POST', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('DELETE', '/admin/crud/role/146574894654').respond(200);
-      $httpBackend.expectDELETE('/admin/crud/role/146574894654');
+      $httpBackend.when('DELETE', '/be/crud/role/146574894654').respond(200);
+      $httpBackend.expectDELETE('/be/crud/role/146574894654');
 
       scope.tableContainer.actions[0].callback(scope.test.rows[0], done);
 
@@ -111,8 +111,8 @@ describe('RoleController', function() {
       $httpBackend.when('POST', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('DELETE', '/admin/crud/role/146574894654,146571234567').respond(200);
-      $httpBackend.expectDELETE('/admin/crud/role/146574894654,146571234567');
+      $httpBackend.when('DELETE', '/be/crud/role/146574894654,146571234567').respond(200);
+      $httpBackend.expectDELETE('/be/crud/role/146574894654,146571234567');
 
       scope.tableContainer.actions[0].global([scope.test.rows[0].id, scope.test.rows[1].id], done);
 
@@ -123,8 +123,8 @@ describe('RoleController', function() {
       $httpBackend.when('POST', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('DELETE', '/admin/crud/role/146574894654').respond(401);
-      $httpBackend.expectDELETE('/admin/crud/role/146574894654');
+      $httpBackend.when('DELETE', '/be/crud/role/146574894654').respond(401);
+      $httpBackend.expectDELETE('/be/crud/role/146574894654');
 
       $rootScope.logout = function() {
         done();
@@ -145,8 +145,8 @@ describe('RoleController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('POST', '/admin/crud/role/146574894654').respond(200);
-      $httpBackend.expectPOST('/admin/crud/role/146574894654');
+      $httpBackend.when('POST', '/be/crud/role/146574894654').respond(200);
+      $httpBackend.expectPOST('/be/crud/role/146574894654');
 
       var editRole = {
         id: '146574894654',
@@ -172,8 +172,8 @@ describe('RoleController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
-      $httpBackend.when('POST', '/admin/crud/role/146574894654').respond(401);
-      $httpBackend.expectPOST('/admin/crud/role/146574894654');
+      $httpBackend.when('POST', '/be/crud/role/146574894654').respond(401);
+      $httpBackend.expectPOST('/be/crud/role/146574894654');
 
       $rootScope.logout = function() {
         done();
@@ -209,7 +209,7 @@ describe('RoleController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('POST', /.*/).respond(200, '');
-      $httpBackend.when('PUT', '/admin/crud/role').respond(200);
+      $httpBackend.when('PUT', '/be/crud/role').respond(200);
 
       var addRole = {
         name: 'Example',
@@ -237,8 +237,8 @@ describe('RoleController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('POST', /.*/).respond(200, '');
-      $httpBackend.when('PUT', '/admin/crud/role').respond(401);
-      $httpBackend.expectPUT('/admin/crud/role');
+      $httpBackend.when('PUT', '/be/crud/role').respond(401);
+      $httpBackend.expectPUT('/be/crud/role');
 
       var addRole = {
         name: 'Example',

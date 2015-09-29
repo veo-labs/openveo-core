@@ -360,11 +360,11 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
     [
       function(callback) {
 
-        // Test if a public directory exists at plugin root level
-        fs.exists(path.join(pluginPath, 'public'), function(exists) {
+        // Test if an assets directory exists at plugin root level
+        fs.exists(path.join(pluginPath, 'assets'), function(exists) {
 
           if (exists)
-            plugin.publicDirectory = path.join(pluginPath, 'public');
+            plugin.assets = path.join(pluginPath, 'assets');
 
           callback();
 
@@ -426,26 +426,26 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
               var backEndConf = pluginConf['backOffice'];
 
               // Got routes for this plugin
-              // Retrieve public and admin routes
+              // Retrieve public, private and Web Service routes
               if (pluginRoutes) {
                 plugin.routes = pluginRoutes['public'] && routeLoader.decodeRoutes(pluginPath, pluginRoutes['public']);
-                plugin.adminRoutes = pluginRoutes['admin'] && routeLoader.decodeRoutes(pluginPath,
-                  pluginRoutes['admin']);
+                plugin.privateRoutes = pluginRoutes['private'] && routeLoader.decodeRoutes(pluginPath,
+                  pluginRoutes['private']);
                 plugin.webServiceRoutes = pluginRoutes['ws'] && routeLoader.decodeRoutes(pluginPath,
                   pluginRoutes['ws']);
               }
 
-              // Found routes for the plugin
-              // Apply routes to the public router
+              // Found application routes for the plugin
+              // Apply routes to the router
               if (plugin.routes && plugin.router)
                 routeLoader.applyRoutes(plugin.routes, plugin.router);
 
-              // Found admin routes for the plugin
-              // Apply routes to the admin router
-              if (plugin.adminRoutes && plugin.adminRouter)
-                routeLoader.applyRoutes(plugin.adminRoutes, plugin.adminRouter);
+              // Found private routes for the plugin
+              // Apply routes to the private router
+              if (plugin.privateRoutes && plugin.privateRouter)
+                routeLoader.applyRoutes(plugin.privateRoutes, plugin.privateRouter);
 
-              // Found routes for the plugin
+              // Found web service routes for the plugin
               // Apply routes to the web service router
               if (plugin.webServiceRoutes && plugin.webServiceRouter)
                 routeLoader.applyRoutes(plugin.webServiceRoutes, plugin.webServiceRouter);

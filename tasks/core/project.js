@@ -2,12 +2,12 @@
 
 module.exports = {
   app: ['./app'],
-  admin: ['<%= project.app %>/client/admin'],
-  srcjs: ['<%= project.admin %>/js/'],
-  sass: ['<%= project.admin %>/compass/sass'],
-  public: ['public'],
-  css: ['<%= project.public %>/css'],
-  js: ['<%= project.public %>/js'],
+  be: ['<%= project.app %>/client/admin'],
+  beJS: ['<%= project.be %>/js/'],
+  beSASS: ['<%= project.be %>/compass/sass'],
+  beAssets: ['assets/be'],
+  beCSSAssets: ['<%= project.beAssets %>/css'],
+  beJSAssets: ['<%= project.beAssets %>/js'],
   font: ['../../lib/bootstrap-sass/assets/fonts/'],
   uglify: ['build/uglify']
 };

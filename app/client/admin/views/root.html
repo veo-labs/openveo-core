@@ -2,7 +2,7 @@
 <html ng-app="ov" ng-controller="MainController" ng-strict-di>
   <head>
     <title ng-bind="title | translate"></title>
-    <base href="/">
+    <base href="/be/">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     {{=[[ ]]=}}
 
@@ -18,6 +18,7 @@
 
   <body ng-cloak>
     <header ng-if="displayMainMenu"  class="header navbar navbar-default navbar-fixed-top" role="banner">
+
       <!-- Top Navigation Bar -->
       <div class="container">
 
@@ -32,8 +33,8 @@
         </div>
 
         <!-- Logo -->
-        <a class="navbar-brand" href="/admin" ng-click="closeResponsiveMenu();">
-          <img alt="OpenVeo" src="/images/logo-white.png">
+        <a class="navbar-brand" href="./" ng-click="closeResponsiveMenu();">
+          <img alt="OpenVeo" src="images/logo-white.png">
         </a>
         <!-- /logo -->
 
@@ -41,13 +42,13 @@
         <!-- Top Right Menu -->
         <ul class="nav navbar-nav navbar-right ">
           <li popover="{{'MENU.PROFILES' | translate}}" popover-trigger="mouseenter" popover-placement="bottom">
-            <a class="icon" href="/admin/be/profiles" >
+            <a class="icon" href="profiles" >
               <div class="glyphicon glyphicon-user"></div>
             </a>
           </li>
-          <li  class="dropdown language" dropdown is-open="menuDropdownIsOpen">
+          <li class="dropdown language" dropdown is-open="menuDropdownIsOpen">
             <a popover="{{'MENU.LANGUAGE' | translate}}" popover-trigger="mouseenter" popover-placement="bottom"  class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" dropdown-toggle role="button"  ng-disabled="disabled">
-              <span class="glyphicon glyphicon-globe"></span>              
+              <span class="glyphicon glyphicon-globe"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
               <li ng-repeat="language in languages" ng-class="{'active' : language.active}">
@@ -56,11 +57,10 @@
             </ul>
           </li>
           <li popover="{{'MENU.LOGOUT' | translate}}" popover-trigger="mouseenter" popover-placement="bottom">
-            <a class="icon" href="/logout" ng-click="closeResponsiveMenu();logout()">
+            <a class="icon" href="logout" ng-click="closeResponsiveMenu();logout()">
               <div class="glyphicon glyphicon-log-out"></div>
             </a>
           </li>
-
         </ul>
       </div>
     </header>
@@ -75,7 +75,6 @@
             <a href="#" ng-click="toggleSidebarSubMenu($index)"><i class="icon-angle-down"></i><span ng-bind="item.label | translate"></span></a>
             <ul class="sub-menu">
               <li ng-repeat="subItem in item.subMenu" ng-class="{'current' : subItem.active}">
-
                 <a href="{{subItem.path}}" ><i class="icon-angle-right"></i><span ng-bind="subItem.label | translate"></span></a>
               </li>
             </ul>
@@ -87,14 +86,13 @@
         <div class="container">
           <div id="{{displayMainMenu?'content':''}}" ng-class="{'login-screen':!displayMainMenu}">
             <div class="alert-container">
-            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
+              <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
             </div>
             <div ng-view ng-class="[{'vertical-center-row': verticalAlign}]" class="view  {{newAnimation}}"></div>
           </div>
         </div>
       </div>
     </div>
-
 
     [[#librariesScripts]]
     <script type="text/javascript" src="[[.]]"></script>

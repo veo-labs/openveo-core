@@ -7,7 +7,7 @@
    * Defines an entity service to create / update or remove an entity.
    */
   function EntityService($http, $q) {
-    var basePath = '/admin/';
+    var basePath = '/be/';
     var entityCache = {};
 
     /**

@@ -31,27 +31,27 @@ describe('UserService', function() {
 
   it('Should be able to ask server for the list of roles', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
-    $httpBackend.expectGET('/admin/crud/role');
+    $httpBackend.expectGET('/be/crud/role');
     userService.loadRoles();
     $httpBackend.flush();
   });
 
   it('Should be able to ask server for the list of users', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
-    $httpBackend.expectGET('/admin/crud/user');
+    $httpBackend.expectGET('/be/crud/user');
     userService.loadUsers();
     $httpBackend.flush();
   });
 
   it('Should be able to ask server for the list of permissions', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
-    $httpBackend.expectGET('/admin/permissions');
+    $httpBackend.expectGET('/be/permissions');
     userService.loadPermissions();
     $httpBackend.flush();
   });
 
   it('Should be able to store roles', function() {
-    $httpBackend.when('GET', '/admin/crud/role').respond(200, {
+    $httpBackend.when('GET', '/be/crud/role').respond(200, {
       entities: [{
         name: 'Example',
         permissions: {
@@ -62,7 +62,7 @@ describe('UserService', function() {
       }]
     }
     );
-    $httpBackend.expectGET('/admin/crud/role');
+    $httpBackend.expectGET('/be/crud/role');
     userService.loadRoles();
     $httpBackend.flush();
 
@@ -72,7 +72,7 @@ describe('UserService', function() {
   });
 
   it('Should be able to store users', function() {
-    $httpBackend.when('GET', '/admin/crud/user').respond(200, {
+    $httpBackend.when('GET', '/be/crud/user').respond(200, {
       entities: [{
         name: 'Example',
         email: 'example@example.com',
@@ -80,7 +80,7 @@ describe('UserService', function() {
       }]
     }
     );
-    $httpBackend.expectGET('/admin/crud/user');
+    $httpBackend.expectGET('/be/crud/user');
     userService.loadUsers();
     $httpBackend.flush();
 
@@ -90,7 +90,7 @@ describe('UserService', function() {
   });
 
   it('Should be able to store permissions', function() {
-    $httpBackend.when('GET', '/admin/permissions').respond(200,
+    $httpBackend.when('GET', '/be/permissions').respond(200,
       [{
         perm1: {
           name: 'Name',
@@ -99,7 +99,7 @@ describe('UserService', function() {
         }
       }]
     );
-    $httpBackend.expectGET('/admin/permissions');
+    $httpBackend.expectGET('/be/permissions');
     userService.loadPermissions();
     $httpBackend.flush();
 

@@ -6,7 +6,7 @@
    * Defines service to manage the web service applications.
    */
   function ApplicationService($http, $q) {
-    var basePath = '/admin/';
+    var basePath = '/be/';
     var applications;
     var scopes;
 
