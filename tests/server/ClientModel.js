@@ -61,18 +61,6 @@ describe('CientModel', function() {
 
     });
 
-    it('Should return an error if no scopes are provided', function() {
-
-      clientModel.add({
-        name: 'Name of the client'
-      },
-      function(error, client) {
-        assert.isDefined(error);
-        assert.isUndefined(client);
-      });
-
-    });
-
   });
 
   // update method

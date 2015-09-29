@@ -207,7 +207,7 @@
         type: 'horizontalCheckList',
         templateOptions: {
           label: $filter('translate')('APPLICATIONS.FORM_ADD_SCOPES'),
-          required: true,
+          required: false,
           options: $scope.scopes,
           valueProp: 'id',
           labelProp: 'name',

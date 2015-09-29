@@ -59,11 +59,6 @@ util.inherits(ClientModel, openVeoAPI.EntityModel);
  *   - **Error** The error if an error occurred, null otherwise
  */
 ClientModel.prototype.add = function(data, callback) {
-  if (!data.scopes) {
-    callback(new Error('Requires scopes to add a client application'));
-    return;
-  }
-
   var client = {
     id: crypto.randomBytes(20).toString('hex'),
     name: data.name,
