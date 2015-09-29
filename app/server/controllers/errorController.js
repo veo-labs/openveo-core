@@ -59,6 +59,7 @@ module.exports.errorAction = function(error, request, response) {
 
    // Send response with HTML content
   if (request.accepts('html') && (error.httpCode == '401' || error.httpCode == '403')) {
+    response.status(error.httpCode);
     response.render(error.httpCode, {
       url: request.url
     });
