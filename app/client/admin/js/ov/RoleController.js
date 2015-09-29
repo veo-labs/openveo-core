@@ -30,7 +30,7 @@
         permissions: []
       };
       angular.forEach(model, function(value, key) {
-        var startsStr = 'permissions.';
+        var startsStr = 'permissions_';
         if (key.slice(0, startsStr.length) == startsStr) {
           entity.permissions = entity.permissions.concat(value);
         }
@@ -85,10 +85,10 @@
       var modelPerm = {};
       angular.forEach(perms, function(value, key) {
         angular.forEach(value.permissions, function(valuePerm) {
-          if (!modelPerm['permissions.' + key])
-            modelPerm['permissions.' + key] = [];
+          if (!modelPerm['permissions_' + key])
+            modelPerm['permissions_' + key] = [];
           if (rolePermissions.indexOf(valuePerm.id) >= 0) {
-            modelPerm['permissions.' + key].push(valuePerm.id);
+            modelPerm['permissions_' + key].push(valuePerm.id);
           }
         });
       });
@@ -205,7 +205,7 @@
       });
       angular.forEach($scope.permissions, function(value, key) {
         accordionArray.push({
-          key: 'permissions.' + key,
+          key: 'permissions_' + key,
           type: 'editableChecklist',
           wrapper: ['collapse'],
           templateOptions: {
@@ -269,7 +269,7 @@
       });
       angular.forEach($scope.permissions, function(value, key) {
         accordionArray.push({
-          key: 'permissions.' + key,
+          key: 'permissions_' + key,
           type: 'multiCheckbox',
           wrapper: ['collapse'],
           templateOptions: {
