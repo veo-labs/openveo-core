@@ -17,6 +17,7 @@
      userService,
      i18nService,
      alertService,
+     entityService,
      $window) {
 
     $scope.displayMainMenu = false;
@@ -40,6 +41,7 @@
       menuService.destroyMenu();
       applicationService.destroy();
       userService.destroy();
+      entityService.deleteCache();
       $scope.$broadcast('loggedOut');
     }
 
@@ -161,6 +163,7 @@
     'userService',
     'i18nService',
     'alertService',
+    'entityService',
     '$window'
   ];
 

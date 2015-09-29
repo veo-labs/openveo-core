@@ -15,7 +15,12 @@
      * @param {String} entity The entity type
      */
     function deleteCache(entity) {
-      delete entityCache[entity];
+      if (entity) {
+        if (entityCache[entity])
+          delete entityCache[entity];
+      } else {
+        entityCache = {};
+      }
     }
 
     /**

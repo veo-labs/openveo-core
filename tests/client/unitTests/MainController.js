@@ -12,6 +12,7 @@ describe('MainController', function() {
     $location,
     i18nService,
     menuService,
+    entityService,
     scope,
     childScope,
     logoutRequestHandler;
@@ -28,13 +29,15 @@ describe('MainController', function() {
       _$route_,
       _$location_,
       _i18nService_,
-      _menuService_) {
+      _menuService_,
+      _entityService_) {
       $rootScope = _$rootScope_;
       $httpBackend = _$httpBackend_;
       $controller = _$controller_;
       authenticationService = _authenticationService_;
       i18nService = _i18nService_;
       menuService = _menuService_;
+      entityService = _entityService_;
       $route = _$route_;
       $location = _$location_;
     }));
@@ -49,6 +52,7 @@ describe('MainController', function() {
       authenticationService: authenticationService,
       $route: $route,
       menuService: menuService,
+      entityService: entityService,
       $window: {
         location: {
           reload: function() {
@@ -190,6 +194,9 @@ describe('MainController', function() {
     it('Should redirect to /login if logout succeeded', function() {
       logoutRequestHandler.respond(200, '');
 
+      entityService.deleteCache = function() {
+        assert.ok(true);
+      };
       scope.logout();
       $httpBackend.flush();
 
