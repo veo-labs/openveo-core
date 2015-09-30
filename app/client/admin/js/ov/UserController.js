@@ -154,7 +154,7 @@
           type: 'horizontalExtendCheckList',
           templateOptions: {
             label: $filter('translate')('USERS.ATTR_ROLE'),
-            required: true,
+            required: false,
             options: $scope.roles,
             valueProp: 'id',
             labelProp: 'name'
@@ -244,7 +244,7 @@
           type: 'horizontalCheckList',
           templateOptions: {
             label: $filter('translate')('USERS.FORM_ADD_ROLE'),
-            required: true,
+            required: false,
             options: $scope.roles,
             valueProp: 'id',
             labelProp: 'name',
