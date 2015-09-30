@@ -257,7 +257,7 @@
             };
           } else
             param['filter'][filter.key] = {
-              $regex: '.*' + filter.value + '.*'
+              $regex: '.*' + filter.value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '.*'
             };
         }
       });
