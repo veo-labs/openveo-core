@@ -91,8 +91,27 @@ describe('MainController', function() {
 
   });
 
+  // $routeChangeStart event handler
+  describe('$routeChangeStart', function() {
+    it('Should be redirect if user is authenticated and has not permissions to access the route', function() {
+      $route = {
+        title: 'Page title',
+        access: 'isAllowed'
+      };
+      authenticationService.setUserInfo({
+        username: 'openveo',
+        permissions: ['']
+      });
+      menuService.getMenu = function() {
+        return true;
+      };
+      childScope.$emit('$routeChangeStart', $route);
+      assert.equal($location.path(), '/');
+    });
+  });
+
   // $routeChangeSuccess event handler
-  describe('$routeChangeSuccess', function() {
+  describe('$routeChangeStart', function() {
 
     it('Should handle $routeChangeSuccess from child scope and set page title', function() {
       $route.current = {
@@ -143,26 +162,6 @@ describe('MainController', function() {
       assert.ok(scope.menu);
       assert.ok(scope.displayMainMenu);
     });
-
-    it('Should be redirect if user is authenticated and has not permissions to access the route', function() {
-      $route = {
-        title: 'Page title',
-        access: 'isAllowed'
-      };
-      authenticationService.setUserInfo({
-        username: 'openveo',
-        permissions: ['']
-      });
-      menuService.getMenu = function() {
-        return true;
-      };
-      childScope.$emit('$routeChangeSuccess', $route);
-      assert.notOk(scope.menu);
-      assert.notOk(scope.displayMainMenu);
-      assert.notOk(scope.isResponsiveMenuOpened);
-      assert.equal($location.path(), '/');
-    });
-
   });
 
   // $routeChangeError event handler

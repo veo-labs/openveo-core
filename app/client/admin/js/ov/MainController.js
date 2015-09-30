@@ -99,7 +99,15 @@
       $scope.logout();
     });
 
-    $scope.$on('$routeChangeStart', function(event) {
+    $scope.$on('$routeChangeStart', function(event, route) {
+      $scope.userInfo = authenticationService.getUserInfo();
+      if ($scope.userInfo) {
+        if (route.access && !$scope.checkAccess(route.access)) {
+          $location.path('/');
+          return false;
+        }
+      }
+
       if (event.targetScope.newAnimation == 'LR')
         event.currentScope.newAnimation = 'RL';
       else if (event.targetScope.newAnimation == 'RL')
@@ -115,10 +123,6 @@
       entityService.deleteCache();
       $scope.userInfo = authenticationService.getUserInfo();
       if ($scope.userInfo) {
-        if (route.access && !$scope.checkAccess(route.access)) {
-          $location.path('/');
-          return false;
-        }
         $scope.menu = menuService.getMenu();
         $scope.displayMainMenu = ($scope.menu) ? true : false;
         menuService.setActiveMenuItem();
