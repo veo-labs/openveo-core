@@ -73,6 +73,22 @@
       return true;
     };
 
+    this.updateRowBeforeEdit = function(tableRow, lastValueInDb) {
+      if ($scope.editFormContainer.updateRowObjectBeforeEdit)
+        $scope.editFormContainer.updateRowObjectBeforeEdit(tableRow, lastValueInDb);
+      var cacheMustBeDeleted = false;
+      for (var attrname in lastValueInDb) {
+        if (tableRow[attrname] && typeof tableRow[attrname] !== 'object' &&
+                tableRow[attrname] != lastValueInDb[attrname]) {
+          cacheMustBeDeleted = true;
+          tableRow[attrname] = lastValueInDb[attrname];
+        }
+      }
+
+      // return if cache need to be deleted (true if any value is change between TableRow and lastValueInDb
+      return cacheMustBeDeleted;
+    };
+
     // When submit the form
     this.onSubmit = function() {
       if ($scope.editFormContainer.onSubmit) {
@@ -100,24 +116,17 @@
       }
     };
     this.options = {};
-    var cacheMustBeDeleted = false;
 
     // Toggle between show and editable information
     this.editForm = function() {
       entityService.getEntity(type, self.model.id).then(function(response) {
         if (response.data.entity) {
           var lastValue = response.data.entity;
+          var cacheMustBeDeleted = self.updateRowBeforeEdit(self.model, lastValue);
 
-          for (var attrname in lastValue) {
-            if (self.model[attrname] != lastValue[attrname]) {
-              cacheMustBeDeleted = true;
-            }
-            self.model[attrname] = lastValue[attrname];
-          }
           if (cacheMustBeDeleted) {
             $scope.$emit('setAlert', 'warning', $filter('translate')('UI.WARNING_ENTITY_MODIFIED'), 8000);
             entityService.deleteCache(type);
-            cacheMustBeDeleted = false;
           }
         } else {
           entityService.deleteCache(type);

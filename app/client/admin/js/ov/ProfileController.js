@@ -78,6 +78,7 @@
      */
     var scopeEditForm = $scope.editFormContainer = {};
     $scope.row = user;
+    scopeEditForm.entityType = 'user';
     scopeEditForm.fields = [
       {
 
