@@ -7,17 +7,22 @@ describe('tableForm', function() {
   var $rootScope,
     $controller,
     $filter,
-    $scope;
+    $scope,
+    entityService,
+    tableReloadEventService;
 
   // Load entity module
   beforeEach(function() {
+    module('ov');
     module('ov.tableForm');
   });
 
-  beforeEach(inject(function(_$rootScope_, _$controller_, _$filter_) {
+  beforeEach(inject(function(_$rootScope_, _$controller_, _$filter_, _entityService_, _tableReloadEventService_) {
     $rootScope = _$rootScope_;
     $controller = _$controller_;
     $filter = _$filter_;
+    entityService = _entityService_;
+    tableReloadEventService = _tableReloadEventService_;
   }));
 
   beforeEach(function() {
@@ -44,7 +49,9 @@ describe('tableForm', function() {
 
       fec = $controller('FormEditController', {
         $scope: $scope,
-        $filter: $filter
+        $filter: $filter,
+        entityService: entityService,
+        tableReloadEventService: tableReloadEventService
       });
     });
 

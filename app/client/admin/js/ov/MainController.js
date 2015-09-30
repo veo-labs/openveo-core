@@ -112,6 +112,7 @@
     // set new page title and offers access to the menu if
     // user is authenticated
     $scope.$on('$routeChangeSuccess', function(event, route) {
+      entityService.deleteCache();
       $scope.userInfo = authenticationService.getUserInfo();
       if ($scope.userInfo) {
         if (route.access && !$scope.checkAccess(route.access)) {

@@ -126,6 +126,7 @@
      */
     var scopeEditForm = $scope.editFormContainer = {};
     scopeEditForm.model = {};
+    scopeEditForm.entityType = 'application';
     scopeEditForm.init = function(row) {
       scopeEditForm.fields[1].templateOptions.message = row.id;
       scopeEditForm.fields[2].templateOptions.message = row.secret;

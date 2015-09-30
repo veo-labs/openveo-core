@@ -171,6 +171,7 @@
      */
     var scopeEditForm = $scope.editFormContainer = {};
     scopeEditForm.model = {};
+    scopeEditForm.entityType = 'role';
     scopeEditForm.init = function(row) {
       var modelPerm = prepareRolePermission($scope.permissions, row.permissions);
       angular.forEach(modelPerm, function(value, key) {

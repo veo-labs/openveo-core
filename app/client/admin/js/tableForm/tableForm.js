@@ -52,9 +52,10 @@
   /**
    * Defines a FormEditController.
    */
-  function FormEditController($scope, $filter) {
+  function FormEditController($scope, $filter, entityService, tableReloadEventService) {
 
     var self = this;
+    var type = $scope.editFormContainer.entityType || '';
 
     // init the form on a row
     this.init = function(row) {
@@ -99,12 +100,36 @@
       }
     };
     this.options = {};
+    var cacheMustBeDeleted = false;
 
     // Toggle between show and editable information
     this.editForm = function() {
-      $scope.editFormContainer.pendingEdition = true;
-      self.form.$show();
+      entityService.getEntity(type, self.model.id).then(function(response) {
+        if (response.data.entity) {
+          var lastValue = response.data.entity;
+
+          for (var attrname in lastValue) {
+            if (self.model[attrname] != lastValue[attrname]) {
+              cacheMustBeDeleted = true;
+            }
+            self.model[attrname] = lastValue[attrname];
+          }
+          if (cacheMustBeDeleted) {
+            $scope.$emit('setAlert', 'warning', $filter('translate')('UI.WARNING_ENTITY_MODIFIED'), 8000);
+            entityService.deleteCache(type);
+            cacheMustBeDeleted = false;
+          }
+        } else {
+          entityService.deleteCache(type);
+          $scope.$emit('setAlert', 'danger', $filter('translate')('UI.WARNING_ENTITY_DELETED'), 8000);
+          tableReloadEventService.broadcast();
+          return;
+        }
+        $scope.editFormContainer.pendingEdition = true;
+        self.form.$show();
+      });
     };
+
     this.cancelForm = function() {
       $scope.editFormContainer.pendingEdition = false;
       self.form.$cancel();
@@ -373,7 +398,7 @@
 
   // Controller for table, form in table and form outside table
   DataTableController.$inject = ['$scope', '$modal', 'entityService'];
-  FormEditController.$inject = ['$scope', '$filter'];
+  FormEditController.$inject = ['$scope', '$filter', 'entityService', 'tableReloadEventService'];
   FormAddController.$inject = ['$scope', '$filter', 'tableReloadEventService'];
   ModalInstanceTableController.$inject = ['$scope', '$modalInstance'];
   DatePickerController.$inject = ['$scope'];
