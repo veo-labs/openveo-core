@@ -141,7 +141,7 @@ module.exports.updateEntityAction = function(request, response, next) {
 
     if (model) {
       model.update(request.params.id, request.body, function(error, stack) {
-        if (error || (stack && stack.result && stack.result.nModified === 0)) {
+        if (error || (stack && stack.result && stack.result.ok === 0)) {
           next(errors.UPDATE_ENTITY_ERROR);
         }
         else
