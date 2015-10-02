@@ -145,7 +145,7 @@ module.exports.updateEntityAction = function(request, response, next) {
           next(errors.UPDATE_ENTITY_ERROR);
         }
         else
-          response.send();
+          response.send({error: null, status: 'ok'});
       });
     } else {
 
@@ -221,7 +221,7 @@ module.exports.removeEntityAction = function(request, response, next) {
           next(errors.REMOVE_ENTITY_ERROR);
         }
         else
-          response.send();
+          response.send({error: null, status: 'ok'});
       });
     } else {
 
