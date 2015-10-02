@@ -23,14 +23,14 @@
           if (angular.isArray(menu[menuItem].subMenu)) {
             menu[menuItem].active = false;
             for (var i = 0; i < menu[menuItem].subMenu.length; i++) {
-              menu[menuItem].subMenu[i].active = menu[menuItem].subMenu[i].path === path;
+              menu[menuItem].subMenu[i].active = '/' + menu[menuItem].subMenu[i].path === path;
               menu[menuItem].active = menu[menuItem].active || menu[menuItem].subMenu[i].active;
             }
           }
 
           // Menu item
           else
-            menu[menuItem].active = menu[menuItem].path === path;
+            menu[menuItem].active = '/' + menu[menuItem].path === path;
         }
       }
     }
