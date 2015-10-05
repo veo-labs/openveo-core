@@ -101,6 +101,7 @@
           // save value in the fields as initial value
           self.options.updateInitialValue();
           self.model.saving = false;
+          tableReloadEventService.broadcast();
         }, function() {
 
           // on error
