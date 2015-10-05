@@ -74,7 +74,7 @@
           <li ng-if="item.subMenu && item.subMenu.length" ng-repeat="(holder, item) in menu | orderBy:'+weight'"  ng-class="{'open':indexOpen == $index, 'current' : item.active}">
             <a href="#" ng-click="toggleSidebarSubMenu($index)"><i class="icon-angle-down"></i><span ng-bind="item.label | translate"></span></a>
             <ul class="sub-menu">
-              <li ng-repeat="subItem in item.subMenu" ng-class="{'current' : subItem.active}">
+              <li ng-repeat="subItem in item.subMenu | orderBy:'+weight'" ng-class="{'current' : subItem.active}">
                 <a href="{{subItem.path}}" ><i class="icon-angle-right"></i><span ng-bind="subItem.label | translate"></span></a>
               </li>
             </ul>
