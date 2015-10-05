@@ -134,18 +134,25 @@ module.exports.groupOrphanedPermissions = function(permissions) {
     label: 'PERMISSIONS.GROUP_OTHERS',
     permissions: []
   };
-
+  var groupLabelList = [];
   for (var i = 0; i < permissions.length; i++) {
-
     // Orphaned permission
     if (permissions[i].id)
       orphanedGroup.permissions.push(permissions[i]);
 
-    // Group permission
-    else
-      formattedPermissions.push(permissions[i]);
+        // Group permission
+    else if (permissions[i].label) {
+      var index = groupLabelList.indexOf(permissions[i].label);
+      if (index == -1) {
+        // label treated for first time
+        groupLabelList.push(permissions[i].label);
+        formattedPermissions.push(permissions[i]);
+      } else {
+        formattedPermissions[index].permissions =
+                formattedPermissions[index].permissions.concat(permissions[i].permissions);
+      }
+    }
   }
-
   if (orphanedGroup.permissions.length)
     formattedPermissions.push(orphanedGroup);
 
