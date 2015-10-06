@@ -88,7 +88,7 @@ function ApplicationServer() {
   self.imagesStyle = conf['imageProcessing']['imagesStyle'] || {};
 
   // Apply favicon
-  this.app.use(favicon('assets/favicon.ico'));
+  this.app.use(favicon(process.root + '/assets/favicon.ico'));
 
   // Set mustache as the template engine
   this.app.engine('html', consolidate.mustache);
