@@ -99,52 +99,26 @@ class OpenveoWSClient extends RestCurlClient
   /**
    * Retrieves the list of published videos.
    *
-   * TODO : Use correct Web Service end point when available to get the
-   * list of videos by property. Actually its just post treatment.
    *
-   * @param String $propertyName The name of the property to look for
-   * @param String $propertyValue The value of the property
+   * @param Array $propertySearch The search object of the property to look for
+   * [
+      'limit' => 2,
+      'page' => 0,
+      'sortBy' => 'date',
+      'sortOrder' => 'asc',
+      'properties' => [
+        'Auteur' => 'Dupont',
+        'Moodle'=> ['149', '150']
+      ]
+     ]
    * @return Array The list of videos or null
    */
-  public function getVideosByProperty($propertyName, $propertyValue)
+
+  public function getVideosByProperty($propertySearch)
   {
-    $url = $this->baseUrl . '/video';
+    $query = http_build_query($propertySearch);
+    $url = $this->baseUrl . '/publish/videos?' . $query;
     $results = $this->get($url, $this->headers);
-
-    $decodedResults = json_decode($results);
-
-    // Got videos
-    if (isset($decodedResults->entities))
-    {
-
-      // Return only published videos
-      $videos = array();
-      for ($i = 0; $i < sizeof($decodedResults->entities); $i++)
-      {
-        $video = $decodedResults->entities[$i];
-        if ($video->state == 12)
-        {
-
-          if (!empty($video->properties))
-          {
-
-            for ($j = 0; $j < sizeof($video->properties); $j++)
-            {
-              $property = $video->properties[$j];
-              if (strtolower($property->name) === strtolower($propertyName) && $property->value == $propertyValue
-              )
-              {
-                $videos[] = $video;
-              }
-            }
-          }
-        }
-      }
-
-      return $videos;
-    }
-
-    return null;
+    return json_decode($results);
   }
-
 }

@@ -31,7 +31,7 @@ module.exports.searchEntitiesAction = function(request, response) {
     var model = getEntityModel(request.params.type);
     var options = request.body;
     if (model) {
-      model.getPaginatedFilteredEntities(options.filter, options.count, options.page, options.sort,
+      model.getPaginatedFilteredEntities(options.filter, options.count, options.page, options.sort, false,
         function(error, rows, paginate) {
           if (error) {
             logger.error((
