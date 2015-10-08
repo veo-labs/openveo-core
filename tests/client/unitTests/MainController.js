@@ -175,6 +175,7 @@ describe('MainController', function() {
     });
 
     it('Should redirect user to / if authentication succeeded', function() {
+      scope.userInfo = {};
       childScope.$emit('$routeChangeError');
       assert.equal($location.path(), '/');
     });

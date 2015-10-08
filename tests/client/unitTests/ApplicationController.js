@@ -127,9 +127,9 @@ describe('ApplicationController', function() {
         $httpBackend.expectDELETE(
           '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
 
-        $rootScope.logout = function() {
+        $rootScope.$on('forceLogout', function() {
           done();
-        };
+        });
 
         $scope.tableContainer.actions[0].callback($scope.test.rows[0],
           function() {
@@ -172,9 +172,9 @@ describe('ApplicationController', function() {
         $httpBackend.expectPOST(
           '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
 
-        $rootScope.logout = function() {
+        $rootScope.$on('forceLogout', function() {
           done();
-        };
+        });
 
         $scope.editFormContainer.onSubmit($scope.test.rows[0], function() {
           assert.notOk(true);
@@ -214,9 +214,9 @@ describe('ApplicationController', function() {
         $httpBackend.when('PUT', '/be/crud/application').respond(401);
         $httpBackend.expectPUT('/be/crud/application');
 
-        $rootScope.logout = function() {
+        $rootScope.$on('forceLogout', function() {
           done();
-        };
+        });
 
         $scope.addFormContainer.onSubmit({}, function() {
           assert.notOk(true);

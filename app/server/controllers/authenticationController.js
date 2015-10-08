@@ -156,10 +156,11 @@ module.exports.logoutAction = function(request, response) {
  * @static
  */
 module.exports.restrictAction = function(request, response, next) {
+  var error = errors.BACK_END_UNAUTHORIZED;
 
   // User is authenticated
   if (request.isAuthenticated()) {
-    var error = errors.BACK_END_FORBIDDEN;
+    error = errors.BACK_END_FORBIDDEN;
 
     // Get requested permission for this request
     var permissions = getPermissionByUrl(applicationStorage.getPermissions(), request.url, request.method);
@@ -181,12 +182,10 @@ module.exports.restrictAction = function(request, response, next) {
 
     }
 
-    return next(error);
   }
 
   // Not authenticated
-  return next();
-
+  return next(error);
 };
 
 /**

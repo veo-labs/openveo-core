@@ -153,7 +153,7 @@ describe('errorController', function() {
       };
 
       response.render = function(template) {
-        assert.equal(template, '401');
+        assert.equal(template, 'root');
         done();
       };
 
@@ -178,7 +178,7 @@ describe('errorController', function() {
       };
 
       response.render = function(template) {
-        assert.equal(template, '403');
+        assert.equal(template, 'root');
         done();
       };
 

@@ -6,21 +6,21 @@
     <div ng-controller="LoginController">
       <form name="loginForm" ng-submit="signIn()" novalidate>
 
-        <div ng-show="onError" class="alert alert-danger ng-hide" role="alert" ng-bind="'ERROR' | translate"></div>
+        <div ng-show="onError" class="alert alert-danger ng-hide" role="alert" ng-bind="'LOGIN.ERROR' | translate"></div>
 
         <div class="form-group" ng-class="{'has-error': loginForm.userEmail.$invalid && loginForm.$submitted}">
-          <label ng-bind="'LOGIN' | translate"></label>
+          <label ng-bind="'LOGIN.LOGIN' | translate"></label>
           <div class="input-group">
             <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-            <input type="text" name="userEmail" class="form-control" placeholder="{{'LOGIN_DESCRIPTION' | translate}}" ng-model="userEmail" ng-model-options="{updateOn: 'blur'}" required>
+            <input type="text" name="userEmail" class="form-control" placeholder="{{'LOGIN.LOGIN_DESCRIPTION' | translate}}" ng-model="userEmail" ng-model-options="{updateOn: 'blur'}" required>
           </div>
         </div>
 
         <div class="form-group" ng-class="{'has-error': loginForm.password.$invalid && loginForm.$submitted}">
-          <label ng-bind="'PASSWORD' | translate"></label>
+          <label ng-bind="'LOGIN.PASSWORD' | translate"></label>
           <div class="input-group">
             <div class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></div>
-            <input type="password" name="password" class="form-control" placeholder="{{'PASSWORD_DESCRIPTION' | translate}}" ng-model="password" ng-model-options="{updateOn: 'blur'}" required>
+            <input type="password" name="password" class="form-control" placeholder="{{'LOGIN.PASSWORD_DESCRIPTION' | translate}}" ng-model="password" ng-model-options="{updateOn: 'blur'}" required>
           </div>
         </div>
 
@@ -29,7 +29,7 @@
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary" ng-bind="'SUBMIT' | translate"></button>
+        <button type="submit" class="btn btn-primary" ng-bind="'LOGIN.SUBMIT' | translate"></button>
       </form>
     </div>
 

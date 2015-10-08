@@ -44,9 +44,6 @@
         $scope.isInValid = true;
       }).error(function(data, status) {
         userInfo.saving = false;
-        $scope.$emit('setAlert', 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
-        if (status === 401)
-          $scope.$parent.logout();
       });
     }
 
@@ -54,9 +51,8 @@
      * Saves user information.
      * @param {Object} userInfo The user information
      * @param {Function} successCb Function to call in case of success
-     * @param {Function} errorCb Function to call in case of error
      */
-    function saveProfile(userInfo, successCb, errorCb) {
+    function saveProfile(userInfo, successCb) {
       userInfo.saving = true;
       entityService.updateEntity('user', userInfo.id, {
         name: userInfo.name,
@@ -67,9 +63,6 @@
         $scope.$emit('setAlert', 'warning', $filter('translate')('PROFILES.UPDATE_IN_NEXT_SESSION'), 0);
       }).error(function(data, status) {
         userInfo.saving = false;
-        errorCb();
-        if (status === 401)
-          $scope.$parent.logout();
       });
     }
 

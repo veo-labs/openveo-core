@@ -6,7 +6,6 @@
     'ngRoute',
     'ov.authentication',
     'ov.storage',
-    'ov.route',
     'ov.i18n',
     'ov.entity',
     'ov.alert',
@@ -173,14 +172,12 @@
 
   /**
    * Configures application main routes and set location mode to HTML5.
-   * Routes which require authentication are registered using
-   * the ovRouteProvider which is a wrapper to the $routeProvider.
    */
-  app.config(['ovRouteProvider', '$routeProvider', '$locationProvider',
-    function(ovRouteProvider, $routeProvider, $locationProvider) {
+  app.config(['$routeProvider', '$locationProvider', '$httpProvider',
+    function($routeProvider, $locationProvider, $httpProvider) {
 
       // Register / route with authentication
-      ovRouteProvider.when('/', {
+      $routeProvider.when('/', {
         templateUrl: 'views/home.html',
         controller: 'HomeController',
         title: 'HOME.PAGE_TITLE'
@@ -188,27 +185,22 @@
 
       // Register /login route without authentication
       $routeProvider.when('/login', {
-        title: 'PAGE_TITLE',
+        title: 'LOGIN.PAGE_TITLE',
         templateUrl: 'views/login.html',
         controller: 'LoginController',
         resolve: {
-          i18n: ['i18nService', function(i18nService) {
-            return i18nService.addDictionary('login');
+          i18nCommon: ['i18nService', function(i18nService) {
+            return i18nService.addDictionary('common');
           }],
-          auth: ['$q', 'authenticationService', function($q, authenticationService) {
-            var userInfo = authenticationService.getUserInfo();
-
-            if (userInfo)
-              return $q.reject();
-            else
-              return $q.when();
+          i18nLogin: ['i18nService', function(i18nService) {
+            return i18nService.addDictionary('login');
           }]
         }
       }).otherwise('/');
 
       // Register /applications route with authentication
       // Also retrieve the list of applications
-      ovRouteProvider.when('/applications', {
+      $routeProvider.when('/applications', {
         templateUrl: 'views/applications.html',
         controller: 'ApplicationController',
         title: 'APPLICATIONS.PAGE_TITLE',
@@ -222,7 +214,7 @@
 
       // Register /users route with authentication
       // Also retrieve the list of roles
-      ovRouteProvider.when('/users', {
+      $routeProvider.when('/users', {
         templateUrl: 'views/users.html',
         controller: 'UserController',
         title: 'USERS.PAGE_TITLE',
@@ -236,7 +228,7 @@
 
       // Register /profiles route with authentication
       // Also retrieve the user profile
-      ovRouteProvider.when('/profiles', {
+      $routeProvider.when('/profiles', {
         templateUrl: 'views/profiles.html',
         controller: 'ProfileController',
         title: 'PROFILES.PAGE_TITLE',
@@ -249,7 +241,7 @@
 
       // Register /roles route with authentication
       // Also retrieve the list of permissions
-      ovRouteProvider.when('/roles', {
+      $routeProvider.when('/roles', {
         templateUrl: 'views/roles.html',
         controller: 'RoleController',
         title: 'ROLES.PAGE_TITLE',
@@ -262,6 +254,7 @@
       });
 
       $locationProvider.html5Mode(true);
+      $httpProvider.interceptors.push('errorInterceptor');
 
     }]);
 

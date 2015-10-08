@@ -10,7 +10,7 @@
   },
   "rules": {
 
-    // Warn about unused variables
+    // Disallow unused vars but not unused arguments
     "no-unused-vars": [2, {"vars": "local", "args": "none"}],
 
     // Treat var as block scoped

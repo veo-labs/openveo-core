@@ -33,7 +33,7 @@ describe('OvApp', function() {
       $route: $route
     });
 
-    $httpBackend.when('GET', /.*/).respond(200, '');
+    $httpBackend.when('GET', /.*/).respond(200, '{}');
   });
 
   it('Should register /login, /, /applications, /roles, /users, /profiles routes', function() {
@@ -46,7 +46,7 @@ describe('OvApp', function() {
   });
 
   it('Should route to /login if user is not authenticated', function() {
-    $httpBackend.expectGET('views/home.html');
+    $httpBackend.expectGET('views/login.html');
 
     $location.path('/');
     $httpBackend.flush();

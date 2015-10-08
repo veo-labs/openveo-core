@@ -93,14 +93,14 @@
     "FORM_ADD_PASSWORD" : "Mot de passe",
     "FORM_ADD_PASSWORD_DESC" : "Mot de passe de l'utilisateur",
     "FORM_ADD_PASSWORD_VALIDATE" : "Confirmation du mot de passe",
-    "FORM_ADD_PASSWORD_VALIDATE_DESC" : "Validation du mot de passe", 
+    "FORM_ADD_PASSWORD_VALIDATE_DESC" : "Validation du mot de passe",
     "FORM_ADD_ROLE" : "Rôles",
     "FORM_ADD_ROLE_DESC" : "Rôles de l'utilisateur",
     "REMOVE_SUCCESS" : "L'utilisateur a été supprimé.",
     "REMOVE_FAIL" : "Une erreur est survenue. La suppression de l'utilisateur a échoué.",
     "TITLE_FILTER": "Nom"
   },
-    "PROFILES" : {
+  "PROFILES" : {
     "PAGE_TITLE" : "Openveo - Profil",
     "TITLE" : "Profil utilisateur",
     "INFO" : "Le profil de l'utilisateur est défini par son nom, son email, son mot de passe et son rôle. Seuls le nom et le mot de passe sont modifiables.",
@@ -133,7 +133,6 @@
     "FORM_ADD_PERMISSIONS_DESC" : "Liste des permissions pour le rôle",
     "FORM_ADD_BUTTON" : "Ajouter",
     "REMOVE_SUCCESS" : "Le rôle a été supprimé.",
-    "REMOVE_FAIL" : "Une erreur est survenue. La suppression du rôle a échoué.",
     "TITLE_FILTER": "Nom"
   },
   "UI" : {
@@ -142,7 +141,6 @@
     "EMPTY" : "Aucun",
     "SEARCH_BY" : "Rechercher",
     "ACTIONS_COLUMN" : "Actions",
-    "SAVE_ERROR" : "Une erreur n'as pas permis la sauvegarde du fomulaire. Merci de réessayer ultérieurement.",
     "SAVE_SUCCESS" : "Nouvelle valeur enregistrée.",
     "REMOVE" : "Supprimer",
     "FORM_EDIT" : "Editer",

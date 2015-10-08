@@ -42,18 +42,13 @@
      * Saves a role.
      * @param {Object} role Role data
      * @param {Function} successCb Function to call in case of success
-     * @param {Function} errorCb Function to call in case of error
      */
-    function saveRole(role, successCb, errorCb) {
+    function saveRole(role, successCb) {
       var entity = getEntitiesFromModel(role);
       entityService.updateEntity('role', role.id, entity).success(function() {
         role.permissions = angular.copy(entity.permissions);
         userService.cacheClear('roles');
         successCb();
-      }).error(function(data, status) {
-        errorCb();
-        if (status === 401)
-          $scope.$parent.logout();
       });
     }
 
@@ -61,18 +56,13 @@
      * Adds a role.
      * @param {Object} role Role information
      * @param {Function} successCb Function to call in case of success
-     * @param {Function} errorCb Function to call in case of error
      */
-    function addRole(role, successCb, errorCb) {
+    function addRole(role, successCb) {
       var entity = getEntitiesFromModel(role);
       entityService.addEntity('role', entity).success(function() {
         role.permissions = angular.copy(entity.permissions);
         userService.cacheClear('roles');
         successCb();
-      }).error(function(data, status) {
-        errorCb();
-        if (status === 401)
-          $scope.$parent.logout();
       });
     }
 
@@ -106,11 +96,6 @@
           userService.cacheClear('roles');
           $scope.$emit('setAlert', 'success', $filter('translate')('ROLES.REMOVE_SUCCESS'), 4000);
           reload();
-        })
-        .error(function(data, status) {
-          $scope.$emit('setAlert', 'danger', $filter('translate')('ROLES.REMOVE_FAIL'), 4000);
-          if (status === 401)
-            $scope.$parent.logout();
         });
     }
 
@@ -228,8 +213,8 @@
     scopeEditForm.conditionEditDetail = function(row) {
       return $scope.rights.edit && !row.locked;
     };
-    scopeEditForm.onSubmit = function(model, successCb, errorCb) {
-      saveRole(model, successCb, errorCb);
+    scopeEditForm.onSubmit = function(model, successCb) {
+      saveRole(model, successCb);
     };
 
     /*
@@ -289,8 +274,8 @@
       });
     }
 
-    scopeAddForm.onSubmit = function(model, successCb, errorCb) {
-      addRole(model, successCb, errorCb);
+    scopeAddForm.onSubmit = function(model, successCb) {
+      addRole(model, successCb);
     };
   }
 

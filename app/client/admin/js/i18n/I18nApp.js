@@ -108,17 +108,13 @@
 
     /**
      * Sets current language.
-     * Changing the current language will reload the current route.
-     *
-     * @param {String} language The current language country
-     * code (e.g en-CA)
+     * @param {String} language The current language country code (e.g en-CA)
      */
     function setLanguage(language) {
       if (isLanguageSupported(language)) {
         currentLanguage = language;
         $cookies.put('language', currentLanguage);
         setActiveLanguage(currentLanguage);
-        $route.reload();
       }
     }
 
@@ -209,17 +205,24 @@
     }
 
     /**
+     * Destroys I18nService cached data.
+     */
+    function destroy() {
+      translations = {};
+    }
+
+    /**
      * Initializes supported languages.
      */
     function init() {
       supportedLanguages = [
         {
           value: 'en',
-          label: 'ENGLISH'
+          label: 'LANGUAGE.ENGLISH'
         },
         {
           value: 'fr',
-          label: 'FRENCH'
+          label: 'LANGUAGE.FRENCH'
         }
       ];
 
@@ -247,7 +250,8 @@
       setLanguage: setLanguage,
       translate: translate,
       isLanguageSupported: isLanguageSupported,
-      getLanguageName: getLanguageName
+      getLanguageName: getLanguageName,
+      destroy: destroy
     };
   }
 

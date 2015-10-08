@@ -4,6 +4,7 @@
       "get /getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getDictionaryAction"
     },
     "private" : {
+      "get /login" : "app/server/controllers/defaultController.defaultAction",
       "post /authenticate" : "app/server/controllers/authenticationController.authenticateAction",
       "*" : "app/server/controllers/authenticationController.restrictAction",
       "get /logout" : "app/server/controllers/authenticationController.logoutAction",
@@ -101,7 +102,6 @@
       "dev" : [
         "/authentication/AuthenticationApp.js",
         "/storage/StorageApp.js",
-        "/route/RouteApp.js",
         "/i18n/I18nApp.js",
         "/entity/EntityApp.js",
         "/alert/AlertApp.js",
@@ -114,6 +114,7 @@
     "scriptFiles" : {
       "dev" : [
         "/ov/OvApp.js",
+        "/ov/ErrorInterceptor.js",
         "/ov/MainController.js",
         "/ov/LoginController.js",
         "/ov/HomeController.js",

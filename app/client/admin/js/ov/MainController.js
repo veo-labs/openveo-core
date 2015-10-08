@@ -18,7 +18,9 @@
      i18nService,
      alertService,
      entityService,
-     $window) {
+     $window,
+     $q,
+     $timeout) {
 
     $scope.displayMainMenu = false;
     $scope.isResponsiveMenuClosed = true;
@@ -34,15 +36,31 @@
      * and broadcast a loggedOut event to children controllers.
      */
     function logout() {
+      $scope.closeResponsiveMenu();
       authenticationService.setUserInfo();
-      $location.path('/login');
       $scope.menu = false;
       $scope.displayMainMenu = false;
       menuService.destroyMenu();
+      i18nService.removeDictionary('back-office');
       applicationService.destroy();
       userService.destroy();
       entityService.deleteCache();
-      $scope.$broadcast('loggedOut');
+      $location.path('/login');
+    }
+
+    /**
+     * Forces the menu to reload to update all translations.
+     * TODO Find a better way for doing this, there must be a better way
+     * to force executing filters
+     */
+    function forceReloadingMenu() {
+      $timeout(function() {
+        $scope.displayMainMenu = false;
+
+        $timeout(function() {
+          $scope.displayMainMenu = true;
+        }, 1);
+      }, 1);
     }
 
     $scope.toggleResponsiveMenu = function() {
@@ -67,11 +85,11 @@
      */
     $scope.changeLanguage = function(language) {
       i18nService.setLanguage(language);
-      $window.location.reload();
+      $route.reload();
+      forceReloadingMenu();
     };
 
     $scope.toggleSidebarSubMenu = function(id) {
-
       if ($scope.indexOpen == -1)
         $scope.indexOpen = id;
       else if ($scope.indexOpen == id)
@@ -99,21 +117,87 @@
       $scope.logout();
     });
 
+    // Listen to forceLogout request event to logout the user
+    // without making a call to the server
+    $scope.$on('forceLogout', function() {
+      logout();
+    });
+
+    // Listen to angular router change start event
+    // Some promises, like translations and back end menu must be retrieved
+    // before routing to an authenticated page
+    // Also check if the user is authenticated to grant him access to an authenticated page.
     $scope.$on('$routeChangeStart', function(event, route) {
-      $scope.userInfo = authenticationService.getUserInfo();
-      if ($scope.userInfo) {
+      var expectedPath = route.originalPath;
+
+      // No destination route, nothing to do
+      if (!route.originalPath)
+        return false;
+
+      // Retrieve user information and back end translations
+      var userInfo = authenticationService.getUserInfo();
+      var translations = i18nService.getDictionary('back-office', i18nService.getLanguage());
+
+      if ($location.path() !== '/login' && userInfo && (!menuService.getMenu() || !translations)) {
+
+        // User has access to the back end
+        // Some promises are required to access the back end
+        // Prevent router from routing to the specified destination and retrieve promises first
+
+        event.preventDefault();
+
+        // List of promises required to access an authenticated page
+        var initPromises = {
+          i18nCommon: i18nService.addDictionary('common'),
+          i18nBE: i18nService.addDictionary('back-office', true),
+          menu: menuService.loadMenu()
+        };
+
+        $q.all(initPromises).then(
+          function(values) {
+
+            // Got enough information to display the back end
+            // Just resume the route
+            if (expectedPath === $location.path())
+              $route.reload();
+            else
+              $location.path(expectedPath);
+
+            // Force reloading the main menu (language may have changed)
+            forceReloadingMenu();
+
+          }
+        );
+
+        return false;
+      } else if ($location.path() !== '/login' && !userInfo) {
+
+        // User is not authenticated and tries to access the back end
+        // Redirect to login page
+
+        event.preventDefault();
+        $location.path('/login');
+        return false;
+      } else if ($location.path() !== '/login' && userInfo) {
+
+        // User is authenticated and tries to access a back end page
+
+        // Check if user has access to the expected page
+        $scope.userInfo = userInfo;
         if (route.access && !$scope.checkAccess(route.access)) {
+          event.preventDefault();
           $location.path('/');
           return false;
         }
+
+        if (event.targetScope.newAnimation == 'LR')
+          event.currentScope.newAnimation = 'RL';
+        else if (event.targetScope.newAnimation == 'RL')
+          event.currentScope.newAnimation = 'LR';
+        else
+          event.currentScope.newAnimation = '';
       }
 
-      if (event.targetScope.newAnimation == 'LR')
-        event.currentScope.newAnimation = 'RL';
-      else if (event.targetScope.newAnimation == 'RL')
-        event.currentScope.newAnimation = 'LR';
-      else
-        event.currentScope.newAnimation = '';
     });
 
     // Listen to route change success event to
@@ -138,7 +222,7 @@
     // If user is not authenticated, redirect to the login page
     // otherwise redirect to the home page
     $scope.$on('$routeChangeError', function(event, current, previous, eventObj) {
-      if (eventObj && eventObj.authenticated === false)
+      if (!$scope.userInfo)
         $location.path('/login');
       else
         $location.path('/');
@@ -169,7 +253,9 @@
     'i18nService',
     'alertService',
     'entityService',
-    '$window'
+    '$window',
+    '$q',
+    '$timeout'
   ];
 
 })(angular.module('ov'));

@@ -166,10 +166,8 @@
         // Reload the table
         tableReloadEventService.broadcast();
 
-        // Emit a succeed message
+        // Emit a success message
         $scope.$emit('setAlert', 'success', $filter('translate')('UI.SAVE_SUCCESS'), 4000);
-      }, function() {
-        $scope.$emit('setAlert', 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
       });
     };
     this.options = {};

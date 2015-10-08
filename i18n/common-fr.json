@@ -1,0 +1,11 @@
+{
+  "ERROR" : {
+    "CLIENT" : "Une erreur applicative est survenue, veuillez contacter l'administrateur.",
+    "SERVER" : "Une erreur serveur est survenue, veuillez contacter l'administrateur.",
+    "FORBIDDEN" : "Vous n'avez pas la permission d'effectuer cette action."
+  },
+  "LANGUAGE" : {
+    "FRENCH" : "Français",
+    "ENGLISH" : "Anglais"
+  }
+}

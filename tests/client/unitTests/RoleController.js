@@ -126,9 +126,9 @@ describe('RoleController', function() {
       $httpBackend.when('DELETE', '/be/crud/role/146574894654').respond(401);
       $httpBackend.expectDELETE('/be/crud/role/146574894654');
 
-      $rootScope.logout = function() {
+      $rootScope.$on('forceLogout', function() {
         done();
-      };
+      });
 
       scope.tableContainer.actions[0].callback(scope.test.rows[0], function() {
         assert.notOk('everything');
@@ -175,9 +175,10 @@ describe('RoleController', function() {
       $httpBackend.when('POST', '/be/crud/role/146574894654').respond(401);
       $httpBackend.expectPOST('/be/crud/role/146574894654');
 
-      $rootScope.logout = function() {
+      $rootScope.$on('forceLogout', function() {
         done();
-      };
+      });
+
       var editRole = {
         id: '146574894654',
         name: 'Example',
@@ -253,9 +254,9 @@ describe('RoleController', function() {
         }
       };
 
-      $rootScope.logout = function() {
+      $rootScope.$on('forceLogout', function() {
         done();
-      };
+      });
 
       scope.addFormContainer.onSubmit(addRole, function() {
         assert.notOk(true);

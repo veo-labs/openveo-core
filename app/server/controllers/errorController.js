@@ -13,6 +13,7 @@
 // Module dependencies
 var winston = require('winston');
 var errors = process.require('app/server/httpErrors.js');
+var defaultController = process.require('app/server/controllers/defaultController.js');
 
 // Get logger
 var logger = winston.loggers.get('openveo');
@@ -60,9 +61,7 @@ module.exports.errorAction = function(error, request, response, next) {
    // Send response with HTML content
   if (request.accepts('html') && (error.httpCode == '401' || error.httpCode == '403')) {
     response.status(error.httpCode);
-    response.render(error.httpCode, {
-      url: request.url
-    });
+    defaultController.defaultAction(request, response, next);
     return;
   }
 

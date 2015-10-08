@@ -27,11 +27,6 @@
         .success(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('APPLICATIONS.REMOVE_SUCCESS'), 4000);
           reload();
-        })
-        .error(function(data, status) {
-          $scope.$emit('setAlert', 'danger', $filter('translate')('APPLICATIONS.REMOVE_FAIL'), 4000);
-          if (status === 401)
-            $scope.$parent.logout();
         });
     }
 
@@ -39,18 +34,13 @@
      * Saves application.
      * @param {Object} application The application to save
      * @param {Function} successCb Function to call in case of success
-     * @param {Function} errorCb Function to call in case of error
      */
-    function saveApplication(application, successCb, errorCb) {
+    function saveApplication(application, successCb) {
       entityService.updateEntity('application', application.id, {
         name: application.name,
         scopes: application.scopes
       }).success(function() {
         successCb();
-      }).error(function(data, status) {
-        errorCb();
-        if (status === 401)
-          $scope.$parent.logout();
       });
     }
 
@@ -58,15 +48,10 @@
      * Adds an application.
      * @param {Object} application The application to add
      * @param {Function} successCb Function to call in case of success
-     * @param {Function} errorCb Function to call in case of error
      */
-    function addApplication(application, successCb, errorCb) {
+    function addApplication(application, successCb) {
       entityService.addEntity('application', application).success(function() {
         successCb();
-      }).error(function(data, status) {
-        errorCb();
-        if (status === 401)
-          $scope.$parent.logout();
       });
     }
 
@@ -172,8 +157,8 @@
     scopeEditForm.conditionEditDetail = function(row) {
       return $scope.rights.edit && !row.locked;
     };
-    scopeEditForm.onSubmit = function(model, successCb, errorCb) {
-      saveApplication(model, successCb, errorCb);
+    scopeEditForm.onSubmit = function(model, successCb) {
+      saveApplication(model, successCb);
     };
 
     /*
@@ -219,8 +204,8 @@
         }
       });
 
-    scopeAddForm.onSubmit = function(model, successCb, errorCb) {
-      addApplication(model, successCb, errorCb);
+    scopeAddForm.onSubmit = function(model, successCb) {
+      addApplication(model, successCb);
     };
 
   }

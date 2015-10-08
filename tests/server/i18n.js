@@ -50,7 +50,7 @@ describe('i18n', function() {
 
     it('Should be able to get translation of a particular language', function(done) {
       i18n.getTranslations('login', 'en', null, function(translations) {
-        assert.equal(translations.LOGIN, 'User');
+        assert.equal(translations.LOGIN.LOGIN, 'User');
         done();
       });
     });

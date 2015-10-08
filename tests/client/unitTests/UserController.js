@@ -105,9 +105,9 @@ describe('UserController', function() {
       $httpBackend.when('DELETE', '/be/crud/user/146574894654').respond(401);
       $httpBackend.expectDELETE('/be/crud/user/146574894654');
 
-      $rootScope.logout = function() {
+      $rootScope.$on('forceLogout', function() {
         done();
-      };
+      });
 
       $scope.tableContainer.actions[0].callback($scope.test.rows[0], function() {
         assert.notOk(true);
@@ -141,9 +141,9 @@ describe('UserController', function() {
       $httpBackend.when('POST', '/be/crud/user/146574894654').respond(401);
       $httpBackend.expectPOST('/be/crud/user/146574894654');
 
-      $rootScope.logout = function() {
+      $rootScope.$on('forceLogout', function() {
         done();
-      };
+      });
 
       $scope.editFormContainer.onSubmit($scope.test.rows[0], function() {
         assert.notOk(true);
@@ -183,9 +183,9 @@ describe('UserController', function() {
       $httpBackend.when('PUT', '/be/crud/user').respond(401);
       $httpBackend.expectPUT('/be/crud/user');
 
-      $rootScope.logout = function() {
+      $rootScope.$on('forceLogout', function() {
         done();
-      };
+      });
 
       $scope.addFormContainer.onSubmit({}, function() {
         assert.notOk(true);

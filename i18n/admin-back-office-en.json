@@ -71,7 +71,6 @@
     "FORM_ADD_SCOPES" : "Scopes",
     "FORM_ADD_SCOPES_DESC" : "List of permissions for the client application",
     "REMOVE_SUCCESS" : "Application successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Failed to remove application.",
     "TITLE_FILTER": "Name"
   },
   "USERS" : {
@@ -96,7 +95,6 @@
     "FORM_ADD_ROLE" : "Roles",
     "FORM_ADD_ROLE_DESC" : "User roles",
     "REMOVE_SUCCESS" : "User successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Failed to remove user.",
     "TITLE_FILTER": "Name"
   },
   "PROFILES" : {
@@ -132,7 +130,6 @@
     "FORM_ADD_PERMISSIONS_DESC" : "List of permissions for the role",
     "FORM_ADD_BUTTON" : "Add",
     "REMOVE_SUCCESS" : "Role successfully removed.",
-    "REMOVE_FAIL" : "An error occured. Failed to remove role.",
     "TITLE_FILTER": "Name"
   },
   "UI" : {
@@ -141,7 +138,6 @@
     "EMPTY" : "Not set",
     "SEARCH_BY" : "Search",
     "ACTIONS_COLUMN" : "Actions",
-    "SAVE_ERROR" : "An error occured while saving form. Please retry later.",
     "SAVE_SUCCESS" : "New value successfully saved.",
     "REMOVE" : "Remove",
     "FORM_EDIT" : "Edit",
