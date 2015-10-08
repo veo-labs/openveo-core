@@ -41,13 +41,13 @@
         <!-- /Sidebar Toggler -->
         <!-- Top Right Menu -->
         <ul class="nav navbar-nav navbar-right ">
-          <li popover="{{'MENU.PROFILES' | translate}}" popover-trigger="mouseenter" popover-placement="bottom">
+          <li popover-title="{{'MENU.PROFILES' | translate}}" popover="{{userInfo.name}}" popover-trigger="mouseenter click" popover-placement="bottom">
             <a class="icon" href="profiles" >
               <div class="glyphicon glyphicon-user"></div>
             </a>
           </li>
           <li class="dropdown language" dropdown is-open="menuDropdownIsOpen">
-            <a popover="{{'MENU.LANGUAGE' | translate}}" popover-trigger="mouseenter" popover-placement="bottom"  class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" dropdown-toggle role="button"  ng-disabled="disabled">
+            <a popover-title="{{'MENU.LANGUAGE' | translate}}" popover="{{language | translate}}" popover-trigger="mouseenter click" popover-placement="bottom"  class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" dropdown-toggle role="button"  ng-disabled="disabled">
               <span class="glyphicon glyphicon-globe"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
@@ -56,7 +56,7 @@
               </li>
             </ul>
           </li>
-          <li popover="{{'MENU.LOGOUT' | translate}}" popover-trigger="mouseenter" popover-placement="bottom">
+          <li popover="{{'MENU.LOGOUT' | translate}}" popover-trigger="mouseenter click" popover-placement="bottom">
             <a class="icon" href="logout" ng-click="logout()">
               <div class="glyphicon glyphicon-log-out"></div>
             </a>
