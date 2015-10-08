@@ -63,6 +63,44 @@
       }, 1);
     }
 
+    /**
+     * Replaces placeholders by corresponding values in the given string.
+     * Function copied from AngularJS ngRoute.
+     * @param {string} string A string containing placeholders
+     * @param {string} params An array of parameters
+     * @return {string} interpolation of the redirect path with the parameters
+     */
+    function interpolate(string, params) {
+      var result = [];
+      angular.forEach((string || '').split(':'), function(segment, i) {
+        if (i === 0) {
+          result.push(segment);
+        } else {
+          var segmentMatch = segment.match(/(\w+)(?:[?*])?(.*)/);
+          var key = segmentMatch[1];
+          result.push(params[key]);
+          result.push(segmentMatch[2] || '');
+          delete params[key];
+        }
+      });
+      return result.join('');
+    }
+
+    /**
+     * Replaces placeholders by corresponding values in the given string.
+     * @param {string} string A string containing placeholders
+     * @param {string} params An array of parameters
+     * @return {string} The compiled string
+     */
+    function resolvePath(string, params) {
+      params = angular.copy(params);
+
+      if (params && Object.keys(params).length)
+        return interpolate(string, params);
+      else
+        return string;
+    }
+
     $scope.toggleResponsiveMenu = function() {
       $scope.isResponsiveMenuClosed = !$scope.isResponsiveMenuClosed;
     };
@@ -128,10 +166,11 @@
     // before routing to an authenticated page
     // Also check if the user is authenticated to grant him access to an authenticated page.
     $scope.$on('$routeChangeStart', function(event, route) {
-      var expectedPath = route.originalPath;
+      var expectedParams = route.params;
+      var expectedPath = resolvePath(route.originalPath, expectedParams);
 
       // No destination route, nothing to do
-      if (!route.originalPath)
+      if (!expectedPath)
         return false;
 
       // Retrieve user information and back end translations
@@ -158,7 +197,7 @@
 
             // Got enough information to display the back end
             // Just resume the route
-            if (expectedPath === $location.path())
+            if (expectedPath === resolvePath($location.path(), expectedParams))
               $route.reload();
             else
               $location.path(expectedPath);
