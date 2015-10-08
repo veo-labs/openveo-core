@@ -16,8 +16,8 @@
     </script>
   </head>
 
-  <body ng-cloak>
-    <header ng-if="displayMainMenu"  class="header navbar navbar-default navbar-fixed-top" role="banner">
+  <body>
+    <header ng-if="displayMainMenu"  class="header navbar navbar-default navbar-fixed-top" role="banner" ng-cloak>
 
       <!-- Top Navigation Bar -->
       <div class="container">
@@ -88,7 +88,7 @@
             <div class="alert-container">
               <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
             </div>
-            <div ng-view ng-class="[{'vertical-center-row': verticalAlign}]" class="view  {{newAnimation}}"></div>
+            <div ng-view ng-cloak ng-class="[{'vertical-center-row': verticalAlign}]" class="view  {{newAnimation}}"></div>
           </div>
         </div>
       </div>
