@@ -5,7 +5,7 @@
   /**
    * Defines the profile controller for the profile page.
    */
-  function ProfileController($scope, $filter, entityService, user) {
+  function ProfileController($scope, $filter, authenticationService, entityService, user) {
 
     $scope.password = '';
     $scope.confirmPassword = '';
@@ -54,13 +54,17 @@
      */
     function saveProfile(userInfo, successCb) {
       userInfo.saving = true;
+
+      // update session cookie
+
+      user.name = userInfo.name;
+      authenticationService.setUserInfo(user);
       entityService.updateEntity('user', userInfo.id, {
         name: userInfo.name,
         email: userInfo.email
       }).success(function() {
         userInfo.saving = false;
         successCb();
-        $scope.$emit('setAlert', 'warning', $filter('translate')('PROFILES.UPDATE_IN_NEXT_SESSION'), 0);
       }).error(function(data, status) {
         userInfo.saving = false;
       });
@@ -144,6 +148,6 @@
   }
 
   app.controller('ProfileController', ProfileController);
-  ProfileController.$inject = ['$scope', '$filter', 'entityService', 'user'];
+  ProfileController.$inject = ['$scope', '$filter', 'authenticationService', 'entityService', 'user'];
 
 })(angular.module('ov'));
