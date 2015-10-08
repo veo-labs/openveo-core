@@ -5,6 +5,9 @@
   border: 1px solid #ddd;
   color: #006DA3;
   padding: 10px 10px;
+  &[data-nodrag]{
+    cursor:default;
+  }
   + ol .angular-ui-tree-handle{
     background: #f6f6f6;
     &:hover{
