@@ -1,14 +1,14 @@
 'use strict';
 
 (function(angular) {
-  var app = angular.module('ov.i18n', ['ngCookies', 'ngRoute']);
+  var app = angular.module('ov.i18n', ['ngCookies']);
 
   /**
    * Defines an internationalization service to manage
    * string translations.
    * TODO Make it a provider to configure the list of supported languages
    */
-  function I18nService($http, $route, $cookies) {
+  function I18nService($http, $cookies) {
     var currentLanguage = $cookies.get('language') || navigator.language || navigator.browserLanguage;
     var translations = {};
     var supportedLanguages = [];
@@ -160,7 +160,7 @@
     }
 
     /**
-     * Translates the given using current language.
+     * Translates the given id using current language.
      * @param {String} id The id of the translation
      * @param {String} dictionary The name of a particular dictionary
      * if several dictionaries are loaded
@@ -276,7 +276,7 @@
 
   app.factory('i18nService', I18nService);
   app.filter('translate', TranslateFilter);
-  I18nService.$inject = ['$http', '$route', '$cookies'];
+  I18nService.$inject = ['$http', '$cookies'];
   TranslateFilter.$inject = ['i18nService'];
 
 })(angular);
