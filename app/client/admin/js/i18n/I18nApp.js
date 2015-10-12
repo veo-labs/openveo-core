@@ -25,6 +25,7 @@
      * @param {Boolean} admin true to retrieve a dictionary for the back
      * office part (which requires authentication), false to get a
      * dictionary without access restriction
+     * @return {Promise} The promise to retrieve the dictionary
      */
     function addDictionary(name, admin) {
 

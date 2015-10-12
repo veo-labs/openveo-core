@@ -30,7 +30,7 @@
           <input type="text" ng-if="!filter.type || filter.type=='text'" class="form-control input-sm" ng-model="dataTable.filterBy[$index].value" />
           <div ng-if="filter.type && filter.type=='date'" ng-controller="DatePickerController as dp">
             <div class="input-group">
-              <input type="text" class="form-control input-sm" datepicker-popup="dd/MM/yyyy" ng-model="dataTable.filterBy[$index].value" is-open="dp.status.opened" max-date="dp.maxDate"  datepicker-options="dp.dateOptions" close-text="Close" />
+              <input type="text" class="form-control input-sm" datepicker-popup="dd/MM/yyyy" ng-model="dataTable.filterBy[$index].value" is-open="dp.status.opened" max-date="dp.maxDate" datepicker-options="dp.dateOptions" current-text="{{'DATEPICKER.TODAY' | translate}}" clear-text="{{'DATEPICKER.CLEAR' | translate}}" close-text="{{'DATEPICKER.CLOSE' | translate}}" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-sm btn-default" ng-click="dp.open()"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>

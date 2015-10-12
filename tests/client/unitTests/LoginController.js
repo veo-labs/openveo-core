@@ -5,17 +5,15 @@ window.assert = chai.assert;
 // LoginController.js
 describe('LoginController', function() {
   var $rootScope,
-    $controller,
-    i18nService;
+    $controller;
 
   // Load openveo module
   beforeEach(module('ov'));
 
   // Dependencies injections
-  beforeEach(inject(function(_$rootScope_, _$controller_, _i18nService_) {
+  beforeEach(inject(function(_$rootScope_, _$controller_) {
     $rootScope = _$rootScope_;
     $controller = _$controller_;
-    i18nService = _i18nService_;
   }));
 
   // Sign in
@@ -105,15 +103,6 @@ describe('LoginController', function() {
       assert.isDefined(scope.languages);
       assert.isNotNull(scope.languages);
       assert.isArray(scope.languages);
-    });
-
-    it('Should be able to change language', function(done) {
-      i18nService.setLanguage = function(language) {
-        assert.equal(language, 'en');
-        done();
-      };
-
-      scope.changeLanguage('en');
     });
 
   });

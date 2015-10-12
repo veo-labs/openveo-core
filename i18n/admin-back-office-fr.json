@@ -161,5 +161,10 @@
     "NO_COMMON_ACTION" : "Aucune action commune autorisée.",
     "NO_ACTION" : "Aucune action autorisée.",
     "REQUIRED_FIELD" : "Ce champs est obligatoire"
+  },
+  "DATEPICKER" : {
+    "TODAY" : "Aujourd'hui",
+    "CLEAR" : "Effacer",
+    "CLOSE" : "Fermer"
   }
 }

@@ -5,7 +5,7 @@
   /**
    * Defines the login controller for the login page.
    */
-  function LoginController($scope, $location, $route, authenticationService, i18nService) {
+  function LoginController($scope, $location, $window, authenticationService, i18nService) {
     $scope.verticalAlign = true;
     $scope.onError = false;
     $scope.languages = i18nService.getLanguages();
@@ -17,7 +17,7 @@
      */
     $scope.changeLanguage = function(language) {
       i18nService.setLanguage(language);
-      $route.reload();
+      $window.location.reload();
     };
 
     /**
@@ -43,6 +43,6 @@
   }
 
   app.controller('LoginController', LoginController);
-  LoginController.$inject = ['$scope', '$location', '$route', 'authenticationService', 'i18nService'];
+  LoginController.$inject = ['$scope', '$location', '$window', 'authenticationService', 'i18nService'];
 
 })(angular.module('ov'));

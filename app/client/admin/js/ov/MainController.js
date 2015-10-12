@@ -19,8 +19,7 @@
      alertService,
      entityService,
      $window,
-     $q,
-     $timeout) {
+     $q) {
 
     $scope.displayMainMenu = false;
     $scope.isResponsiveMenuClosed = true;
@@ -46,21 +45,6 @@
       userService.destroy();
       entityService.deleteCache();
       $location.path('/login');
-    }
-
-    /**
-     * Forces the menu to reload to update all translations.
-     * TODO Find a better way for doing this, there must be a better way
-     * to force executing filters
-     */
-    function forceReloadingMenu() {
-      $timeout(function() {
-        $scope.displayMainMenu = false;
-
-        $timeout(function() {
-          $scope.displayMainMenu = true;
-        }, 1);
-      }, 1);
     }
 
     /**
@@ -123,8 +107,7 @@
      */
     $scope.changeLanguage = function(language) {
       i18nService.setLanguage(language);
-      $route.reload();
-      forceReloadingMenu();
+      $window.location.reload();
     };
 
     $scope.toggleSidebarSubMenu = function(id) {
@@ -201,9 +184,6 @@
               $route.reload();
             else
               $location.path(expectedPath);
-
-            // Force reloading the main menu (language may have changed)
-            forceReloadingMenu();
 
           }
         );
@@ -293,8 +273,7 @@
     'alertService',
     'entityService',
     '$window',
-    '$q',
-    '$timeout'
+    '$q'
   ];
 
 })(angular.module('ov'));
