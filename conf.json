@@ -109,6 +109,7 @@
     },
     "scriptFiles" : {
       "dev" : [
+        "/angular-temporary-fix-ie.js",
         "/ov/OvApp.js",
         "/ov/ErrorInterceptor.js",
         "/ov/MainController.js",
