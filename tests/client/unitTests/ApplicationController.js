@@ -153,7 +153,7 @@ describe('ApplicationController', function() {
       $httpBackend.expectPOST(
         '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
 
-      $scope.editFormContainer.onSubmit($scope.test.rows[0], done,
+      $scope.editFormContainer.onSubmit($scope.test.rows[0]).then(done(),
         function() {
           assert.notOk(true);
         });
@@ -176,7 +176,7 @@ describe('ApplicationController', function() {
           done();
         });
 
-        $scope.editFormContainer.onSubmit($scope.test.rows[0], function() {
+        $scope.editFormContainer.onSubmit($scope.test.rows[0]).then(function() {
           assert.notOk(true);
         }, function() {
           assert.ok(true);
@@ -196,8 +196,8 @@ describe('ApplicationController', function() {
       $httpBackend.when('PUT', '/be/crud/application').respond(200);
       $httpBackend.expectPUT('/be/crud/application');
 
-      $scope.addFormContainer.onSubmit({},
-        done,
+      $scope.addFormContainer.onSubmit({}).then(
+        done(),
         function() {
           assert.notOk(true);
         }

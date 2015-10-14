@@ -161,7 +161,7 @@ describe('RoleController', function() {
           ]
         }
       };
-      scope.editFormContainer.onSubmit(editRole, done, function() {
+      scope.editFormContainer.onSubmit(editRole).then(done, function() {
         assert.notOk(true);
       });
 
@@ -193,7 +193,7 @@ describe('RoleController', function() {
         }
       };
 
-      scope.editFormContainer.onSubmit(editRole, function() {
+      scope.editFormContainer.onSubmit(editRole).then(function() {
         assert.notOk(true);
       }, function() {
         assert.ok(true);
@@ -225,7 +225,7 @@ describe('RoleController', function() {
         }
       };
 
-      scope.addFormContainer.onSubmit(addRole,
+      scope.addFormContainer.onSubmit(addRole).then(
         done,
         function() {
           assert.notOk(true);
@@ -258,7 +258,7 @@ describe('RoleController', function() {
         done();
       });
 
-      scope.addFormContainer.onSubmit(addRole, function() {
+      scope.addFormContainer.onSubmit(addRole).then(function() {
         assert.notOk(true);
       }, function() {
         assert.ok(true);

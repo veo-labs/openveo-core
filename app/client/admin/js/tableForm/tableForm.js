@@ -94,8 +94,8 @@
       if ($scope.editFormContainer.onSubmit) {
         self.model.saving = true;
 
-        // Call submit function
-        $scope.editFormContainer.onSubmit(self.model, function() {
+        // Call submit function must return Promises
+        $scope.editFormContainer.onSubmit(self.model).then(function() {
 
           // on success
           // save value in the fields as initial value
@@ -156,8 +156,8 @@
 
     this.onSubmit = function() {
 
-      // Call submit function
-      $scope.addFormContainer.onSubmit(self.model, function() {
+      // Call submit function must return Promises
+      $scope.addFormContainer.onSubmit(self.model).then(function() {
 
         // on success
         // reset the form
@@ -168,6 +168,9 @@
 
         // Emit a success message
         $scope.$emit('setAlert', 'success', $filter('translate')('UI.SAVE_SUCCESS'), 4000);
+      }, function() {
+
+        // Do nothing
       });
     };
     this.options = {};

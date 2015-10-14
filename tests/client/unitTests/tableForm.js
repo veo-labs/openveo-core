@@ -9,7 +9,8 @@ describe('tableForm', function() {
     $filter,
     $scope,
     entityService,
-    tableReloadEventService;
+    tableReloadEventService,
+    $q;
 
   // Load entity module
   beforeEach(function() {
@@ -17,12 +18,13 @@ describe('tableForm', function() {
     module('ov.tableForm');
   });
 
-  beforeEach(inject(function(_$rootScope_, _$controller_, _$filter_, _entityService_, _tableReloadEventService_) {
+  beforeEach(inject(function(_$rootScope_, _$controller_, _$filter_, _entityService_, _tableReloadEventService_, _$q_) {
     $rootScope = _$rootScope_;
     $controller = _$controller_;
     $filter = _$filter_;
     entityService = _entityService_;
     tableReloadEventService = _tableReloadEventService_;
+    $q = _$q_;
   }));
 
   beforeEach(function() {
@@ -89,7 +91,7 @@ describe('tableForm', function() {
       assert.ok(fec.fields[0].key == 'key1');
     });
 
-    it('Should launch a submit function and set row saving key to false and call success', function() {
+    it('Should launch a submit function and set row saving key to false and call success', function(done) {
 
       fec = $controller('FormEditController', {
         $scope: $scope,
@@ -99,21 +101,22 @@ describe('tableForm', function() {
       // mock
       fec.options = {};
       fec.options.updateInitialValue = function() {
-        assert.ok(
-          true);
+        done();
       };
 
-      $scope.editFormContainer.onSubmit = function(row, success) {
-        assert.ok(fec.model.saving);
-        success();
+      $scope.editFormContainer.onSubmit = function(row) {
+        assert.ok(row.saving);
+        var deferred = $q.defer();
+        deferred.resolve();
+
+        return deferred.promise;
       };
       fec.init({});
       fec.onSubmit();
-
-      assert.notOk(fec.model.saving);
+      $rootScope.$apply();
     });
 
-    it('Should launch a submit function and set row saving key to false and call error', function() {
+    it('Should launch a submit function and set row saving key to false and call error', function(done) {
 
       fec = $controller('FormEditController', {
         $scope: $scope,
@@ -123,18 +126,19 @@ describe('tableForm', function() {
       // mock
       fec.options = {};
       fec.options.resetModel = function() {
-        assert.ok(
-          true);
+        done();
       };
 
-      $scope.editFormContainer.onSubmit = function(row, success, error) {
-        assert.ok(fec.model.saving);
-        error();
+      $scope.editFormContainer.onSubmit = function(row) {
+        assert.ok(row.saving);
+        var deferred = $q.defer();
+        deferred.reject();
+
+        return deferred.promise;
       };
       fec.init({});
       fec.onSubmit();
-
-      assert.notOk(fec.model.saving);
+      $rootScope.$apply();
     });
 
   });
@@ -163,10 +167,10 @@ describe('tableForm', function() {
 
       // mock
       vm.options = {};
-      vm.options.resetModel = done;
+      vm.options.resetModel = done();
 
-      $scope.addFormContainer.onSubmit = function(row, success) {
-        success();
+      $scope.addFormContainer.onSubmit = function(row) {
+        return $q(function(rs, rj) {});
       };
 
       vm.onSubmit();

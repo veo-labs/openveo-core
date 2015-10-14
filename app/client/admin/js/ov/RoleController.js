@@ -43,12 +43,11 @@
      * @param {Object} role Role data
      * @param {Function} successCb Function to call in case of success
      */
-    function saveRole(role, successCb) {
+    function saveRole(role) {
       var entity = getEntitiesFromModel(role);
-      entityService.updateEntity('role', role.id, entity).success(function() {
+      return entityService.updateEntity('role', role.id, entity).then(function() {
         role.permissions = angular.copy(entity.permissions);
         userService.cacheClear('roles');
-        successCb();
       });
     }
 
@@ -57,12 +56,11 @@
      * @param {Object} role Role information
      * @param {Function} successCb Function to call in case of success
      */
-    function addRole(role, successCb) {
+    function addRole(role) {
       var entity = getEntitiesFromModel(role);
-      entityService.addEntity('role', entity).success(function() {
+      return entityService.addEntity('role', entity).then(function() {
         role.permissions = angular.copy(entity.permissions);
         userService.cacheClear('roles');
-        successCb();
       });
     }
 
@@ -92,7 +90,7 @@
      */
     function removeRows(selected, reload) {
       entityService.removeEntity('role', selected.join(','))
-        .success(function() {
+        .then(function() {
           userService.cacheClear('roles');
           $scope.$emit('setAlert', 'success', $filter('translate')('ROLES.REMOVE_SUCCESS'), 4000);
           reload();
@@ -213,8 +211,8 @@
     scopeEditForm.conditionEditDetail = function(row) {
       return $scope.rights.edit && !row.locked;
     };
-    scopeEditForm.onSubmit = function(model, successCb) {
-      saveRole(model, successCb);
+    scopeEditForm.onSubmit = function(model) {
+      return saveRole(model);
     };
 
     /*
@@ -274,8 +272,8 @@
       });
     }
 
-    scopeAddForm.onSubmit = function(model, successCb) {
-      addRole(model, successCb);
+    scopeAddForm.onSubmit = function(model) {
+      return addRole(model);
     };
   }
 

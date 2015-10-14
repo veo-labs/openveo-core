@@ -10,10 +10,8 @@
     /**
      * Adds a user.
      * @param {Object} user The user data
-     * @param {Function} successCb Function to call in case of success
-     * @param {Function} errorCb Function to call in case of error
      */
-    function addUser(user, successCb, errorCb) {
+    function addUser(user) {
       var entity = {
         name: user.name,
         email: user.email,
@@ -21,9 +19,7 @@
         passwordValidate: user.passwordValidate,
         roles: user.roles || []
       };
-      entityService.addEntity('user', entity).success(function() {
-        successCb();
-      });
+      return entityService.addEntity('user', entity);
     }
 
     /**
@@ -33,7 +29,7 @@
      */
     function removeRows(selected, reload) {
       entityService.removeEntity('user', selected.join(','))
-        .success(function() {
+        .then(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('USERS.REMOVE_SUCCESS'), 4000);
           reload();
         });
@@ -42,15 +38,12 @@
     /**
      * Saves user.
      * @param {Object} user The user data
-     * @param {Function} successCb Function to call in case of success
      */
-    function saveUser(user, successCb) {
-      entityService.updateEntity('user', user.id, {
+    function saveUser(user) {
+      return entityService.updateEntity('user', user.id, {
         name: user.name,
         email: user.email,
         roles: user.roles
-      }).success(function() {
-        successCb();
       });
     }
 
@@ -150,8 +143,8 @@
     scopeEditForm.conditionEditDetail = function(row) {
       return $scope.rights.edit && !row.locked;
     };
-    scopeEditForm.onSubmit = function(model, successCb) {
-      saveUser(model, successCb);
+    scopeEditForm.onSubmit = function(model) {
+      return saveUser(model);
     };
 
     /**
@@ -163,8 +156,7 @@
     scopeAddForm.fields = [
       {
 
-        // the key to be used in the model values
-        // so this will be bound to vm.user.username
+        // the key to be used in the model values so this will be bound to vm.user.username
         key: 'name',
         type: 'horizontalInput',
         templateOptions: {
@@ -242,8 +234,8 @@
         }
       );
 
-    scopeAddForm.onSubmit = function(model, successCb) {
-      addUser(model, successCb);
+    scopeAddForm.onSubmit = function(model) {
+      return addUser(model);
     };
 
   }

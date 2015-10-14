@@ -127,7 +127,7 @@ describe('UserController', function() {
       $httpBackend.when('POST', '/be/crud/user/146574894654').respond(200);
       $httpBackend.expectPOST('/be/crud/user/146574894654');
 
-      $scope.editFormContainer.onSubmit($scope.test.rows[0], done, function() {
+      $scope.editFormContainer.onSubmit($scope.test.rows[0]).then(done(), function() {
         assert.notOk(true);
       });
 
@@ -145,7 +145,7 @@ describe('UserController', function() {
         done();
       });
 
-      $scope.editFormContainer.onSubmit($scope.test.rows[0], function() {
+      $scope.editFormContainer.onSubmit($scope.test.rows[0]).then(function() {
         assert.notOk(true);
       }, function() {
         assert.ok(true);
@@ -166,8 +166,8 @@ describe('UserController', function() {
       $httpBackend.when('PUT', '/be/crud/user').respond(200);
       $httpBackend.expectPUT('/be/crud/user');
 
-      $scope.addFormContainer.onSubmit({},
-        done,
+      $scope.addFormContainer.onSubmit({}).then(
+        done(),
         function() {
           assert.notOk(true);
         }
@@ -187,7 +187,7 @@ describe('UserController', function() {
         done();
       });
 
-      $scope.addFormContainer.onSubmit({}, function() {
+      $scope.addFormContainer.onSubmit({}).then(function() {
         assert.notOk(true);
       }, function() {
         assert.ok(true);

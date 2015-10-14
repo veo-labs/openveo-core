@@ -36,13 +36,13 @@
         password: userInfo.password,
         passwordValidate: userInfo.password,
         email: userInfo.email
-      }).success(function() {
+      }).then(function() {
         userInfo.saving = false;
         $scope.$emit('setAlert', 'success', $filter('translate')('UI.SAVE_SUCCESS'), 4000);
         $scope.password = '';
         $scope.confirmPassword = '';
         $scope.isInValid = true;
-      }).error(function(data, status) {
+      }, function(data, status) {
         userInfo.saving = false;
       });
     }
@@ -50,13 +50,11 @@
     /**
      * Saves user information.
      * @param {Object} userInfo The user information
-     * @param {Function} successCb Function to call in case of success
      */
-    function saveProfile(userInfo, successCb) {
+    function saveProfile(userInfo) {
       userInfo.saving = true;
 
       // update session cookie
-
       user.name = userInfo.name;
 
       return entityService.updateEntity('user', userInfo.id, {
@@ -113,12 +111,12 @@
     scopeEditForm.conditionEditDetail = function(userInfo) {
       return (userInfo.id !== 0);
     };
-    scopeEditForm.onSubmit = function(model, successCb, errorCb) {
-      saveProfile(model, successCb, errorCb);
+    scopeEditForm.onSubmit = function(model) {
+      return saveProfile(model);
     };
 
-    $scope.onSubmit = function(model, successCb, errorCb) {
-      updatePassword(model, successCb, errorCb);
+    $scope.onSubmit = function(model) {
+      updatePassword(model);
     };
 
     $scope.cancelForm = function() {

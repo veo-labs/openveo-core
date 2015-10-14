@@ -24,7 +24,7 @@
      */
     function removeRows(selected, reload) {
       entityService.removeEntity('application', selected.join(','))
-        .success(function() {
+        .then(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('APPLICATIONS.REMOVE_SUCCESS'), 4000);
           reload();
         });
@@ -35,12 +35,10 @@
      * @param {Object} application The application to save
      * @param {Function} successCb Function to call in case of success
      */
-    function saveApplication(application, successCb) {
-      entityService.updateEntity('application', application.id, {
+    function saveApplication(application) {
+      return entityService.updateEntity('application', application.id, {
         name: application.name,
         scopes: application.scopes
-      }).success(function() {
-        successCb();
       });
     }
 
@@ -49,10 +47,8 @@
      * @param {Object} application The application to add
      * @param {Function} successCb Function to call in case of success
      */
-    function addApplication(application, successCb) {
-      entityService.addEntity('application', application).success(function() {
-        successCb();
-      });
+    function addApplication(application) {
+      return entityService.addEntity('application', application);
     }
 
     $scope.scopes = scopes.data.scopes;
@@ -157,8 +153,8 @@
     scopeEditForm.conditionEditDetail = function(row) {
       return $scope.rights.edit && !row.locked;
     };
-    scopeEditForm.onSubmit = function(model, successCb) {
-      saveApplication(model, successCb);
+    scopeEditForm.onSubmit = function(model) {
+      return saveApplication(model);
     };
 
     /*
@@ -204,8 +200,8 @@
         }
       });
 
-    scopeAddForm.onSubmit = function(model, successCb) {
-      addApplication(model, successCb);
+    scopeAddForm.onSubmit = function(model) {
+      return addApplication(model);
     };
 
   }
