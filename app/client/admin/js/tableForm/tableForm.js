@@ -254,7 +254,8 @@
             if (filter.filterWithChildren) {
               for (var i = 0; i < filter.options.length; i++) {
                 if (filter.options[i].value === filter.value) {
-                  values = values.concat(filter.options[i].children.split(','));
+                  if (filter.options[i].children !== '')
+                    values = values.concat(filter.options[i].children.split(','));
                   break;
                 }
               }
