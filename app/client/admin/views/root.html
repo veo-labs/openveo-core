@@ -100,7 +100,7 @@
 
     <script>
       var languageChunks = /language=(.*?)(?:;|$)/.exec(document.cookie);
-      language = (languageChunks.length === 2 && languageChunks[1]) || null;
+      language = (languageChunks && languageChunks.length === 2 && languageChunks[1]) || null;
       document.write('\x3Cscript type="text/javascript" src="/lib/angular-i18n/angular-locale_' + (language || navigator.language || navigator.browserLanguage) + '.js">\x3C/script>');
     </script>
 
