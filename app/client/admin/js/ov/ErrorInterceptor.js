@@ -26,8 +26,12 @@
       return $filter('translate')('ERROR.CLIENT') + ' (code=' + errorCode + ', module=' + errorModule + ')';
 
     // Internal server error
-    else
+    else if (errorCode && errorModule)
       return $filter('translate')('ERROR.SERVER') + ' (code=' + errorCode + ', module=' + errorModule + ')';
+
+    // Other error
+    else
+      return $filter('translate')('ERROR.SERVER');
   }
 
   /**
