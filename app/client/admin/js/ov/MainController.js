@@ -215,6 +215,10 @@
           event.currentScope.newAnimation = 'LR';
         else
           event.currentScope.newAnimation = '';
+      } else if ($location.path() === '/login' && userInfo) {
+        event.preventDefault();
+        $location.path('/');
+        return false;
       }
 
     });
