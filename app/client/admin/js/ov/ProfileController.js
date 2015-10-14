@@ -58,14 +58,13 @@
       // update session cookie
 
       user.name = userInfo.name;
-      authenticationService.setUserInfo(user);
-      entityService.updateEntity('user', userInfo.id, {
+
+      return entityService.updateEntity('user', userInfo.id, {
         name: userInfo.name,
         email: userInfo.email
-      }).success(function() {
-        userInfo.saving = false;
-        successCb();
-      }).error(function(data, status) {
+      }).then(function() {
+        authenticationService.setUserInfo(user);
+      }).finally(function() {
         userInfo.saving = false;
       });
     }
