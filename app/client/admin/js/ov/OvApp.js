@@ -260,4 +260,11 @@
 
   app.filter('troncate', troncateFilter);
 
+  // Replace "classic" spaces with non-breaking-spaces
+  app.filter('noBreakSpace', function() {
+    return function(value) {
+      return value.replace(/ /g, '\u00A0');
+    };
+  });
+
 })(angular);
