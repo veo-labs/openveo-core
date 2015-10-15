@@ -9,6 +9,24 @@
   function AlertService($rootScope, $timeout) {
     $rootScope.alerts = [];
 
+    /**
+     * Close an alert by its position in alerts array
+     * @param {Integer} index Position in array
+     * @returns {Array}
+     */
+    function closeAlertIdx(index) {
+      return $rootScope.alerts.splice(index, 1);
+    }
+
+    /**
+     * Close an alert
+     * @param {Object} alert Alert to close
+     * @returns {Array}
+     */
+    function closeAlert(alert) {
+      return closeAlertIdx($rootScope.alerts.indexOf(alert));
+    }
+
     var alertService = {
       add: function(type, msg, timeout) {
         var alert = {
@@ -17,21 +35,15 @@
           close: function() {
             if (alert.timeout)
               $timeout.cancel(this.timeout);
-            return alertService.closeAlert(this);
+            return closeAlert(this);
           }
         };
         if (timeout)
           alert.timeout = $timeout(function() {
-            alertService.closeAlert(alert);
+            closeAlert(alert);
           }, timeout);
 
         $rootScope.alerts.push(alert);
-      },
-      closeAlert: function(alert) {
-        return this.closeAlertIdx($rootScope.alerts.indexOf(alert));
-      },
-      closeAlertIdx: function(index) {
-        return $rootScope.alerts.splice(index, 1);
       }
     };
     return alertService;
