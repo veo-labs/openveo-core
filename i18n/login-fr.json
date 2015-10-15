@@ -2,9 +2,9 @@
   "LOGIN" : {
     "PAGE_TITLE" : "Openveo - Se connecter",
     "LOGIN" : "Utilisateur",
-    "LOGIN_DESCRIPTION" : "Entrer le nom d'utilisateur",
+    "LOGIN_DESCRIPTION" : "Entrez votre adresse email",
     "PASSWORD" : "Mot de passe",
-    "PASSWORD_DESCRIPTION" : "Entrer le mot de passe",
+    "PASSWORD_DESCRIPTION" : "Entrez votre mot de passe",
     "SUBMIT" : "Connexion",
     "ERROR" : "Utilisateur et / ou mot de passe incorrect"
   }

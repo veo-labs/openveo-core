@@ -2,9 +2,9 @@
   "LOGIN" : {
     "PAGE_TITLE" : "Openveo - Sign In",
     "LOGIN" : "User",
-    "LOGIN_DESCRIPTION" : "Enter user name",
+    "LOGIN_DESCRIPTION" : "Enter your email address",
     "PASSWORD" : "Password",
-    "PASSWORD_DESCRIPTION" : "Enter password",
+    "PASSWORD_DESCRIPTION" : "Enter your password",
     "SUBMIT" : "Submit",
     "ERROR" : "Wrong user and / or password"
   }
