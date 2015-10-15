@@ -36,13 +36,13 @@ describe('OvApp', function() {
     $httpBackend.when('GET', /.*/).respond(200, '{}');
   });
 
-  it('Should register /login, /, /applications, /roles, /users, /profiles routes', function() {
+  it('Should register /login, /, /applications, /roles, /users, /profile routes', function() {
     assert.isDefined($route.routes['/']);
     assert.isDefined($route.routes['/login']);
     assert.isDefined($route.routes['/applications']);
     assert.isDefined($route.routes['/roles']);
     assert.isDefined($route.routes['/users']);
-    assert.isDefined($route.routes['/profiles']);
+    assert.isDefined($route.routes['/profile']);
   });
 
   it('Should route to /login if user is not authenticated', function() {

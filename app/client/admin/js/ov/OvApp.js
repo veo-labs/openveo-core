@@ -228,8 +228,8 @@
 
       // Register /profiles route with authentication
       // Also retrieve the user profile
-      $routeProvider.when('/profiles', {
-        templateUrl: 'views/profiles.html',
+      $routeProvider.when('/profile', {
+        templateUrl: 'views/profile.html',
         controller: 'ProfileController',
         title: 'PROFILES.PAGE_TITLE',
         resolve: {
