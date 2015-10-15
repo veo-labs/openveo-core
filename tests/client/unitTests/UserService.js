@@ -36,13 +36,6 @@ describe('UserService', function() {
     $httpBackend.flush();
   });
 
-  it('Should be able to ask server for the list of users', function() {
-    $httpBackend.when('GET', /.*/).respond(200, '');
-    $httpBackend.expectGET('/be/crud/user');
-    userService.loadUsers();
-    $httpBackend.flush();
-  });
-
   it('Should be able to ask server for the list of permissions', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
     $httpBackend.expectGET('/be/permissions');
@@ -69,24 +62,6 @@ describe('UserService', function() {
     var roles = userService.getRoles();
     assert.isDefined(roles);
     assert.equal(roles.length, 1);
-  });
-
-  it('Should be able to store users', function() {
-    $httpBackend.when('GET', '/be/crud/user').respond(200, {
-      entities: [{
-        name: 'Example',
-        email: 'example@example.com',
-        roles: ['role1']
-      }]
-    }
-    );
-    $httpBackend.expectGET('/be/crud/user');
-    userService.loadUsers();
-    $httpBackend.flush();
-
-    var users = userService.getUsers();
-    assert.isDefined(users);
-    assert.equal(users.length, 1);
   });
 
   it('Should be able to store permissions', function() {

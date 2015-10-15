@@ -7,29 +7,7 @@
    */
   function ApplicationService($http, $q) {
     var basePath = '/be/';
-    var applications;
     var scopes;
-
-    /**
-     * Loads the list of applications from server.
-     * @return {Promise} The promise used to retrieve applications from server
-     */
-    function loadApplications() {
-      if (!applications) {
-
-        // Get applications from server
-        return $http.get(basePath + 'crud/application').success(function(applicationsObj) {
-          applications = applicationsObj.entities;
-        });
-
-      }
-
-      return $q.when({
-        data: {
-          entities: applications
-        }
-      });
-    }
 
     /**
      * Loads the list of scopes available for client applications.
@@ -59,24 +37,14 @@
     }
 
     /**
-     * Gets the applications.
-     * @param {Array} The applications
-     */
-    function getApplications() {
-      return applications;
-    }
-
-    /**
      * Destroys ApplicationService cached datas.
      */
     function destroy() {
-      applications = scopes = null;
+      scopes = null;
     }
 
     return {
-      loadApplications: loadApplications,
       destroy: destroy,
-      getApplications: getApplications,
       loadScopes: loadScopes,
       getScopes: getScopes
     };

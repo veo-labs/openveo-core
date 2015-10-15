@@ -3,34 +3,12 @@
 (function(app) {
 
   /**
-   * Defines service to manage users, roles and permissions.
+   * Defines service to manage roles and permissions.
    */
   function UserService($http, $q) {
     var basePath = '/be/';
-    var users,
-      roles,
+    var roles,
       permissions;
-
-    /**
-     * Loads the list of users from server.
-     * @return {Promise} The promise used to retrieve users from server
-     */
-    function loadUsers() {
-      if (!users) {
-
-        // Get users from server
-        return $http.get(basePath + 'crud/user').success(function(usersObj) {
-          users = usersObj.entities;
-        });
-
-      }
-
-      return $q.when({
-        data: {
-          entities: users
-        }
-      });
-    }
 
     /**
      * Loads the list of roles from server.
@@ -73,14 +51,6 @@
     }
 
     /**
-     * Gets users.
-     * @param {Array} The users
-     */
-    function getUsers() {
-      return users;
-    }
-
-    /**
      * Gets roles.
      * @param {Array} The roles
      */
@@ -100,7 +70,7 @@
      * Destroys UserService cached data.
      */
     function destroy() {
-      users = roles = permissions = null;
+      roles = permissions = null;
     }
 
     /**
@@ -109,12 +79,9 @@
      */
     function cacheClear(type) {
       if (!type)
-        users = roles = permissions = null;
+        roles = permissions = null;
       else
         switch (type) {
-          case 'users':
-            users = null;
-            break;
           case 'roles':
             roles = null;
             break;
@@ -128,10 +95,8 @@
 
     return {
       loadRoles: loadRoles,
-      loadUsers: loadUsers,
       loadPermissions: loadPermissions,
       getRoles: getRoles,
-      getUsers: getUsers,
       getPermissions: getPermissions,
       destroy: destroy,
       cacheClear: cacheClear

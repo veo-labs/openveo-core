@@ -29,12 +29,6 @@ describe('ApplicationService', function() {
     $httpBackend.verifyNoOutstandingRequest();
   });
 
-  it('Should be able to ask server for the list of applications', function() {
-    $httpBackend.when('GET', /.*/).respond(200, '');
-    $httpBackend.expectGET('/be/crud/application');
-    applicationService.loadApplications();
-    $httpBackend.flush();
-  });
 
   it('Should be able to ask server for the list of scopes', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
@@ -43,28 +37,6 @@ describe('ApplicationService', function() {
     $httpBackend.flush();
   });
 
-  it('Should be able to store applications', function() {
-    $httpBackend.when('GET', '/be/crud/application').respond(200, {
-      entities: [{
-        name: 'Example',
-        scopes: {
-          scope1: {
-            description: 'description 1',
-            name: 'name 1',
-            activated: true
-          }
-        }
-      }]
-    }
-    );
-    $httpBackend.expectGET('/be/crud/application');
-    applicationService.loadApplications();
-    $httpBackend.flush();
-
-    var applications = applicationService.getApplications();
-    assert.isDefined(applications);
-    assert.equal(applications.length, 1);
-  });
 
   it('Should be able to store scopes', function() {
     $httpBackend.when('GET', '/be/ws/scopes').respond(200,
