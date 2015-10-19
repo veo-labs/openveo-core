@@ -3,6 +3,7 @@
 module.exports = {
   core: {
     src: [
+      'install.js',
       'server.js',
       'Gruntfile.js',
       'tasks/**/*.js',
