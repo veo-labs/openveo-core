@@ -4,6 +4,9 @@
 
   /**
    * Defines service to manage roles and permissions.
+   *
+   * @module ov
+   * @class userService
    */
   function UserService($http, $q) {
     var basePath = '/be/';
@@ -12,7 +15,9 @@
 
     /**
      * Loads the list of roles from server.
-     * @return {Promise} The promise used to retrieve roles from server
+     *
+     * @return {Promise} The Http promise
+     * @method loadRoles
      */
     function loadRoles() {
       if (!roles) {
@@ -33,7 +38,9 @@
 
     /**
      * Loads the list of permissions from server.
-     * @return {Promise} The promise used to retrieve permissions from server
+     *
+     * @return {Promise} The Http promise
+     * @method loadPermissions
      */
     function loadPermissions() {
       if (!permissions) {
@@ -52,7 +59,9 @@
 
     /**
      * Gets roles.
-     * @param {Array} The roles
+     *
+     * @return {Array} The roles
+     * @method getRoles
      */
     function getRoles() {
       return roles;
@@ -60,7 +69,9 @@
 
     /**
      * Gets permissions.
-     * @param {Array} The permissions
+     *
+     * @return {Array} The permissions
+     * @method getRoles
      */
     function getPermissions() {
       return permissions;
@@ -68,14 +79,18 @@
 
     /**
      * Destroys UserService cached data.
+     *
+     * @method destroy
      */
     function destroy() {
       roles = permissions = null;
     }
 
     /**
-     * Deletes cache for the given entity type.
-     * @param {String} type The entity type
+     * Clears a user service cache.
+     *
+     * @param {String} type The cache element to clear
+     * @method cacheClear
      */
     function cacheClear(type) {
       if (!type)

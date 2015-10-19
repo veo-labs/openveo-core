@@ -4,6 +4,9 @@
 
   /**
    * Defines service to manage the web service applications.
+   *
+   * @module ov
+   * @class applicationService
    */
   function ApplicationService($http, $q) {
     var basePath = '/be/';
@@ -11,7 +14,9 @@
 
     /**
      * Loads the list of scopes available for client applications.
-     * @return {Promise} The promise used to retrieve applications from server
+     *
+     * @return {Promise} The Http promise
+     * @method loadScopes
      */
     function loadScopes() {
       if (!scopes) {
@@ -30,14 +35,18 @@
 
     /**
      * Gets the available list of scopes for client applications.
+     *
      * @param {Array} The scopes
+     * @method getScopes
      */
     function getScopes() {
       return scopes;
     }
 
     /**
-     * Destroys ApplicationService cached datas.
+     * Destroys applicationService cached datas.
+     *
+     * @method destroy
      */
     function destroy() {
       scopes = null;

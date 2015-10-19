@@ -4,6 +4,7 @@
 
   /**
    * Builds the error message for the given error.
+   *
    * @param {Object} error The promise error as returned by the interceptor
    * @param {Object} $filter Angular filter
    * @return {String} The translated error message

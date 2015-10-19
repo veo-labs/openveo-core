@@ -2,21 +2,16 @@
 
 module.exports = {
 
-  // Core doc
-  core: {
-    name: '<%= pkg.name %>',
-    description: '<%= pkg.description %>',
+  // Back end doc
+  backEnd: {
+    name: 'OpenVeo AngularJS back end',
+    description: 'AngularJS OpenVeo back end documentation',
     version: '<%= pkg.version %>',
     options: {
-      paths: 'app/server',
-      outdir: './doc/openveo',
+      paths: 'app/client/admin/js',
+      outdir: './docs/api/back-end',
       linkNatives: true,
-      external: {
-        data: {
-          base: '../../api/',
-          json: './doc/api/data.json'
-        }
-      }
+      themedir: 'node_modules/yuidoc-theme-blue'
     }
   }
 

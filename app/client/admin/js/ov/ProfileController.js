@@ -13,6 +13,7 @@
 
     /**
      * Gets the list of role's names.
+     *
      * @return {String} A comma separated role names
      */
     function getRoles() {
@@ -27,6 +28,7 @@
 
     /**
      * Updates user password.
+     *
      * @param {Object} userInfo User data information
      */
     function updatePassword(userInfo) {
@@ -49,6 +51,7 @@
 
     /**
      * Saves user information.
+     *
      * @param {Object} userInfo The user information
      */
     function saveProfile(userInfo) {

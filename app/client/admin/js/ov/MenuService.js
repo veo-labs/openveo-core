@@ -4,14 +4,18 @@
 
   /**
    * Defines a menu service to manage the menu of the application.
+   *
+   * @module ov
+   * @class menuService
    */
   function MenuService($http, $q, $location) {
     var basePath = '/be/';
     var menu;
 
     /**
-     * Sets menu items corresponding to the actual path to active and the
-     * others to inactive.
+     * Sets menu items corresponding to the actual path to active and the other menu items to inactive.
+     *
+     * @method setActiveMenuItem
      */
     function setActiveMenuItem() {
       if (menu) {
@@ -37,7 +41,9 @@
 
     /**
      * Loads the menu from server.
-     * @return {Promise} The promise used to retrieve menu from server
+     *
+     * @return {Promise} The Http promise
+     * @method loadMenu
      */
     function loadMenu() {
       if (!menu) {
@@ -55,7 +61,9 @@
 
     /**
      * Gets the menu.
-     * @param {Object} The menu
+     *
+     * @return {Object} The menu
+     * @method getMenu
      */
     function getMenu() {
       return menu;
@@ -63,6 +71,8 @@
 
     /**
      * Destroys MenuService cached data.
+     *
+     * @method destroyMenu
      */
     function destroyMenu() {
       menu = null;

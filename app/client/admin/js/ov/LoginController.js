@@ -13,6 +13,7 @@
 
     /**
      * Sets language.
+     *
      * @param {String} language The language code (e.g fr_FR)
      */
     $scope.changeLanguage = function(language) {

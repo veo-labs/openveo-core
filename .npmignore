@@ -44,7 +44,8 @@ nbproject
 /app/client/admin/js
 
 # Documentation (yuidoc)
-/doc
+/docs
+/mkdocs.yml
 
 # Grunt files
 /Gruntfile.js

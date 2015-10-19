@@ -22,6 +22,7 @@
 
     /**
      * Gets the list of permissions inside a group.
+     *
      * @param {Object} model Roles model
      */
     function getEntitiesFromModel(model) {
@@ -40,6 +41,7 @@
 
     /**
      * Saves a role.
+     *
      * @param {Object} role Role data
      * @param {Function} successCb Function to call in case of success
      */
@@ -53,6 +55,7 @@
 
     /**
      * Adds a role.
+     *
      * @param {Object} role Role information
      * @param {Function} successCb Function to call in case of success
      */
@@ -66,6 +69,7 @@
 
     /**
      * Prepares permissions for HTMLCheckboxElement(s).
+     *
      * @param {Array} perms The list of permission groups
      * @param {Array} rolePermissions The list of permission ids
      */
@@ -85,6 +89,7 @@
 
     /**
      * Removes a list of roles.
+     *
      * @param {Array} selected The list of role ids to remove
      * @param {Function} reload The reload Function to force reloading the table
      */

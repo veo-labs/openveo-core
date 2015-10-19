@@ -484,7 +484,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
       },
       function(callback) {
 
-        // Test if an i18n directory exists at plugin's root level
+        // Test if a package.json file exists at plugin's root level
         fs.exists(path.join(pluginPath, 'package.json'), function(exists) {
 
           if (exists) {

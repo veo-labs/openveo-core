@@ -9,6 +9,7 @@
 
     /**
      * Adds a user.
+     *
      * @param {Object} user The user data
      */
     function addUser(user) {
@@ -24,6 +25,7 @@
 
     /**
      * Removes a list of users.
+     *
      * @param {Array} selected The list of user ids to remove
      * @param {Function} reload The reload Function to force reloading the table
      */
@@ -37,6 +39,7 @@
 
     /**
      * Saves user.
+     *
      * @param {Object} user The user data
      */
     function saveUser(user) {

@@ -1,10 +1,19 @@
 'use strict';
 
+/**
+ * Manage OpenVeo entities described in conf.json.
+ *
+ * @module ov.entity
+ * @main ov.entity
+ */
+
 (function(angular) {
   var app = angular.module('ov.entity', []);
 
   /**
    * Defines an entity service to create / update or remove an entity.
+   *
+   * @class entityService
    */
   function EntityService($http, $q) {
     var basePath = '/be/';
@@ -12,7 +21,9 @@
 
     /**
      * Deletes cache of the given entity type.
+     *
      * @param {String} entity The entity type
+     * @method deleteCache
      */
     function deleteCache(entity) {
       if (entity) {
@@ -25,9 +36,11 @@
 
     /**
      * Adds a new Entity.
+     *
      * @param {String} entityType Type of entity
      * @param {String} data Data description object of the entity
      * @return {Promise} The HTTP promise
+     * @method addEntity
      */
     function addEntity(entityType, data) {
       deleteCache(entityType);
@@ -36,10 +49,12 @@
 
     /**
      * Updates an entity.
+     *
      * @param {String} entityType Type of entity
      * @param {String} id The id of the entity to update
      * @param {String} data Data description object of the entity
      * @return {Promise} The HTTP promise
+     * @method updateEntity
      */
     function updateEntity(entityType, id, data) {
       deleteCache(entityType);
@@ -48,9 +63,11 @@
 
     /**
      * Removes an entity.
+     *
      * @param {String} entityType Type of entity
      * @param {String} id The id of the entity to remove
      * @return {Promise} The HTTP promise
+     * @method removeEntity
      */
     function removeEntity(entityType, id) {
       deleteCache(entityType);
@@ -58,10 +75,12 @@
     }
 
     /**
-     * Get one Entity by Id
+     * Fetch an entity by Id.
+     *
      * @param {String} entityType Type of entity
-     * @param {String} id The id of the entity to remove
+     * @param {String} id The Id of the entity to fetch
      * @return {Promise} The HTTP promise
+     * @method getEntity
      */
     function getEntity(entityType, id) {
       return $http.get(basePath + 'crud/' + entityType + '/' + id);
@@ -70,11 +89,23 @@
     /**
      * Get all entities filtered by param.
      *
+     * @example
+     *     // Get the first page of Web Service applications sorted by name with 10 applications per page
+     *     var params = {
+     *       count: 10,
+     *       page: 1,
+     *       sort: {
+     *         name: 1
+     *       }
+     *     };
+     *     getEntities('applications', params);
+     *
      * @param {String} entityType Type of entity
      * @param {Object} param Request parameters with a property "filter" with a MongoDB criteria as value, a
      * property "count" with a MongoDB count as value, a property "page" with the expected page as value and a
      * property "sort" with a MongoDB sort object as value
      * @return {Promise} The HTTP promise
+     * @method getEntities
      */
     function getEntities(entityType, param) {
       var deferred = $q.defer();
@@ -101,8 +132,10 @@
 
     /**
      * Gets all entities of a specific type.
+     *
      * @param {String} entityType Type of entity
      * @return {Promise} The HTTP promise
+     * @method getAllEntities
      */
     function getAllEntities(entityType) {
       return $http.get(basePath + 'crud/' + entityType);

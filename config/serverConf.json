@@ -1,8 +1,9 @@
 {
- 
-  "app":{"port" : 3000,
-  "sessionSecret" : "A secret for express session"},
-  "ws":{"port" : 3001,
-  "sessionSecret" : "A secret for express session"}
-  
+  "app": {
+    "port": 3000,
+    "sessionSecret": "A secret for express session"
+  },
+  "ws": {
+    "port": 3001
+  }
 }

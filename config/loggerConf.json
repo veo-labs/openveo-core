@@ -1,16 +1,14 @@
 {
- 
-  "app":{
-    "fileName" : "path to log file (e.g. /tmp/openveo.log)",
-    "level" : "info",
-    "maxFileSize" : 1048576,
-    "maxFiles" : 2
-    },
-  "ws":{
-   "fileName" : "path to log file (e.g. /tmp/openveo-ws.log)",
-   "level" : "info",
-   "maxFileSize" : 1048576,
-   "maxFiles" : 2
+  "app": {
+    "fileName": "path to log file (e.g. /tmp/openveo.log)",
+    "level": "info",
+    "maxFileSize": 1048576,
+    "maxFiles": 2
+  },
+  "ws": {
+    "fileName": "path to log file (e.g. /tmp/openveo-ws.log)",
+    "level": "info",
+    "maxFileSize": 1048576,
+    "maxFiles": 2
   }
-  
 }

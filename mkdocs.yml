@@ -1,0 +1,27 @@
+site_name: Openveo Core
+repo_url: https://github.com/veo-labs/openveo-core
+theme: readthedocs
+markdown_extensions:
+  - fenced_code
+  - tables
+pages:
+- 'INTRODUCTION': 'index.md'
+- 'USERS':
+  - 'Prerequisites': 'prerequisites.md'
+  - 'Getting started': 'getting-started.md'
+  - 'Web Service': 'web-service.md'
+  - 'Scalability': 'scalability.md'
+  - 'Production': 'production.md'
+- 'DEVELOPERS':
+  - 'The basics': 'developers/basics.md'
+  - 'Prerequisites': 'developers/prerequisites.md'
+  - 'Installation': 'developers/installation.md'
+  - 'conf.json': 'developers/conf.md'
+  - 'Back end AngularJS': 'developers/back-end.md'
+  - 'Write a plugin': 'developers/write-plugin.md'
+  - 'CSS / SASS / JS compilation': 'developers/compilation.md'
+  - 'Template engine': 'developers/template-engine.md'
+  - 'Logger': 'developers/logger.md'
+  - 'I18N and I10N': 'developers/i18n.md'
+  - 'Coding standards': 'developers/coding-standards.md'
+  - 'Unit tests': 'developers/unit-tests.md'

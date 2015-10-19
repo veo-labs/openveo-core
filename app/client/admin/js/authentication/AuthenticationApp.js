@@ -1,11 +1,20 @@
 'use strict';
 
+/**
+ * Service to authenticate / logout or manipulate authenticated user informations.
+ *
+ * @module ov.authentication
+ * @main ov.authentication
+ */
+
 (function(angular) {
-  var app = angular.module('ov.authentication', []);
+  var app = angular.module('ov.authentication', ['ov.storage']);
 
   /**
    * Defines an authentication service to deal with user authentication.
    * Exposes methods to deal with user information and to sign in or logout.
+   *
+   * @class authenticationService
    */
   function AuthenticationService($http, storage) {
     var basePath = '/be/';
@@ -22,22 +31,24 @@
 
     /**
      * Signs in using the given credentials.
+     *
      * @param {String} email The email
      * @param {String} password The password
      * @return {Promise} The authentication promise
+     * @method login
      */
     function login(email, password) {
-      if (email && password) {
-        return $http.post(basePath + 'authenticate', {
-          email: email,
-          password: password
-        });
-      }
+      return $http.post(basePath + 'authenticate', {
+        email: email,
+        password: password
+      });
     }
 
     /**
      * Logs out user.
+     *
      * @return {Promise} The logout promise
+     * @method logout
      */
     function logout() {
       return $http.get(basePath + 'logout');
@@ -45,7 +56,9 @@
 
     /**
      * Gets user information.
+     *
      * @return {Object} The user description object
+     * @method getUserInfo
      */
     function getUserInfo() {
       return userInfo;
@@ -53,8 +66,10 @@
 
     /**
      * Sets user information.
-     * @param {Object} The user description object or null to remove
+     *
+     * @param {Object} info The user description object or null to remove all user information
      * user information
+     * @method setUserInfo
      */
     function setUserInfo(info) {
       if (info) {

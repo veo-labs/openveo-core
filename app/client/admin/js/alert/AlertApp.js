@@ -1,10 +1,19 @@
 'use strict';
 
+/**
+ * Controls alerts for the whole application.
+ *
+ * @module ov.alert
+ * @main ov.alert
+ */
+
 (function(angular) {
   var app = angular.module('ov.alert', []);
 
   /**
    * Defines a generic alert management system to display one or several messages.
+   *
+   * @class alertService
    */
   function AlertService($rootScope, $timeout) {
     $rootScope.alerts = [];
@@ -28,6 +37,23 @@
     }
 
     var alertService = {
+
+      /**
+       * Displays an alert.
+       *
+       * @example
+       *     // Info alert displayed for 4 seconds
+       *     add('info', 'Message of the alert', 4000);
+       *
+       *     // Error alert displayed permanently
+       *     add('danger', 'Message of the alert');
+       *
+       * @param {String} type The alert type (success, danger, warning or info)
+       * @param {String} msg The alert message
+       * @param {Number} timeout The timeout (in ms) before closing the alert, if not specified the alert
+       * will be permanent
+       * @method add
+       */
       add: function(type, msg, timeout) {
         var alert = {
           type: type,

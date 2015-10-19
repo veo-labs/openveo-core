@@ -1,5 +1,15 @@
 'use strict';
 
+/**
+ * Main OpenVeo module.
+ *
+ * Loads all AngularJS dependencies and plugins modules. It also initializes formly and define routes exposed
+ * by OpenVeo core.
+ *
+ * @module ov
+ * @main ov
+ */
+
 (function(angular) {
 
   var moduleDependencies = [
