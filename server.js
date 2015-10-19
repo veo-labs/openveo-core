@@ -9,7 +9,7 @@ var applicationStorage = openVeoAPI.applicationStorage;
 // Set module root directory and define a custom require function
 process.root = __dirname;
 process.require = function(filePath) {
-  return require(path.normalize(process.root + '/' + filePath));
+  return require(path.join(process.root, filePath));
 };
 
 // Configuration
