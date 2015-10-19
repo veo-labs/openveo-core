@@ -121,7 +121,8 @@
         "/ov/ProfileController.js",
         "/ov/MenuService.js",
 		"/ov/UserService.js",
-        "/ov/ApplicationService.js"
+        "/ov/ApplicationService.js",
+        "/ov/TruncateFilter.js"
       ],
       "prod" : [
         "/be/js/openveo.js"

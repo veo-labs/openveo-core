@@ -35,21 +35,6 @@
     });
   }
 
-  /**
-   * Filter to print Category in cells.
-   */
-  function troncateFilter() {
-
-    // average troncate size  but 27 is the low limit with 'W'
-    var limit = 35;
-    return function(input) {
-      if (input && input != '' && input.length > limit) {
-        input = input.slice(0, limit) + '...';
-      }
-      return input;
-    };
-  }
-
   var app = angular.module('ov', moduleDependencies);
   app.run(['editableOptions', 'formlyConfig', '$filter', function(editableOptions, formlyConfig, $filter) {
 
@@ -257,8 +242,6 @@
       $httpProvider.interceptors.push('errorInterceptor');
 
     }]);
-
-  app.filter('troncate', troncateFilter);
 
   // Replace "classic" spaces with non-breaking-spaces
   app.filter('noBreakSpace', function() {
