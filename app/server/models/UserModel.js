@@ -9,10 +9,8 @@ var crypto = require('crypto');
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 
+var conf = process.require('config/conf.json');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
-
-// Hash key for passwords
-var hashKey = 'Plji9Qhu8d';
 
 /**
  * Defines a UserModel class to manipulate back end users.
@@ -29,19 +27,6 @@ module.exports = UserModel;
 util.inherits(UserModel, openVeoAPI.EntityModel);
 
 /**
- * Checks if an email address is valid or not.
- *
- * @method isEmailValid
- * @param {String} email The email address
- * @return {Boolean} true if the email is valid, false otherwise
- */
-function isEmailValid(email) {
-  var reg = new RegExp('[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+\/=?^_`{|}~-]+)*@(?:[a-z0-9]' +
-                       '(?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?');
-  return reg.test(email);
-}
-
-/**
  * Gets a user by credentials.
  *
  * @method getUserByCredentials
@@ -55,7 +40,7 @@ function isEmailValid(email) {
 UserModel.prototype.getUserByCredentials = function(email, password, callback) {
 
   // Encrypt password
-  password = crypto.createHmac('sha256', hashKey).update(password).digest('hex');
+  password = crypto.createHmac('sha256', conf.passwordHashKey).update(password).digest('hex');
 
   this.provider.getUserByCredentials(email, password, callback);
 };
@@ -95,7 +80,7 @@ UserModel.prototype.add = function(data, callback) {
   }
 
   // Validate email
-  if (!isEmailValid(data.email)) {
+  if (!openVeoAPI.util.isEmailValid(data.email)) {
     callback(new Error('Invalid email address'));
     return;
   }
@@ -107,7 +92,7 @@ UserModel.prototype.add = function(data, callback) {
     else {
 
       // Encrypt password
-      var password = crypto.createHmac('sha256', hashKey).update(data.password).digest('hex');
+      var password = crypto.createHmac('sha256', conf.passwordHashKey).update(data.password).digest('hex');
 
       // Build user object
       user = {
@@ -161,14 +146,14 @@ UserModel.prototype.update = function(id, data, callback) {
       return;
     } else {
       // Encrypt password
-      var password = crypto.createHmac('sha256', hashKey).update(data.password).digest('hex');
+      var password = crypto.createHmac('sha256', conf.passwordHashKey).update(data.password).digest('hex');
       data.password = password;
       delete data.passwordValidate;
     }
   }
 
   // Validate email
-  if (data.email && !isEmailValid(data.email)) {
+  if (data.email && !openVeoAPI.util.isEmailValid(data.email)) {
     callback(new Error('Invalid email address'));
     return;
   }
