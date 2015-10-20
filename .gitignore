@@ -38,5 +38,6 @@ nbproject/
 /assets/be/js/*
 /assets/be/css/*
 
-# Documentation (yuidoc)
-/docs/api
+# Documentation
+/site
+/.grunt

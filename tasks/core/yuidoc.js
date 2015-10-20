@@ -9,7 +9,7 @@ module.exports = {
     version: '<%= pkg.version %>',
     options: {
       paths: 'app/client/admin/js',
-      outdir: './docs/api/back-end',
+      outdir: './site/version/api/back-end',
       linkNatives: true,
       themedir: 'node_modules/yuidoc-theme-blue'
     }

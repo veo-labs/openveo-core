@@ -1,6 +1,7 @@
 site_name: Openveo Core
 repo_url: https://github.com/veo-labs/openveo-core
 theme: readthedocs
+site_dir: site/version
 markdown_extensions:
   - fenced_code
   - tables
