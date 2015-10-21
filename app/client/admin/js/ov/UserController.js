@@ -5,7 +5,7 @@
   /**
    * Defines the user controller for the user page.
    */
-  function UserController($scope, $filter, userService, entityService, roles) {
+  function UserController($scope, $filter, entityService, roles) {
 
     /**
      * Adds a user.
@@ -244,6 +244,6 @@
   }
 
   app.controller('UserController', UserController);
-  UserController.$inject = ['$scope', '$filter', 'userService', 'entityService', 'roles'];
+  UserController.$inject = ['$scope', '$filter', 'entityService', 'roles'];
 
 })(angular.module('ov'));
