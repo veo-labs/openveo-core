@@ -314,6 +314,11 @@ $scope.tableContainer.init = {
 $scope.tableContainer.showSelectAll = true;
 ```
 
+You can reload a display table manually from other controller by injecting the **TableReloadEventService** and calling
+```javascript
+tableReloadEventService.broadcast();
+```
+
 ### Datatable dependency: edit a row
 
 DataTable is dependent of an edit form. This form specify what information user can access and/or modify.
