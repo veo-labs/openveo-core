@@ -50,7 +50,7 @@
        *
        * @param {String} type The alert type (success, danger, warning or info)
        * @param {String} msg The alert message
-       * @param {Number} timeout The timeout (in ms) before closing the alert, if not specified the alert
+       * @param {Number} [timeout] The timeout (in ms) before closing the alert, if not specified the alert
        * will be permanent
        * @method add
        */

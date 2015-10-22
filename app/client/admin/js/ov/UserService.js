@@ -89,7 +89,7 @@
     /**
      * Clears a user service cache.
      *
-     * @param {String} type The cache element to clear
+     * @param {String} [type] The cache element to clear or null to remove all caches
      * @method cacheClear
      */
     function cacheClear(type) {

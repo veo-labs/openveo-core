@@ -29,7 +29,7 @@
      *
      * @param {String} name The name of the dictionary to retrieve from
      * server
-     * @param {Boolean} admin true to retrieve a dictionary for the back
+     * @param {Boolean} [admin] true to retrieve a dictionary for the back
      * office part (which requires authentication), false to get a
      * dictionary without access restriction
      * @return {Promise} The promise to retrieve the dictionary
@@ -184,8 +184,7 @@
      * Translates the given id using current language.
      *
      * @param {String} id The id of the translation
-     * @param {String} dictionary The name of a particular dictionary
-     * if several dictionaries are loaded
+     * @param {String} [dictionary] The name of a particular dictionary if several dictionaries are loaded
      * @method translate
      */
     function translate(id, dictionary) {

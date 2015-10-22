@@ -18,7 +18,7 @@ The back end relies on a couple of libraries :
 
 # Structure
 
-## Main module
+## Main module (**ov**)
 
 The main AngularJS module of the back end is named **ov** and is applied to the HTML root element.
 

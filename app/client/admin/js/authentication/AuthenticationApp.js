@@ -67,7 +67,7 @@
     /**
      * Sets user information.
      *
-     * @param {Object} info The user description object or null to remove all user information
+     * @param {Object} [info] The user description object or null to remove all user information
      * user information
      * @method setUserInfo
      */

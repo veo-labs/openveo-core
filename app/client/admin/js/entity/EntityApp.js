@@ -22,7 +22,7 @@
     /**
      * Deletes cache of the given entity type.
      *
-     * @param {String} entity The entity type
+     * @param {String} [entity] The entity type or null to remove all cache
      * @method deleteCache
      */
     function deleteCache(entity) {
@@ -90,6 +90,7 @@
      * Get all entities filtered by param.
      *
      * @example
+     *
      *     // Get the first page of Web Service applications sorted by name with 10 applications per page
      *     var params = {
      *       count: 10,

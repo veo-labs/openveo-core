@@ -30,14 +30,14 @@ OpenVeo has been tested on the following  :
 - Internet Explorer 10
 - Internet Explorer 11
 
-![Login page](images/operating-systems/ubuntu.gif)
-![Login page](images/operating-systems/debian.gif)
-![Login page](images/operating-systems/windows.gif)
+![Ubuntu](images/operating-systems/ubuntu.gif)
+![Debian](images/operating-systems/debian.gif)
+![Windows](images/operating-systems/windows.gif)
 
-![Login page](images/browsers/firefox.gif)
-![Login page](images/browsers/chrome.gif)
-![Login page](images/browsers/opera.gif)
-![Login page](images/browsers/ie.gif)
+![Firefox](images/browsers/firefox.gif)
+![Google Chrome](images/browsers/chrome.gif)
+![Opera](images/browsers/opera.gif)
+![Internet Explorer](images/browsers/ie.gif)
 
 ## Screenshots
 

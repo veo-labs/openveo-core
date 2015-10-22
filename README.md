@@ -6,11 +6,11 @@ The core of the system (i.e. without any plugin) offers a simple connection form
 
 This interface gives access to a limited set of default features:
 
-Users management
-Permissions and roles management
-Web service management
-A profile page
-Each plugin brings zero to many additive administration pages and zero to many additive public pages.
+- Users management
+- Permissions and roles management
+- Web service management
+- A profile page
+- Each plugin brings zero to many additive administration pages and zero to many additive public pages.
 
 # Documentation
 

@@ -14,6 +14,8 @@ Configuration files are all in **config** directory
 
 ## Configure OpenVeo
 
+Open **config/conf.json**
+
 ```json
 {
   "passwordHashKey" : "KEY" // Replace KEY by a secret key used to encrypt users passwords
