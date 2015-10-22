@@ -44,37 +44,37 @@ It has dependencies on all AngularJS libraries and all AngularJS modules describ
 - **/be/profile** to access user's profile page
 - **/be/roles** to access roles page
 
-**Nb:** Available services / filters defined in **ov** module are described in the API.
+**Nb:** Available services / filters defined in **ov** module are described in the [API](/api/back-end/modules/ov.html).
 
 ## Alert module (**ov.alert**)
 
 Offers a service to control alerts for the whole application. Alerts are used to display a message to the user.
 
-**Nb:** Available services defined in **ov.alert** module are described in the API.
+**Nb:** Available services defined in **ov.alert** module are described in the [API](/api/back-end/modules/ov.alert.html).
 
 ## Authentication module (**ov.authentication**)
 
 Offers a service to authenticate / logout or manipulate authenticated user informations. User information are stored locally using the ov.storage module.
 
-**Nb:** Available services / filters defined in **ov.authentication** module are described in the API.
+**Nb:** Available services / filters defined in **ov.authentication** module are described in the [API](/api/back-end/modules/ov.authentication.html).
 
 ## Entity module (**ov.entity**)
 
 Offers a service to manage (CRUD) OpenVeo entities described in [conf.json](/developers/conf).
 
-**Nb:** Available services defined in **ov.entity** module are described in the API.
+**Nb:** Available services defined in **ov.entity** module are described in the [API](/api/back-end/modules/ov.entity.html).
 
 ## I18n module (**ov.i18n**)
 
 Defines a service to control back end internationalization and a **translate** filter to help translate ids from a dictionary.
 
-**Nb:** Available services / filters defined in **ov.i18n** module are described in the API.
+**Nb:** Available services / filters defined in **ov.i18n** module are described in the [API](/api/back-end/modules/ov.i18n.html).
 
 ## Storage module (**ov.storage**)
 
 Offers a service to manipulate the local storage.
 
-**Nb:** Available services defined in **ov.storage** module are described in the API.
+**Nb:** Available services defined in **ov.storage** module are described in the [API](/api/back-end/modules/ov.storage.html).
 
 ## TableForm module (**ov.tableForm**)
 
