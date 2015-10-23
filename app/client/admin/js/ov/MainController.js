@@ -247,8 +247,9 @@
     $scope.$on('$routeChangeError', function(event, current, previous, eventObj) {
       if (!$scope.userInfo)
         $location.path('/login');
-      else
-        $location.path('/');
+      else if (eventObj && eventObj.redirect)
+        $location.path(eventObj.redirect);
+      else $location.path('/');
     });
 
     $scope.checkAccess = function(perm) {
