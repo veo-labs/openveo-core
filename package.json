@@ -88,7 +88,7 @@
     "yuidoc-theme-blue": "^0.1.9"
   },
   "scripts": {
-    "postinstall": "bower install",
+    "postinstall": "bower install && node install.js",
     "eslint": "grunt eslint",
     "mocha": "grunt mochaTest",
     "karma": "grunt karma"
