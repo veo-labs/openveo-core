@@ -25,7 +25,7 @@
     this.prefix = 'ov-';
 
     // Type of storage to use
-    this.type = 'sessionStorage';
+    this.type = 'localStorage';
 
     this.$get = ['$window', function($window) {
 

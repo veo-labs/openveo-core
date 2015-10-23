@@ -37,7 +37,7 @@ describe('StorageApp', function() {
   it('Should be able to parameter a custom prefix for the key', function() {
     provider.prefix = 'vo-';
     storage.add('key', 'value');
-    assert.equal(window['sessionStorage']['vo-key'], 'value');
+    assert.equal(window['localStorage']['vo-key'], 'value');
     storage.remove('key');
   });
 
@@ -49,11 +49,11 @@ describe('StorageApp', function() {
     storage.remove('key');
   });
 
-  it('Should be able to parameter the storage type to "sessionStorage"', function() {
+  it('Should be able to parameter the storage type to "localStorage"', function() {
     provider.prefix = 'ov-';
-    provider.type = 'sessionStorage';
+    provider.type = 'localStorage';
     storage.add('key', 'value');
-    assert.equal(window['sessionStorage']['ov-key'], 'value');
+    assert.equal(window['localStorage']['ov-key'], 'value');
     storage.remove('key');
   });
 
