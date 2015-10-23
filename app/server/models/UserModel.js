@@ -6,10 +6,12 @@
 
 // Module dependencies
 var crypto = require('crypto');
+var path = require('path');
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 
-var conf = process.require('config/conf.json');
+var configDir = openVeoAPI.fileSystem.getConfDir();
+var conf = require(path.join(configDir, 'core/conf.json'));
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 
 /**

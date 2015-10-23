@@ -13,9 +13,10 @@ process.require = function(filePath) {
 };
 
 // Configuration
+var configDir = openVeoAPI.fileSystem.getConfDir();
 var conf = process.require('conf.json');
-var databaseConf = process.require('config/databaseConf.json');
-var loggerConf = process.require('config/loggerConf.json');
+var databaseConf = require(path.join(configDir, 'core/databaseConf.json'));
+var loggerConf = require(path.join(configDir, 'core/loggerConf.json'));
 
 var entities = {};
 var webServiceScopes = conf['webServiceScopes'] || [];

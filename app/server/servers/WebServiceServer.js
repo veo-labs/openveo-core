@@ -6,6 +6,7 @@
 
 // Module dependencies
 var util = require('util');
+var path = require('path');
 var express = require('express');
 var openVeoAPI = require('@openveo/api');
 var bodyParser = require('body-parser');
@@ -14,7 +15,8 @@ var oAuth = process.require('app/server/oauth/oAuth.js');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var oAuthController = process.require('app/server/controllers/oAuthController.js');
 var errorController = process.require('app/server/controllers/errorController.js');
-var serverConf = process.require('config/serverConf.json').ws;
+var configDir = openVeoAPI.fileSystem.getConfDir();
+var serverConf = require(path.join(configDir, 'core/serverConf.json')).ws;
 var logger = openVeoAPI.logger.get('openveo');
 var conf = process.require('conf.json');
 
