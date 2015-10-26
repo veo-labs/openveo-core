@@ -1,10 +1,7 @@
 {
   "name": "@openveo/core",
-  "version": "0.0.2",
-  "description": "OpenVeo core application and Web Service",
-  "publishConfig": {
-    "registry": "http://87.98.155.235:4873/"
-  },
+  "version": "1.0.0",
+  "description": "OpenVeo core CMS",
   "keywords": [
     "openveo",
     "veo-labs",
@@ -23,18 +20,18 @@
     "framework",
     "authentication"
   ],
-  "homepage": "https://gitlab.com/veo-labs/openveo-core",
+  "homepage": "https://github.com/veo-labs/openveo-core",
   "bugs": {
-    "url": "https://gitlab.com/veo-labs/openveo-core/issues"
+    "url": "https://github.com/veo-labs/openveo-core/issues"
   },
   "license": "AGPL-3.0",
   "author": "Veo-Labs <info@veo-labs.com> (http://www.veo-labs.com/)",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/veo-labs/openveo-core.git"
+    "url": "https://github.com/veo-labs/openveo-core.git"
   },
   "dependencies": {
-    "@openveo/api": ">=0.0.1",
+    "@openveo/api": "~1.0.0",
     "JSONPath": "^0.10.0",
     "async": "^0.9.0",
     "body-parser": "^1.10.2",
@@ -55,7 +52,7 @@
     "winston": "^0.8.3"
   },
   "devDependencies": {
-    "@openveo/test": ">=0.0.1",
+    "@openveo/test": "~1.0.0",
     "chai": "^1.10.0",
     "glob": "^5.0.12",
     "grunt": "^0.4.5",
@@ -88,6 +85,7 @@
     "yuidoc-theme-blue": "^0.1.9"
   },
   "scripts": {
+    "prepublish": "grunt prod",
     "postinstall": "bower install && node install.js",
     "eslint": "grunt eslint",
     "mocha": "grunt mochaTest",

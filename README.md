@@ -14,7 +14,7 @@ This interface gives access to a limited set of default features:
 
 # Documentation
 
-TODO
+Documentation is available on [Github pages](http://veo-labs.github.io/openveo-core/1.0.0).
 
 # Contributors
 
