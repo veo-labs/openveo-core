@@ -2,7 +2,7 @@
 
 If you want to take benefit of your [MongoDB replication set](http://docs.mongodb.org/manual/replication/), you can adapt your OpenVeo configuration.
 
-Open **config/databaseConf.json** and add a name for the ReplicaSet and a comma separated list of secondary servers.
+Open **~openveo/core/databaseConf.json** and add a name for the ReplicaSet and a comma separated list of secondary servers.
 
 ```json
 {

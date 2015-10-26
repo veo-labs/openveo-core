@@ -4,7 +4,7 @@ OpenVeo offers a Web Service which must be started as a different process and ne
 
 # Configure the Web Service
 
-Open **config/serverConf.json**
+Open **~openveo/core/serverConf.json**
 
 ```json
 {
@@ -16,7 +16,7 @@ Open **config/serverConf.json**
 
 # Configure the Web Service logger
 
-Open **config/loggerConf.json**
+Open **~openveo/core/loggerConf.json**
 
 ```json
 {

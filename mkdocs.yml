@@ -11,6 +11,7 @@ pages:
   - 'Prerequisites': 'prerequisites.md'
   - 'Getting started': 'getting-started.md'
   - 'Web Service': 'web-service.md'
+  - 'Advanced configuration': 'advanced-configuration.md'
   - 'Scalability': 'scalability.md'
   - 'Production': 'production.md'
 - 'DEVELOPERS':

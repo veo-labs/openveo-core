@@ -1,16 +1,3 @@
-# What's OpenVeo ?
-
-OpenVeo is a [Node.js](http://nodejs.org/) and [AngularJS](https://angularjs.org/) CMS. It embeds an HTTP server based on [Express framework](https://www.npmjs.com/package/express) and a plugin loader mechanism.
-
-The core of the system (i.e. without any plugin) offers a simple connection form to the administration interface.
-
-This interface gives access to a limited set of default features:
-
--  Users management
--  Permissions and roles management
--  Web service management
--  A profile page
-
 # HTTP server
 
 Based on [Express framwork](https://www.npmjs.com/package/express), OpenVeo creates an HTTP server with a list of routes.
