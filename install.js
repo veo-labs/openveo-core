@@ -41,11 +41,26 @@ function getRandomHash(size) {
  * Creates conf directory if it does not exist.
  */
 function createConfDir(callback) {
-  fs.exists(confDir, function(exists) {
-    if (exists)
-      callback();
-    else
-      openVeoAPI.fileSystem.mkdir(confDir, callback);
+  openVeoAPI.fileSystem.mkdir(confDir, callback);
+}
+
+/**
+ * Creates logger directory if it does not exist.
+ */
+function createLoggerDir(callback) {
+  var conf = require(path.join(confDir, 'loggerConf.json'));
+  async.series([
+    function(callback) {
+      openVeoAPI.fileSystem.mkdir(path.dirname(conf.app.fileName), callback);
+    },
+    function(callback) {
+      openVeoAPI.fileSystem.mkdir(path.dirname(conf.ws.fileName), callback);
+    }
+  ], function(error, results) {
+    if (error)
+      process.stdout.write(error.message);
+
+    callback();
   });
 }
 
@@ -160,16 +175,10 @@ function createLoggerConf(callback) {
       });
     },
     function(callback) {
-      var defaultFilePath = path.join(os.tmpdir(), 'logs', 'openveo', 'openveo.log');
-      rl.question('Enter OpenVeo log file path (default: ' + defaultFilePath + ') :\n', function(answer) {
-        conf.app.fileName = answer || defaultFilePath;
-        callback();
-      });
-    },
-    function(callback) {
-      var defaultFilePath = path.join(os.tmpdir(), 'logs', 'openveo', 'openveo-ws.log');
-      rl.question('Enter OpenVeo Web Service log file path (default: ' + defaultFilePath + ') :\n', function(answer) {
-        conf.ws.fileName = answer || defaultFilePath;
+      var defaultPath = path.join(os.tmpdir(), 'openveo', 'logs');
+      rl.question('Enter OpenVeo logs directory (default: ' + defaultPath + ') :\n', function(answer) {
+        conf.app.fileName = path.join((answer || defaultPath), 'openveo.log').replace(/\\/g, '/');
+        conf.ws.fileName = path.join((answer || defaultPath), 'openveo-ws.log').replace(/\\/g, '/');
         callback();
       });
     }
@@ -317,6 +326,7 @@ async.series([
   createConf,
   createDatabaseConf,
   createLoggerConf,
+  createLoggerDir,
   createServerConf,
   verifyDatbaseConf,
   createSuperAdmin
