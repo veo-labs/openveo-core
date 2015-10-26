@@ -270,7 +270,7 @@ function verifyDatbaseConf(callback) {
 function createSuperAdmin(callback) {
   var userProvider = new UserProvider(openVeoAPI.applicationStorage.getDatabase());
   var user = {
-    id: 0,
+    id: '0',
     locked: true
   };
 
