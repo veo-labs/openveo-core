@@ -2,10 +2,10 @@
 
 var fs = require('fs');
 var path = require('path');
-var mkdirp = require('mkdirp');
 var imageMagick = require('gm').subClass({
   imageMagick: true
 });
+var openVeoAPI = require('@openveo/api');
 
 var expressThumbnail = module.exports;
 
@@ -86,7 +86,7 @@ expressThumbnail.register = function(rootDir, options) {
 
 // Convert the image and store in the cache.
 expressThumbnail.convert = function(options, callback) {
-  mkdirp(path.dirname(options.location), function(err) {
+  openVeoAPI.fileSystem.mkdir(path.dirname(options.location), function(err) {
     if (err) {
       return callback(err);
     }
@@ -97,7 +97,5 @@ expressThumbnail.convert = function(options, callback) {
           return err ? callback(err) : callback(null);
         });
     });
-
-
   });
 };
