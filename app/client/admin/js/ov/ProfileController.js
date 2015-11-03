@@ -141,8 +141,8 @@
       }
     };
 
-    $scope.isNotSuperAdmin = function() {
-      return (user.id != 0);
+    $scope.passwordEditable = function() {
+      return user.id != 0 && !user.locked;
     };
 
   }

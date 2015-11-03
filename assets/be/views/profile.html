@@ -6,7 +6,7 @@
             <h2 ng-bind="'PROFILES.ATTR_USER_ACCOUNT' | translate"> </h2>
             <ng-include src="'views/elements/dataTableForm.html'"></ng-include>
         </div>
-        <div class="col-md-6 detail password" ng-show="isNotSuperAdmin()">
+        <div class="col-md-6 detail password" ng-show="passwordEditable()">
             <h2 ng-bind="'PROFILES.ATTR_MODIFY_PASSWORD' | translate"></h2>
             <form class="form-horizontal"  ng-submit="onSubmit(row)" novalidate  name="profileForm" >
                 <div class="form-group form-inline">

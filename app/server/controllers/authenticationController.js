@@ -85,7 +85,7 @@ function getPermissionByUrl(permissions, url, httpMethod) {
  */
 function isUserProfileUrl(request) {
   var path = '/crud/user/' + request.user.id;
-  return ((request.path === path) && (request.method === 'POST'));
+  return !request.user.locked && ((request.path === path) && (request.method === 'POST'));
 }
 
 /**
