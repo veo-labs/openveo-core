@@ -53,6 +53,12 @@
   span.editable{
     top: 7px;
     position: relative;
+    @include mobile-and-tablet(){
+      top:0px;
+    }
+  }
+  .formly-field{
+     line-height:initial;
   }
 }
 

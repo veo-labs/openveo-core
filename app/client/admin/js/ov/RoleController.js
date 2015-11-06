@@ -188,7 +188,7 @@
         templateOptions: {
           label: $filter('translate')('ROLES.FORM_ADD_PERMISSIONS')
         },
-        wrapper: ['horizontalBootstrapLabel'],
+        wrapper: ['horizontalBootstrapLabelOnly'],
         template: ''
 
       });
@@ -208,7 +208,7 @@
       });
 
       scopeEditForm.fields.push({
-        className: 'col-sm-8 col-push-sm-4',
+        className: 'col-md-8 col-push-md-4',
         fieldGroup: accordionArray
       });
     }
@@ -252,7 +252,7 @@
         templateOptions: {
           label: $filter('translate')('ROLES.FORM_ADD_PERMISSIONS')
         },
-        wrapper: ['horizontalBootstrapLabel'],
+        wrapper: ['horizontalBootstrapLabelOnly'],
         template: ''
 
       });
@@ -272,7 +272,7 @@
       });
 
       scopeAddForm.fields.push({
-        className: 'col-sm-8 col-push-sm-4',
+        className: 'col-md-8 col-push-md-4',
         fieldGroup: accordionArray
       });
     }

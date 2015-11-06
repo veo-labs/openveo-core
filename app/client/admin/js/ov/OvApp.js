@@ -72,6 +72,15 @@
         '</div>'
       ].join(' ')
     });
+    formlyConfig.setWrapper({
+      name: 'horizontalBootstrapLabelOnly',
+      template: [
+        '<label for="{{::id}}" class="col-md-4 control-label">',
+        '{{to.label}} {{to.required ? "*" : ""}}',
+        '</label>',
+        '<formly-transclude></formly-transclude>'
+      ].join(' ')
+    });
     formlyConfig.setType({
       name: 'emptyrow',
       template: '<div class="well well-sm">{{to.message}}</div>',

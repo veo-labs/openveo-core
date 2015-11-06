@@ -1,6 +1,9 @@
 .profile {
     .password {
-     border-left: 1px solid #ccc;
+      border-left: 1px solid #ccc;
+      @include mobile-and-tablet{
+         border-left: 0px none;
+      }
     }
     .user-info{
       overflow: auto;  

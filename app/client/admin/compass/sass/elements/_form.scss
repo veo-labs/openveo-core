@@ -7,7 +7,12 @@
 }
 .form-submit-bouton{
   margin:5px auto 15px;
-  text-align: center;
+  padding-left: 10px;
+  @include mobile-and-tablet{
+    padding-left: 0;
+  }
+ 
+  
 }
 .add-form{
   .form-group{
@@ -17,7 +22,7 @@
 
 .formly-field{
   .panel{
-    margin: 0 0 5px 10px;
+    margin-bottom: 5px;
     .panel-heading{
       border-bottom:0 none;
       cursor:pointer;
@@ -28,17 +33,17 @@
     display: block;
   }
   
-  .form-group{
+  > .form-group{
       margin-bottom:10px;
     } 
   &.formly-field-group{
     .form-group{
-      margin-bottom:0;
+      margin:0;
     }
     .panel-body{
       padding:0;
       div.editable{
-        padding:15px 0 15px 25px;
+        padding:15px 15px 15px 25px;
         top:0;
       }
       span.editable{
@@ -47,6 +52,7 @@
       }
       label{
         font-weight: inherit; 
+        line-height: 20px;
       }
       .radio-group{
         padding:15px 0 15px 25px;
@@ -58,5 +64,11 @@
   }
   .editable-wrap{
     margin-left: 15px;
+  }
+}
+
+.form-horizontal .control-label{
+  @include mobile-and-tablet{
+    margin-bottom:5px;
   }
 }
