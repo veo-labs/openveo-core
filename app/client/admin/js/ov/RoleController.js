@@ -132,12 +132,12 @@
     scopeDataTable.header = [{
       key: 'name',
       name: $filter('translate')('ROLES.NAME_COLUMN'),
-      class: ['col-xs-12 col-sm-11']
+      class: ['col-xs-11']
     },
     {
       key: 'action',
       name: $filter('translate')('UI.ACTIONS_COLUMN'),
-      class: [' hidden-xs col-sm-1']
+      class: ['col-xs-1']
     }];
 
     scopeDataTable.actions = [{

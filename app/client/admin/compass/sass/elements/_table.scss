@@ -35,6 +35,12 @@
           background: transparent;
         }
         @include single-transition(color, 0.2s);
+        @include mobile(){
+          padding: 0 0px;
+          & > div, & > span, &>ng-include{
+            padding: 0 0 0 7px;
+          }
+        }
       }
       &:hover> td.first{
         color:$brand-primary;
@@ -71,6 +77,9 @@
   }
   &.open-tab > td{
     border:0 none;
+    @include mobile(){
+      padding:0 10px 0;
+    }
   }
 }
 
