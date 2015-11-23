@@ -100,6 +100,13 @@
         $scope.isResponsiveMenuClosed = false;
     };
 
+    $scope.navigate = function(event) {
+      if (event) {
+        $scope.closeResponsiveMenu();
+        $location.path(angular.element(event.currentTarget).attr('href'));
+      }
+    };
+
     /**
      * Changes the language to the given one.
      * This will reload the page due to the main menu which can't be

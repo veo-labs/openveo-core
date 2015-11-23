@@ -33,7 +33,7 @@
         </div>
 
         <!-- Logo -->
-        <a class="navbar-brand" href="/be" ng-click="closeResponsiveMenu();">
+        <a class="navbar-brand" href="/be" ng-click="navigate($event)">
           <img alt="OpenVeo" src="images/logo-white.png">
         </a>
         <!-- /logo -->
@@ -42,7 +42,7 @@
         <!-- Top Right Menu -->
         <ul class="nav navbar-nav navbar-right ">
           <li popover-title="{{'MENU.PROFILES' | translate}}" popover="{{userInfo.name}}" popover-trigger="mouseenter click" popover-placement="bottom">
-            <a class="icon" href="profile" >
+            <a class="icon" href="profile" ng-click="navigate($event)">
               <div class="glyphicon glyphicon-user"></div>
             </a>
           </li>
