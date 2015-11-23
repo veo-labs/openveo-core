@@ -48,6 +48,8 @@
   position:fixed;
   bottom: 30px;
   z-index:100;
+  width: 100%;
+  
   .alert{
     position:relative;
     @include single-transition(all, 0.4s);
@@ -101,4 +103,8 @@
       }
     }
   }  
+}
+
+code{
+  word-break: break-word;
 }
