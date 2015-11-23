@@ -44,6 +44,7 @@
       applicationService.destroy();
       userService.destroy();
       entityService.deleteCache();
+      alertService.closeAll();
       $location.path('/login');
     }
 

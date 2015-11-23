@@ -70,6 +70,9 @@
           }, timeout);
 
         $rootScope.alerts.push(alert);
+      },
+      closeAll: function() {
+        $rootScope.alerts = [];
       }
     };
     return alertService;
