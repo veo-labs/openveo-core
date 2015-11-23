@@ -39,7 +39,12 @@ body > .container{ display: table; vertical-align: middle; }
 .ng-hide{ display: none !important; }
 
 /* Menu */
-.navbar-brand{ padding-top: 10px; }
+.navbar-brand{ 
+  padding: 10px ; 
+  @include mobile(){
+    padding: 10px 0; 
+  }
+}
 
 /* Forms */
 form small{ color: #a8a8a8; }
