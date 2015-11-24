@@ -52,10 +52,10 @@
             <div class="table-cell"><input type="checkbox"  ng-model="row.selected" ng-checked="row.selected" ng-click="dataTable.uncheckOne()"></div>
           </td>
           <td ng-click="dataTable.toggleRowDetails(row)" ng-class="{'first':$index==0, 'table-cell':dataTable.conditionToggleDetail(row)}" ng-repeat="entities in dataTable.header" ng-if="entities.key != 'action'" class='line {{entities.class[0]}}'>
-            <span ng-if="$first && dataTable.conditionToggleDetail(row)" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></span>
-              <strong title="{{row[entities.key]}}" ng-if="!entities.type || entities.type == 'text'">{{row[entities.key] | truncate}}</strong>
-              <span ng-if="entities.type && entities.type == 'date'">{{row[entities.key] | date:'dd/MM/yyyy' }}</span>
-              <ng-include ng-if="entities.type && entities.type != 'date' && entities.type != 'text' && dataTable.customTheme.cellTheme" src="dataTable.customTheme.cellTheme"></ng-include>
+            <div ng-if="$first && dataTable.conditionToggleDetail(row)" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></div>
+            <span class="cell-text" ng-if="!entities.type || entities.type == 'text'" title="{{row[entities.key]}}">{{row[entities.key] | truncate}}</span>
+            <span ng-if="entities.type && entities.type == 'date'">{{row[entities.key] | date:'dd/MM/yyyy' }}</span>
+            <ng-include ng-if="entities.type && entities.type != 'date' && entities.type != 'text' && dataTable.customTheme.cellTheme" src="dataTable.customTheme.cellTheme"></ng-include>
           </td>
           <td ng-if='dataTable.actions'>
             <div class="{{dataTable.header[dataTable.header.length-1].class[0]}}" >

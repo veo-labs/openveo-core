@@ -1,4 +1,12 @@
 @import "compass/css3/transition";
+.datatable .dropdown-menu{
+  min-width: auto;
+  @include mobile(){
+    right: 0px;
+    left: inherit;
+  }
+}
+
 .collapsing{
    @include single-transition(all, 0.35s, ease);
 }
