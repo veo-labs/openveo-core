@@ -7,11 +7,14 @@
     &>tr{
       &> th{
 
-        padding: 0 20px;
+        padding: 0 15px;
         line-height: 37px;
         @include single-transition(all, 0.4s);
         background-size: 100% 200%;
         background-image: linear-gradient(to bottom, white 50%, $brand-primary 50%);
+        @include mobile(){
+          padding: 0 5px;
+        }
         &.sortable{
           cursor:pointer;
         }
