@@ -4,7 +4,7 @@
       <div class="check-btn btn btn-default btn-sm "  popover="{{'UI.SELECT_ALL' | translate}}" popover-trigger="mouseenter" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
         <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll();$event.stopPropagation();">
       </div>
-      <div class="animate-action" ng-class="{'open':dataTable.isRowSelected}"  dropdown ng-if="dataTable.isRowSelected">
+      <div class="animate-action" dropdown ng-if="dataTable.isRowSelected">
         <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
           Action <span class="caret"></span>
         </button>

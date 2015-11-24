@@ -244,7 +244,7 @@
     position: relative;
   }
   .animate-action{
-    @include  single-transition(all, 0.4s) ;    
+    @include transition(all 0.4s ease);
     position:absolute;
 
     &.ng-enter{
