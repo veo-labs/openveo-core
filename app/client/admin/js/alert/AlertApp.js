@@ -43,10 +43,10 @@
        *
        * @example
        *     // Info alert displayed for 4 seconds
-       *     add('info', 'Message of the alert', 4000);
+       *     AlertService.add('info', 'Message of the alert', 4000);
        *
        *     // Error alert displayed permanently
-       *     add('danger', 'Message of the alert');
+       *     AlertService.add('danger', 'Message of the alert');
        *
        * @param {String} type The alert type (success, danger, warning or info)
        * @param {String} msg The alert message
@@ -71,6 +71,16 @@
 
         $rootScope.alerts.push(alert);
       },
+
+      /**
+       * Closes all opened alerts.
+       *
+       * @example
+       *     // Close all alerts
+       *     AlertService.closeAll();
+       *
+       * @method closeAll
+       */
       closeAll: function() {
         $rootScope.alerts = [];
       }
