@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>conf.json - Openveo Core</title>
+  
+
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "conf.json";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Openveo Core</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../..">INTRODUCTION</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>USERS</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../prerequisites/">Prerequisites</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../getting-started/">Getting started</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../web-service/">Web Service</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../advanced-configuration/">Advanced configuration</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../scalability/">Scalability</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../production/">Production</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>DEVELOPERS</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../basics/">The basics</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../prerequisites/">Prerequisites</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../installation/">Installation</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">conf.json</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#introduction">Introduction</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#map-routes-on-actions">Map routes on actions</a></li>
+                
+                    <li><a class="toctree-l4" href="#route-descriptor">Route descriptor</a></li>
+                
+                    <li><a class="toctree-l4" href="#group-routes">Group routes</a></li>
+                
+                    <li><a class="toctree-l4" href="#route-parameters">Route parameters</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#create-entities">Create entities</a></li>
+                
+                    <li><a class="toctree-l4" href="#create-entity-provider">Create entity provider</a></li>
+                
+                    <li><a class="toctree-l4" href="#create-entity-model">Create entity model</a></li>
+                
+                    <li><a class="toctree-l4" href="#declare-entity">Declare entity</a></li>
+                
+                    <li><a class="toctree-l4" href="#use-the-entity">Use the entity</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#define-back-end-permissions">Define back end permissions</a></li>
+                
+                    <li><a class="toctree-l4" href="#create-a-permission">Create a permission</a></li>
+                
+                    <li><a class="toctree-l4" href="#group-permissions">Group permissions</a></li>
+                
+                    <li><a class="toctree-l4" href="#use-permissions">Use permissions</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#define-back-end-menu-items">Define back end menu items</a></li>
+                
+                    <li><a class="toctree-l4" href="#add-a-menu-item">Add a menu item</a></li>
+                
+                    <li><a class="toctree-l4" href="#group-menu-items">Group menu items</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#back-end-scripts">Back end scripts</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#back-end-css">Back end CSS</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#list-of-directories-containing-templates">List of directories containing templates</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#define-image-styles">Define image styles</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#define-custom-configuration">Define custom configuration</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#define-web-service-scopes">Define Web Service scopes</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../back-end/">Back end AngularJS</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../write-plugin/">Write a plugin</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../compilation/">CSS / SASS / JS compilation</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../template-engine/">Template engine</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../logger/">Logger</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../i18n/">I18N and I10N</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../coding-standards/">Coding standards</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../unit-tests/">Unit tests</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Openveo Core</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>DEVELOPERS &raquo;</li>
+        
+      
+    
+    <li>conf.json</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/veo-labs/openveo-core" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="introduction">Introduction</h1>
+<p>A consequent part of the development of openveo-core (and plugins) is made in <strong>conf.json</strong> file at project root. <strong>conf.json</strong> is used to :</p>
+<ul>
+<li><a href="#map-routes-on-actions">Map routes on actions</a></li>
+<li><a href="#create-entities">Create entities</a></li>
+<li><a href="#define-back-end-permissions">Define back end permissions</a></li>
+<li><a href="#define-back-end-menu-items">Define back end menu items</a></li>
+<li><a href="#back-end-scripts">Load back end scripts</a></li>
+<li><a href="#back-end-css">Load back end CSS</a></li>
+<li><a href="#list-of-directories-containing-templates">Set the list of directories containing templates</a></li>
+<li><a href="#define-image-styles">Define image styles</a></li>
+<li><a href="#define-custom-configuration">Define custom configuration</a></li>
+<li><a href="#define-web-service-scopes">Define Web Service scopes</a></li>
+</ul>
+<h1 id="map-routes-on-actions">Map routes on actions</h1>
+<p>Routes are separated into three categories : public, private and Web Service routes.</p>
+<pre><code class="json">{
+  &quot;routes&quot; : {
+    &quot;public&quot; : {
+      ...
+    },
+    &quot;private&quot; : {
+      ...
+    },
+    &quot;ws&quot; : {
+      ...
+    }
+  }
+}
+</code></pre>
+
+<h2 id="route-descriptor">Route descriptor</h2>
+<p>A route map an HTTP method and a path to an action (JavaScript function).</p>
+<p>The route :</p>
+<pre><code>"get /logout" : "app/server/controllers/authenticationController.logoutAction"
+</code></pre>
+<p>Can be interpreted as :</p>
+<blockquote>
+<p><em>A GET request on /logout will call the function logoutAction exposed by module app/server/controllers/authenticationController.js</em></p>
+</blockquote>
+<p>The route :</p>
+<pre><code>"post /authenticate" : "app/server/controllers/authenticationController.authenticateAction"
+</code></pre>
+<p>Can be interpreted as :</p>
+<blockquote>
+<p><em>A POST request on /authenticate will call the function authenticateAction exposed by module app/server/controllers/authenticationController.js</em></p>
+</blockquote>
+<p>The route :</p>
+<pre><code>"/login" : "app/server/controllers/defaultController.defaultAction"
+</code></pre>
+<p>Can be interpreted as :</p>
+<blockquote>
+<p><em>All requests on /login (GET, POST, DELETE, PUT) will call the function defaultAction exposed by module app/server/controllers/defaultController.js</em></p>
+</blockquote>
+<p>Example of valid routes :</p>
+<pre><code class="json">{
+  &quot;routes&quot; : {
+    &quot;public&quot; : {
+      &quot;get /test&quot; : &quot;adminExampleController.getTestAction&quot;,
+      &quot;post /test&quot; : &quot;adminExampleController.postTestAction&quot;,
+      &quot;put /test&quot; : &quot;adminExampleController.putTestAction&quot;,
+      &quot;/&quot; : &quot;exampleController.invalidAction&quot;,
+      &quot;/test&quot; : &quot;invalid action&quot;
+    }
+  }
+}
+</code></pre>
+
+<h2 id="group-routes">Group routes</h2>
+<p>You can group actions by routes :</p>
+<pre><code class="json">{
+  &quot;routes&quot; : {
+    &quot;public&quot; : {
+      &quot;*&quot; : [
+        &quot;adminExampleController.allFirstAction&quot;,
+        &quot;adminExampleController.allSecondAction&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+
+<h2 id="route-parameters">Route parameters</h2>
+<p>You can add parameters using colon character :</p>
+<pre><code class="json">{
+  &quot;routes&quot; : {
+    &quot;public&quot; : {
+      &quot;DELETE /test/:id&quot; : &quot;adminExampleController.deleteTestAction&quot;
+    }
+  }
+}
+</code></pre>
+
+<h1 id="create-entities">Create entities</h1>
+<p>Entities are elements subject to CRUD (<strong>C</strong>reate <strong>R</strong>ead <strong>U</strong>pdate <strong>D</strong>elete). OpenVeo core defines 4 entities :</p>
+<ul>
+<li>application - Web Service client applications</li>
+<li>taxonomy - Taxonomies (not directly used by the core)</li>
+<li>user - Back end users</li>
+<li>role - Back end roles</li>
+</ul>
+<p>Each entity will automatically have 3 associated back end permissions : create, update and delete.</p>
+<p>To create a new entity you need to create a new EntityModel and a new EntityProvider. Let's say we want to create a new entity called <strong>book</strong>.</p>
+<h2 id="create-entity-provider">Create entity provider</h2>
+<pre><code class="javascript">'use strict';
+
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
+
+/**
+ * Creates a BookProvider.
+ */
+function BookProvider(database) {
+
+  // In BookProvider collection &quot;books&quot;
+  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'books');
+}
+
+// BookProvider must extend EntityProvider
+module.exports = BookProvider;
+util.inherits(BookProvider, openVeoAPI.EntityProvider);
+
+</code></pre>
+
+<h2 id="create-entity-model">Create entity model</h2>
+<pre><code class="javascript">'use strict';
+
+// Module dependencies
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
+
+var BookProvider = process.require('BookProvider.js');
+
+/**
+ * Creates a BookModel.
+ */
+function BookModel() {
+  openVeoAPI.EntityModel.prototype.init.call(this, new BookProvider(openVeoAPI.applicationStorage.getDatabase()));
+}
+
+module.exports = BookModel;
+util.inherits(BookModel, openVeoAPI.EntityModel);
+</code></pre>
+
+<h2 id="declare-entity">Declare entity</h2>
+<p>You can now declare your entity in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;entities&quot; : {
+    &quot;book&quot; : &quot;BookModel&quot;
+  }
+}
+</code></pre>
+
+<h2 id="use-the-entity">Use the entity</h2>
+<p>Now that you entity <strong>book</strong> is created you can see the 3 new permissions in the back end (create, update and delete). You can also perform CRUD operations on your entity using the following routes :</p>
+<ul>
+<li><strong>get /crud/book/:id</strong> - Get a particular book</li>
+<li><strong>get /crud/book</strong> - Get all books</li>
+<li><strong>post /crud/book/:id</strong> - Update a particular book</li>
+<li><strong>put /crud/book</strong> - Add a new book</li>
+<li><strong>delete /crud/book/:id</strong> - Delete a book</li>
+</ul>
+<h1 id="define-back-end-permissions">Define back end permissions</h1>
+<p>Each role can have n associated permissions. Permissions are described in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;permissions&quot; : [
+    ...
+  ]
+}
+</code></pre>
+
+<h2 id="create-a-permission">Create a permission</h2>
+<p>Let's create new permissions "sell" and "buy" to sell / buy books.</p>
+<pre><code class="json">{
+  &quot;permissions&quot; : [
+    {
+      &quot;id&quot; : &quot;sell-book&quot;, // Permission id
+      &quot;name&quot; : &quot;Sell&quot;, // Permission name
+      &quot;description&quot; : &quot;Sell books&quot;, // Permission description
+      &quot;paths&quot; : [ // List of paths associated to the permission
+        &quot;get /sell*&quot;
+      ]
+    },
+    {
+      &quot;id&quot; : &quot;buy-book&quot;, // Permission id
+      &quot;name&quot; : &quot;Buy&quot;, // Permission name
+      &quot;description&quot; : &quot;Buy books&quot;, // Permission description
+      &quot;paths&quot; : [ // List of paths associated to the permission
+        &quot;get /buy*&quot;
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<h2 id="group-permissions">Group permissions</h2>
+<p>You can group permissions to organize the list of permissions in the back end.</p>
+<p><strong>Nb</strong> : Actually OpenVeo only supports one sub level</p>
+<pre><code class="json">{
+  &quot;permissions&quot; : [
+    {
+      &quot;label&quot;: &quot;Books&quot;, // Group label
+      &quot;permissions&quot;: [ // List of permission in the group
+        {
+          &quot;id&quot; : &quot;sell-book&quot;,
+          &quot;name&quot; : &quot;Sell&quot;,
+          &quot;description&quot; : &quot;Sell books&quot;,
+          &quot;paths&quot; : [
+            &quot;get /sell*&quot;
+          ]
+        },
+        {
+          &quot;id&quot; : &quot;buy-book&quot;,
+          &quot;name&quot; : &quot;Buy&quot;,
+          &quot;description&quot; : &quot;Buy books&quot;,
+          &quot;paths&quot; : [
+            &quot;get /buy*&quot;
+          ]
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<h2 id="use-permissions">Use permissions</h2>
+<p>You can assign your permission to a role through the back end or manipulate the permission using <a href="../../developers/back-end">back end client</a> (AngularJS application).</p>
+<h1 id="define-back-end-menu-items">Define back end menu items</h1>
+<p>Back end menu items are described in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;backOffice&quot;: {
+    &quot;menu&quot; : [
+      ...
+    ]
+  }
+}
+</code></pre>
+
+<h2 id="add-a-menu-item">Add a menu item</h2>
+<p>Let's create two new back end menu items.</p>
+<pre><code class="json">{
+  &quot;backOffice&quot;: {
+    &quot;menu&quot; : [
+      {
+        &quot;label&quot; : &quot;Sell books&quot;, // Menu item name
+        &quot;path&quot; : &quot;sell-books&quot;, // Menu item path
+        &quot;permission&quot; : &quot;sell-book&quot; // Menu item associated permission
+      },
+      {
+        &quot;label&quot; : &quot;Buy books&quot;, // Menu item name
+        &quot;path&quot; : &quot;buy-books&quot;, // Menu item path
+        &quot;permission&quot; : &quot;buy-book&quot; // Menu item associated permission
+      }
+    ]
+  }
+}
+</code></pre>
+
+<p><strong>weight</strong> property helps order menu items, the larger the weight is, the better will be the item position.<br/>
+<strong>path</strong> defines the AngularJS root path (see <a href="../../developers/back-end">back end client</a>)<br/>
+<strong>permission</strong> associates a permission to the menu item, if the connected user doesn't have that permission the item won't be displayed</p>
+<h2 id="group-menu-items">Group menu items</h2>
+<p>You can group menu items as sub menu items.</p>
+<p><strong>Nb</strong> : Actually OpenVeo only supports one sub level of menu items</p>
+<pre><code class="json">{
+  &quot;backOffice&quot;: {
+    &quot;menu&quot; : [
+      {
+        &quot;weight&quot; : 100, // Position of the item in the menu
+        &quot;label&quot; : &quot;Books&quot;, // Name of the menu item
+        &quot;subMenu&quot; : [ // List of sub menu items
+          {
+            &quot;label&quot; : &quot;Sell books&quot;, // Menu item name
+            &quot;path&quot; : &quot;sell-books&quot;, // Menu item path
+            &quot;permission&quot; : &quot;sell-book&quot; // Menu item associated permission
+          },
+          {
+            &quot;label&quot; : &quot;Buy books&quot;, // Menu item name
+            &quot;path&quot; : &quot;buy-books&quot;, // Menu item path
+            &quot;permission&quot; : &quot;buy-book&quot; // Menu item associated permission
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+
+<h1 id="back-end-scripts">Back end scripts</h1>
+<p>The list of JavaScript files to load for the AngularJS back end application are defined in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;backOffice&quot;: {
+    &quot;scriptLibFiles&quot; : { // List of back end JavaScript files to load first
+      &quot;base&quot; : [ // List of scripts to load on both development and production environments
+        ...
+      ],
+      &quot;dev&quot; : [ // List of scripts to load on development environment
+        ...
+      ],
+      &quot;prod&quot; : [ // List of script to load on production environment
+        ...
+      ]
+    },
+    &quot;scriptFiles&quot; : { // List of back end JavaScript files to load next
+      &quot;dev&quot; : [ // List of scripts to load on development environment
+        ...
+      ],
+      &quot;prod&quot; : [ // List of script to load on production environment
+        ...
+      ]
+    }
+  }
+}
+</code></pre>
+
+<h1 id="back-end-css">Back end CSS</h1>
+<p>The list of CSS files to load for the AngularJS back end application are defined in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;backOffice&quot;: {
+    &quot;cssFiles&quot; : [ // List of CSS to load
+      ...
+    ]
+  }
+}
+</code></pre>
+
+<h1 id="list-of-directories-containing-templates">List of directories containing templates</h1>
+<p>OpenVeo uses <a href="https://github.com/janl/mustache.js">Mustache</a> as the template engine. Mustache requires directories were to look for potential templates. The list of directories is defined in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;viewsFolders&quot; : [ // List of directories holding mustache templates
+    ...
+  ]
+}
+</code></pre>
+
+<h1 id="define-image-styles">Define image styles</h1>
+<p>You can define image styles in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;imageProcessing&quot;: {
+    &quot;imagesFolders&quot;: [&quot;example/images&quot;], // List of folders concerned by this style
+    &quot;cacheDir&quot;: &quot;example/.thumbs&quot;, // Path of the directory containing generated images
+    &quot;quality&quot;: 50 // Compression level (from 0 to 100)
+    &quot;imagesStyle&quot;: { // Style to apply
+      &quot;small&quot;: 200 // Width (in px) of the image to generate for small style
+    }
+  }
+}
+</code></pre>
+
+<p>Default width is 10px if no image style is specified for the directory.<br/>
+Default <strong>cacheDir</strong> is .thumbs directory at the root of the application.<br/>
+Default quality is 90.</p>
+<p>Then you can call the image with your custom style <strong>small</strong></p>
+<pre><code class="html">&lt;img src=&quot;example/images/image1.jpg?thumb=small&quot;/&gt;
+</code></pre>
+
+<h1 id="define-custom-configuration">Define custom configuration</h1>
+<p>You can define a custom configuration object in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;custom&quot;: {
+    &quot;customProperty1&quot; : &quot;customValue1&quot;,
+    &quot;customProperty2&quot; : 2
+  }
+}
+</code></pre>
+
+<p><strong>Nb :</strong> Custom configuration won't be interpreted but can be retrieved later using OpenVeo API. You can use it to configure your plugin.</p>
+<h1 id="define-web-service-scopes">Define Web Service scopes</h1>
+<p>You can define Web Service scopes in <strong>conf.json</strong> :</p>
+<pre><code class="json">{
+  &quot;webServiceScopes&quot; : [
+    {
+      &quot;id&quot;: &quot;scopeId&quot;,
+      &quot;name&quot; : &quot;Scope name&quot;,
+      &quot;description&quot; : &quot;Scope description&quot;,
+      &quot;paths&quot; : [
+        &quot;get /book/sell/*&quot;,
+        &quot;get /book/books*&quot;
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>A scope is defined by an id, a name, a description and a list of authorized paths for a Web Service application who has access to this scope.<br/>
+Routes like <strong>/book/sell/25</strong> or <strong>/book/books</strong> will be available for a Web Service application with the scope <strong>scopeId</strong> in the above example.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../back-end/" class="btn btn-neutral float-right" title="Back end AngularJS"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../back-end/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
