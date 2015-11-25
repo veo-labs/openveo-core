@@ -1,3 +1,8 @@
+# 1.1.1 / 2015-11-25
+
+- Update dependency versions to authorize all minor versions of @openveo/test and @openveo/api
+- Authorize all nodejs versions from 0.10.0 to 4.2.2
+
 # 1.1.0 / 2015-11-24
 
 - Freeze project's dependencies
