@@ -48,7 +48,6 @@ var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
  */
 var staticServerOptions = {
   extensions: ['htm', 'html'],
-  maxAge: '1d',
   setHeaders: function(response) {
     response.set('x-timestamp', Date.now());
   }
