@@ -41,13 +41,13 @@
         <!-- /Sidebar Toggler -->
         <!-- Top Right Menu -->
         <ul class="nav navbar-nav navbar-right ">
-          <li popover-title="{{'MENU.PROFILES' | translate}}" popover="{{userInfo.name}}" popover-trigger="mouseenter click" popover-placement="bottom">
-            <a class="icon" href="profile" ng-click="navigate($event)">
+          <li popover-title="{{'MENU.PROFILES' | translate}}" uib-popover="{{userInfo.name}}" popover-trigger="mouseenter click" popover-placement="bottom">
+            <a class="icon" href="profile" ng-click="navigate($event)" >
               <div class="glyphicon glyphicon-user"></div>
             </a>
           </li>
-          <li class="dropdown language" dropdown is-open="menuDropdownIsOpen">
-            <a popover-title="{{'MENU.LANGUAGE' | translate}}" popover="{{language | translate}}" popover-trigger="mouseenter click" popover-placement="bottom"  class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" dropdown-toggle role="button"  ng-disabled="disabled">
+          <li class="dropdown language" uib-dropdown is-open="menuDropdownIsOpen">
+            <a popover-title="{{'MENU.LANGUAGE' | translate}}" uib-popover="{{language | translate}}" popover-trigger="mouseenter click" popover-placement="bottom"  class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" uib-dropdown-toggle role="button"  ng-disabled="disabled">
               <span class="glyphicon glyphicon-globe"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
@@ -56,7 +56,7 @@
               </li>
             </ul>
           </li>
-          <li popover="{{'MENU.LOGOUT' | translate}}" popover-trigger="mouseenter click" popover-placement="bottom">
+          <li uib-popover="{{'MENU.LOGOUT' | translate}}" popover-trigger="mouseenter click" popover-placement="bottom">
             <a class="icon" href="logout" ng-click="logout()">
               <div class="glyphicon glyphicon-log-out"></div>
             </a>
@@ -85,7 +85,7 @@
         <div ng-if="!isResponsiveMenuClosed" class='close-listener' ng-click="swiping ? ( swiping = false ) : closeResponsiveMenu()" ng-swipe-disable-mouse ng-swipe-left="swiping=true;closeResponsiveMenu()"></div>
         <div class="alert-container">
           <div class="container">
-              <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
+              <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
           </div>
         </div>
         <div class="container">

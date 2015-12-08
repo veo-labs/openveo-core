@@ -5,13 +5,13 @@
   /**
    * Defines the back office controller for the home page.
    */
-  function HomeController($scope, $modal) {
+  function HomeController($scope, $uibModal) {
 
     // Global JS variable print by Mustache
     $scope.version = version;
 
     $scope.open = function(size) {
-      $modal.open({
+      $uibModal .open({
         templateUrl: 'versionModal.html',
         controller: 'ModalInstanceCtrl',
         size: size,
@@ -27,16 +27,16 @@
   /**
    * Defines a controller for modal instance.
    */
-  function ModalInstanceCtrl($scope, $modalInstance, items) {
+  function ModalInstanceCtrl($scope, $uibModalInstance, items) {
     $scope.items = items;
     $scope.close = function() {
-      $modalInstance.close('close');
+      $uibModalInstance.close('close');
     };
   }
 
   app.controller('HomeController', HomeController);
   app.controller('ModalInstanceCtrl', ModalInstanceCtrl);
-  HomeController.$inject = ['$scope', '$modal'];
-  ModalInstanceCtrl.$inject = ['$scope', '$modalInstance', 'items'];
+  HomeController.$inject = ['$scope', '$uibModal'];
+  ModalInstanceCtrl.$inject = ['$scope', '$uibModalInstance', 'items'];
 
 })(angular.module('ov'));

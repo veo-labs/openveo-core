@@ -8,7 +8,7 @@
         <div class="add-element" ng-init="isCollapsed = true;" ng-click="isCollapsed = !isCollapsed">
           <span class="glyphicon" ng-class="isCollapsed?'glyphicon-plus':'glyphicon-minus'"aria-hidden="true"></span>
           <span ng-bind="'USERS.ADD_USER' | translate"></span></div>
-        <div collapse="isCollapsed">
+        <div uib-collapse="isCollapsed">
           <ng-include src="'views/elements/form.html'"></ng-include>
         </div>
       </div>

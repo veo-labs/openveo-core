@@ -179,7 +179,7 @@
   /**
    * Defines a DataTableController.
    */
-  function DataTableController($scope, $modal, entityService) {
+  function DataTableController($scope, $uibModal, entityService) {
     var self = this;
 
     // All data
@@ -373,7 +373,7 @@
     // Open a modal, apply callback on OK promise and reload datatable
     this.openModal = function(action, item) {
 
-      var modalInstance = $modal.open({
+      var modalInstance = $uibModal.open({
         templateUrl: 'tableModal.html',
         controller: 'ModalInstanceTableController'
       });
@@ -391,13 +391,13 @@
   /**
    * Defines a modal instance for all modals related to the table form.
    */
-  function ModalInstanceTableController($scope, $modalInstance) {
+  function ModalInstanceTableController($scope, $uibModalInstance) {
     $scope.ok = function() {
-      $modalInstance.close(true);
+      $uibModalInstance.close(true);
     };
 
     $scope.cancel = function() {
-      $modalInstance.dismiss('cancel');
+      $uibModalInstance.dismiss('cancel');
     };
   }
 
@@ -409,10 +409,10 @@
   app.factory('tableReloadEventService', TableReloadEventService);
 
   // Controller for table, form in table and form outside table
-  DataTableController.$inject = ['$scope', '$modal', 'entityService'];
+  DataTableController.$inject = ['$scope', '$uibModal', 'entityService'];
   FormEditController.$inject = ['$scope', '$filter', 'entityService', 'tableReloadEventService'];
   FormAddController.$inject = ['$scope', '$filter', 'tableReloadEventService'];
-  ModalInstanceTableController.$inject = ['$scope', '$modalInstance'];
+  ModalInstanceTableController.$inject = ['$scope', '$uibModalInstance'];
   DatePickerController.$inject = ['$scope'];
 
   // Service to reload a displayed table

@@ -55,7 +55,7 @@
       template: ['<div class="panel panel-default">',
         '<div for="{{::id}}" class="panel-heading" ng-init="isCollapsed=true" ' +
                  'ng-click="isCollapsed = !isCollapsed">{{to.labelCollapse}}</div>',
-        '<div class="panel-body" collapse="isCollapsed">',
+        '<div class="panel-body" uib-collapse="isCollapsed">',
         '<formly-transclude></formly-transclude>',
         '</div></div>'
       ].join(' ')

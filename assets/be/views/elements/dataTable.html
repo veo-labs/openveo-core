@@ -1,11 +1,11 @@
 <div class="datatable" ng-controller="DataTableController as dataTable">
   <div class="control-block">
     <div class="allactions btn-group " ng-class="{'displayAction':dataTable.isRowSelected, 'searchOpen':dataTable.filterBy.length<=2 || dataTable.showFilter}" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0">
-      <div class="check-btn btn btn-default btn-sm "  popover="{{'UI.SELECT_ALL' | translate}}" popover-trigger="mouseenter" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
+      <div class="check-btn btn btn-default btn-sm "  uib-popover="{{'UI.SELECT_ALL' | translate}}" popover-trigger="mouseenter" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
         <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll();$event.stopPropagation();">
       </div>
-      <div class="animate-action" dropdown ng-if="dataTable.isRowSelected">
-        <button type="button" class="btn btn-default btn-sm dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
+      <div class="animate-action" uib-dropdown ng-if="dataTable.isRowSelected">
+        <button type="button" class="btn btn-default btn-sm dropdown-toggle" uib-dropdown-toggle ng-disabled="dataTable.disabled">
           Action <span class="caret"></span>
         </button>
 
@@ -30,7 +30,7 @@
           <input type="text" ng-if="!filter.type || filter.type=='text'" class="form-control input-sm" ng-model="dataTable.filterBy[$index].value" />
           <div ng-if="filter.type && filter.type=='date'" ng-controller="DatePickerController as dp">
             <div class="input-group">
-              <input type="text" class="form-control input-sm" datepicker-popup="dd/MM/yyyy" ng-model="dataTable.filterBy[$index].value" is-open="dp.status.opened" max-date="dp.maxDate" datepicker-options="dp.dateOptions" current-text="{{'DATEPICKER.TODAY' | translate}}" clear-text="{{'DATEPICKER.CLEAR' | translate}}" close-text="{{'DATEPICKER.CLOSE' | translate}}" />
+              <input type="text" class="form-control input-sm" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataTable.filterBy[$index].value" is-open="dp.status.opened" max-date="dp.maxDate" datepicker-options="dp.dateOptions" current-text="{{'DATEPICKER.TODAY' | translate}}" clear-text="{{'DATEPICKER.CLEAR' | translate}}" close-text="{{'DATEPICKER.CLOSE' | translate}}" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-sm btn-default" ng-click="dp.open()"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
@@ -59,8 +59,8 @@
           </td>
           <td ng-if='dataTable.actions'>
             <div class="{{dataTable.header[dataTable.header.length-1].class[0]}}" >
-              <div class="btn-group" dropdown >
-                <button type="button" class="btn btn-default dropdown-toggle" dropdown-toggle ng-disabled="dataTable.disabled">
+              <div class="btn-group" uib-dropdown >
+                <button type="button" class="btn btn-default dropdown-toggle" uib-dropdown-toggle ng-disabled="dataTable.disabled">
                   Action <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu" role="menu" ng-init='row.actionExist=false;'>
