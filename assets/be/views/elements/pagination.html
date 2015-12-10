@@ -1,6 +1,11 @@
 <div class="row">
   <div class="hidden-xs col-sm-3">
-    
+    <div class="btn-group">
+      <button type="button" class="btn btn-default" 
+      ng-repeat="count in listItemsPerPageShow" 
+      ng-class="classPaginationCount(count)" 
+      ng-click="page.setCount(count)" ng-bind="count"></button>
+    </div>
   </div>
   <div class="col-xs-6 text-center">
     <ul class="pagination">
