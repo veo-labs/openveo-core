@@ -141,9 +141,9 @@ module.exports.authenticateAction = function(request, response, next) {
  * @method logoutAction
  * @static
  */
-module.exports.logoutAction = function(request, response) {
+module.exports.logoutAction = function(request, response, next) {
   request.logout();
-  response.status(200).send();
+  next();
 };
 
 /**
