@@ -48,7 +48,7 @@
         // No authentified
         if (rejection.status === 401)
           $rootScope.$broadcast('forceLogout');
-        else
+        else if (rejection.status !== -1) // canceled
           $rootScope.$broadcast('setAlert', 'danger', getErrorMessage(rejection, $filter), 0);
 
         return $q.reject(rejection);

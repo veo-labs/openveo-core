@@ -179,7 +179,7 @@
   /**
    * Defines a DataTableController.
    */
-  function DataTableController($scope, $uibModal, entityService) {
+  function DataTableController($scope, $uibModal, entityService, $q) {
     var self = this;
 
     // All data
@@ -234,9 +234,15 @@
     // Pagination template
     this.customTheme['templateUrl'] = 'views/elements/pagination.html';
 
+    // Promise that cancel $http
+    var canceller = $q.defer();
+
     // callback to load Resource on filter, pagination or sort change
     this.getResource = function(params, paramsObj) {
       var param = {};
+      if (canceller) canceller.resolve();
+      canceller = $q.defer();
+
       param['count'] = paramsObj.count;
       param['page'] = paramsObj.page;
       param['sort'] = {};
@@ -275,7 +281,7 @@
       });
 
       // call entities that match params
-      return entityService.getEntities(self.entityType, param).then(function(response) {
+      return entityService.getEntities(self.entityType, param, canceller.promise).then(function(response) {
         self.rows = response.data.rows;
         self.selectAll = false;
         self.isRowSelected = false;
@@ -284,6 +290,8 @@
           header: self.header,
           pagination: response.data.pagination
         };
+      }, function(reject) {
+        return {};
       });
     };
 
@@ -409,7 +417,7 @@
   app.factory('tableReloadEventService', TableReloadEventService);
 
   // Controller for table, form in table and form outside table
-  DataTableController.$inject = ['$scope', '$uibModal', 'entityService'];
+  DataTableController.$inject = ['$scope', '$uibModal', 'entityService', '$q'];
   FormEditController.$inject = ['$scope', '$filter', 'entityService', 'tableReloadEventService'];
   FormAddController.$inject = ['$scope', '$filter', 'tableReloadEventService'];
   ModalInstanceTableController.$inject = ['$scope', '$uibModalInstance'];

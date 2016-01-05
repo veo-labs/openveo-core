@@ -108,8 +108,10 @@
      * @return {Promise} The HTTP promise
      * @method getEntities
      */
-    function getEntities(entityType, param) {
+    function getEntities(entityType, param, canceller) {
       var deferred = $q.defer();
+      var options = {};
+      if (canceller) options = {timeout: canceller};
 
       var cacheId = JSON.stringify(param);
 
@@ -117,7 +119,7 @@
       if (entityCache[entityType] && entityCache[entityType][cacheId]) {
         deferred.resolve(angular.copy(entityCache[entityType][cacheId]));
       } else {
-        $http.post(basePath + 'search/' + entityType, param).success(function(data) {
+        $http.post(basePath + 'search/' + entityType, param, options).success(function(data) {
           if (!entityCache[entityType])
             entityCache[entityType] = {};
           entityCache[entityType][cacheId] = angular.copy({
