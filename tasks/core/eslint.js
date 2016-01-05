@@ -6,6 +6,7 @@ module.exports = {
       'install.js',
       'server.js',
       'Gruntfile.js',
+      'processRequire.js',
       'tasks/**/*.js',
       'tests/**/*.js',
       'app/**/*.js'

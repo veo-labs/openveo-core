@@ -1,5 +1,13 @@
 'use strict';
 
+var path = require('path');
+
+// Set module root directory and define a custom require function
+process.root = __dirname;
+process.require = function(filePath) {
+  return require(path.join(process.root, filePath));
+};
+
 /**
  * Loads a bunch of grunt configuration files from the given directory.
  *
@@ -45,9 +53,22 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-gh-pages');
   grunt.loadNpmTasks('grunt-rename');
   grunt.loadNpmTasks('grunt-remove');
+  grunt.loadNpmTasks('grunt-protractor-runner');
+  grunt.loadNpmTasks('grunt-exec');
 
   // Listen to changes on SCSS files and generate CSS files
   grunt.registerTask('default', ['compass:dev', 'watch']);
+
+  // Launch end to end tests
+  // e.g. grunt test-e2e --capabilities="{\"browserName\": \"chrome\"}"
+  // e.g. grunt test-e2e --capabilities="{\"browserName\": \"firefox\"}"
+  // e.g. grunt test-e2e --capabilities="{\"browserName\": \"internet explorer\"}"
+  grunt.registerTask('test-e2e', [
+    'exec:dropTestDatabase',
+    'exec:createTestEntities',
+    'exec:createTestSuites',
+    'protractor'
+  ]);
 
   // Minify and concat back end AngularJS Javascript files
   grunt.registerTask('concatcore', ['uglify:prod', 'concat:lib', 'concat:js']);

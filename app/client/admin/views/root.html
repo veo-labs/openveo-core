@@ -52,7 +52,7 @@
             </a>
             <ul class="dropdown-menu" role="menu">
               <li ng-repeat="language in languages" ng-class="{'active' : language.active}">
-                <a href="#" ng-click="changeLanguage(language.value)" ng-bind="language.label | translate"></a>
+                <a href="#" ng-click="changeLanguage(language.value)" ng-bind="language.label | translate" class="{{language.value}}"></a>
               </li>
             </ul>
           </li>

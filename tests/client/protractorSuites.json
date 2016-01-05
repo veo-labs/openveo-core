@@ -1,0 +1,10 @@
+{
+  "applicationPage": "e2eTests/applicationPage*.js",
+  "homePage": "e2eTests/homePage*.js",
+  "leftMenu": "e2eTests/leftMenu*.js",
+  "loginPage": "e2eTests/loginPage*.js",
+  "profilePage": "e2eTests/profilePage*.js",
+  "rolePage": "e2eTests/rolePage*.js",
+  "topMenu": "e2eTests/topMenu*.js",
+  "userPage": "e2eTests/userPage*.js"
+}

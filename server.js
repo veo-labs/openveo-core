@@ -1,28 +1,37 @@
 'use strict';
 
 // Module dependencies
+require('./processRequire.js');
 var path = require('path');
 var async = require('async');
+var nopt = require('nopt');
 var openVeoAPI = require('@openveo/api');
 var applicationStorage = openVeoAPI.applicationStorage;
 
-// Set module root directory and define a custom require function
-process.root = __dirname;
-process.require = function(filePath) {
-  return require(path.join(process.root, filePath));
+// Process arguments
+var knownOptions = {
+  ws: [Boolean],
+  test: [Boolean]
 };
+
+var shortHands = {
+  t: ['--test']
+};
+
+// Parse process arguments
+var options = nopt(knownOptions, shortHands, process.argv);
 
 // Configuration
 var configDir = openVeoAPI.fileSystem.getConfDir();
 var conf = process.require('conf.json');
-var databaseConf = require(path.join(configDir, 'core/databaseConf.json'));
 var loggerConf = require(path.join(configDir, 'core/loggerConf.json'));
+var databaseConf = require(path.join(configDir, 'core/database' + ((options['test']) ? 'Test' : '') + 'Conf.json'));
 
 var entities = {};
 var webServiceScopes = conf['webServiceScopes'] || [];
 var server;
 
-if ((process.argv.length > 2 && (process.argv[2] === '-ws' || process.argv[2] === '--ws'))) {
+if (options['ws']) {
   process.logger = openVeoAPI.logger.add('openveo', loggerConf.ws);
   var WebServiceServer = process.require('app/server/servers/WebServiceServer.js');
   server = new WebServiceServer();

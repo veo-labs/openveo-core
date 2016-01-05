@@ -1,6 +1,9 @@
 'use strict';
 
+var path = require('path');
+
 module.exports = {
+  root: [path.join(__dirname, '..', '..')],
   app: ['./app'],
   be: ['<%= project.app %>/client/admin'],
   beJS: ['<%= project.be %>/js/'],
@@ -8,6 +11,7 @@ module.exports = {
   beAssets: ['assets/be'],
   beCSSAssets: ['<%= project.beAssets %>/css'],
   beJSAssets: ['<%= project.beAssets %>/js'],
-  font: ['../../lib/bootstrap-sass/assets/fonts/'],
-  uglify: ['build/uglify']
+  font: ['<%= project.root %>/lib/bootstrap-sass/assets/fonts/'],
+  uglify: ['build/uglify'],
+  tests: ['<%= project.root %>/tests']
 };

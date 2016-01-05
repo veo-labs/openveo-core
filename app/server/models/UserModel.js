@@ -98,10 +98,11 @@ UserModel.prototype.add = function(data, callback) {
 
       // Build user object
       user = {
-        id: Date.now().toString(),
+        id: data.id || Date.now().toString(),
         name: data.name,
         email: data.email,
-        password: password
+        password: password,
+        locked: data.locked || false
       };
 
       if (data.roles)

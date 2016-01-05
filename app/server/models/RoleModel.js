@@ -59,7 +59,7 @@ RoleModel.prototype.add = function(data, callback) {
   }
 
   var role = {
-    id: Date.now().toString(),
+    id: data.id || Date.now().toString(),
     name: data.name,
     permissions: data.permissions
   };
