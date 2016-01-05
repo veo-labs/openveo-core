@@ -262,12 +262,21 @@
 
     $scope.checkAccess = function(perm) {
       if ($scope.userInfo) {
-        if ($scope.userInfo.id != 0 && $scope.userInfo.permissions && $scope.userInfo.permissions.length != 0)
+
+        // Access granted to admin
+        if ($scope.userInfo.id == 0) return true;
+
+        // Access granted to user with roles and with the right permissions
+        if ($scope.userInfo.roles && $scope.userInfo.roles.length != 0 &&
+                $scope.userInfo.permissions && $scope.userInfo.permissions.length != 0)
           return $scope.userInfo.permissions.indexOf(perm) >= 0;
-        else
-          return true;
-      } else
-        return false;
+
+        // Access refused to user with no roles or no permissions
+        else return false;
+      }
+
+      // Access refused if user is not authenticated
+      else return false;
     };
 
   }
