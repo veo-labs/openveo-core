@@ -85,7 +85,7 @@
         <div ng-if="!isResponsiveMenuClosed" class='close-listener' ng-click="swiping ? ( swiping = false ) : closeResponsiveMenu()" ng-swipe-disable-mouse ng-swipe-left="swiping=true;closeResponsiveMenu()"></div>
         <div class="alert-container">
           <div class="container">
-              <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></alert>
+              <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></uib-alert>
           </div>
         </div>
         <div class="container">
