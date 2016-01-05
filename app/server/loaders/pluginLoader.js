@@ -83,7 +83,7 @@ function filterPluginsPaths(pluginsPaths) {
  * directory path.
  *
  * @example
- *     getPluginsPaths("/node_modules/@openveo", function(error, pluginsPaths){
+ *     getPluginPaths("/node_modules/@openveo", function(error, pluginsPaths){
  *       console.log(pluginsPaths);
  *       // [
  *       //   '/home/veo-labs/openveo/node_modules/@openveo/publish
@@ -91,7 +91,6 @@ function filterPluginsPaths(pluginsPaths) {
  *     };
  *
  * @method getPluginPaths
- * @private
  * @static
  * @param {String} startingPath Root path from where looking for
  * @openveo/* plugins.
@@ -99,7 +98,8 @@ function filterPluginsPaths(pluginsPaths) {
  *    - **Error** An Error object or null
  *    - **Array** The list of plugins paths
  */
-function getPluginsPaths(startingPath, callback) {
+module.exports.getPluginPaths = function(startingPath, callback) {
+  var self = this;
 
   if (startingPath) {
     startingPath = path.join(startingPath, 'node_modules', '@openveo');
@@ -139,7 +139,8 @@ function getPluginsPaths(startingPath, callback) {
 
                 // Recursively load modules inside the new
                 // node_modules/@openveo directory
-                resources = getPluginsPaths(path.join(startingPath, resource), function(pathsError, subPluginsPaths) {
+                var pluginPath = path.join(startingPath, resource);
+                resources = self.getPluginPaths(pluginPath, function(pathsError, subPluginsPaths) {
 
                   if (pathsError)
                     return callback(pathsError);
@@ -174,7 +175,7 @@ function getPluginsPaths(startingPath, callback) {
     });
   }
 
-}
+};
 
 /**
  * Recursively and asynchronously load all npm plugins prefixed by "@openveo/" under the given path.
@@ -202,7 +203,7 @@ module.exports.loadPlugins = function(startingPath, callback) {
   var self = this;
 
   // Get the list of plugins absolute paths
-  getPluginsPaths(startingPath, function(error, pluginsPaths) {
+  this.getPluginPaths(startingPath, function(error, pluginsPaths) {
 
     // An error occurred while scaning the directory looking for
     // openveo plugins

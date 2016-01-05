@@ -1,9 +1,9 @@
 <div class="row">
   <div class="hidden-xs col-sm-3">
     <div class="btn-group">
-      <button type="button" class="btn btn-default" 
-      ng-repeat="count in listItemsPerPageShow" 
-      ng-class="classPaginationCount(count)" 
+      <button type="button" class="btn btn-default"
+      ng-repeat="count in listItemsPerPageShow"
+      ng-class="classPaginationCount(count)"
       ng-click="page.setCount(count)" ng-bind="count"></button>
     </div>
   </div>
@@ -24,8 +24,8 @@
     </ul>
   </div>
   <div class="col-xs-6 col-sm-3 text-right">
-    <p>Page : <span ng-bind="pagination.page"></span> 
-    / </span> <span ng-bind="pagination.pages"></span>,
+    <p>Page : <span ng-bind="pagination.page"></span>
+    / <span ng-bind="pagination.pages"></span>,
     Total : <span ng-bind="pagination.size"></span></p>
   </div>
 </div>
