@@ -10,8 +10,7 @@
  * @class i18nController
  */
 
-// Module files
-var i18n = process.require('app/server/i18n.js');
+var i18n = require('@openveo/api').i18n;
 var errors = process.require('app/server/httpErrors.js');
 
 /**
@@ -34,7 +33,7 @@ var errors = process.require('app/server/httpErrors.js');
  * @static
  */
 module.exports.getDictionaryAction = function(request, response, next) {
-  i18n.getTranslations(request.params.dictionary.replace(/^admin-/, ''), request.params.code, null,
+  i18n.getTranslations(request.params.dictionary.replace(/^admin-/, ''), request.params.code,
     function(translations) {
       if (translations)
         response.send(translations);
@@ -60,7 +59,7 @@ module.exports.getDictionaryAction = function(request, response, next) {
  * @static
  */
 module.exports.getAdminDictionaryAction = function(request, response, next) {
-  i18n.getTranslations(request.params.dictionary, request.params.code, 'admin-', function(translations) {
+  i18n.getTranslations('admin-' + request.params.dictionary, request.params.code, function(translations) {
     if (translations)
       response.send(translations);
     else {
