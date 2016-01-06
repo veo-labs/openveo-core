@@ -15,6 +15,8 @@ process.require = function(filePath) {
   return require(path.normalize(process.root + '/' + filePath));
 };
 
+process.logger = openVeoAPI.logger.get('openveo');
+
 // Load suites
 var suites = process.require('tests/client/e2eTests/suites/suites.json');
 
