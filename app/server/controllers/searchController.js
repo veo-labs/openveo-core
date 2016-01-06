@@ -1,11 +1,7 @@
 'use strict';
 
 // Module dependencies
-var winston = require('winston');
 var openVeoAPI = require('@openveo/api');
-
-// Get logger
-var logger = winston.loggers.get('openveo');
 
 /**
  * Gets entity model.
@@ -34,7 +30,7 @@ module.exports.searchEntitiesAction = function(request, response) {
       model.getPaginatedFilteredEntities(options.filter, options.count, options.page, options.sort, false,
         function(error, rows, paginate) {
           if (error) {
-            logger.error((
+            process.logger.error((
               error && error.message) || 'An error in request filter occured. Please verify your parameters.');
             response.status(500).send();
           } else {

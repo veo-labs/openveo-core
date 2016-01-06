@@ -2,29 +2,15 @@
 
 All server logs are performed by module [Winston](https://github.com/winstonjs/winston).
 
-# Use an existing logger
+# Use OpenVeo logger
 
 By default OpenVeo core creates one logger named **openveo**. You can get this logger using the following code :
 
 ```javascript
-var openVeoAPI = require('@openveo/api');
-
-// Get logger "openveo"
-var logger = openVeoAPI.logger.get('openveo');
-```
-
-# Create a new logger
-
-If you want a new logger you can instanciate one with the same method **get** :
-
-```javascript
-var openVeoAPI = require('@openveo/api');
-
-// Get logger "openveo"
-var logger = openVeoAPI.logger.get('openveo', {
-  "fileName" : "/var/logs/openveo/my-logger.log",
-  "level" : "verbose",
-  "maxFileSize" : 1048576,
-  "maxFiles" : 5
-});
+process.logger.silly('Silly log');
+process.logger.debug('Debug log');
+process.logger.verbose('Verbose log');
+process.logger.info('Info log');
+process.logger.warn('Warn log');
+process.logger.error('Error log');
 ```

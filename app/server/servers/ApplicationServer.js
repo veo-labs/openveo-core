@@ -15,7 +15,6 @@ var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var openVeoAPI = require('@openveo/api');
-var logger = openVeoAPI.logger.get('openveo');
 var Server = process.require('app/server/servers/Server.js');
 var configDir = openVeoAPI.fileSystem.getConfDir();
 var serverConf = require(path.join(configDir, 'core/serverConf.json')).app;
@@ -96,7 +95,7 @@ function ApplicationServer() {
 
   // Log each request method, path and headers
   this.app.use(function(request, response, next) {
-    logger.info({
+    process.logger.info({
       method: request.method,
       path: request.url,
       headers: request.headers
@@ -178,7 +177,7 @@ ApplicationServer.prototype.onPluginAvailable = function(plugin) {
 
   // If plugin has an assets directory, it will be loaded as a static server
   if (plugin.assets && plugin.mountPath) {
-    logger.info('Mount ' + plugin.assets + ' on ' + plugin.mountPath);
+    process.logger.info('Mount ' + plugin.assets + ' on ' + plugin.mountPath);
     this.app.use(plugin.mountPath, express.static(plugin.assets, staticServerOptions));
 
     if (env === 'dev') {
@@ -192,13 +191,13 @@ ApplicationServer.prototype.onPluginAvailable = function(plugin) {
 
   // Mount plugin router to the plugin mount path
   if (plugin.router && plugin.mountPath) {
-    logger.info('Mount routes on path %s', plugin.mountPath);
+    process.logger.info('Mount routes on path %s', plugin.mountPath);
     this.app.use(plugin.mountPath, plugin.router);
   }
 
   // Mount the private router to the plugin private mount path
   if (plugin.privateRouter && plugin.mountPath) {
-    logger.info('Mount routes on path /be%s', plugin.mountPath);
+    process.logger.info('Mount routes on path /be%s', plugin.mountPath);
     this.app.use('/be' + plugin.mountPath, plugin.privateRouter);
   }
 
@@ -294,7 +293,7 @@ ApplicationServer.prototype.startServer = function() {
 
   // Start server
   var server = this.app.listen(serverConf.port, function() {
-    logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
+    process.logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
   });
 
 };

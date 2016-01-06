@@ -14,10 +14,6 @@
 // Module dependencies
 var path = require('path');
 var util = require('util');
-var winston = require('winston');
-
-// Get logger
-var logger = winston.loggers.get('openveo');
 
 /**
  * Gets the list of routes from a route configuration object with,
@@ -98,12 +94,12 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
 
             }
             else
-              logger.warn('Action for route ' + match + ' is not valid', {
+              process.logger.warn('Action for route ' + match + ' is not valid', {
                 action: 'decodeRoutes'
               });
 
           } catch (e) {
-            logger.warn('Error while loading route ' + match, {
+            process.logger.warn('Error while loading route ' + match, {
               action: 'decodeRoutes',
               error: e.message,
               stack: e.stack
@@ -147,7 +143,7 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
 module.exports.applyRoutes = function(routes, router) {
   if (routes && routes.length && router) {
     routes.forEach(function(route) {
-      logger.debug('Route loaded', {
+      process.logger.debug('Route loaded', {
         route: route.method + ' ' + route.path
       });
       router[route.method](route.path, route.action);

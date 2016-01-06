@@ -14,15 +14,11 @@
 var fs = require('fs');
 var path = require('path');
 var async = require('async');
-var winston = require('winston');
 var openVeoAPI = require('@openveo/api');
 
 // Module files
 var routeLoader = process.require('/app/server/loaders/routeLoader');
 var entityLoader = process.require('/app/server/loaders/entityLoader');
-
-// Get logger
-var logger = winston.loggers.get('openveo');
 
 /**
  * Filters the list of plugins paths in case the same plugin appears
@@ -231,11 +227,11 @@ module.exports.loadPlugins = function(startingPath, callback) {
           // An error occurred while loading the plugin
           // Skip the plugin and continue loading the other one
           if (loadError) {
-            logger.warn(loadError.message, {
+            process.logger.warn(loadError.message, {
               action: 'loadPlugins',
               plugin: pluginPath
             });
-            logger.info('Plugin ' + pluginPath + ' skipped');
+            process.logger.info('Plugin ' + pluginPath + ' skipped');
           }
 
           // Plugin successfully loaded
@@ -339,12 +335,12 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
     }
   } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND')
-      logger.info('Plugin ' + pluginPath + ' doesn\'t have a main file', {
+      process.logger.info('Plugin ' + pluginPath + ' doesn\'t have a main file', {
         action: 'loadPlugin',
         message: e.message
       });
     else
-      logger.error('Error while loading plugin ' + pluginPath, {
+      process.logger.error('Error while loading plugin ' + pluginPath, {
         action: 'loadPlugin',
         error: e.message,
         stack: e.stack
@@ -468,7 +464,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
 
               }
             } catch (e) {
-              logger.warn(e.message, {
+              process.logger.warn(e.message, {
                 action: 'loadPlugin',
                 plugin: plugin.name
               });

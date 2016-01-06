@@ -2,6 +2,7 @@
 
 // Module dependencies
 var path = require('path');
+var openVeoAPI = require('@openveo/api');
 
 // Set module root directory
 process.root = path.join(__dirname, '../../');
@@ -13,3 +14,5 @@ process.require = function(filePath) {
 process.requireModule = function(moduleName) {
   return require(moduleName);
 };
+
+process.logger = openVeoAPI.logger.get('openveo');

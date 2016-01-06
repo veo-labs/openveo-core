@@ -11,12 +11,8 @@
  */
 
 // Module dependencies
-var winston = require('winston');
 var errors = process.require('app/server/httpErrors.js');
 var defaultController = process.require('app/server/controllers/defaultController.js');
-
-// Get logger
-var logger = winston.loggers.get('openveo');
 
 /**
  * Handles requests which does not correspond to anything.
@@ -50,7 +46,7 @@ module.exports.errorAction = function(error, request, response, next) {
   if (!error.module)
     error.module = 'core';
 
-  logger.error('Error', {
+  process.logger.error('Error', {
     code: error.code,
     module: error.module,
     method: request.method,
@@ -83,7 +79,7 @@ module.exports.errorAction = function(error, request, response, next) {
  * @static
  */
 module.exports.notFoundPageAction = function(request, response) {
-  logger.warn('404 Not Found', {
+  process.logger.warn('404 Not Found', {
     method: request.method,
     path: request.url,
     headers: request.headers

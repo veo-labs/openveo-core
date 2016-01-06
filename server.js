@@ -21,14 +21,13 @@ var loggerConf = require(path.join(configDir, 'core/loggerConf.json'));
 var entities = {};
 var webServiceScopes = conf['webServiceScopes'] || [];
 var server;
-var logger;
 
 if ((process.argv.length > 2 && (process.argv[2] === '-ws' || process.argv[2] === '--ws'))) {
-  logger = openVeoAPI.logger.get('openveo', loggerConf.ws);
+  process.logger = openVeoAPI.logger.add('openveo', loggerConf.ws);
   var WebServiceServer = process.require('app/server/servers/WebServiceServer.js');
   server = new WebServiceServer();
 } else {
-  logger = openVeoAPI.logger.get('openveo', loggerConf.app);
+  process.logger = openVeoAPI.logger.add('openveo', loggerConf.app);
   var ApplicationServer = process.require('app/server/servers/ApplicationServer.js');
   server = new ApplicationServer();
 }
@@ -48,7 +47,7 @@ async.series([
     // Establish connection to the database
     db.connect(function(error) {
       if (error) {
-        logger.error(error && error.message);
+        process.logger.error(error && error.message);
         throw new Error(error);
       }
 
@@ -75,7 +74,7 @@ async.series([
       // An error occurred when loading plugins
       // The server must not be launched, exit process
       if (error) {
-        logger.error(error && error.message);
+        process.logger.error(error && error.message);
         throw new Error(error);
       } else {
         applicationStorage.setPlugins(plugins);
@@ -96,7 +95,7 @@ async.series([
           }
 
           server.onPluginLoaded(loadedPlugin);
-          logger.info('Plugin ' + loadedPlugin.name + ' successfully loaded');
+          process.logger.info('Plugin ' + loadedPlugin.name + ' successfully loaded');
         });
 
         applicationStorage.setWebServiceScopes(webServiceScopes);

@@ -13,10 +13,6 @@
 
 // Module dependencies
 var path = require('path');
-var winston = require('winston');
-
-// Get logger
-var logger = winston.loggers.get('openveo');
 
 /**
  * Gets the list of entities from a route configuration object with,
@@ -50,7 +46,7 @@ module.exports.decodeEntities = function(pluginPath, entities) {
         var model = require(path.join(pluginPath, entities[type] + '.js'));
         decodedEntities[type] = model;
       } catch (e) {
-        logger.warn(e.message, {
+        process.logger.warn(e.message, {
           action: 'decodeEntities'
         });
       }

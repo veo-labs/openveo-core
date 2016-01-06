@@ -17,7 +17,6 @@ var oAuthController = process.require('app/server/controllers/oAuthController.js
 var errorController = process.require('app/server/controllers/errorController.js');
 var configDir = openVeoAPI.fileSystem.getConfDir();
 var serverConf = require(path.join(configDir, 'core/serverConf.json')).ws;
-var logger = openVeoAPI.logger.get('openveo');
 var conf = process.require('conf.json');
 
 /**
@@ -35,7 +34,7 @@ function WebServiceServer() {
 
   // Log each request method, path and headers
   this.app.use(function(request, response, next) {
-    logger.info({
+    process.logger.info({
       method: request.method,
       path: request.url,
       headers: request.headers
@@ -116,7 +115,7 @@ WebServiceServer.prototype.startServer = function() {
 
   // Start server
   var server = this.app.listen(serverConf.port, function() {
-    logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
+    process.logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
   });
 
 };

@@ -12,16 +12,12 @@
  */
 
 // Module dependencies
-var winston = require('winston');
 var openVeoAPI = require('@openveo/api');
 var pathUtil = process.require('app/server/path.js');
 var errors = process.require('app/server/httpErrors.js');
 
 // Module files
 var applicationStorage = openVeoAPI.applicationStorage;
-
-// Get logger
-var logger = winston.loggers.get('openveo');
 
 /**
  * Retrieves the scope corresponding to the couple url / http method.
@@ -79,7 +75,7 @@ module.exports.validateScopesAction = function(request, response, next) {
 
     // Access refused
     else {
-      logger.warn(
+      process.logger.warn(
         'Access refused for client ' + request.oauth2.accessToken.clientId + ' for path ' + request.url +
         ' with method ' + request.method);
       next(errors.WS_FORBIDDEN);
