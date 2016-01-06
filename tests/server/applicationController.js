@@ -2,7 +2,7 @@
 
 // Module dependencies
 var assert = require('chai').assert;
-var ut = require('@openveo/test').generator;
+var ut = require('@openveo/test').unit.generator;
 
 // applicationController.js
 describe('applicationController', function() {

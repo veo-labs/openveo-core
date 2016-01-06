@@ -4,7 +4,7 @@
 var assert = require('chai').assert;
 var openVeoAPI = require('@openveo/api');
 var applicationStorage = openVeoAPI.applicationStorage;
-var ut = require('@openveo/test').generator;
+var ut = require('@openveo/test').unit.generator;
 
 // crudController.js
 describe('crudController', function() {
