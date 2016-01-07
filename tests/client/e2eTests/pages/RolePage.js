@@ -1,7 +1,6 @@
 'use strict';
 
 var util = require('util');
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var e2e = require('@openveo/test').e2e;
 var Field = e2e.Field;
 var TablePage = e2e.TablePage;
@@ -101,18 +100,6 @@ RolePage.prototype.onLoaded = function() {
 };
 
 /**
- * Gets the name of the remove action.
- *
- * Used by TablePage to be able to locate the remove action depending on the page and the selected language.
- *
- * @return {String} The name of the remove action
- */
-RolePage.prototype.getRemoveActionName = function() {
-  var translations = i18n.getBackEndTranslations(this.language.code);
-  return translations.UI.REMOVE;
-};
-
-/**
  * Gets search engine fields.
  *
  * @param {ElementFinder} Search engine element
@@ -120,12 +107,11 @@ RolePage.prototype.getRemoveActionName = function() {
  */
 RolePage.prototype.getSearchFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.ROLES.TITLE_FILTER,
+    name: this.translations.ROLES.TITLE_FILTER,
     baseElement: form
   });
 
@@ -140,12 +126,11 @@ RolePage.prototype.getSearchFields = function(form) {
  */
 RolePage.prototype.getAddFormFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.ROLES.FORM_ADD_NAME,
+    name: this.translations.ROLES.FORM_ADD_NAME,
     baseElement: form
   });
 
@@ -160,12 +145,11 @@ RolePage.prototype.getAddFormFields = function(form) {
  */
 RolePage.prototype.getEditFormFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.ROLES.ATTR_NAME,
+    name: this.translations.ROLES.ATTR_NAME,
     baseElement: form
   });
 
@@ -178,23 +162,22 @@ RolePage.prototype.getEditFormFields = function(form) {
  * @return {Array} The list of permissions regarding the actual selected language
  */
 RolePage.prototype.getCorePermissions = function() {
-  var translations = i18n.getBackEndTranslations(this.language.code);
   return [
-    translations.PERMISSIONS.CREATE_APPLICATION_NAME,
-    translations.PERMISSIONS.UPDATE_APPLICATION_NAME,
-    translations.PERMISSIONS.DELETE_APPLICATION_NAME,
-    translations.PERMISSIONS.CREATE_USER_NAME,
-    translations.PERMISSIONS.UPDATE_USER_NAME,
-    translations.PERMISSIONS.DELETE_USER_NAME,
-    translations.PERMISSIONS.CREATE_ROLE_NAME,
-    translations.PERMISSIONS.UPDATE_ROLE_NAME,
-    translations.PERMISSIONS.DELETE_ROLE_NAME,
-    translations.PERMISSIONS.CREATE_TAXONOMY_NAME,
-    translations.PERMISSIONS.UPDATE_TAXONOMY_NAME,
-    translations.PERMISSIONS.DELETE_TAXONOMY_NAME,
-    translations.PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME,
-    translations.PERMISSIONS.ACCESS_USER_PAGE_NAME,
-    translations.PERMISSIONS.ACCESS_ROLES_PAGE_NAME
+    this.translations.PERMISSIONS.CREATE_APPLICATION_NAME,
+    this.translations.PERMISSIONS.UPDATE_APPLICATION_NAME,
+    this.translations.PERMISSIONS.DELETE_APPLICATION_NAME,
+    this.translations.PERMISSIONS.CREATE_USER_NAME,
+    this.translations.PERMISSIONS.UPDATE_USER_NAME,
+    this.translations.PERMISSIONS.DELETE_USER_NAME,
+    this.translations.PERMISSIONS.CREATE_ROLE_NAME,
+    this.translations.PERMISSIONS.UPDATE_ROLE_NAME,
+    this.translations.PERMISSIONS.DELETE_ROLE_NAME,
+    this.translations.PERMISSIONS.CREATE_TAXONOMY_NAME,
+    this.translations.PERMISSIONS.UPDATE_TAXONOMY_NAME,
+    this.translations.PERMISSIONS.DELETE_TAXONOMY_NAME,
+    this.translations.PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME,
+    this.translations.PERMISSIONS.ACCESS_USER_PAGE_NAME,
+    this.translations.PERMISSIONS.ACCESS_ROLES_PAGE_NAME
   ];
 };
 
@@ -204,13 +187,12 @@ RolePage.prototype.getCorePermissions = function() {
  * @return {Array} The list of permission groups regarding the actual selected language
  */
 RolePage.prototype.getCorePermissionGroups = function() {
-  var translations = i18n.getBackEndTranslations(this.language.code);
   return [
-    translations.PERMISSIONS.GROUP_OTHERS,
-    translations.PERMISSIONS.GROUP_APPLICATION,
-    translations.PERMISSIONS.GROUP_USER,
-    translations.PERMISSIONS.GROUP_ROLE,
-    translations.PERMISSIONS.GROUP_TAXONOMY
+    this.translations.PERMISSIONS.GROUP_OTHERS,
+    this.translations.PERMISSIONS.GROUP_APPLICATION,
+    this.translations.PERMISSIONS.GROUP_USER,
+    this.translations.PERMISSIONS.GROUP_ROLE,
+    this.translations.PERMISSIONS.GROUP_TAXONOMY
   ];
 };
 

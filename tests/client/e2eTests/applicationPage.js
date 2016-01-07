@@ -3,7 +3,6 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
 var TableAssert = e2e.asserts.TableAssert;
@@ -13,18 +12,13 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Application page', function() {
-  var page, translations, tableAssert;
+  var page, tableAssert;
 
   before(function() {
     page = new ApplicationPage(new ClientModel());
     tableAssert = new TableAssert(page);
     page.logAsAdmin();
-    page.load().then(function() {
-
-      // Get translations
-      translations = i18n.getBackEndTranslations(page.language.code);
-
-    });
+    page.load();
   });
 
   after(function() {
@@ -46,7 +40,7 @@ describe('Application page', function() {
     assert.eventually.isDefined(page.getApplicationClientId(name));
     assert.eventually.isDefined(page.getApplicationClientKey(name));
     assert.eventually.isDefined(page.getApplicationClientScopes(name));
-    assert.eventually.notEqual(page.getApplicationClientScopes(name), translations.APPLICATIONS.EMPTY);
+    assert.eventually.notEqual(page.getApplicationClientScopes(name), page.translations.APPLICATIONS.EMPTY);
     page.removeLine(name);
   });
 
@@ -83,7 +77,7 @@ describe('Application page', function() {
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(translations.APPLICATIONS.NAME_COLUMN);
+    return tableAssert.checkSort(page.translations.APPLICATIONS.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
@@ -91,7 +85,7 @@ describe('Application page', function() {
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove(translations.APPLICATIONS.TITLE_FILTER);
+    return tableAssert.checkMassiveRemove(page.translations.APPLICATIONS.TITLE_FILTER);
   });
 
   it('should be paginated', function() {
@@ -118,7 +112,7 @@ describe('Application page', function() {
       var search = {name: lines[0].name};
 
       // Get all line values before search
-      return page.getLineValues(translations.APPLICATIONS.NAME_COLUMN).then(function(values) {
+      return page.getLineValues(page.translations.APPLICATIONS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -126,7 +120,7 @@ describe('Application page', function() {
         });
 
       }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, translations.APPLICATIONS.NAME_COLUMN);
+        return tableAssert.checkSearch(search, expectedValues, page.translations.APPLICATIONS.NAME_COLUMN);
       });
     });
 
@@ -135,7 +129,7 @@ describe('Application page', function() {
       var search = {name: lines[1].name.slice(0, 2)};
 
       // Get all line values before search
-      return page.getLineValues(translations.APPLICATIONS.NAME_COLUMN).then(function(values) {
+      return page.getLineValues(page.translations.APPLICATIONS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -143,7 +137,7 @@ describe('Application page', function() {
         });
 
       }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, translations.APPLICATIONS.NAME_COLUMN);
+        return tableAssert.checkSearch(search, expectedValues, page.translations.APPLICATIONS.NAME_COLUMN);
       });
     });
 
@@ -151,14 +145,14 @@ describe('Application page', function() {
       var search = {name: lines[1].name.toUpperCase()};
 
       page.search(search);
-      assert.isRejected(page.getLineValues(translations.APPLICATIONS.NAME_COLUMN));
+      assert.isRejected(page.getLineValues(page.translations.APPLICATIONS.NAME_COLUMN));
     });
 
     it('should be able to clear search', function() {
       var search = {name: lines[0].name};
       page.search(search);
       page.clearSearch();
-      assert.isFulfilled(page.getLineValues(translations.APPLICATIONS.NAME_COLUMN));
+      assert.isFulfilled(page.getLineValues(page.translations.APPLICATIONS.NAME_COLUMN));
     });
 
   });

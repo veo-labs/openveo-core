@@ -2,7 +2,6 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var MenuPage = process.require('tests/client/e2eTests/pages/MenuPage.js');
 
 // Load assertion library
@@ -10,20 +9,12 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Left menu translations', function() {
-  var page, translations, languages;
+  var page;
 
   before(function() {
     page = new MenuPage();
     page.logAsAdmin();
-    page.load().then(function() {
-
-      // Get available languages
-      languages = page.getLanguages();
-
-      // Load dictionaries
-      translations = i18n.getBackEndTranslations(page.language.code);
-
-    });
+    page.load();
   });
 
   after(function() {
@@ -38,38 +29,36 @@ describe('Left menu translations', function() {
    */
   function checkTranslations(index) {
     index = index || 0;
+    var languages = page.getLanguages();
 
     if (index < languages.length) {
       return page.selectLanguage(languages[index]).then(function() {
-
-        // Load login page dictionaries
-        translations = i18n.getBackEndTranslations(page.language.code);
 
         // Open left menu
         page.openMenu();
 
         // Check rights label
-        page.getLevel1MenuItems(translations.MENU.RIGHTS).then(function(menuItems) {
-          assert.eventually.equal(menuItems[0].element(by.xpath('./a')).getText(), translations.MENU.RIGHTS);
+        page.getLevel1MenuItems(page.translations.MENU.RIGHTS).then(function(menuItems) {
+          assert.eventually.equal(menuItems[0].element(by.xpath('./a')).getText(), page.translations.MENU.RIGHTS);
         });
 
         // Check web service label
-        page.getLevel1MenuItems(translations.MENU.WEB_SERVICE).then(function(menuItems) {
-          assert.eventually.equal(menuItems[0].element(by.xpath('./a')).getText(), translations.MENU.WEB_SERVICE);
+        page.getLevel1MenuItems(page.translations.MENU.WEB_SERVICE).then(function(menuItems) {
+          assert.eventually.equal(menuItems[0].element(by.xpath('./a')).getText(), page.translations.MENU.WEB_SERVICE);
         });
 
         // Open rights sub menu
-        page.openSubMenu(translations.MENU.RIGHTS);
+        page.openSubMenu(page.translations.MENU.RIGHTS);
 
         // Check rights sub menu
-        page.getLevel1MenuItems(translations.MENU.RIGHTS).then(function(menuItems) {
+        page.getLevel1MenuItems(page.translations.MENU.RIGHTS).then(function(menuItems) {
           menuItems[0].all(by.css('.sub-menu > li > a')).each(function(element, index) {
             switch (index) {
               case 0:
-                assert.eventually.equal(element.getText(), translations.MENU.USERS);
+                assert.eventually.equal(element.getText(), page.translations.MENU.USERS);
                 break;
               case 1:
-                assert.eventually.equal(element.getText(), translations.MENU.ROLES);
+                assert.eventually.equal(element.getText(), page.translations.MENU.ROLES);
                 break;
               default:
                 break;
@@ -78,14 +67,14 @@ describe('Left menu translations', function() {
         });
 
         // Open web service sub menu
-        page.openSubMenu(translations.MENU.WEB_SERVICE);
+        page.openSubMenu(page.translations.MENU.WEB_SERVICE);
 
         // Check web service sub menu
-        page.getLevel1MenuItems(translations.MENU.WEB_SERVICE).then(function(menuItems) {
+        page.getLevel1MenuItems(page.translations.MENU.WEB_SERVICE).then(function(menuItems) {
           menuItems[0].all(by.css('.sub-menu > li > a')).each(function(element, index) {
             switch (index) {
               case 0:
-                assert.eventually.equal(element.getText(), translations.MENU.APPLICATIONS);
+                assert.eventually.equal(element.getText(), page.translations.MENU.APPLICATIONS);
                 break;
               default:
                 break;
@@ -97,7 +86,7 @@ describe('Left menu translations', function() {
         return page.closeMenu();
 
       }).then(function() {
-        checkTranslations(++index);
+        return checkTranslations(++index);
       });
     } else {
       return protractor.promise.fulfilled();

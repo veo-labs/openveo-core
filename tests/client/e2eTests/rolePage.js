@@ -3,7 +3,6 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
 var TableAssert = e2e.asserts.TableAssert;
@@ -13,7 +12,7 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Role page', function() {
-  var page, translations, tableAssert;
+  var page, tableAssert;
 
   /**
    * Verifies permission of a role.
@@ -41,12 +40,7 @@ describe('Role page', function() {
     page = new RolePage(new RoleModel());
     tableAssert = new TableAssert(page);
     page.logAsAdmin();
-    page.load().then(function() {
-
-      // Get translations
-      translations = i18n.getBackEndTranslations(page.language.code);
-
-    });
+    page.load();
   });
 
   // Logout
@@ -93,7 +87,7 @@ describe('Role page', function() {
     page.addLine(name, corePermissions);
 
     var newRolePermissions = [
-      translations.PERMISSIONS.UPDATE_ROLE_NAME
+      page.translations.PERMISSIONS.UPDATE_ROLE_NAME
     ];
 
     page.editRole(name, {name: newName, permissions: newRolePermissions});
@@ -108,7 +102,7 @@ describe('Role page', function() {
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(translations.ROLES.NAME_COLUMN);
+    return tableAssert.checkSort(page.translations.ROLES.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
@@ -116,7 +110,7 @@ describe('Role page', function() {
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove(translations.ROLES.TITLE_FILTER);
+    return tableAssert.checkMassiveRemove(page.translations.ROLES.TITLE_FILTER);
   });
 
   it('should be paginated', function() {
@@ -143,7 +137,7 @@ describe('Role page', function() {
       var search = {name: lines[0].name};
 
       // Get all line values before search
-      page.getLineValues(translations.ROLES.NAME_COLUMN).then(function(values) {
+      page.getLineValues(page.translations.ROLES.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -151,7 +145,7 @@ describe('Role page', function() {
         });
 
       }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, translations.ROLES.NAME_COLUMN);
+        tableAssert.checkSearch(search, expectedValues, page.translations.ROLES.NAME_COLUMN);
       });
     });
 
@@ -160,7 +154,7 @@ describe('Role page', function() {
       var search = {name: lines[1].name.slice(0, 2)};
 
       // Get all line values before search
-      page.getLineValues(translations.ROLES.NAME_COLUMN).then(function(values) {
+      page.getLineValues(page.translations.ROLES.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -168,7 +162,7 @@ describe('Role page', function() {
         });
 
       }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, translations.ROLES.NAME_COLUMN);
+        tableAssert.checkSearch(search, expectedValues, page.translations.ROLES.NAME_COLUMN);
       });
     });
 
@@ -176,7 +170,7 @@ describe('Role page', function() {
       var search = {name: lines[1].name.toUpperCase()};
 
       page.search(search);
-      assert.isRejected(page.getLineValues(translations.ROLES.NAME_COLUMN));
+      assert.isRejected(page.getLineValues(page.translations.ROLES.NAME_COLUMN));
     });
 
     it('should be able to clear search', function() {
@@ -184,7 +178,7 @@ describe('Role page', function() {
 
       page.search(search);
       page.clearSearch();
-      assert.isFulfilled(page.getLineValues(translations.ROLES.NAME_COLUMN));
+      assert.isFulfilled(page.getLineValues(page.translations.ROLES.NAME_COLUMN));
     });
 
   });

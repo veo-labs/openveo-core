@@ -2,7 +2,6 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var LoginPage = process.require('tests/client/e2eTests/pages/LoginPage.js');
 
 // Load assertion library
@@ -10,13 +9,11 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Login page translations', function() {
-  var page, languages;
+  var page;
 
   before(function() {
     page = new LoginPage();
-    page.load().then(function() {
-      languages = page.getLanguages();
-    });
+    page.load();
   });
 
   /**
@@ -26,6 +23,7 @@ describe('Login page translations', function() {
    */
   function checkTranslations(index) {
     index = index || 0;
+    var languages = page.getLanguages();
 
     if (index < languages.length) {
       return page.selectLanguage(languages[index]).then(function() {
@@ -33,24 +31,21 @@ describe('Login page translations', function() {
         // Submit form to have error message
         page.submit();
 
-        // Load login page dictionaries
-        var translations = i18n.getPublicTranslations(page.language.code);
-
         // Verify translations
-        var expectedLoginDescription = translations.LOGIN.LOGIN_DESCRIPTION;
-        var expectedPasswordDescription = translations.LOGIN.PASSWORD_DESCRIPTION;
+        var expectedLoginDescription = page.translations.LOGIN.LOGIN_DESCRIPTION;
+        var expectedPasswordDescription = page.translations.LOGIN.PASSWORD_DESCRIPTION;
         assert.eventually.equal(page.userInputElement.getAttribute('placeholder'), expectedLoginDescription);
         assert.eventually.equal(page.passwordInputElement.getAttribute('placeholder'), expectedPasswordDescription);
-        assert.eventually.equal(page.getTitle(), translations.LOGIN.PAGE_TITLE);
-        assert.eventually.equal(page.userLabelElement.getText(), translations.LOGIN.LOGIN);
-        assert.eventually.equal(page.passwordLabelElement.getText(), translations.LOGIN.PASSWORD);
-        assert.eventually.equal(page.buttonElement.getText(), translations.LOGIN.SUBMIT);
-        assert.eventually.equal(page.errorMessageElement.getText(), translations.LOGIN.ERROR);
+        assert.eventually.equal(page.getTitle(), page.translations.LOGIN.PAGE_TITLE);
+        assert.eventually.equal(page.userLabelElement.getText(), page.translations.LOGIN.LOGIN);
+        assert.eventually.equal(page.passwordLabelElement.getText(), page.translations.LOGIN.PASSWORD);
+        assert.eventually.equal(page.buttonElement.getText(), page.translations.LOGIN.SUBMIT);
+        assert.eventually.equal(page.errorMessageElement.getText(), page.translations.LOGIN.ERROR);
 
         // Test languages selector options
         for (var i = 0; i < languages.length; i++) {
           var languageOption = page.getLanguageOption(languages[i].code);
-          var expectedLanguageLabel = translations.LANGUAGE[languages[i].translationCode];
+          var expectedLanguageLabel = page.translations.LANGUAGE[languages[i].translationCode];
           assert.eventually.equal(languageOption.getAttribute('label'), expectedLanguageLabel);
         }
 

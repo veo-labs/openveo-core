@@ -1,7 +1,6 @@
 'use strict';
 
 var util = require('util');
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var e2e = require('@openveo/test').e2e;
 var Field = e2e.Field;
 var TablePage = e2e.TablePage;
@@ -35,18 +34,6 @@ UserPage.prototype.onLoaded = function() {
 };
 
 /**
- * Gets the name of the remove action.
- *
- * Used by TablePage to be able to locate the remove action depending on the page and the selected language.
- *
- * @return {String} The name of the remove action
- */
-UserPage.prototype.getRemoveActionName = function() {
-  var translations = i18n.getBackEndTranslations(this.language.code);
-  return translations.UI.REMOVE;
-};
-
-/**
  * Gets search form fields.
  *
  * @param {ElementFinder} Search engine element
@@ -54,12 +41,11 @@ UserPage.prototype.getRemoveActionName = function() {
  */
 UserPage.prototype.getSearchFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.USERS.TITLE_FILTER,
+    name: this.translations.USERS.TITLE_FILTER,
     baseElement: form
   });
 
@@ -74,40 +60,39 @@ UserPage.prototype.getSearchFields = function(form) {
  */
 UserPage.prototype.getAddFormFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.USERS.FORM_ADD_NAME,
+    name: this.translations.USERS.FORM_ADD_NAME,
     baseElement: form
   });
 
   // Email field
   fields.email = Field.get({
     type: 'text',
-    name: translations.USERS.FORM_ADD_EMAIL,
+    name: this.translations.USERS.FORM_ADD_EMAIL,
     baseElement: form
   });
 
   // Password field
   fields.password = Field.get({
     type: 'text',
-    name: translations.USERS.FORM_ADD_PASSWORD,
+    name: this.translations.USERS.FORM_ADD_PASSWORD,
     baseElement: form
   });
 
   // Password validate field
   fields.passwordValidate = Field.get({
     type: 'text',
-    name: translations.USERS.FORM_ADD_PASSWORD_VALIDATE,
+    name: this.translations.USERS.FORM_ADD_PASSWORD_VALIDATE,
     baseElement: form
   });
 
   // Roles field
   fields.roles = Field.get({
     type: 'checkboxes',
-    name: translations.USERS.FORM_ADD_ROLE,
+    name: this.translations.USERS.FORM_ADD_ROLE,
     baseElement: form
   });
 
@@ -122,26 +107,25 @@ UserPage.prototype.getAddFormFields = function(form) {
  */
 UserPage.prototype.getEditFormFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.USERS.ATTR_NAME,
+    name: this.translations.USERS.ATTR_NAME,
     baseElement: form
   });
 
   // Email field
   fields.email = Field.get({
     type: 'text',
-    name: translations.USERS.ATTR_EMAIL,
+    name: this.translations.USERS.ATTR_EMAIL,
     baseElement: form
   });
 
   // Roles field
   fields.roles = Field.get({
     type: 'checkboxes',
-    name: translations.USERS.ATTR_ROLE,
+    name: this.translations.USERS.ATTR_ROLE,
     baseElement: form
   });
 

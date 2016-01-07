@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path');
+var async = require('async');
 var openVeoAPI = require('@openveo/api');
 var e2e = require('@openveo/test').e2e;
 var screenshotPlugin = e2e.plugins.screenshotPlugin;
@@ -14,7 +15,9 @@ process.root = path.join(__dirname, '../../');
 process.require = function(filePath) {
   return require(path.normalize(process.root + '/' + filePath));
 };
+var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 
+// Load a console logger
 process.logger = openVeoAPI.logger.get('openveo');
 
 // Load suites
@@ -45,19 +48,36 @@ exports.config = {
     e2e.browser.init();
 
     // Set browser size
-    e2e.browser.setSize(1920, 1080).then(function() {
+    e2e.browser.setSize(1920, 1080);
 
-      // Get a Database instance to the test database
-      db = openVeoAPI.Database.getDatabase(databaseConf);
+    // Get a Database instance to the test database
+    db = openVeoAPI.Database.getDatabase(databaseConf);
 
-      db.connect(function(error) {
-        if (error)
-          throw new Error(error);
+    async.series([
 
-        applicationStorage.setDatabase(db);
-        deferred.fulfill();
-      });
+      function(callback) {
+        db.connect(function(error) {
+          if (error)
+            throw new Error(error);
 
+          applicationStorage.setDatabase(db);
+          callback();
+        });
+      },
+
+      function(callback) {
+        pluginLoader.loadPlugins(path.join(process.root), function(error, plugins) {
+          if (error) {
+            throw new Error(error);
+          } else {
+            applicationStorage.setPlugins(plugins);
+            callback();
+          }
+        });
+      }
+
+    ], function(error) {
+      deferred.fulfill();
     });
 
     return deferred.promise;

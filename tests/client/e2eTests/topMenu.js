@@ -2,7 +2,6 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var MenuPage = process.require('tests/client/e2eTests/pages/MenuPage.js');
 
 // Load assertion library
@@ -10,17 +9,12 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Top menu', function() {
-  var page, translations;
+  var page;
 
   before(function() {
     page = new MenuPage();
     page.logAsAdmin();
-    page.load().then(function() {
-
-      // Load dictionaries
-      translations = i18n.getBackEndTranslations(page.language.code);
-
-    });
+    page.load();
   });
 
   after(function() {
@@ -42,12 +36,13 @@ describe('Top menu', function() {
 
   it('should display actual language in a popover on language icon', function() {
     page.setLanguageLinkMouseOver();
-    assert.eventually.equal(page.popoverElement.getAttribute('content'), translations[page.language.translationCode]);
+    assert.eventually.equal(page.popoverElement.getAttribute('content'),
+                            page.translations[page.language.translationCode]);
   });
 
   it('should display a popover on logout icon', function() {
     page.setLogoutLinkMouseOver();
-    assert.eventually.equal(page.popoverElement.getAttribute('content'), translations.MENU.LOGOUT);
+    assert.eventually.equal(page.popoverElement.getAttribute('content'), page.translations.MENU.LOGOUT);
   });
 
 });

@@ -1,7 +1,6 @@
 'use strict';
 
 var util = require('util');
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var e2e = require('@openveo/test').e2e;
 var Field = e2e.Field;
 var TablePage = e2e.TablePage;
@@ -35,18 +34,6 @@ ApplicationPage.prototype.onLoaded = function() {
 };
 
 /**
- * Gets the name of the remove action.
- *
- * Used by TablePage to be able to locate the remove action depending on the page and the selected language.
- *
- * @return {String} The name of the remove action for the selected language
- */
-ApplicationPage.prototype.getRemoveActionName = function() {
-  var translations = i18n.getBackEndTranslations(this.language.code);
-  return translations.UI.REMOVE;
-};
-
-/**
  * Gets search engine fields.
  *
  * @param {ElementFinder} Search engine element holding fields
@@ -54,12 +41,11 @@ ApplicationPage.prototype.getRemoveActionName = function() {
  */
 ApplicationPage.prototype.getSearchFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.APPLICATIONS.TITLE_FILTER,
+    name: this.translations.APPLICATIONS.TITLE_FILTER,
     baseElement: form
   });
 
@@ -74,19 +60,18 @@ ApplicationPage.prototype.getSearchFields = function(form) {
  */
 ApplicationPage.prototype.getAddFormFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.APPLICATIONS.FORM_ADD_NAME,
+    name: this.translations.APPLICATIONS.FORM_ADD_NAME,
     baseElement: form
   });
 
   // Scopes field
   fields.scopes = Field.get({
     type: 'checkboxes',
-    name: translations.APPLICATIONS.FORM_ADD_SCOPES,
+    name: this.translations.APPLICATIONS.FORM_ADD_SCOPES,
     baseElement: form
   });
 
@@ -101,19 +86,18 @@ ApplicationPage.prototype.getAddFormFields = function(form) {
  */
 ApplicationPage.prototype.getEditFormFields = function(form) {
   var fields = {};
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: translations.APPLICATIONS.ATTR_NAME,
+    name: this.translations.APPLICATIONS.ATTR_NAME,
     baseElement: form
   });
 
   // Scopes field
   fields.scopes = Field.get({
     type: 'checkboxes',
-    name: translations.APPLICATIONS.ATTR_SCOPES,
+    name: this.translations.APPLICATIONS.ATTR_SCOPES,
     baseElement: form
   });
 
@@ -192,7 +176,6 @@ ApplicationPage.prototype.editApplication = function(name, data) {
  */
 ApplicationPage.prototype.getApplicationClientId = function(name) {
   var self = this;
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Close eventually opened line
   return this.closeLine().then(function() {
@@ -203,7 +186,7 @@ ApplicationPage.prototype.getApplicationClientId = function(name) {
     // Get application client id
     var field = Field.get({
       type: 'text',
-      name: translations.APPLICATIONS.ATTR_ID,
+      name: self.translations.APPLICATIONS.ATTR_ID,
       baseElement: self.lineDetailElement
     });
     return field.getText();
@@ -220,7 +203,6 @@ ApplicationPage.prototype.getApplicationClientId = function(name) {
  */
 ApplicationPage.prototype.getApplicationClientKey = function(name) {
   var self = this;
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Close eventually opened line
   return this.closeLine().then(function() {
@@ -231,7 +213,7 @@ ApplicationPage.prototype.getApplicationClientKey = function(name) {
     // Get application client key
     var field = Field.get({
       type: 'text',
-      name: translations.APPLICATIONS.ATTR_SECRET,
+      name: self.translations.APPLICATIONS.ATTR_SECRET,
       baseElement: self.lineDetailElement
     });
     return field.getText();
@@ -248,7 +230,6 @@ ApplicationPage.prototype.getApplicationClientKey = function(name) {
  */
 ApplicationPage.prototype.getApplicationClientScopes = function(name) {
   var self = this;
-  var translations = i18n.getBackEndTranslations(this.language.code);
 
   // Close eventually opened line
   return this.closeLine().then(function() {
@@ -259,7 +240,7 @@ ApplicationPage.prototype.getApplicationClientScopes = function(name) {
     // Get application scopes
     var field = Field.get({
       type: 'text',
-      name: translations.APPLICATIONS.ATTR_SCOPES,
+      name: self.translations.APPLICATIONS.ATTR_SCOPES,
       baseElement: self.lineDetailElement
     });
     return field.getText();

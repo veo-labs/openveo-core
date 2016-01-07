@@ -3,7 +3,6 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
-var i18n = process.require('tests/client/e2eTests/i18n/i18n.js');
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var UserModel = process.require('app/server/models/UserModel.js');
 var datas = process.require('tests/client/e2eTests/database/data.json');
@@ -14,7 +13,7 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('User page', function() {
-  var page, translations, tableAssert;
+  var page, tableAssert;
 
   /**
    * Verifies roles of a user.
@@ -54,12 +53,7 @@ describe('User page', function() {
     page = new UserPage(new UserModel());
     tableAssert = new TableAssert(page);
     page.logAsAdmin();
-    page.load().then(function() {
-
-      // Get translations
-      translations = i18n.getBackEndTranslations(page.language.code);
-
-    });
+    page.load();
   });
 
   after(function() {
@@ -181,23 +175,23 @@ describe('User page', function() {
   });
 
   it('should be able to cancel when removing a user', function() {
-    return tableAssert.checkCancelRemove(translations.USERS.TITLE_FILTER);
+    return tableAssert.checkCancelRemove(page.translations.USERS.TITLE_FILTER);
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(translations.USERS.NAME_COLUMN);
+    return tableAssert.checkSort(page.translations.USERS.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
-    return tableAssert.checkItemsPerPage(translations.USERS.TITLE_FILTER);
+    return tableAssert.checkItemsPerPage(page.translations.USERS.TITLE_FILTER);
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove(translations.USERS.TITLE_FILTER);
+    return tableAssert.checkMassiveRemove(page.translations.USERS.TITLE_FILTER);
   });
 
   it('should be paginated', function() {
-    return tableAssert.checkPagination(translations.APPLICATIONS.TITLE_FILTER);
+    return tableAssert.checkPagination(page.translations.APPLICATIONS.TITLE_FILTER);
   });
 
   describe('Search', function() {
@@ -220,7 +214,7 @@ describe('User page', function() {
       var search = {name: lines[0].name};
 
       // Get all line values before search
-      page.getLineValues(translations.USERS.NAME_COLUMN).then(function(values) {
+      page.getLineValues(page.translations.USERS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -228,7 +222,7 @@ describe('User page', function() {
         });
 
       }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, translations.USERS.NAME_COLUMN);
+        tableAssert.checkSearch(search, expectedValues, page.translations.USERS.NAME_COLUMN);
       });
     });
 
@@ -237,7 +231,7 @@ describe('User page', function() {
       var search = {name: lines[1].name.slice(0, 2)};
 
       // Get all line values before search
-      page.getLineValues(translations.USERS.NAME_COLUMN).then(function(values) {
+      page.getLineValues(page.translations.USERS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -245,7 +239,7 @@ describe('User page', function() {
         });
 
       }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, translations.USERS.NAME_COLUMN);
+        tableAssert.checkSearch(search, expectedValues, page.translations.USERS.NAME_COLUMN);
       });
     });
 
@@ -253,7 +247,7 @@ describe('User page', function() {
       var search = {name: lines[1].name.toUpperCase()};
 
       page.search(search);
-      assert.isRejected(page.getLineValues(translations.USERS.NAME_COLUMN));
+      assert.isRejected(page.getLineValues(page.translations.USERS.NAME_COLUMN));
     });
 
     it('should be able to clear search', function() {
@@ -261,7 +255,7 @@ describe('User page', function() {
 
       page.search(search);
       page.clearSearch();
-      assert.isFulfilled(page.getLineValues(translations.USERS.NAME_COLUMN));
+      assert.isFulfilled(page.getLineValues(page.translations.USERS.NAME_COLUMN));
     });
 
   });
