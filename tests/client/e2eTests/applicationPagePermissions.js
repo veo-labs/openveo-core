@@ -3,132 +3,148 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
+var applicationHelper = process.require('tests/client/e2eTests/helpers/applicationHelper.js');
 var datas = process.require('tests/client/e2eTests/database/data.json');
 
 // Load assertion library
 var assert = chai.assert;
 chai.use(chaiAsPromised);
 
-describe('Application page without access', function() {
-  var page;
+describe('Application page', function() {
+  var page, defaultApplications;
 
-  // Load page
+  // Prepare page
   before(function() {
     page = new ApplicationPage();
-    return page.logAs(datas.users.coreGuest);
   });
 
-  // Logout
+  // Logout after tests
   after(function() {
     page.logout();
   });
 
-  it('Should not access the page', function() {
-    return page.load().then(function() {
-      assert.ok(false, 'User has access to application page and should not');
-    }, function() {
-      assert.ok(true);
+  describe('without access', function() {
+
+    // Log with a user without access permission
+    before(function() {
+      return page.logAs(datas.users.coreGuest);
     });
-  });
 
-});
 
-describe('Application page without write permission', function() {
-  var page;
-
-  // Load page
-  before(function() {
-    page = new ApplicationPage();
-    page.logAs(datas.users.coreApplicationsNoWrite);
-    page.load();
-  });
-
-  // Logout
-  after(function() {
-    page.logout();
-  });
-
-  it('should not have form to create an application', function() {
-    assert.eventually.notOk(page.addFormElement.isPresent());
-  });
-
-  it('should not be able to create application by requesting the server directly', function() {
-    var data = {
-      name: 'Test',
-      scopes: []
-    };
-    page.sendRequest('be/crud/application', 'put', data).then(function(response) {
-      assert.equal(response.status, 403);
+    it('should not access the page', function() {
+      return page.load().then(function() {
+        assert.ok(false, 'User has access to application page and should not');
+      }, function() {
+        assert.ok(true);
+      });
     });
+
   });
 
-});
+  describe('without write permission', function() {
 
-describe('Application page without update permission', function() {
-  var page;
-
-  // Load page
-  before(function() {
-    page = new ApplicationPage();
-    page.logAs(datas.users.coreApplicationsNoUpdate);
-    page.load();
-  });
-
-  // Logout
-  after(function() {
-    page.logout();
-  });
-
-  it('should not have edit button to edit an application', function() {
-    var name = 'Test edition';
-
-    // Create line
-    page.addLine(name, []);
-
-    assert.isRejected(page.editApplication(name, {name: 'Another name'}));
-
-    // Remove line
-    page.removeLine(name);
-  });
-
-  it('should not be able to edit application by requesting the server directly', function() {
-    var id = 'core';
-    var data = {
-      name: 'Test edition',
-      scopes: []
-    };
-
-    page.sendRequest('be/crud/application/' + id, 'post', data).then(function(response) {
-      assert.equal(response.status, 403);
+    // Log with a user without write permission
+    before(function() {
+      page.logAs(datas.users.coreApplicationsNoWrite);
+      applicationHelper.getApplications().then(function(applications) {
+        defaultApplications = applications;
+      });
+      page.load();
     });
-  });
 
-});
-
-describe('Application page without delete permission', function() {
-  var page;
-
-  // Load page
-  before(function() {
-    page = new ApplicationPage();
-    page.logAs(datas.users.coreApplicationsNoDelete);
-    page.load();
-  });
-
-  // Logout
-  after(function() {
-    page.logout();
-  });
-
-  it('should not have delete action to remove an application', function() {
-    assert.isRejected(page.removeLine(datas.applications.coreApplicationsGuest.name));
-  });
-
-  it('should not be able to edit application by requesting the server directly', function() {
-    var id = 'core';
-    page.sendRequest('be/crud/application/' + id, 'delete').then(function(response) {
-      assert.equal(response.status, 403);
+    // Remove all extra application after each test and reload the page
+    afterEach(function() {
+      applicationHelper.removeAllApplications(defaultApplications);
+      page.refresh();
     });
+
+    it('should not have form to create an application', function() {
+      assert.eventually.notOk(page.addFormElement.isPresent());
+    });
+
+    it('should not be able to create application by requesting the server directly', function() {
+      var data = {
+        name: 'Test',
+        scopes: []
+      };
+      page.sendRequest('be/crud/application', 'put', data).then(function(response) {
+        assert.equal(response.status, 403);
+      });
+    });
+
+  });
+
+  describe('without update permission', function() {
+
+    // Log with a user without update permission
+    before(function() {
+      page.logAs(datas.users.coreApplicationsNoUpdate);
+      applicationHelper.getApplications().then(function(applications) {
+        defaultApplications = applications;
+      });
+      page.load();
+    });
+
+    // Remove all extra application after each test and reload the page
+    afterEach(function() {
+      applicationHelper.removeAllApplications(defaultApplications);
+      page.refresh();
+    });
+
+    it('should not have edit button to edit an application', function() {
+      var name = 'Test edition';
+
+      // Create line
+      page.addLine(name, []);
+
+      assert.isRejected(page.editApplication(name, {name: 'Another name'}));
+
+      // Remove line
+      page.removeLine(name);
+    });
+
+    it('should not be able to edit application by requesting the server directly', function() {
+      var id = 'core';
+      var data = {
+        name: 'Test edition',
+        scopes: []
+      };
+
+      page.sendRequest('be/crud/application/' + id, 'post', data).then(function(response) {
+        assert.equal(response.status, 403);
+      });
+    });
+
+  });
+
+  describe('without delete permission', function() {
+
+    // Log with a user without delete permission
+    before(function() {
+      page.logAs(datas.users.coreApplicationsNoDelete);
+      applicationHelper.getApplications().then(function(applications) {
+        defaultApplications = applications;
+      });
+      page.load();
+    });
+
+    // Remove all extra application after each test and reload the page
+    afterEach(function() {
+      applicationHelper.removeAllApplications(defaultApplications);
+      page.refresh();
+    });
+
+    it('should not have delete action to remove an application', function() {
+      assert.isRejected(page.removeLine(datas.applications.coreApplicationsGuest.name));
+    });
+
+    it('should not be able to delete application by requesting the server directly', function() {
+      var id = 'core';
+      page.sendRequest('be/crud/application/' + id, 'delete').then(function(response) {
+        assert.equal(response.status, 403);
+      });
+    });
+
   });
 
 });

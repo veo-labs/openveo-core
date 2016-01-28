@@ -11,9 +11,15 @@ chai.use(chaiAsPromised);
 describe('Login page translations', function() {
   var page;
 
+  // Prepare page
   before(function() {
     page = new LoginPage();
     page.load();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   /**
@@ -32,10 +38,10 @@ describe('Login page translations', function() {
         page.submit();
 
         // Verify translations
-        var expectedLoginDescription = page.translations.LOGIN.LOGIN_DESCRIPTION;
-        var expectedPasswordDescription = page.translations.LOGIN.PASSWORD_DESCRIPTION;
-        assert.eventually.equal(page.userInputElement.getAttribute('placeholder'), expectedLoginDescription);
-        assert.eventually.equal(page.passwordInputElement.getAttribute('placeholder'), expectedPasswordDescription);
+        assert.eventually.equal(page.userInputElement.getAttribute('placeholder'),
+                                page.translations.LOGIN.LOGIN_DESCRIPTION);
+        assert.eventually.equal(page.passwordInputElement.getAttribute('placeholder'),
+                                page.translations.LOGIN.PASSWORD_DESCRIPTION);
         assert.eventually.equal(page.getTitle(), page.translations.LOGIN.PAGE_TITLE);
         assert.eventually.equal(page.userLabelElement.getText(), page.translations.LOGIN.LOGIN);
         assert.eventually.equal(page.passwordLabelElement.getText(), page.translations.LOGIN.PASSWORD);

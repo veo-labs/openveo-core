@@ -5,6 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
+var applicationHelper = process.require('tests/client/e2eTests/helpers/applicationHelper.js');
 var TableAssert = e2e.asserts.TableAssert;
 
 // Load assertion library
@@ -12,17 +13,28 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Application page', function() {
-  var page, tableAssert;
+  var page, tableAssert, defaultApplications;
 
+  // Prepare page
   before(function() {
     page = new ApplicationPage(new ClientModel());
     tableAssert = new TableAssert(page);
     page.logAsAdmin();
+    applicationHelper.getApplications().then(function(applications) {
+      defaultApplications = applications;
+    });
     page.load();
   });
 
+  // Logout after tests
   after(function() {
     page.logout();
+  });
+
+  // Remove all extra applications after each test then reload the page
+  afterEach(function() {
+    applicationHelper.removeAllApplications(defaultApplications);
+    page.refresh();
   });
 
   it('should display page title', function() {
@@ -68,8 +80,6 @@ describe('Application page', function() {
     page.editApplication(name, {name: newName});
     assert.isFulfilled(page.getLine(newName));
 
-    // Remove line
-    page.removeLine(newName);
   });
 
   it('should be able to cancel when removing an application', function() {
@@ -96,15 +106,10 @@ describe('Application page', function() {
     var lines;
 
     // Add lines
-    before(function() {
+    beforeEach(function() {
       return page.addLinesByPassAuto('test search', 2).then(function(addedLines) {
         lines = addedLines;
       });
-    });
-
-    // Remove lines
-    after(function() {
-      return page.removeLinesByPass(lines);
     });
 
     it('should be able to search by full name', function() {

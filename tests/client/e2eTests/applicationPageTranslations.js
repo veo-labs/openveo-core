@@ -89,16 +89,21 @@ describe('Application page translations', function() {
     }
   }
 
-  // Load page
+  // Prepare page
   before(function() {
     page = new ApplicationPage();
     page.logAsAdmin();
     page.load();
   });
 
-  // Logout
+  // Logout after tests
   after(function() {
     page.logout();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   it('should be available in different languages', function() {

@@ -11,14 +11,21 @@ chai.use(chaiAsPromised);
 describe('Top menu', function() {
   var page;
 
+  // Prepare page
   before(function() {
     page = new MenuPage();
     page.logAsAdmin();
     page.load();
   });
 
+  // Logout after tests
   after(function() {
     page.logout();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   /**
@@ -44,8 +51,8 @@ describe('Top menu', function() {
 
         // Move cursor over language link again (IE workaround)
         page.setLanguageLinkMouseOver();
-        var expectedLanguageLabel = page.translations[page.language.translationCode];
-        assert.eventually.equal(page.popoverElement.getAttribute('content'), expectedLanguageLabel);
+        assert.eventually.equal(page.popoverElement.getAttribute('content'),
+                               page.translations[page.language.translationCode]);
 
         // Logout popover title
         page.setLogoutLinkMouseOver();

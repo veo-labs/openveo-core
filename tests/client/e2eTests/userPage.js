@@ -5,6 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var UserModel = process.require('app/server/models/UserModel.js');
+var userHelper = process.require('tests/client/e2eTests/helpers/userHelper.js');
 var datas = process.require('tests/client/e2eTests/database/data.json');
 var TableAssert = e2e.asserts.TableAssert;
 
@@ -13,7 +14,7 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('User page', function() {
-  var page, tableAssert;
+  var page, tableAssert, defaultUsers;
 
   /**
    * Verifies roles of a user.
@@ -49,15 +50,25 @@ describe('User page', function() {
     });
   }
 
+  // Prepare page
   before(function() {
     page = new UserPage(new UserModel());
     tableAssert = new TableAssert(page);
     page.logAsAdmin();
+    userHelper.getUsers().then(function(users) {
+      defaultUsers = users;
+    });
     page.load();
   });
 
   after(function() {
     page.logout();
+  });
+
+  // Remove all extra users after each test and reload the page
+  afterEach(function() {
+    userHelper.removeAllUsers(defaultUsers);
+    page.refresh();
   });
 
   it('should display page title', function() {
@@ -146,9 +157,6 @@ describe('User page', function() {
     assert.isFulfilled(page.getLine(newName));
     checkRoles(newName, newRoles);
     checkEmail(newName, newEmail);
-
-    // Remove user
-    page.removeLine(newName);
   });
 
   it('should not be able to edit a user without name or email', function() {
@@ -169,9 +177,6 @@ describe('User page', function() {
     page.getEditionFormErrors().then(function(errors) {
       assert.equal(errors.length, 2);
     });
-
-    // Remove user
-    page.removeLine(name);
   });
 
   it('should be able to cancel when removing a user', function() {
@@ -202,11 +207,6 @@ describe('User page', function() {
       return page.addLinesByPassAuto('test search', 2).then(function(addedLines) {
         lines = addedLines;
       });
-    });
-
-    // Remove lines
-    after(function() {
-      return page.removeLinesByPass(lines);
     });
 
     it('should be able to search by full name', function() {

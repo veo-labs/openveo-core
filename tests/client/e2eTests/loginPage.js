@@ -11,10 +11,16 @@ chai.use(chaiAsPromised);
 describe('Login page', function() {
   var page;
 
+  // Prepare page
   before(function() {
     page = new LoginPage();
     page.logout();
     page.load();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   it('should display an error message if trying to log without password', function() {

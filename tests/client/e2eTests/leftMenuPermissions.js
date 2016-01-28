@@ -12,14 +12,21 @@ chai.use(chaiAsPromised);
 describe('Left menu without role page access', function() {
   var page;
 
+  // Prepare page
   before(function() {
     page = new MenuPage();
     page.logAs(datas.users.coreGuest);
     page.load();
   });
 
+  // Logout after tests
   after(function() {
     page.logout();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   it('should not display link to roles page', function() {

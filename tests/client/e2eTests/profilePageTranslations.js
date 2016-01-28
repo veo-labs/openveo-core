@@ -12,14 +12,21 @@ chai.use(chaiAsPromised);
 describe('Profile page translations', function() {
   var page;
 
+  // Prepare page
   before(function() {
     page = new ProfilePage();
     page.logAs(datas.users.coreAdmin);
     page.load();
   });
 
+  // Logout after tests
   after(function() {
     page.logout();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   /**
@@ -40,7 +47,6 @@ describe('Profile page translations', function() {
 
         return page.setNameAndSave();
       }).then(function() {
-        var expectedConfirmPasswordLabel = page.translations.PROFILES.ATTR_CONFIRM_PASSWORD;
 
         // Account form translations
         assert.eventually.equal(page.getTitle(), page.translations.PROFILES.PAGE_TITLE);
@@ -57,7 +63,8 @@ describe('Profile page translations', function() {
         // Password form translations
         assert.eventually.equal(page.passwordTitleElement.getText(), page.translations.PROFILES.ATTR_MODIFY_PASSWORD);
         assert.eventually.equal(page.passwordLabelElement.getText(), page.translations.PROFILES.ATTR_PASSWORD);
-        assert.eventually.equal(page.confirmPasswordLabelElement.getText(), expectedConfirmPasswordLabel);
+        assert.eventually.equal(page.confirmPasswordLabelElement.getText(),
+                                page.translations.PROFILES.ATTR_CONFIRM_PASSWORD);
         assert.eventually.equal(page.submitPasswordElement.getText(), page.translations.UI.FORM_SAVE);
         assert.eventually.equal(page.cancelPasswordElement.getText(), page.translations.UI.FORM_CANCEL);
 

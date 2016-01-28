@@ -11,14 +11,21 @@ chai.use(chaiAsPromised);
 describe('Left menu', function() {
   var page;
 
+  // Prepare page
   before(function() {
     page = new MenuPage();
     page.logAsAdmin();
     page.load();
   });
 
+  // Logout after tests
   after(function() {
     page.logout();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   it('should be able to open and close the menu', function() {
@@ -37,6 +44,7 @@ describe('Left menu', function() {
   });
 
   it('should have users and roles menu items under rights menu', function() {
+    page.openSubMenu(page.translations.MENU.RIGHTS);
     page.getLevel1MenuItems(page.translations.MENU.RIGHTS).then(function(menuItems) {
       menuItems[0].all(by.css('.sub-menu > li > a')).each(function(element, index) {
         switch (index) {
@@ -70,6 +78,7 @@ describe('Left menu', function() {
   });
 
   it('should have applications menu item under web service menu', function() {
+    page.openSubMenu(page.translations.MENU.WEB_SERVICE);
     page.getLevel1MenuItems(page.translations.MENU.WEB_SERVICE).then(function(menuItems) {
       menuItems[0].all(by.css('.sub-menu > li > a')).each(function(element, index) {
         switch (index) {

@@ -12,14 +12,21 @@ chai.use(chaiAsPromised);
 describe('Profile page', function() {
   var page;
 
+  // Prepare page
   before(function() {
     page = new ProfilePage();
     page.logAs(datas.users.coreAdmin);
     page.load();
   });
 
+  // Logout after tests
   after(function() {
     page.logout();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   it('should display page title', function() {

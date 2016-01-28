@@ -11,14 +11,21 @@ chai.use(chaiAsPromised);
 describe('Home page', function() {
   var page;
 
+  // Prepare page
   before(function() {
     page = new HomePage();
     page.logAsAdmin();
     page.load();
   });
 
+  // Logout after tests
   after(function() {
     page.logout();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   it('should display page title', function() {

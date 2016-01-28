@@ -110,6 +110,11 @@ describe('Role page translations', function() {
     page.logout();
   });
 
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
+  });
+
   it('should be available in different languages', function() {
     return checkTranslations();
   });

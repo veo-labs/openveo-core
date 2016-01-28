@@ -29,7 +29,7 @@ exports.config = {
   framework: 'mocha',
   mochaOpts: {
     timeout: 80000,
-    bail: true
+    bail: false
   },
   suites: suites,
   baseUrl: 'http://127.0.0.1:3000/',

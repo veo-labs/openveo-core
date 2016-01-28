@@ -5,6 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
+var roleHelper = process.require('tests/client/e2eTests/helpers/roleHelper.js');
 var TableAssert = e2e.asserts.TableAssert;
 
 // Load assertion library
@@ -12,7 +13,7 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Role page', function() {
-  var page, tableAssert;
+  var page, tableAssert, defaultRoles;
 
   /**
    * Verifies permission of a role.
@@ -40,12 +41,21 @@ describe('Role page', function() {
     page = new RolePage(new RoleModel());
     tableAssert = new TableAssert(page);
     page.logAsAdmin();
+    roleHelper.getRoles().then(function(roles) {
+      defaultRoles = roles;
+    });
     page.load();
   });
 
   // Logout
   after(function() {
     page.logout();
+  });
+
+  // Remove all extra application after each test and reload the page
+  afterEach(function() {
+    roleHelper.removeAllRoles(defaultRoles);
+    page.refresh();
   });
 
   it('should display page title', function() {
@@ -92,9 +102,6 @@ describe('Role page', function() {
 
     page.editRole(name, {name: newName, permissions: newRolePermissions});
     checkPermissions(newName, newRolePermissions);
-
-    // Remove line
-    page.removeLine(newName);
   });
 
   it('should be able to cancel when removing a role', function() {
@@ -125,11 +132,6 @@ describe('Role page', function() {
       return page.addLinesByPassAuto('test search', 2).then(function(addedLines) {
         lines = addedLines;
       });
-    });
-
-    // Remove lines
-    after(function() {
-      return page.removeLinesByPass(lines);
     });
 
     it('should be able to search by full name', function() {

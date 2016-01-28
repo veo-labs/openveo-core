@@ -41,7 +41,6 @@ describe('User page translations', function() {
         var passwordField = addFormFields.password;
         var passwordValidateField = addFormFields.passwordValidate;
         var rolesField = addFormFields.roles;
-        var expectedPasswordValidateDescription = page.translations.USERS.FORM_ADD_PASSWORD_VALIDATE_DESC;
         assert.eventually.equal(nameField.getLabel(), page.translations.USERS.FORM_ADD_NAME);
         assert.eventually.equal(nameField.getDescription(), page.translations.USERS.FORM_ADD_NAME_DESC);
         assert.eventually.equal(emailField.getLabel(), page.translations.USERS.FORM_ADD_EMAIL);
@@ -49,7 +48,8 @@ describe('User page translations', function() {
         assert.eventually.equal(passwordField.getLabel(), page.translations.USERS.FORM_ADD_PASSWORD);
         assert.eventually.equal(passwordField.getDescription(), page.translations.USERS.FORM_ADD_PASSWORD_DESC);
         assert.eventually.equal(passwordValidateField.getLabel(), page.translations.USERS.FORM_ADD_PASSWORD_VALIDATE);
-        assert.eventually.equal(passwordValidateField.getDescription(), expectedPasswordValidateDescription);
+        assert.eventually.equal(passwordValidateField.getDescription(),
+                               page.translations.USERS.FORM_ADD_PASSWORD_VALIDATE_DESC);
         assert.eventually.equal(rolesField.getLabel(), page.translations.USERS.FORM_ADD_ROLE);
         assert.eventually.equal(rolesField.getDescription(), page.translations.USERS.FORM_ADD_ROLE_DESC);
         assert.eventually.equal(page.addButtonElement.getText(), page.translations.UI.FORM_ADD);
@@ -109,6 +109,11 @@ describe('User page translations', function() {
   // Logout
   after(function() {
     page.logout();
+  });
+
+  // Reload page after each test
+  afterEach(function() {
+    page.refresh();
   });
 
   it('should be available in different languages', function() {
