@@ -6,5 +6,6 @@
   "profilePage": "e2eTests/profilePage*.js",
   "rolePage": "e2eTests/rolePage*.js",
   "topMenu": "e2eTests/topMenu*.js",
-  "userPage": "e2eTests/userPage*.js"
+  "userPage": "e2eTests/userPage*.js",
+  "core": "e2eTests/*.js"
 }
