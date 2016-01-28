@@ -42,6 +42,7 @@ exports.config = {
   onPrepare: function() {
     var e2e = require('@openveo/test').e2e;
     var deferred = protractor.promise.defer();
+    var flow = browser.controlFlow();
 
     // Init process configuration
     e2e.browser.deactivateAnimations();
@@ -80,7 +81,9 @@ exports.config = {
       deferred.fulfill();
     });
 
-    return deferred.promise;
+    return flow.execute(function() {
+      return deferred.promise;
+    });
   },
   onCleanUp: function() {
     db.close();
