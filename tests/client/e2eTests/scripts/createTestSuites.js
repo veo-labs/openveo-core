@@ -57,6 +57,9 @@ pluginLoader.getPluginPaths(process.root, function(error, pluginPaths) {
         process.stdout.write('Can\'t load file ' + path.join(pluginPath, suiteFilePath) + '\n');
       }
     }
-    fs.writeFile(aggregatedSuiteFilePath, JSON.stringify(suites), {encoding: 'utf8'});
+    openVeoAPI.fileSystem.mkdir(path.dirname(aggregatedSuiteFilePath), function(error) {
+      if (!error)
+        fs.writeFile(aggregatedSuiteFilePath, JSON.stringify(suites), {encoding: 'utf8'});
+    });
   }
 });
