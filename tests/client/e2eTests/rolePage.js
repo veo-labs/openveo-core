@@ -110,7 +110,7 @@ describe('Role page', function() {
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove(page.translations.ROLES.TITLE_FILTER);
+    return tableAssert.checkMassiveRemove();
   });
 
   it('should be paginated', function() {

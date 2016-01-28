@@ -85,7 +85,7 @@ describe('Application page', function() {
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove(page.translations.APPLICATIONS.TITLE_FILTER);
+    return tableAssert.checkMassiveRemove();
   });
 
   it('should be paginated', function() {

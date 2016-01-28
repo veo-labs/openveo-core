@@ -183,15 +183,15 @@ describe('User page', function() {
   });
 
   it('should have buttons to change the number of items per page', function() {
-    return tableAssert.checkItemsPerPage(page.translations.USERS.TITLE_FILTER);
+    return tableAssert.checkItemsPerPage();
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove(page.translations.USERS.TITLE_FILTER);
+    return tableAssert.checkMassiveRemove();
   });
 
   it('should be paginated', function() {
-    return tableAssert.checkPagination(page.translations.APPLICATIONS.TITLE_FILTER);
+    return tableAssert.checkPagination();
   });
 
   describe('Search', function() {
