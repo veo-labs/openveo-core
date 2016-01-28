@@ -39,8 +39,8 @@ describe('Application page', function() {
     assert.isFulfilled(page.getLine(name));
     assert.eventually.isDefined(page.getApplicationClientId(name));
     assert.eventually.isDefined(page.getApplicationClientKey(name));
-    assert.eventually.isDefined(page.getApplicationClientScopes(name));
-    assert.eventually.notEqual(page.getApplicationClientScopes(name), page.translations.APPLICATIONS.EMPTY);
+    assert.eventually.isDefined(page.getLineFieldText(name, 'scopes'));
+    assert.eventually.notEqual(page.getLineFieldText(name, 'scopes'), page.translations.APPLICATIONS.EMPTY);
     page.removeLine(name);
   });
 

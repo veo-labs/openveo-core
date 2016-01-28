@@ -221,30 +221,3 @@ ApplicationPage.prototype.getApplicationClientKey = function(name) {
     return protractor.promise.fulfilled(clientKey);
   });
 };
-
-/**
- * Gets scopes of an application.
- *
- * @param {String} name Application name
- * @return {Promise} Promise resolving with the application client scopes
- */
-ApplicationPage.prototype.getApplicationClientScopes = function(name) {
-  var self = this;
-
-  // Close eventually opened line
-  return this.closeLine().then(function() {
-
-    // Open line
-    self.openLine(name);
-
-    // Get application scopes
-    var field = Field.get({
-      type: 'text',
-      name: self.translations.APPLICATIONS.ATTR_SCOPES,
-      baseElement: self.lineDetailElement
-    });
-    return field.getText();
-  }).then(function(scopes) {
-    return protractor.promise.fulfilled(scopes);
-  });
-};

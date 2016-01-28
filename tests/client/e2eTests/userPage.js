@@ -44,7 +44,7 @@ describe('User page', function() {
    * @return {Promise} Promise resolving when check is done
    */
   function checkEmail(name, expectedEmail) {
-    return page.getUserEmail(name).then(function(email) {
+    return page.getLineFieldText(name, 'email').then(function(email) {
       assert.equal(email, expectedEmail, 'User email is incorrect');
     });
   }

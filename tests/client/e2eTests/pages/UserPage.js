@@ -171,32 +171,8 @@ UserPage.prototype.addLine = function(name, data) {
  * @return {Promise} Promise resolving with the list of roles
  */
 UserPage.prototype.getUserRoles = function(name) {
-  var self = this;
-
-  return this.closeLine().then(function() {
-    var fields = self.getEditFormFields(self.lineDetailElement);
-    self.openLine(name);
-    return fields.roles.getText();
-  }).then(function(roles) {
+  return this.getLineFieldText(name, 'roles').then(function(roles) {
     return protractor.promise.fulfilled(roles.split(', '));
-  });
-};
-
-/**
- * Gets email of a user.
- *
- * @param {String} name User name
- * @return {Promise} Promise resolving with the email
- */
-UserPage.prototype.getUserEmail = function(name) {
-  var self = this;
-
-  return this.closeLine().then(function() {
-    var fields = self.getEditFormFields(self.lineDetailElement);
-    self.openLine(name);
-    return fields.email.getText();
-  }).then(function(email) {
-    return protractor.promise.fulfilled(email);
   });
 };
 
