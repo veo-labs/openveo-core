@@ -77,7 +77,7 @@ describe('Application page translations', function() {
             assert.eventually.ok(removeAction.isDisplayed(), 'Missing remove action');
           });
         }, function(error) {
-          assert.ok(false);
+          assert.ok(false, error.message);
         });
 
         return browser.waitForAngular();
