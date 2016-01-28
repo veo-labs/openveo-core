@@ -6,6 +6,7 @@
 
 // Module dependencies
 var util = require('util');
+var shortid = require('shortid');
 var openVeoAPI = require('@openveo/api');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 
@@ -59,7 +60,7 @@ RoleModel.prototype.add = function(data, callback) {
   }
 
   var role = {
-    id: data.id || Date.now().toString(),
+    id: data.id || shortid.generate(),
     name: data.name,
     permissions: data.permissions
   };

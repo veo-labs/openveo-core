@@ -8,6 +8,7 @@
 var crypto = require('crypto');
 var path = require('path');
 var util = require('util');
+var shortid = require('shortid');
 var openVeoAPI = require('@openveo/api');
 
 var configDir = openVeoAPI.fileSystem.getConfDir();
@@ -98,7 +99,7 @@ UserModel.prototype.add = function(data, callback) {
 
       // Build user object
       user = {
-        id: data.id || Date.now().toString(),
+        id: data.id || shortid.generate(),
         name: data.name,
         email: data.email,
         password: password,
