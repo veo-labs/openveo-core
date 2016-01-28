@@ -69,7 +69,7 @@ describe('Application page translations', function() {
 
         // Individual actions
         page.getLine(datas.applications.coreApplicationsGuest.name).then(function(line) {
-          var actionTd = line.trElement.all(by.css('td')).last();
+          var actionTd = line.all(by.css('td')).last();
           var actionButton = actionTd.element(by.css('button'));
           var removeAction = actionTd.element(by.cssContainingText('a', page.translations.UI.REMOVE));
 
