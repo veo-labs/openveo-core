@@ -51,7 +51,7 @@
      * @method logout
      */
     function logout() {
-      return $http.get(basePath + 'logout');
+      return $http.post(basePath + 'logout');
     }
 
     /**

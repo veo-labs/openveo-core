@@ -61,8 +61,9 @@ describe('MainController', function() {
       }
     });
 
-    logoutRequestHandler = $httpBackend.when('GET', '/logout');
+    logoutRequestHandler = $httpBackend.when('POST', '/logout');
     $httpBackend.when('GET', /.*/).respond(200, '');
+    $httpBackend.when('POST', /.*/).respond(200, '');
   });
 
   // toggleResponsiveMenu method

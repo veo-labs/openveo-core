@@ -50,7 +50,7 @@ describe('AuthenticationApp', function() {
   });
 
   it('Should be able to logout the authenticated user', function() {
-    $httpBackend.expectGET('/be/logout');
+    $httpBackend.expectPOST('/be/logout');
 
     authenticationService.logout().then(function() {
       authenticationService.setUserInfo();

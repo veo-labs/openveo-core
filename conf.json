@@ -7,7 +7,7 @@
       "get /login" : "app/server/controllers/defaultController.defaultAction",
       "post /authenticate" : "app/server/controllers/authenticationController.authenticateAction",
       "*" : "app/server/controllers/authenticationController.restrictAction",
-      "get /logout" : "app/server/controllers/authenticationController.logoutAction",
+      "post /logout" : "app/server/controllers/authenticationController.logoutAction",
       "get /getMenu" : "app/server/controllers/menuController.getMenuAction",
       "get /getDictionary/:dictionary/:code" : "app/server/controllers/i18nController.getAdminDictionaryAction",
       "get /permissions" : "app/server/controllers/authenticationController.getPermissionsAction",
