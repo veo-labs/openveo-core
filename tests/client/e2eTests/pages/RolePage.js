@@ -384,14 +384,15 @@ RolePage.prototype.editRole = function(name, data) {
  * @param {String} name Base name of the lines to add
  * @param {Number} total Number of lines to add
  * @param {Number} offset Index to start from for the name suffix
+ * @param {Boolean} [refresh=true] Request for a refresh
  * @return {Promise} Promise resolving when lines are added and browser page has been reloaded
  */
-RolePage.prototype.addLinesByPassAuto = function(name, total, offset) {
+RolePage.prototype.addLinesByPassAuto = function(name, total, offset, refresh) {
   var lines = [];
   offset = offset || 0;
 
   for (var i = offset; i < total; i++)
     lines.push({name: name + ' ' + i, permissions: []});
 
-  return this.addLinesByPass(lines);
+  return this.addLinesByPass(lines, refresh);
 };

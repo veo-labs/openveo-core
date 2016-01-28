@@ -222,9 +222,10 @@ UserPage.prototype.editUser = function(name, data) {
  * @param {String} name Base name of the lines to add
  * @param {Number} total Number of lines to add
  * @param {Number} offset Index to start from for the name suffix
+ * @param {Boolean} [refresh=true] Request for a refresh
  * @return {Promise} Promise resolving when lines are added and browser page has been reloaded
  */
-UserPage.prototype.addLinesByPassAuto = function(name, total, offset) {
+UserPage.prototype.addLinesByPassAuto = function(name, total, offset, refresh) {
   var lines = [];
   offset = offset || 0;
 
@@ -237,5 +238,5 @@ UserPage.prototype.addLinesByPassAuto = function(name, total, offset) {
     });
   }
 
-  return this.addLinesByPass(lines);
+  return this.addLinesByPass(lines, refresh);
 };
