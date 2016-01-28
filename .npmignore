@@ -39,6 +39,9 @@ nbproject
 # Unit tests
 /tests
 
+# End to end tests
+/tests/client/e2eTests/suites
+
 # Front JavaScript files
 /app/client/admin/compass
 /app/client/admin/js
