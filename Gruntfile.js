@@ -60,8 +60,8 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['compass:dev', 'watch']);
 
   // Launch end to end tests
-  // e.g. grunt test-e2e --capabilities="{\"browserName\": \"chrome\"}"
-  // e.g. grunt test-e2e --capabilities="{\"browserName\": \"firefox\"}"
+  // e.g. grunt test-e2e --capabilities="{\"browserName\": \"chrome\"}" --directConnect=true
+  // e.g. grunt test-e2e --capabilities="{\"browserName\": \"firefox\"}" --directConnect=true
   // e.g. grunt test-e2e --capabilities="{\"browserName\": \"internet explorer\"}"
   grunt.registerTask('test-e2e', [
     'exec:dropTestDatabase',
