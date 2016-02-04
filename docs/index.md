@@ -26,8 +26,6 @@ OpenVeo has been tested on the following  :
 - Google Chrome 45
 - Mozilla Firefox 40
 - Opera 32
-- Internet Explorer 9
-- Internet Explorer 10
 - Internet Explorer 11
 
 ![Ubuntu](images/operating-systems/ubuntu.gif)
