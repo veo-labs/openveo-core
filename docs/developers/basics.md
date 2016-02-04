@@ -13,7 +13,7 @@ OpenVeo core offers a back end as an AngularJS single page application accessibl
 
 # Web Service
 
-OpenVeo core can create a [Web Service](/web-service) (using the option **-w** when starting the server) mechanism based on oauth2 authentication. OpenVeo core, without plugins, does not expose any endpoints.
+OpenVeo core can create a [Web Service](/web-service) (using the option **-ws** when starting the server) mechanism based on oauth2 authentication. OpenVeo core, without plugins, does not expose any endpoints.
 
 Through the back end you can create a new Web Service application with its associated list of scopes. Each new Web Service application will have an associated client id and client secret to authenticate to the Web Service. Thus you can create as many applications as you want with different scopes for each one.
 
