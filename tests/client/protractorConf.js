@@ -28,7 +28,7 @@ exports.config = {
   chromeDriver: process.env.CHROME_DRIVER,
   framework: 'mocha',
   mochaOpts: {
-    timeout: 80000,
+    timeout: 200000,
     bail: false
   },
   suites: suites,
