@@ -14,6 +14,7 @@
 // Module dependencies
 var path = require('path');
 var util = require('util');
+var disableCacheMiddleware = process.require('app/server/middlewares/disableCacheMiddleware.js');
 
 /**
  * Gets the list of routes from a route configuration object with,
@@ -87,7 +88,7 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
 
               // Store the new route
               decodedRoutes.push({
-                method: matchChunks[1] || 'all',
+                method: (matchChunks[1] && matchChunks[1].toLowerCase()) || 'all',
                 path: matchChunks[2],
                 action: controller[actionChunks[1]]
               });
@@ -146,6 +147,11 @@ module.exports.applyRoutes = function(routes, router) {
       process.logger.debug('Route loaded', {
         route: route.method + ' ' + route.path
       });
+
+      // Deactivate cache on all requests made on this router
+      if (route.method === 'get')
+        router[route.method](route.path, disableCacheMiddleware);
+
       router[route.method](route.path, route.action);
     });
   }
