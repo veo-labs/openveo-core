@@ -7,6 +7,7 @@
 // Module dependencies
 var util = require('util');
 var crypto = require('crypto');
+var shortid = require('shortid');
 var openVeoAPI = require('@openveo/api');
 
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
@@ -60,7 +61,7 @@ util.inherits(ClientModel, openVeoAPI.EntityModel);
  */
 ClientModel.prototype.add = function(data, callback) {
   var client = {
-    id: crypto.randomBytes(20).toString('hex'),
+    id: data.id || shortid.generate(),
     name: data.name,
     scopes: data.scopes,
     secret: crypto.randomBytes(20).toString('hex')
