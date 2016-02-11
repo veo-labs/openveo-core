@@ -216,8 +216,8 @@ module.exports.removeEntityAction = function(request, response, next) {
 
     if (model) {
       var arrayId = request.params.id.split(',');
-      model.remove(arrayId, function(error, stack) {
-        if (error || (stack && stack.result && (stack.result.ok === 0 || stack.result.n != arrayId.length))) {
+      model.remove(arrayId, function(error, deleteCount) {
+        if (error || (deleteCount != arrayId.length)) {
           next(errors.REMOVE_ENTITY_ERROR);
         }
         else

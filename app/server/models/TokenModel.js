@@ -58,11 +58,12 @@ TokenModel.prototype.add = function(token, clientId, scopes, ttl, callback) {
  * @param {String} clientId The id of the client
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of delete tokens
  */
 TokenModel.prototype.removeTokensByClientId = function(clientId, callback) {
-  this.provider.removeByClient(clientId, function(error) {
+  this.provider.removeByClient(clientId, function(error, deletedCount) {
     if (callback)
-      callback(error);
+      callback(error, deletedCount);
   });
 };
 

@@ -31,12 +31,13 @@ util.inherits(TokenProvider, openVeoAPI.EntityProvider);
  * @param {String} clientId The id of the client
  * @param {Function} callback Function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of deleted tokens
  */
 TokenProvider.prototype.removeByClient = function(clientId, callback) {
-  this.database.remove(this.collection, {
-    clientId: clientId
-  },
-  callback);
+  var filter = {};
+  filter['id'] = {$in: [clientId]};
+
+  this.database.remove(this.collection, filter, callback);
 };
 
 /**
