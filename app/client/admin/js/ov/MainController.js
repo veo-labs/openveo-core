@@ -193,6 +193,17 @@
             else
               $location.path(expectedPath);
 
+          },
+          function(error) {
+
+            // User is not authorized to access the back end page
+            // It means that its session has expired
+            // Cleanly logout the user
+            if (error.status === 401) {
+              logout();
+              $route.reload();
+            }
+
           }
         );
 
