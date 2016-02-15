@@ -66,8 +66,9 @@ ClientModel.prototype.add = function(data, callback) {
     scopes: data.scopes,
     secret: crypto.randomBytes(20).toString('hex')
   };
-  this.provider.add(client, function(error) {
-    callback(error, client);
+  this.provider.add(client, function(error, addedCount, clients) {
+    if (callback)
+      callback(error, addedCount, clients && clients[0]);
   });
 };
 

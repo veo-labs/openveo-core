@@ -44,9 +44,9 @@ TokenModel.prototype.add = function(token, clientId, scopes, ttl, callback) {
     scopes: scopes || [],
     ttl: ttl
   },
-  function(error) {
+  function(error, addedCount, tokens) {
     if (callback)
-      callback(error);
+      callback(error, addedCount, tokens && tokens[0]);
   });
 };
 

@@ -109,9 +109,11 @@ UserModel.prototype.add = function(data, callback) {
       if (data.roles)
         user['roles'] = data.roles;
 
-      self.provider.add(user, function(error) {
+      self.provider.add(user, function(error, addedCount, users) {
         delete user['password'];
-        callback(error, user);
+
+        if (callback)
+          callback(error, addedCount, user);
       });
 
     }

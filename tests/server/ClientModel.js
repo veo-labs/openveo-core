@@ -54,7 +54,7 @@ describe('CientModel', function() {
           }
         }
       },
-      function(error, client) {
+      function(error, addedCount, client) {
         assert.isDefined(client.id);
         assert.isDefined(client.secret);
       });

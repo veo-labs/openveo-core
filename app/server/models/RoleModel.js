@@ -65,9 +65,9 @@ RoleModel.prototype.add = function(data, callback) {
     permissions: data.permissions
   };
 
-  this.provider.add(role, function(error) {
+  this.provider.add(role, function(error, addedCount, roles) {
     if (callback)
-      callback(error, role);
+      callback(error, addedCount, roles && roles[0]);
   });
 };
 
