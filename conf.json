@@ -17,7 +17,7 @@
       "post /crud/:type/:id" : "app/server/controllers/crudController.updateEntityAction",
       "put /crud/:type" : "app/server/controllers/crudController.addEntityAction",
       "delete /crud/:type/:id" : "app/server/controllers/crudController.removeEntityAction",
-      "get /getTaxonomy/:name" : "app/server/controllers/TaxonomyController.getTaxonomyAction",
+      "get /getTaxonomy/:name" : "app/server/controllers/taxonomyController.getTaxonomyAction",
       "post /search/:type" : "app/server/controllers/searchController.searchEntitiesAction"
     }
   },
@@ -120,7 +120,7 @@
       	"/ov/UserController.js",
         "/ov/ProfileController.js",
         "/ov/MenuService.js",
-		"/ov/UserService.js",
+        "/ov/UserService.js",
         "/ov/ApplicationService.js",
         "/ov/TruncateFilter.js"
       ],
