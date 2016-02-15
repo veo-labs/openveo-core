@@ -10,7 +10,6 @@
  * @class errorController
  */
 
-// Module dependencies
 var errors = process.require('app/server/httpErrors.js');
 var defaultController = process.require('app/server/controllers/defaultController.js');
 
@@ -37,7 +36,7 @@ module.exports.notFoundAction = function(request, response, next) {
  * @method errorAction
  * @static
  * @param {Object} error An error object with error code, HTTP code
- * and the error module
+ * and the module associated to the error
  */
 module.exports.errorAction = function(error, request, response, next) {
   if (!error)

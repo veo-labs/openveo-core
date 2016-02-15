@@ -121,3 +121,9 @@ $videos = json_decode(curl_exec($curlHandle));
 # Endpoints
 
 No endpoints are exposed by the core.
+
+# Client libraries
+
+## PHP client
+
+A [PHP client](https://github.com/veo-labs/openveo-rest-php-client) is also available on Github to help interface with OpenVeo Web Service.

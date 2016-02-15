@@ -4,7 +4,6 @@
  * @module core-models
  */
 
-// Module dependencies
 var util = require('util');
 var crypto = require('crypto');
 var shortid = require('shortid');
@@ -28,7 +27,7 @@ module.exports = ClientModel;
 util.inherits(ClientModel, openVeoAPI.EntityModel);
 
 /**
- * Adds a new client to the clients collection.
+ * Adds a new client to the clients' collection.
  *
  * @example
  *     var ClientModel = new process.require("app/server/models/ClientModel.js");
@@ -56,8 +55,10 @@ util.inherits(ClientModel, openVeoAPI.EntityModel);
  * @method add
  * @async
  * @param {Object} data A client object
- * @param {Function} callback The function to call when it's done
+ * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of items inserted
+ *   - **Object** The inserted client
  */
 ClientModel.prototype.add = function(data, callback) {
   var client = {

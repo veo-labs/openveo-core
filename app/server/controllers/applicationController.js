@@ -11,7 +11,6 @@
  * @class applicationController
  */
 
-// Module dependencies
 var openVeoAPI = require('@openveo/api');
 var applicationStorage = openVeoAPI.applicationStorage;
 

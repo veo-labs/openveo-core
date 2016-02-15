@@ -11,11 +11,8 @@
  * @class defaultController
  */
 
-// Module dependencies
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
-
-// Module files
 var applicationStorage = openVeoAPI.applicationStorage;
 var applicationConf = process.require('conf.json');
 var applicationVersion = process.require('package.json');

@@ -18,4 +18,4 @@ OpenVeo is now installed. Launch it :
 
 # Log to the back end
 
-You can now access the back end at `http://localhost:PORT/be/login` (replace *PORT* by the port specified in **config/serverConf.json**) using the super admin email and password.
+You can now access the back end at `http://localhost:PORT/be/login` (replace *PORT* by the port specified in **~/.openveo/core/serverConf.json**) using the super admin email and password.

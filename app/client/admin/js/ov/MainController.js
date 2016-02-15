@@ -51,6 +51,7 @@
     /**
      * Replaces placeholders by corresponding values in the given string.
      * Function copied from AngularJS ngRoute.
+     *
      * @param {string} string A string containing placeholders
      * @param {string} params An array of parameters
      * @return {string} interpolation of the redirect path with the parameters
@@ -73,6 +74,7 @@
 
     /**
      * Replaces placeholders by corresponding values in the given string.
+     *
      * @param {string} string A string containing placeholders
      * @param {string} params An array of parameters
      * @return {string} The compiled string
@@ -109,8 +111,10 @@
 
     /**
      * Changes the language to the given one.
+     *
      * This will reload the page due to the main menu which can't be
      * reloaded.
+     *
      * @param {String} The new language code (e.g. fr_FR)
      */
     $scope.changeLanguage = function(language) {

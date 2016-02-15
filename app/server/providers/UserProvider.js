@@ -4,7 +4,6 @@
  * @module core-providers
  */
 
-// Module dependencies
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 

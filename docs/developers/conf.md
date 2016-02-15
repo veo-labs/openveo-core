@@ -403,7 +403,7 @@ You can define image styles in **conf.json** :
   "imageProcessing": {
     "imagesFolders": ["example/images"], // List of folders concerned by this style
     "cacheDir": "example/.thumbs", // Path of the directory containing generated images
-    "quality": 50 // Compression level (from 0 to 100)
+    "quality": 50, // Compression level (from 0 to 100)
     "imagesStyle": { // Style to apply
       "small": 200 // Width (in px) of the image to generate for small style
     }

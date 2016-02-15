@@ -4,7 +4,6 @@
  * @module core-providers
  */
 
-// Module dependencies
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 
@@ -48,6 +47,7 @@ TokenProvider.prototype.removeByClient = function(clientId, callback) {
  * @param {String} token The token value
  * @param {Function} callback Function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
+ *   - **Object** The fetched token
  */
 TokenProvider.prototype.getByValue = function(token, callback) {
   this.database.get(this.collection,

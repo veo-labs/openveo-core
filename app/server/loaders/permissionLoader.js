@@ -136,6 +136,7 @@ module.exports.groupOrphanedPermissions = function(permissions) {
   };
   var groupLabelList = [];
   for (var i = 0; i < permissions.length; i++) {
+
     // Orphaned permission
     if (permissions[i].id)
       orphanedGroup.permissions.push(permissions[i]);
@@ -144,6 +145,7 @@ module.exports.groupOrphanedPermissions = function(permissions) {
     else if (permissions[i].label) {
       var index = groupLabelList.indexOf(permissions[i].label);
       if (index == -1) {
+
         // label treated for first time
         groupLabelList.push(permissions[i].label);
         formattedPermissions.push(permissions[i]);

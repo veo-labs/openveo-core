@@ -10,7 +10,6 @@
  * @class accessToken
  */
 
-// Module dependencies
 var crypto = require('crypto');
 var TokenModel = process.require('app/server/models/TokenModel.js');
 
@@ -32,7 +31,7 @@ function getTokenModel() {
 }
 
 /**
- * Create access token and save it in database.
+ * Creates access token and saves it in database.
  *
  * It will previously remove all tokens associated to the client.
  *
@@ -68,8 +67,7 @@ accessToken.create = function(userId, clientId, scopes, ttl, callback) {
  * @async
  * @param {String} token Client's access token
  * @param {Function} callback with :
- *  - **Object** An error is something went wrong or null if everything
- * went fine
+ *  - **Object** An error if something went wrong or null if everything is fine
  *  - **Object** The access token
  */
 accessToken.fetchByToken = function(token, callback) {
@@ -78,7 +76,7 @@ accessToken.fetchByToken = function(token, callback) {
 };
 
 /**
- * Check if token is valid and not expired.
+ * Checks if token is valid and not expired.
  *
  * @method checkTTL
  * @static

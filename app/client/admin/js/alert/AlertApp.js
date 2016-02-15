@@ -19,18 +19,20 @@
     $rootScope.alerts = [];
 
     /**
-     * Close an alert by its position in alerts array
-     * @param {Integer} index Position in array
-     * @returns {Array}
+     * Closes an alert by its position in alerts array.
+     *
+     * @param {Number} index Position in array
+     * @return {Array} The list of remaining alerts
      */
     function closeAlertIdx(index) {
       return $rootScope.alerts.splice(index, 1);
     }
 
     /**
-     * Close an alert
+     * Closes an alert.
+     *
      * @param {Object} alert Alert to close
-     * @returns {Array}
+     * @return {Array} The list of remaining alerts
      */
     function closeAlert(alert) {
       return closeAlertIdx($rootScope.alerts.indexOf(alert));

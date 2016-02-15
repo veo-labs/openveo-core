@@ -4,7 +4,6 @@
  * @module core-servers
  */
 
-// Module dependencies
 var util = require('util');
 var path = require('path');
 var express = require('express');
@@ -20,7 +19,7 @@ var serverConf = require(path.join(configDir, 'core/serverConf.json')).ws;
 var conf = process.require('conf.json');
 
 /**
- * WebServiceServer creates an HTTP server for the openveo web service.
+ * Creates an HTTP server for the openveo web service.
  *
  * @class WebServiceServer
  * @constructor
@@ -29,7 +28,12 @@ var conf = process.require('conf.json');
 function WebServiceServer() {
   Server.prototype.init.call(this);
 
-  // Create router
+  /**
+   * Back end public express router.
+   *
+   * @property router
+   * @type Router
+   */
   this.router = express.Router();
 
   // Log each request method, path and headers

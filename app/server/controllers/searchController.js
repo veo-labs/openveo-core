@@ -1,26 +1,35 @@
 'use strict';
 
-// Module dependencies
+/**
+ * @module core-controllers
+ */
+
+/**
+ * Provides route actions for all requests relative to entity search.
+ *
+ * @class searchController
+ */
+
 var openVeoAPI = require('@openveo/api');
 
 /**
  * Gets entity model.
+ *
  * @param {String} type The type of entity
  * @return {EntityModel} An instance of an EntityModel
  */
 function getEntityModel(type) {
   var entities = openVeoAPI.applicationStorage.getEntities();
-
-  if (type)
-    return entities[type];
+  return entities[type];
 }
 
 /**
- * Updates an entity..
+ * Updates an entity.
+ *
  * Expects the following url parameters :
- *  - type The type of the entity to retrieve
- *  - id The id of the entity to update
- * Expects data in body.
+ *  - **type** The type of the entity to retrieve
+ *  - **id** The id of the entity to update
+ * Also expects data in body.
  */
 module.exports.searchEntitiesAction = function(request, response) {
   if (request.params.type) {

@@ -4,7 +4,6 @@
  * @module core-servers
  */
 
-// Module dependencies
 var path = require('path');
 var util = require('util');
 var express = require('express');
@@ -29,22 +28,10 @@ var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js')
 var favicon = require('serve-favicon');
 var mongostoreInstance;
 
-/**
- * Application's environment mode.
- *
- * @property env
- * @type String
- * @private
- */
+// Application's environment mode.
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
 
-/**
- * Common options for all static servers delivering static files.
- *
- * @property staticServerOptions
- * @type Object
- * @private
- */
+// Common options for all static servers delivering static files.
 var staticServerOptions = {
   extensions: ['htm', 'html'],
   setHeaders: function(response) {
@@ -53,8 +40,7 @@ var staticServerOptions = {
 };
 
 /**
- * ApplicationServer creates an HTTP server for the openveo application,
- * which serves front and back end pages.
+ * Creates an HTTP server for the openveo application, which serves front and back end pages.
  *
  * @class ApplicationServer
  * @constructor
@@ -62,17 +48,71 @@ var staticServerOptions = {
  */
 function ApplicationServer() {
   var self = this;
+
+  /**
+   * List of path holding template engine views.
+   *
+   * @property viewsFolders
+   * @type Array
+   */
   this.viewsFolders = [];
+
+  /**
+   * List of path holding public static resources.
+   *
+   * @property assets
+   * @type Array
+   */
   this.assets = [];
+
+  /**
+   * List of path holding images needing processing.
+   *
+   * @property imagesFolders
+   * @type Array
+   */
   this.imagesFolders = [];
+
+  /**
+   * Image styles for image processing.
+   *
+   * @property imagesStyle
+   * @type Object
+   */
   this.imagesStyle = {};
+
+  /**
+   * Back end menu description object.
+   *
+   * @property menu
+   * @type Array
+   */
   this.menu = conf['backOffice']['menu'] || [];
+
+  /**
+   * Back end permissions.
+   *
+   * @property permissions
+   * @type Array
+   */
   this.permissions = conf['permissions'] || [];
 
   Server.prototype.init.call(this);
 
-  // Create public and private routers
+  /**
+   * Back end public express router.
+   *
+   * @property router
+   * @type Router
+   */
   this.router = express.Router();
+
+  /**
+   * Back end private express router.
+   *
+   * @property router
+   * @type Router
+   */
   this.privateRouter = express.Router();
 
   // Add core views folders to the list of folders
@@ -84,7 +124,7 @@ function ApplicationServer() {
   conf['imageProcessing']['imagesFolders'].forEach(function(folder) {
     self.imagesFolders.push(path.normalize(process.root + '/' + folder));
   });
-  self.imagesStyle = conf['imageProcessing']['imagesStyle'] || {};
+  this.imagesStyle = conf['imageProcessing']['imagesStyle'] || {};
 
   // Apply favicon
   this.app.use(favicon(process.root + '/assets/favicon.ico'));
@@ -250,7 +290,6 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin) {
  * application.
  *
  * @method onPluginsLoaded
- * @param {Object} plugin The available openveo plugin
  */
 ApplicationServer.prototype.onPluginsLoaded = function() {
   var self = this;

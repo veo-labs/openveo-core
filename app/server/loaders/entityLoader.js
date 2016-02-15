@@ -11,7 +11,6 @@
  * @class entityLoader
  */
 
-// Module dependencies
 var path = require('path');
 
 /**

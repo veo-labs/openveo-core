@@ -105,6 +105,8 @@
      * @param {Object} param Request parameters with a property "filter" with a MongoDB criteria as value, a
      * property "count" with a MongoDB count as value, a property "page" with the expected page as value and a
      * property "sort" with a MongoDB sort object as value
+     * @param {Promise} [canceller] The HTTP promise to cancel request if needed, reject the promise to cancel the
+     * request
      * @return {Promise} The HTTP promise
      * @method getEntities
      */

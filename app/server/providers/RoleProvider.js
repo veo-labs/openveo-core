@@ -4,7 +4,6 @@
  * @module core-providers
  */
 
-// Module dependencies
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 
@@ -24,7 +23,7 @@ module.exports = RoleProvider;
 util.inherits(RoleProvider, openVeoAPI.EntityProvider);
 
 /**
- * Gets list of roles by ids.
+ * Gets roles by ids.
  *
  * @method getByIds
  * @async

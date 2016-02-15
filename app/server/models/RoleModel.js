@@ -4,7 +4,6 @@
  * @module core-models
  */
 
-// Module dependencies
 var util = require('util');
 var shortid = require('shortid');
 var openVeoAPI = require('@openveo/api');
@@ -50,8 +49,10 @@ util.inherits(RoleModel, openVeoAPI.EntityModel);
  * @method add
  * @async
  * @param {Object} data A role object
- * @param {Function} callback The function to call when it's done
+ * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of items inserted
+ *   - **Object** The inserted role
  */
 RoleModel.prototype.add = function(data, callback) {
   if (!data.name || !data.permissions) {

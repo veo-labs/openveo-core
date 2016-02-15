@@ -11,7 +11,6 @@
  * @class routeLoader
  */
 
-// Module dependencies
 var path = require('path');
 var util = require('util');
 var disableCacheMiddleware = process.require('app/server/middlewares/disableCacheMiddleware.js');
@@ -44,8 +43,8 @@ var disableCacheMiddleware = process.require('app/server/middlewares/disableCach
  * @method decodeRoutes
  * @static
  * @param {String} pluginPath The root path of the plugin associated to the routes
- * @param {Object} routes An object of routes as follow :
- * @return {Array} The decoded list of routes as follow :
+ * @param {Object} routes An object of routes
+ * @return {Array} The decoded list of routes
  */
 module.exports.decodeRoutes = function(pluginPath, routes) {
 
@@ -138,7 +137,6 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
  * @method applyRoutes
  * @static
  * @param {Array} routes The list of routes to apply
- * e.g.
  * @param {Object} router An express router to attach the routes to
  */
 module.exports.applyRoutes = function(routes, router) {

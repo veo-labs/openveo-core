@@ -10,9 +10,7 @@
  * @class taxonomyController
  */
 
-// Module dependencies
 var errors = process.require('app/server/httpErrors.js');
-
 var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
 var taxonomyModel = new TaxonomyModel();
 

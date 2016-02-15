@@ -53,7 +53,7 @@
     $scope.roles = roles.data.entities;
 
 
-    /**
+    /*
      *
      * RIGHTS
      *
@@ -64,7 +64,7 @@
     $scope.rights.delete = $scope.checkAccess('delete-user');
 
 
-    /**
+    /*
      *
      * DATATABLE
      */
@@ -103,7 +103,7 @@
     }];
 
 
-    /**
+    /*
      * FORM
      */
     var scopeEditForm = $scope.editFormContainer = {};
@@ -150,7 +150,7 @@
       return saveUser(model);
     };
 
-    /**
+    /*
      *  FORM Add user
      *
      */

@@ -4,7 +4,6 @@
  * @module core-models
  */
 
-// Module dependencies
 var crypto = require('crypto');
 var path = require('path');
 var util = require('util');
@@ -65,8 +64,10 @@ UserModel.prototype.getUserByCredentials = function(email, password, callback) {
  * @method add
  * @async
  * @param {Object} data A user object
- * @param {Function} callback The function to call when it's done
+ * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of items inserted
+ *   - **Object** The inserted user
  */
 UserModel.prototype.add = function(data, callback) {
   var self = this;
@@ -122,7 +123,7 @@ UserModel.prototype.add = function(data, callback) {
 };
 
 /**
- * Update a user.
+ * Updates a user.
  *
  * @example
  *     var UserModel = new process.require("app/server/models/UserModel.js");
@@ -141,6 +142,7 @@ UserModel.prototype.add = function(data, callback) {
  * @param {Object} data A user object
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of updated items
  */
 UserModel.prototype.update = function(id, data, callback) {
   var self = this;

@@ -4,7 +4,6 @@
  * @module core-models
  */
 
-// Module dependencies
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 
@@ -30,8 +29,9 @@ util.inherits(TaxonomyModel, openVeoAPI.EntityModel);
  * @method getByName
  * @async
  * @param {Object} data A taxonomy object
- * @param {Function} callback The function to call when it's done
+ * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
+ *   - **Object** The taxonomy
  */
 TaxonomyModel.prototype.getByName = function(name, callback) {
   this.provider.getByFilter({

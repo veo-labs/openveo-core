@@ -19,6 +19,7 @@
 
     /**
      * Removes a list of applications.
+     *
      * @param {Array} selected The list of application ids to remove
      * @param {Function} reload The reload Function to force reloading the table
      */
@@ -32,8 +33,9 @@
 
     /**
      * Saves application.
+     *
      * @param {Object} application The application to save
-     * @param {Function} successCb Function to call in case of success
+     * @return {Promise} Promise resolving when application has been saved
      */
     function saveApplication(application) {
       return entityService.updateEntity('application', application.id, {
@@ -44,8 +46,9 @@
 
     /**
      * Adds an application.
+     *
      * @param {Object} application The application to add
-     * @param {Function} successCb Function to call in case of success
+     * @return {Promise} Promise resolving when application has been added
      */
     function addApplication(application) {
       return entityService.addEntity('application', application);
@@ -54,7 +57,7 @@
     $scope.scopes = scopes.data.scopes;
     translateScopes();
 
-    /**
+    /*
      *
      * RIGHTS
      *
@@ -64,7 +67,7 @@
     $scope.rights.edit = $scope.checkAccess('update-application');
     $scope.rights.delete = $scope.checkAccess('delete-application');
 
-    /**
+    /*
      *
      * DATATABLE
      */

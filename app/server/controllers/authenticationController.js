@@ -11,7 +11,6 @@
  * @class authenticationController
  */
 
-// Module dependencies
 var passport = require('passport');
 var openVeoAPI = require('@openveo/api');
 var pathUtil = process.require('app/server/path.js');

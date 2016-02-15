@@ -5,13 +5,11 @@
  */
 
 /**
- * Provides functions to interface oauth clients and openveo
- * Web Service.
+ * Provides functions to interface oauth clients and openveo Web Service.
  *
  * @class client
  */
 
-// Module dependencies
 var ClientModel = process.require('app/server/models/ClientModel.js');
 
 var clientModel;

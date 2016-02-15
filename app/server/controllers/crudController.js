@@ -18,7 +18,6 @@
  * @class crudController
  */
 
-// Module dependencies
 var openVeoAPI = require('@openveo/api');
 var errors = process.require('app/server/httpErrors.js');
 
@@ -29,13 +28,11 @@ var errors = process.require('app/server/httpErrors.js');
  * @private
  * @static
  * @param {String} type The type of entity
- * @return {EntityModel} An instance of an EntityModel
+ * @return {EntityModel} An instance of an EntityModel or null if not found
  */
 function getEntityModel(type) {
   var entities = openVeoAPI.applicationStorage.getEntities();
-
-  if (type)
-    return entities[type];
+  return entities[type];
 }
 
 /**

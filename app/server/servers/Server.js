@@ -4,12 +4,11 @@
  * @module core-servers
  */
 
-// Module dependencies
 var express = require('express');
 
 /**
  * Defines an HTTP Server. This Class must not be used directly,
- * instead use on of the sub classes.
+ * instead use one of the sub classes.
  *
  * @example
  *     var Server = process.require("app/server/servers/Server.js");
@@ -32,6 +31,13 @@ function Server() {
  * @method init
  */
 Server.prototype.init = function() {
+
+  /**
+   * Express application.
+   *
+   * @property app
+   * @type Application
+   */
   this.app = express();
 
   // Remove x-powered-by http header
