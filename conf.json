@@ -30,21 +30,18 @@
   "permissions" : [
     {
       "id" : "access-applications-page",
-      "name" : "PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME",
-      "description" : "PERMISSIONS.ACCESS_APP_DESCRIPTION"
+      "name" : "PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME"
     },
     {
       "id" : "access-users-page",
       "name" : "PERMISSIONS.ACCESS_USER_PAGE_NAME",
-      "description" : "PERMISSIONS.ACCESS_USER_DESCRIPTION",
       "paths" : [
         "get /crud/roles"
       ]
     },
     {
       "id" : "access-roles-page",
-      "name" : "PERMISSIONS.ACCESS_ROLES_PAGE_NAME",
-      "description" : "PERMISSIONS.ACCESS_ROLES_DESCRIPTION"
+      "name" : "PERMISSIONS.ACCESS_ROLES_PAGE_NAME"
     }
   ],
   "backOffice": {
