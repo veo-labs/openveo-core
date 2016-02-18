@@ -325,17 +325,25 @@
       self.isRowSelected = self.selectAll;
     };
 
-    // call to uncheck the global selection checkbox
-    this.uncheckOne = function() {
-      self.commonActionExist = false;
-      self.selectAll = false;
+    /**
+     * Checks / unchecks a table row.
+     *
+     * @method check
+     */
+    this.check = function() {
+      var allChecked = true;
       self.isRowSelected = false;
+      self.commonActionExist = false;
 
-      // if one still selected, isRowSelected = true
+      // Check if at least one row is selected and if all rows are selected or not
       angular.forEach(self.rows, function(row) {
         if (row.selected)
           self.isRowSelected = true;
+        else
+          allChecked = false;
       });
+
+      self.selectAll = allChecked;
     };
 
     // Verify if an action is enable for all selected row

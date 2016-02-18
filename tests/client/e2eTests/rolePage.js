@@ -124,6 +124,10 @@ describe('Role page', function() {
     return tableAssert.checkPagination();
   });
 
+  it('should be able to select lines', function() {
+    return tableAssert.checkLinesSelection(page.translations.ROLES.NAME_COLUMN);
+  });
+
   describe('Search', function() {
     var lines;
 

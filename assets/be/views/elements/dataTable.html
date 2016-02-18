@@ -49,7 +49,7 @@
       <tbody>
         <tr ng-repeat-start="row in dataTable.rows" ng-class="$index%2?'even':'odd'">
           <td class="checkbox-row" ng-if="dataTable.showSelectAll">
-            <div class="table-cell"><input type="checkbox"  ng-model="row.selected" ng-checked="row.selected" ng-click="dataTable.uncheckOne()"></div>
+            <div class="table-cell"><input type="checkbox"  ng-model="row.selected" ng-checked="row.selected" ng-click="dataTable.check()"></div>
           </td>
           <td ng-click="dataTable.toggleRowDetails(row)" ng-class="{'first':$index==0, 'table-cell':dataTable.conditionToggleDetail(row)}" ng-repeat="entities in dataTable.header" ng-if="entities.key != 'action'" class='line {{entities.class[0]}}'>
             <div ng-if="$first && dataTable.conditionToggleDetail(row)" class="glyphicon" aria-hidden="true" ng-class="{'glyphicon-chevron-right' : !row.opened, 'glyphicon-chevron-down' : row.opened}"></div>

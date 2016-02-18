@@ -102,6 +102,10 @@ describe('Application page', function() {
     return tableAssert.checkPagination();
   });
 
+  it('should be able to select lines', function() {
+    return tableAssert.checkLinesSelection(page.translations.APPLICATIONS.NAME_COLUMN);
+  });
+
   describe('Search', function() {
     var lines;
 
