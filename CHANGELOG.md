@@ -1,3 +1,21 @@
+# 1.2.0 / 2016-02-19
+
+- Correct cache issues on static resources
+- Update AngularJS from version 1.4.3 to 1.4.7
+- Update angular-formly from version 7.1.2 to 7.3.7
+- Update angular-formly-templates-bootstrap from version 6.1.0 to 6.1.7
+- Update api-check from version 7.5.0 to 7.5.5
+- Update angular-sanitize from version 1.4.6 to 1.4.7
+- Update checklist-model from version 0.6.0 to 0.8.0
+- Update angular-bootstrap from version 0.13.4 to 0.14.3
+- Restore the possibility to set the number of displayed items per page for pages with lists
+- Correct security issue when a user was associated to a role without permissions
+- Correct bug when searching in lists, sometimes the previous search results were displayed
+- Remove cache on GET requests
+- Return to login page when directly calling /be/logout
+- Correct blank page on login page happening sometimes (when user session has expired)
+- Select the general checkbox, on lists, when all lines of the page are selected
+
 # 1.1.1 / 2015-11-25
 
 - Update dependency versions to authorize all minor versions of @openveo/test and @openveo/api
