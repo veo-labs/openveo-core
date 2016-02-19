@@ -1,3 +1,7 @@
+# 1.2.1 / 2016-02-19
+
+- Freeze project's dependencies due to incompatibilities with AngularJS version 1.4.9
+
 # 1.2.0 / 2016-02-19
 
 - Correct cache issues on static resources
