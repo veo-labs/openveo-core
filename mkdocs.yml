@@ -28,3 +28,4 @@ pages:
   - 'Coding standards': 'developers/coding-standards.md'
   - 'Unit tests': 'developers/unit-tests.md'
   - 'End to end tests': 'developers/end-to-end-tests.md'
+- 'API': 'api.md'
