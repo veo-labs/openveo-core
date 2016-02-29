@@ -10,9 +10,4 @@ process.require = function(filePath) {
   return require(path.normalize(process.root + '/' + filePath));
 };
 
-// Define a custom require function to load modules of the core from plugins
-process.requireModule = function(moduleName) {
-  return require(moduleName);
-};
-
 process.logger = openVeoAPI.logger.get('openveo');
