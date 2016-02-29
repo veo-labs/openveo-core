@@ -9,10 +9,10 @@ var util = require('util');
 var express = require('express');
 var consolidate = require('consolidate');
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
 var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var favicon = require('serve-favicon');
 var openVeoAPI = require('@openveo/api');
 var Server = process.require('app/server/servers/Server.js');
 var configDir = openVeoAPI.fileSystem.getConfDir();
@@ -24,9 +24,6 @@ var defaultController = process.require('app/server/controllers/defaultControlle
 var errorController = process.require('app/server/controllers/errorController.js');
 var applicationStorage = openVeoAPI.applicationStorage;
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
-
-var favicon = require('serve-favicon');
-var mongostoreInstance;
 
 // Application's environment mode.
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
@@ -157,21 +154,13 @@ util.inherits(ApplicationServer, Server);
  */
 ApplicationServer.prototype.onDatabaseAvailable = function(db) {
 
-  // Load all middlewares which need to operate
-  // on each request
-  if (!mongostoreInstance) {
-    mongostoreInstance = new MongoStore({
-      db: db.db
-    });
-  }
-
   // Update Session store with opened database connection
   // Allowed server to restart without loosing any session
   this.app.use(session({
     secret: serverConf['sessionSecret'],
     saveUninitialized: true,
     resave: true,
-    store: mongostoreInstance
+    store: db.getStore()
   }));
 
   // The cookieParser and session middlewares are required
