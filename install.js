@@ -1,6 +1,6 @@
 'use strict';
 
-// Module dependencies
+require('./processRequire.js');
 var readline = require('readline');
 var crypto = require('crypto');
 var path = require('path');
@@ -11,14 +11,6 @@ var openVeoAPI = require('@openveo/api');
 var confDir = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
 var exit = process.exit;
 var conf;
-var databaseConf;
-
-// Set module root directory and define a custom require function
-process.root = __dirname;
-process.require = function(filePath) {
-  return require(path.normalize(process.root + '/' + filePath));
-};
-
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 
 // Create a readline interface to interact with the user
@@ -248,9 +240,7 @@ function createServerConf(callback) {
  * Verifies connection to the database.
  */
 function verifyDatbaseConf(callback) {
-  databaseConf = require(path.join(confDir, 'databaseConf.json'));
-  conf = require(path.join(confDir, 'conf.json'));
-
+  var databaseConf = require(path.join(confDir, 'databaseConf.json'));
   var db = openVeoAPI.Database.getDatabase(databaseConf);
 
   db.connect(function(error) {

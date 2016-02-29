@@ -1,12 +1,6 @@
 'use strict';
 
-var path = require('path');
-
-// Set module root directory and define a custom require function
-process.root = __dirname;
-process.require = function(filePath) {
-  return require(path.join(process.root, filePath));
-};
+require('./processRequire.js');
 
 /**
  * Loads a bunch of grunt configuration files from the given directory.
@@ -15,8 +9,8 @@ process.require = function(filePath) {
  * For example, if myConf.js describes a property "test", it will be accessible
  * using myConf.test.
  *
- * @param String path Path of the directory containing configuration files
- * @return Object The list of configurations indexed by filename without
+ * @param {String} path Path of the directory containing configuration files
+ * @return {Object} The list of configurations indexed by filename without
  * the extension
  */
 function loadConfig(path) {
