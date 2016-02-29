@@ -16,7 +16,6 @@ ehthumbs.db
 
 # Logs
 *.log
-/logs
 
 # Project npm dependencies
 /node_modules
