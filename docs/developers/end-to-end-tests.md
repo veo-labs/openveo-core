@@ -34,6 +34,47 @@ You also need to specify a new database which will be used during tests. To do s
 
 **WARNING** : Each time you launch end to end tests, all information will be removed from this database ! DO NOT use the same database as the one described in **databaseConf.json**
 
+When launching tests, an OpenVeo server is automatically spawned and must be configured through **serverTestConf.json**. Typically you may want to change the server port.
+
+**~/.openveo/core/serverTestConf.json**
+
+```json
+{
+  "app": {
+    "port": 3004,
+    "sessionSecret": "2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx"
+  },
+  "ws": {
+    "port": 3005
+  }
+}
+```
+
+Finally the logger has to be configured through **loggerTestConf.json**. Typically you may want to deactivate logger standard output.
+
+**~/.openveo/core/loggerTestConf.json**
+
+```json
+{
+  "app": {
+    "level": "info",
+    "maxFileSize": 1048576,
+    "maxFiles": 2,
+    "fileName": "C:/Users/Vodalys/AppData/Local/Temp/openveo/logs/openveo.log",
+    "console": false
+  },
+  "ws": {
+    "level": "info",
+    "maxFileSize": 1048576,
+    "maxFiles": 2,
+    "fileName": "C:/Users/Vodalys/AppData/Local/Temp/openveo/logs/openveo-ws.log",
+    "console": false
+  }
+}
+```
+
+**console: false** will deactivate standard output.
+
 # Writing tests
 
 ## Boot steps
@@ -43,8 +84,9 @@ When launching end to end tests, several things happen before the first test is 
 1. Database defined in **~/.openveo/core/databaseTestConf.json** is dropped
 2. Users, roles and applications described in **tests/client/e2eTests/database/data.json**, from core and plugins, are inserted into database
 3. Tests suites files, in **tests/client/e2eTests/protractorSuites.json** from core and plugins, are merged into one single file (**tests/client/e2eTests/suites/suites.json**)
-4. A database connection is made to be able to use models in tests
-5. All plugins are loaded and available in ApplicationStorage
+4. An OpenVeo server is launched
+5. A database connection is made to be able to use models in tests
+6. All plugins are loaded and available in ApplicationStorage
 
 ## Add users, roles and application before tests
 

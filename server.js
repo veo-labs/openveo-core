@@ -1,44 +1,52 @@
 'use strict';
 
-// Module dependencies
 require('./processRequire.js');
 var path = require('path');
 var async = require('async');
 var nopt = require('nopt');
 var openVeoAPI = require('@openveo/api');
+var conf = process.require('conf.json');
 var applicationStorage = openVeoAPI.applicationStorage;
+var configurationDirectoryPath = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
+var loggerConfPath = path.join(configurationDirectoryPath, 'loggerConf.json');
+var serverConfPath = path.join(configurationDirectoryPath, 'serverConf.json');
+var databaseConfPath = path.join(configurationDirectoryPath, 'databaseConf.json');
+var loggerConf;
+var serverConf;
+var databaseConf;
 
 // Process arguments
-var knownOptions = {
+var knownProcessOptions = {
   ws: [Boolean],
-  test: [Boolean]
-};
-
-var shortHands = {
-  t: ['--test']
+  serverConf: [String, null],
+  databaseConf: [String, null],
+  loggerConf: [String, null]
 };
 
 // Parse process arguments
-var options = nopt(knownOptions, shortHands, process.argv);
+var processOptions = nopt(knownProcessOptions, null, process.argv);
 
-// Configuration
-var configDir = openVeoAPI.fileSystem.getConfDir();
-var conf = process.require('conf.json');
-var loggerConf = require(path.join(configDir, 'core/loggerConf.json'));
-var databaseConf = require(path.join(configDir, 'core/database' + ((options['test']) ? 'Test' : '') + 'Conf.json'));
+// Load configuration files
+try {
+  loggerConf = require(processOptions.loggerConf || loggerConfPath);
+  serverConf = require(processOptions.serverConf || serverConfPath);
+  databaseConf = require(processOptions.databaseConf || databaseConfPath);
+} catch (error) {
+  throw new Error('Invalid configuration file : ' + error.message);
+}
 
 var entities = {};
 var webServiceScopes = conf['webServiceScopes'] || [];
 var server;
 
-if (options['ws']) {
+if (processOptions['ws']) {
   process.logger = openVeoAPI.logger.add('openveo', loggerConf.ws);
   var WebServiceServer = process.require('app/server/servers/WebServiceServer.js');
-  server = new WebServiceServer();
+  server = new WebServiceServer(serverConf.ws);
 } else {
   process.logger = openVeoAPI.logger.add('openveo', loggerConf.app);
   var ApplicationServer = process.require('app/server/servers/ApplicationServer.js');
-  server = new ApplicationServer();
+  server = new ApplicationServer(serverConf.app);
 }
 
 // Loaders

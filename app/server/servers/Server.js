@@ -21,16 +21,17 @@ var express = require('express');
  *
  * @class Server
  * @constructor
+ * @param {Object} configuration Service configuration
  */
-function Server() {
-}
+function Server(configuration) {
 
-/**
- * Initializes the express application.
- *
- * @method init
- */
-Server.prototype.init = function() {
+  /**
+   * Server configuration object.
+   *
+   * @property configuration
+   * @type Object
+   */
+  this.configuration = configuration;
 
   /**
    * Express application.
@@ -43,7 +44,7 @@ Server.prototype.init = function() {
   // Remove x-powered-by http header
   this.app.set('x-powered-by', false);
 
-};
+}
 
 /**
  * Handles database available event.

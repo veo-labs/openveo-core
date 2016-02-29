@@ -15,15 +15,13 @@ var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var openVeoAPI = require('@openveo/api');
 var Server = process.require('app/server/servers/Server.js');
-var configDir = openVeoAPI.fileSystem.getConfDir();
-var serverConf = require(path.join(configDir, 'core/serverConf.json')).app;
 var conf = process.require('conf.json');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 var defaultController = process.require('app/server/controllers/defaultController.js');
 var errorController = process.require('app/server/controllers/errorController.js');
-var applicationStorage = openVeoAPI.applicationStorage;
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
+var applicationStorage = openVeoAPI.applicationStorage;
 
 // Application's environment mode.
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
@@ -42,9 +40,11 @@ var staticServerOptions = {
  * @class ApplicationServer
  * @constructor
  * @extends Server
+ * @param {Object} configuration Service configuration
  */
-function ApplicationServer() {
+function ApplicationServer(configuration) {
   var self = this;
+  Server.call(this, configuration);
 
   /**
    * List of path holding template engine views.
@@ -93,8 +93,6 @@ function ApplicationServer() {
    * @type Array
    */
   this.permissions = conf['permissions'] || [];
-
-  Server.prototype.init.call(this);
 
   /**
    * Back end public express router.
@@ -150,7 +148,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
   // Update Session store with opened database connection
   // Allowed server to restart without loosing any session
   this.app.use(session({
-    secret: serverConf['sessionSecret'],
+    secret: this.configuration.sessionSecret,
     saveUninitialized: true,
     resave: true,
     store: db.getStore()
@@ -314,8 +312,13 @@ ApplicationServer.prototype.onPluginsLoaded = function() {
 ApplicationServer.prototype.startServer = function() {
 
   // Start server
-  var server = this.app.listen(serverConf.port, function() {
+  var server = this.app.listen(this.configuration.port, function() {
     process.logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
+
+    // If process is a child process, send an event to parent process informing that the server has started
+    if (process.connected)
+      process.send({status: 'started'});
+
   });
 
 };

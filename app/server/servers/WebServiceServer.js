@@ -5,7 +5,6 @@
  */
 
 var util = require('util');
-var path = require('path');
 var express = require('express');
 var openVeoAPI = require('@openveo/api');
 var bodyParser = require('body-parser');
@@ -14,8 +13,6 @@ var oAuth = process.require('app/server/oauth/oAuth.js');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var oAuthController = process.require('app/server/controllers/oAuthController.js');
 var errorController = process.require('app/server/controllers/errorController.js');
-var configDir = openVeoAPI.fileSystem.getConfDir();
-var serverConf = require(path.join(configDir, 'core/serverConf.json')).ws;
 var conf = process.require('conf.json');
 
 /**
@@ -24,9 +21,10 @@ var conf = process.require('conf.json');
  * @class WebServiceServer
  * @constructor
  * @extends Server
+ * @param {Object} configuration Service configuration
  */
-function WebServiceServer() {
-  Server.prototype.init.call(this);
+function WebServiceServer(configuration) {
+  Server.call(this, configuration);
 
   /**
    * Back end public express router.
@@ -114,8 +112,13 @@ WebServiceServer.prototype.onPluginsLoaded = function() {
 WebServiceServer.prototype.startServer = function() {
 
   // Start server
-  var server = this.app.listen(serverConf.port, function() {
+  var server = this.app.listen(this.configuration.port, function() {
     process.logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
+
+    // If process is a child process, send an event to parent process informing that the server has started
+    if (process.connected)
+      process.send({status: 'started'});
+
   });
 
 };
