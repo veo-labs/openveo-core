@@ -130,15 +130,8 @@ function ApplicationServer() {
   this.app.engine('html', consolidate.mustache);
   this.app.set('view engine', 'html');
 
-  // Log each request method, path and headers
-  this.app.use(function(request, response, next) {
-    process.logger.info({
-      method: request.method,
-      path: request.url,
-      headers: request.headers
-    });
-    next();
-  });
+  // Log each request
+  this.app.use(openVeoAPI.middlewares.logRequestMiddleware);
 
 }
 

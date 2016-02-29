@@ -13,7 +13,7 @@
 
 var path = require('path');
 var util = require('util');
-var disableCacheMiddleware = process.require('app/server/middlewares/disableCacheMiddleware.js');
+var openVeoAPI = require('@openveo/api');
 
 /**
  * Gets the list of routes from a route configuration object with,
@@ -148,7 +148,7 @@ module.exports.applyRoutes = function(routes, router) {
 
       // Deactivate cache on all requests made on this router
       if (route.method === 'get')
-        router[route.method](route.path, disableCacheMiddleware);
+        router[route.method](route.path, openVeoAPI.middlewares.disableCacheMiddleware);
 
       router[route.method](route.path, route.action);
     });
