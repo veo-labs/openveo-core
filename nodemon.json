@@ -6,7 +6,6 @@
     "node_modules/**/node_modules",
     "node_modules/**/assets",
     "app/client",
-    "config",
     "tasks"
   ],
   "verbose": true,
