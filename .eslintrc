@@ -43,9 +43,6 @@
     // Disallow the type conversion with shorter notations
     "no-implicit-coercion": 2,
 
-    // Disallow the type conversion with shorter notations
-    "no-implicit-coercion": 2,
-
     // Disallow implied eval
     "no-implied-eval": 2,
 
