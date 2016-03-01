@@ -3,12 +3,14 @@
 // Module dependencies
 var path = require('path');
 var assert = require('chai').assert;
+var ut = require('@openveo/test').unit.generator;
 
 // pluginLoader.js
 describe('pluginLoader', function() {
   var pluginLoader;
 
   before(function() {
+    ut.generateSuccessDatabase();
     pluginLoader = process.require('app/server/loaders/pluginLoader.js');
   });
 

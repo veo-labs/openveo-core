@@ -4,6 +4,7 @@ require('./processRequire.js');
 var path = require('path');
 var async = require('async');
 var nopt = require('nopt');
+
 var openVeoAPI = require('@openveo/api');
 var conf = process.require('conf.json');
 var applicationStorage = openVeoAPI.applicationStorage;
@@ -14,6 +15,8 @@ var databaseConfPath = path.join(configurationDirectoryPath, 'databaseConf.json'
 var loggerConf;
 var serverConf;
 var databaseConf;
+
+var migrationProcess = process.require('app/server/migration/migrationProcess.js');
 
 // Process arguments
 var knownProcessOptions = {
@@ -97,6 +100,7 @@ async.series([
         applicationStorage.setPlugins(plugins);
 
         plugins.forEach(function(loadedPlugin) {
+
           server.onPluginAvailable(loadedPlugin);
 
           // Found a list of web service scopes for the plugin
@@ -121,7 +125,12 @@ async.series([
 
       callback();
     });
+  },
 
+ // Execute migrations script
+  function(callback) {
+    var migrations = server.migrations;
+    migrationProcess.executeMigrationScript(migrations, callback);
   },
 
   // Handle errors
@@ -129,5 +138,6 @@ async.series([
     server.onPluginsLoaded();
     server.startServer();
     callback();
-  }
-]);
+  }]
+);
+

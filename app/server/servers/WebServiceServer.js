@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var Server = process.require('app/server/servers/Server.js');
 var oAuth = process.require('app/server/oauth/oAuth.js');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
+var migrationLoader = process.require('/app/server/loaders/migrationLoader');
 var oAuthController = process.require('app/server/controllers/oAuthController.js');
 var errorController = process.require('app/server/controllers/errorController.js');
 var conf = process.require('conf.json');
@@ -33,6 +34,14 @@ function WebServiceServer(configuration) {
    * @type Router
    */
   this.router = express.Router();
+
+  /**
+   * migrations Script description object.
+   *
+   * @property migrations
+   * @type Object
+   */
+  this.migrations = {};
 
   // Log each request
   this.app.use(openVeoAPI.middlewares.logRequestMiddleware);
@@ -66,11 +75,26 @@ util.inherits(WebServiceServer, Server);
  * @method onDatabaseAvailable
  * @param {Database} db The application database
  */
-WebServiceServer.prototype.onDatabaseAvailable = function() {
+WebServiceServer.prototype.onDatabaseAvailable = function(db) {
+  var self = this;
 
   // Load and apply routes to router
   routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['ws']), this.router);
 
+  // Load Core migrations script
+  db.get('core-system', {name: 'core'}, null, null, function(error, value) {
+    var lastVersion = '0.0.0';
+    if (value && value.length) lastVersion = value[0].version;
+
+    migrationLoader.getDiffMigrationScript(
+      path.join(process.root + '/migrations'),
+      lastVersion,
+      function(error, migrations) {
+        if (!error && migrations && Object.keys(migrations).length > 0)
+          self.migrations['core'] = migrations;
+      }
+    );
+  });
 };
 
 /**
@@ -85,6 +109,10 @@ WebServiceServer.prototype.onPluginAvailable = function(plugin) {
   // Web Service mount path
   if (plugin.webServiceRouter && plugin.mountPath)
     this.app.use(plugin.mountPath, plugin.webServiceRouter);
+
+  // Update migation script to apply
+  if (plugin.migrations)
+    this.migrations[plugin.name] = plugin.migrations;
 
 };
 

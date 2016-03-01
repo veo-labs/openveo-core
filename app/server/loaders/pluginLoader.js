@@ -18,6 +18,7 @@ var openVeoAPI = require('@openveo/api');
 // Module files
 var routeLoader = process.require('/app/server/loaders/routeLoader');
 var entityLoader = process.require('/app/server/loaders/entityLoader');
+var migrationLoader = process.require('/app/server/loaders/migrationLoader');
 
 /**
  * Filters the list of plugins paths in case the same plugin appears
@@ -494,8 +495,30 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
           callback();
 
         });
-      }
+      },
+      function(callback) {
 
+        var db = openVeoAPI.applicationStorage.getDatabase();
+        db.get('core-system', {name: plugin.name}, null, null, function(error, value) {
+          if (error) {
+            callback(error);
+            return;
+          }
+          var lastVersion = '0.0.0';
+          if (value && value.length) lastVersion = value[0].version;
+
+          var migrationPath = path.join(pluginPath, 'migrations');
+          migrationLoader.getDiffMigrationScript(migrationPath, lastVersion, function(error, migrations) {
+            if (error) {
+              callback(error);
+              return;
+            }
+            if (migrations && Object.keys(migrations).length > 0)
+              plugin.migrations = migrations;
+            callback();
+          });
+        });
+      }
     ],
     function(error) {
 

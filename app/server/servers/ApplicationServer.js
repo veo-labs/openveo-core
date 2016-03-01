@@ -18,6 +18,7 @@ var Server = process.require('app/server/servers/Server.js');
 var conf = process.require('conf.json');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
+var migrationLoader = process.require('/app/server/loaders/migrationLoader');
 var defaultController = process.require('app/server/controllers/defaultController.js');
 var errorController = process.require('app/server/controllers/errorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
@@ -87,6 +88,14 @@ function ApplicationServer(configuration) {
   this.menu = conf['backOffice']['menu'] || [];
 
   /**
+   * migrations Script description object.
+   *
+   * @property migrations
+   * @type Object
+   */
+  this.migrations = {};
+
+  /**
    * Back end permissions.
    *
    * @property permissions
@@ -144,6 +153,7 @@ util.inherits(ApplicationServer, Server);
  * @param {Database} db The application database
  */
 ApplicationServer.prototype.onDatabaseAvailable = function(db) {
+  var self = this;
 
   // Update Session store with opened database connection
   // Allowed server to restart without loosing any session
@@ -171,6 +181,21 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
 
   // Set main assets directory to be served first as the static server
   this.app.use(express.static(path.normalize(process.root + '/assets'), staticServerOptions));
+
+  // Load Core migrations script
+  db.get('core-system', {name: 'core'}, null, null, function(error, value) {
+    var lastVersion = '0.0.0';
+    if (value && value.length) lastVersion = value[0].version;
+
+    migrationLoader.getDiffMigrationScript(
+      path.join(process.root + '/migrations'),
+      lastVersion,
+      function(error, migrations) {
+        if (!error && migrations && Object.keys(migrations).length > 0)
+          self.migrations['core'] = migrations;
+      }
+    );
+  });
 
   if (env === 'dev')
     this.app.use(express.static(path.normalize(process.root + '/app/client/admin/js'), staticServerOptions));
@@ -244,6 +269,10 @@ ApplicationServer.prototype.onPluginAvailable = function(plugin) {
   // Found a list of permissions for the plugin
   if (plugin.permissions)
     this.permissions = this.permissions.concat(plugin.permissions);
+
+  // Update migration script to apply
+  if (plugin.migrations)
+    this.migrations[plugin.name] = plugin.migrations;
 
 };
 
