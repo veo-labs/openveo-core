@@ -34,7 +34,7 @@ util.inherits(TokenProvider, openVeoAPI.EntityProvider);
  */
 TokenProvider.prototype.removeByClient = function(clientId, callback) {
   var filter = {};
-  filter['id'] = {$in: [clientId]};
+  filter['clientId'] = {$in: [clientId]};
 
   this.database.remove(this.collection, filter, callback);
 };
