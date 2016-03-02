@@ -32,9 +32,6 @@ nbproject
 # Sass
 /.sass-cache
 
-# API examples
-/api
-
 # Unit tests
 /tests
 
