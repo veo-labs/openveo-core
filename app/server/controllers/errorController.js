@@ -39,7 +39,7 @@ module.exports.notFoundAction = function(request, response, next) {
  * and the module associated to the error
  */
 module.exports.errorAction = function(error, request, response, next) {
-  if (!error)
+  if (!error || !error.code)
     error = errors.UNKNOWN_ERROR;
 
   if (!error.module)
@@ -62,10 +62,13 @@ module.exports.errorAction = function(error, request, response, next) {
 
   // Send response with JSON content or HTML but not 401 or 403 errorCode
   response.status(error.httpCode);
-  response.send({error: {
-    code: error.code,
-    module: error.module
-  }});
+  response.send({
+    error: {
+      code: error.code,
+      module: error.module,
+      message: error.message
+    }
+  });
 };
 
 /**
