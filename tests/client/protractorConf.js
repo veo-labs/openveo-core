@@ -7,15 +7,19 @@ var childProcess = require('child_process');
 var openVeoAPI = require('@openveo/api');
 var e2e = require('@openveo/test').e2e;
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
+var ClientModel = process.require('app/server/models/ClientModel.js');
 var screenshotPlugin = e2e.plugins.screenshotPlugin;
 var configurationDirectoryPath = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverTestConf.json');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerTestConf.json');
-var databaseConf = require(path.join(configurationDirectoryPath, 'databaseTestConf.json'));
+var databaseConfPath = path.join(configurationDirectoryPath, 'loggerTestConf.json');
+var databaseConf = require(databaseConfPath);
 var serverConf = require(serverConfPath);
 var applicationStorage = openVeoAPI.applicationStorage;
 var db;
-var server;
+var applicationServer;
+var webServiceServer;
+var webServiceApplications;
 
 // Load a console logger
 process.logger = openVeoAPI.logger.get('openveo');
@@ -33,12 +37,20 @@ exports.config = {
   },
   suites: suites,
   baseUrl: 'http://127.0.0.1:' + serverConf.app.port + '/',
+  webServiceUrl: 'http://127.0.0.1:' + serverConf.ws.port + '/',
   plugins: [
     {
       outdir: 'build/screenshots',
       inline: screenshotPlugin
     }
   ],
+  getWebServiceApplication: function(applicationName) {
+    for (var i = 0; i < webServiceApplications.length; i++) {
+      if (webServiceApplications[i].name === applicationName)
+        return webServiceApplications[i];
+    }
+    return null;
+  },
   onPrepare: function() {
     var deferred = protractor.promise.defer();
     var flow = browser.controlFlow();
@@ -59,17 +71,40 @@ exports.config = {
       function(callback) {
 
         // Executes server as a child process
-        server = childProcess.fork(path.join(process.root, '/server.js'), [
+        applicationServer = childProcess.fork(path.join(process.root, '/server.js'), [
           '--serverConf', serverConfPath,
           '--loggerConf', loggerConfPath,
-          '--databaseConf', path.join(configurationDirectoryPath, 'databaseTestConf.json')
+          '--databaseConf', databaseConfPath
         ]);
 
         // Listen to messages from server process
-        server.on('message', function(data) {
+        applicationServer.on('message', function(data) {
           if (data) {
             if (data.status === 'started') {
               process.logger.info('Server started');
+              callback();
+            }
+          }
+        });
+
+      },
+
+      // Launch openveo web service server
+      function(callback) {
+
+        // Executes server as a child process
+        webServiceServer = childProcess.fork(path.join(process.root, '/server.js'), [
+          '--ws',
+          '--serverConf', serverConfPath,
+          '--loggerConf', loggerConfPath,
+          '--databaseConf', databaseConfPath
+        ]);
+
+        // Listen to messages from server process
+        webServiceServer.on('message', function(data) {
+          if (data) {
+            if (data.status === 'started') {
+              process.logger.info('Web service server started');
               callback();
             }
           }
@@ -98,6 +133,19 @@ exports.config = {
             callback();
           }
         });
+      },
+
+      // Get the list of available client applications and expose it to plugins
+      function(callback) {
+        var clientModel = new ClientModel();
+        clientModel.get(function(error, entities) {
+          if (error) {
+            throw new Error(error);
+          } else {
+            webServiceApplications = entities;
+            callback(error);
+          }
+        });
       }
 
     ], function(error) {
@@ -109,8 +157,9 @@ exports.config = {
     });
   },
   onCleanUp: function() {
-    process.logger.info('Tests finished, exit server and close connection to the database');
-    server.kill('SIGINT');
+    process.logger.info('Tests finished, exit servers and close connection to the database');
+    applicationServer.kill('SIGINT');
+    webServiceServer.kill('SIGINT');
     db.close();
   }
 };

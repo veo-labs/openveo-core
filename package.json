@@ -54,6 +54,7 @@
   },
   "devDependencies": {
     "@openveo/test": "2.*",
+    "@openveo/rest-nodejs-client": "1.*",
     "chai": ">=1.10.0",
     "chai-as-promised": ">=5.1.0",
     "glob": ">=5.0.12",
