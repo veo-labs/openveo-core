@@ -243,7 +243,7 @@
       if (canceller) canceller.resolve();
       canceller = $q.defer();
 
-      param['count'] = paramsObj.count;
+      param['limit'] = paramsObj.count;
       param['page'] = paramsObj.page;
       param['sort'] = {};
       param['sort'][paramsObj.sortBy] = paramsObj.sortOrder == 'dsc' ? -1 : 1;
