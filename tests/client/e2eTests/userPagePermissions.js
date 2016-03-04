@@ -3,7 +3,8 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
-var userHelper = process.require('tests/client/e2eTests/helpers/userHelper.js');
+var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
+var UserModel = process.require('app/server/models/UserModel.js');
 var datas = process.require('tests/client/e2eTests/database/data.json');
 
 // Load assertion library
@@ -11,10 +12,11 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('User page', function() {
-  var page, defaultUsers;
+  var page, defaultUsers, userHelper;
 
   // Prepare page
   before(function() {
+    userHelper = new UserHelper(new UserModel());
     page = new UserPage();
   });
 
@@ -45,7 +47,7 @@ describe('User page', function() {
     // Log with a user without access permission
     before(function() {
       page.logAs(datas.users.coreUsersNoWrite);
-      userHelper.getUsers().then(function(users) {
+      userHelper.getEntities().then(function(users) {
         defaultUsers = users;
       });
       page.load();
@@ -53,7 +55,7 @@ describe('User page', function() {
 
     // Remove all extra users after each test and reload the page
     afterEach(function() {
-      userHelper.removeAllUsers(defaultUsers);
+      userHelper.removeAllEntities(defaultUsers);
       page.refresh();
     });
 
@@ -77,7 +79,7 @@ describe('User page', function() {
     // Log with a user without update permission
     before(function() {
       page.logAs(datas.users.coreUsersNoUpdate);
-      userHelper.getUsers().then(function(users) {
+      userHelper.getEntities().then(function(users) {
         defaultUsers = users;
       });
       page.load();
@@ -85,7 +87,7 @@ describe('User page', function() {
 
     // Remove all extra users after each test and reload the page
     afterEach(function() {
-      userHelper.removeAllUsers(defaultUsers);
+      userHelper.removeAllEntities(defaultUsers);
       page.refresh();
     });
 
@@ -124,7 +126,7 @@ describe('User page', function() {
     // Log with a user without delete permission
     before(function() {
       page.logAs(datas.users.coreUsersNoDelete);
-      userHelper.getUsers().then(function(users) {
+      userHelper.getEntities().then(function(users) {
         defaultUsers = users;
       });
       page.load();
@@ -132,7 +134,7 @@ describe('User page', function() {
 
     // Remove all extra users after each test and reload the page
     afterEach(function() {
-      userHelper.removeAllUsers(defaultUsers);
+      userHelper.removeAllEntities(defaultUsers);
       page.refresh();
     });
 

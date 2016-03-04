@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
-var applicationHelper = process.require('tests/client/e2eTests/helpers/applicationHelper.js');
+var ApplicationHelper = process.require('tests/client/e2eTests/helpers/ApplicationHelper.js');
 var TableAssert = e2e.asserts.TableAssert;
 
 // Load assertion library
@@ -13,14 +13,16 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Application page', function() {
-  var page, tableAssert, defaultApplications;
+  var page, tableAssert, defaultApplications, applicationHelper;
 
   // Prepare page
   before(function() {
-    page = new ApplicationPage(new ClientModel());
-    tableAssert = new TableAssert(page);
+    var clientModel = new ClientModel();
+    applicationHelper = new ApplicationHelper(clientModel);
+    page = new ApplicationPage(clientModel);
+    tableAssert = new TableAssert(page, applicationHelper);
     page.logAsAdmin();
-    applicationHelper.getApplications().then(function(applications) {
+    applicationHelper.getEntities().then(function(applications) {
       defaultApplications = applications;
     });
     page.load();
@@ -33,7 +35,7 @@ describe('Application page', function() {
 
   // Remove all extra applications after each test then reload the page
   afterEach(function() {
-    applicationHelper.removeAllApplications(defaultApplications);
+    applicationHelper.removeAllEntities(defaultApplications);
     page.refresh();
   });
 
@@ -111,8 +113,9 @@ describe('Application page', function() {
 
     // Add lines
     beforeEach(function() {
-      return page.addLinesByPassAuto('test search', 2).then(function(addedLines) {
+      return applicationHelper.addEntitiesAuto('test search', 2).then(function(addedLines) {
         lines = addedLines;
+        return page.refresh();
       });
     });
 

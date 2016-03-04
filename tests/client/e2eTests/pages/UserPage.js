@@ -2,8 +2,8 @@
 
 var util = require('util');
 var e2e = require('@openveo/test').e2e;
-var Field = e2e.Field;
-var TablePage = e2e.TablePage;
+var Field = e2e.fields.Field;
+var TablePage = e2e.pages.TablePage;
 var browserExt = e2e.browser;
 
 /**
@@ -212,31 +212,4 @@ UserPage.prototype.editUser = function(name, data) {
     // Click on save button
     return browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_SAVE')));
   });
-};
-
-/**
- * Adds multiple lines at the same time with automatic index.
- *
- * Some additional fields are required to create a user.
- *
- * @param {String} name Base name of the lines to add
- * @param {Number} total Number of lines to add
- * @param {Number} offset Index to start from for the name suffix
- * @param {Boolean} [refresh=true] Request for a refresh
- * @return {Promise} Promise resolving when lines are added and browser page has been reloaded
- */
-UserPage.prototype.addLinesByPassAuto = function(name, total, offset, refresh) {
-  var lines = [];
-  offset = offset || 0;
-
-  for (var i = offset; i < total; i++) {
-    lines.push({
-      name: name + ' ' + i,
-      email: 'generated-email-' + i + '@veo-labs.com',
-      password: 'generated-password',
-      passwordValidate: 'generated-password'
-    });
-  }
-
-  return this.addLinesByPass(lines, refresh);
 };

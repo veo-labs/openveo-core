@@ -4,8 +4,8 @@ var util = require('util');
 var openVeoAPI = require('@openveo/api');
 var e2e = require('@openveo/test').e2e;
 var i18n = e2e.i18n;
-var Page = e2e.Page;
-var BackEndPage = e2e.BackEndPage;
+var Page = e2e.pages.Page;
+var BackEndPage = e2e.pages.BackEndPage;
 var browserExt = e2e.browser;
 
 /**

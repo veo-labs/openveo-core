@@ -3,7 +3,8 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
-var applicationHelper = process.require('tests/client/e2eTests/helpers/applicationHelper.js');
+var ApplicationHelper = process.require('tests/client/e2eTests/helpers/ApplicationHelper.js');
+var ClientModel = process.require('app/server/models/ClientModel.js');
 var datas = process.require('tests/client/e2eTests/database/data.json');
 
 // Load assertion library
@@ -11,10 +12,11 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Application page', function() {
-  var page, defaultApplications;
+  var page, defaultApplications, applicationHelper;
 
   // Prepare page
   before(function() {
+    applicationHelper = new ApplicationHelper(new ClientModel());
     page = new ApplicationPage();
   });
 
@@ -46,7 +48,7 @@ describe('Application page', function() {
     // Log with a user without write permission
     before(function() {
       page.logAs(datas.users.coreApplicationsNoWrite);
-      applicationHelper.getApplications().then(function(applications) {
+      applicationHelper.getEntities().then(function(applications) {
         defaultApplications = applications;
       });
       page.load();
@@ -54,7 +56,7 @@ describe('Application page', function() {
 
     // Remove all extra application after each test and reload the page
     afterEach(function() {
-      applicationHelper.removeAllApplications(defaultApplications);
+      applicationHelper.removeAllEntities(defaultApplications);
       page.refresh();
     });
 
@@ -79,7 +81,7 @@ describe('Application page', function() {
     // Log with a user without update permission
     before(function() {
       page.logAs(datas.users.coreApplicationsNoUpdate);
-      applicationHelper.getApplications().then(function(applications) {
+      applicationHelper.getEntities().then(function(applications) {
         defaultApplications = applications;
       });
       page.load();
@@ -87,7 +89,7 @@ describe('Application page', function() {
 
     // Remove all extra application after each test and reload the page
     afterEach(function() {
-      applicationHelper.removeAllApplications(defaultApplications);
+      applicationHelper.removeAllEntities(defaultApplications);
       page.refresh();
     });
 
@@ -122,7 +124,7 @@ describe('Application page', function() {
     // Log with a user without delete permission
     before(function() {
       page.logAs(datas.users.coreApplicationsNoDelete);
-      applicationHelper.getApplications().then(function(applications) {
+      applicationHelper.getEntities().then(function(applications) {
         defaultApplications = applications;
       });
       page.load();
@@ -130,7 +132,7 @@ describe('Application page', function() {
 
     // Remove all extra application after each test and reload the page
     afterEach(function() {
-      applicationHelper.removeAllApplications(defaultApplications);
+      applicationHelper.removeAllEntities(defaultApplications);
       page.refresh();
     });
 

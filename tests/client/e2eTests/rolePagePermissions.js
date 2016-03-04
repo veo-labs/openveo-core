@@ -3,7 +3,8 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
-var roleHelper = process.require('tests/client/e2eTests/helpers/roleHelper.js');
+var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
+var RoleModel = process.require('app/server/models/RoleModel.js');
 var datas = process.require('tests/client/e2eTests/database/data.json');
 
 // Load assertion library
@@ -11,10 +12,11 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Role page', function() {
-  var page, defaultRoles;
+  var page, defaultRoles, roleHelper;
 
   // Prepare page
   before(function() {
+    roleHelper = new RoleHelper(new RoleModel());
     page = new RolePage();
   });
 
@@ -45,7 +47,7 @@ describe('Role page', function() {
     // Log with a user without write permission
     before(function() {
       page.logAs(datas.users.coreRolesNoWrite);
-      roleHelper.getRoles().then(function(roles) {
+      roleHelper.getEntities().then(function(roles) {
         defaultRoles = roles;
       });
       page.load();
@@ -53,7 +55,7 @@ describe('Role page', function() {
 
     // Remove all extra application after each test and reload the page
     afterEach(function() {
-      roleHelper.removeAllRoles(defaultRoles);
+      roleHelper.removeAllEntities(defaultRoles);
       page.refresh();
     });
 
@@ -78,7 +80,7 @@ describe('Role page', function() {
     // Log with a user without update permission
     before(function() {
       page.logAs(datas.users.coreRolesNoUpdate);
-      roleHelper.getRoles().then(function(roles) {
+      roleHelper.getEntities().then(function(roles) {
         defaultRoles = roles;
       });
       page.load();
@@ -86,7 +88,7 @@ describe('Role page', function() {
 
     // Remove all extra application after each test and reload the page
     afterEach(function() {
-      roleHelper.removeAllRoles(defaultRoles);
+      roleHelper.removeAllEntities(defaultRoles);
       page.refresh();
     });
 
@@ -123,7 +125,7 @@ describe('Role page', function() {
 
     // Remove all extra application after each test and reload the page
     afterEach(function() {
-      roleHelper.removeAllRoles(defaultRoles);
+      roleHelper.removeAllEntities(defaultRoles);
       page.refresh();
     });
 

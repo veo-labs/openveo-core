@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var UserModel = process.require('app/server/models/UserModel.js');
-var userHelper = process.require('tests/client/e2eTests/helpers/userHelper.js');
+var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
 var datas = process.require('tests/client/e2eTests/database/data.json');
 var TableAssert = e2e.asserts.TableAssert;
 
@@ -14,7 +14,7 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('User page', function() {
-  var page, tableAssert, defaultUsers;
+  var page, tableAssert, defaultUsers, userHelper;
 
   /**
    * Verifies roles of a user.
@@ -52,10 +52,12 @@ describe('User page', function() {
 
   // Prepare page
   before(function() {
-    page = new UserPage(new UserModel());
-    tableAssert = new TableAssert(page);
+    var userModel = new UserModel();
+    userHelper = new UserHelper(userModel);
+    page = new UserPage(userModel);
+    tableAssert = new TableAssert(page, userHelper);
     page.logAsAdmin();
-    userHelper.getUsers().then(function(users) {
+    userHelper.getEntities().then(function(users) {
       defaultUsers = users;
     });
     page.load();
@@ -67,7 +69,7 @@ describe('User page', function() {
 
   // Remove all extra users after each test and reload the page
   afterEach(function() {
-    userHelper.removeAllUsers(defaultUsers);
+    userHelper.removeAllEntities(defaultUsers);
     page.refresh();
   });
 
@@ -208,8 +210,9 @@ describe('User page', function() {
 
     // Add lines to test search
     before(function() {
-      return page.addLinesByPassAuto('test search', 2).then(function(addedLines) {
+      return userHelper.addEntitiesAuto('test search', 2).then(function(addedLines) {
         lines = addedLines;
+        return page.refresh();
       });
     });
 

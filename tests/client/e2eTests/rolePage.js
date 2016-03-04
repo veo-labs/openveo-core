@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
-var roleHelper = process.require('tests/client/e2eTests/helpers/roleHelper.js');
+var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
 var TableAssert = e2e.asserts.TableAssert;
 
 // Load assertion library
@@ -13,7 +13,7 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Role page', function() {
-  var page, tableAssert, defaultRoles;
+  var page, tableAssert, defaultRoles, roleHelper;
 
   /**
    * Verifies permission of a role.
@@ -38,10 +38,12 @@ describe('Role page', function() {
 
   // Load roles page using super administrator account
   before(function() {
-    page = new RolePage(new RoleModel());
-    tableAssert = new TableAssert(page);
+    var roleModel = new RoleModel();
+    roleHelper = new RoleHelper(roleModel);
+    page = new RolePage(roleModel);
+    tableAssert = new TableAssert(page, roleHelper);
     page.logAsAdmin();
-    roleHelper.getRoles().then(function(roles) {
+    roleHelper.getEntities().then(function(roles) {
       defaultRoles = roles;
     });
     page.load();
@@ -54,7 +56,7 @@ describe('Role page', function() {
 
   // Remove all extra application after each test and reload the page
   afterEach(function() {
-    roleHelper.removeAllRoles(defaultRoles);
+    roleHelper.removeAllEntities(defaultRoles);
     page.refresh();
   });
 
@@ -133,8 +135,9 @@ describe('Role page', function() {
 
     // Add lines to test search
     before(function() {
-      return page.addLinesByPassAuto('test search', 2).then(function(addedLines) {
+      return roleHelper.addEntitiesAuto('test search', 2).then(function(addedLines) {
         lines = addedLines;
+        return page.refresh();
       });
     });
 
