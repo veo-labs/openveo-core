@@ -1,5 +1,7 @@
 'use strict';
 
+var unit = require('@openveo/test').unit;
+
 // Karma configuration
 module.exports = function(config) {
 
@@ -8,6 +10,25 @@ module.exports = function(config) {
     // Base path that will be used to resolve all patterns
     // (eg. files, exclude)
     basePath: '../../',
+
+    // Preprocessors configuration
+    preprocessors: {
+      'app/client/admin/views/*.html': 'ng-inline-templates'
+    },
+
+    // ng-inline-templates configuration
+    ngInlineTemplatesPreprocessor: {
+      moduleName: 'inline-templates'
+    },
+
+    // Plugins to load
+    plugins: [
+      'karma-chai',
+      'karma-mocha',
+      'karma-phantomjs-launcher',
+      'karma-chrome-launcher',
+      unit.plugins.inlineTemplatesPreprocessor
+    ],
 
     // List of files / patterns to load in the browser
     files: [
@@ -23,12 +44,12 @@ module.exports = function(config) {
       'assets/lib/angular-ui-tree/dist/angular-ui-tree.js',
       'assets/lib/angular-formly/dist/formly.js',
       'assets/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js',
-      'assets/lib/angular-xeditable/dist/js/xeditable.js',
       'assets/lib/checklist-model/checklist-model.js',
       'assets/lib/ng-jsonpath/dist/ng-jsonpath.js',
       'assets/lib/ng-tasty/ng-tasty-tpls.js',
       'app/client/admin/js/authentication/AuthenticationApp.js',
       'app/client/admin/js/ov/OvApp.js',
+      'app/client/admin/views/*.html',
       'app/client/admin/js/**/*.js',
       'tests/client/unitTests/*.js'
     ]

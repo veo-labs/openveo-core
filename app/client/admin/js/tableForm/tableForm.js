@@ -57,6 +57,27 @@
     var self = this;
     var type = $scope.editFormContainer.entityType || '';
 
+    // Formly form options
+    // "showForm" property helps switching between edition and literals representation of fields
+    this.options = {
+      formState: {
+        showForm: false
+      }
+    };
+
+    // Force formly fields to execute their expressions when showForm changes
+    // This will execute all hideExpressions
+    $scope.$watch('fec.options.formState.showForm', function() {
+      angular.forEach(self.fields, function(field) {
+        field.runExpressions && field.runExpressions();
+      });
+    }, true);
+
+    // Reset form model when the scope is destroyed
+    $scope.$on('$destroy', function() {
+      self.cancelForm();
+    });
+
     // init the form on a row
     this.init = function(row) {
       self.model = row;
@@ -64,8 +85,8 @@
       // Call init function if defined to set up dynamically some fields
       if ($scope.editFormContainer.init)
         $scope.editFormContainer.init(row);
+
       self.fields = $scope.editFormContainer.fields;
-      self.originalFields = self.fields;
     };
 
     // Condition on a row to be edited
@@ -101,6 +122,7 @@
           // save value in the fields as initial value
           self.options.updateInitialValue();
           self.model.saving = false;
+          self.options.formState.showForm = false;
           tableReloadEventService.broadcast();
         }, function() {
 
@@ -116,7 +138,6 @@
         $scope.$emit('setAlert', 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
       }
     };
-    this.options = {};
 
     // Toggle between show and editable information
     this.editForm = function() {
@@ -136,13 +157,14 @@
           return;
         }
         $scope.editFormContainer.pendingEdition = true;
-        self.form.$show();
+        self.options.formState.showForm = true;
       });
     };
 
     this.cancelForm = function() {
       $scope.editFormContainer.pendingEdition = false;
-      self.form.$cancel();
+      self.options.formState.showForm = false;
+      self.options.resetModel();
     };
   }
 

@@ -169,19 +169,19 @@
     scopeEditForm.fields = [
       {
         key: 'name',
-        type: 'horizontalExtendInput',
+        type: 'horizontalEditableInput',
         templateOptions: {
           label: $filter('translate')('ROLES.ATTR_NAME'),
           required: true
         }
       }
     ];
-    if ($scope.permissions.length == 0)
+    if ($scope.permissions.length == 0) {
       scopeEditForm.fields.push({
         noFormControl: true,
         template: '<p>' + $filter('translate')('ROLES.NO_DATA') + '</p>'
       });
-    else {
+    } else {
       accordionArray = [];
       scopeEditForm.fields.push({
         noFormControl: true,
@@ -190,19 +190,18 @@
         },
         wrapper: ['horizontalBootstrapLabelOnly'],
         template: ''
-
       });
       angular.forEach($scope.permissions, function(value, key) {
         accordionArray.push({
           key: 'permissions_' + key,
-          type: 'editableChecklist',
-          wrapper: ['collapse'],
+          type: 'ovEditableMultiCheckBox',
+          wrapper: ['editableWrapper', 'collapse'],
           templateOptions: {
             label: '',
             labelCollapse: value.label,
             options: value.permissions,
-            valueProp: 'id',
-            labelProp: 'name'
+            valueProperty: 'id',
+            labelProperty: 'name'
           }
         });
       });
@@ -259,14 +258,14 @@
       angular.forEach($scope.permissions, function(value, key) {
         accordionArray.push({
           key: 'permissions_' + key,
-          type: 'multiCheckbox',
+          type: 'ovMultiCheckBox',
           wrapper: ['collapse'],
           templateOptions: {
             label: '',
             labelCollapse: value.label,
             options: value.permissions,
-            valueProp: 'id',
-            labelProp: 'name'
+            valueProperty: 'id',
+            labelProperty: 'name'
           }
         });
       });

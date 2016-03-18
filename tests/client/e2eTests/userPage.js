@@ -175,10 +175,7 @@ describe('User page', function() {
       roles: roles
     });
 
-    page.editUser(name, {name: '', email: ''});
-    page.getEditionFormErrors().then(function(errors) {
-      assert.equal(errors.length, 2);
-    });
+    assert.isRejected(page.editUser(name, {name: '', email: ''}));
   });
 
   it('should be able to cancel when removing a user', function() {

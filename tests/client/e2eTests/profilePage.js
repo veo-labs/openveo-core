@@ -60,9 +60,7 @@ describe('Profile page', function() {
   });
 
   it('should not be able to save user without a name', function() {
-    page.setNameAndSave();
-    assert.eventually.ok(page.userNameErrorElement.isPresent());
-    page.cancelEdition();
+    assert.isRejected(page.setNameAndSave());
   });
 
   it('should be able to cancel user edition', function() {

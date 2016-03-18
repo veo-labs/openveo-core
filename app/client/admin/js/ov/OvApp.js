@@ -26,7 +26,6 @@
     'ngTasty',
     'formly',
     'formlyBootstrap',
-    'xeditable',
     'ngJSONPath',
     'ngAnimate',
     'checklist-model'
@@ -46,110 +45,113 @@
   }
 
   var app = angular.module('ov', moduleDependencies);
-  app.run(['editableOptions', 'formlyConfig', '$filter', function(editableOptions, formlyConfig, $filter) {
+  app.run(['formlyConfig', '$filter', function(formlyConfig, $filter) {
 
-    editableOptions.theme = 'bs3'; // bootstrap3 theme. Can be also 'bs2', 'default'
-
+    // Formly wrappers
     formlyConfig.setWrapper({
       name: 'collapse',
-      template: ['<div class="panel panel-default">',
-        '<div for="{{::id}}" class="panel-heading" ng-init="isCollapsed=true" ' +
-                 'ng-click="isCollapsed = !isCollapsed">{{to.labelCollapse}}</div>',
-        '<div class="panel-body" uib-collapse="isCollapsed">',
-        '<formly-transclude></formly-transclude>',
-        '</div></div>'
-      ].join(' ')
+      templateUrl: 'ov-core-collapse.html'
     });
-
     formlyConfig.setWrapper({
       name: 'horizontalBootstrapLabel',
-      template: [
-        '<label for="{{::id}}" class="col-md-4 control-label">',
-        '{{to.label}} {{to.required ? "*" : ""}}',
-        '</label>',
-        '<div class="col-md-8">',
-        '<formly-transclude></formly-transclude>',
-        '</div>'
-      ].join(' ')
+      templateUrl: 'ov-core-horizontal-bootstrap-label.html'
     });
     formlyConfig.setWrapper({
       name: 'horizontalBootstrapLabelOnly',
-      template: [
-        '<label for="{{::id}}" class="col-md-4 control-label">',
-        '{{to.label}} {{to.required ? "*" : ""}}',
-        '</label>',
-        '<formly-transclude></formly-transclude>'
-      ].join(' ')
+      templateUrl: 'ov-core-horizontal-bootstrap-label-only.html'
+    });
+    formlyConfig.setWrapper({
+      name: 'editableWrapper',
+      templateUrl: 'ov-core-editable-wrapper.html'
+    });
+
+    // Formly types
+    formlyConfig.setType({
+      name: 'tags',
+      templateUrl: 'ov-core-formly-tags.html',
+      defaultOptions: {
+        validation: {
+          show: true
+        }
+      }
     });
     formlyConfig.setType({
       name: 'emptyrow',
-      template: '<div class="well well-sm">{{to.message}}</div>',
+      templateUrl: 'ov-core-empty-row.html',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
-
-    // Input type
     formlyConfig.setType({
       extends: 'input',
-      template: '<div class="editable"><span editable-text="model[options.key]" e-name="{{::id}}" ' +
-        'onbeforesave="checkNotEmpty($data)">{{ model[options.key] || (\'UI.EMPTY\'|translate) }}</span></div>',
       name: 'editableInput',
-      link: /* @ngInject */ function(scope) {
-        scope.checkNotEmpty = function(data) {
-          if (scope.to.required && (!data || data == ''))
-            return $filter('translate')('UI.REQUIRED_FIELD');
+      link: function(scope, element, attrs) {
+        scope.show = function() {
+          scope.isEmpty = scope.model[scope.options.key] ? false : true;
+          return scope.model[scope.options.key] || 'UI.EMPTY';
         };
       }
     });
     formlyConfig.setType({
       extends: 'select',
-      template: '<div class="editable">\n' +
-        '<span editable-select="model[options.key]" e-name="{{::id}}" ' +
-        'e-ng-options="s.value as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n' +
-        '{{ (to.options | filter:{value: model[options.key]})[0].name ||  (\'UI.EMPTY\'|translate) }}\n' +
-        '</div>',
       name: 'editableSelect',
-      link: /* @ngInject */ function(scope) {
-        scope.checkNotEmpty = function(data) {
-          if (scope.to.required && (!data || data == ''))
-            return $filter('translate')('UI.REQUIRED_FIELD');
+      link: function(scope, element, attrs) {
+        scope.show = function() {
+          var name = 'UI.EMPTY';
+
+          // Find selected option label
+          for (var i = 0; i < scope.to.options.length; i++) {
+            var selectOption = scope.to.options[i];
+            if (selectOption.value === scope.model[scope.options.key]) {
+              name = selectOption.name;
+              break;
+            }
+          }
+
+          scope.isEmpty = scope.model[scope.options.key] ? false : true;
+          return name;
         };
       }
     });
     formlyConfig.setType({
-      extends: 'multiCheckbox',
-      template: '<div class="editable">\n' +
-        '<span editable-checklist="model[options.key]" e-name="{{::id}}" ' +
-        'e-ng-options="s.id as s.name for s in to.options" onbeforesave="checkNotEmpty($data)">\n' +
-        '{{ showChecked() | translate}}\n' +
-        '</div>',
-      name: 'editableChecklist',
-      link: /* @ngInject */ function(scope) {
-        scope.showChecked = function() {
+      name: 'editableTags',
+      extends: 'tags',
+      wrapper: ['editableTagsWrapper'],
+      link: function(scope, element, attrs) {
+        scope.show = function() {
+          var tags = scope.model[scope.options.key];
+          scope.isEmpty = tags && tags.length ? false : true;
+          return tags && tags.join(', ') || 'UI.EMPTY';
+        };
+      }
+    });
+    formlyConfig.setType({
+      name: 'ovMultiCheckBox',
+      templateUrl: 'ov-core-formly-multi-check-box.html'
+    });
+    formlyConfig.setType({
+      name: 'ovEditableMultiCheckBox',
+      extends: 'ovMultiCheckBox',
+      link: function(scope) {
+        scope.show = function() {
           var selected = [];
           angular.forEach(scope.to.options, function(s) {
             if (scope.model[scope.options.key] && scope.model[scope.options.key].indexOf(s.id) >= 0) {
               selected.push(s.name);
             }
           });
+          scope.isEmpty = selected.length ? false : true;
           return selected.length ? selected.join(', ') : 'UI.EMPTY';
-        };
-        scope.checkNotEmpty = function(data) {
-          if (scope.to.required && data.length == 0)
-            return $filter('translate')('UI.REQUIRED_FIELD');
         };
       }
     });
-
-    // Horizontal-inputType
     formlyConfig.setType({
       name: 'horizontalInput',
       extends: 'input',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({
-      name: 'horizontalExtendInput',
+      name: 'horizontalEditableInput',
       extends: 'editableInput',
-      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({
       name: 'horizontalSelect',
@@ -157,19 +159,29 @@
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({
-      name: 'horizontalExtendSelect',
+      name: 'horizontalEditableSelect',
       extends: 'editableSelect',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalMultiCheckbox',
+      extends: 'ovMultiCheckBox',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({
-      name: 'horizontalCheckList',
-      extends: 'multiCheckbox',
+      name: 'horizontalEditableMultiCheckbox',
+      extends: 'ovEditableMultiCheckBox',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalTags',
+      extends: 'tags',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({
-      name: 'horizontalExtendCheckList',
-      extends: 'editableChecklist',
-      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+      name: 'horizontalEditableTags',
+      extends: 'editableTags',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
     });
 
   }]);

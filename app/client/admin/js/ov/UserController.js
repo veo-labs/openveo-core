@@ -6,6 +6,7 @@
    * Defines the user controller for the user page.
    */
   function UserController($scope, $filter, entityService, roles) {
+    var mailPattern = '^[0-9a-z._-]+@{1}[0-9a-z.-]{2,}[.]{1}[a-z]{2,5}$';
 
     /**
      * Adds a user.
@@ -115,7 +116,7 @@
         // the key to be used in the model values
         // so this will be bound to vm.user.username
         key: 'name',
-        type: 'horizontalExtendInput',
+        type: 'horizontalEditableInput',
         templateOptions: {
           label: $filter('translate')('USERS.ATTR_NAME'),
           required: true
@@ -123,23 +124,24 @@
       },
       {
         key: 'email',
-        type: 'horizontalExtendInput',
+        type: 'horizontalEditableInput',
         templateOptions: {
           label: $filter('translate')('USERS.ATTR_EMAIL'),
-          required: true
+          required: true,
+          pattern: mailPattern
         }
       }];
     if ($scope.roles.length != 0)
       scopeEditForm.fields.push(
         {
           key: 'roles',
-          type: 'horizontalExtendCheckList',
+          type: 'horizontalEditableMultiCheckbox',
           templateOptions: {
             label: $filter('translate')('USERS.ATTR_ROLE'),
             required: false,
             options: $scope.roles,
-            valueProp: 'id',
-            labelProp: 'name'
+            valueProperty: 'id',
+            labelProperty: 'name'
           }
         }
       );
@@ -176,7 +178,7 @@
           label: $filter('translate')('USERS.FORM_ADD_EMAIL'),
           required: true,
           description: $filter('translate')('USERS.FORM_ADD_EMAIL_DESC'),
-          pattern: '^[0-9a-z._-]+@{1}[0-9a-z.-]{2,}[.]{1}[a-z]{2,5}$'
+          pattern: mailPattern
         },
         expressionProperties: {
           'templateOptions.disabled': '!model.name' // disabled when username is blank
@@ -222,13 +224,13 @@
       scopeAddForm.fields.push(
         {
           key: 'roles',
-          type: 'horizontalCheckList',
+          type: 'horizontalMultiCheckbox',
           templateOptions: {
             label: $filter('translate')('USERS.FORM_ADD_ROLE'),
             required: false,
             options: $scope.roles,
-            valueProp: 'id',
-            labelProp: 'name',
+            valueProperty: 'id',
+            labelProperty: 'name',
             description: $filter('translate')('USERS.FORM_ADD_ROLE_DESC')
           },
           expressionProperties: {

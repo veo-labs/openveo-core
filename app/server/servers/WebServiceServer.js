@@ -4,6 +4,7 @@
  * @module core-servers
  */
 
+var path = require('path');
 var util = require('util');
 var express = require('express');
 var openVeoAPI = require('@openveo/api');

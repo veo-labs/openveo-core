@@ -96,6 +96,111 @@
       </div>
     </div>
 
+    <!--
+      Custom directive templates
+    -->
+
+    <!-- "ov-tags" directive template -->
+    <script type="text/ng-template" id="ov-core-tags.html">
+      <div class="ov-tags">
+        <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ng-keydown="addTag($event);" ng-model="editableTagsInput" class="form-control">
+        <ul>
+          <li ng-repeat="item in tags track by $index" class="option">
+            <div ng-bind="item"></div>
+            <a ng-click="removeTag($event, $index)" class="glyphicon glyphicon-remove"></a>
+          </li>
+        </ul>
+      </div>
+    </script>
+
+    <!-- "ov-multi-check-box" directive template -->
+    <script type="text/ng-template" id="ov-core-mutli-check-box.html">
+      <div class="ov-multi-check-box">
+        <div ng-repeat="option in options" class="checkbox">
+          <label>
+            <input type="checkbox" ng-model="values[$index]" ng-change="onChange()" ng-disabled="disabled" />
+            {{ option[labelProperty] }}
+          </label>
+        </div>
+      </div>
+    </script>
+
+    <!--
+      Formly template wrappers
+    -->
+
+    <!-- Formly "collapse" wrapper template -->
+    <script type="text/ng-template" id="ov-core-collapse.html">
+      <div class="panel panel-default">
+        <div for="{{::id}}" class="panel-heading" ng-init="isCollapsed=true" ng-click="isCollapsed = !isCollapsed">
+          {{ to.labelCollapse }}
+        </div>
+        <div class="panel-body" uib-collapse="isCollapsed">
+          <formly-transclude></formly-transclude>
+        </div>
+      </div>
+    </script>
+
+    <!-- Formly "horizontalBootstrapLabel" wrapper template -->
+    <script type="text/ng-template" id="ov-core-horizontal-bootstrap-label.html">
+      <label for="{{::id}}" class="col-md-4 control-label">
+        {{ to.label }} {{ to.required ? "*" : "" }}
+      </label>
+      <div class="col-md-8">
+        <formly-transclude></formly-transclude>
+      </div>
+    </script>
+
+    <!-- Formly "horizontalBootstrapLabelOnly" wrapper template -->
+    <script type="text/ng-template" id="ov-core-horizontal-bootstrap-label-only.html">
+      <label for="{{::id}}" class="col-md-4 control-label">
+        {{ to.label }} {{ to.required ? "*" : "" }}
+      </label>
+      <formly-transclude></formly-transclude>
+    </script>
+
+    <!-- Formly "editable" wrapper template -->
+    <script type="text/ng-template" id="ov-core-editable-wrapper.html">
+      <div>
+        <div class="literal" ng-show="!formState.showForm">
+          <span ng-class="{'editable-empty': isEmpty}">
+            {{ show() | translate }}
+          </span>
+        </div>
+        <div ng-show="formState.showForm">
+          <formly-transclude></formly-transclude>
+        </div>
+      </div>
+    </script>
+
+    <!--
+      Formly types
+    -->
+
+    <!-- Formly "emptyrow" type template -->
+    <script type="text/ng-template" id="ov-core-empty-row.html">
+      <div class="well well-sm">{{ to.message }}</div>
+    </script>
+
+    <!-- Formly "tags" type template -->
+    <script type="text/ng-template" id="ov-core-formly-tags.html">
+      <ov-tags ng-model="model[options.key]" ng-model-options="{ allowInvalid: true }"></ov-tags>
+    </script>
+
+    <!-- Formly "ovMultiCheckBox" type template -->
+    <script type="text/ng-template" id="ov-core-formly-multi-check-box.html">
+      <div>
+        <ov-multi-check-box
+          ng-model="model[options.key]"
+          options="to.options"
+          label-property="to.labelProperty"
+          value-property="to.valueProperty"
+          disabled="to.disabled"
+          ng-model-options="{ allowInvalid: true }">
+        </ov-multi-check-box>
+      </div>
+    </script>
+
     [[#librariesScripts]]
     <script type="text/javascript" src="[[.]]"></script>
     [[/librariesScripts]]

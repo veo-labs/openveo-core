@@ -82,7 +82,7 @@
         // The key to be used in the model values
         // so this will be bound to vm.user.username
         key: 'name',
-        type: 'horizontalExtendInput',
+        type: 'horizontalEditableInput',
         templateOptions: {
           label: $filter('translate')('PROFILES.ATTR_NAME'),
           required: true

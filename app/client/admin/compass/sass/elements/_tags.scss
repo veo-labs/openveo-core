@@ -1,0 +1,44 @@
+/* Style for tags form element with an input to add new tags followed by a list of tags */
+.ov-tags {
+
+  ul {
+    padding: 0 20px 0 0;
+    margin: 0;
+    white-space: normal;
+  }
+
+  input {
+    width: auto;
+  }
+
+  li {
+    list-style: none;
+  }
+
+  .option {
+    position: relative;
+    display: inline-block;
+    padding: 3px 5px 3px 18px;
+    margin: 3px 0 3px 5px;
+    line-height: 13px;
+    font-size: 13px;
+    border: 1px solid #aaa;
+    border-radius: 3px;
+    background-image: linear-gradient(top, #f4f4f4 20%, #f0f0f0 50%, #e8e8e8 52%, #eee 100%);
+  }
+
+  a {
+    position: absolute;
+    display: block;
+    top: 4px;
+    left: 3px;
+    width: 12px;
+    height: 13px;
+    outline: none;
+  }
+
+  a:hover {
+    cursor: pointer;
+  }
+
+}

@@ -45,7 +45,7 @@ describe('Profile page translations', function() {
         // Form edit button translation
         assert.eventually.equal(page.editUserElement.getText(), page.translations.UI.FORM_EDIT);
 
-        return page.setNameAndSave();
+        return page.activateEdition();
       }).then(function() {
 
         // Account form translations
@@ -58,7 +58,6 @@ describe('Profile page translations', function() {
         assert.eventually.equal(page.userRolesLabelElement.getText(), page.translations.PROFILES.ATTR_ROLES);
         assert.eventually.equal(page.submitUserElement.getText(), page.translations.UI.FORM_SAVE);
         assert.eventually.equal(page.cancelUserElement.getText(), page.translations.UI.FORM_CANCEL);
-        assert.eventually.equal(page.userNameErrorElement.getText(), page.translations.UI.REQUIRED_FIELD);
 
         // Password form translations
         assert.eventually.equal(page.passwordTitleElement.getText(), page.translations.PROFILES.ATTR_MODIFY_PASSWORD);

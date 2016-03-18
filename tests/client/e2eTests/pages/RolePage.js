@@ -330,7 +330,7 @@ RolePage.prototype.getRolePermissions = function(name) {
         browser.wait(self.EC.visibilityOf(panel.element(by.css('.panel-body'))), 5000, 'Missing panel body (' +
                      index + ')');
 
-        panel.all(by.css('.panel-body .editable')).first().getText().then(function(text) {
+        panel.all(by.css('.panel-body .literal')).first().getText().then(function(text) {
           permissions = permissions.concat(text.split(', '));
         });
       });

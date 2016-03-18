@@ -12,7 +12,6 @@ The back end relies on a couple of libraries :
 - **[angular-bootstrap](https://angular-ui.github.io/bootstrap/)** for basic user interface components
 - **[angular-formly](http://angular-formly.com/)** to build formulars from a JavaScript literal object
 - **[angular-ui-tree](http://angular-ui-tree.github.io/angular-ui-tree)** to build an UI tree (not directly used by openveo-core)
-- **[angular-xeditable](http://vitalets.github.io/angular-xeditable/)** to be able to edit entities in place
 - **[ng-jsonpath](https://github.com/noherczeg/ng-jsonpath)** to search on a JSON object (not directly used by openveo-core)
 - **[ng-tasty](http://zizzamia.com/ng-tasty/)** to present entities in a dynamic paginated table
 
@@ -126,13 +125,13 @@ $scope.addFormContainer.fields = [
   },
   {
     key: 'books',
-    type: 'horizontalCheckList',
+    type: 'horizontalMultiCheckbox',
     templateOptions: {
       label: 'Books',
       required: false,
       options: $scope.books,
-      valueProp: 'isbn',
-      labelProp: 'name',
+      valueProperty: 'isbn',
+      labelProperty: 'name',
       description: 'List of books'
     },
     expressionProperties: {
@@ -228,12 +227,12 @@ Where **selectOptions** need to be describe in this format:
 // Each column need to display a property,
 // Automatically, a sort filter is enable on each column except 'Action' column
 $scope.tableContainer.header = [{
-  key: 'name',                      // property co display and sort in column    
+  key: 'name',                      // property co display and sort in column
   name: 'Label of the name column',
   class: ['col-xs-12 col-sm-11']    // css class to add on header cell
 },
 {
-  key: 'action',                    
+  key: 'action',
   name: 'Label for action button' ,
   class: [' hidden-xs col-sm-1'],
 }];
@@ -241,16 +240,16 @@ $scope.tableContainer.header = [{
 Header object 'action' is **REQUIRED** and not bind any sort filter.
 
 Headers default type is text. Filter type can be set by adding **type** properties to filter object.
-Default **date** (timestamp) and **text** value are enabled. 
+Default **date** (timestamp) and **text** value are enabled.
 But you can add any type if you make your own custom cell rendrer (see after)
 ```javascript
 {
-  key: 'date', 
+  key: 'date',
   name: 'Label of the date column',
   type: 'date'
 },
 {
-  key: 'author', 
+  key: 'author',
   name: 'Label of the author column',
   type: 'author'
 }
@@ -259,7 +258,7 @@ But you can add any type if you make your own custom cell rendrer (see after)
 ```javascript
 //Usefull to add HTML value, or filtered value
 //if not defined, can print date and text
-//if defined, add custom cells renderer to date and text 
+//if defined, add custom cells renderer to date and text
 $scope.tableContainer.cellTheme = '/path/to/cells/template.html';
 ```
 For example (assuming that **entities** is the header type to render, an **row[entities.key]**, the value to display)
@@ -278,7 +277,7 @@ $scope.tableContainer.actions = [{
   warningPopup: true,
 
   // Condition to enable the action in the dropdown button action
-  condition: function(row) {      
+  condition: function(row) {
     return $scope.rights.delete && !row.locked && !row.saving;
   },
 
@@ -323,7 +322,7 @@ tableReloadEventService.broadcast();
 
 DataTable is dependent of an edit form. This form specify what information user can access and/or modify.
 All properties described in the **[Add a new form](#add-a-new-form)** section can be used to describe the form.
-Main differencies are that the form need to be initialized by the open row (the model is not exposed), and that form fields MUST be extend with an **[angular-xeditable](http://vitalets.github.io/angular-xeditable/)** field
+Main differencies are that the form need to be initialized by the open row (the model is not exposed), and that form fields MUST be editable types.
 
 - Initialize editFormContainer object
 ```javascript
@@ -335,7 +334,7 @@ $scope.addFormContainer = {};
 // This is the model of the form
 $scope.editFormContainer.model = {};
 
-// Initialize the entity type to retrieve before the row is updated 
+// Initialize the entity type to retrieve before the row is updated
 // to always update the latest value in database.
 $scope.editFormContainer.entityType = 'book';
 
@@ -353,14 +352,13 @@ $scope.editFormContainer.conditionEditDetail = function(row) {
   return !row.locked;
 };
 ```
-- Set Fields 
+- Set Fields
 ```javascript
-// Describe fields just like in formly documentation, extends with openveo xeditable type
-// editableInput, editableChecklist, editableChecklist
+// Describe fields just like in formly documentation with OpenVeo editable fields types
 $scope.editFormContainer.fields = {
   // the key to be used in the model values
   key: 'name',
-  type: 'horizontalExtendInput', //editableInput wrapped with horizontal layout
+  type: 'horizontalEditableInput',
   templateOptions: {
     label: 'label for name input',
     required: true
@@ -370,13 +368,13 @@ $scope.editFormContainer.fields = {
 - Set Fields dynamically
 ```javascript
 // Function call when the form is displayed
-// Usefull to add fields dynamically according to the open row, 
+// Usefull to add fields dynamically according to the open row,
 // or retrieve information relative to the row
 $scope.editFormContainer.init = function(row) {
   if(row.state == SHOW.PROPERTY){
     var newField = {
       key: 'property',
-      type: 'horizontalExtendInput',
+      type: 'horizontalEditableInput',
       model: row.property,
       templateOptions: {
         label: 'Label of the new property field'
@@ -386,36 +384,50 @@ $scope.editFormContainer.init = function(row) {
   }
 }
 ```
-### Fields type
-In order to enhance forms, you can add your own fields type by specified them in the **formlyConfig** Object in **app.run**:
-```javascript
-// This type allready in Openveo can right an text in a well componant
-formlyConfig.setType({
-  name: 'emptyrow',
-  template: '<div class="well well-sm">{{to.message}}</div>',
-  wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-});
+### Field types
 
-// to use it :
+OpenVeo defines the following list of formly fields.
 
-$scope.editFormContainer.fields = [
-{
-  noFormControl: true,
-  type: 'emptyrow',
-  templateOptions: {
-    label: 'label of the not editable row',
-    message: 'not editable value to display'
-  }
-}]
-```
-Xeditable fields that already exist are : editableInput, editableChecklist, editableChecklist, emptyrow
+Field type | Description | Specific options
+------------ | ------------- | ------------
+tags | Display an input text to add a list of tags | -
+emptyrow | Display a fake field with a static message | **message** the message to display
+ovMultiCheckBox | Same as the "multiCheckbox" type defined by [angular-formly-templates-bootstrap](https://github.com/formly-js/angular-formly-templates-bootstrap) | **options** the list of checkboxes description objects with a property for the name of the checkbox and a property for the value of the checkbox ; **valueProperty** to define the property to use to get the checkbox value (default is "value") ; **labelProperty** to define the property to use to get the checkbox label (default is "name")
+horizontalInput | Same as "input" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "input"
+horizontalSelect | Same as "select" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "select"
+horizontalMultiCheckbox | Same as "ovMultiCheckBox" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "ovMultiCheckBox"
+horizontalTags | Same as "tags" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "tags"
 
-Other xeditable extend fields can be added but, to be used in an edit form, need to be wrapped in the **formlyConfig** Object:
-```javascript
-    formlyConfig.setType({
-      name: 'horizontalExtendFieldType',
-      extends: 'editableFieldType',
-      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
-    });
-```
+Nb: All field types defined in [angular-formly-templates-bootstrap](https://github.com/formly-js/angular-formly-templates-bootstrap) are also available.
 
+### Editable field types
+
+An editable field type is capable of displaying the field or its literal representation depending on "showForm" property of formState object.
+If "showForm" is set to true, the field is displayed, if set to false, the literal representation of the field is displayed.
+
+OpenVeo defines the following list of editable formly fields.
+
+Field type | Description | Specific options
+------------ | ------------- | ------------
+editableTags | Make field type "tags" editable | -
+editableInput | Make field type "input" editable | Same as "input"
+editableSelect | Make field type "select" editable | Same as "select"
+editableTags | Make field type "tags" editable | Same as "tags"
+ovEditableMultiCheckBox | Make field type "ovMultiCheckBox" editable | Same as "ovMultiCheckBox"
+horizontalEditableInput | Same as "editableInput" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "editableInput"
+horizontalEditableSelect | Same as "editableSelect" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "editableSelect"
+horizontalEditableMultiCheckbox | Same as "ovEditableMultiCheckBox" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "ovEditableMultiCheckBox"
+horizontalEditableTags | Same as "editableTags" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "editableTags"
+
+### Field wrappers
+
+OpenVeo defines the following list of editable formly wrappers.
+
+Wrapper name | Description | Specific options
+------------ | ------------- | ------------
+collapse | Collapse / Uncollapse a formly field | **labelCollapse** the label of the collapsible element
+horizontalBootstrapLabel | Put a label in front of a field | **label** the label ; **required** a boolean to indicates if a "*" character must follow the label
+horizontalBootstrapLabelOnly | Same as "horizontalBootstrapLabel" but without wrapping the field | Same as "horizontalBootstrapLabel"
+editableWrapper | Display the field or its literal representation depending on "showForm" property of formState object. This is the wrapper used by all editable fields | -
+
+Nb: All wrappers defined in [angular-formly-templates-bootstrap](https://github.com/formly-js/angular-formly-templates-bootstrap) are also available.

@@ -19,7 +19,7 @@ function ProfilePage() {
   this.pageDescriptionElement = element(by.binding('PROFILES.INFO'));
   this.accountTitleElement = element(by.binding('PROFILES.ATTR_USER_ACCOUNT'));
   this.userNameLabelElement = element(by.repeater('field in fields').row(0)).element(by.css('label'));
-  this.userNameElement = element(by.repeater('field in fields').row(0)).element(by.css('span.editable'));
+  this.userNameElement = element(by.repeater('field in fields').row(0)).element(by.css('.literal span'));
   this.userNameInputElement = element(by.repeater('field in fields').row(0)).element(by.css('input'));
   this.userNameErrorElement = element(by.repeater('field in fields').row(0)).element(by.css('.has-error > div'));
   this.userEmailLabelElement = element(by.repeater('field in fields').row(1)).element(by.css('label'));
@@ -78,8 +78,8 @@ ProfilePage.prototype.activateEdition = function() {
   var self = this;
 
   // Test if account edition is activated
-  return this.userNameInputElement.isPresent().then(function(isPresent) {
-    if (isPresent) {
+  return this.userNameInputElement.isDisplayed().then(function(isDisplayed) {
+    if (isDisplayed) {
 
       // Edition is already activated
       return protractor.promise.fulfilled();
@@ -88,7 +88,7 @@ ProfilePage.prototype.activateEdition = function() {
 
       // Activate edition
       browserExt.click(self.editUserElement);
-      return browser.wait(self.EC.presenceOf(self.userNameInputElement), 1000, 'Missing edition form');
+      return browser.wait(self.EC.visibilityOf(self.userNameInputElement), 1000, 'Missing edition form');
 
     }
   }).then(function() {
@@ -107,8 +107,8 @@ ProfilePage.prototype.cancelEdition = function() {
   var self = this;
 
   // Test if account edition is activated
-  return this.userNameInputElement.isPresent().then(function(isPresent) {
-    if (!isPresent) {
+  return this.userNameInputElement.isDisplayed().then(function(isDisplayed) {
+    if (!isDisplayed) {
 
       // Edition is already deactivated
       return protractor.promise.fulfilled();
@@ -118,7 +118,7 @@ ProfilePage.prototype.cancelEdition = function() {
       // Cancel edition
       browserExt.click(self.cancelUserElement);
 
-      return browser.wait(self.EC.stalenessOf(self.userNameInputElement), 1000, 'Edition form still visible');
+      return browser.wait(self.EC.invisibilityOf(self.userNameInputElement), 1000, 'Edition form still visible');
     }
   }).then(function() {
     return protractor.promise.fulfilled();

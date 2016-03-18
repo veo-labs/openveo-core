@@ -1,3 +1,5 @@
+@import "tags";
+
 .add-form .detail{
   line-height: initial;
 }
@@ -11,8 +13,6 @@
   @include mobile-and-tablet{
     padding-left: 0;
   }
- 
-  
 }
 .add-form{
   .form-group{
@@ -28,33 +28,29 @@
       cursor:pointer;
     }
   }
-  
-  span.editable-input label {
-    display: block;
-  }
-  
+
   > .form-group{
       margin-bottom:10px;
-    } 
+    }
   &.formly-field-group{
     .form-group{
       margin:0;
     }
     .panel-body{
       padding:0;
-      div.editable{
+      .literal{
         padding:15px 15px 15px 25px;
         top:0;
       }
-      span.editable{
+      .literal span{
         line-height: 17px;
         top: 0;
       }
       label{
-        font-weight: inherit; 
+        font-weight: inherit;
         line-height: 20px;
       }
-      .radio-group{
+      .ov-multi-check-box{
         padding:15px 0 15px 25px;
       }
     }
@@ -63,8 +59,9 @@
     margin-bottom:0;
     word-break: break-all;
   }
-  .editable-wrap{
-    margin-left: 15px;
+  .editable-empty {
+    font-style: italic;
+    color: #D14;
   }
 }
 

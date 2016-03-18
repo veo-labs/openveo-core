@@ -118,19 +118,21 @@
     scopeEditForm.fields = [
       {
         key: 'name',
-        type: 'horizontalExtendInput',
+        type: 'horizontalEditableInput',
         templateOptions: {
           label: $filter('translate')('APPLICATIONS.ATTR_NAME'),
           required: true
         }
-      }, {
+      },
+      {
         noFormControl: true,
         type: 'emptyrow',
         templateOptions: {
           label: $filter('translate')('APPLICATIONS.ATTR_ID'),
           message: ''
         }
-      }, {
+      },
+      {
         noFormControl: true,
         type: 'emptyrow',
         templateOptions: {
@@ -143,13 +145,12 @@
       scopeEditForm.fields.push(
         {
           key: 'scopes',
-          type: 'horizontalExtendCheckList',
+          type: 'horizontalEditableMultiCheckbox',
           templateOptions: {
             label: $filter('translate')('APPLICATIONS.ATTR_SCOPES'),
             options: $scope.scopes,
-            valueProp: 'id',
-            labelProp: 'name',
-            descProp: 'description'
+            valueProperty: 'id',
+            labelProperty: 'name'
           }
         }
       );
@@ -189,13 +190,13 @@
     else
       scopeAddForm.fields.push({
         key: 'scopes',
-        type: 'horizontalCheckList',
+        type: 'horizontalMultiCheckbox',
         templateOptions: {
           label: $filter('translate')('APPLICATIONS.FORM_ADD_SCOPES'),
           required: false,
           options: $scope.scopes,
-          valueProp: 'id',
-          labelProp: 'name',
+          valueProperty: 'id',
+          labelProperty: 'name',
           description: $filter('translate')('APPLICATIONS.FORM_ADD_SCOPES_DESC')
         },
         expressionProperties: {

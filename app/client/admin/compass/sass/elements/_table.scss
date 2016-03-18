@@ -27,7 +27,7 @@
         }
       }
     }
-  } 
+  }
   &>tbody{
     &>tr{
       &> td{
@@ -61,9 +61,9 @@
 }
 
 /* List details */
-.detail { 
+.detail {
   line-height: 16px;
-  span.editable{
+  .literal span{
     top: 7px;
     position: relative;
     @include mobile-and-tablet(){
@@ -167,18 +167,18 @@
       overflow: hidden;
       padding-bottom: 5px;
       display: block !important;
-      max-height:0px; 
+      max-height:0px;
       &.ng-hide-remove-active {
-        max-height:200px;  
+        max-height:200px;
       }
     }
-    &.ng-hide-add { 
+    &.ng-hide-add {
       overflow: hidden;
       padding-bottom: 5px;
       display: block !important;
-      max-height:200px; 
+      max-height:200px;
       &.ng-hide-add-active{
-        max-height:0px; 
+        max-height:0px;
       }
     }
 
@@ -204,7 +204,7 @@
     &.displayAction{
       width: 120px;
     }
-    &.searchOpen{     
+    &.searchOpen{
       @include transition-delay(0s);
       bottom: 4px;
     }
@@ -224,7 +224,7 @@
         cursor:pointer;
       }
     }
-    
+
     &.ng-enter{
       left:-10px;
       opacity:0;
