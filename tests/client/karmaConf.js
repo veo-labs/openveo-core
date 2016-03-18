@@ -25,11 +25,9 @@ module.exports = function(config) {
       'assets/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js',
       'assets/lib/angular-xeditable/dist/js/xeditable.js',
       'assets/lib/checklist-model/checklist-model.js',
-      'assets/lib/multirange/multirange.js',
       'assets/lib/ng-jsonpath/dist/ng-jsonpath.js',
       'assets/lib/ng-tasty/ng-tasty-tpls.js',
       'app/client/admin/js/authentication/AuthenticationApp.js',
-      'app/client/admin/js/route/RouteApp.js',
       'app/client/admin/js/ov/OvApp.js',
       'app/client/admin/js/**/*.js',
       'tests/client/unitTests/*.js'
