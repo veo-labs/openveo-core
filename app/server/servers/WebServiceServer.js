@@ -1,3 +1,4 @@
+
 'use strict';
 
 /**
@@ -6,6 +7,7 @@
 
 var path = require('path');
 var util = require('util');
+var path = require('path');
 var express = require('express');
 var openVeoAPI = require('@openveo/api');
 var bodyParser = require('body-parser');
@@ -15,6 +17,7 @@ var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var migrationLoader = process.require('/app/server/loaders/migrationLoader');
 var oAuthController = process.require('app/server/controllers/oAuthController.js');
 var errorController = process.require('app/server/controllers/errorController.js');
+var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
 var conf = process.require('conf.json');
 
 /**
@@ -26,6 +29,7 @@ var conf = process.require('conf.json');
  * @param {Object} configuration Service configuration
  */
 function WebServiceServer(configuration) {
+  var self = this;
   Server.call(this, configuration);
 
   /**
@@ -37,12 +41,35 @@ function WebServiceServer(configuration) {
   this.router = express.Router();
 
   /**
+   * List of path holding images needing processing.
+   *
+   * @property imagesFolders
+   * @type Array
+   */
+  this.imagesFolders = [];
+
+  /**
+   * Image styles for image processing.
+   *
+   * @property imagesStyle
+   * @type Object
+   */
+  this.imagesStyle = {};
+
+  /**
    * migrations Script description object.
    *
    * @property migrations
    * @type Object
    */
   this.migrations = {};
+
+  // Add core image folder
+  conf['imageProcessing']['imagesFolders'].forEach(function(folder) {
+    self.imagesFolders.push(path.normalize(process.root + '/' + folder));
+  });
+  this.imagesStyle = conf['imageProcessing']['imagesStyle'] || {};
+
 
   // Log each request
   this.app.use(openVeoAPI.middlewares.logRequestMiddleware);
@@ -57,11 +84,12 @@ function WebServiceServer(configuration) {
   // Web service routes
   this.router.use(oAuth.inject());
   this.router.post('/token', oAuth.controller.token);
-  this.router.all('*', oAuth.middleware.bearer);
-  this.router.all('*', oAuthController.validateScopesAction);
+  var allPathExceptImages = '^(?!.*[.]jpg$).*$/mg';
+  this.router.all(allPathExceptImages, oAuth.middleware.bearer);
+  this.router.all(allPathExceptImages, oAuthController.validateScopesAction);
 
   // Disable cache on get requests
-  this.app.get('*', openVeoAPI.middlewares.disableCacheMiddleware);
+  this.app.get(allPathExceptImages, openVeoAPI.middlewares.disableCacheMiddleware);
 
   // Mount router
   this.app.use('/', this.router);
@@ -115,6 +143,17 @@ WebServiceServer.prototype.onPluginAvailable = function(plugin) {
   if (plugin.migrations)
     this.migrations[plugin.name] = plugin.migrations;
 
+  // Found images folders to process
+  if (plugin.imagesFolders) {
+    this.imagesFolders = this.imagesFolders.concat(plugin.imagesFolders);
+
+    if (plugin.imagesStyle) {
+      for (var attrname in plugin.imagesStyle) {
+        this.imagesStyle[attrname] = plugin.imagesStyle[attrname];
+      }
+    }
+  }
+
 };
 
 /**
@@ -126,11 +165,18 @@ WebServiceServer.prototype.onPluginAvailable = function(plugin) {
  * @method onPluginsLoaded
  */
 WebServiceServer.prototype.onPluginsLoaded = function() {
+  var self = this;
+
+  // Set Thumbnail generator on image folder
+  this.imagesFolders.forEach(function(folder) {
+    self.app.use(expressThumbnail.register(folder + '/', {
+      imagesStyle: self.imagesStyle
+    }));
+  });
 
   // Handle not found and errors
   this.app.all('*', errorController.notFoundAction);
   this.app.use(errorController.errorAction);
-
 };
 
 /**
