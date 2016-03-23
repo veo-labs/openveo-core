@@ -10,22 +10,22 @@
  * @class taxonomyController
  */
 
+var openVeoAPI = require('@openveo/api');
 var errors = process.require('app/server/httpErrors.js');
-var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
-var taxonomyModel = new TaxonomyModel();
+var taxonomyModel = new openVeoAPI.TaxonomyModel();
 
 /**
  * Gets information about a taxonomy.
  *
  * Expects one GET parameter :
- * - **id** The id of the taxonomy
+ * - **name** The name of the taxonomy
  *
  * Return information about the taxonomy as a JSON object.
  *
  * @example
  *     {
  *       "taxonomy" : {
- *         "id" : 123456789,
+ *         "name" : 123456789,
  *         ...
  *       }
  *     }
@@ -51,7 +51,7 @@ module.exports.getTaxonomyAction = function(request, response, next) {
     });
   }
 
-  // Missing id of the taxonomy
+  // Missing name of the taxonomy
   else
     next(errors.GET_TAXONOMY_MISSING_PARAMETERS);
 };
