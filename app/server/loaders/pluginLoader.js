@@ -294,10 +294,7 @@ module.exports.loadPlugins = function(startingPath, callback) {
  *    - **Plugin** The loaded plugin or null
  */
 module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
-
-  var plugin = {
-    path: pluginPath
-  };
+  var plugin = {};
 
   // Extract the plugin(s) name(s) from the plugin path
   // e.g : [/www/openveo/]node_modules/@openveo/plugin1/node_modules/@openveo/plugin2
@@ -326,6 +323,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
 
       // Instanciate the Plugin Object
       plugin = new Plugin();
+      plugin.path = pluginPath;
 
       // Define plugin router mount path
       // Plugin router is mounted on a subpath to avoid collisions
