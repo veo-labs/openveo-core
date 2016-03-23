@@ -323,17 +323,21 @@ ApplicationServer.prototype.onPluginsLoaded = function() {
  * Starts the HTTP server.
  *
  * @method startServer
+ * @async
+ * @param {Function} callback Function to call when it's done with :
+ *  - **Error** An error if something went wrong, null otherwise
  */
-ApplicationServer.prototype.startServer = function() {
+ApplicationServer.prototype.startServer = function(callback) {
 
   // Start server
-  var server = this.app.listen(this.configuration.port, function() {
+  var server = this.app.listen(this.configuration.port, function(error) {
     process.logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
 
     // If process is a child process, send an event to parent process informing that the server has started
     if (process.connected)
       process.send({status: 'started'});
 
+    callback(error);
   });
 
 };
