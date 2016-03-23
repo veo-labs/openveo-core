@@ -61,3 +61,23 @@ TokenProvider.prototype.getByValue = function(token, callback) {
       callback(error, data && data[0]);
     });
 };
+
+/**
+ * Creates tokens indexes.
+ *
+ * @method createIndexes
+ * @async
+ * @param {Function} callback Function to call when it's done with :
+ *  - **Error** An error if something went wrong, null otherwise
+ */
+TokenProvider.prototype.createIndexes = function(callback) {
+  this.database.createIndexes(this.collection, [
+    {key: {clientId: 1}, name: 'byClientId'},
+    {key: {token: 1}, name: 'byToken'}
+  ], function(error, result) {
+    if (result && result.note)
+      process.logger.debug('Create tokens indexes : ' + result.note);
+
+    callback(error);
+  });
+};

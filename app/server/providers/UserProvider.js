@@ -92,3 +92,22 @@ UserProvider.prototype.getOne = function(id, callback) {
       callback(error, data && data[0]);
     });
 };
+
+/**
+ * Creates users indexes.
+ *
+ * @method createIndexes
+ * @async
+ * @param {Function} callback Function to call when it's done with :
+ *  - **Error** An error if something went wrong, null otherwise
+ */
+UserProvider.prototype.createIndexes = function(callback) {
+  this.database.createIndexes(this.collection, [
+    {key: {name: 1}, name: 'byName'}
+  ], function(error, result) {
+    if (result && result.note)
+      process.logger.debug('Create users indexes : ' + result.note);
+
+    callback(error);
+  });
+};

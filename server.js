@@ -6,7 +6,12 @@ var async = require('async');
 var nopt = require('nopt');
 
 var openVeoAPI = require('@openveo/api');
+var ClientProvider = process.require('app/server/providers/ClientProvider.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var TokenProvider = process.require('app/server/providers/TokenProvider.js');
+var UserProvider = process.require('app/server/providers/UserProvider.js');
 var conf = process.require('conf.json');
+var TaxonomyProvider = openVeoAPI.TaxonomyProvider;
 var applicationStorage = openVeoAPI.applicationStorage;
 var configurationDirectoryPath = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerConf.json');
@@ -55,6 +60,30 @@ if (processOptions['ws']) {
 // Loaders
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var entityLoader = process.require('app/server/loaders/entityLoader.js');
+
+/**
+ * Executes a plugin function on all plugins in parallel.
+ *
+ * @param {String} functionToExecute The name of the function to execute on each plugin
+ * @param {Function} callback Function to call when it's done with :
+ *  - **Error** An error if something went wrong, null otherwise
+ */
+function executePluginFunction(functionToExecute, callback) {
+  var plugins = applicationStorage.getPlugins();
+  var asyncFunctions = [];
+
+  plugins.forEach(function(plugin) {
+    if (plugin[functionToExecute] && typeof plugin[functionToExecute] === 'function')
+      asyncFunctions.push(function(callback) {
+        plugin[functionToExecute](callback);
+      });
+  });
+
+  if (asyncFunctions.length)
+    async.parallel(asyncFunctions, callback);
+  else
+    callback();
+}
 
 async.series([
 
@@ -127,17 +156,54 @@ async.series([
     });
   },
 
- // Execute migrations script
+  // Execute migrations script
   function(callback) {
     var migrations = server.migrations;
     migrationProcess.executeMigrationScript(migrations, callback);
   },
 
-  // Handle errors
+  // Create core indexes
+  function(callback) {
+    var database = openVeoAPI.applicationStorage.getDatabase();
+    var asyncFunctions = [];
+    var providers = [
+      new ClientProvider(database),
+      new RoleProvider(database),
+      new TaxonomyProvider(database),
+      new TokenProvider(database),
+      new UserProvider(database)
+    ];
+
+    providers.forEach(function(provider) {
+      if (provider.createIndexes) {
+        asyncFunctions.push(function(callback) {
+          provider.createIndexes(callback);
+        });
+      }
+    });
+
+    async.parallel(asyncFunctions, function(error, results) {
+      callback(error);
+    });
+  },
+
+  // Intitializes plugins
+  function(callback) {
+    executePluginFunction('init', callback);
+  },
+
+  // Start plugins
+  function(callback) {
+    executePluginFunction('start', callback);
+  },
+
+  // Start server
   function(callback) {
     server.onPluginsLoaded();
-    server.startServer();
-    callback();
-  }]
-);
-
+    server.startServer(callback);
+  }
+],
+function(error) {
+  if (error)
+    throw error;
+});
