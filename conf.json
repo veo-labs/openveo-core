@@ -26,7 +26,6 @@
   },
   "entities" : {
     "application" : "app/server/models/ClientModel",
-    "taxonomy" : "app/server/models/TaxonomyModel",
     "user" : "app/server/models/UserModel",
     "role" : "app/server/models/RoleModel"
   },

@@ -172,9 +172,6 @@ RolePage.prototype.getCorePermissions = function() {
     this.translations.PERMISSIONS.CREATE_ROLE_NAME,
     this.translations.PERMISSIONS.UPDATE_ROLE_NAME,
     this.translations.PERMISSIONS.DELETE_ROLE_NAME,
-    this.translations.PERMISSIONS.CREATE_TAXONOMY_NAME,
-    this.translations.PERMISSIONS.UPDATE_TAXONOMY_NAME,
-    this.translations.PERMISSIONS.DELETE_TAXONOMY_NAME,
     this.translations.PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME,
     this.translations.PERMISSIONS.ACCESS_USER_PAGE_NAME,
     this.translations.PERMISSIONS.ACCESS_ROLES_PAGE_NAME
@@ -191,8 +188,7 @@ RolePage.prototype.getCorePermissionGroups = function() {
     this.translations.PERMISSIONS.GROUP_OTHERS,
     this.translations.PERMISSIONS.GROUP_APPLICATION,
     this.translations.PERMISSIONS.GROUP_USER,
-    this.translations.PERMISSIONS.GROUP_ROLE,
-    this.translations.PERMISSIONS.GROUP_TAXONOMY
+    this.translations.PERMISSIONS.GROUP_ROLE
   ];
 };
 
