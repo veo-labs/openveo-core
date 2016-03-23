@@ -49,10 +49,7 @@
     "GROUP_OTHERS" : "Autres permissions",
     "GROUP_APPLICATION" : "Web Service",
     "GROUP_USER" : "Utilisateurs",
-    "GROUP_ROLE" : "Rôles",
-    "GROUP_PROPERTY" : "Propriétés",
-    "GROUP_VIDEO" : "Vidéos",
-    "GROUP_TAXONOMY" : "Taxonomies"
+    "GROUP_ROLE" : "Rôles"
   },
   "HOME" : {
     "PAGE_TITLE" : "Openveo - Accueil",
