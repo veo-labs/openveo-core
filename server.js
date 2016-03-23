@@ -48,6 +48,7 @@ var webServiceScopes = conf['webServiceScopes'] || [];
 var server;
 
 if (processOptions['ws']) {
+  process.isWebService = true;
   process.logger = openVeoAPI.logger.add('openveo', loggerConf.ws);
   var WebServiceServer = process.require('app/server/servers/WebServiceServer.js');
   server = new WebServiceServer(serverConf.ws);
