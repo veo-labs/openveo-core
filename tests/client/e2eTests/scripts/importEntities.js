@@ -12,7 +12,7 @@
  * @example
  *
  *     // Usage (from projet's root directory)
- *     node -r ./processRequire.js ./tests/client/e2eTests/scripts/import.js
+ *     node -r ./processRequire.js ./tests/client/e2eTests/scripts/importEntities.js
  *
  * @example
  *
