@@ -19,6 +19,9 @@
       "delete /crud/:type/:id" : "app/server/controllers/crudController.removeEntityAction",
       "get /getTaxonomy/:name" : "app/server/controllers/taxonomyController.getTaxonomyAction",
       "post /search/:type" : "app/server/controllers/searchController.searchEntitiesAction"
+    },
+    "ws": {
+      "get /taxonomy/:name" : "app/server/controllers/taxonomyController.getTaxonomyAction"
     }
   },
   "entities" : {
@@ -27,6 +30,16 @@
     "user" : "app/server/models/UserModel",
     "role" : "app/server/models/RoleModel"
   },
+  "webServiceScopes" : [
+    {
+      "id": "taxonomy",
+      "name" : "WS_SCOPES.GET_TAXONOMY_NAME",
+      "description" : "WS_SCOPES.GET_TAXONOMY_DESCRIPTON",
+      "paths" : [
+        "get /taxonomy/*"
+      ]
+    }
+  ],
   "permissions" : [
     {
       "id" : "access-applications-page",

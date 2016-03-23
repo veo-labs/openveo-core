@@ -12,6 +12,10 @@
     "LANGUAGE" : "Langue",
     "LOGOUT" : "Déconnexion"
   },
+  "WS_SCOPES" : {
+    "GET_TAXONOMY_NAME" : "Récupérer les taxonomies",
+    "GET_TAXONOMY_DESCRIPTION" : "Récupérer les taxonomies avec la liste des termes"
+  },
   "PERMISSIONS" : {
     "CREATE_APPLICATION_NAME" : "Créer des applications",
     "CREATE_APPLICATION_DESCRIPTION" : "Créer des applications clientes accédant au Web Service",

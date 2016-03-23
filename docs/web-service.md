@@ -36,7 +36,7 @@ To start the OpenVeo Web Service, just use the **-ws** option :
 
     node server.js -ws
 
-# Auhtenticate to the Web Service
+# Authenticate to the Web Service
 
 The Web Service uses [OAuth2](http://oauth.net/2/) for authentication.
 
@@ -120,10 +120,33 @@ $videos = json_decode(curl_exec($curlHandle));
 
 # Endpoints
 
-No endpoints are exposed by the core.
+## Taxonomies
+
+Get taxonomy.
+
+    GET WEB_SERVICE_URL/taxonomy/{taxonomy_name}
+
+HTTP Status Code | Details
+---- | ----
+500 | An error occured on the server side
+200 | Got the taxonomy
+
+```json
+{
+  "taxonomy": {
+    "name": "{taxonomy_name}",
+    "id": "41U3sYipg",
+    "tree": []
+  }
+}
+```
 
 # Client libraries
 
 ## PHP client
 
 A [PHP client](https://github.com/veo-labs/openveo-rest-php-client) is also available on Github to help interface with OpenVeo Web Service.
+
+## NodeJS client
+
+A [NodeJS client](https://github.com/veo-labs/openveo-rest-nodejs-client) is also available on Github to help interface with OpenVeo Web Service.

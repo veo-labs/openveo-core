@@ -166,8 +166,13 @@
     }
   },
   "applications": {
+    "coreApplicationsTaxonomies": {
+      "name": "core-applications-taxonomies",
+      "scopes": [ "taxonomy" ]
+    },
     "coreApplicationsGuest": {
-      "name": "core-applications-guest"
+      "name": "core-applications-guest",
+      "scopes": []
     }
   }
 }
