@@ -127,12 +127,12 @@ WebServiceServer.prototype.onDatabaseAvailable = function(db) {
 };
 
 /**
- * Mounts plugin's router.
+ * Loads plugin.
  *
- * @method onPluginAvailable
- * @param {Object} plugin The available openveo plugin
+ * @method onPluginLoaded
+ * @param {Object} plugin The openveo plugin
  */
-WebServiceServer.prototype.onPluginAvailable = function(plugin) {
+WebServiceServer.prototype.onPluginLoaded = function(plugin) {
 
   // Mount plugin Web Service router to the plugin
   // Web Service mount path

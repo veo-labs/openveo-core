@@ -211,15 +211,15 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
 };
 
 /**
- * Mounts plugin.
+ * Loads plugin.
  *
  * Mounts plugin's assets directories, public router, private router, menu
  * views folders and permissions.
  *
- * @method onPluginAvailable
- * @param {Object} plugin The available openveo plugin
+ * @method onPluginLoaded
+ * @param {Object} plugin The openveo plugin
  */
-ApplicationServer.prototype.onPluginAvailable = function(plugin) {
+ApplicationServer.prototype.onPluginLoaded = function(plugin) {
 
   // If plugin has an assets directory, it will be loaded as a static server
   if (plugin.assets && plugin.mountPath) {
@@ -273,20 +273,6 @@ ApplicationServer.prototype.onPluginAvailable = function(plugin) {
   // Update migration script to apply
   if (plugin.migrations)
     this.migrations[plugin.name] = plugin.migrations;
-
-};
-
-/**
- * Starts the plugin when loaded.
- *
- * @method onPluginLoaded
- * @param {Object} plugin The available openveo plugin
- */
-ApplicationServer.prototype.onPluginLoaded = function(plugin) {
-
-  // Starts plugin
-  if (plugin.start)
-    plugin.start();
 
 };
 

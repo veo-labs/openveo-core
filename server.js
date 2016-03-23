@@ -130,8 +130,6 @@ async.series([
 
         plugins.forEach(function(loadedPlugin) {
 
-          server.onPluginAvailable(loadedPlugin);
-
           // Found a list of web service scopes for the plugin
           if (loadedPlugin.webServiceScopes) {
             for (var scopeName in loadedPlugin.webServiceScopes)
