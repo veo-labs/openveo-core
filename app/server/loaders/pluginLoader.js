@@ -58,12 +58,13 @@ function filterPluginsPaths(pluginsPaths) {
       if (analyzedPaths[pluginName]) {
         if (analyzedPaths[pluginName].length > pluginPath.length)
           analyzedPaths[pluginName] = pluginPath;
-      }
+      } else {
 
-      // Plugin name not analyzed yet
-      // Add it to the list of analyzed one
-      else
+        // Plugin name not analyzed yet
+        // Add it to the list of analyzed one
         analyzedPaths[pluginName] = pluginPath;
+
+      }
 
     });
 
@@ -233,11 +234,12 @@ module.exports.loadPlugins = function(startingPath, callback) {
               plugin: pluginPath
             });
             process.logger.info('Plugin ' + pluginPath + ' skipped');
-          }
+          } else {
 
-          // Plugin successfully loaded
-          else
+            // Plugin successfully loaded
             plugins.push(loadedPlugin);
+
+          }
 
           pendingPlugins--;
 
@@ -248,11 +250,12 @@ module.exports.loadPlugins = function(startingPath, callback) {
         });
       });
 
-    }
+    } else {
 
-    // No plugins at all
-    else
+      // No plugins at all
       callback(null, plugins);
+
+    }
 
   });
 

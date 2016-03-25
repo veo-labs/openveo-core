@@ -49,9 +49,10 @@ module.exports.getTaxonomyAction = function(request, response, next) {
         });
       }
     });
-  }
+  } else {
 
-  // Missing name of the taxonomy
-  else
+    // Missing name of the taxonomy
     next(errors.GET_TAXONOMY_MISSING_PARAMETERS);
+
+  }
 };

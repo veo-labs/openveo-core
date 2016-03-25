@@ -92,11 +92,11 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
                 action: controller[actionChunks[1]]
               });
 
-            }
-            else
+            } else {
               process.logger.warn('Action for route ' + match + ' is not valid', {
                 action: 'decodeRoutes'
               });
+            }
 
           } catch (e) {
             process.logger.warn('Error while loading route ' + match, {

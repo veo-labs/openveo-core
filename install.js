@@ -133,8 +133,7 @@ function createDatabaseConf(callback) {
     if (error) {
       process.stdout.write(error.message);
       callback();
-    }
-    else
+    } else
       fs.writeFile(confFile, JSON.stringify(conf, null, '\t'), {encoding: 'utf8'}, callback);
   });
 }
@@ -178,8 +177,7 @@ function createLoggerConf(callback) {
     if (error) {
       process.stdout.write(error.message);
       callback();
-    }
-    else
+    } else
       fs.writeFile(confFile, JSON.stringify(conf, null, '\t'), {encoding: 'utf8'}, callback);
   });
 }
@@ -230,8 +228,7 @@ function createServerConf(callback) {
     if (error) {
       process.stdout.write(error.message);
       callback();
-    }
-    else
+    } else
       fs.writeFile(confFile, JSON.stringify(conf, null, '\t'), {encoding: 'utf8'}, callback);
   });
 }
@@ -302,8 +299,7 @@ function createSuperAdmin(callback) {
     if (error) {
       process.stdout.write(error.message);
       callback();
-    }
-    else
+    } else
       userProvider.add(user, function(error) {
         callback(error);
       });

@@ -57,11 +57,11 @@ module.exports.getEntitiesAction = function(request, response, next) {
       model.get(function(error, entities) {
         if (error) {
           next(errors.GET_ENTITIES_ERROR);
-        }
-        else
+        } else {
           response.send({
             entities: entities
           });
+        }
       });
     } else {
 
@@ -100,11 +100,11 @@ module.exports.getEntityAction = function(request, response, next) {
       model.getOne(request.params.id, function(error, entity) {
         if (error) {
           next(errors.GET_ENTITY_ERROR);
-        }
-        else
+        } else {
           response.send({
             entity: entity
           });
+        }
       });
     } else {
 
@@ -140,9 +140,9 @@ module.exports.updateEntityAction = function(request, response, next) {
       model.update(request.params.id, request.body, function(error, stack) {
         if (error || (stack && stack.result && stack.result.ok === 0)) {
           next(errors.UPDATE_ENTITY_ERROR);
-        }
-        else
+        } else {
           response.send({error: null, status: 'ok'});
+        }
       });
     } else {
 
@@ -177,11 +177,11 @@ module.exports.addEntityAction = function(request, response, next) {
       model.add(request.body, function(error, entity) {
         if (error) {
           next(errors.ADD_ENTITY_ERROR);
-        }
-        else
+        } else {
           response.send({
             entity: entity
           });
+        }
       });
     } else {
 
@@ -216,9 +216,9 @@ module.exports.removeEntityAction = function(request, response, next) {
       model.remove(arrayId, function(error, deleteCount) {
         if (error || (deleteCount != arrayId.length)) {
           next(errors.REMOVE_ENTITY_ERROR);
-        }
-        else
+        } else {
           response.send({error: null, status: 'ok'});
+        }
       });
     } else {
 

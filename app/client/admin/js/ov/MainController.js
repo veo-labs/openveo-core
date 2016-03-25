@@ -288,10 +288,12 @@
 
         // Access refused to user with no roles or no permissions
         else return false;
-      }
+      } else {
 
-      // Access refused if user is not authenticated
-      else return false;
+        // Access refused if user is not authenticated
+        return false;
+
+      }
     };
 
   }

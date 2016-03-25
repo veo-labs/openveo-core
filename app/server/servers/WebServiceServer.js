@@ -7,7 +7,6 @@
 
 var path = require('path');
 var util = require('util');
-var path = require('path');
 var express = require('express');
 var openVeoAPI = require('@openveo/api');
 var bodyParser = require('body-parser');

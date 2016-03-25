@@ -68,11 +68,12 @@ function filterMenuByPermissions(menu, user) {
             filteredMenuItem.subMenu = filteredSubMenu;
             filteredMenu.push(filteredMenuItem);
           }
-        }
+        } else {
 
-        // No sub menu
-        else
+          // No sub menu
           filteredMenu.push(filteredMenuItem);
+
+        }
 
       }
 

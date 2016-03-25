@@ -259,8 +259,7 @@
           setLanguage(language);
         else
           setLanguage(supportedLanguages[0].value);
-      }
-      else
+      } else
         setActiveLanguage();
     }
 

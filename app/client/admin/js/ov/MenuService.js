@@ -30,11 +30,12 @@
               menu[menuItem].subMenu[i].active = '/' + menu[menuItem].subMenu[i].path === path;
               menu[menuItem].active = menu[menuItem].active || menu[menuItem].subMenu[i].active;
             }
-          }
+          } else {
 
-          // Menu item
-          else
+            // Menu item
             menu[menuItem].active = '/' + menu[menuItem].path === path;
+
+          }
         }
       }
     }

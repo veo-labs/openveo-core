@@ -206,10 +206,7 @@
     "semi": 2,
 
     // Require spaces following keywords
-    "space-after-keywords": 2,
-
-    // Require spaces following keywords
-    "space-before-keywords": 2,
+    "keyword-spacing": 2,
 
     // Require or disallow space before blocks
     "space-before-blocks": 2,
@@ -222,9 +219,6 @@
 
     // Require spaces around infix operators
     "space-infix-ops": 2,
-
-    // Require spaces following return, throw, and case
-    "space-return-throw-case": 2,
 
     // Require or disallow spaces before/after unary operators
     "space-unary-ops": [2, { "words": true, "nonwords": false }],

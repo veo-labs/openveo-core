@@ -51,14 +51,16 @@ module.exports.searchEntitiesAction = function(request, response) {
 
           }
         });
-    }
+    } else {
 
-    // No model implemented for this type of entity
-    else
+      // No model implemented for this type of entity
       response.status(500).send();
-  }
 
-  // Missing type and / or id of the entity
-  else
+    }
+  } else {
+
+    // Missing type and / or id of the entity
     response.status(400).send();
+
+  }
 };
