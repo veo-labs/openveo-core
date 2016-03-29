@@ -159,7 +159,9 @@
     "BACK": "Back",
     "NO_COMMON_ACTION" : "No common action allowed.",
     "NO_ACTION" : "No action allowed.",
-    "REQUIRED_FIELD" : "This is a required field."
+    "REQUIRED_FIELD" : "This is a required field.",
+    "TRUE" : "True",
+    "FALSE" : "False"
   },
   "DATEPICKER" : {
     "TODAY" : "Today",

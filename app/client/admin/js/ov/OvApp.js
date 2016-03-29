@@ -144,6 +144,16 @@
       }
     });
     formlyConfig.setType({
+      extends: 'checkbox',
+      name: 'editableCheckbox',
+      link: function(scope, element, attrs) {
+        scope.show = function() {
+          scope.isEmpty = false;
+          return scope.model[scope.options.key] && 'UI.TRUE' || 'UI.FALSE';
+        };
+      }
+    });
+    formlyConfig.setType({
       name: 'horizontalInput',
       extends: 'input',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
@@ -181,6 +191,16 @@
     formlyConfig.setType({
       name: 'horizontalEditableTags',
       extends: 'editableTags',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalCheckbox',
+      extends: 'checkbox',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalEditableCheckbox',
+      extends: 'editableCheckbox',
       wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
     });
 

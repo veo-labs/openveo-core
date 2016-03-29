@@ -162,7 +162,9 @@
     "BACK": "Retour",
     "NO_COMMON_ACTION" : "Aucune action commune autorisée.",
     "NO_ACTION" : "Aucune action autorisée.",
-    "REQUIRED_FIELD" : "Ce champs est obligatoire"
+    "REQUIRED_FIELD" : "Ce champs est obligatoire",
+    "TRUE" : "Vrai",
+    "FALSE" : "Faux"
   },
   "DATEPICKER" : {
     "TODAY" : "Aujourd'hui",
