@@ -18,7 +18,7 @@ describe('crudController', function() {
 
     ut.generateSuccessDatabase();
     applicationStorage.setEntities({
-      application: new ClientModel()
+      application: ClientModel
     });
 
     crudController = process.require('app/server/controllers/crudController.js');
@@ -75,7 +75,7 @@ describe('crudController', function() {
     it('Should return an HTTP code 500 if something wen\'t wrong', function(done) {
       ut.generateFailDatabase();
       applicationStorage.setEntities({
-        application: new ClientModel()
+        application: ClientModel
       });
 
       crudController.getEntitiesAction(request, response, function(error) {
@@ -141,7 +141,7 @@ describe('crudController', function() {
     it('Should return an HTTP code 500 if something wen\'t wrong', function(done) {
       ut.generateFailDatabase();
       applicationStorage.setEntities({
-        application: new ClientModel()
+        application: ClientModel
       });
 
       request.body = {};
@@ -226,7 +226,7 @@ describe('crudController', function() {
     it('Should return an HTTP code 500 if something wen\'t wrong', function(done) {
       ut.generateFailDatabase();
       applicationStorage.setEntities({
-        application: new ClientModel()
+        application: ClientModel
       });
 
       request.params = {
@@ -290,7 +290,7 @@ describe('crudController', function() {
     it('Should return an HTTP code 500 if something wen\'t wrong', function(done) {
       ut.generateFailDatabase();
       applicationStorage.setEntities({
-        application: new ClientModel()
+        application: ClientModel
       });
 
       request.params = {
@@ -353,7 +353,7 @@ describe('crudController', function() {
     it('Should return an HTTP code 500 if something wen\'t wrong', function(done) {
       ut.generateFailDatabase();
       applicationStorage.setEntities({
-        application: new ClientModel()
+        application: ClientModel
       });
 
       request.params = {

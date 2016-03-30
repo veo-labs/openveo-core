@@ -20,6 +20,7 @@ var databaseConfPath = path.join(configurationDirectoryPath, 'databaseConf.json'
 var loggerConf;
 var serverConf;
 var databaseConf;
+var coreConf;
 
 var migrationProcess = process.require('app/server/migration/migrationProcess.js');
 
@@ -36,6 +37,7 @@ var processOptions = nopt(knownProcessOptions, null, process.argv);
 
 // Load configuration files
 try {
+  coreConf = require(path.join(configurationDirectoryPath, 'conf.json'));
   loggerConf = require(processOptions.loggerConf || loggerConfPath);
   serverConf = require(processOptions.serverConf || serverConfPath);
   databaseConf = require(processOptions.databaseConf || databaseConfPath);
@@ -61,6 +63,10 @@ if (processOptions['ws']) {
 // Loaders
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var entityLoader = process.require('app/server/loaders/entityLoader.js');
+
+// Set super administrator and anonymous user id from configuration
+applicationStorage.setSuperAdminId(coreConf.superAdminId || '0');
+applicationStorage.setAnonymousUserId(coreConf.anonymousUserId || '1');
 
 /**
  * Executes a plugin function on all plugins in parallel.
@@ -107,10 +113,8 @@ async.series([
       // Build core entities
       var decodedEntities = entityLoader.decodeEntities(process.root + '/', conf['entities']);
 
-      if (decodedEntities) {
-        for (var type in decodedEntities)
-          entities[type] = new decodedEntities[type]();
-      }
+      if (decodedEntities)
+        openVeoAPI.util.merge(entities, decodedEntities);
 
       callback();
     });
@@ -138,10 +142,8 @@ async.series([
           }
 
           // Found a list of entities for the plugin
-          if (loadedPlugin.entities) {
-            for (var type in loadedPlugin.entities)
-              entities[type] = new loadedPlugin.entities[type]();
-          }
+          if (loadedPlugin.entities)
+            openVeoAPI.util.merge(entities, loadedPlugin.entities);
 
           server.onPluginLoaded(loadedPlugin);
           process.logger.info('Plugin ' + loadedPlugin.name + ' successfully loaded');

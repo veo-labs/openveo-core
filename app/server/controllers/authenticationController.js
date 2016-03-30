@@ -165,8 +165,8 @@ module.exports.restrictAction = function(request, response, next) {
     var permissions = getPermissionByUrl(applicationStorage.getPermissions(), request.url, request.method);
 
     // No particular permission requested : access granted by default
-    // Also always grant access to primary user 0
-    if (!permissions || request.user.id == 0 || isUserProfileUrl(request))
+    // Also always grant access to super administrator
+    if (!permissions || request.user.id === applicationStorage.getSuperAdminId() || isUserProfileUrl(request))
       return next();
 
     // Checks if user has permission on this url

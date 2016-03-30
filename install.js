@@ -10,7 +10,6 @@ var async = require('async');
 var openVeoAPI = require('@openveo/api');
 var confDir = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
 var exit = process.exit;
-var conf;
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 
 // Create a readline interface to interact with the user
@@ -61,22 +60,48 @@ function createLoggerDir(callback) {
  */
 function createConf(callback) {
   var confFile = path.join(confDir, 'conf.json');
+  var conf = {
+    passwordHashKey: getRandomHash(10),
+    superAdminId: '0',
+    anonymousUserId: '1'
+  };
 
-  fs.exists(confFile, function(exists) {
-    if (exists) {
-      process.stdout.write(confFile + ' already exists\n');
-      callback();
-    } else {
-      var hash = getRandomHash(10);
-      rl.question('Enter a secret key used to encrypt users passwords (default: ' + hash + ') :\n', function(answer) {
-        var conf = {
-          passwordHashKey: answer || hash
-        };
-
-        fs.writeFile(confFile, JSON.stringify(conf, null, '\t'), {encoding: 'utf8'}, callback);
+  async.series([
+    function(callback) {
+      fs.exists(confFile, function(exists) {
+        if (exists)
+          callback(new Error(confFile + ' already exists\n'));
+        else
+          callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter a secret key used to encrypt users passwords (default: ' + conf.passwordHashKey + ') :\n',
+      function(answer) {
+        if (answer) conf.passwordHashKey = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter super administrator id (default: ' + conf.superAdminId + ') :\n', function(answer) {
+        if (answer) conf.superAdminId = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter anonymous user id (default: ' + conf.anonymousUserId + ') :\n', function(answer) {
+        if (answer) conf.anonymousUserId = answer;
+        callback();
       });
     }
+  ], function(error, results) {
+    if (error) {
+      process.stdout.write(error.message);
+      callback();
+    } else
+      fs.writeFile(confFile, JSON.stringify(conf, null, '\t'), {encoding: 'utf8'}, callback);
   });
+
 }
 
 /**
@@ -256,8 +281,9 @@ function verifyDatbaseConf(callback) {
  */
 function createSuperAdmin(callback) {
   var userProvider = new UserProvider(openVeoAPI.applicationStorage.getDatabase());
+  var conf = require(path.join(confDir, 'conf.json'));
   var user = {
-    id: '0',
+    id: conf.superAdminId,
     locked: true
   };
 
@@ -265,7 +291,7 @@ function createSuperAdmin(callback) {
     function(callback) {
 
       // Verify if the super admin does not exist
-      userProvider.getOne('0', function(error, user) {
+      userProvider.getOne(conf.superAdminId, function(error, user) {
         if (user)
           callback(new Error('A super admin user already exists\n'));
         else if (error)

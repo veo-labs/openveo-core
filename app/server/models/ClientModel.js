@@ -18,9 +18,10 @@ var ClientProvider = process.require('app/server/providers/ClientProvider.js');
  * @class ClientModel
  * @constructor
  * @extends EntityModel
+ * @param {Object} user The user the entity belongs to
  */
-function ClientModel() {
-  openVeoAPI.EntityModel.prototype.init.call(this, new ClientProvider(openVeoAPI.applicationStorage.getDatabase()));
+function ClientModel(user) {
+  openVeoAPI.EntityModel.call(this, user, new ClientProvider(openVeoAPI.applicationStorage.getDatabase()));
 }
 
 module.exports = ClientModel;

@@ -73,7 +73,7 @@ passport.serializeUser(function(user, done) {
 // When subsequent requests are received, the ID is used to find
 // the user, which will be restored to req.user.
 passport.deserializeUser(function(id, done) {
-  userModel.getOne(id, function(error, user) {
+  userModel.getOne(id, null, function(error, user) {
     if (error || !user)
       done(null, false);
     else if (user.id == 0)

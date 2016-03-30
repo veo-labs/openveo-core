@@ -18,9 +18,9 @@ var openVeoAPI = require('@openveo/api');
  * @param {String} type The type of entity
  * @return {EntityModel} An instance of an EntityModel
  */
-function getEntityModel(type) {
+function getEntityModel(type, user) {
   var entities = openVeoAPI.applicationStorage.getEntities();
-  return entities[type];
+  return new entities[type](user);
 }
 
 /**
@@ -33,7 +33,7 @@ function getEntityModel(type) {
  */
 module.exports.searchEntitiesAction = function(request, response) {
   if (request.params.type) {
-    var model = getEntityModel(request.params.type);
+    var model = getEntityModel(request.params.type, request.user);
     var options = request.body;
     if (model) {
       model.getPaginatedFilteredEntities(options.filter, options.limit, options.page, options.sort, false,

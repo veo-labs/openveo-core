@@ -16,7 +16,7 @@ var openVeoAPI = require('@openveo/api');
  * @param {Database} database The database to interact with
  */
 function RoleProvider(database) {
-  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'roles');
+  openVeoAPI.EntityProvider.call(this, database, 'roles');
 }
 
 module.exports = RoleProvider;

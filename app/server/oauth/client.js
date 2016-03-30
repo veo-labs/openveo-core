@@ -53,7 +53,7 @@ client.getId = function(oAuthClient) {
  */
 client.fetchById = function(id, callback) {
   var model = getClientModel();
-  model.getOne(id, callback);
+  model.getOne(id, null, callback);
 };
 
 /**

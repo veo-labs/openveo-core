@@ -8,18 +8,22 @@ var openVeoAPI = require('@openveo/api');
 var e2e = require('@openveo/test').e2e;
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
+var UserModel = process.require('app/server/models/UserModel.js');
 var screenshotPlugin = e2e.plugins.screenshotPlugin;
 var configurationDirectoryPath = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverTestConf.json');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerTestConf.json');
 var databaseConfPath = path.join(configurationDirectoryPath, 'databaseTestConf.json');
+var confPath = path.join(configurationDirectoryPath, 'conf.json');
 var databaseConf = require(databaseConfPath);
 var serverConf = require(serverConfPath);
+var conf = require(confPath);
 var applicationStorage = openVeoAPI.applicationStorage;
 var db;
 var applicationServer;
 var webServiceServer;
 var webServiceApplications;
+var users;
 
 // Load a console logger
 process.logger = openVeoAPI.logger.get('openveo');
@@ -48,6 +52,13 @@ exports.config = {
     for (var i = 0; i < webServiceApplications.length; i++) {
       if (webServiceApplications[i].name === applicationName)
         return webServiceApplications[i];
+    }
+    return null;
+  },
+  getUser: function(userName) {
+    for (var i = 0; i < users.length; i++) {
+      if (users[i].name === userName)
+        return users[i];
     }
     return null;
   },
@@ -119,6 +130,11 @@ exports.config = {
             throw new Error(error);
 
           applicationStorage.setDatabase(db);
+
+          // Set super administrator and anonymous user id from configuration
+          applicationStorage.setSuperAdminId(conf.superAdminId || '0');
+          applicationStorage.setAnonymousUserId(conf.anonymousUserId || '1');
+
           callback();
         });
       },
@@ -138,11 +154,24 @@ exports.config = {
       // Get the list of available client applications and expose it to plugins
       function(callback) {
         var clientModel = new ClientModel();
-        clientModel.get(function(error, entities) {
+        clientModel.get(null, function(error, entities) {
           if (error) {
             throw new Error(error);
           } else {
             webServiceApplications = entities;
+            callback(error);
+          }
+        });
+      },
+
+      // Get the list of available users and expose it to plugins
+      function(callback) {
+        var userModel = new UserModel();
+        userModel.get(null, function(error, entities) {
+          if (error) {
+            throw new Error(error);
+          } else {
+            users = entities;
             callback(error);
           }
         });

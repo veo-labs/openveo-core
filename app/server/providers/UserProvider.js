@@ -16,7 +16,7 @@ var openVeoAPI = require('@openveo/api');
  * @param {Database} database The database to interact with
  */
 function UserProvider(database) {
-  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'users');
+  openVeoAPI.EntityProvider.call(this, database, 'users');
 }
 
 module.exports = UserProvider;
@@ -76,15 +76,17 @@ UserProvider.prototype.getUserByEmail = function(email, callback) {
  * @method getOne
  * @async
  * @param {String} id The user id
+ * @param {Object} filter A MongoDB filter
  * @param {Function} callback Function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Object** The user
  */
-UserProvider.prototype.getOne = function(id, callback) {
-  this.database.get(this.collection,
-    {
-      id: id
-    },
+UserProvider.prototype.getOne = function(id, filter, callback) {
+
+  if (!filter) filter = {};
+  filter.id = id;
+
+  this.database.get(this.collection, filter,
     {
       password: 0
     },

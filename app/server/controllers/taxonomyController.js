@@ -35,15 +35,19 @@ var taxonomyModel = new openVeoAPI.TaxonomyModel();
  */
 module.exports.getTaxonomyAction = function(request, response, next) {
   if (request.params.name) {
-    taxonomyModel.getByName(request.params.name, function(error, taxonomy) {
+    taxonomyModel.getByName(request.params.name, function(error, taxonomies) {
       if (error) {
         next(errors.GET_TAXONOMY_ERROR);
       } else {
-        if (taxonomy === undefined)
+        var taxonomy;
+        if (!taxonomies.length) {
           taxonomy = {
             name: request.params.name,
             tree: []
           };
+        } else
+          taxonomy = taxonomies[0];
+
         response.send({
           taxonomy: taxonomy
         });

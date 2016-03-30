@@ -28,11 +28,16 @@ var errors = process.require('app/server/httpErrors.js');
  * @private
  * @static
  * @param {String} type The type of entity
+ * @param {Object} user Authenticated user
  * @return {EntityModel} An instance of an EntityModel or null if not found
  */
-function getEntityModel(type) {
+function getEntityModel(type, user) {
   var entities = openVeoAPI.applicationStorage.getEntities();
-  return entities[type];
+
+  if (entities[type])
+    return new entities[type](user);
+  else
+    return null;
 }
 
 /**
@@ -51,10 +56,10 @@ function getEntityModel(type) {
  */
 module.exports.getEntitiesAction = function(request, response, next) {
   if (request.params.type) {
-    var model = getEntityModel(request.params.type);
+    var model = getEntityModel(request.params.type, request.user);
 
     if (model) {
-      model.get(function(error, entities) {
+      model.get(null, function(error, entities) {
         if (error) {
           next(errors.GET_ENTITIES_ERROR);
         } else {
@@ -94,10 +99,10 @@ module.exports.getEntitiesAction = function(request, response, next) {
  */
 module.exports.getEntityAction = function(request, response, next) {
   if (request.params.type && request.params.id) {
-    var model = getEntityModel(request.params.type);
+    var model = getEntityModel(request.params.type, request.user);
 
     if (model) {
-      model.getOne(request.params.id, function(error, entity) {
+      model.getOne(request.params.id, null, function(error, entity) {
         if (error) {
           next(errors.GET_ENTITY_ERROR);
         } else {
@@ -134,7 +139,7 @@ module.exports.getEntityAction = function(request, response, next) {
  */
 module.exports.updateEntityAction = function(request, response, next) {
   if (request.params.type && request.params.id && request.body) {
-    var model = getEntityModel(request.params.type);
+    var model = getEntityModel(request.params.type, request.user);
 
     if (model) {
       model.update(request.params.id, request.body, function(error, stack) {
@@ -171,7 +176,7 @@ module.exports.updateEntityAction = function(request, response, next) {
  */
 module.exports.addEntityAction = function(request, response, next) {
   if (request.params.type && request.body) {
-    var model = getEntityModel(request.params.type);
+    var model = getEntityModel(request.params.type, request.user);
 
     if (model) {
       model.add(request.body, function(error, entity) {
@@ -209,7 +214,7 @@ module.exports.addEntityAction = function(request, response, next) {
  */
 module.exports.removeEntityAction = function(request, response, next) {
   if (request.params.type && request.params.id) {
-    var model = getEntityModel(request.params.type);
+    var model = getEntityModel(request.params.type, request.user);
 
     if (model) {
       var arrayId = request.params.id.split(',');
