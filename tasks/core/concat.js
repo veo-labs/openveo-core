@@ -5,7 +5,7 @@ process.root = __dirname;
 process.require = function(filePath) {
   return require(path.normalize(process.root + '/' + filePath));
 };
-var applicationConf = process.require('../../conf.json');
+var applicationConf = process.require('../../conf.js');
 var libFile = applicationConf['backOffice']['scriptLibFiles']['dev'];
 var jsFile = applicationConf['backOffice']['scriptFiles']['dev'];
 

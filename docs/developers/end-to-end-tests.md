@@ -115,7 +115,7 @@ Structure is as follow :
   "roles": {
     "coreAdmin": { // Id of the role to use when creating users
       "name": "core-admin", // The name of the role
-      "permissions": [ // The list of permissions ids as described in conf.json file
+      "permissions": [ // The list of permissions ids as described in conf.js file
         "create-application",
         "update-application",
         "delete-application",

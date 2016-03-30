@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Manage OpenVeo entities described in conf.json.
+ * Manage OpenVeo entities described in conf.js.
  *
  * @module ov.entity
  * @main ov.entity

@@ -10,7 +10,7 @@ describe('entityLoader', function() {
     pluginConf;
 
   before(function() {
-    pluginConf = require('./plugins/node_modules/@openveo/example/conf.json');
+    pluginConf = require('./plugins/node_modules/@openveo/example/conf.js');
     entityLoader = process.require('app/server/loaders/entityLoader.js');
   });
 

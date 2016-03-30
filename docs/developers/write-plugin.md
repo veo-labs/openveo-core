@@ -108,24 +108,24 @@ At this point you have a functional plugin, but it does nothing. When launching 
 
 To add features to our Book plugin we need to define routes.
 
-Create a file **conf.json** at the root of your plugin directory. Take a look at [conf.json documentation](/developers/conf) for more details about **conf.json** file.
+Create a file **conf.js** at the root of your plugin directory. Take a look at [conf.js documentation](/developers/conf) for more details about **conf.js** file.
 
 For our example, let's create a public route, a private route and a Web Service route.
 
-```json
-{
-  "routes" : {
-    "public" : {
-      "get /:id" : "controllers/bookController.displayBookAction"
+```js
+module.exports = {
+  routes: {
+    public: {
+      'get /:id': 'controllers/bookController.displayBookAction'
     },
-    "private" : {
-      "get /read/:id" : "controllers/bookController.readBookAction"
+    private: {
+      'get /read/:id': 'controllers/bookController.readBookAction'
     },
-    "ws": {
-      "get /read/:id" : "controllers/bookController.readBookAction"
+    ws: {
+      'get /read/:id': 'controllers/bookController.readBookAction'
     }
   }
-}
+};
 ```
 
 As a reminder :
@@ -136,7 +136,7 @@ As a reminder :
 
 ## Create the controller
 
-3 routes have been defined in **conf.json** :
+3 routes have been defined in **conf.js** :
 
 - **/book/:id** pointing to **controllers/bookController.js**, method **displayBookAction**
 - **/book/read/:id** pointing to **controllers/bookController.js**, method **readBookAction**
@@ -209,14 +209,14 @@ Create a file **views/book.html** :
 </html>
 ```
 
-And add the **views** directory to the list of directories containing Mustache templates (in **conf.json** file) :
+And add the **views** directory to the list of directories containing Mustache templates (in **conf.js** file) :
 
-```json
-{
-  "viewsFolders" : [
-    "views"
+```js
+module.exports = {
+  viewsFolders: [
+    'views'
   ]
-}
+};
 ```
 
 You can now restart your server and navigate to **/book/1** to have information about the book.
@@ -231,24 +231,24 @@ Plugins can add pages to the back end menu.
 
 ## Configure page
 
-As described in [conf.json documentation](/developers/conf#define-back-end-menu-items) you can add a page to the back end :
+As described in [conf.js documentation](/developers/conf#define-back-end-menu-items) you can add a page to the back end :
 
-```json
-{
-  "backOffice": {
-    "menu" : [
+```js
+module.exports = {
+  backOffice: {
+    menu: [
       {
-        "label" : "Books",
-        "subMenu" : [
+        label: 'Books',
+        subMenu: [
           {
-            "label" : "Configuration",
-            "path" : "config"
+            label: 'Configuration',
+            path: 'config'
           }
         ]
       }
     ]
   }
-}
+};
 ```
 
 ## Create AngularJS module
@@ -298,18 +298,18 @@ Create the partial file **assets/be/views/config.html** :
 <p>Configuration template</p>
 ```
 
-And add **BookApp.js** to the list of scripts to load with the back end (**in conf.json**) :
+And add **BookApp.js** to the list of scripts to load with the back end (**in conf.js**) :
 
-```json
-{
-  "backOffice": {
-    "scriptFiles" : {
-      "dev" : [
-        "/book/be/js/BookApp.js"
+```js
+module.exports = {
+  backOffice: {
+    scriptFiles: {
+      dev: [
+        '/book/be/js/BookApp.js'
       ]
     }
   }
-}
+};
 ```
 
 ## Translate your back end pages

@@ -59,7 +59,7 @@ Offers a service to authenticate / logout or manipulate authenticated user infor
 
 ## Entity module (**ov.entity**)
 
-Offers a service to manage (CRUD) OpenVeo entities described in [conf.json](/developers/conf).
+Offers a service to manage (CRUD) OpenVeo entities described in [conf.js](/developers/conf).
 
 **Nb:** Available services defined in **ov.entity** module are described in the [API](/api/back-end/modules/ov.entity.html).
 

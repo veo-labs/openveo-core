@@ -13,7 +13,7 @@ var ClientModel = process.require('app/server/models/ClientModel.js');
  *     var roles = { // Defines roles to import
  *      "core": { // Role reference which can be used by "users" property
  *        "name": "Core administrator", // Role name
- *        "permissions": [ // List of permission ids (as defined in conf.json) for the role
+ *        "permissions": [ // List of permission ids (as defined in conf.js) for the role
  *          "create-application",
  *          "update-application"
  *        ]

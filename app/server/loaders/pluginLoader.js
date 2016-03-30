@@ -268,7 +268,7 @@ module.exports.loadPlugins = function(startingPath, callback) {
  *  - A public directory to store static files, if an incoming request
  *    does not match any of the files in the public directory of the main
  *    plugin, it will look to the public directory of sub plugins
- *  - A conf.json file describing several things :
+ *  - A conf.js file describing several things :
  *    - public and admin routes
  *    - The back end menu items for the plugin
  *    - A list of JavaScript libraries files to load while accessing the
@@ -382,14 +382,14 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
       },
       function(callback) {
 
-        // Test if a file "conf.json" exists at plugin root level
-        fs.exists(path.join(pluginPath, 'conf.json'), function(exists) {
+        // Test if a file "conf.js" exists at plugin root level
+        fs.exists(path.join(pluginPath, 'conf.js'), function(exists) {
 
           if (exists) {
             try {
 
               // Try to load plugin configuration file
-              var pluginConf = require(path.join(pluginPath, 'conf.json'));
+              var pluginConf = require(path.join(pluginPath, 'conf.js'));
 
               plugin.custom = pluginConf['custom'] || null;
               plugin.webServiceScopes = pluginConf['webServiceScopes'] || null;

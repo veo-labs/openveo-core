@@ -10,7 +10,7 @@ describe('routeLoader', function() {
     pluginConf;
 
   before(function() {
-    pluginConf = require('./plugins/node_modules/@openveo/example/conf.json');
+    pluginConf = require('./plugins/node_modules/@openveo/example/conf.js');
     routeLoader = process.require('app/server/loaders/routeLoader.js');
   });
 

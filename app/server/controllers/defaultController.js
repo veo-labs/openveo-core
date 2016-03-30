@@ -14,7 +14,7 @@
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 var applicationStorage = openVeoAPI.applicationStorage;
-var applicationConf = process.require('conf.json');
+var applicationConf = process.require('conf.js');
 var applicationVersion = process.require('package.json');
 
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
