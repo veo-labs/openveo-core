@@ -17,7 +17,7 @@ var migrationLoader = process.require('/app/server/loaders/migrationLoader');
 var oAuthController = process.require('app/server/controllers/oAuthController.js');
 var errorController = process.require('app/server/controllers/errorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
-var conf = process.require('conf.json');
+var conf = process.require('conf.js');
 
 /**
  * Creates an HTTP server for the openveo web service.
