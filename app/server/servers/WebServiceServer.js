@@ -83,7 +83,8 @@ function WebServiceServer(configuration) {
   // Web service routes
   this.router.use(oAuth.inject());
   this.router.post('/token', oAuth.controller.token);
-  var allPathExceptImages = '^(?!.*[.]jpg$).*$/mg';
+
+  var allPathExceptImages = '/^(?!.*[\.](jpg|jpeg)$).*$/mg';
   this.router.all(allPathExceptImages, oAuth.middleware.bearer);
   this.router.all(allPathExceptImages, oAuthController.validateScopesAction);
 
