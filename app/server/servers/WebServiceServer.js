@@ -69,7 +69,6 @@ function WebServiceServer(configuration) {
   });
   this.imagesStyle = conf['imageProcessing']['imagesStyle'] || {};
 
-
   // Log each request
   this.app.use(openVeoAPI.middlewares.logRequestMiddleware);
 
@@ -84,7 +83,9 @@ function WebServiceServer(configuration) {
   this.router.use(oAuth.inject());
   this.router.post('/token', oAuth.controller.token);
 
-  var allPathExceptImages = '/^(?!.*[\.](jpg|jpeg)$).*$/mg';
+  // no need to authent, validateScope nor disable cache for request url ending by
+  // .jpg || .jpeg || .jpg?thumb=param || .jpeg?thumb=param with param up to 10 chars.
+  var allPathExceptImages = /^(?!.*[\.](jpg|jpeg)(\?thumb=.{1,10})?$)/;
   this.router.all(allPathExceptImages, oAuth.middleware.bearer);
   this.router.all(allPathExceptImages, oAuthController.validateScopesAction);
 
