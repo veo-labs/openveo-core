@@ -113,7 +113,6 @@ module.exports = {
 Entities are elements subject to CRUD (**C**reate **R**ead **U**pdate **D**elete). OpenVeo core defines 4 entities :
 
 - application - Web Service client applications
-- taxonomy - Taxonomies (not directly used by the core)
 - user - Back end users
 - role - Back end roles
 

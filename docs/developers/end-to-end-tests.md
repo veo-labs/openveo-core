@@ -173,10 +173,6 @@ Create your test file in **tests/client/e2eTests/** then update the list of suit
 
 If a test fails, a screenshot of the browser at the instant is taken and available in **build/screenshots** of the core.
 
-# Launch server in test mode
-
-    node server.js -t
-
 # Launch end to end tests
 
     # Launch all end to end tests on chrome
