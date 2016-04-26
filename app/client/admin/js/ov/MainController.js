@@ -115,7 +115,7 @@
      * This will reload the page due to the main menu which can't be
      * reloaded.
      *
-     * @param {String} The new language code (e.g. fr_FR)
+     * @param {String} language The new language code (e.g. fr_FR)
      */
     $scope.changeLanguage = function(language) {
       i18nService.setLanguage(language);
