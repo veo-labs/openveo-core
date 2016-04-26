@@ -20,6 +20,7 @@
 
 var openVeoAPI = require('@openveo/api');
 var errors = process.require('app/server/httpErrors.js');
+var AccessError = openVeoAPI.errors.AccessError;
 
 /**
  * Gets entity model.
@@ -61,7 +62,7 @@ module.exports.getEntitiesAction = function(request, response, next) {
     if (model) {
       model.get(null, function(error, entities) {
         if (error) {
-          next(errors.GET_ENTITIES_ERROR);
+          next((error instanceof AccessError) ? errors.GET_ENTITIES_FORBIDDEN : errors.GET_ENTITIES_ERROR);
         } else {
           response.send({
             entities: entities
@@ -104,7 +105,7 @@ module.exports.getEntityAction = function(request, response, next) {
     if (model) {
       model.getOne(request.params.id, null, function(error, entity) {
         if (error) {
-          next(errors.GET_ENTITY_ERROR);
+          next((error instanceof AccessError) ? errors.GET_ENTITY_FORBIDDEN : errors.GET_ENTITY_ERROR);
         } else {
           response.send({
             entity: entity
@@ -143,7 +144,9 @@ module.exports.updateEntityAction = function(request, response, next) {
 
     if (model) {
       model.update(request.params.id, request.body, function(error, stack) {
-        if (error || (stack && stack.result && stack.result.ok === 0)) {
+        if (error && (error instanceof AccessError))
+          next(errors.UPDATE_ENTITY_FORBIDDEN);
+        else if (error || (stack && stack.result && stack.result.ok === 0)) {
           next(errors.UPDATE_ENTITY_ERROR);
         } else {
           response.send({error: null, status: 'ok'});
@@ -181,7 +184,7 @@ module.exports.addEntityAction = function(request, response, next) {
     if (model) {
       model.add(request.body, function(error, entity) {
         if (error) {
-          next(errors.ADD_ENTITY_ERROR);
+          next((error instanceof AccessError) ? errors.ADD_ENTITY_FORBIDDEN : errors.ADD_ENTITY_ERROR);
         } else {
           response.send({
             entity: entity

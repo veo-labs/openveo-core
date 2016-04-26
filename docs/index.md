@@ -7,7 +7,7 @@ The core of the system (i.e. without any plugin) offers a simple connection form
 This interface gives access to a limited set of default features:
 
 -  Users management
--  Permissions and roles management
+-  Permissions, roles and groups management
 -  Web service management
 -  A profile page
 
@@ -50,6 +50,9 @@ OpenVeo has been tested on the following  :
 
 ### Back end users management page
 ![Back end users page](images/screenshots/back-end-users.jpg)
+
+### Back end groups management page
+![Back end groups page](images/screenshots/back-end-groups.jpg)
 
 ### Back end applications management page
 ![Back end applications page](images/screenshots/back-end-applications.jpg)

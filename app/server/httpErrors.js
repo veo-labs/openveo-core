@@ -49,6 +49,22 @@ module.exports = {
     code: 0x105,
     httpCode: 401
   },
+  GET_ENTITIES_FORBIDDEN: {
+    code: 0x106,
+    httpCode: 403
+  },
+  GET_ENTITY_FORBIDDEN: {
+    code: 0x107,
+    httpCode: 403
+  },
+  UPDATE_ENTITY_FORBIDDEN: {
+    code: 0x108,
+    httpCode: 403
+  },
+  ADD_ENTITY_FORBIDDEN: {
+    code: 0x109,
+    httpCode: 403
+  },
 
   // Missing parameters errors
   GET_ENTITIES_MISSING_PARAMETERS: {

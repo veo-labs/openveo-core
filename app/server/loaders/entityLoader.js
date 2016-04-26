@@ -12,6 +12,7 @@
  */
 
 var path = require('path');
+var openVeoAPI = require('@openveo/api');
 
 /**
  * Gets the list of entities from a route configuration object with,
@@ -54,4 +55,32 @@ module.exports.decodeEntities = function(pluginPath, entities) {
   }
 
   return decodedEntities;
+};
+
+/**
+ * Builds entities for core and plugins.
+ *
+ * @method buildEntities
+ * @param {Object} coreEntities Core entities configuration
+ * @param {Array} plugins The list of plugins
+ * @return {Object} The list of entities, for core and plugins, ready to be used
+ */
+module.exports.buildEntities = function(coreEntities, plugins) {
+  var self = this;
+  var entities = {};
+
+  // Build core entities
+  var decodedEntities = this.decodeEntities(process.root + '/', coreEntities);
+  if (decodedEntities)
+    openVeoAPI.util.merge(entities, decodedEntities);
+
+  plugins.forEach(function(loadedPlugin) {
+
+    // Found a list of entities for the plugin
+    if (loadedPlugin.entities)
+      openVeoAPI.util.merge(entities, self.decodeEntities(loadedPlugin.path, loadedPlugin.entities));
+
+  });
+
+  return entities;
 };

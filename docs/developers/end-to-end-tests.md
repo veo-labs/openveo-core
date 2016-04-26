@@ -82,20 +82,24 @@ Finally the logger has to be configured through **loggerTestConf.json**. Typical
 When launching end to end tests, several things happen before the first test is launched :
 
 1. Database defined in **~/.openveo/core/databaseTestConf.json** is dropped
-2. Users, roles and applications described in **tests/client/e2eTests/database/data.json**, from core and plugins, are inserted into database
+2. Users, roles, groups and applications described in **tests/client/e2eTests/database/data.json**, from core and plugins, are inserted into database
 3. Tests suites files, in **tests/client/e2eTests/protractorSuites.json** from core and plugins, are merged into one single file (**tests/client/e2eTests/suites/suites.json**)
 4. An OpenVeo server is launched
+4. An OpenVeo Web Service server is launched
 5. A database connection is made to be able to use models in tests
 6. All plugins are loaded and available in ApplicationStorage
 
-## Add users, roles and application before tests
+## Add users, roles, groups and application before tests
 
-Users, roles and applications can be added before tests are launched using **tests/client/e2eTests/database/data.json** configuration file.
+Users, roles, groups and applications can be added before tests are launched using **tests/client/e2eTests/database/data.json** configuration file.
 
 Structure is as follow :
 
 ```json
 {
+  "groups": {
+    ...
+  },
   "roles": {
     ...
   },
@@ -104,6 +108,19 @@ Structure is as follow :
   },
   "applications": {
     ...
+  }
+}
+```
+
+### Create a group
+
+```json
+{
+  "groups": {
+    "coreGroupId": { // Id of the group to use when creating roles
+      "name": "Core group name", // The name of the group
+      "description": "Core group description" // The description of the group
+    }
   }
 }
 ```
@@ -130,7 +147,10 @@ Structure is as follow :
         "delete-role",
         "access-applications-page",
         "access-users-page",
-        "access-roles-page"
+        "access-roles-page",
+        "read-group-coreGroupId", // Permission "read" on the group "coreGroupId"
+        "update-group-coreGroupId", // Permission "update" on the group "coreGroupId"
+        "delete-group-coreGroupId" // Permission "delete" on the group "coreGroupId"
       ]
     }
   }

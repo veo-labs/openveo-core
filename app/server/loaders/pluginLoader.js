@@ -17,7 +17,6 @@ var openVeoAPI = require('@openveo/api');
 
 // Module files
 var routeLoader = process.require('/app/server/loaders/routeLoader');
-var entityLoader = process.require('/app/server/loaders/entityLoader');
 var migrationLoader = process.require('/app/server/loaders/migrationLoader');
 
 /**
@@ -450,8 +449,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
 
               // Got entities
               if (pluginConf['entities'])
-                plugin.entities = pluginConf['entities'] && entityLoader.decodeEntities(pluginPath,
-                  pluginConf['entities']);
+                plugin.entities = pluginConf['entities'];
 
               // Got back end conf
               if (backEndConf) {

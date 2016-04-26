@@ -6,6 +6,7 @@
     "RIGHTS" : "Droits",
     "ROLES" : "Rôles",
     "USERS" : "Utilisateurs",
+    "GROUPS" : "Groupes",
     "APPLICATIONS" : "Applications",
     "DASHBOARD" : "Tableau de bord",
     "PROFILES"  : "Profil",
@@ -43,13 +44,27 @@
     "UPDATE_TAXONOMY_DESCRIPTION" : "Editer les taxonomies et les termes",
     "DELETE_TAXONOMY_NAME" : "Supprimer les taxonomies",
     "DELETE_TAXONOMY_DESCRIPTION" : "Supprimer les taxonomies et les termes",
+    "CREATE_GROUP_NAME" : "Créer des groupes",
+    "CREATE_GROUP_DESCRIPTION" : "Créer des groupes d'utilisateurs",
+    "UPDATE_GROUP_NAME" : "Editer les groupes",
+    "UPDATE_GROUP_DESCRIPTION" : "Editer les groupes d'utilisateurs",
+    "DELETE_GROUP_NAME" : "Supprimer les groupes",
+    "DELETE_GROUP_DESCRIPTION" : "Supprimer les groupes d'utilisateurs",
     "ACCESS_APPLICATION_PAGE_NAME" : "Accès à la page des applications",
     "ACCESS_USER_PAGE_NAME": "Accès à la page des utilisateurs",
     "ACCESS_ROLES_PAGE_NAME": "Accès à la page des rôles",
+    "ACCESS_GROUPS_PAGE_NAME": "Accès à la page des groupes",
     "GROUP_OTHERS" : "Autres permissions",
     "GROUP_APPLICATION" : "Web Service",
     "GROUP_USER" : "Utilisateurs",
-    "GROUP_ROLE" : "Rôles"
+    "GROUP_ROLE" : "Rôles",
+    "GROUP_GROUP" : "Groupes",
+    "GROUP_READ_NAME" : "Lister le contenu",
+    "GROUP_READ_DESCRIPTION" : "Lister les contenus du groupe",
+    "GROUP_UPDATE_NAME" : "Editer le contenu",
+    "GROUP_UPDATE_DESCRIPTION" : "Editer les contenus du groupe",
+    "GROUP_DELETE_NAME" : "Supprimer le contenu",
+    "GROUP_DELETE_DESCRIPTION" : "Supprimer les contenus du groupe"
   },
   "HOME" : {
     "PAGE_TITLE" : "Openveo - Accueil",
@@ -62,7 +77,6 @@
     "INFO" : "Une application offre un point d'entrée au webservice OpenVeo pour des applications clientes. Elle définit les droits d'accès au webservice pour chacune des applications clientes. Créez une application, définissez ses droits d'accès au web service et communiquez, au propriétaire de l'application cliente, l'id et la clé générée.",
     "NO_APPLICATIONS" : "Pas d'applications pour le moment",
     "NAME_COLUMN" : "Nom",
-    "REMOVE" : "Supprimer",
     "ATTR_NAME" : "Nom",
     "ATTR_ID" : "Id client",
     "ATTR_SECRET" : "Clé client",
@@ -73,7 +87,6 @@
     "FORM_ADD_SCOPES" : "Accès",
     "FORM_ADD_SCOPES_DESC" : "Listes de permissions pour l'application cliente",
     "REMOVE_SUCCESS" : "L'application a été supprimée.",
-    "REMOVE_FAIL" : "Une erreur est survenue. La suppression de l'application a échoué.",
     "TITLE_FILTER": "Nom"
   },
   "USERS" : {
@@ -98,7 +111,6 @@
     "FORM_ADD_ROLE" : "Rôles",
     "FORM_ADD_ROLE_DESC" : "Rôles de l'utilisateur",
     "REMOVE_SUCCESS" : "L'utilisateur a été supprimé.",
-    "REMOVE_FAIL" : "Une erreur est survenue. La suppression de l'utilisateur a échoué.",
     "TITLE_FILTER": "Nom"
   },
   "PROFILES" : {
@@ -135,6 +147,22 @@
     "FORM_ADD_BUTTON" : "Ajouter",
     "REMOVE_SUCCESS" : "Le rôle a été supprimé.",
     "TITLE_FILTER": "Nom"
+  },
+  "GROUPS" : {
+    "PAGE_TITLE" : "Openveo - Groupes",
+    "TITLE" : "Groupes d'utilisateurs",
+    "INFO" : "Les groupes sont conçus pour définir quels utilisateurs peuvent manipuler un contenu. Pour chaque groupe créé, de nouvelles permissions sont disponibles et peuvent être ajoutées à un rôle. Vous pouvez associer un ou plusieurs groupes à un contenu.",
+    "ADD_GROUP" : "Ajouter un groupe",
+    "NAME_COLUMN" : "Nom",
+    "FORM_ADD_NAME" : "Nom",
+    "FORM_ADD_NAME_DESC" : "Nom du groupe",
+    "FORM_ADD_DESCRIPTION" : "Description",
+    "FORM_ADD_DESCRIPTION_DESC" : "Description du groupe",
+    "ATTR_NAME" : "Nom",
+    "ATTR_DESCRIPTION" : "Description",
+    "TITLE_FILTER": "Nom",
+    "DESCRIPTION_FILTER": "Description",
+    "REMOVE_SUCCESS" : "Le groupe a été supprimé."
   },
   "UI" : {
     "ALL": "Tous",

@@ -95,19 +95,24 @@
       name: 'editableSelect',
       link: function(scope, element, attrs) {
         scope.show = function() {
-          var name = 'UI.EMPTY';
+          var labels = [];
+          var values;
+
+          if (Object.prototype.toString.call(scope.model[scope.options.key]) === '[object Array]')
+            values = scope.model[scope.options.key];
+          else
+            values = [scope.model[scope.options.key]];
 
           // Find selected option label
-          for (var i = 0; i < scope.to.options.length; i++) {
-            var selectOption = scope.to.options[i];
-            if (selectOption.value === scope.model[scope.options.key]) {
-              name = selectOption.name;
-              break;
-            }
-          }
+          scope.to.options.forEach(function(option) {
+            values.forEach(function(value) {
+              if (option.value === value)
+                labels.push(option.name);
+            });
+          });
 
-          scope.isEmpty = scope.model[scope.options.key] ? false : true;
-          return name;
+          scope.isEmpty = labels.length ? false : true;
+          return labels.length ? labels.join(', ') : 'UI.EMPTY';
         };
       }
     });
@@ -287,6 +292,14 @@
             return userService.loadPermissions();
           }]
         }
+      });
+
+      // Register /groups route with authentication
+      $routeProvider.when('/groups', {
+        templateUrl: 'views/groups.html',
+        controller: 'GroupController',
+        title: 'GROUPS.PAGE_TITLE',
+        access: 'access-groups-page'
       });
 
       $locationProvider.html5Mode(true);

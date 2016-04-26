@@ -50,11 +50,21 @@ module.exports = BookPlugin;
 util.inherits(BookPlugin, openVeoAPI.Plugin);
 
 /**
- * Optional "start" method automatically called by core application
- * after plugin is loaded.
+ * Optional "init" method automatically called by core application
+ * after plugin is loaded and before it is started.
  */
-BookPlugin.prototype.start = function() {
-  console.log('Book plugin loaded');
+BookPlugin.prototype.init = function(callback) {
+  console.log('Book plugin initialization');
+  callback();
+};
+
+/**
+ * Optional "start" method automatically called by core application
+ * after plugin is loaded and initialized.
+ */
+BookPlugin.prototype.start = function(callback) {
+  console.log('Book plugin starting');
+  callback();
 };
 ```
 

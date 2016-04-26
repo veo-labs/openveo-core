@@ -92,6 +92,30 @@
         "create-user",
         "update-user"
       ]
+    },
+    "coreGroupsNoWrite": {
+      "name": "core-groups-no-write",
+      "permissions": [
+        "access-groups-page",
+        "update-group",
+        "delete-group"
+      ]
+    },
+    "coreGroupsNoUpdate": {
+      "name": "core-groups-no-update",
+      "permissions": [
+        "access-groups-page",
+        "create-group",
+        "delete-group"
+      ]
+    },
+    "coreGroupsNoDelete": {
+      "name": "core-groups-no-delete",
+      "permissions": [
+        "access-groups-page",
+        "create-group",
+        "update-group"
+      ]
     }
   },
   "users": {
@@ -160,6 +184,24 @@
       "email": "core-users-no-delete@veo-labs.com",
       "password": "core-users-no-delete",
       "roles": [ "coreUsersNoDelete" ]
+    },
+    "coreGroupsNoWrite": {
+      "name": "core-groups-no-write",
+      "email": "core-groups-no-write@veo-labs.com",
+      "password": "core-groups-no-write",
+      "roles": [ "coreGroupsNoWrite" ]
+    },
+    "coreGroupsNoUpdate": {
+      "name": "core-groups-no-update",
+      "email": "core-groups-no-update@veo-labs.com",
+      "password": "core-groups-no-update",
+      "roles": [ "coreGroupsNoUpdate" ]
+    },
+    "coreGroupsNoDelete": {
+      "name": "core-groups-no-delete",
+      "email": "core-groups-no-delete@veo-labs.com",
+      "password": "core-groups-no-delete",
+      "roles": [ "coreGroupsNoDelete" ]
     }
   },
   "applications": {

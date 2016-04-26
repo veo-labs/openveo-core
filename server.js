@@ -45,8 +45,6 @@ try {
   throw new Error('Invalid configuration file : ' + error.message);
 }
 
-var entities = {};
-var webServiceScopes = conf['webServiceScopes'] || [];
 var server;
 
 if (processOptions['ws']) {
@@ -108,16 +106,13 @@ async.series([
       }
 
       applicationStorage.setDatabase(db);
-      server.onDatabaseAvailable(db);
-
-      // Build core entities
-      var decodedEntities = entityLoader.decodeEntities(process.root + '/', conf['entities']);
-
-      if (decodedEntities)
-        openVeoAPI.util.merge(entities, decodedEntities);
-
       callback();
     });
+  },
+
+  // Inform server that database is loaded and available
+  function(callback) {
+    server.onDatabaseAvailable(applicationStorage.getDatabase(), callback);
   },
 
   // Load openveo plugins under node_modules directory
@@ -131,30 +126,45 @@ async.series([
         process.logger.error(error && error.message);
         throw new Error(error);
       } else {
+        var asyncFunctions = [];
         applicationStorage.setPlugins(plugins);
 
         plugins.forEach(function(loadedPlugin) {
-
-          // Found a list of web service scopes for the plugin
-          if (loadedPlugin.webServiceScopes) {
-            for (var scopeName in loadedPlugin.webServiceScopes)
-              webServiceScopes = webServiceScopes.concat(loadedPlugin.webServiceScopes[scopeName]);
-          }
-
-          // Found a list of entities for the plugin
-          if (loadedPlugin.entities)
-            openVeoAPI.util.merge(entities, loadedPlugin.entities);
-
-          server.onPluginLoaded(loadedPlugin);
-          process.logger.info('Plugin ' + loadedPlugin.name + ' successfully loaded');
+          asyncFunctions.push(function(callback) {
+            server.onPluginLoaded(loadedPlugin, callback);
+          });
         });
 
-        applicationStorage.setWebServiceScopes(webServiceScopes);
-        applicationStorage.setEntities(entities);
+        async.series(asyncFunctions, function(error, results) {
+          callback();
+        });
+      }
+    });
+  },
+
+  // Load web service scopes
+  function(callback) {
+    var webServiceScopes = conf['webServiceScopes'] || [];
+
+    applicationStorage.getPlugins().forEach(function(loadedPlugin) {
+
+      // Found a list of web service scopes for the plugin
+      if (loadedPlugin.webServiceScopes) {
+        for (var scopeName in loadedPlugin.webServiceScopes)
+          webServiceScopes = webServiceScopes.concat(loadedPlugin.webServiceScopes[scopeName]);
       }
 
-      callback();
     });
+
+    applicationStorage.setWebServiceScopes(webServiceScopes);
+    callback();
+  },
+
+  // Load entities
+  function(callback) {
+    var entities = entityLoader.buildEntities(conf['entities'], applicationStorage.getPlugins());
+    applicationStorage.setEntities(entities);
+    callback();
   },
 
   // Execute migrations script
@@ -198,9 +208,13 @@ async.series([
     executePluginFunction('start', callback);
   },
 
+  // Inform server that all plugins are loaded
+  function(callback) {
+    server.onPluginsLoaded(callback);
+  },
+
   // Start server
   function(callback) {
-    server.onPluginsLoaded();
     server.startServer(callback);
   }
 ],

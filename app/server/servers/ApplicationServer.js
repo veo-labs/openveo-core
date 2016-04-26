@@ -150,9 +150,12 @@ util.inherits(ApplicationServer, Server);
  * the private routers.
  *
  * @method onDatabaseAvailable
+ * @async
  * @param {Database} db The application database
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-ApplicationServer.prototype.onDatabaseAvailable = function(db) {
+ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   var self = this;
 
   // Update Session store with opened database connection
@@ -182,6 +185,17 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
   // Set main assets directory to be served first as the static server
   this.app.use(express.static(path.normalize(process.root + '/assets'), staticServerOptions));
 
+  if (env === 'dev')
+    this.app.use(express.static(path.normalize(process.root + '/app/client/admin/js'), staticServerOptions));
+
+  // Mount routers (Need to be done after passport initialize, session and authent)
+  this.app.use('/be', this.privateRouter);
+  this.app.use('/', this.router);
+
+  // Load and apply main routes from configuration to public and private routers
+  routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['public']), this.router);
+  routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['private']), this.privateRouter);
+
   // Load Core migrations script
   db.get('core-system', {name: 'core'}, null, null, function(error, value) {
     var lastVersion = '0.0.0';
@@ -195,19 +209,9 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
           self.migrations['core'] = migrations;
       }
     );
+
+    callback();
   });
-
-  if (env === 'dev')
-    this.app.use(express.static(path.normalize(process.root + '/app/client/admin/js'), staticServerOptions));
-
-  // Mount routers (Need to be done after passport initialize, session and authent)
-  this.app.use('/be', this.privateRouter);
-  this.app.use('/', this.router);
-
-  // Load and apply main routes from configuration to public and private routers
-  routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['public']), this.router);
-  routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['private']), this.privateRouter);
-
 };
 
 /**
@@ -217,9 +221,12 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db) {
  * views folders and permissions.
  *
  * @method onPluginLoaded
+ * @async
  * @param {Object} plugin The openveo plugin
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-ApplicationServer.prototype.onPluginLoaded = function(plugin) {
+ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
 
   // If plugin has an assets directory, it will be loaded as a static server
   if (plugin.assets && plugin.mountPath) {
@@ -266,14 +273,11 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin) {
     }
   }
 
-  // Found a list of permissions for the plugin
-  if (plugin.permissions)
-    this.permissions = this.permissions.concat(plugin.permissions);
-
   // Update migration script to apply
   if (plugin.migrations)
     this.migrations[plugin.name] = plugin.migrations;
 
+  callback();
 };
 
 /**
@@ -285,9 +289,13 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin) {
  * application.
  *
  * @method onPluginsLoaded
+ * @method async
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-ApplicationServer.prototype.onPluginsLoaded = function() {
+ApplicationServer.prototype.onPluginsLoaded = function(callback) {
   var self = this;
+  var plugins = applicationStorage.getPlugins();
 
   // Set views folders for template engine
   this.app.set('views', this.viewsFolders);
@@ -299,15 +307,6 @@ ApplicationServer.prototype.onPluginsLoaded = function() {
     }));
   });
 
-  // Generate permissions for entities
-  var entities = applicationStorage.getEntities();
-  var crudPermissions = permissionLoader.generateCRUDPermissions(entities);
-
-  // Add crud permissions to the list of permissions
-  this.permissions = crudPermissions.concat(this.permissions);
-
-  // Store application's permissions
-  applicationStorage.setPermissions(permissionLoader.groupOrphanedPermissions(this.permissions));
   applicationStorage.setMenu(this.menu);
 
   // Handle not found and errors
@@ -317,6 +316,19 @@ ApplicationServer.prototype.onPluginsLoaded = function() {
   // Handle errors
   this.app.use(errorController.errorAction);
 
+  // Build permissions
+  permissionLoader.buildPermissions(this.permissions, applicationStorage.getEntities(), plugins,
+  function(error, permissions) {
+    if (error)
+      return callback(error);
+
+    self.permissions = permissions;
+
+    // Store application's permissions
+    applicationStorage.setPermissions(self.permissions);
+
+    callback();
+  });
 };
 
 /**

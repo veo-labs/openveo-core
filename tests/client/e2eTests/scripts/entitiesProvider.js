@@ -1,9 +1,64 @@
 'use strict';
 
 var async = require('async');
+var GroupModel = process.require('app/server/models/GroupModel.js');
 var UserModel = process.require('app/server/models/UserModel.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
+
+/**
+ * Imports groups from JSON file in database.
+ *
+ * @example
+ *
+ *     var groups = { // Define groups to import
+ *       "coreGroup1": { // Not used internally
+ *         "name": "Core group 1", // Group name
+ *         "description": "Core group 1 description" // Group description
+ *       }
+ *     };
+ *
+ *     loader.importGroups(groups, function(error, importedGroups){
+ *       console.log('Groups imported into database');
+ *     });
+ *
+ * @param {Object} groups Groups description object
+ * @return {Function} Function to call when all groups are imported
+ */
+module.exports.importGroups = function(groups, callback) {
+  var parallel = [];
+  var groupModel = new GroupModel();
+
+  // Create function for async to add a group to the database
+  function createAddFunction(groupKey) {
+    var group = groups[groupKey];
+    group.id = groupKey;
+
+    // Add function to the list of functions to execute in parallel
+    parallel.push(function(callback) {
+
+      // Add group
+      groupModel.add(group, function(error, addedGroup) {
+        callback(error);
+      });
+
+    });
+  }
+
+  // Create functions to add groups with async
+  for (var groupKey in groups)
+    createAddFunction(groupKey);
+
+  // Asynchonously create groups
+  async.parallel(parallel, function(error) {
+    if (error) {
+      throw error;
+    } else {
+      callback(null, groups);
+    }
+  });
+
+};
 
 /**
  * Imports roles from JSON file into database.
@@ -100,7 +155,7 @@ module.exports.importUsers = function(users, callback) {
   for (var userKey in users)
     createAddFunction(userKey);
 
-  // Asynchonously create roles
+  // Asynchonously create users
   async.parallel(parallel, function(error) {
     if (error) {
       throw error;

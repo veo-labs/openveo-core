@@ -88,6 +88,25 @@
         return string;
     }
 
+    /**
+     * Gets permissions from groups for the given operation.
+     *
+     * @param {Array} groupIds A list of group ids
+     * @param {String} operation "read", "update" or "delete"
+     * @return {Array} The list of permissions
+     */
+    function getPermissionsFromGroups(groupIds, operation) {
+      var permissions = [];
+
+      if (groupIds && groupIds.length) {
+        groupIds.forEach(function(groupId) {
+          permissions.push(operation + '-group-' + groupId);
+        });
+      }
+
+      return permissions;
+    }
+
     $scope.toggleResponsiveMenu = function() {
       $scope.isResponsiveMenuClosed = !$scope.isResponsiveMenuClosed;
     };
@@ -275,25 +294,65 @@
       else $location.path('/');
     });
 
-    $scope.checkAccess = function(perm) {
+    /**
+     * Checks that authenticated user has a permission.
+     *
+     * @param {Array|String} permissions One or several permissions
+     * @return {Boolean} true if user has one of the permissions, false otherwise
+     */
+    $scope.checkAccess = function(permissions) {
       if ($scope.userInfo) {
 
         // Access granted to admin
         if ($scope.userInfo.id == 0) return true;
 
+        if (typeof permissions === 'string')
+          permissions = [permissions];
+
         // Access granted to user with roles and with the right permissions
         if ($scope.userInfo.roles && $scope.userInfo.roles.length != 0 &&
-                $scope.userInfo.permissions && $scope.userInfo.permissions.length != 0)
-          return $scope.userInfo.permissions.indexOf(perm) >= 0;
-
-        // Access refused to user with no roles or no permissions
-        else return false;
-      } else {
-
-        // Access refused if user is not authenticated
-        return false;
+                $scope.userInfo.permissions && $scope.userInfo.permissions.length != 0) {
+          return permissions.filter(function(permission) {
+            return $scope.userInfo.permissions.indexOf(permission) >= 0;
+          }).length > 0;
+        }
 
       }
+
+      return false;
+    };
+
+    /**
+     * Checks that user has permission to access a content.
+     *
+     * @param {Object} content The content entity to try to access
+     * @param {String} operation The operation that will be performed on the content
+     * @return {Boolean} true if user has sufficient permission to perform the operation on the content
+     */
+    $scope.checkContentAccess = function(content, operation) {
+      if ($scope.userInfo && content && operation) {
+
+        // Access granted to super administrator and owner
+        // Access is also granted for contents belonging to the anonymous user
+        if ($scope.userInfo.id === '0' ||
+            content.metadata.user === '1' ||
+            $scope.userInfo.id === content.metadata.user
+        ) return true;
+
+        // Access granted to users belonging to, at least, one of the groups associated to the content
+        // User must have group permission on the operation
+        if (content.metadata.groups && content.metadata.groups.length) {
+          var contentPermissions = getPermissionsFromGroups(content.metadata.groups, operation);
+
+          for (var i = 0; i < contentPermissions.length; i++) {
+            if ($scope.userInfo.permissions.indexOf(contentPermissions[i]) >= 0)
+              return true;
+          }
+
+        }
+      }
+
+      return false;
     };
 
   }

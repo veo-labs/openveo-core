@@ -219,6 +219,44 @@ RolePage.prototype.getPermissionGroups = function(formElement) {
 };
 
 /**
+ * Gets the list of permissions of a group.
+ *
+ * @param {String} name Group name
+ * @param {ElementFinder} formElement Element where to look for permissions
+ * @return {Promise} Promise resolving with the list of permissions
+ */
+RolePage.prototype.getGroupPermissions = function(name, formElement) {
+  var self = this;
+  var permissions = [];
+  var group;
+
+  return browser.waitForAngular().then(function() {
+    formElement.all(by.css('.panel')).each(function(panel, index) {
+      panel.getText().then(function(text) {
+        if (text === name)
+          group = panel;
+      });
+    });
+  }).then(function() {
+    if (!group)
+      return protractor.promise.rejected(new Error('Group ' + name + ' not found'));
+
+    return browserExt.click(group.element(by.css('.panel-heading'))).then(function() {
+      return browser.wait(self.EC.visibilityOf(group.element(by.css('.panel-body'))), 5000, 'Missing panel body (' +
+                   name + ')');
+    });
+  }).then(function() {
+    group.all(by.css('.panel-body label')).each(function(label, index) {
+      label.getText().then(function(text) {
+        permissions.push(text);
+      });
+    });
+  }).then(function() {
+    return protractor.promise.fulfilled(permissions);
+  });
+};
+
+/**
  * Gets permissions.
  *
  * @param {ElementFinder} formElement Element where to look for permissions

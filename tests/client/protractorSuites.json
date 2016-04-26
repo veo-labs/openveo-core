@@ -7,6 +7,7 @@
   "rolePage": "e2eTests/rolePage*.js",
   "topMenu": "e2eTests/topMenu*.js",
   "userPage": "e2eTests/userPage*.js",
+  "group": "e2eTests/group*.js",
   "coreWebService": "e2eTests/webService*.js",
   "core": "e2eTests/*.js"
 }

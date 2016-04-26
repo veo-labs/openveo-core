@@ -1,13 +1,14 @@
 'use strict';
 
 /**
- * Standalone script to import roles and users, into database, based on a description file.
+ * Standalone script to import groups, roles and users, into database, based on a description file.
  *
- * End to end tests require plugins and core to create their own users and roles to be able to test permissions.
+ * End to end tests require plugins and core to create their own users, groups and roles to be able to test
+ * permissions.
  *
  * Description file must be named "data.json" and must be contained in "tests/client/e2eTests/database" directory.
  * Each plugin can have its own "data.json" file in the own "tests/client/e2eTests/database" directory. When the
- * script is launched, all roles and users from "data.json" will be created in test database.
+ * script is launched, all groups, roles and users from "data.json" will be created in test database.
  *
  * @example
  *
@@ -18,6 +19,12 @@
  *
  *     // Description file example
  *     {
+ *       "groups": { // Defines groups to import
+ *         "group1": { // The id of the group which can be used in permission's key
+ *           "name": "group-1", // Group name
+ *           "description": "group-1" // Description name
+ *         }
+ *       },
  *       "roles": { // Defines roles to import
  *         "core": { // Role reference which can be used by "users" property
  *           "name": "Core administrator", // Role name
@@ -64,7 +71,8 @@ var descriptionFilePath = '/tests/client/e2eTests/database/data.json';
 // Plugin paths (core act as a plugin)
 var pluginPaths = [process.root];
 
-// Imported roles and applications
+// Imported groups, roles and applications
+var groups = {};
 var roles = {};
 var applications = {};
 
@@ -99,6 +107,7 @@ async.series([
     pluginPaths.forEach(function(pluginPath) {
       try {
         var datas = require(path.join(pluginPath, descriptionFilePath));
+        openVeoAPI.util.merge(groups, datas.groups);
         openVeoAPI.util.merge(roles, datas.roles);
         openVeoAPI.util.merge(users, datas.users);
         openVeoAPI.util.merge(applications, datas.applications);
@@ -108,6 +117,14 @@ async.series([
       }
     });
     callback();
+  },
+
+  // Import groups
+  function(callback) {
+    provider.importGroups(groups, function(error, importedGroups) {
+      groups = importedGroups;
+      callback();
+    });
   },
 
   // Import roles

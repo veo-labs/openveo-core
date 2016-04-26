@@ -29,7 +29,8 @@ module.exports = {
   entities: {
     application: 'app/server/models/ClientModel',
     user: 'app/server/models/UserModel',
-    role: 'app/server/models/RoleModel'
+    role: 'app/server/models/RoleModel',
+    group: 'app/server/models/GroupModel'
   },
   webServiceScopes: [
     {
@@ -56,6 +57,10 @@ module.exports = {
     {
       id: 'access-roles-page',
       name: 'PERMISSIONS.ACCESS_ROLES_PAGE_NAME'
+    },
+    {
+      id: 'access-groups-page',
+      name: 'PERMISSIONS.ACCESS_GROUPS_PAGE_NAME'
     }
   ],
   backOffice: {
@@ -84,6 +89,11 @@ module.exports = {
             label: 'MENU.ROLES',
             path: 'roles',
             permission: 'access-roles-page'
+          },
+          {
+            label: 'MENU.GROUPS',
+            path: 'groups',
+            permission: 'access-groups-page'
           }
         ]
       }
@@ -128,6 +138,7 @@ module.exports = {
         '/ov/ApplicationController.js',
         '/ov/RoleController.js',
         '/ov/UserController.js',
+        '/ov/GroupController.js',
         '/ov/ProfileController.js',
         '/ov/MenuService.js',
         '/ov/UserService.js',

@@ -103,9 +103,12 @@ util.inherits(WebServiceServer, Server);
  * Applies all routes, found in configuration, to the router.
  *
  * @method onDatabaseAvailable
+ * @async
  * @param {Database} db The application database
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-WebServiceServer.prototype.onDatabaseAvailable = function(db) {
+WebServiceServer.prototype.onDatabaseAvailable = function(db, callback) {
   var self = this;
 
   // Load and apply routes to router
@@ -124,6 +127,7 @@ WebServiceServer.prototype.onDatabaseAvailable = function(db) {
           self.migrations['core'] = migrations;
       }
     );
+    callback();
   });
 };
 
@@ -132,8 +136,10 @@ WebServiceServer.prototype.onDatabaseAvailable = function(db) {
  *
  * @method onPluginLoaded
  * @param {Object} plugin The openveo plugin
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-WebServiceServer.prototype.onPluginLoaded = function(plugin) {
+WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
 
   // Mount plugin Web Service router to the plugin
   // Web Service mount path
@@ -155,6 +161,7 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin) {
     }
   }
 
+  callback();
 };
 
 /**
@@ -164,8 +171,11 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin) {
  * endpoints and errors.
  *
  * @method onPluginsLoaded
+ * @method async
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-WebServiceServer.prototype.onPluginsLoaded = function() {
+WebServiceServer.prototype.onPluginsLoaded = function(callback) {
   var self = this;
 
   // Set Thumbnail generator on image folder
@@ -178,6 +188,8 @@ WebServiceServer.prototype.onPluginsLoaded = function() {
   // Handle not found and errors
   this.app.all('*', errorController.notFoundAction);
   this.app.use(errorController.errorAction);
+
+  callback();
 };
 
 /**

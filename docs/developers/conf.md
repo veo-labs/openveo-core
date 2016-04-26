@@ -115,6 +115,7 @@ Entities are elements subject to CRUD (**C**reate **R**ead **U**pdate **D**elete
 - application - Web Service client applications
 - user - Back end users
 - role - Back end roles
+- group - Groups
 
 Each entity will automatically have 3 associated back end permissions : create, update and delete.
 
