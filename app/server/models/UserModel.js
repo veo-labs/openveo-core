@@ -20,10 +20,9 @@ var UserProvider = process.require('app/server/providers/UserProvider.js');
  * @class UserModel
  * @constructor
  * @extends EntityModel
- * @param {Object} user The user the entity belongs to
  */
-function UserModel(user) {
-  openVeoAPI.EntityModel.call(this, user, new UserProvider(openVeoAPI.applicationStorage.getDatabase()));
+function UserModel() {
+  openVeoAPI.EntityModel.call(this, new UserProvider(openVeoAPI.applicationStorage.getDatabase()));
 }
 
 module.exports = UserModel;

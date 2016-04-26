@@ -16,10 +16,9 @@ var TokenProvider = process.require('app/server/providers/TokenProvider.js');
  * @class TokenModel
  * @constructor
  * @extends EntityModel
- * @param {Object} user The user the entity belongs to
  */
-function TokenModel(user) {
-  openVeoAPI.EntityModel.call(this, user, new TokenProvider(openVeoAPI.applicationStorage.getDatabase()));
+function TokenModel() {
+  openVeoAPI.EntityModel.call(this, new TokenProvider(openVeoAPI.applicationStorage.getDatabase()));
 }
 
 module.exports = TokenModel;

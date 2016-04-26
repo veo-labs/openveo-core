@@ -16,10 +16,9 @@ var RoleProvider = process.require('app/server/providers/RoleProvider.js');
  * @class RoleModel
  * @constructor
  * @extends EntityModel
- * @param {Object} user The user the entity belongs to
  */
-function RoleModel(user) {
-  openVeoAPI.EntityModel.call(this, user, new RoleProvider(openVeoAPI.applicationStorage.getDatabase()));
+function RoleModel() {
+  openVeoAPI.EntityModel.call(this, new RoleProvider(openVeoAPI.applicationStorage.getDatabase()));
 }
 
 module.exports = RoleModel;
