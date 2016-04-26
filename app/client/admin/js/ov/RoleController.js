@@ -3,7 +3,7 @@
 (function(app) {
 
   /**
-   * Defines the user controller for the user page.
+   * Defines the role controller for the role page.
    */
   function RoleController($scope, $filter, entityService, userService, permissions) {
 
