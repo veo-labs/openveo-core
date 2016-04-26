@@ -47,6 +47,12 @@ Open **~/.openveo/core/loggerConf.json**
     "level" : "info", // Log level
     "maxFileSize" : 1048576, // Maximum log file size (in Bytes)
     "maxFiles" : 2 // Maximum number of files archived
+  },
+  "ws" : {
+    "fileName" : "/var/log/openveo/openveo-ws.log", // Path to the web service log file
+    "level" : "info", // Log level
+    "maxFileSize" : 1048576, // Maximum log file size (in Bytes)
+    "maxFiles" : 2 // Maximum number of files archived
   }
 }
 ```
@@ -60,6 +66,9 @@ Open **~/.openveo/core/serverConf.json**
   "app" : {
     "port" : PORT, // Replace PORT by the HTTP server port to use (e.g. 3000)
     "sessionSecret" : "SECRET" // Replace SECRET by a secret used to secure HTTP sessions
+  },
+  "ws": {
+    "port": WS_POST  // Replace WS_PORT by the HTTP server port to use (e.g. 3001)
   }
 }
 ```
