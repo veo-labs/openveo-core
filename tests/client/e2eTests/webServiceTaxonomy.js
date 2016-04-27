@@ -13,7 +13,7 @@ var TaxonomyModel = OpenVeoAPI.TaxonomyModel;
 var assert = chai.assert;
 chai.use(chaiAsPromised);
 
-describe('Web service /taxonomy', function() {
+describe('Web service /taxonomies/:id', function() {
   var page;
   var webServiceClient;
   var taxonomyHelper;
@@ -54,7 +54,7 @@ describe('Web service /taxonomy', function() {
     taxonomyHelper.addEntities(taxonomiesToAdd).then(function(addedTaxonomies) {
       page.refresh();
 
-      webServiceClient.get('taxonomy/' + addedTaxonomies[0].name).then(function(results) {
+      webServiceClient.get('taxonomies/' + addedTaxonomies[0].id).then(function(results) {
         var taxonomy = results.taxonomy;
         assert.eventually.isDefined(protractor.promise.fulfilled(taxonomy));
         assert.eventually.equal(protractor.promise.fulfilled(taxonomy.id), addedTaxonomies[0].id);
@@ -85,31 +85,14 @@ describe('Web service /taxonomy', function() {
     taxonomyHelper.addEntities(taxonomiesToAdd).then(function(addedTaxonomies) {
       page.refresh();
 
-      webServiceClient.get('taxonomy/unkown').then(function(results) {
+      webServiceClient.get('taxonomies/unkown').then(function(results) {
         var taxonomy = results.taxonomy;
-        assert.eventually.isDefined(protractor.promise.fulfilled(taxonomy));
-        assert.eventually.equal(protractor.promise.fulfilled(taxonomy.tree.length), 0);
+        assert.eventually.isUndefined(protractor.promise.fulfilled(taxonomy));
         deferred.fulfill();
       }).catch(function(error) {
         assert.eventually.ok(protractor.promise.fulfilled(false), error.message);
         deferred.fulfill();
       });
-    });
-
-    return page.flow.execute(function() {
-      return deferred.promise;
-    });
-  });
-
-  it('should return an error if no name', function() {
-    var deferred = protractor.promise.defer();
-
-    webServiceClient.get('taxonomy/').then(function(results) {
-      assert.eventually.ok(protractor.promise.fulfilled(false), 'Unexpected HTTP 200 response');
-      deferred.fulfill();
-    }).catch(function(error) {
-      assert.eventually.ok(protractor.promise.fulfilled(true));
-      deferred.fulfill();
     });
 
     return page.flow.execute(function() {
@@ -139,7 +122,7 @@ describe('Web service /taxonomy', function() {
     taxonomyHelper.addEntities(taxonomiesToAdd).then(function(addedTaxonomies) {
       page.refresh();
 
-      client.get('taxonomy/' + addedTaxonomies[0].name).then(function(results) {
+      client.get('taxonomies/' + addedTaxonomies[0].id).then(function(results) {
         assert.eventually.ok(protractor.promise.fulfilled(false),
                              'Application without permission should not be able to get taxonomies');
         deferred.fulfill();

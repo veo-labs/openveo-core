@@ -145,12 +145,16 @@ module.exports = {
     code: 0x30B,
     httpCode: 500
   },
-  GET_GROUP_ERROR: {
+  GET_TAXONOMIES_ERROR: {
     code: 0x30C,
     httpCode: 500
   },
-  GET_GROUPS_ERROR: {
+  GET_GROUP_ERROR: {
     code: 0x30D,
+    httpCode: 500
+  },
+  GET_GROUPS_ERROR: {
+    code: 0x30E,
     httpCode: 500
   }
 

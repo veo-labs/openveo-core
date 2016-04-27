@@ -19,11 +19,12 @@ module.exports = {
       'post /crud/:type/:id': 'app/server/controllers/crudController.updateEntityAction',
       'put /crud/:type': 'app/server/controllers/crudController.addEntityAction',
       'delete /crud/:type/:id': 'app/server/controllers/crudController.removeEntityAction',
-      'get /getTaxonomy/:name': 'app/server/controllers/taxonomyController.getTaxonomyAction',
+      'get /getTaxonomies': 'app/server/controllers/taxonomyController.getTaxonomiesAction',
       'post /search/:type': 'app/server/controllers/searchController.searchEntitiesAction'
     },
     ws: {
-      'get /taxonomy/:name': 'app/server/controllers/taxonomyController.getTaxonomyAction',
+      'get /taxonomies/:id': 'app/server/controllers/taxonomyController.getTaxonomyAction',
+      'get /taxonomies': 'app/server/controllers/taxonomyController.getTaxonomiesAction',
       'get /groups/:id': 'app/server/controllers/groupController.getGroupAction',
       'get /groups': 'app/server/controllers/groupController.getGroupsAction'
     }
@@ -40,7 +41,7 @@ module.exports = {
       name: 'WS_SCOPES.GET_TAXONOMY_NAME',
       description: 'WS_SCOPES.GET_TAXONOMY_DESCRIPTON',
       paths: [
-        'get /taxonomy/*'
+        'get /taxonomies*'
       ]
     },
     {

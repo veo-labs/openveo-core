@@ -122,9 +122,63 @@ $videos = json_decode(curl_exec($curlHandle));
 
 ## Taxonomies
 
+Get taxonomies.
+
+    GET WEB_SERVICE_URL/taxonomies
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+query | String | No | - | To search on taxonomies' name
+sortBy | String | No | name | To sort taxonomies by **name**
+sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+page | Number | No | 1 | The expected page
+limit | Number | No | - | To limit the number of taxonomies per page. If not specified get all taxonomies
+
+HTTP Status Code | Details
+---- | ----
+500 | An error occured on the server side
+200 | Got the list of taxonomies (even if the list is empty)
+
+```json
+{
+  "taxonomies": [
+    {
+      "id": "1443533344313",
+      "name": "Taxonomy 1",
+      "tree": [
+        {
+          "id" : "1445433239636",
+          "items": [],
+          "title": "Term 1"
+        }
+      ]
+    },
+    {
+      "id": "1333443134453",
+      "name": "Taxonomy 2",
+      "tree": [
+        {
+          "id" : "3239636144543",
+          "items": [],
+          "title": "Term 1"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "limit": 1,
+    "page": 1,
+    "pages": 2,
+    "size": 2
+  }
+}
+```
+
+---
+
 Get taxonomy.
 
-    GET WEB_SERVICE_URL/taxonomy/{taxonomy_name}
+    GET WEB_SERVICE_URL/taxonomies/{taxonomy_id}
 
 HTTP Status Code | Details
 ---- | ----
@@ -134,7 +188,7 @@ HTTP Status Code | Details
 ```json
 {
   "taxonomy": {
-    "name": "{taxonomy_name}",
+    "name": "{taxonomy_id}",
     "id": "41U3sYipg",
     "tree": []
   }
