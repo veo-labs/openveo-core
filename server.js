@@ -10,6 +10,7 @@ var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var TokenProvider = process.require('app/server/providers/TokenProvider.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
+var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var conf = process.require('conf.js');
 var TaxonomyProvider = openVeoAPI.TaxonomyProvider;
 var applicationStorage = openVeoAPI.applicationStorage;
@@ -182,7 +183,8 @@ async.series([
       new RoleProvider(database),
       new TaxonomyProvider(database),
       new TokenProvider(database),
-      new UserProvider(database)
+      new UserProvider(database),
+      new GroupProvider(database)
     ];
 
     providers.forEach(function(provider) {
