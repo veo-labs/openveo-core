@@ -141,6 +141,74 @@ HTTP Status Code | Details
 }
 ```
 
+## Groups
+
+Get groups.
+
+    GET WEB_SERVICE_URL/groups
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+query | String | No | - | To search on both groups' name and description
+sortBy | String | No | name | To sort groups by either **name** or **description**
+sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+page | Number | No | 1 | The expected page
+limit | Number | No | - | To limit the number of groups per page. If not specified get all groups
+
+HTTP Status Code | Details
+---- | ----
+500 | An error occured on the server side
+200 | Got the list of groups (even if the list is empty)
+
+```json
+{
+  "groups": [
+    {
+      "id": "Nk0fPIulZ",
+      "name": "Group name",
+      "description": "Group description"
+    },
+    {
+      "id": "VJfQDIul-",
+      "name": "Group name",
+      "description": "Group description"
+    }
+  ],
+  "pagination": {
+    "limit": 1,
+    "page": 1,
+    "pages": 2,
+    "size": 2
+  }
+}
+```
+
+---
+
+Get information about a group.
+
+    GET WEB_SERVICE_URL/groups/{group_id}
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+group_id | String | Yes | - | The id of the group to fetch
+
+HTTP Status Code | Details
+---- | ----
+500 | An error occured on the server side
+400 | The id of the group is missing
+200 | Got the group
+
+```json
+{
+  "group": {
+    "id": "Nk0fPIulZ",
+    "name": "Group name",
+    "description": "Group description"
+  }
+}
+```
+
 # Client libraries
 
 ## PHP client

@@ -23,7 +23,9 @@ module.exports = {
       'post /search/:type': 'app/server/controllers/searchController.searchEntitiesAction'
     },
     ws: {
-      'get /taxonomy/:name': 'app/server/controllers/taxonomyController.getTaxonomyAction'
+      'get /taxonomy/:name': 'app/server/controllers/taxonomyController.getTaxonomyAction',
+      'get /groups/:id': 'app/server/controllers/groupController.getGroupAction',
+      'get /groups': 'app/server/controllers/groupController.getGroupsAction'
     }
   },
   entities: {
@@ -39,6 +41,14 @@ module.exports = {
       description: 'WS_SCOPES.GET_TAXONOMY_DESCRIPTON',
       paths: [
         'get /taxonomy/*'
+      ]
+    },
+    {
+      id: 'group',
+      name: 'WS_SCOPES.GET_GROUP_NAME',
+      description: 'WS_SCOPES.GET_GROUP_DESCRIPTON',
+      paths: [
+        'get /groups*'
       ]
     }
   ],

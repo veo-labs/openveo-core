@@ -15,7 +15,9 @@
   },
   "WS_SCOPES" : {
     "GET_TAXONOMY_NAME" : "Récupérer les taxonomies",
-    "GET_TAXONOMY_DESCRIPTION" : "Récupérer les taxonomies avec la liste des termes"
+    "GET_TAXONOMY_DESCRIPTION" : "Récupérer les taxonomies avec la liste des termes",
+    "GET_GROUP_NAME" : "Récupérer les groupes",
+    "GET_GROUP_DESCRIPTION" : "Récupérer la liste des groupes"
   },
   "PERMISSIONS" : {
     "CREATE_APPLICATION_NAME" : "Créer des applications",

@@ -32,7 +32,8 @@ util.inherits(GroupProvider, openVeoAPI.EntityProvider);
  */
 GroupProvider.prototype.createIndexes = function(callback) {
   this.database.createIndexes(this.collection, [
-    {key: {name: 1}, name: 'byName'}
+    {key: {name: 1}, name: 'byName'},
+    {key: {name: 'text', description: 'text'}, weights: {name: 2}, name: 'querySearch'}
   ], function(error, result) {
     if (result && result.note)
       process.logger.debug('Create groups indexes : ' + result.note);

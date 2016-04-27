@@ -91,6 +91,10 @@ module.exports = {
     code: 0x205,
     httpCode: 400
   },
+  GET_GROUP_MISSING_PARAMETERS: {
+    code: 0x206,
+    httpCode: 400
+  },
 
   // Other errors
   I18N_DICTIONARY_NOT_FOUND: {
@@ -139,6 +143,14 @@ module.exports = {
   },
   GET_TAXONOMY_ERROR: {
     code: 0x30B,
+    httpCode: 500
+  },
+  GET_GROUP_ERROR: {
+    code: 0x30C,
+    httpCode: 500
+  },
+  GET_GROUPS_ERROR: {
+    code: 0x30D,
     httpCode: 500
   }
 

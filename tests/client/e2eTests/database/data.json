@@ -209,6 +209,10 @@
       "name": "core-applications-taxonomies",
       "scopes": [ "taxonomy" ]
     },
+    "coreApplicationsGroups": {
+      "name": "core-applications-groups",
+      "scopes": [ "group" ]
+    },
     "coreApplicationsGuest": {
       "name": "core-applications-guest",
       "scopes": []

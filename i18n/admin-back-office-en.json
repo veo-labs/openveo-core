@@ -15,7 +15,9 @@
   },
   "WS_SCOPES" : {
     "GET_TAXONOMY_NAME" : "Get taxonomies",
-    "GET_TAXONOMY_DESCRIPTION" : "Get taxonomies with the list of terms"
+    "GET_TAXONOMY_DESCRIPTION" : "Get taxonomies with the list of terms",
+    "GET_GROUP_NAME" : "Get groups",
+    "GET_GROUP_DESCRIPTION" : "Get the list of groups"
   },
   "PERMISSIONS" : {
     "CREATE_APPLICATION_NAME" : "Create applications",
