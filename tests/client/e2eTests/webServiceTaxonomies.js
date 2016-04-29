@@ -54,7 +54,7 @@ describe('Web service /taxonomies', function() {
       page.refresh();
 
       webServiceClient.get('taxonomies').then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), taxonomiesToAdd.length);
         deferred.fulfill();
       }).catch(function(error) {
@@ -112,11 +112,11 @@ describe('Web service /taxonomies', function() {
       page.refresh();
 
       webServiceClient.get('taxonomies?query=' + encodeURIComponent('search')).then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), 2, 'Wrong number of results');
         return webServiceClient.get('taxonomies?query=' + encodeURIComponent('"taxonomies search"'));
       }).then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), 2, 'Wrong number of results');
         deferred.fulfill();
       }).catch(function(error) {
@@ -156,7 +156,7 @@ describe('Web service /taxonomies', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('taxonomies?sortBy=name').then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), 2, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies[0].id), addedTaxonomies[1].id,
                                 'First taxonomy is wrong');
@@ -165,7 +165,7 @@ describe('Web service /taxonomies', function() {
 
         return webServiceClient.get('taxonomies?sortBy=name&sortOrder=asc');
       }).then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), 2, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies[0].id), addedTaxonomies[0].id,
                                 'First taxonomy is wrong');
@@ -212,7 +212,7 @@ describe('Web service /taxonomies', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('taxonomies?page=1&limit=1').then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         var pagination = results.pagination;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), 1, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(pagination.limit), 1, 'Wrong limit');
@@ -234,7 +234,7 @@ describe('Web service /taxonomies', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('taxonomies?limit=1').then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         var pagination = results.pagination;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), 1, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(pagination.limit), 1, 'Wrong limit');
@@ -256,7 +256,7 @@ describe('Web service /taxonomies', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('taxonomies?page=1').then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         var pagination = results.pagination;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), 2, 'Wrong number of results');
         assert.eventually.isUndefined(protractor.promise.fulfilled(pagination), 'Unexpected pagination');
@@ -275,7 +275,7 @@ describe('Web service /taxonomies', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('taxonomies?limit=1&page=1000').then(function(results) {
-        var taxonomies = results.taxonomies;
+        var taxonomies = results.entities;
         var pagination = results.pagination;
         assert.eventually.equal(protractor.promise.fulfilled(taxonomies.length), 0, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(pagination.limit), 1, 'Wrong limit');

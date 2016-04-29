@@ -126,7 +126,6 @@ describe('User page', function() {
     page.addLine(name, {email: email, password: password, passwordValidate: 'wrong'});
     page.getAlertMessages().then(function(messages) {
       assert.equal(messages.length, 1);
-      assert.ok(messages[0].indexOf('code=772') >= 0);
     });
     page.closeAlerts();
   });

@@ -39,9 +39,9 @@ describe('OvApp', function() {
   it('Should register /login, /, /applications, /roles, /users, /profile routes', function() {
     assert.isDefined($route.routes['/']);
     assert.isDefined($route.routes['/login']);
-    assert.isDefined($route.routes['/applications']);
-    assert.isDefined($route.routes['/roles']);
-    assert.isDefined($route.routes['/users']);
+    assert.isDefined($route.routes['/applications-list']);
+    assert.isDefined($route.routes['/roles-list']);
+    assert.isDefined($route.routes['/users-list']);
     assert.isDefined($route.routes['/profile']);
   });
 

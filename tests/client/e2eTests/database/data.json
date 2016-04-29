@@ -1,17 +1,23 @@
 {
+  "groups": {
+    "coreGroup": {
+      "name": "core-group",
+      "description": "core-group"
+    }
+  },
   "roles": {
     "coreAdmin": {
       "name": "core-admin",
       "permissions": [
-        "create-application",
-        "update-application",
-        "delete-application",
-        "create-user",
-        "update-user",
-        "delete-user",
-        "create-role",
-        "update-role",
-        "delete-role",
+        "create-applications",
+        "update-applications",
+        "delete-applications",
+        "create-users",
+        "update-users",
+        "delete-users",
+        "create-roles",
+        "update-roles",
+        "delete-roles",
         "access-applications-page",
         "access-users-page",
         "access-roles-page"
@@ -25,96 +31,96 @@
       "name": "core-roles-no-write",
       "permissions": [
         "access-roles-page",
-        "update-role",
-        "delete-role"
+        "update-roles",
+        "delete-roles"
       ]
     },
     "coreRolesNoUpdate": {
       "name": "core-roles-no-update",
       "permissions": [
         "access-roles-page",
-        "create-role",
-        "delete-role"
+        "create-roles",
+        "delete-roles"
       ]
     },
     "coreRolesNoDelete": {
       "name": "core-roles-no-delete",
       "permissions": [
         "access-roles-page",
-        "create-role",
-        "update-role"
+        "create-roles",
+        "update-roles"
       ]
     },
     "coreApplicationsNoWrite": {
       "name": "core-applications-no-write",
       "permissions": [
         "access-applications-page",
-        "update-application",
-        "delete-application"
+        "update-applications",
+        "delete-applications"
       ]
     },
     "coreApplicationsNoUpdate": {
       "name": "core-applications-no-update",
       "permissions": [
         "access-applications-page",
-        "create-application",
-        "delete-application"
+        "create-applications",
+        "delete-applications"
       ]
     },
     "coreApplicationsNoDelete": {
       "name": "core-applications-no-delete",
       "permissions": [
         "access-applications-page",
-        "create-application",
-        "update-application"
+        "create-applications",
+        "update-applications"
       ]
     },
     "coreUsersNoWrite": {
       "name": "core-users-no-write",
       "permissions": [
         "access-users-page",
-        "update-user",
-        "delete-user"
+        "update-users",
+        "delete-users"
       ]
     },
     "coreUsersNoUpdate": {
       "name": "core-users-no-update",
       "permissions": [
         "access-users-page",
-        "create-user",
-        "delete-user"
+        "create-users",
+        "delete-users"
       ]
     },
     "coreUsersNoDelete": {
       "name": "core-users-no-delete",
       "permissions": [
         "access-users-page",
-        "create-user",
-        "update-user"
+        "create-users",
+        "update-users"
       ]
     },
     "coreGroupsNoWrite": {
       "name": "core-groups-no-write",
       "permissions": [
         "access-groups-page",
-        "update-group",
-        "delete-group"
+        "update-groups",
+        "delete-groups"
       ]
     },
     "coreGroupsNoUpdate": {
       "name": "core-groups-no-update",
       "permissions": [
         "access-groups-page",
-        "create-group",
-        "delete-group"
+        "create-groups",
+        "delete-groups"
       ]
     },
     "coreGroupsNoDelete": {
       "name": "core-groups-no-delete",
       "permissions": [
         "access-groups-page",
-        "create-group",
-        "update-group"
+        "create-groups",
+        "update-groups"
       ]
     }
   },

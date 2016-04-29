@@ -4,18 +4,13 @@
  * @module core-controllers
  */
 
-/**
- * Provides route actions for all requests relative to back end
- * authentication.
- *
- * @class authenticationController
- */
-
+var util = require('util');
 var passport = require('passport');
 var openVeoAPI = require('@openveo/api');
 var pathUtil = process.require('app/server/path.js');
 var errors = process.require('app/server/httpErrors.js');
 var applicationStorage = openVeoAPI.applicationStorage;
+var Controller = openVeoAPI.controllers.Controller;
 
 /**
  * Retrieves, recursively, the permission corresponding to the
@@ -83,9 +78,23 @@ function getPermissionByUrl(permissions, url, httpMethod) {
  * @return {Boolean} true if the page is the user profile page, false otherwise
  */
 function isUserProfileUrl(request) {
-  var path = '/crud/user/' + request.user.id;
+  var path = '/users/' + request.user.id;
   return !request.user.locked && ((request.path === path) && (request.method === 'POST'));
 }
+
+/**
+ * Provides route actions for all requests relative to back end authentication.
+ *
+ * @class authenticationController
+ * @constructor
+ * @extends Controller
+ */
+function AuthenticationController() {
+  Controller.call(this);
+}
+
+module.exports = AuthenticationController;
+util.inherits(AuthenticationController, Controller);
 
 /**
  * Establishes requests authentication using module passport.
@@ -103,9 +112,8 @@ function isUserProfileUrl(request) {
  *     }
  *
  * @method authenticateAction
- * @static
  */
-module.exports.authenticateAction = function(request, response, next) {
+AuthenticationController.prototype.authenticateAction = function(request, response, next) {
 
   // Use passport to authenticate the request
   passport.authenticate('local', function(error, user) {
@@ -138,9 +146,8 @@ module.exports.authenticateAction = function(request, response, next) {
  * An HTTP code 200 is returned to the client with no content.
  *
  * @method logoutAction
- * @static
  */
-module.exports.logoutAction = function(request, response, next) {
+AuthenticationController.prototype.logoutAction = function(request, response, next) {
   request.logout();
   next();
 };
@@ -152,9 +159,8 @@ module.exports.logoutAction = function(request, response, next) {
  * It just get to the next route action if permission is granted.
  *
  * @method restrictAction
- * @static
  */
-module.exports.restrictAction = function(request, response, next) {
+AuthenticationController.prototype.restrictAction = function(request, response, next) {
   var error = errors.BACK_END_UNAUTHORIZED;
 
   // User is authenticated
@@ -207,9 +213,8 @@ module.exports.restrictAction = function(request, response, next) {
  *     ]
  *
  * @method getPermissionsAction
- * @static
  */
-module.exports.getPermissionsAction = function(request, response) {
+AuthenticationController.prototype.getPermissionsAction = function(request, response) {
   var permissions = applicationStorage.getPermissions();
   response.send({
     permissions: permissions

@@ -68,7 +68,7 @@ describe('Role page', function() {
         name: 'Test',
         permissions: []
       };
-      page.sendRequest('be/crud/role', 'put', data).then(function(response) {
+      page.sendRequest('be/roles', 'put', data).then(function(response) {
         assert.equal(response.status, 403);
       });
     });
@@ -108,7 +108,7 @@ describe('Role page', function() {
         permissions: []
       };
 
-      page.sendRequest('be/crud/role/' + id, 'post', data).then(function(response) {
+      page.sendRequest('be/roles/' + id, 'post', data).then(function(response) {
         assert.equal(response.status, 403);
       });
     });
@@ -135,7 +135,7 @@ describe('Role page', function() {
 
     it('should not be able to delete role by requesting the server directly', function() {
       var id = 'core';
-      page.sendRequest('be/crud/role/' + id, 'delete').then(function(response) {
+      page.sendRequest('be/roles/' + id, 'delete').then(function(response) {
         assert.equal(response.status, 403);
       });
     });

@@ -67,7 +67,7 @@ describe('User page', function() {
       var data = {
         name: 'Test'
       };
-      page.sendRequest('be/crud/user', 'put', data).then(function(response) {
+      page.sendRequest('be/users', 'put', data).then(function(response) {
         assert.equal(response.status, 403);
       });
     });
@@ -114,7 +114,7 @@ describe('User page', function() {
         name: 'Test edition'
       };
 
-      page.sendRequest('be/crud/user/' + id, 'post', data).then(function(response) {
+      page.sendRequest('be/users/' + id, 'post', data).then(function(response) {
         assert.equal(response.status, 403);
       });
     });
@@ -144,7 +144,7 @@ describe('User page', function() {
 
     it('should not be able to delete user by requesting the server directly', function() {
       var id = 'core';
-      page.sendRequest('be/crud/user/' + id, 'delete').then(function(response) {
+      page.sendRequest('be/users/' + id, 'delete').then(function(response) {
         assert.equal(response.status, 403);
       });
     });

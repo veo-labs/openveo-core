@@ -57,7 +57,7 @@ describe('Web service /groups', function() {
       page.refresh();
 
       webServiceClient.get('groups').then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length),
                                 groupsToAdd.length + defaultGroups.length);
         deferred.fulfill();
@@ -116,11 +116,11 @@ describe('Web service /groups', function() {
       page.refresh();
 
       webServiceClient.get('groups?query=' + encodeURIComponent('groupssearch')).then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 2, 'Wrong number of results');
         return webServiceClient.get('groups?query=' + encodeURIComponent('"groupssearch description"'));
       }).then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 2, 'Wrong number of results');
         deferred.fulfill();
       }).catch(function(error) {
@@ -160,7 +160,7 @@ describe('Web service /groups', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('groups?sortBy=name&query=groupssort').then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 2, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(groups[0].id), addedGroups[1].id,
                                 'First group is wrong');
@@ -169,7 +169,7 @@ describe('Web service /groups', function() {
 
         return webServiceClient.get('groups?sortBy=name&sortOrder=asc&query=groupssort');
       }).then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 2, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(groups[0].id), addedGroups[0].id,
                                 'First group is wrong');
@@ -191,7 +191,7 @@ describe('Web service /groups', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('groups?sortBy=description&query=groupssort').then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 2, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(groups[0].id), addedGroups[1].id,
                                 'First group is wrong');
@@ -200,7 +200,7 @@ describe('Web service /groups', function() {
 
         return webServiceClient.get('groups?sortBy=description&sortOrder=asc&query=groupssort');
       }).then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 2, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(groups[0].id), addedGroups[0].id,
                                 'First group is wrong');
@@ -247,7 +247,7 @@ describe('Web service /groups', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('groups?page=1&limit=1&query=groupspagination').then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         var pagination = results.pagination;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 1, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(pagination.limit), 1, 'Wrong limit');
@@ -269,7 +269,7 @@ describe('Web service /groups', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('groups?limit=1&query=groupspagination').then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         var pagination = results.pagination;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 1, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(pagination.limit), 1, 'Wrong limit');
@@ -291,7 +291,7 @@ describe('Web service /groups', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('groups?page=1&query=groupspagination').then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         var pagination = results.pagination;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 2, 'Wrong number of results');
         assert.eventually.isUndefined(protractor.promise.fulfilled(pagination), 'Unexpected pagination');
@@ -310,7 +310,7 @@ describe('Web service /groups', function() {
       var deferred = protractor.promise.defer();
 
       webServiceClient.get('groups?limit=1&page=1000&query=groupspagination').then(function(results) {
-        var groups = results.groups;
+        var groups = results.entities;
         var pagination = results.pagination;
         assert.eventually.equal(protractor.promise.fulfilled(groups.length), 0, 'Wrong number of results');
         assert.eventually.equal(protractor.promise.fulfilled(pagination.limit), 1, 'Wrong limit');

@@ -4,14 +4,15 @@
 var assert = require('chai').assert;
 var ut = require('@openveo/test').unit.generator;
 
-// applicationController.js
-describe('applicationController', function() {
+// ApplicationController.js
+describe('ApplicationController', function() {
   var request,
     response,
     applicationController;
 
   before(function() {
-    applicationController = process.require('app/server/controllers/applicationController.js');
+    var ApplicationController = process.require('app/server/controllers/ApplicationController.js');
+    applicationController = new ApplicationController();
   });
 
   beforeEach(function() {

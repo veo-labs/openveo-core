@@ -18,11 +18,15 @@ var Server = process.require('app/server/servers/Server.js');
 var conf = process.require('conf.js');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
+var entityLoader = process.require('app/server/loaders/entityLoader.js');
 var migrationLoader = process.require('/app/server/loaders/migrationLoader');
-var defaultController = process.require('app/server/controllers/defaultController.js');
-var errorController = process.require('app/server/controllers/errorController.js');
+var DefaultController = process.require('app/server/controllers/DefaultController.js');
+var ErrorController = process.require('app/server/controllers/ErrorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
 var applicationStorage = openVeoAPI.applicationStorage;
+
+var defaultController = new DefaultController();
+var errorController = new ErrorController();
 
 // Application's environment mode.
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
@@ -196,6 +200,12 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['public']), this.router);
   routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['private']), this.privateRouter);
 
+  // Build routes for entities
+  if (conf['entities']) {
+    var entitiesRoutes = entityLoader.buildEntitiesRoutes(conf['entities']);
+    routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, entitiesRoutes), this.privateRouter);
+  }
+
   // Load Core migrations script
   db.get('core-system', {name: 'core'}, null, null, function(error, value) {
     var lastVersion = '0.0.0';
@@ -243,15 +253,21 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   }
 
   // Mount plugin router to the plugin mount path
-  if (plugin.router && plugin.mountPath) {
-    process.logger.info('Mount routes on path %s', plugin.mountPath);
+  if (plugin.router && plugin.routes && plugin.mountPath) {
+    routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, plugin.routes), plugin.router);
     this.app.use(plugin.mountPath, plugin.router);
   }
 
   // Mount the private router to the plugin private mount path
-  if (plugin.privateRouter && plugin.mountPath) {
-    process.logger.info('Mount routes on path /be%s', plugin.mountPath);
+  if (plugin.privateRouter && plugin.privateRoutes && plugin.mountPath) {
+    routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, plugin.privateRoutes), plugin.privateRouter);
     this.app.use('/be' + plugin.mountPath, plugin.privateRouter);
+  }
+
+  // Build routes for entities
+  if (plugin.privateRouter && plugin.entities) {
+    var entitiesRoutes = entityLoader.buildEntitiesRoutes(plugin.entities);
+    routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, entitiesRoutes), plugin.privateRouter);
   }
 
   // Found back end menu configuration for the plugin
@@ -296,6 +312,7 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
 ApplicationServer.prototype.onPluginsLoaded = function(callback) {
   var self = this;
   var plugins = applicationStorage.getPlugins();
+  var entities = applicationStorage.getEntities();
 
   // Set views folders for template engine
   this.app.set('views', this.viewsFolders);
@@ -317,8 +334,7 @@ ApplicationServer.prototype.onPluginsLoaded = function(callback) {
   this.app.use(errorController.errorAction);
 
   // Build permissions
-  permissionLoader.buildPermissions(this.permissions, applicationStorage.getEntities(), plugins,
-  function(error, permissions) {
+  permissionLoader.buildPermissions(this.permissions, entities, plugins, function(error, permissions) {
     if (error)
       return callback(error);
 

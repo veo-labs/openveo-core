@@ -15,6 +15,8 @@ var path = require('path');
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 
+var controllers = {};
+
 /**
  * Gets the list of routes from a route configuration object with,
  * for each one, the method, the path and the action to call.
@@ -47,7 +49,6 @@ var openVeoAPI = require('@openveo/api');
  * @return {Array} The decoded list of routes
  */
 module.exports.decodeRoutes = function(pluginPath, routes) {
-
   var decodedRoutes = [];
 
   if (routes) {
@@ -80,16 +81,26 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
           try {
 
             // Try to register the controller
-            var controller = require(path.join(pluginPath, actionChunks[0] + '.js'));
+            var controllerFilePath = path.join(pluginPath, actionChunks[0] + '.js');
+            var controllerInstance;
+
+            // Create an instance of the controller only once per controller
+            if (controllers[controllerFilePath])
+              controllerInstance = controllers[controllerFilePath];
+            else {
+              var Controller = require(controllerFilePath);
+              controllerInstance = new Controller();
+              controllers[controllerFilePath] = controllerInstance;
+            }
 
             // Got a method to call on the controller
-            if (controller[actionChunks[1]]) {
+            if (controllerInstance[actionChunks[1]]) {
 
               // Store the new route
               decodedRoutes.push({
                 method: (matchChunks[1] && matchChunks[1].toLowerCase()) || 'all',
                 path: matchChunks[2],
-                action: controller[actionChunks[1]]
+                action: controllerInstance[actionChunks[1]].bind(controllerInstance)
               });
 
             } else {
@@ -116,7 +127,6 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
   }
 
   return decodedRoutes;
-
 };
 
 /**

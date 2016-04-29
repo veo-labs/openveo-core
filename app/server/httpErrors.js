@@ -16,11 +16,11 @@ module.exports = {
 
   // General errors
   UNKNOWN_ERROR: {
-    code: 0x001,
+    code: 0x000,
     httpCode: 500
   },
   PATH_NOT_FOUND: {
-    code: 0x002,
+    code: 0x001,
     httpCode: 404
   },
 
@@ -49,50 +49,14 @@ module.exports = {
     code: 0x105,
     httpCode: 401
   },
-  GET_ENTITIES_FORBIDDEN: {
-    code: 0x106,
-    httpCode: 403
-  },
-  GET_ENTITY_FORBIDDEN: {
-    code: 0x107,
-    httpCode: 403
-  },
-  UPDATE_ENTITY_FORBIDDEN: {
-    code: 0x108,
-    httpCode: 403
-  },
-  ADD_ENTITY_FORBIDDEN: {
-    code: 0x109,
-    httpCode: 403
-  },
 
   // Missing parameters errors
-  GET_ENTITIES_MISSING_PARAMETERS: {
+  GET_TAXONOMY_MISSING_PARAMETERS: {
     code: 0x200,
     httpCode: 400
   },
-  GET_ENTITY_MISSING_PARAMETERS: {
-    code: 0x201,
-    httpCode: 400
-  },
-  UPDATE_ENTITY_MISSING_PARAMETERS: {
-    code: 0x202,
-    httpCode: 400
-  },
-  ADD_ENTITY_MISSING_PARAMETERS: {
-    code: 0x203,
-    httpCode: 400
-  },
-  REMOVE_ENTITY_MISSING_PARAMETERS: {
-    code: 0x204,
-    httpCode: 400
-  },
-  GET_TAXONOMY_MISSING_PARAMETERS: {
-    code: 0x205,
-    httpCode: 400
-  },
   GET_GROUP_MISSING_PARAMETERS: {
-    code: 0x206,
+    code: 0x201,
     httpCode: 400
   },
 
@@ -101,60 +65,20 @@ module.exports = {
     code: 0x300,
     httpCode: 404
   },
-  GET_ENTITIES_ERROR: {
+  GET_TAXONOMY_ERROR: {
     code: 0x301,
     httpCode: 500
   },
-  GET_ENTITY_ERROR: {
+  GET_TAXONOMIES_ERROR: {
     code: 0x302,
     httpCode: 500
   },
-  UPDATE_ENTITY_ERROR: {
+  GET_GROUP_ERROR: {
     code: 0x303,
     httpCode: 500
   },
-  ADD_ENTITY_ERROR: {
-    code: 0x304,
-    httpCode: 500
-  },
-  REMOVE_ENTITY_ERROR: {
-    code: 0x305,
-    httpCode: 500
-  },
-  GET_ENTITIES_UNKNOWN: {
-    code: 0x306,
-    httpCode: 500
-  },
-  GET_ENTITY_UNKNOWN: {
-    code: 0x307,
-    httpCode: 500
-  },
-  UPDATE_ENTITY_UNKNOWN: {
-    code: 0x308,
-    httpCode: 500
-  },
-  ADD_ENTITY_UNKNOWN: {
-    code: 0x309,
-    httpCode: 500
-  },
-  REMOVE_ENTITY_UNKNOWN: {
-    code: 0x30A,
-    httpCode: 500
-  },
-  GET_TAXONOMY_ERROR: {
-    code: 0x30B,
-    httpCode: 500
-  },
-  GET_TAXONOMIES_ERROR: {
-    code: 0x30C,
-    httpCode: 500
-  },
-  GET_GROUP_ERROR: {
-    code: 0x30D,
-    httpCode: 500
-  },
   GET_GROUPS_ERROR: {
-    code: 0x30E,
+    code: 0x304,
     httpCode: 500
   }
 

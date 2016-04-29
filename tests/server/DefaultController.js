@@ -3,14 +3,15 @@
 // Module dependencies
 var assert = require('chai').assert;
 
-// defaultController.js
-describe('defaultController', function() {
+// DefaultController.js
+describe('DefaultController', function() {
   var request,
     response,
     defaultController;
 
   before(function() {
-    defaultController = process.require('app/server/controllers/defaultController.js');
+    var DefaultController = process.require('app/server/controllers/DefaultController.js');
+    defaultController = new DefaultController();
     request = {
       params: {}
     };

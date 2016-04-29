@@ -90,10 +90,10 @@ describe('ApplicationController', function() {
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
       $httpBackend.when('DELETE',
-        '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5').respond(
+        '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5').respond(
         200);
       $httpBackend.expectDELETE(
-        '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
+        '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
 
       $scope.tableContainer.actions[0].callback($scope.test.rows[0], done);
 
@@ -105,10 +105,10 @@ describe('ApplicationController', function() {
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
       $httpBackend.when('DELETE',
-        '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5,4e125dbcf9d9fa7bff6606c8fc0f44342').respond(
+        '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5,4e125dbcf9d9fa7bff6606c8fc0f44342').respond(
         200);
       $httpBackend.expectDELETE(
-        '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5,4e125dbcf9d9fa7bff6606c8fc0f44342');
+        '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5,4e125dbcf9d9fa7bff6606c8fc0f44342');
 
       $scope.tableContainer.actions[0].global(
         [$scope.test.rows[0].id, $scope.test.rows[1].id], done);
@@ -122,10 +122,10 @@ describe('ApplicationController', function() {
         $httpBackend.when('GET', /.*/).respond(200, '');
         $httpBackend.when('PUT', /.*/).respond(200, '');
         $httpBackend.when('DELETE',
-          '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5').respond(
+          '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5').respond(
           401);
         $httpBackend.expectDELETE(
-          '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
+          '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
 
         $rootScope.$on('forceLogout', function() {
           done();
@@ -148,10 +148,10 @@ describe('ApplicationController', function() {
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('PUT', /.*/).respond(200, '');
       $httpBackend.when('POST',
-        '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5').respond(
+        '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5').respond(
         200);
       $httpBackend.expectPOST(
-        '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
+        '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
 
       $scope.editFormContainer.onSubmit($scope.test.rows[0]).then(done(),
         function() {
@@ -167,10 +167,10 @@ describe('ApplicationController', function() {
         $httpBackend.when('GET', /.*/).respond(200, '');
         $httpBackend.when('PUT', /.*/).respond(200, '');
         $httpBackend.when('POST',
-          '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5').respond(
+          '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5').respond(
           401);
         $httpBackend.expectPOST(
-          '/be/crud/application/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
+          '/be/applications/7bff6606c8fc4e1259ff44342ad870502dbcf9d5');
 
         $rootScope.$on('forceLogout', function() {
           done();
@@ -193,8 +193,8 @@ describe('ApplicationController', function() {
       $httpBackend.when('DELETE', /.*/).respond(200, '');
       $httpBackend.when('GET', /.*/).respond(200, '');
       $httpBackend.when('POST', /.*/).respond(200, '');
-      $httpBackend.when('PUT', '/be/crud/application').respond(200);
-      $httpBackend.expectPUT('/be/crud/application');
+      $httpBackend.when('PUT', '/be/applications').respond(200);
+      $httpBackend.expectPUT('/be/applications');
 
       $scope.addFormContainer.onSubmit({}).then(
         done(),
@@ -211,8 +211,8 @@ describe('ApplicationController', function() {
         $httpBackend.when('DELETE', /.*/).respond(200, '');
         $httpBackend.when('GET', /.*/).respond(200, '');
         $httpBackend.when('POST', /.*/).respond(200, '');
-        $httpBackend.when('PUT', '/be/crud/application').respond(401);
-        $httpBackend.expectPUT('/be/crud/application');
+        $httpBackend.when('PUT', '/be/applications').respond(401);
+        $httpBackend.expectPUT('/be/applications');
 
         $rootScope.$on('forceLogout', function() {
           done();

@@ -4,19 +4,12 @@
  * @module core-controllers
  */
 
-/**
- * Provides route actions for all requests relative to Web Service
- * authentication.
- *
- * @class oauthController
- */
-
+var util = require('util');
 var openVeoAPI = require('@openveo/api');
 var pathUtil = process.require('app/server/path.js');
 var errors = process.require('app/server/httpErrors.js');
-
-// Module files
 var applicationStorage = openVeoAPI.applicationStorage;
+var Controller = openVeoAPI.controllers.Controller;
 
 /**
  * Retrieves the scope corresponding to the couple url / http method.
@@ -52,14 +45,28 @@ function getScopeByUrl(url, httpMethod) {
 }
 
 /**
+ * Provides route actions for all requests relative to Web Service
+ * authentication.
+ *
+ * @class OauthController
+ * @constructor
+ * @extends Controller
+ */
+function OauthController() {
+  Controller.call(this);
+}
+
+module.exports = OauthController;
+util.inherits(OauthController, Controller);
+
+/**
  * Validates scopes for the given token depending on requested url.
  *
  * Revoke access to the service if client does not have permission.
  *
  * @method validateScopesAction
- * @static
  */
-module.exports.validateScopesAction = function(request, response, next) {
+OauthController.prototype.validateScopesAction = function(request, response, next) {
 
   // An access token has been delivered to this client
   if (request.oauth2.accessToken) {

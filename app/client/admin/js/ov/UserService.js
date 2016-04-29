@@ -10,8 +10,7 @@
    */
   function UserService($http, $q) {
     var basePath = '/be/';
-    var roles,
-      permissions;
+    var roles, permissions;
 
     /**
      * Loads the list of roles from server.
@@ -23,7 +22,7 @@
       if (!roles) {
 
         // Get roles from server
-        return $http.get(basePath + 'crud/role').success(function(rolesObj) {
+        return $http.get(basePath + 'roles').success(function(rolesObj) {
           roles = rolesObj.entities;
         });
 

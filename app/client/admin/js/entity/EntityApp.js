@@ -22,68 +22,83 @@
     /**
      * Deletes cache of the given entity type.
      *
-     * @param {String} [entity] The entity type or null to remove all cache
+     * @param {String} [entityType] The entity type or null to remove all cache
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @method deleteCache
      */
-    function deleteCache(entity) {
-      if (entity) {
-        if (entityCache[entity])
-          delete entityCache[entity];
-      } else {
-        entityCache = {};
+    function deleteCache(entityType, pluginName) {
+      if (!entityType && !pluginName) {
+        entityCache[pluginName] = {};
+        return;
       }
+
+      if (!pluginName) pluginName = 'core';
+
+      if (entityType) {
+        if (entityCache[pluginName] && entityCache[pluginName][entityType])
+          delete entityCache[pluginName][entityType];
+      } else
+        entityCache[pluginName] = {};
     }
 
     /**
      * Adds a new Entity.
      *
      * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @param {String} data Data description object of the entity
      * @return {Promise} The HTTP promise
      * @method addEntity
      */
-    function addEntity(entityType, data) {
-      deleteCache(entityType);
-      return $http.put(basePath + 'crud/' + entityType, data);
+    function addEntity(entityType, pluginName, data) {
+      var pluginPath = (!pluginName) ? '' : pluginName + '/';
+      deleteCache(entityType, pluginName);
+      return $http.put(basePath + pluginPath + entityType, data);
     }
 
     /**
      * Updates an entity.
      *
      * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @param {String} id The id of the entity to update
      * @param {String} data Data description object of the entity
      * @return {Promise} The HTTP promise
      * @method updateEntity
      */
-    function updateEntity(entityType, id, data) {
-      deleteCache(entityType);
-      return $http.post(basePath + 'crud/' + entityType + '/' + id, data);
+    function updateEntity(entityType, pluginName, id, data) {
+      var pluginPath = (!pluginName) ? '' : pluginName + '/';
+      deleteCache(entityType, pluginName);
+      return $http.post(basePath + pluginPath + entityType + '/' + id, data);
     }
 
     /**
      * Removes an entity.
      *
      * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @param {String} id The id of the entity to remove
      * @return {Promise} The HTTP promise
      * @method removeEntity
      */
-    function removeEntity(entityType, id) {
-      deleteCache(entityType);
-      return $http.delete(basePath + 'crud/' + entityType + '/' + id);
+    function removeEntity(entityType, pluginName, id) {
+      var pluginPath = (!pluginName) ? '' : pluginName + '/';
+      deleteCache(entityType, pluginName);
+      return $http.delete(basePath + pluginPath + entityType + '/' + id);
     }
 
     /**
      * Fetch an entity by Id.
      *
      * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @param {String} id The Id of the entity to fetch
      * @return {Promise} The HTTP promise
      * @method getEntity
      */
-    function getEntity(entityType, id) {
-      return $http.get(basePath + 'crud/' + entityType + '/' + id);
+    function getEntity(entityType, pluginName, id) {
+      var pluginPath = (!pluginName) ? '' : pluginName + '/';
+      return $http.get(basePath + pluginPath + entityType + '/' + id);
     }
 
     /**
@@ -102,6 +117,7 @@
      *     getEntities('applications', params);
      *
      * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @param {Object} param Request parameters with a property "filter" with a MongoDB criteria as value, a
      * property "count" with a MongoDB count as value, a property "page" with the expected page as value and a
      * property "sort" with a MongoDB sort object as value
@@ -110,23 +126,27 @@
      * @return {Promise} The HTTP promise
      * @method getEntities
      */
-    function getEntities(entityType, param, canceller) {
+    function getEntities(entityType, pluginName, param, canceller) {
       var deferred = $q.defer();
       var options = {};
       if (canceller) options = {timeout: canceller};
+      if (!pluginName) pluginName = 'core';
+      var pluginCache = entityCache[pluginName];
 
       var cacheId = JSON.stringify(param);
 
       // Return the data if we already have it
-      if (entityCache[entityType] && entityCache[entityType][cacheId]) {
-        deferred.resolve(angular.copy(entityCache[entityType][cacheId]));
+      if (pluginCache && pluginCache[entityType] && pluginCache[entityType][cacheId]) {
+        deferred.resolve(angular.copy(pluginCache[entityType][cacheId]));
       } else {
         $http.post(basePath + 'search/' + entityType, param, options).success(function(data) {
-          if (!entityCache[entityType])
-            entityCache[entityType] = {};
-          entityCache[entityType][cacheId] = angular.copy({
+          if (!pluginCache) pluginCache = entityCache[pluginName] = {};
+          if (!pluginCache[entityType]) pluginCache[entityType] = {};
+
+          pluginCache[entityType][cacheId] = angular.copy({
             data: data
           });
+
           deferred.resolve({
             data: data
           });
@@ -139,11 +159,13 @@
      * Gets all entities of a specific type.
      *
      * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @return {Promise} The HTTP promise
      * @method getAllEntities
      */
-    function getAllEntities(entityType) {
-      return $http.get(basePath + 'crud/' + entityType);
+    function getAllEntities(entityType, pluginName) {
+      var pluginPath = (!pluginName) ? '' : pluginName + '/';
+      return $http.get(basePath + pluginPath + entityType);
     }
 
     return {

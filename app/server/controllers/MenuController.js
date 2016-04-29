@@ -4,14 +4,10 @@
  * @module core-controllers
  */
 
-/**
- * Provides route actions to access back end menu.
- *
- * @class menuController
- */
-
+var util = require('util');
 var openVeoAPI = require('@openveo/api');
 var applicationStorage = openVeoAPI.applicationStorage;
+var Controller = openVeoAPI.controllers.Controller;
 
 /**
  * Checks if user has the given permission.
@@ -104,15 +100,28 @@ function filterMenuByPermissions(menu, user) {
 }
 
 /**
+ * Provides route actions to access back end menu.
+ *
+ * @class MenuController
+ * @constructor
+ * @extends Controller
+ */
+function MenuController() {
+  Controller.call(this);
+}
+
+module.exports = MenuController;
+util.inherits(MenuController, Controller);
+
+/**
  * Gets the backend menu as a JSON object.
  *
  * If menu is empty a 404 Not Found is sent.
  * Menu is filtered regarding user permissions.
  *
  * @method getMenuAction
- * @static
  */
-module.exports.getMenuAction = function(request, response, next) {
+MenuController.prototype.getMenuAction = function(request, response, next) {
   var menu = applicationStorage.getMenu();
   if (menu) {
 

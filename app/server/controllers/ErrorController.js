@@ -4,22 +4,33 @@
  * @module core-controllers
  */
 
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
+var errors = process.require('app/server/httpErrors.js');
+var DefaultController = process.require('app/server/controllers/DefaultController.js');
+var Controller = openVeoAPI.controllers.Controller;
+var defaultController = new DefaultController();
+
 /**
  * Provides route actions to deal with errors.
  *
- * @class errorController
+ * @class ErrorController
+ * @constructor
+ * @extends Controller
  */
+function ErrorController() {
+  Controller.call(this);
+}
 
-var errors = process.require('app/server/httpErrors.js');
-var defaultController = process.require('app/server/controllers/defaultController.js');
+module.exports = ErrorController;
+util.inherits(ErrorController, Controller);
 
 /**
  * Handles requests which does not correspond to anything.
  *
  * @method notFoundAction
- * @static
  */
-module.exports.notFoundAction = function(request, response, next) {
+ErrorController.prototype.notFoundAction = function(request, response, next) {
   next(errors.PATH_NOT_FOUND);
 };
 
@@ -34,11 +45,10 @@ module.exports.notFoundAction = function(request, response, next) {
  *     }
  *
  * @method errorAction
- * @static
  * @param {Object} error An error object with error code, HTTP code
  * and the module associated to the error
  */
-module.exports.errorAction = function(error, request, response, next) {
+ErrorController.prototype.errorAction = function(error, request, response, next) {
   if (!error || !error.code)
     error = errors.UNKNOWN_ERROR;
 
@@ -78,9 +88,8 @@ module.exports.errorAction = function(error, request, response, next) {
  * a JSON content or a text content will be returned with a 404 code.
  *
  * @method notFoundPageAction
- * @static
  */
-module.exports.notFoundPageAction = function(request, response) {
+ErrorController.prototype.notFoundPageAction = function(request, response) {
   process.logger.warn('404 Not Found', {
     method: request.method,
     path: request.url,

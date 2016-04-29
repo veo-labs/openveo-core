@@ -12,7 +12,7 @@ var assert = chai.assert;
 chai.use(chaiAsPromised);
 
 describe('Group page', function() {
-  var page, groupHelper;
+  var page, groupHelper, defaultGroups;
 
   // Prepare page
   before(function() {
@@ -47,12 +47,15 @@ describe('Group page', function() {
     // Log with a user without write permission
     before(function() {
       page.logAs(datas.users.coreGroupsNoWrite);
+      groupHelper.getEntities().then(function(groups) {
+        defaultGroups = groups;
+      });
       page.load();
     });
 
     // Remove all groups after each test and reload the page
     afterEach(function() {
-      groupHelper.removeAllEntities();
+      groupHelper.removeAllEntities(defaultGroups);
       page.refresh();
     });
 
@@ -65,7 +68,7 @@ describe('Group page', function() {
         name: 'Test',
         scopes: []
       };
-      page.sendRequest('be/crud/group', 'put', data).then(function(response) {
+      page.sendRequest('be/groups', 'put', data).then(function(response) {
         assert.equal(response.status, 403);
       });
     });
@@ -77,12 +80,15 @@ describe('Group page', function() {
     // Log with a user without update permission
     before(function() {
       page.logAs(datas.users.coreGroupsNoUpdate);
+      groupHelper.getEntities().then(function(groups) {
+        defaultGroups = groups;
+      });
       page.load();
     });
 
     // Remove all groups after each test and reload the page
     afterEach(function() {
-      groupHelper.removeAllEntities();
+      groupHelper.removeAllEntities(defaultGroups);
       page.refresh();
     });
 
@@ -93,6 +99,8 @@ describe('Group page', function() {
       // Create line
       page.addLine(name, description);
       assert.isRejected(page.editGroup(name, {name: 'Another name'}));
+
+      page.removeLine(name);
     });
 
     it('should not be able to edit group by requesting the server directly', function() {
@@ -101,7 +109,7 @@ describe('Group page', function() {
         description: 'Test edition description'
       };
 
-      page.sendRequest('be/crud/group/whatever', 'post', data).then(function(response) {
+      page.sendRequest('be/groups/whatever', 'post', data).then(function(response) {
         assert.equal(response.status, 403);
       });
     });
@@ -113,25 +121,24 @@ describe('Group page', function() {
     // Log with a user without delete permission
     before(function() {
       page.logAs(datas.users.coreGroupsNoDelete);
+      groupHelper.getEntities().then(function(groups) {
+        defaultGroups = groups;
+      });
       page.load();
     });
 
     // Remove all groups after each test and reload the page
     afterEach(function() {
-      groupHelper.removeAllEntities();
+      groupHelper.removeAllEntities(defaultGroups);
       page.refresh();
     });
 
     it('should not have delete action to remove a group', function() {
-      var name = 'Test edition';
-      var description = 'Test edition description';
-
-      page.addLine(name, description);
-      assert.isRejected(page.removeLine(name));
+      assert.isRejected(page.removeLine(datas.groups.coreGroup.name));
     });
 
     it('should not be able to delete group by requesting the server directly', function() {
-      page.sendRequest('be/crud/group/whatever', 'delete').then(function(response) {
+      page.sendRequest('be/groups/whatever', 'delete').then(function(response) {
         assert.equal(response.status, 403);
       });
     });

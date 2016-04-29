@@ -4,6 +4,8 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
+var GroupModel = process.require('app/server/models/GroupModel.js');
+var GroupHelper = process.require('tests/client/e2eTests/helpers/GroupHelper.js');
 var browserExt = e2e.browser;
 
 // Load assertion library
@@ -12,6 +14,8 @@ chai.use(chaiAsPromised);
 
 describe('Group page translations', function() {
   var page;
+  var defaultGroups;
+  var groupHelper;
 
   /**
    * Checks translations.
@@ -84,6 +88,7 @@ describe('Group page translations', function() {
           assert.ok(false, error.message);
         });
 
+        page.removeLine(name);
         return browser.waitForAngular();
       }).then(function() {
         return checkTranslations(++index);
@@ -95,8 +100,12 @@ describe('Group page translations', function() {
 
   // Prepare page
   before(function() {
+    groupHelper = new GroupHelper(new GroupModel());
     page = new GroupPage();
     page.logAsAdmin();
+    groupHelper.getEntities().then(function(groups) {
+      defaultGroups = groups;
+    });
     page.load();
   });
 
@@ -107,6 +116,7 @@ describe('Group page translations', function() {
 
   // Reload page after each test
   afterEach(function() {
+    groupHelper.removeAllEntities(defaultGroups);
     page.refresh();
   });
 

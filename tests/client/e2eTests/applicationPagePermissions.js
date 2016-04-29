@@ -69,7 +69,7 @@ describe('Application page', function() {
         name: 'Test',
         scopes: []
       };
-      page.sendRequest('be/crud/application', 'put', data).then(function(response) {
+      page.sendRequest('be/applications', 'put', data).then(function(response) {
         assert.equal(response.status, 403);
       });
     });
@@ -112,7 +112,7 @@ describe('Application page', function() {
         scopes: []
       };
 
-      page.sendRequest('be/crud/application/' + id, 'post', data).then(function(response) {
+      page.sendRequest('be/applications/' + id, 'post', data).then(function(response) {
         assert.equal(response.status, 403);
       });
     });
@@ -142,7 +142,7 @@ describe('Application page', function() {
 
     it('should not be able to delete application by requesting the server directly', function() {
       var id = 'core';
-      page.sendRequest('be/crud/application/' + id, 'delete').then(function(response) {
+      page.sendRequest('be/applications/' + id, 'delete').then(function(response) {
         assert.equal(response.status, 403);
       });
     });

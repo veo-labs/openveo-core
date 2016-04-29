@@ -13,7 +13,7 @@ function UserPage(model) {
   UserPage.super_.call(this, model);
 
   // Page path
-  this.path = 'be/users';
+  this.path = 'be/users-list';
 
   // Element finders specific to this page
   this.pageTitleElement = element(by.binding('USERS.TITLE'));

@@ -55,7 +55,7 @@ describe('Web service /taxonomies/:id', function() {
       page.refresh();
 
       webServiceClient.get('taxonomies/' + addedTaxonomies[0].id).then(function(results) {
-        var taxonomy = results.taxonomy;
+        var taxonomy = results.entity;
         assert.eventually.isDefined(protractor.promise.fulfilled(taxonomy));
         assert.eventually.equal(protractor.promise.fulfilled(taxonomy.id), addedTaxonomies[0].id);
         deferred.fulfill();
@@ -86,7 +86,7 @@ describe('Web service /taxonomies/:id', function() {
       page.refresh();
 
       webServiceClient.get('taxonomies/unkown').then(function(results) {
-        var taxonomy = results.taxonomy;
+        var taxonomy = results.entity;
         assert.eventually.isUndefined(protractor.promise.fulfilled(taxonomy));
         deferred.fulfill();
       }).catch(function(error) {

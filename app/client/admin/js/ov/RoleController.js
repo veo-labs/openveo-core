@@ -6,6 +6,7 @@
    * Defines the role controller for the role page.
    */
   function RoleController($scope, $filter, entityService, userService, permissions) {
+    var entityType = 'roles';
 
     /**
      * Translates label, name and description keys of each permission.
@@ -47,9 +48,9 @@
      */
     function saveRole(role) {
       var entity = getEntitiesFromModel(role);
-      return entityService.updateEntity('role', role.id, entity).then(function() {
+      return entityService.updateEntity(entityType, null, role.id, entity).then(function() {
         role.permissions = angular.copy(entity.permissions);
-        userService.cacheClear('roles');
+        userService.cacheClear(entityType);
       });
     }
 
@@ -61,9 +62,9 @@
      */
     function addRole(role) {
       var entity = getEntitiesFromModel(role);
-      return entityService.addEntity('role', entity).then(function() {
+      return entityService.addEntity(entityType, null, entity).then(function() {
         role.permissions = angular.copy(entity.permissions);
-        userService.cacheClear('roles');
+        userService.cacheClear(entityType);
       });
     }
 
@@ -94,9 +95,9 @@
      * @param {Function} reload The reload Function to force reloading the table
      */
     function removeRows(selected, reload) {
-      entityService.removeEntity('role', selected.join(','))
+      entityService.removeEntity(entityType, null, selected.join(','))
         .then(function() {
-          userService.cacheClear('roles');
+          userService.cacheClear(entityType);
           $scope.$emit('setAlert', 'success', $filter('translate')('ROLES.REMOVE_SUCCESS'), 4000);
           reload();
         });
@@ -112,16 +113,16 @@
      *
      */
     $scope.rights = {};
-    $scope.rights.add = $scope.checkAccess('create-role');
-    $scope.rights.edit = $scope.checkAccess('update-role');
-    $scope.rights.delete = $scope.checkAccess('delete-role');
+    $scope.rights.add = $scope.checkAccess('create-' + entityType);
+    $scope.rights.edit = $scope.checkAccess('update-' + entityType);
+    $scope.rights.delete = $scope.checkAccess('delete-' + entityType);
 
     /*
      *
      * DATATABLE
      */
     var scopeDataTable = $scope.tableContainer = {};
-    scopeDataTable.entityType = 'role';
+    scopeDataTable.entityType = entityType;
     scopeDataTable.filterBy = [
       {
         key: 'name',
@@ -159,7 +160,7 @@
      */
     var scopeEditForm = $scope.editFormContainer = {};
     scopeEditForm.model = {};
-    scopeEditForm.entityType = 'role';
+    scopeEditForm.entityType = entityType;
     scopeEditForm.init = function(row) {
       var modelPerm = prepareRolePermission($scope.permissions, row.permissions);
       angular.forEach(modelPerm, function(value, key) {
@@ -220,7 +221,7 @@
     };
 
     /*
-     *  FORM Add user
+     *  FORM Add role
      *
      */
     var scopeAddForm = $scope.addFormContainer = {};

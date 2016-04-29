@@ -3,14 +3,15 @@
 // Module dependencies
 var assert = require('chai').assert;
 
-// errorController.js
-describe('errorController', function() {
+// ErrorController.js
+describe('ErrorController', function() {
   var request,
     response,
     errorController;
 
   beforeEach(function() {
-    errorController = process.require('app/server/controllers/errorController.js');
+    var ErrorController = process.require('app/server/controllers/ErrorController.js');
+    errorController = new ErrorController();
     request = {
       params: {}
     };

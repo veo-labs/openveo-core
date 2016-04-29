@@ -49,11 +49,11 @@ describe('pluginLoader', function() {
           assert.isDefined(loadedPlugin.i18nDirectory);
           assert.isString(loadedPlugin.i18nDirectory);
           assert.isDefined(loadedPlugin.routes);
-          assert.isArray(loadedPlugin.routes);
+          assert.isObject(loadedPlugin.routes);
           assert.isDefined(loadedPlugin.privateRoutes);
-          assert.isArray(loadedPlugin.privateRoutes);
+          assert.isObject(loadedPlugin.privateRoutes);
           assert.isDefined(loadedPlugin.webServiceRoutes);
-          assert.isArray(loadedPlugin.webServiceRoutes);
+          assert.isObject(loadedPlugin.webServiceRoutes);
           assert.isDefined(loadedPlugin.scriptLibFiles);
           assert.isObject(loadedPlugin.scriptLibFiles);
           assert.isDefined(loadedPlugin.scriptFiles);
@@ -64,9 +64,9 @@ describe('pluginLoader', function() {
           assert.isObject(loadedPlugin.webServiceScopes);
           assert.isDefined(loadedPlugin.permissions);
           assert.isArray(loadedPlugin.permissions);
-          assert.equal(loadedPlugin.routes.length, 4);
-          assert.equal(loadedPlugin.privateRoutes.length, 6);
-          assert.equal(loadedPlugin.webServiceRoutes.length, 6);
+          assert.equal(Object.keys(loadedPlugin.routes).length, 6);
+          assert.equal(Object.keys(loadedPlugin.privateRoutes).length, 7);
+          assert.equal(Object.keys(loadedPlugin.webServiceRoutes).length, 5);
           done();
         }
       );

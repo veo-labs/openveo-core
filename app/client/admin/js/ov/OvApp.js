@@ -241,7 +241,7 @@
 
       // Register /applications route with authentication
       // Also retrieve the list of applications
-      $routeProvider.when('/applications', {
+      $routeProvider.when('/applications-list', {
         templateUrl: 'views/applications.html',
         controller: 'ApplicationController',
         title: 'APPLICATIONS.PAGE_TITLE',
@@ -255,7 +255,7 @@
 
       // Register /users route with authentication
       // Also retrieve the list of roles
-      $routeProvider.when('/users', {
+      $routeProvider.when('/users-list', {
         templateUrl: 'views/users.html',
         controller: 'UserController',
         title: 'USERS.PAGE_TITLE',
@@ -282,7 +282,7 @@
 
       // Register /roles route with authentication
       // Also retrieve the list of permissions
-      $routeProvider.when('/roles', {
+      $routeProvider.when('/roles-list', {
         templateUrl: 'views/roles.html',
         controller: 'RoleController',
         title: 'ROLES.PAGE_TITLE',
@@ -295,7 +295,7 @@
       });
 
       // Register /groups route with authentication
-      $routeProvider.when('/groups', {
+      $routeProvider.when('/groups-list', {
         templateUrl: 'views/groups.html',
         controller: 'GroupController',
         title: 'GROUPS.PAGE_TITLE',

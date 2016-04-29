@@ -56,6 +56,7 @@
 
     var self = this;
     var type = $scope.editFormContainer.entityType || '';
+    var pluginName = $scope.editFormContainer.pluginName;
 
     // Formly form options
     // "showForm" property helps switching between edition and literals representation of fields
@@ -141,17 +142,17 @@
 
     // Toggle between show and editable information
     this.editForm = function() {
-      entityService.getEntity(type, self.model.id).then(function(response) {
+      entityService.getEntity(type, pluginName, self.model.id).then(function(response) {
         if (response.data.entity) {
           var lastValue = response.data.entity;
           var cacheMustBeDeleted = self.updateRowBeforeEdit(self.model, lastValue);
 
           if (cacheMustBeDeleted) {
             $scope.$emit('setAlert', 'warning', $filter('translate')('UI.WARNING_ENTITY_MODIFIED'), 8000);
-            entityService.deleteCache(type);
+            entityService.deleteCache(type, pluginName);
           }
         } else {
-          entityService.deleteCache(type);
+          entityService.deleteCache(type, pluginName);
           $scope.$emit('setAlert', 'danger', $filter('translate')('UI.WARNING_ENTITY_DELETED'), 8000);
           tableReloadEventService.broadcast();
           return;
@@ -256,6 +257,9 @@
     // Pagination template
     this.customTheme['templateUrl'] = 'views/elements/pagination.html';
 
+    // The name of the plugin the entity belongs to
+    var pluginName = $scope.tableContainer.pluginName;
+
     // Promise that cancel $http
     var canceller = $q.defer();
 
@@ -303,7 +307,7 @@
       });
 
       // call entities that match params
-      return entityService.getEntities(self.entityType, param, canceller.promise).then(function(response) {
+      return entityService.getEntities(self.entityType, pluginName, param, canceller.promise).then(function(response) {
         self.rows = response.data.rows;
         self.selectAll = false;
         self.isRowSelected = false;

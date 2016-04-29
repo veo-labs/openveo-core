@@ -4,52 +4,24 @@
  * @module core-controllers
  */
 
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
+var errors = process.require('app/server/httpErrors.js');
+var EntityController = openVeoAPI.controllers.EntityController;
+
 /**
  * Provides route actions to manage taxonomies.
  *
- * @class taxonomyController
+ * @class TaxonomyController
+ * @constructor
+ * @extends EntityController
  */
+function TaxonomyController() {
+  EntityController.call(this, openVeoAPI.TaxonomyModel);
+}
 
-var openVeoAPI = require('@openveo/api');
-var errors = process.require('app/server/httpErrors.js');
-var taxonomyModel = new openVeoAPI.TaxonomyModel();
-
-/**
- * Gets information about a taxonomy.
- *
- * Expects one GET parameter :
- * - **id** The id of the taxonomy
- *
- * Return information about the taxonomy as a JSON object.
- *
- * @example
- *     {
- *       "taxonomy" : {
- *         "name" : 123456789,
- *         ...
- *       }
- *     }
- *
- * @method getTaxonomyAction
- * @static
- */
-module.exports.getTaxonomyAction = function(request, response, next) {
-  if (request.params.id) {
-    taxonomyModel.getOne(request.params.id, null, function(error, taxonomy) {
-      if (error)
-        next(errors.GET_TAXONOMY_ERROR);
-      else
-        response.send({
-          taxonomy: taxonomy
-        });
-    });
-  } else {
-
-    // Missing type and / or id of the taxonomy
-    next(errors.GET_TAXONOMY_MISSING_PARAMETERS);
-
-  }
-};
+module.exports = TaxonomyController;
+util.inherits(TaxonomyController, EntityController);
 
 /**
  * Gets a list of taxonomies.
@@ -61,10 +33,10 @@ module.exports.getTaxonomyAction = function(request, response, next) {
  *  - **sortBy** To sort taxonomies by name
  *  - **sortOrder** Sort order (either asc or desc)
  *
- * @method getTaxonomiesAction
- * @static
+ * @method getEntitiesAction
  */
-module.exports.getTaxonomiesAction = function(request, response, next) {
+TaxonomyController.prototype.getEntitiesAction = function(request, response, next) {
+  var model = new this.Entity(request.user);
   var orderedTaxonomies = ['name'];
   var params;
 
@@ -98,7 +70,7 @@ module.exports.getTaxonomiesAction = function(request, response, next) {
     };
   }
 
-  taxonomyModel.getPaginatedFilteredEntities(
+  model.getPaginatedFilteredEntities(
     filter,
     params.limit,
     params.page,
@@ -110,7 +82,7 @@ module.exports.getTaxonomiesAction = function(request, response, next) {
         next(errors.GET_TAXONOMIES_ERROR);
       } else {
         response.send({
-          taxonomies: taxonomies,
+          entities: taxonomies,
           pagination: pagination
         });
       }

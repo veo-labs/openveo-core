@@ -6,6 +6,7 @@
    * Defines the user controller for the user page.
    */
   function ApplicationController($scope, $filter, entityService, scopes) {
+    var entityType = 'applications';
 
     /**
      * Translates name and description of each scope.
@@ -24,7 +25,7 @@
      * @param {Function} reload The reload Function to force reloading the table
      */
     function removeRows(selected, reload) {
-      entityService.removeEntity('application', selected.join(','))
+      entityService.removeEntity(entityType, null, selected.join(','))
         .then(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('APPLICATIONS.REMOVE_SUCCESS'), 4000);
           reload();
@@ -38,7 +39,7 @@
      * @return {Promise} Promise resolving when application has been saved
      */
     function saveApplication(application) {
-      return entityService.updateEntity('application', application.id, {
+      return entityService.updateEntity(entityType, null, application.id, {
         name: application.name,
         scopes: application.scopes
       });
@@ -51,7 +52,7 @@
      * @return {Promise} Promise resolving when application has been added
      */
     function addApplication(application) {
-      return entityService.addEntity('application', application);
+      return entityService.addEntity(entityType, null, application);
     }
 
     $scope.scopes = scopes.data.scopes;
@@ -63,16 +64,16 @@
      *
      */
     $scope.rights = {};
-    $scope.rights.add = $scope.checkAccess('create-application');
-    $scope.rights.edit = $scope.checkAccess('update-application');
-    $scope.rights.delete = $scope.checkAccess('delete-application');
+    $scope.rights.add = $scope.checkAccess('create-' + entityType);
+    $scope.rights.edit = $scope.checkAccess('update-' + entityType);
+    $scope.rights.delete = $scope.checkAccess('delete-' + entityType);
 
     /*
      *
      * DATATABLE
      */
     var scopeDataTable = $scope.tableContainer = {};
-    scopeDataTable.entityType = 'application';
+    scopeDataTable.entityType = entityType;
     scopeDataTable.filterBy = [
       {
         key: 'name',
@@ -110,7 +111,7 @@
      */
     var scopeEditForm = $scope.editFormContainer = {};
     scopeEditForm.model = {};
-    scopeEditForm.entityType = 'application';
+    scopeEditForm.entityType = entityType;
     scopeEditForm.init = function(row) {
       scopeEditForm.fields[1].templateOptions.message = row.id;
       scopeEditForm.fields[2].templateOptions.message = row.secret;

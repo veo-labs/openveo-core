@@ -99,7 +99,7 @@ describe('Role page', function() {
     page.addLine(name, corePermissions);
 
     var newRolePermissions = [
-      page.translations.PERMISSIONS.UPDATE_ROLE_NAME
+      page.translations.PERMISSIONS.UPDATE_ROLES_NAME
     ];
 
     page.editRole(name, {name: newName, permissions: newRolePermissions});

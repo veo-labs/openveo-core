@@ -4,6 +4,7 @@
  * @module core-loaders
  */
 
+var path = require('path');
 var openVeoAPI = require('@openveo/api');
 var GroupModel = process.require('app/server/models/GroupModel.js');
 
@@ -24,34 +25,72 @@ var GroupModel = process.require('app/server/models/GroupModel.js');
  * using the formats "{OPERATION}_{ENTITY_NAME}_NAME" and
  * "{OPERATION}_{ENTITY_NAME}_DESCRIPTION".
  *
+ * Content entities won't generate any permissions.
+ *
  * @example
  *     var permissionLoader= process.require("app/server/loaders/permissionLoader.js");
  *     var entities = {
- *       "application": "app/server/models/ClientModel"
+ *       {
+ *         core: {
+ *           path: "/home/openveo/",
+ *           entities: {
+ *             applications: "app/server/controllers/ApplicationController"
+ *           }
+ *         },
+ *         example: {
+ *           path: "/home/openveo/node_modules/@openveo/example/",
+ *           entities: {
+ *             myEntities: "app/server/controllers/MyEntityController"
+ *           }
+ *         }
+ *       }
  *     };
  *
  *     console.log(permissionLoader.generateEntityPermissions(entities));
  *     // [
  *     //   {
- *     //     label: "PERMISSIONS.GROUP_APPLICATION",
+ *     //     label: "PERMISSIONS.GROUP_APPLICATIONS",
  *     //     permissions: [
  *     //       {
- *     //         id : "create-application",
- *     //         name : "PERMISSIONS.CREATE_APPLICATION_NAME",
- *     //         description : "PERMISSIONS.CREATE_APPLICATION_DESCRIPTION",
- *     //         paths : [ "put /crud/application*" ]
+ *     //         id : "create-applications",
+ *     //         name : "PERMISSIONS.CREATE_APPLICATIONS_NAME",
+ *     //         description : "PERMISSIONS.CREATE_APPLICATIONS_DESCRIPTION",
+ *     //         paths : [ "put /applications*" ]
  *     //       },
  *     //       {
- *     //         id : "update-application",
- *     //         name : "PERMISSIONS.UPDATE_APPLICATION_NAME",
- *     //         description : "PERMISSIONS.UPDATE_APPLICATION_DESCRIPTION",
- *     //         paths : [ "post /crud/application*" ]
+ *     //         id : "update-applications",
+ *     //         name : "PERMISSIONS.UPDATE_APPLICATIONS_NAME",
+ *     //         description : "PERMISSIONS.UPDATE_APPLICATIONS_DESCRIPTION",
+ *     //         paths : [ "post /applications*" ]
  *     //       },
  *     //       {
- *     //         id : "delete-application",
- *     //         name : "PERMISSIONS.DELETE_APPLICATION_NAME",
- *     //         description : "PERMISSIONS.DELETE_APPLICATION_DESCRIPTION",
- *     //         paths : [ "delete /crud/application*" ]
+ *     //         id : "delete-applications",
+ *     //         name : "PERMISSIONS.DELETE_APPLICATIONS_NAME",
+ *     //         description : "PERMISSIONS.DELETE_APPLICATIONS_DESCRIPTION",
+ *     //         paths : [ "delete /applications*" ]
+ *     //       }
+ *     //     ]
+ *     //   },
+ *     //   {
+ *     //     label: "PERMISSIONS.GROUP_MYENTITIES",
+ *     //     permissions: [
+ *     //       {
+ *     //         id : "create-myentities",
+ *     //         name : "PERMISSIONS.CREATE_MYENTITIES_NAME",
+ *     //         description : "PERMISSIONS.CREATE_MYENTITIES_DESCRIPTION",
+ *     //         paths : [ "put /example/myentities*" ]
+ *     //       },
+ *     //       {
+ *     //         id : "update-myEntities",
+ *     //         name : "PERMISSIONS.UPDATE_MYENTITIES_NAME",
+ *     //         description : "PERMISSIONS.UPDATE_MYENTITIES_DESCRIPTION",
+ *     //         paths : [ "post /example/myentities*" ]
+ *     //       },
+ *     //       {
+ *     //         id : "delete-myEntities",
+ *     //         name : "PERMISSIONS.DELETE_MYENTITIES_NAME",
+ *     //         description : "PERMISSIONS.DELETE_MYENTITIES_DESCRIPTION",
+ *     //         paths : [ "delete /example/myentities*" ]
  *     //       }
  *     //     ]
  *     //   }
@@ -59,39 +98,49 @@ var GroupModel = process.require('app/server/models/GroupModel.js');
  *
  * @method generateEntityPermissions
  * @static
- * @param {Object} entities The list of entities
+ * @param {Object} pluginsEntities The list of entities
  * @return {Object} Permissions for the given entities
  */
-module.exports.generateEntityPermissions = function(entities) {
+module.exports.generateEntityPermissions = function(pluginsEntities) {
   var permissions = [];
 
-  if (entities) {
+  if (pluginsEntities) {
     var operations = {
-      create: 'put /crud/',
-      update: 'post /crud/',
-      delete: 'delete /crud/'
+      create: 'put /',
+      update: 'post /',
+      delete: 'delete /'
     };
 
-    for (var entityId in entities) {
-      if (!(new entities[entityId]() instanceof openVeoAPI.ContentModel)) {
-        var entityIdUpperCase = entityId.toUpperCase();
-        var group = {
-          label: 'PERMISSIONS.GROUP_' + entityIdUpperCase,
-          permissions: []
-        };
+    for (var pluginName in pluginsEntities) {
+      var pluginEntities = pluginsEntities[pluginName].entities;
+      var pluginPath = pluginsEntities[pluginName].path;
+      var pluginOperationPath = (pluginName === 'core') ? '' : pluginName + '/';
 
-        for (var operation in operations) {
-          var operationUpperCase = operation.toUpperCase();
+      for (var entityId in pluginEntities) {
+        var EntityController = require(path.join(pluginPath, pluginEntities[entityId]));
 
-          group.permissions.push({
-            id: operation + '-' + entityId,
-            name: 'PERMISSIONS.' + operationUpperCase + '_' + entityIdUpperCase + '_NAME',
-            description: 'PERMISSIONS.' + operationUpperCase + '_' + entityIdUpperCase + '_DESCRIPTION',
-            paths: [operations[operation] + entityId + '*']
-          });
+        if (!(new EntityController() instanceof openVeoAPI.controllers.ContentController)) {
+          var entityIdUpperCase = entityId.toUpperCase();
+          var entityIdLowerCase = entityId.toLowerCase();
+          var group = {
+            label: 'PERMISSIONS.GROUP_' + entityIdUpperCase,
+            permissions: []
+          };
+
+          for (var operation in operations) {
+            var operationUpperCase = operation.toUpperCase();
+
+            group.permissions.push({
+              id: operation + '-' + entityIdLowerCase,
+              name: 'PERMISSIONS.' + operationUpperCase + '_' + entityIdUpperCase + '_NAME',
+              description: 'PERMISSIONS.' + operationUpperCase + '_' + entityIdUpperCase + '_DESCRIPTION',
+              paths: [operations[operation] + pluginOperationPath + entityIdLowerCase + '*']
+            });
+          }
+          permissions.push(group);
         }
-        permissions.push(group);
       }
+
     }
   }
 

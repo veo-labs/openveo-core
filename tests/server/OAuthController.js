@@ -4,15 +4,16 @@
 var assert = require('chai').assert;
 var ut = require('@openveo/test').unit.generator;
 
-// oAuthController.js
-describe('oAuthController', function() {
+// OAuthController.js
+describe('OAuthController', function() {
   var request,
     response,
     oAuthController;
 
   before(function() {
     ut.generateWebServiceScopes();
-    oAuthController = process.require('app/server/controllers/oAuthController.js');
+    var OAuthController = process.require('app/server/controllers/OAuthController.js');
+    oAuthController = new OAuthController();
     request = {
       oauth2: {},
       method: 'GET'

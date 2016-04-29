@@ -11,54 +11,25 @@
  * @class entityLoader
  */
 
-var path = require('path');
-var openVeoAPI = require('@openveo/api');
-
-/**
- * Gets the list of entities from a route configuration object with,
- * for each one, its type and its associated Model Object.
- *
- * @example
- *     var entityLoader= process.require("app/server/loaders/entityLoader.js");
- *     var entities = {
- *       "application": "app/server/models/ClientModel"
- *     };
- *
- *     console.log(entityLoader.decodeEntities("/", entities));
- *     // {
- *     //  "application" : [EntityModel object]
- *     // }
- *
- * @method decodeEntities
- * @static
- * @param {String} pluginPath The root path of the plugin associated to
- * the routes
- * @param {Object} entities An object of routes
- * @return {Object} The list of entities models by types
- */
-module.exports.decodeEntities = function(pluginPath, entities) {
-  var decodedEntities = {};
-
-  if (entities) {
-    for (var type in entities) {
-
-      try {
-        var model = require(path.join(pluginPath, entities[type] + '.js'));
-        decodedEntities[type] = model;
-      } catch (e) {
-        process.logger.warn(e.message, {
-          action: 'decodeEntities'
-        });
-      }
-
-    }
-  }
-
-  return decodedEntities;
-};
-
 /**
  * Builds entities for core and plugins.
+ *
+ * @example
+ *     // List of core entities
+ *     {
+ *       "applications": "app/server/controllers/ApplicationController"
+ *     }
+ *
+ * @example
+ *     // Results
+ *     {
+ *       core: {
+ *         path: "/home/openveo/",
+ *         entities: {
+ *           applications: "app/server/controllers/ApplicationController"
+ *         }
+ *       }
+ *     }
  *
  * @method buildEntities
  * @param {Object} coreEntities Core entities configuration
@@ -66,21 +37,61 @@ module.exports.decodeEntities = function(pluginPath, entities) {
  * @return {Object} The list of entities, for core and plugins, ready to be used
  */
 module.exports.buildEntities = function(coreEntities, plugins) {
-  var self = this;
   var entities = {};
-
-  // Build core entities
-  var decodedEntities = this.decodeEntities(process.root + '/', coreEntities);
-  if (decodedEntities)
-    openVeoAPI.util.merge(entities, decodedEntities);
+  entities['core'] = {
+    path: process.root,
+    entities: coreEntities
+  };
 
   plugins.forEach(function(loadedPlugin) {
 
     // Found a list of entities for the plugin
-    if (loadedPlugin.entities)
-      openVeoAPI.util.merge(entities, self.decodeEntities(loadedPlugin.path, loadedPlugin.entities));
+    if (loadedPlugin.entities) {
+      entities[loadedPlugin.name] = {
+        path: loadedPlugin.path,
+        entities: loadedPlugin.entities
+      };
+    }
 
   });
 
   return entities;
+};
+
+/**
+ * Builds CRUD routes for entities.
+ *
+ * @example
+ *     // List of entities
+ *     {
+ *       "applications": "/home/openveo/app/server/controllers/ApplicationController"
+ *     }
+ *
+ * @example
+ *     // Results
+ *     {
+ *       "get /applications/:id": "/home/openveo/app/server/controllers/ApplicationController.getEntityAction",
+ *       "get /applications": "/home/openveo/app/server/controllers/ApplicationController.getEntitiesAction",
+ *       "post /applications/:id": "/home/openveo/app/server/controllers/ApplicationController.updateEntityAction",
+ *       "put /applications": "/home/openveo/app/server/controllers/ApplicationController.addEntityAction",
+ *       "delete /applications/:id": "/home/openveo/app/server/controllers/ApplicationController.removeEntityAction"
+ *     }
+ *
+ * @param {Object} entities The list of entities
+ * @return {Object} The list of routes for all entities
+ */
+module.exports.buildEntitiesRoutes = function(entities) {
+  var entitiesRoutes = {};
+
+  // Create CRUD routes for all plugin's entities
+  for (var entityName in entities) {
+    var entityControllerPath = entities[entityName];
+    entitiesRoutes['get /' + entityName + '/:id'] = entityControllerPath + '.getEntityAction';
+    entitiesRoutes['get /' + entityName] = entityControllerPath + '.getEntitiesAction';
+    entitiesRoutes['post /' + entityName + '/:id'] = entityControllerPath + '.updateEntityAction';
+    entitiesRoutes['put /' + entityName] = entityControllerPath + '.addEntityAction';
+    entitiesRoutes['delete /' + entityName + '/:id'] = entityControllerPath + '.removeEntityAction';
+  }
+
+  return entitiesRoutes;
 };

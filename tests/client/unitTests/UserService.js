@@ -31,7 +31,7 @@ describe('UserService', function() {
 
   it('Should be able to ask server for the list of roles', function() {
     $httpBackend.when('GET', /.*/).respond(200, '');
-    $httpBackend.expectGET('/be/crud/role');
+    $httpBackend.expectGET('/be/roles');
     userService.loadRoles();
     $httpBackend.flush();
   });
@@ -44,7 +44,7 @@ describe('UserService', function() {
   });
 
   it('Should be able to store roles', function() {
-    $httpBackend.when('GET', '/be/crud/role').respond(200, {
+    $httpBackend.when('GET', '/be/roles').respond(200, {
       entities: [{
         name: 'Example',
         permissions: {
@@ -55,7 +55,7 @@ describe('UserService', function() {
       }]
     }
     );
-    $httpBackend.expectGET('/be/crud/role');
+    $httpBackend.expectGET('/be/roles');
     userService.loadRoles();
     $httpBackend.flush();
 

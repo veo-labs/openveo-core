@@ -4,20 +4,28 @@
  * @module core-controllers
  */
 
-/**
- * Provides default route action to deal with angularJS single page
- * application.
- *
- * @class defaultController
- */
-
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 var applicationStorage = openVeoAPI.applicationStorage;
 var applicationConf = process.require('conf.js');
 var applicationVersion = process.require('package.json');
+var Controller = openVeoAPI.controllers.Controller;
 
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
+
+/**
+ * Provides default route action to deal with angularJS single page application.
+ *
+ * @class DefaultController
+ * @constructor
+ * @extends Controller
+ */
+function DefaultController() {
+  Controller.call(this);
+}
+
+module.exports = DefaultController;
+util.inherits(DefaultController, Controller);
 
 /**
  * Handles back office default action to display main HTML.
@@ -29,9 +37,8 @@ var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
  * JavaScript libraries, JavaScript files and CSS files.
  *
  * @method defaultAction
- * @static
  */
-module.exports.defaultAction = function(request, response) {
+DefaultController.prototype.defaultAction = function(request, response) {
 
   // Retrieve openveo sub plugins
   var plugins = applicationStorage.getPlugins();

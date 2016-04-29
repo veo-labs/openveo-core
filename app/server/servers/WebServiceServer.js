@@ -13,11 +13,15 @@ var bodyParser = require('body-parser');
 var Server = process.require('app/server/servers/Server.js');
 var oAuth = process.require('app/server/oauth/oAuth.js');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
-var migrationLoader = process.require('/app/server/loaders/migrationLoader');
-var oAuthController = process.require('app/server/controllers/oAuthController.js');
-var errorController = process.require('app/server/controllers/errorController.js');
+var migrationLoader = process.require('/app/server/loaders/migrationLoader.js');
+var entityLoader = process.require('/app/server/loaders/entityLoader.js');
+var OAuthController = process.require('app/server/controllers/OAuthController.js');
+var ErrorController = process.require('app/server/controllers/ErrorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
 var conf = process.require('conf.js');
+
+var oAuthController = new OAuthController();
+var errorController = new ErrorController();
 
 /**
  * Creates an HTTP server for the openveo web service.
@@ -114,6 +118,12 @@ WebServiceServer.prototype.onDatabaseAvailable = function(db, callback) {
   // Load and apply routes to router
   routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['ws']), this.router);
 
+  // Build routes for entities
+  if (conf['entities']) {
+    var entitiesRoutes = entityLoader.buildEntitiesRoutes(conf['entities']);
+    routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, entitiesRoutes), this.router);
+  }
+
   // Load Core migrations script
   db.get('core-system', {name: 'core'}, null, null, function(error, value) {
     var lastVersion = '0.0.0';
@@ -143,8 +153,16 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
 
   // Mount plugin Web Service router to the plugin
   // Web Service mount path
-  if (plugin.webServiceRouter && plugin.mountPath)
+  if (plugin.webServiceRouter && plugin.webServiceRoutes && plugin.mountPath) {
+    routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, plugin.webServiceRoutes), plugin.webServiceRouter);
     this.app.use(plugin.mountPath, plugin.webServiceRouter);
+  }
+
+  // Build routes for entities
+  if (plugin.webServiceRouter && plugin.entities) {
+    var entitiesRoutes = entityLoader.buildEntitiesRoutes(plugin.entities);
+    routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, entitiesRoutes), plugin.webServiceRouter);
+  }
 
   // Update migation script to apply
   if (plugin.migrations)

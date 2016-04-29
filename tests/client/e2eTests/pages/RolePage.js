@@ -13,7 +13,7 @@ function RolePage(model) {
   RolePage.super_.call(this, model);
 
   // Page path
-  this.path = 'be/roles';
+  this.path = 'be/roles-list';
 
   // Element finders specific to this page
   this.pageTitleElement = element(by.binding('ROLES.TITLE'));
@@ -163,17 +163,17 @@ RolePage.prototype.getEditFormFields = function(form) {
  */
 RolePage.prototype.getCorePermissions = function() {
   return [
-    this.translations.PERMISSIONS.CREATE_APPLICATION_NAME,
-    this.translations.PERMISSIONS.UPDATE_APPLICATION_NAME,
-    this.translations.PERMISSIONS.DELETE_APPLICATION_NAME,
-    this.translations.PERMISSIONS.CREATE_USER_NAME,
-    this.translations.PERMISSIONS.UPDATE_USER_NAME,
-    this.translations.PERMISSIONS.DELETE_USER_NAME,
-    this.translations.PERMISSIONS.CREATE_ROLE_NAME,
-    this.translations.PERMISSIONS.UPDATE_ROLE_NAME,
-    this.translations.PERMISSIONS.DELETE_ROLE_NAME,
-    this.translations.PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME,
-    this.translations.PERMISSIONS.ACCESS_USER_PAGE_NAME,
+    this.translations.PERMISSIONS.CREATE_APPLICATIONS_NAME,
+    this.translations.PERMISSIONS.UPDATE_APPLICATIONS_NAME,
+    this.translations.PERMISSIONS.DELETE_APPLICATIONS_NAME,
+    this.translations.PERMISSIONS.CREATE_USERS_NAME,
+    this.translations.PERMISSIONS.UPDATE_USERS_NAME,
+    this.translations.PERMISSIONS.DELETE_USERS_NAME,
+    this.translations.PERMISSIONS.CREATE_ROLES_NAME,
+    this.translations.PERMISSIONS.UPDATE_ROLES_NAME,
+    this.translations.PERMISSIONS.DELETE_ROLES_NAME,
+    this.translations.PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME,
+    this.translations.PERMISSIONS.ACCESS_USERS_PAGE_NAME,
     this.translations.PERMISSIONS.ACCESS_ROLES_PAGE_NAME
   ];
 };
@@ -186,9 +186,9 @@ RolePage.prototype.getCorePermissions = function() {
 RolePage.prototype.getCorePermissionGroups = function() {
   return [
     this.translations.PERMISSIONS.GROUP_OTHERS,
-    this.translations.PERMISSIONS.GROUP_APPLICATION,
-    this.translations.PERMISSIONS.GROUP_USER,
-    this.translations.PERMISSIONS.GROUP_ROLE
+    this.translations.PERMISSIONS.GROUP_APPLICATIONS,
+    this.translations.PERMISSIONS.GROUP_USERS,
+    this.translations.PERMISSIONS.GROUP_ROLES
   ];
 };
 

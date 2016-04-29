@@ -4,14 +4,15 @@
 var assert = require('chai').assert;
 var ut = require('@openveo/test').unit.generator;
 
-// authenticationController.js
-describe('authenticationController', function() {
+// AuthenticationController.js
+describe('AuthenticationController', function() {
   var request,
     response,
     authenticationController;
 
   before(function() {
-    authenticationController = process.require('app/server/controllers/authenticationController.js');
+    var AuthenticationController = process.require('app/server/controllers/AuthenticationController.js');
+    authenticationController = new AuthenticationController();
   });
 
   beforeEach(function() {
@@ -48,7 +49,7 @@ describe('authenticationController', function() {
     it('Should grant access to user if its id is 0', function(done) {
       request = {
         method: 'GET',
-        url: '/crud/application',
+        url: '/applications',
         params: {},
         user: {
           id: 0
@@ -74,7 +75,7 @@ describe('authenticationController', function() {
     it('Should grant access to user with the right permission', function(done) {
       request = {
         method: 'GET',
-        url: '/crud/application',
+        url: '/applications',
         params: {},
         user: {
           id: 1,

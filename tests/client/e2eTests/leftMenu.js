@@ -50,11 +50,11 @@ describe('Left menu', function() {
         switch (index) {
           case 0:
             assert.eventually.equal(element.getText(), page.translations.MENU.USERS);
-            assert.eventually.equal(element.getAttribute('href'), process.protractorConf.baseUrl + 'be/users');
+            assert.eventually.equal(element.getAttribute('href'), process.protractorConf.baseUrl + 'be/users-list');
             break;
           case 1:
             assert.eventually.equal(element.getText(), page.translations.MENU.ROLES);
-            assert.eventually.equal(element.getAttribute('href'), process.protractorConf.baseUrl + 'be/roles');
+            assert.eventually.equal(element.getAttribute('href'), process.protractorConf.baseUrl + 'be/roles-list');
             break;
           default:
             break;
@@ -84,7 +84,8 @@ describe('Left menu', function() {
         switch (index) {
           case 0:
             assert.eventually.equal(element.getText(), page.translations.MENU.APPLICATIONS);
-            assert.eventually.equal(element.getAttribute('href'), process.protractorConf.baseUrl + 'be/applications');
+            assert.eventually.equal(element.getAttribute('href'), process.protractorConf.baseUrl +
+                                    'be/applications-list');
             break;
           default:
             break;

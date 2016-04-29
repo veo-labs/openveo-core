@@ -13,7 +13,7 @@ function ApplicationPage(model) {
   ApplicationPage.super_.call(this, model);
 
   // Page path
-  this.path = 'be/applications';
+  this.path = 'be/applications-list';
 
   // Element finders specific to this page
   this.pageTitleElement = element(by.binding('APPLICATIONS.TITLE'));

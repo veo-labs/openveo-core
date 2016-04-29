@@ -16,8 +16,7 @@ var async = require('async');
 var openVeoAPI = require('@openveo/api');
 
 // Module files
-var routeLoader = process.require('/app/server/loaders/routeLoader');
-var migrationLoader = process.require('/app/server/loaders/migrationLoader');
+var migrationLoader = process.require('/app/server/loaders/migrationLoader.js');
 
 /**
  * Filters the list of plugins paths in case the same plugin appears
@@ -425,27 +424,10 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
               // Got routes for this plugin
               // Retrieve public, private and Web Service routes
               if (pluginRoutes) {
-                plugin.routes = pluginRoutes['public'] && routeLoader.decodeRoutes(pluginPath, pluginRoutes['public']);
-                plugin.privateRoutes = pluginRoutes['private'] && routeLoader.decodeRoutes(pluginPath,
-                  pluginRoutes['private']);
-                plugin.webServiceRoutes = pluginRoutes['ws'] && routeLoader.decodeRoutes(pluginPath,
-                  pluginRoutes['ws']);
+                plugin.routes = pluginRoutes['public'];
+                plugin.privateRoutes = pluginRoutes['private'];
+                plugin.webServiceRoutes = pluginRoutes['ws'];
               }
-
-              // Found application routes for the plugin
-              // Apply routes to the router
-              if (plugin.routes && plugin.router)
-                routeLoader.applyRoutes(plugin.routes, plugin.router);
-
-              // Found private routes for the plugin
-              // Apply routes to the private router
-              if (plugin.privateRoutes && plugin.privateRouter)
-                routeLoader.applyRoutes(plugin.privateRoutes, plugin.privateRouter);
-
-              // Found web service routes for the plugin
-              // Apply routes to the web service router
-              if (plugin.webServiceRoutes && plugin.webServiceRouter)
-                routeLoader.applyRoutes(plugin.webServiceRoutes, plugin.webServiceRouter);
 
               // Got entities
               if (pluginConf['entities'])

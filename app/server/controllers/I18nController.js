@@ -4,14 +4,25 @@
  * @module core-controllers
  */
 
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
+var errors = process.require('app/server/httpErrors.js');
+var Controller = openVeoAPI.controllers.Controller;
+var i18n = openVeoAPI.i18n;
+
 /**
  * Provides route actions to access translation dictionaries.
  *
- * @class i18nController
+ * @class I18nController
+ * @constructor
+ * @extends Controller
  */
+function I18nController() {
+  Controller.call(this);
+}
 
-var i18n = require('@openveo/api').i18n;
-var errors = process.require('app/server/httpErrors.js');
+module.exports = I18nController;
+util.inherits(I18nController, Controller);
 
 /**
  * Gets a public dictionary of translations by its name.
@@ -30,9 +41,8 @@ var errors = process.require('app/server/httpErrors.js');
  * If no dictionary is found, a JSON 404 Not Found response is send back.
  *
  * @method getDictionaryAction
- * @static
  */
-module.exports.getDictionaryAction = function(request, response, next) {
+I18nController.prototype.getDictionaryAction = function(request, response, next) {
   i18n.getTranslations(request.params.dictionary.replace(/^admin-/, ''), request.params.code,
     function(translations) {
       if (translations)
@@ -56,9 +66,8 @@ module.exports.getDictionaryAction = function(request, response, next) {
  * to the client.
  *
  * @method getAdminDictionaryAction
- * @static
  */
-module.exports.getAdminDictionaryAction = function(request, response, next) {
+I18nController.prototype.getAdminDictionaryAction = function(request, response, next) {
   i18n.getTranslations('admin-' + request.params.dictionary, request.params.code, function(translations) {
     if (translations)
       response.send(translations);

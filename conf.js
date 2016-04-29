@@ -3,37 +3,26 @@
 module.exports = {
   routes: {
     public: {
-      'get /getDictionary/:dictionary/:code': 'app/server/controllers/i18nController.getDictionaryAction'
+      'get /getDictionary/:dictionary/:code': 'app/server/controllers/I18nController.getDictionaryAction'
     },
     private: {
-      'get /login': 'app/server/controllers/defaultController.defaultAction',
-      'post /authenticate': 'app/server/controllers/authenticationController.authenticateAction',
-      '*': 'app/server/controllers/authenticationController.restrictAction',
-      'post /logout': 'app/server/controllers/authenticationController.logoutAction',
-      'get /getMenu': 'app/server/controllers/menuController.getMenuAction',
-      'get /getDictionary/:dictionary/:code': 'app/server/controllers/i18nController.getAdminDictionaryAction',
-      'get /permissions': 'app/server/controllers/authenticationController.getPermissionsAction',
-      'get /ws/scopes': 'app/server/controllers/applicationController.getScopesAction',
-      'get /crud/:type/:id': 'app/server/controllers/crudController.getEntityAction',
-      'get /crud/:type': 'app/server/controllers/crudController.getEntitiesAction',
-      'post /crud/:type/:id': 'app/server/controllers/crudController.updateEntityAction',
-      'put /crud/:type': 'app/server/controllers/crudController.addEntityAction',
-      'delete /crud/:type/:id': 'app/server/controllers/crudController.removeEntityAction',
-      'get /getTaxonomies': 'app/server/controllers/taxonomyController.getTaxonomiesAction',
-      'post /search/:type': 'app/server/controllers/searchController.searchEntitiesAction'
-    },
-    ws: {
-      'get /taxonomies/:id': 'app/server/controllers/taxonomyController.getTaxonomyAction',
-      'get /taxonomies': 'app/server/controllers/taxonomyController.getTaxonomiesAction',
-      'get /groups/:id': 'app/server/controllers/groupController.getGroupAction',
-      'get /groups': 'app/server/controllers/groupController.getGroupsAction'
+      'get /login': 'app/server/controllers/DefaultController.defaultAction',
+      'post /authenticate': 'app/server/controllers/AuthenticationController.authenticateAction',
+      '*': 'app/server/controllers/AuthenticationController.restrictAction',
+      'post /logout': 'app/server/controllers/AuthenticationController.logoutAction',
+      'get /getMenu': 'app/server/controllers/MenuController.getMenuAction',
+      'get /getDictionary/:dictionary/:code': 'app/server/controllers/I18nController.getAdminDictionaryAction',
+      'get /permissions': 'app/server/controllers/AuthenticationController.getPermissionsAction',
+      'get /ws/scopes': 'app/server/controllers/ApplicationController.getScopesAction',
+      'post /search/:type': 'app/server/controllers/SearchController.searchEntitiesAction'
     }
   },
   entities: {
-    application: 'app/server/models/ClientModel',
-    user: 'app/server/models/UserModel',
-    role: 'app/server/models/RoleModel',
-    group: 'app/server/models/GroupModel'
+    applications: 'app/server/controllers/ApplicationController',
+    users: 'app/server/controllers/UserController',
+    roles: 'app/server/controllers/RoleController',
+    groups: 'app/server/controllers/GroupController',
+    taxonomies: 'app/server/controllers/TaxonomyController'
   },
   webServiceScopes: [
     {
@@ -56,13 +45,13 @@ module.exports = {
   permissions: [
     {
       id: 'access-applications-page',
-      name: 'PERMISSIONS.ACCESS_APPLICATION_PAGE_NAME'
+      name: 'PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME'
     },
     {
       id: 'access-users-page',
-      name: 'PERMISSIONS.ACCESS_USER_PAGE_NAME',
+      name: 'PERMISSIONS.ACCESS_USERS_PAGE_NAME',
       paths: [
-        'get /crud/roles'
+        'get /roles'
       ]
     },
     {
@@ -82,7 +71,7 @@ module.exports = {
         subMenu: [
           {
             label: 'MENU.APPLICATIONS',
-            path: 'applications',
+            path: 'applications-list',
             permission: 'access-applications-page'
           }
         ]
@@ -93,17 +82,17 @@ module.exports = {
         subMenu: [
           {
             label: 'MENU.USERS',
-            path: 'users',
+            path: 'users-list',
             permission: 'access-users-page'
           },
           {
             label: 'MENU.ROLES',
-            path: 'roles',
+            path: 'roles-list',
             permission: 'access-roles-page'
           },
           {
             label: 'MENU.GROUPS',
-            path: 'groups',
+            path: 'groups-list',
             permission: 'access-groups-page'
           }
         ]

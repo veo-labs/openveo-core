@@ -4,44 +4,25 @@
  * @module core-controllers
  */
 
-/**
- * Provides route actions for all requests relative to groups.
- *
- * @class groupController
- */
-
+var util = require('util');
 var openVeoAPI = require('@openveo/api');
 var GroupModel = process.require('app/server/models/GroupModel.js');
 var errors = process.require('app/server/httpErrors.js');
-
-var groupModel = new GroupModel();
+var EntityController = openVeoAPI.controllers.EntityController;
 
 /**
- * Gets a group.
+ * Provides route actions for all requests relative to groups.
  *
- * Expects one GET parameter :
- *  - **id** The id of the group
- *
- * @method getGroupAction
- * @static
+ * @class GroupController
+ * @constructor
+ * @extends EntityController
  */
-module.exports.getGroupAction = function(request, response, next) {
-  if (request.params.id) {
-    groupModel.getOne(request.params.id, null, function(error, group) {
-      if (error)
-        next(errors.GET_GROUP_ERROR);
-      else
-        response.send({
-          group: group
-        });
-    });
-  } else {
+function GroupController() {
+  EntityController.call(this, GroupModel);
+}
 
-    // Missing type and / or id of the group
-    next(errors.GET_GROUP_MISSING_PARAMETERS);
-
-  }
-};
+module.exports = GroupController;
+util.inherits(GroupController, EntityController);
 
 /**
  * Gets a list of groups.
@@ -53,10 +34,10 @@ module.exports.getGroupAction = function(request, response, next) {
  *  - **sortBy** To sort groups by name or description (default is name)
  *  - **sortOrder** Sort order (either asc or desc)
  *
- * @method getGroupsAction
- * @static
+ * @method getEntitiesAction
  */
-module.exports.getGroupsAction = function(request, response, next) {
+GroupController.prototype.getEntitiesAction = function(request, response, next) {
+  var model = new this.Entity(request.user);
   var orderedGroups = ['name', 'description'];
   var params;
 
@@ -90,7 +71,7 @@ module.exports.getGroupsAction = function(request, response, next) {
     };
   }
 
-  groupModel.getPaginatedFilteredEntities(
+  model.getPaginatedFilteredEntities(
     filter,
     params.limit,
     params.page,
@@ -102,7 +83,7 @@ module.exports.getGroupsAction = function(request, response, next) {
         next(errors.GET_GROUPS_ERROR);
       } else {
         response.send({
-          groups: groups,
+          entities: groups,
           pagination: pagination
         });
       }

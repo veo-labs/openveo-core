@@ -13,7 +13,7 @@ function GroupPage(model) {
   GroupPage.super_.call(this, model);
 
   // Page path
-  this.path = 'be/groups';
+  this.path = 'be/groups-list';
 
   // Element finders specific to this page
   this.pageTitleElement = element(by.binding('GROUPS.TITLE'));

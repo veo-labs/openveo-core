@@ -6,7 +6,7 @@
    * Defines the profile controller for the profile page.
    */
   function ProfileController($scope, $filter, authenticationService, entityService, user) {
-
+    var entityType = 'users';
     $scope.password = '';
     $scope.confirmPassword = '';
     $scope.isInValid = true;
@@ -34,7 +34,7 @@
     function updatePassword(userInfo) {
       userInfo.saving = true;
       userInfo.password = $scope.password;
-      entityService.updateEntity('user', userInfo.id, {
+      entityService.updateEntity(entityType, null, userInfo.id, {
         password: userInfo.password,
         passwordValidate: userInfo.password,
         email: userInfo.email
@@ -60,7 +60,7 @@
       // update session cookie
       user.name = userInfo.name;
 
-      return entityService.updateEntity('user', userInfo.id, {
+      return entityService.updateEntity(entityType, null, userInfo.id, {
         name: userInfo.name,
         email: userInfo.email
       }).then(function() {
@@ -75,7 +75,7 @@
      */
     var scopeEditForm = $scope.editFormContainer = {};
     $scope.row = user;
-    scopeEditForm.entityType = 'user';
+    scopeEditForm.entityType = entityType;
     scopeEditForm.fields = [
       {
 

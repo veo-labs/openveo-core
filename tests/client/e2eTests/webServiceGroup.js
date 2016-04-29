@@ -58,7 +58,7 @@ describe('Web service /groups/:id', function() {
       page.refresh();
 
       webServiceClient.get('groups/' + addedGroups[0].id).then(function(results) {
-        var group = results.group;
+        var group = results.entity;
         assert.eventually.isDefined(protractor.promise.fulfilled(group));
         assert.eventually.equal(protractor.promise.fulfilled(group.id), addedGroups[0].id);
         deferred.fulfill();
@@ -78,7 +78,7 @@ describe('Web service /groups/:id', function() {
     var deferred = protractor.promise.defer();
 
     webServiceClient.get('groups/unkown').then(function(results) {
-      assert.eventually.isUndefined(protractor.promise.fulfilled(results.group));
+      assert.eventually.isUndefined(protractor.promise.fulfilled(results.entity));
       deferred.fulfill();
     }).catch(function(error) {
       assert.eventually.ok(protractor.promise.fulfilled(false), error.message);

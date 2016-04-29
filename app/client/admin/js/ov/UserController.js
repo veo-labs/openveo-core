@@ -6,6 +6,7 @@
    * Defines the user controller for the user page.
    */
   function UserController($scope, $filter, entityService, roles) {
+    var entityType = 'users';
     var mailPattern = '^[0-9a-z._-]+@{1}[0-9a-z.-]{2,}[.]{1}[a-z]{2,5}$';
 
     /**
@@ -21,7 +22,7 @@
         passwordValidate: user.passwordValidate,
         roles: user.roles || []
       };
-      return entityService.addEntity('user', entity);
+      return entityService.addEntity(entityType, null, entity);
     }
 
     /**
@@ -31,7 +32,7 @@
      * @param {Function} reload The reload Function to force reloading the table
      */
     function removeRows(selected, reload) {
-      entityService.removeEntity('user', selected.join(','))
+      entityService.removeEntity(entityType, null, selected.join(','))
         .then(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('USERS.REMOVE_SUCCESS'), 4000);
           reload();
@@ -44,7 +45,7 @@
      * @param {Object} user The user data
      */
     function saveUser(user) {
-      return entityService.updateEntity('user', user.id, {
+      return entityService.updateEntity(entityType, null, user.id, {
         name: user.name,
         email: user.email,
         roles: user.roles
@@ -60,9 +61,9 @@
      *
      */
     $scope.rights = {};
-    $scope.rights.add = $scope.checkAccess('create-user');
-    $scope.rights.edit = $scope.checkAccess('update-user');
-    $scope.rights.delete = $scope.checkAccess('delete-user');
+    $scope.rights.add = $scope.checkAccess('create-' + entityType);
+    $scope.rights.edit = $scope.checkAccess('update-' + entityType);
+    $scope.rights.delete = $scope.checkAccess('delete-' + entityType);
 
 
     /*
@@ -70,7 +71,7 @@
      * DATATABLE
      */
     var scopeDataTable = $scope.tableContainer = {};
-    scopeDataTable.entityType = 'user';
+    scopeDataTable.entityType = entityType;
     scopeDataTable.filterBy = [
       {
         key: 'name',
@@ -109,7 +110,7 @@
      */
     var scopeEditForm = $scope.editFormContainer = {};
     scopeEditForm.model = {};
-    scopeEditForm.entityType = 'user';
+    scopeEditForm.entityType = entityType;
     scopeEditForm.fields = [
       {
 

@@ -87,6 +87,8 @@ describe('Group page', function() {
     page.editGroup(name, {name: newName, description: newDescription});
     assert.isFulfilled(page.getLine(newName));
     assert.eventually.equal(page.getLineFieldText(newName, 'description'), newDescription);
+
+    page.removeLine(newName);
   });
 
   it('should be able to cancel when removing a group', function() {

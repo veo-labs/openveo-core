@@ -19,6 +19,7 @@ describe('Group permissions creation', function() {
   var roleHelper;
   var groupHelper;
   var defaultRoles;
+  var defaultGroups;
 
   // Load roles page using super administrator account
   before(function() {
@@ -38,6 +39,9 @@ describe('Group permissions creation', function() {
     roleHelper.getEntities().then(function(roles) {
       defaultRoles = roles;
     });
+    groupHelper.getEntities().then(function(groups) {
+      defaultGroups = groups;
+    });
   });
 
   // Start each test on group page
@@ -49,7 +53,7 @@ describe('Group permissions creation', function() {
   // Remove all extra application after each test and reload the page
   afterEach(function() {
     roleHelper.removeAllEntities(defaultRoles);
-    groupHelper.removeAllEntities();
+    groupHelper.removeAllEntities(defaultGroups);
     groupPage.load();
     groupPage.logout();
   });
@@ -71,6 +75,9 @@ describe('Group permissions creation', function() {
       assert.ok(permissions.indexOf(rolePage.translations.PERMISSIONS.GROUP_DELETE_NAME) >= 0);
       assert.equal(permissions.length, 3);
     });
+
+    groupPage.load();
+    groupPage.removeLine(name);
   });
 
   it('should automatically delete group permissions when deleting a group', function() {

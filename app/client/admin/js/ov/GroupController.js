@@ -6,7 +6,7 @@
    * Defines the group controller for the group page.
    */
   function GroupController($scope, $filter, entityService, userService) {
-    var entityType = 'group';
+    var entityType = 'groups';
 
     /**
      * Adds a group.
@@ -15,7 +15,7 @@
      * @return {Promise} A promise resolving when the group has been added
      */
     function add(entity) {
-      return entityService.addEntity(entityType, entity).then(function() {
+      return entityService.addEntity(entityType, null, entity).then(function() {
         userService.cacheClear('permissions');
       });
     }
@@ -27,7 +27,7 @@
      * @param {Promise} A promise resolving when the group has been saved
      */
     function save(entity) {
-      return entityService.updateEntity(entityType, entity.id, entity).then(function() {
+      return entityService.updateEntity(entityType, null, entity.id, entity).then(function() {
         userService.cacheClear('permissions');
       });
     }
@@ -39,7 +39,7 @@
      * @param {Function} reload The reload Function to force reloading the table
      */
     function remove(groups, reload) {
-      entityService.removeEntity(entityType, groups.join(','))
+      entityService.removeEntity(entityType, null, groups.join(','))
         .then(function() {
           userService.cacheClear('permissions');
           $scope.$emit('setAlert', 'success', $filter('translate')('GROUPS.REMOVE_SUCCESS'), 4000);
@@ -49,9 +49,9 @@
 
     // Permissions
     $scope.rights = {};
-    $scope.rights.add = $scope.checkAccess('create-group');
-    $scope.rights.edit = $scope.checkAccess('update-group');
-    $scope.rights.delete = $scope.checkAccess('delete-group');
+    $scope.rights.add = $scope.checkAccess('create-' + entityType);
+    $scope.rights.edit = $scope.checkAccess('update-' + entityType);
+    $scope.rights.delete = $scope.checkAccess('delete-' + entityType);
 
     // Configure add form
     var addForm = $scope.addFormContainer = {};
