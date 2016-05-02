@@ -51,47 +51,12 @@ function Server(configuration) {
  *
  * It assures that the database is loaded and can be accessed.
  *
- * @method onDatabaseAvailable
+ * @async
  * @param {Database} db The application database
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-Server.prototype.onDatabaseAvailable = function() {
-};
-
-/**
- * Handles plugin available event.
- *
- * It assures that the given plugin's configuration is available.
- *
- * @example
- *     MyServer.prototype.onPluginAvailable(plugin){
- *       console.log(plugin);
- *       // {
- *       //   router: [Function],
- *       //   privateRouter: [Function],
- *       //   webServiceRouter: [Function],
- *       //   mountPath: "/publish",
- *       //   name: "publish",
- *       //   assetsDirectory: "/home/veo-labs/openveo/node_modules/@openveo/publish/public",
- *       //   i18nDirectory: "/home/veo-labs/openveo/node_modules/@openveo/publish/i18n",
- *       //   custom: [Object],
- *       //   webServiceScopes: [Object],
- *       //   permissions: [Array],
- *       //   viewsFolders: [Array],
- *       //   routes: [Array],
- *       //   privateRoutes: [Array],
- *       //   webServiceRoutes: [Array],
- *       //   entities: [Object],
- *       //   menu: [Array],
- *       //   scriptLibFiles: [Array],
- *       //   scriptFiles: [Array],
- *       //   cssFiles: [Array]
- *       // }
- *     };
- *
- * @method onPluginAvailable
- * @param {Object} plugin The available openveo plugin
- */
-Server.prototype.onPluginAvailable = function() {
+Server.prototype.onDatabaseAvailable = function(db, callback) {
 };
 
 /**
@@ -126,9 +91,12 @@ Server.prototype.onPluginAvailable = function() {
  *     };
  *
  * @method onPluginLoaded
- * @param {Object} plugin The available openveo plugin
+ * @async
+ * @param {Object} plugin The openveo plugin
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-Server.prototype.onPluginLoaded = function() {
+Server.prototype.onPluginLoaded = function(plugin, callback) {
 };
 
 /**
@@ -137,16 +105,22 @@ Server.prototype.onPluginLoaded = function() {
  * It assures that all plugins are fully loaded.
  *
  * @method onPluginsLoaded
+ * @method async
+ * @param {Function} callback Function to call when its done with:
+ *  - **Error** An error if something went wrong
  */
-Server.prototype.onPluginsLoaded = function() {
+Server.prototype.onPluginsLoaded = function(callback) {
 };
 
 /**
  * Starts the server.
  *
  * @method startServer
+ * @async
+ * @param {Function} callback Function to call when it's done with :
+ *  - **Error** An error if something went wrong, null otherwise
  */
-Server.prototype.startServer = function() {
+Server.prototype.startServer = function(callback) {
   throw new Error('startServer method not implemented for this server');
 };
 
