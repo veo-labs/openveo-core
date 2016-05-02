@@ -119,7 +119,7 @@ Entities are elements subject to CRUD (**C**reate **R**ead **U**pdate **D**elete
 
 Each entity will automatically have 3 associated back end permissions : create, update and delete.
 
-To create a new entity you need to create a new EntityModel and a new EntityProvider. Let's say we want to create a new entity called **book**.
+To create a new entity you need to create new EntityController, EntityModel and EntityProvider. Let's say we want to create a new entity called **book**.
 
 ## Create entity provider
 
@@ -166,6 +166,28 @@ module.exports = BookModel;
 util.inherits(BookModel, openVeoAPI.EntityModel);
 ```
 
+## Create entity controller
+
+```javascript
+'use strict';
+
+var util = require('util');
+var openVeoAPI = require('@openveo/api');
+var BookModel = process.require('BookModel.js');
+var EntityController = openVeoAPI.controllers.EntityController;
+
+/**
+ * Creates a BookController.
+ */
+function BookController(database) {
+  EntityController.call(this, BookModel);
+}
+
+module.exports = BookController;
+util.inherits(BookController, EntityController);
+
+```
+
 ## Declare entity
 
 You can now declare your entity in **conf.js** :
@@ -173,7 +195,7 @@ You can now declare your entity in **conf.js** :
 ```js
 module.exports = {
   entities: {
-    book: 'BookModel'
+    books: 'BookController'
   }
 };
 ```
@@ -182,11 +204,11 @@ module.exports = {
 
 Now that you entity **book** is created you can see the 3 new permissions in the back end (create, update and delete). You can also perform CRUD operations on your entity using the following routes :
 
-- **get /crud/book/:id** - Get a particular book
-- **get /crud/book** - Get all books
-- **post /crud/book/:id** - Update a particular book
-- **put /crud/book** - Add a new book
-- **delete /crud/book/:id** - Delete a book
+- **get /books/:id** - Get a particular book
+- **get /books** - Get all books
+- **post /books/:id** - Update a particular book
+- **put /books** - Add a new book
+- **delete /books/:id** - Delete a book
 
 # Define back end permissions
 
