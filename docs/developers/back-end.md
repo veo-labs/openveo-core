@@ -38,10 +38,10 @@ It has dependencies on all AngularJS libraries and all AngularJS modules describ
 
 - **/be/login** to access the login page
 - **/be** to access the back end home page
-- **/be/applications** to access Web service applications page
-- **/be/users** to access users page
+- **/be/applications-list** to access Web service applications page
+- **/be/users-list** to access users page
 - **/be/profile** to access user's profile page
-- **/be/roles** to access roles page
+- **/be/roles-list** to access roles page
 
 **Nb:** Available services / filters defined in **ov** module are described in the [API](/api/back-end/modules/ov.html).
 
