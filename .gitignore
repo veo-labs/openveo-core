@@ -26,6 +26,7 @@ ehthumbs.db
 
 # IDE
 nbproject/
+.idea/
 
 # Deliver
 /build
