@@ -291,7 +291,7 @@ function createSuperAdmin(callback) {
     function(callback) {
 
       // Verify if the super admin does not exist
-      userProvider.getOne(conf.superAdminId, function(error, user) {
+      userProvider.getOne(conf.superAdminId, null, function(error, user) {
         if (user)
           callback(new Error('A super admin user already exists\n'));
         else if (error)
