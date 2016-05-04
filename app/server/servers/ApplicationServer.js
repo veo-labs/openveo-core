@@ -207,7 +207,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   }
 
   // Load Core migrations script
-  db.get('core-system', {name: 'core'}, null, null, function(error, value) {
+  db.get('core_system', {name: 'core'}, null, null, function(error, value) {
     var lastVersion = '0.0.0';
     if (value && value.length) lastVersion = value[0].version;
 

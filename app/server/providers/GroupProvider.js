@@ -16,7 +16,7 @@ var openVeoAPI = require('@openveo/api');
  * @param {Database} database The database to interact with
  */
 function GroupProvider(database) {
-  openVeoAPI.EntityProvider.call(this, database, 'core-groups');
+  openVeoAPI.EntityProvider.call(this, database, 'core_groups');
 }
 
 module.exports = GroupProvider;
