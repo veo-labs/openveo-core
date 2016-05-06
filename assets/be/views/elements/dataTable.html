@@ -1,7 +1,7 @@
 <div class="datatable" ng-controller="DataTableController as dataTable">
   <div class="control-block">
     <div class="allactions btn-group " ng-class="{'displayAction':dataTable.isRowSelected, 'searchOpen':dataTable.filterBy.length<=2 || dataTable.showFilter}" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0">
-      <div class="check-btn btn btn-default btn-sm "  uib-popover="{{'UI.SELECT_ALL' | translate}}" popover-trigger="mouseenter" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
+      <div class="check-btn btn btn-default btn-sm "  uib-popover="{{'CORE.UI.SELECT_ALL' | translate}}" popover-trigger="mouseenter" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
         <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll();$event.stopPropagation();">
       </div>
       <div class="animate-action" uib-dropdown ng-if="dataTable.isRowSelected">
@@ -14,7 +14,7 @@
             <a role="menuitem" href="#" ng-click="dataTable.executeGlobalAction(action);" ng-bind="action.label"></a>
           </li>
           <li role="presentation" ng-if="!dataTable.commonActionExist">
-            <a role="menuitem" href="#" ng-bind="'UI.NO_COMMON_ACTION' | translate"></a>
+            <a role="menuitem" href="#" ng-bind="'CORE.UI.NO_COMMON_ACTION' | translate"></a>
           </li>
         </ul>
       </div>
@@ -22,7 +22,7 @@
     <div class="search-form form-group" ng-class="{'open':dataTable.isRowSelected}" ng-init="dataTable.showFilter = dataTable.filterBy.length<=2">
       <div ng-click="dataTable.showFilter = !dataTable.showFilter" class="search-title" ng-class="{'cursor':dataTable.filterBy.length>2}">
         <span class="glyphicon glyphicon-search" ></span>
-        <span ng-bind="'UI.SEARCH_BY' | translate"></span>
+        <span ng-bind="'CORE.UI.SEARCH_BY' | translate"></span>
       </div>
       <div class="search-fields" ng-show="dataTable.filterBy.length<=2 || dataTable.showFilter">
         <div class="col-sm-3 field" ng-repeat="filter in dataTable.filterBy" >
@@ -30,7 +30,7 @@
           <input type="text" ng-if="!filter.type || filter.type=='text'" class="form-control input-sm" ng-model="dataTable.filterBy[$index].value" />
           <div ng-if="filter.type && filter.type=='date'" ng-controller="DatePickerController as dp">
             <div class="input-group">
-              <input type="text" class="form-control input-sm" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataTable.filterBy[$index].value" is-open="dp.status.opened" max-date="dp.maxDate" datepicker-options="dp.dateOptions" current-text="{{'DATEPICKER.TODAY' | translate}}" clear-text="{{'DATEPICKER.CLEAR' | translate}}" close-text="{{'DATEPICKER.CLOSE' | translate}}" />
+              <input type="text" class="form-control input-sm" uib-datepicker-popup="dd/MM/yyyy" ng-model="dataTable.filterBy[$index].value" is-open="dp.status.opened" max-date="dp.maxDate" datepicker-options="dp.dateOptions" current-text="{{'CORE.DATEPICKER.TODAY' | translate}}" clear-text="{{'CORE.DATEPICKER.CLEAR' | translate}}" close-text="{{'CORE.DATEPICKER.CLOSE' | translate}}" />
               <span class="input-group-btn">
                 <button type="button" class="btn btn-sm btn-default" ng-click="dp.open()"><i class="glyphicon glyphicon-calendar"></i></button>
               </span>
@@ -68,7 +68,7 @@
                     <a role="menuitem" href="#" ng-click="dataTable.prepareSingleAction(action,row)" ng-bind="action.label"></a>
                   </li>
                   <li role="presentation" ng-if="!row.actionExist">
-                    <a role="menuitem" href="#" ng-bind-html="'UI.NO_ACTION' | translate"></a>
+                    <a role="menuitem" href="#" ng-bind-html="'CORE.UI.NO_ACTION' | translate"></a>
                   </li>
                 </ul>
               </div>
@@ -91,14 +91,14 @@
         <div class="modal-header warning">
             <h2 class="modal-title">
               <span class="glyphicon glyphicon-alert"></span>
-              <span ng-bind="'UI.WARNING' | translate"></span>
+              <span ng-bind="'CORE.UI.WARNING' | translate"></span>
             </h2>
         </div>
-        <div class="modal-body text-center" ng-bind-html="'UI.WARNING_MODAL_ACTION' | translate">
+        <div class="modal-body text-center" ng-bind-html="'CORE.UI.WARNING_MODAL_ACTION' | translate">
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-            <button class="btn btn-warning" type="button" ng-click="cancel()" ng-bind="'UI.FORM_CANCEL' | translate"></button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()" ng-bind="'CORE.UI.FORM_CANCEL' | translate"></button>
         </div>
     </script>
 </div>

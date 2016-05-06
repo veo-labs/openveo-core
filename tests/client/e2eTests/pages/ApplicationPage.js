@@ -16,9 +16,9 @@ function ApplicationPage(model) {
   this.path = 'be/applications-list';
 
   // Element finders specific to this page
-  this.pageTitleElement = element(by.binding('APPLICATIONS.TITLE'));
-  this.pageDescriptionElement = element(by.binding('APPLICATIONS.INFO'));
-  this.addFormLabelElement = element(by.binding('APPLICATIONS.ADD_APPLICATION'));
+  this.pageTitleElement = element(by.binding('CORE.APPLICATIONS.TITLE'));
+  this.pageDescriptionElement = element(by.binding('CORE.APPLICATIONS.INFO'));
+  this.addFormLabelElement = element(by.binding('CORE.APPLICATIONS.ADD_APPLICATION'));
 }
 
 module.exports = ApplicationPage;
@@ -45,7 +45,7 @@ ApplicationPage.prototype.getSearchFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.APPLICATIONS.TITLE_FILTER,
+    name: this.translations.CORE.APPLICATIONS.TITLE_FILTER,
     baseElement: form
   });
 
@@ -64,14 +64,14 @@ ApplicationPage.prototype.getAddFormFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.APPLICATIONS.FORM_ADD_NAME,
+    name: this.translations.CORE.APPLICATIONS.FORM_ADD_NAME,
     baseElement: form
   });
 
   // Scopes field
   fields.scopes = Field.get({
     type: 'checkboxes',
-    name: this.translations.APPLICATIONS.FORM_ADD_SCOPES,
+    name: this.translations.CORE.APPLICATIONS.FORM_ADD_SCOPES,
     baseElement: form
   });
 
@@ -90,14 +90,14 @@ ApplicationPage.prototype.getEditFormFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.APPLICATIONS.ATTR_NAME,
+    name: this.translations.CORE.APPLICATIONS.ATTR_NAME,
     baseElement: form
   });
 
   // Scopes field
   fields.scopes = Field.get({
     type: 'checkboxes',
-    name: this.translations.APPLICATIONS.ATTR_SCOPES,
+    name: this.translations.CORE.APPLICATIONS.ATTR_SCOPES,
     baseElement: form
   });
 
@@ -155,7 +155,7 @@ ApplicationPage.prototype.editApplication = function(name, data) {
     self.openLine(name);
 
     // Click on edit button
-    browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_EDIT')));
+    browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_EDIT')));
 
     // Set application name
     if (data.name !== undefined)
@@ -164,7 +164,7 @@ ApplicationPage.prototype.editApplication = function(name, data) {
     // For now no scopes are defined in core
 
     // Click on save button
-    return browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_SAVE')));
+    return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
   });
 };
 
@@ -186,7 +186,7 @@ ApplicationPage.prototype.getApplicationClientId = function(name) {
     // Get application client id
     var field = Field.get({
       type: 'text',
-      name: self.translations.APPLICATIONS.ATTR_ID,
+      name: self.translations.CORE.APPLICATIONS.ATTR_ID,
       baseElement: self.lineDetailElement
     });
     return field.getText();
@@ -213,7 +213,7 @@ ApplicationPage.prototype.getApplicationClientKey = function(name) {
     // Get application client key
     var field = Field.get({
       type: 'text',
-      name: self.translations.APPLICATIONS.ATTR_SECRET,
+      name: self.translations.CORE.APPLICATIONS.ATTR_SECRET,
       baseElement: self.lineDetailElement
     });
     return field.getText();

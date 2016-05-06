@@ -27,7 +27,7 @@
     function removeRows(selected, reload) {
       entityService.removeEntity(entityType, null, selected.join(','))
         .then(function() {
-          $scope.$emit('setAlert', 'success', $filter('translate')('APPLICATIONS.REMOVE_SUCCESS'), 4000);
+          $scope.$emit('setAlert', 'success', $filter('translate')('CORE.APPLICATIONS.REMOVE_SUCCESS'), 4000);
           reload();
         });
     }
@@ -64,9 +64,9 @@
      *
      */
     $scope.rights = {};
-    $scope.rights.add = $scope.checkAccess('create-' + entityType);
-    $scope.rights.edit = $scope.checkAccess('update-' + entityType);
-    $scope.rights.delete = $scope.checkAccess('delete-' + entityType);
+    $scope.rights.add = $scope.checkAccess('core-add-' + entityType);
+    $scope.rights.edit = $scope.checkAccess('core-update-' + entityType);
+    $scope.rights.delete = $scope.checkAccess('core-delete-' + entityType);
 
     /*
      *
@@ -78,22 +78,22 @@
       {
         key: 'name',
         value: '',
-        label: $filter('translate')('APPLICATIONS.TITLE_FILTER')
+        label: $filter('translate')('CORE.APPLICATIONS.TITLE_FILTER')
       }
     ];
     scopeDataTable.header = [{
       key: 'name',
-      name: $filter('translate')('APPLICATIONS.NAME_COLUMN'),
+      name: $filter('translate')('CORE.APPLICATIONS.NAME_COLUMN'),
       class: ['col-xs-11']
     },
     {
       key: 'action',
-      name: $filter('translate')('UI.ACTIONS_COLUMN'),
+      name: $filter('translate')('CORE.UI.ACTIONS_COLUMN'),
       class: ['col-xs-1']
     }];
 
     scopeDataTable.actions = [{
-      label: $filter('translate')('UI.REMOVE'),
+      label: $filter('translate')('CORE.UI.REMOVE'),
       warningPopup: true,
       condition: function(row) {
         return $scope.rights.delete && !row.locked && !row.saving;
@@ -121,7 +121,7 @@
         key: 'name',
         type: 'horizontalEditableInput',
         templateOptions: {
-          label: $filter('translate')('APPLICATIONS.ATTR_NAME'),
+          label: $filter('translate')('CORE.APPLICATIONS.ATTR_NAME'),
           required: true
         }
       },
@@ -129,7 +129,7 @@
         noFormControl: true,
         type: 'emptyrow',
         templateOptions: {
-          label: $filter('translate')('APPLICATIONS.ATTR_ID'),
+          label: $filter('translate')('CORE.APPLICATIONS.ATTR_ID'),
           message: ''
         }
       },
@@ -137,7 +137,7 @@
         noFormControl: true,
         type: 'emptyrow',
         templateOptions: {
-          label: $filter('translate')('APPLICATIONS.ATTR_SECRET'),
+          label: $filter('translate')('CORE.APPLICATIONS.ATTR_SECRET'),
           message: ''
         }
       }
@@ -148,7 +148,7 @@
           key: 'scopes',
           type: 'horizontalEditableMultiCheckbox',
           templateOptions: {
-            label: $filter('translate')('APPLICATIONS.ATTR_SCOPES'),
+            label: $filter('translate')('CORE.APPLICATIONS.ATTR_SCOPES'),
             options: $scope.scopes,
             valueProperty: 'id',
             labelProperty: 'name'
@@ -177,28 +177,28 @@
         key: 'name',
         type: 'horizontalInput',
         templateOptions: {
-          label: $filter('translate')('APPLICATIONS.FORM_ADD_NAME'),
+          label: $filter('translate')('CORE.APPLICATIONS.FORM_ADD_NAME'),
           required: true,
-          description: $filter('translate')('APPLICATIONS.FORM_ADD_NAME_DESC')
+          description: $filter('translate')('CORE.APPLICATIONS.FORM_ADD_NAME_DESC')
         }
       }
     ];
     if ($scope.scopes.length == 0)
       scopeAddForm.fields.push({
         noFormControl: true,
-        template: '<p>' + $filter('translate')('APPLICATIONS.NO_APPLICATIONS') + '</p>'
+        template: '<p>' + $filter('translate')('CORE.APPLICATIONS.NO_APPLICATIONS') + '</p>'
       });
     else
       scopeAddForm.fields.push({
         key: 'scopes',
         type: 'horizontalMultiCheckbox',
         templateOptions: {
-          label: $filter('translate')('APPLICATIONS.FORM_ADD_SCOPES'),
+          label: $filter('translate')('CORE.APPLICATIONS.FORM_ADD_SCOPES'),
           required: false,
           options: $scope.scopes,
           valueProperty: 'id',
           labelProperty: 'name',
-          description: $filter('translate')('APPLICATIONS.FORM_ADD_SCOPES_DESC')
+          description: $filter('translate')('CORE.APPLICATIONS.FORM_ADD_SCOPES_DESC')
         },
         expressionProperties: {
           'templateOptions.disabled': '!model.name' // disabled when username is blank

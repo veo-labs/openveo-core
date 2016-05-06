@@ -20,19 +20,19 @@
 
     // Not authorized
     if (error.status === 403)
-      return $filter('translate')('ERROR.FORBIDDEN');
+      return $filter('translate')('CORE.ERROR.FORBIDDEN');
 
     // Probably a client application error
     else if (error.status === 400)
-      return $filter('translate')('ERROR.CLIENT') + ' (code=' + errorCode + ', module=' + errorModule + ')';
+      return $filter('translate')('CORE.ERROR.CLIENT') + ' (code=' + errorCode + ', module=' + errorModule + ')';
 
     // Internal server error
     else if (errorCode && errorModule)
-      return $filter('translate')('ERROR.SERVER') + ' (code=' + errorCode + ', module=' + errorModule + ')';
+      return $filter('translate')('CORE.ERROR.SERVER') + ' (code=' + errorCode + ', module=' + errorModule + ')';
 
     // Other error
     else
-      return $filter('translate')('ERROR.SERVER');
+      return $filter('translate')('CORE.ERROR.SERVER');
   }
 
   /**

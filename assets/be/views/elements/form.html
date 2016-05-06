@@ -1,8 +1,8 @@
-<div class="col-xs-12 detail" ng-controller="FormAddController as vm">  
+<div class="col-xs-12 detail" ng-controller="FormAddController as vm">
   <form ng-submit="vm.onSubmit()" novalidate class="form-horizontal">
     <formly-form model="vm.model" fields="vm.fields" options="vm.options" form="vm.form" >
       <div class='col-md-8 col-md-push-4 form-submit-bouton'>
-        <button type="submit" class="btn btn-primary submit-button" ng-disabled="vm.form.$invalid" ng-bind="'UI.FORM_ADD' | translate"></button>
+        <button type="submit" class="btn btn-primary submit-button" ng-disabled="vm.form.$invalid" ng-bind="'CORE.UI.FORM_ADD' | translate"></button>
       </div>
     </formly-form>
   </form>

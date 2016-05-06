@@ -92,7 +92,7 @@
      * Gets permissions from groups for the given operation.
      *
      * @param {Array} groupIds A list of group ids
-     * @param {String} operation "read", "update" or "delete"
+     * @param {String} operation "get", "update" or "delete"
      * @return {Array} The list of permissions
      */
     function getPermissionsFromGroups(groupIds, operation) {

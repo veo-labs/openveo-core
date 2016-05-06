@@ -44,12 +44,14 @@ util.inherits(I18nController, Controller);
  */
 I18nController.prototype.getDictionaryAction = function(request, response, next) {
   i18n.getTranslations(request.params.dictionary.replace(/^admin-/, ''), request.params.code,
-    function(translations) {
-      if (translations)
+    function(error, translations) {
+      if (error) {
+        process.logger.error(error.message);
+        next(errors.I18N_DICTIONARY_ERROR);
+      } else if (translations)
         response.send(translations);
-      else {
+      else
         next(errors.I18N_DICTIONARY_NOT_FOUND);
-      }
     });
 };
 
@@ -68,11 +70,13 @@ I18nController.prototype.getDictionaryAction = function(request, response, next)
  * @method getAdminDictionaryAction
  */
 I18nController.prototype.getAdminDictionaryAction = function(request, response, next) {
-  i18n.getTranslations('admin-' + request.params.dictionary, request.params.code, function(translations) {
-    if (translations)
+  i18n.getTranslations('admin-' + request.params.dictionary, request.params.code, function(error, translations) {
+    if (error) {
+      process.logger.error(error.message);
+      next(errors.I18N_DICTIONARY_ERROR);
+    } else if (translations)
       response.send(translations);
-    else {
+    else
       next(errors.I18N_DICTIONARY_NOT_FOUND);
-    }
   });
 };

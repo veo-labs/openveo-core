@@ -26,52 +26,53 @@ describe('Application page translations', function() {
 
     if (index < languages.length) {
       return page.selectLanguage(languages[index]).then(function() {
+        var coreTranslations = page.translations.CORE;
 
         // Page translations
-        assert.eventually.equal(page.getTitle(), page.translations.APPLICATIONS.PAGE_TITLE);
-        assert.eventually.equal(page.pageTitleElement.getText(), page.translations.APPLICATIONS.TITLE);
-        assert.eventually.equal(page.pageDescriptionElement.getText(), page.translations.APPLICATIONS.INFO);
-        assert.eventually.equal(page.addFormLabelElement.getText(), page.translations.APPLICATIONS.ADD_APPLICATION);
+        assert.eventually.equal(page.getTitle(), coreTranslations.APPLICATIONS.PAGE_TITLE);
+        assert.eventually.equal(page.pageTitleElement.getText(), coreTranslations.APPLICATIONS.TITLE);
+        assert.eventually.equal(page.pageDescriptionElement.getText(), coreTranslations.APPLICATIONS.INFO);
+        assert.eventually.equal(page.addFormLabelElement.getText(), coreTranslations.APPLICATIONS.ADD_APPLICATION);
 
         // Add form translations
         page.openAddForm();
         var addFormFields = page.getAddFormFields(page.addFormElement);
         var nameField = addFormFields.name;
         var scopesField = addFormFields.scopes;
-        assert.eventually.equal(nameField.getLabel(), page.translations.APPLICATIONS.FORM_ADD_NAME);
-        assert.eventually.equal(nameField.getDescription(), page.translations.APPLICATIONS.FORM_ADD_NAME_DESC);
-        assert.eventually.equal(scopesField.getLabel(), page.translations.APPLICATIONS.FORM_ADD_SCOPES);
-        assert.eventually.equal(scopesField.getDescription(), page.translations.APPLICATIONS.FORM_ADD_SCOPES_DESC);
-        assert.eventually.equal(page.addButtonElement.getText(), page.translations.UI.FORM_ADD);
+        assert.eventually.equal(nameField.getLabel(), coreTranslations.APPLICATIONS.FORM_ADD_NAME);
+        assert.eventually.equal(nameField.getDescription(), coreTranslations.APPLICATIONS.FORM_ADD_NAME_DESC);
+        assert.eventually.equal(scopesField.getLabel(), coreTranslations.APPLICATIONS.FORM_ADD_SCOPES);
+        assert.eventually.equal(scopesField.getDescription(), coreTranslations.APPLICATIONS.FORM_ADD_SCOPES_DESC);
+        assert.eventually.equal(page.addButtonElement.getText(), coreTranslations.UI.FORM_ADD);
         page.closeAddForm();
 
         // Search engine translations
         page.searchLinkElement.getText().then(function(text) {
-          assert.equal(text.trim(), page.translations.UI.SEARCH_BY);
+          assert.equal(text.trim(), coreTranslations.UI.SEARCH_BY);
         });
 
         var searchFields = page.getSearchFields(page.searchFormElement);
         var searchNameField = searchFields.name;
-        assert.eventually.equal(searchNameField.getLabel(), page.translations.APPLICATIONS.TITLE_FILTER);
+        assert.eventually.equal(searchNameField.getLabel(), coreTranslations.APPLICATIONS.TITLE_FILTER);
 
         // All actions translations
         page.setSelectAllMouseOver();
-        assert.eventually.equal(page.popoverElement.getAttribute('content'), page.translations.UI.SELECT_ALL);
+        assert.eventually.equal(page.popoverElement.getAttribute('content'), coreTranslations.UI.SELECT_ALL);
 
         page.selectAllLines();
         browserExt.click(page.actionsButtonElement);
-        var removeActionElement = page.actionsElement.element(by.cssContainingText('a', page.translations.UI.REMOVE));
+        var removeActionElement = page.actionsElement.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
         assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing all remove action');
 
         // Headers translations
-        assert.eventually.ok(page.isTableHeader(page.translations.APPLICATIONS.NAME_COLUMN), 'Missing name column');
-        assert.eventually.ok(page.isTableHeader(page.translations.UI.ACTIONS_COLUMN), 'Missing actions column');
+        assert.eventually.ok(page.isTableHeader(coreTranslations.APPLICATIONS.NAME_COLUMN), 'Missing name column');
+        assert.eventually.ok(page.isTableHeader(coreTranslations.UI.ACTIONS_COLUMN), 'Missing actions column');
 
         // Individual actions
         page.getLine(datas.applications.coreApplicationsGuest.name).then(function(line) {
           var actionTd = line.all(by.css('td')).last();
           var actionButton = actionTd.element(by.css('button'));
-          var removeAction = actionTd.element(by.cssContainingText('a', page.translations.UI.REMOVE));
+          var removeAction = actionTd.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
 
           browserExt.click(actionButton).then(function() {
             assert.eventually.ok(removeAction.isDisplayed(), 'Missing remove action');

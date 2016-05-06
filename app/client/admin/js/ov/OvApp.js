@@ -86,7 +86,7 @@
       link: function(scope, element, attrs) {
         scope.show = function() {
           scope.isEmpty = scope.model[scope.options.key] ? false : true;
-          return scope.model[scope.options.key] || 'UI.EMPTY';
+          return scope.model[scope.options.key] || 'CORE.UI.EMPTY';
         };
       }
     });
@@ -112,7 +112,7 @@
           });
 
           scope.isEmpty = labels.length ? false : true;
-          return labels.length ? labels.join(', ') : 'UI.EMPTY';
+          return labels.length ? labels.join(', ') : 'CORE.UI.EMPTY';
         };
       }
     });
@@ -124,7 +124,7 @@
         scope.show = function() {
           var tags = scope.model[scope.options.key];
           scope.isEmpty = tags && tags.length ? false : true;
-          return tags && tags.join(', ') || 'UI.EMPTY';
+          return tags && tags.join(', ') || 'CORE.UI.EMPTY';
         };
       }
     });
@@ -144,7 +144,7 @@
             }
           });
           scope.isEmpty = selected.length ? false : true;
-          return selected.length ? selected.join(', ') : 'UI.EMPTY';
+          return selected.length ? selected.join(', ') : 'CORE.UI.EMPTY';
         };
       }
     });
@@ -154,7 +154,7 @@
       link: function(scope, element, attrs) {
         scope.show = function() {
           scope.isEmpty = false;
-          return scope.model[scope.options.key] && 'UI.TRUE' || 'UI.FALSE';
+          return scope.model[scope.options.key] && 'CORE.UI.TRUE' || 'CORE.UI.FALSE';
         };
       }
     });
@@ -221,12 +221,12 @@
       $routeProvider.when('/', {
         templateUrl: 'views/home.html',
         controller: 'HomeController',
-        title: 'HOME.PAGE_TITLE'
+        title: 'CORE.HOME.PAGE_TITLE'
       });
 
       // Register /login route without authentication
       $routeProvider.when('/login', {
-        title: 'LOGIN.PAGE_TITLE',
+        title: 'CORE.LOGIN.PAGE_TITLE',
         templateUrl: 'views/login.html',
         controller: 'LoginController',
         resolve: {
@@ -244,8 +244,8 @@
       $routeProvider.when('/applications-list', {
         templateUrl: 'views/applications.html',
         controller: 'ApplicationController',
-        title: 'APPLICATIONS.PAGE_TITLE',
-        access: 'access-applications-page',
+        title: 'CORE.APPLICATIONS.PAGE_TITLE',
+        access: 'core-access-applications-page',
         resolve: {
           scopes: ['applicationService', function(applicationService) {
             return applicationService.loadScopes();
@@ -258,8 +258,8 @@
       $routeProvider.when('/users-list', {
         templateUrl: 'views/users.html',
         controller: 'UserController',
-        title: 'USERS.PAGE_TITLE',
-        access: 'access-users-page',
+        title: 'CORE.USERS.PAGE_TITLE',
+        access: 'core-access-users-page',
         resolve: {
           roles: ['userService', function(userService) {
             return userService.loadRoles();
@@ -272,7 +272,7 @@
       $routeProvider.when('/profile', {
         templateUrl: 'views/profile.html',
         controller: 'ProfileController',
-        title: 'PROFILES.PAGE_TITLE',
+        title: 'CORE.PROFILES.PAGE_TITLE',
         resolve: {
           user: ['authenticationService', function(authenticationService) {
             return authenticationService.getUserInfo();
@@ -285,8 +285,8 @@
       $routeProvider.when('/roles-list', {
         templateUrl: 'views/roles.html',
         controller: 'RoleController',
-        title: 'ROLES.PAGE_TITLE',
-        access: 'access-roles-page',
+        title: 'CORE.ROLES.PAGE_TITLE',
+        access: 'core-access-roles-page',
         resolve: {
           permissions: ['userService', function(userService) {
             return userService.loadPermissions();
@@ -298,8 +298,8 @@
       $routeProvider.when('/groups-list', {
         templateUrl: 'views/groups.html',
         controller: 'GroupController',
-        title: 'GROUPS.PAGE_TITLE',
-        access: 'access-groups-page'
+        title: 'CORE.GROUPS.PAGE_TITLE',
+        access: 'core-access-groups-page'
       });
 
       $locationProvider.html5Mode(true);

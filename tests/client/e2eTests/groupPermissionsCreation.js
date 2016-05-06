@@ -70,9 +70,9 @@ describe('Group permissions creation', function() {
 
     rolePage.openAddForm();
     rolePage.getGroupPermissions(name, rolePage.addFormElement).then(function(permissions) {
-      assert.ok(permissions.indexOf(rolePage.translations.PERMISSIONS.GROUP_READ_NAME) >= 0);
-      assert.ok(permissions.indexOf(rolePage.translations.PERMISSIONS.GROUP_UPDATE_NAME) >= 0);
-      assert.ok(permissions.indexOf(rolePage.translations.PERMISSIONS.GROUP_DELETE_NAME) >= 0);
+      assert.ok(permissions.indexOf(rolePage.translations.CORE.PERMISSIONS.GROUP_GET_NAME) >= 0);
+      assert.ok(permissions.indexOf(rolePage.translations.CORE.PERMISSIONS.GROUP_UPDATE_NAME) >= 0);
+      assert.ok(permissions.indexOf(rolePage.translations.CORE.PERMISSIONS.GROUP_DELETE_NAME) >= 0);
       assert.equal(permissions.length, 3);
     });
 

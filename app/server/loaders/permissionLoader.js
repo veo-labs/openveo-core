@@ -19,11 +19,33 @@ var GroupModel = process.require('app/server/models/GroupModel.js');
  */
 
 /**
- * Generates create/update/delete permissions for entities.
+ * Makes sure all permissions of a plugin are prefixed by the name of the plugin.
  *
- * Permission's translation keys for name and description are generated
- * using the formats "{OPERATION}_{ENTITY_NAME}_NAME" and
- * "{OPERATION}_{ENTITY_NAME}_DESCRIPTION".
+ * If a permission is not prefixed by the name of the plugin, the prefix is automatically added.
+ *
+ * @private
+ * @method prefixPermissions
+ * @param {String} pluginName Plugin's name
+ * @param {Object} permissions Plugin's permissions
+ */
+function prefixPermissions(pluginName, permissions) {
+  if (pluginName && permissions) {
+    permissions.forEach(function(permission) {
+      if (permission.id && permission.id.indexOf(pluginName + '-') !== 0)
+        permission.id = pluginName + '-' + permission.id;
+
+      if (permission.permissions)
+        prefixPermissions(pluginName, permission.permissions);
+    });
+  }
+}
+
+/**
+ * Generates add/update/delete permissions for entities.
+ *
+ * Permission's translation keys for name and description are generated using the formats
+ * "PERMISSIONS.{PLUGIN_NAME}_{OPERATION}_{ENTITY_NAME}_NAME" and
+ * "PERMISSIONS.{PLUGIN_NAME}_{OPERATION}_{ENTITY_NAME}_DESCRIPTION".
  *
  * Content entities won't generate any permissions.
  *
@@ -32,15 +54,17 @@ var GroupModel = process.require('app/server/models/GroupModel.js');
  *     var entities = {
  *       {
  *         core: {
+ *           mountPath: "/",
  *           path: "/home/openveo/",
  *           entities: {
  *             applications: "app/server/controllers/ApplicationController"
  *           }
  *         },
- *         example: {
- *           path: "/home/openveo/node_modules/@openveo/example/",
+ *         publish: {
+ *           mountPath: "/publish",
+ *           path: "/home/openveo/node_modules/@openveo/publish/",
  *           entities: {
- *             myEntities: "app/server/controllers/MyEntityController"
+ *             videos: "app/server/controllers/VideoController"
  *           }
  *         }
  *       }
@@ -49,48 +73,48 @@ var GroupModel = process.require('app/server/models/GroupModel.js');
  *     console.log(permissionLoader.generateEntityPermissions(entities));
  *     // [
  *     //   {
- *     //     label: "PERMISSIONS.GROUP_APPLICATIONS",
+ *     //     label: "CORE.PERMISSIONS.GROUP_APPLICATIONS",
  *     //     permissions: [
  *     //       {
- *     //         id : "create-applications",
- *     //         name : "PERMISSIONS.CREATE_APPLICATIONS_NAME",
- *     //         description : "PERMISSIONS.CREATE_APPLICATIONS_DESCRIPTION",
+ *     //         id : "core-add-applications",
+ *     //         name : "CORE.PERMISSIONS.ADD_APPLICATIONS_NAME",
+ *     //         description : "CORE.PERMISSIONS.ADD_APPLICATIONS_DESCRIPTION",
  *     //         paths : [ "put /applications*" ]
  *     //       },
  *     //       {
- *     //         id : "update-applications",
- *     //         name : "PERMISSIONS.UPDATE_APPLICATIONS_NAME",
- *     //         description : "PERMISSIONS.UPDATE_APPLICATIONS_DESCRIPTION",
+ *     //         id : "core-update-applications",
+ *     //         name : "CORE.PERMISSIONS.UPDATE_APPLICATIONS_NAME",
+ *     //         description : "CORE.PERMISSIONS.UPDATE_APPLICATIONS_DESCRIPTION",
  *     //         paths : [ "post /applications*" ]
  *     //       },
  *     //       {
- *     //         id : "delete-applications",
- *     //         name : "PERMISSIONS.DELETE_APPLICATIONS_NAME",
- *     //         description : "PERMISSIONS.DELETE_APPLICATIONS_DESCRIPTION",
+ *     //         id : "core-delete-applications",
+ *     //         name : "CORE.PERMISSIONS.DELETE_APPLICATIONS_NAME",
+ *     //         description : "CORE.PERMISSIONS.DELETE_APPLICATIONS_DESCRIPTION",
  *     //         paths : [ "delete /applications*" ]
  *     //       }
  *     //     ]
  *     //   },
  *     //   {
- *     //     label: "PERMISSIONS.GROUP_MYENTITIES",
+ *     //     label: "PUBLISH.PERMISSIONS.GROUP_VIDEOS",
  *     //     permissions: [
  *     //       {
- *     //         id : "create-myentities",
- *     //         name : "PERMISSIONS.CREATE_MYENTITIES_NAME",
- *     //         description : "PERMISSIONS.CREATE_MYENTITIES_DESCRIPTION",
- *     //         paths : [ "put /example/myentities*" ]
+ *     //         id : "publish-add-videos",
+ *     //         name : "PUBLISH.PERMISSIONS.ADD_VIDEOS_NAME",
+ *     //         description : "PUBLISH.PERMISSIONS.ADD_VIDEOS_DESCRIPTION",
+ *     //         paths : [ "put /publish/videos*" ]
  *     //       },
  *     //       {
- *     //         id : "update-myEntities",
- *     //         name : "PERMISSIONS.UPDATE_MYENTITIES_NAME",
- *     //         description : "PERMISSIONS.UPDATE_MYENTITIES_DESCRIPTION",
- *     //         paths : [ "post /example/myentities*" ]
+ *     //         id : "publish-update-videos",
+ *     //         name : "PUBLISH.PERMISSIONS.UPDATE_VIDEOS_NAME",
+ *     //         description : "PUBLISH.PERMISSIONS.UPDATE_VIDEOS_DESCRIPTION",
+ *     //         paths : [ "post /publish/videos*" ]
  *     //       },
  *     //       {
- *     //         id : "delete-myEntities",
- *     //         name : "PERMISSIONS.DELETE_MYENTITIES_NAME",
- *     //         description : "PERMISSIONS.DELETE_MYENTITIES_DESCRIPTION",
- *     //         paths : [ "delete /example/myentities*" ]
+ *     //         id : "publish-delete-videos",
+ *     //         name : "PUBLISH.PERMISSIONS.DELETE_VIDEOS_NAME",
+ *     //         description : "PUBLISH.PERMISSIONS.DELETE_VIDEOS_DESCRIPTION",
+ *     //         paths : [ "delete /publish/videos*" ]
  *     //       }
  *     //     ]
  *     //   }
@@ -98,43 +122,44 @@ var GroupModel = process.require('app/server/models/GroupModel.js');
  *
  * @method generateEntityPermissions
  * @static
- * @param {Object} pluginsEntities The list of entities
- * @return {Object} Permissions for the given entities
+ * @param {Object} pluginsEntities The list of entities ordered by plugins
+ * @return {Object} Permissions for all entities
  */
 module.exports.generateEntityPermissions = function(pluginsEntities) {
   var permissions = [];
 
   if (pluginsEntities) {
     var operations = {
-      create: 'put /',
-      update: 'post /',
-      delete: 'delete /'
+      add: 'put ',
+      update: 'post ',
+      delete: 'delete '
     };
 
     for (var pluginName in pluginsEntities) {
-      var pluginEntities = pluginsEntities[pluginName].entities;
-      var pluginPath = pluginsEntities[pluginName].path;
-      var pluginOperationPath = (pluginName === 'core') ? '' : pluginName + '/';
+      var plugin = pluginsEntities[pluginName];
+      var pluginNameUC = pluginName.toUpperCase();
+      var mountPath = (plugin.mountPath === '/') ? '/' : plugin.mountPath + '/';
 
-      for (var entityId in pluginEntities) {
-        var EntityController = require(path.join(pluginPath, pluginEntities[entityId]));
+      for (var entityId in plugin.entities) {
+        var EntityController = require(path.join(plugin.path, plugin.entities[entityId]));
 
         if (!(new EntityController() instanceof openVeoAPI.controllers.ContentController)) {
-          var entityIdUpperCase = entityId.toUpperCase();
+          var entityIdUC = entityId.toUpperCase();
           var entityIdLowerCase = entityId.toLowerCase();
+
           var group = {
-            label: 'PERMISSIONS.GROUP_' + entityIdUpperCase,
+            label: pluginNameUC + '.PERMISSIONS.GROUP_' + entityIdUC,
             permissions: []
           };
 
           for (var operation in operations) {
-            var operationUpperCase = operation.toUpperCase();
+            var operationUC = operation.toUpperCase();
 
             group.permissions.push({
-              id: operation + '-' + entityIdLowerCase,
-              name: 'PERMISSIONS.' + operationUpperCase + '_' + entityIdUpperCase + '_NAME',
-              description: 'PERMISSIONS.' + operationUpperCase + '_' + entityIdUpperCase + '_DESCRIPTION',
-              paths: [operations[operation] + pluginOperationPath + entityIdLowerCase + '*']
+              id: pluginName + '-' + operation + '-' + entityIdLowerCase,
+              name: pluginNameUC + '.PERMISSIONS.' + operationUC + '_' + entityIdUC + '_NAME',
+              description: pluginNameUC + '.PERMISSIONS.' + operationUC + '_' + entityIdUC + '_DESCRIPTION',
+              paths: [operations[operation] + mountPath + entityIdLowerCase + '*']
             });
           }
           permissions.push(group);
@@ -145,6 +170,101 @@ module.exports.generateEntityPermissions = function(pluginsEntities) {
   }
 
   return permissions;
+};
+
+/**
+ * Builds entities' scopes.
+ *
+ * @example
+ *     // List of entities by plugin
+ *     {
+ *       publish: {
+ *         mountPath: "/publish",
+ *         path: "/home/openveo/node_modules/@openveo/publish",
+ *         entities: {
+ *           videos: "app/server/controllers/VideoController"
+ *         }
+ *       }
+ *     }
+ *
+ * @example
+ *     // Result
+ *     [
+ *       {
+ *         id: 'publish-get-videos',
+ *         name: 'PUBLISH.WS_SCOPES.GET_VIDEOS_NAME',
+ *         description: 'PUBLISH.WS_SCOPES.GET_VIDEOS_DESCRIPTON',
+ *         paths: [
+ *           'get /publish/videos*'
+ *         ]
+ *       },
+ *       {
+ *         id: 'publish-add-videos',
+ *         name: 'PUBLISH.WS_SCOPES.ADD_VIDEOS_NAME',
+ *         description: 'PUBLISH.WS_SCOPES.ADD_VIDEOS_DESCRIPTON',
+ *         paths: [
+ *           'put /publish/videos*'
+ *         ]
+ *       },
+ *       {
+ *         id: 'publish-update-videos',
+ *         name: 'PUBLISH.WS_SCOPES.UPDATE_VIDEOS_NAME',
+ *         description: 'PUBLISH.WS_SCOPES.UPDATE_VIDEOS_DESCRIPTON',
+ *         paths: [
+ *           'post /publish/videos*'
+ *         ]
+ *       },
+ *       {
+ *         id: 'publish-delete-videos',
+ *         name: 'PUBLISH.WS_SCOPES.DELETE_VIDEOS_NAME',
+ *         description: 'PUBLISH.WS_SCOPES.DELETE_VIDEOS_DESCRIPTON',
+ *         paths: [
+ *           'delete /publish/videos*'
+ *         ]
+ *       }
+ *     ]
+ *
+ * @method generateEntityScopes
+ * @static
+ * @param {Object} pluginsEntities The list of entities
+ * @return {Array} The list of web service scopes for all entities exposed by all plugins
+ */
+module.exports.generateEntityScopes = function(pluginsEntities) {
+  var scopes = [];
+
+  if (pluginsEntities) {
+    var operations = {
+      get: 'get ',
+      add: 'put ',
+      update: 'post ',
+      delete: 'delete '
+    };
+
+    for (var pluginName in pluginsEntities) {
+      var plugin = pluginsEntities[pluginName];
+      var pluginNameUC = pluginName.toUpperCase();
+      var mountPath = (plugin.mountPath === '/') ? '/' : plugin.mountPath + '/';
+
+      for (var entityId in plugin.entities) {
+        for (var operation in operations) {
+          var operationUC = operation.toUpperCase();
+          var entityIdUC = entityId.toUpperCase();
+          var entityIdLowerCase = entityId.toLowerCase();
+
+          scopes.push({
+            id: pluginName + '-' + operation + '-' + entityIdLowerCase,
+            name: pluginNameUC + '.WS_SCOPES.' + operationUC + '_' + entityIdUC + '_NAME',
+            description: pluginNameUC + '.WS_SCOPES.' + operationUC + '_' + entityIdUC + '_DESCRIPTION',
+            paths: [operations[operation] + mountPath + entityIdLowerCase + '*']
+          });
+
+        }
+      }
+    }
+
+  }
+
+  return scopes;
 };
 
 /**
@@ -163,19 +283,19 @@ module.exports.generateEntityPermissions = function(pluginsEntities) {
  *        //     label: "My group name",
  *        //     permissions: [
  *        //       {
- *        //         id : "read-group-groupID",
- *        //         name : "PERMISSIONS.GROUP_READ_NAME",
- *        //         description : "PERMISSIONS.GROUP_READ_DESCRIPTION"
+ *        //         id : "get-group-groupID",
+ *        //         name : "CORE.PERMISSIONS.GROUP_GET_NAME",
+ *        //         description : "CORE.PERMISSIONS.GROUP_GET_DESCRIPTION"
  *        //       },
  *        //       {
  *        //         id : "update-group-groupID",
- *        //         name : "PERMISSIONS.GROUP_UPDATE_NAME",
- *        //         description : "PERMISSIONS.GROUP_UPDATE_DESCRIPTION"
+ *        //         name : "CORE.PERMISSIONS.GROUP_UPDATE_NAME",
+ *        //         description : "CORE.PERMISSIONS.GROUP_UPDATE_DESCRIPTION"
  *        //       },
  *        //       {
  *        //         id : "delete-group-groupID",
- *        //         name : "PERMISSIONS.GROUP_DELETE_NAME",
- *        //         description : "PERMISSIONS.GROUP_DELETE_DESCRIPTION"
+ *        //         name : "CORE.PERMISSIONS.GROUP_DELETE_NAME",
+ *        //         description : "CORE.PERMISSIONS.GROUP_DELETE_DESCRIPTION"
  *        //       }
  *        //     ]
  *        //   }
@@ -221,7 +341,7 @@ module.exports.createGroupPermissions = function(id, name) {
   if (!id || !name)
     throw new Error('id and name are required to createGroupPermissions');
 
-  var operations = ['read', 'update', 'delete'];
+  var operations = ['get', 'update', 'delete'];
   var permissionGroup = {
     label: name,
     groupId: id,
@@ -230,11 +350,11 @@ module.exports.createGroupPermissions = function(id, name) {
 
   for (var i = 0; i < operations.length; i++) {
     var operation = operations[i];
-    var operationUpperCase = operation.toUpperCase();
+    var operationUC = operation.toUpperCase();
     permissionGroup.permissions.push({
       id: operation + '-group-' + id,
-      name: 'PERMISSIONS.GROUP_' + operationUpperCase + '_NAME',
-      description: 'PERMISSIONS.GROUP_' + operationUpperCase + '_NAME'
+      name: 'CORE.PERMISSIONS.GROUP_' + operationUC + '_NAME',
+      description: 'CORE.PERMISSIONS.GROUP_' + operationUC + '_NAME'
     });
   }
 
@@ -249,19 +369,19 @@ module.exports.createGroupPermissions = function(id, name) {
  *     var permissions = {
  *       {
  *         "id" : "orphaned-permission",
- *         "name" : "PERMISSIONS.ORPHANED_PERM_NAME",
- *         "description" : "PERMISSIONS.ORPHANED_PERM_DESCRIPTION"
+ *         "name" : "ORPHANED_PERM_NAME",
+ *         "description" : "ORPHANED_PERM_DESCRIPTION"
  *       }
  *     };
  *     console.log(permissionLoader.groupOrphanedPermissions(permissions));
  *     // [
  *     //   {
- *     //     label: "PERMISSIONS.GROUP_OTHERS",
+ *     //     label: "CORE.PERMISSIONS.GROUP_OTHERS",
  *     //     permissions: [
  *     //       {
  *     //         "id" : "orphaned-permission",
- *     //         "name" : "PERMISSIONS.ORPHANED_PERM_NAME",
- *     //         "description" : "PERMISSIONS.ORPHANED_PERM_DESCRIPTION"
+ *     //         "name" : "ORPHANED_PERM_NAME",
+ *     //         "description" : "ORPHANED_PERM_DESCRIPTION"
  *     //       }
  *     //     ]
  *     //   }
@@ -278,7 +398,7 @@ module.exports.createGroupPermissions = function(id, name) {
 module.exports.groupOrphanedPermissions = function(permissions) {
   var formattedPermissions = [];
   var orphanedGroup = {
-    label: 'PERMISSIONS.GROUP_OTHERS',
+    label: 'CORE.PERMISSIONS.GROUP_OTHERS',
     permissions: []
   };
   var groupLabelList = [];
@@ -311,7 +431,7 @@ module.exports.groupOrphanedPermissions = function(permissions) {
 /**
  * Builds the list of permissions.
  *
- * create/delete/update permissions are generated for each entity and read/update/delete permissions are
+ * add/delete/update permissions are generated for each entity and get/update/delete permissions are
  * created for each group.
  *
  * Orphaned permissions are grouped in a generic group of permissions.
@@ -319,26 +439,27 @@ module.exports.groupOrphanedPermissions = function(permissions) {
  * @method buildPermissions
  * @static
  * @async
- * @param {Array} permissions Default list of permissions
  * @param {Object} entities Entities to build permissions from
- * @param {Array} plugins Entities to build permissions from
+ * @param {Array} plugins The list of plugins
  * @param {Function} callback Function to call when its done with :
  *  - **Error** An error if something went wrong
  *  - **Array** The list of generated persmissions
  */
-module.exports.buildPermissions = function(permissions, entities, plugins, callback) {
+module.exports.buildPermissions = function(entities, plugins, callback) {
   var self = this;
-
-  if (!permissions)
-    permissions = [];
-
-  permissions = permissions.concat(this.generateEntityPermissions(entities));
+  var permissions = this.generateEntityPermissions(entities);
 
   // Get plugin's permissions
   if (plugins) {
     plugins.forEach(function(plugin) {
-      if (plugin.permissions)
+      if (plugin.permissions) {
+
+        // Permission id must be prefixed by the name of the plugin
+        // Make sure it is
+        prefixPermissions(plugin.name, plugin.permissions);
+
         permissions = permissions.concat(plugin.permissions);
+      }
     });
   }
 

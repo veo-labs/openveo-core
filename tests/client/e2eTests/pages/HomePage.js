@@ -15,8 +15,8 @@ function HomePage() {
   this.path = 'be';
 
   // Element finders specific to this page
-  this.pageTitleElement = element(by.binding('HOME.TITLE'));
-  this.pageDescriptionElement = element(by.binding('HOME.DESCRIPTION'));
+  this.pageTitleElement = element(by.binding('CORE.HOME.TITLE'));
+  this.pageDescriptionElement = element(by.binding('CORE.HOME.DESCRIPTION'));
   this.versionButtonElement = element(by.css('#content button'));
   this.closeVersionsButtonElement = element(by.css('.modal-content .close'));
   this.versionElements = element.all(by.repeater('item in items'));

@@ -40,29 +40,30 @@ describe('Top menu', function() {
 
     if (index < languages.length) {
       return page.selectLanguage(languages[index]).then(function() {
+        var coreTranslations = page.translations.CORE;
 
         // Profile popover title
         page.setProfileLinkMouseOver();
-        assert.eventually.equal(page.popoverElement.getAttribute('title'), page.translations.MENU.PROFILES);
+        assert.eventually.equal(page.popoverElement.getAttribute('title'), coreTranslations.MENU.PROFILES);
 
         // Language popover title and actual language name
         page.setLanguageLinkMouseOver();
-        assert.eventually.equal(page.popoverElement.getAttribute('title'), page.translations.MENU.LANGUAGE);
+        assert.eventually.equal(page.popoverElement.getAttribute('title'), coreTranslations.MENU.LANGUAGE);
 
         // Move cursor over language link again (IE workaround)
         page.setLanguageLinkMouseOver();
         assert.eventually.equal(page.popoverElement.getAttribute('content'),
-                               page.translations[page.language.translationCode]);
+                               coreTranslations.LANGUAGE[page.language.translationCode]);
 
         // Logout popover title
         page.setLogoutLinkMouseOver();
-        assert.eventually.equal(page.popoverElement.getAttribute('content'), page.translations.MENU.LOGOUT);
+        assert.eventually.equal(page.popoverElement.getAttribute('content'), coreTranslations.MENU.LOGOUT);
 
         // Test languages selector options
         page.openLanguages();
         for (var i = 0; i < languages.length; i++) {
           var languageOption = page.getLanguageOption(languages[i].code);
-          assert.eventually.equal(languageOption.getText(), page.translations.LANGUAGE[languages[i].translationCode]);
+          assert.eventually.equal(languageOption.getText(), coreTranslations.LANGUAGE[languages[i].translationCode]);
         }
         page.closeLanguages().then(function() {
           return checkTranslations(++index);

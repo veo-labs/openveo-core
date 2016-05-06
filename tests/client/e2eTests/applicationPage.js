@@ -54,7 +54,7 @@ describe('Application page', function() {
     assert.eventually.isDefined(page.getApplicationClientId(name));
     assert.eventually.isDefined(page.getApplicationClientKey(name));
     assert.eventually.isDefined(page.getLineFieldText(name, 'scopes'));
-    assert.eventually.notEqual(page.getLineFieldText(name, 'scopes'), page.translations.APPLICATIONS.EMPTY);
+    assert.eventually.notEqual(page.getLineFieldText(name, 'scopes'), page.translations.CORE.APPLICATIONS.EMPTY);
     page.removeLine(name);
   });
 
@@ -89,7 +89,7 @@ describe('Application page', function() {
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(page.translations.APPLICATIONS.NAME_COLUMN);
+    return tableAssert.checkSort(page.translations.CORE.APPLICATIONS.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
@@ -105,7 +105,7 @@ describe('Application page', function() {
   });
 
   it('should be able to select lines', function() {
-    return tableAssert.checkLinesSelection(page.translations.APPLICATIONS.NAME_COLUMN);
+    return tableAssert.checkLinesSelection(page.translations.CORE.APPLICATIONS.NAME_COLUMN);
   });
 
   describe('Search', function() {
@@ -124,7 +124,7 @@ describe('Application page', function() {
       var search = {name: lines[0].name};
 
       // Get all line values before search
-      return page.getLineValues(page.translations.APPLICATIONS.NAME_COLUMN).then(function(values) {
+      return page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -132,7 +132,7 @@ describe('Application page', function() {
         });
 
       }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.APPLICATIONS.NAME_COLUMN);
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.APPLICATIONS.NAME_COLUMN);
       });
     });
 
@@ -141,7 +141,7 @@ describe('Application page', function() {
       var search = {name: lines[1].name.slice(0, 2)};
 
       // Get all line values before search
-      return page.getLineValues(page.translations.APPLICATIONS.NAME_COLUMN).then(function(values) {
+      return page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -149,7 +149,7 @@ describe('Application page', function() {
         });
 
       }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.APPLICATIONS.NAME_COLUMN);
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.APPLICATIONS.NAME_COLUMN);
       });
     });
 
@@ -157,14 +157,14 @@ describe('Application page', function() {
       var search = {name: lines[1].name.toUpperCase()};
 
       page.search(search);
-      assert.isRejected(page.getLineValues(page.translations.APPLICATIONS.NAME_COLUMN));
+      assert.isRejected(page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN));
     });
 
     it('should be able to clear search', function() {
       var search = {name: lines[0].name};
       page.search(search);
       page.clearSearch();
-      assert.isFulfilled(page.getLineValues(page.translations.APPLICATIONS.NAME_COLUMN));
+      assert.isFulfilled(page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN));
     });
 
   });

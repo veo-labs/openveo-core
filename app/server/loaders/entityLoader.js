@@ -5,43 +5,39 @@
  */
 
 /**
- * Provides functions to interpret entities definition from core and
- * plugin's configuration.
+ * Provides functions to interpret entities definition from plugin's configuration.
  *
  * @class entityLoader
  */
 
 /**
- * Builds entities for core and plugins.
- *
- * @example
- *     // List of core entities
- *     {
- *       "applications": "app/server/controllers/ApplicationController"
- *     }
+ * Builds entities for plugins.
  *
  * @example
  *     // Results
  *     {
  *       core: {
+ *         mountPath: "/",
  *         path: "/home/openveo/",
  *         entities: {
  *           applications: "app/server/controllers/ApplicationController"
+ *         }
+ *       },
+ *       publish: {
+ *         mountPath: "/publish",
+ *         path: "/home/openveo/node_modules/@openveo/publish",
+ *         entities: {
+ *           videos: "app/server/controllers/VideoController"
  *         }
  *       }
  *     }
  *
  * @method buildEntities
- * @param {Object} coreEntities Core entities configuration
  * @param {Array} plugins The list of plugins
- * @return {Object} The list of entities, for core and plugins, ready to be used
+ * @return {Object} The list of entities, for plugins, ordered by plugin name
  */
-module.exports.buildEntities = function(coreEntities, plugins) {
+module.exports.buildEntities = function(plugins) {
   var entities = {};
-  entities['core'] = {
-    path: process.root,
-    entities: coreEntities
-  };
 
   plugins.forEach(function(loadedPlugin) {
 
@@ -49,6 +45,7 @@ module.exports.buildEntities = function(coreEntities, plugins) {
     if (loadedPlugin.entities) {
       entities[loadedPlugin.name] = {
         path: loadedPlugin.path,
+        mountPath: loadedPlugin.mountPath,
         entities: loadedPlugin.entities
       };
     }
@@ -62,7 +59,7 @@ module.exports.buildEntities = function(coreEntities, plugins) {
  * Builds CRUD routes for entities.
  *
  * @example
- *     // List of entities
+ *     // List of entities as described in configuration file
  *     {
  *       "applications": "/home/openveo/app/server/controllers/ApplicationController"
  *     }

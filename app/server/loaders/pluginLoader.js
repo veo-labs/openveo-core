@@ -332,7 +332,9 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
       // e.g "/plugin1"
       plugin.mountPath = '/' + pluginPathComposition.join('/');
 
-    }
+    } else
+      return callback(new Error('Plugin ' + pluginPath + ' is not an instance of Plugin'));
+
   } catch (e) {
     if (e.code === 'MODULE_NOT_FOUND')
       process.logger.info('Plugin ' + pluginPath + ' doesn\'t have a main file', {
@@ -352,15 +354,29 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
   // Complete plugin information adding the name of the plugin
   plugin.name = pluginPathComposition[pluginPathComposition.length - 1];
 
+  this.loadPluginMetadata(plugin, callback);
+};
+
+/**
+ * Loads plugin's configuration.
+ *
+ * @method loadPluginMetadata
+ * @static
+ * @async
+ * @param {Plugin} plugin The plugin
+ * @param {Function} callback A callback with :
+ *    - **Error** An Error if something went wrong
+ */
+module.exports.loadPluginMetadata = function(plugin, callback) {
   async.parallel(
     [
       function(callback) {
 
         // Test if an assets directory exists at plugin root level
-        fs.exists(path.join(pluginPath, 'assets'), function(exists) {
+        fs.exists(path.join(plugin.path, 'assets'), function(exists) {
 
           if (exists)
-            plugin.assets = path.join(pluginPath, 'assets');
+            plugin.assets = path.join(plugin.path, 'assets');
 
           callback();
 
@@ -369,10 +385,10 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
       function(callback) {
 
         // Test if an i18n directory exists at plugin's root level
-        fs.exists(path.join(pluginPath, 'i18n'), function(exists) {
+        fs.exists(path.join(plugin.path, 'i18n'), function(exists) {
 
           if (exists)
-            plugin.i18nDirectory = path.join(pluginPath, 'i18n');
+            plugin.i18nDirectory = path.join(plugin.path, 'i18n');
 
           callback();
 
@@ -381,13 +397,13 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
       function(callback) {
 
         // Test if a file "conf.js" exists at plugin root level
-        fs.exists(path.join(pluginPath, 'conf.js'), function(exists) {
+        fs.exists(path.join(plugin.path, 'conf.js'), function(exists) {
 
           if (exists) {
             try {
 
               // Try to load plugin configuration file
-              var pluginConf = require(path.join(pluginPath, 'conf.js'));
+              var pluginConf = require(path.join(plugin.path, 'conf.js'));
 
               plugin.custom = pluginConf['custom'] || null;
               plugin.webServiceScopes = pluginConf['webServiceScopes'] || null;
@@ -397,7 +413,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
               if (pluginConf['viewsFolders'] && pluginConf['viewsFolders'].length) {
                 plugin.viewsFolders = [];
                 pluginConf['viewsFolders'].forEach(function(viewsFolder) {
-                  plugin.viewsFolders.push(path.join(pluginPath, viewsFolder));
+                  plugin.viewsFolders.push(path.join(plugin.path, viewsFolder));
                 });
               }
 
@@ -408,7 +424,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
                 if (pluginImageProc['imagesFolders'] && pluginImageProc['imagesFolders'].length) {
                   plugin.imagesFolders = [];
                   pluginImageProc['imagesFolders'].forEach(function(imagesFolders) {
-                    plugin.imagesFolders.push(path.join(pluginPath, imagesFolders));
+                    plugin.imagesFolders.push(path.join(plugin.path, imagesFolders));
                   });
                   if (pluginImageProc['imagesStyle']) {
                     plugin.imagesStyle = pluginImageProc['imagesStyle'];
@@ -447,7 +463,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
               }
             } catch (e) {
               process.logger.warn(e.message, {
-                action: 'loadPlugin',
+                action: 'loadPluginMetadata',
                 plugin: plugin.name
               });
               callback(new Error(e.message));
@@ -463,10 +479,10 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
       function(callback) {
 
         // Test if a package.json file exists at plugin's root level
-        fs.exists(path.join(pluginPath, 'package.json'), function(exists) {
+        fs.exists(path.join(plugin.path, 'package.json'), function(exists) {
 
           if (exists) {
-            var pluginPackage = require(path.join(pluginPath, 'package.json'));
+            var pluginPackage = require(path.join(plugin.path, 'package.json'));
             plugin.version = [{
               name: pluginPackage['name'],
               version: pluginPackage['version']
@@ -488,7 +504,7 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
           var lastVersion = '0.0.0';
           if (value && value.length) lastVersion = value[0].version;
 
-          var migrationPath = path.join(pluginPath, 'migrations');
+          var migrationPath = path.join(plugin.path, 'migrations');
           migrationLoader.getDiffMigrationScript(migrationPath, lastVersion, function(error, migrations) {
             if (error) {
               callback(error);
@@ -503,9 +519,10 @@ module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
     ],
     function(error) {
 
-      // Plugin is fully loaded
+      // Got all plugin's metadata
       if (callback)
         callback(error, plugin);
+
     }
   );
 };

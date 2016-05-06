@@ -6,6 +6,7 @@ There are two categories of routes :
 
 - Public routes : Routes accessible to anyone who has access to the url
 - Private routes : Routes accessible only to users authenticated to the back end
+- Web Service routes : Routes accessible to user authenticated to the Web Service
 
 # Back end
 
@@ -23,3 +24,4 @@ OpenVeo core loads all plugins found in **node_modules/@openveo/** when starting
 
 - Create its own back end pages
 - Create public and private routes
+- Create Web Service routes

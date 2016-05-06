@@ -42,16 +42,16 @@
       entityService.removeEntity(entityType, null, groups.join(','))
         .then(function() {
           userService.cacheClear('permissions');
-          $scope.$emit('setAlert', 'success', $filter('translate')('GROUPS.REMOVE_SUCCESS'), 4000);
+          $scope.$emit('setAlert', 'success', $filter('translate')('CORE.GROUPS.REMOVE_SUCCESS'), 4000);
           reload();
         });
     }
 
     // Permissions
     $scope.rights = {};
-    $scope.rights.add = $scope.checkAccess('create-' + entityType);
-    $scope.rights.edit = $scope.checkAccess('update-' + entityType);
-    $scope.rights.delete = $scope.checkAccess('delete-' + entityType);
+    $scope.rights.add = $scope.checkAccess('core-add-' + entityType);
+    $scope.rights.edit = $scope.checkAccess('core-update-' + entityType);
+    $scope.rights.delete = $scope.checkAccess('core-delete-' + entityType);
 
     // Configure add form
     var addForm = $scope.addFormContainer = {};
@@ -61,18 +61,18 @@
         key: 'name',
         type: 'horizontalInput',
         templateOptions: {
-          label: $filter('translate')('GROUPS.FORM_ADD_NAME'),
+          label: $filter('translate')('CORE.GROUPS.FORM_ADD_NAME'),
           required: true,
-          description: $filter('translate')('GROUPS.FORM_ADD_NAME_DESC')
+          description: $filter('translate')('CORE.GROUPS.FORM_ADD_NAME_DESC')
         }
       },
       {
         key: 'description',
         type: 'horizontalInput',
         templateOptions: {
-          label: $filter('translate')('GROUPS.FORM_ADD_DESCRIPTION'),
+          label: $filter('translate')('CORE.GROUPS.FORM_ADD_DESCRIPTION'),
           required: true,
-          description: $filter('translate')('GROUPS.FORM_ADD_DESCRIPTION_DESC')
+          description: $filter('translate')('CORE.GROUPS.FORM_ADD_DESCRIPTION_DESC')
         }
       }
     ];
@@ -87,27 +87,27 @@
     scopeDataTable.filterBy = [
       {
         key: 'name',
-        label: $filter('translate')('GROUPS.TITLE_FILTER')
+        label: $filter('translate')('CORE.GROUPS.TITLE_FILTER')
       },
       {
         key: 'description',
-        label: $filter('translate')('GROUPS.DESCRIPTION_FILTER')
+        label: $filter('translate')('CORE.GROUPS.DESCRIPTION_FILTER')
       }
     ];
     scopeDataTable.header = [{
       key: 'name',
-      name: $filter('translate')('GROUPS.NAME_COLUMN'),
+      name: $filter('translate')('CORE.GROUPS.NAME_COLUMN'),
       class: ['col-xs-11']
     },
     {
       key: 'action',
-      name: $filter('translate')('UI.ACTIONS_COLUMN'),
+      name: $filter('translate')('CORE.UI.ACTIONS_COLUMN'),
       class: ['col-xs-1']
     }];
 
     // Configure the list of actions
     scopeDataTable.actions = [{
-      label: $filter('translate')('UI.REMOVE'),
+      label: $filter('translate')('CORE.UI.REMOVE'),
       warningPopup: true,
       condition: function(row) {
         return $scope.rights.delete && !row.locked && !row.saving;
@@ -129,7 +129,7 @@
         key: 'name',
         type: 'horizontalEditableInput',
         templateOptions: {
-          label: $filter('translate')('GROUPS.ATTR_NAME'),
+          label: $filter('translate')('CORE.GROUPS.ATTR_NAME'),
           required: true
         }
       },
@@ -137,7 +137,7 @@
         key: 'description',
         type: 'horizontalEditableInput',
         templateOptions: {
-          label: $filter('translate')('GROUPS.ATTR_DESCRIPTION'),
+          label: $filter('translate')('CORE.GROUPS.ATTR_DESCRIPTION'),
           required: true
         }
       }

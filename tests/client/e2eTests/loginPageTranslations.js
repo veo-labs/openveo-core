@@ -33,25 +33,26 @@ describe('Login page translations', function() {
 
     if (index < languages.length) {
       return page.selectLanguage(languages[index]).then(function() {
+        var coreTranslations = page.translations.CORE;
 
         // Submit form to have error message
         page.submit();
 
         // Verify translations
         assert.eventually.equal(page.userInputElement.getAttribute('placeholder'),
-                                page.translations.LOGIN.LOGIN_DESCRIPTION);
+                                coreTranslations.LOGIN.LOGIN_DESCRIPTION);
         assert.eventually.equal(page.passwordInputElement.getAttribute('placeholder'),
-                                page.translations.LOGIN.PASSWORD_DESCRIPTION);
-        assert.eventually.equal(page.getTitle(), page.translations.LOGIN.PAGE_TITLE);
-        assert.eventually.equal(page.userLabelElement.getText(), page.translations.LOGIN.LOGIN);
-        assert.eventually.equal(page.passwordLabelElement.getText(), page.translations.LOGIN.PASSWORD);
-        assert.eventually.equal(page.buttonElement.getText(), page.translations.LOGIN.SUBMIT);
-        assert.eventually.equal(page.errorMessageElement.getText(), page.translations.LOGIN.ERROR);
+                                coreTranslations.LOGIN.PASSWORD_DESCRIPTION);
+        assert.eventually.equal(page.getTitle(), coreTranslations.LOGIN.PAGE_TITLE);
+        assert.eventually.equal(page.userLabelElement.getText(), coreTranslations.LOGIN.LOGIN);
+        assert.eventually.equal(page.passwordLabelElement.getText(), coreTranslations.LOGIN.PASSWORD);
+        assert.eventually.equal(page.buttonElement.getText(), coreTranslations.LOGIN.SUBMIT);
+        assert.eventually.equal(page.errorMessageElement.getText(), coreTranslations.LOGIN.ERROR);
 
         // Test languages selector options
         for (var i = 0; i < languages.length; i++) {
           var languageOption = page.getLanguageOption(languages[i].code);
-          var expectedLanguageLabel = page.translations.LANGUAGE[languages[i].translationCode];
+          var expectedLanguageLabel = coreTranslations.LANGUAGE[languages[i].translationCode];
           assert.eventually.equal(languageOption.getAttribute('label'), expectedLanguageLabel);
         }
 

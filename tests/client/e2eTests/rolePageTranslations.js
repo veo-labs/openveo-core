@@ -26,12 +26,13 @@ describe('Role page translations', function() {
 
     if (index < languages.length) {
       return page.selectLanguage(languages[index]).then(function() {
+        var coreTranslations = page.translations.CORE;
 
         // Page translations
-        assert.eventually.equal(page.getTitle(), page.translations.ROLES.PAGE_TITLE);
-        assert.eventually.equal(page.pageTitleElement.getText(), page.translations.ROLES.TITLE);
-        assert.eventually.equal(page.pageDescriptionElement.getText(), page.translations.ROLES.INFO);
-        assert.eventually.equal(page.addFormLabelElement.getText(), page.translations.ROLES.ADD_ROLE);
+        assert.eventually.equal(page.getTitle(), coreTranslations.ROLES.PAGE_TITLE);
+        assert.eventually.equal(page.pageTitleElement.getText(), coreTranslations.ROLES.TITLE);
+        assert.eventually.equal(page.pageDescriptionElement.getText(), coreTranslations.ROLES.INFO);
+        assert.eventually.equal(page.addFormLabelElement.getText(), coreTranslations.ROLES.ADD_ROLE);
 
         // Add form translations
         page.openAddForm();
@@ -39,9 +40,9 @@ describe('Role page translations', function() {
         var coreGroups = page.getCorePermissionGroups();
         var corePermissions = page.getCorePermissions();
         var nameField = addFormFields.name;
-        assert.eventually.equal(nameField.getLabel(), page.translations.ROLES.FORM_ADD_NAME);
-        assert.eventually.equal(nameField.getDescription(), page.translations.ROLES.FORM_ADD_NAME_DESC);
-        assert.eventually.equal(page.addButtonElement.getText(), page.translations.UI.FORM_ADD);
+        assert.eventually.equal(nameField.getLabel(), coreTranslations.ROLES.FORM_ADD_NAME);
+        assert.eventually.equal(nameField.getDescription(), coreTranslations.ROLES.FORM_ADD_NAME_DESC);
+        assert.eventually.equal(page.addButtonElement.getText(), coreTranslations.UI.FORM_ADD);
 
         page.getPermissionGroups(page.addFormElement).then(function(groups) {
           for (var i = 0; i < coreGroups.length; i++)
@@ -56,31 +57,31 @@ describe('Role page translations', function() {
 
         // Search engine translations
         page.searchLinkElement.getText().then(function(text) {
-          assert.equal(text.trim(), page.translations.UI.SEARCH_BY);
+          assert.equal(text.trim(), coreTranslations.UI.SEARCH_BY);
         });
 
         var searchFields = page.getSearchFields(page.searchFormElement);
         var searchNameField = searchFields.name;
-        assert.eventually.equal(searchNameField.getLabel(), page.translations.ROLES.TITLE_FILTER);
+        assert.eventually.equal(searchNameField.getLabel(), coreTranslations.ROLES.TITLE_FILTER);
 
         // All actions translations
         page.setSelectAllMouseOver();
-        assert.eventually.equal(page.popoverElement.getAttribute('content'), page.translations.UI.SELECT_ALL);
+        assert.eventually.equal(page.popoverElement.getAttribute('content'), coreTranslations.UI.SELECT_ALL);
 
         page.selectAllLines();
         browserExt.click(page.actionsButtonElement);
-        var removeActionElement = page.actionsElement.element(by.cssContainingText('a', page.translations.UI.REMOVE));
+        var removeActionElement = page.actionsElement.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
         assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing all remove action');
 
         // Headers translations
-        assert.eventually.ok(page.isTableHeader(page.translations.ROLES.NAME_COLUMN), 'Missing name column');
-        assert.eventually.ok(page.isTableHeader(page.translations.UI.ACTIONS_COLUMN), 'Missing actions column');
+        assert.eventually.ok(page.isTableHeader(coreTranslations.ROLES.NAME_COLUMN), 'Missing name column');
+        assert.eventually.ok(page.isTableHeader(coreTranslations.UI.ACTIONS_COLUMN), 'Missing actions column');
 
         // Individual actions
         page.getLine(datas.roles.coreAdmin.name).then(function(line) {
           var actionTd = line.all(by.css('td')).last();
           var actionButton = actionTd.element(by.css('button'));
-          var removeActionElement = actionTd.element(by.cssContainingText('a', page.translations.UI.REMOVE));
+          var removeActionElement = actionTd.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
 
           browserExt.click(actionButton).then(function() {
             assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing remove action');

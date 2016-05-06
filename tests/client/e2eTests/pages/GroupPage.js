@@ -16,9 +16,9 @@ function GroupPage(model) {
   this.path = 'be/groups-list';
 
   // Element finders specific to this page
-  this.pageTitleElement = element(by.binding('GROUPS.TITLE'));
-  this.pageDescriptionElement = element(by.binding('GROUPS.INFO'));
-  this.addFormLabelElement = element(by.binding('GROUPS.ADD_GROUP'));
+  this.pageTitleElement = element(by.binding('CORE.GROUPS.TITLE'));
+  this.pageDescriptionElement = element(by.binding('CORE.GROUPS.INFO'));
+  this.addFormLabelElement = element(by.binding('CORE.GROUPS.ADD_GROUP'));
 }
 
 module.exports = GroupPage;
@@ -45,14 +45,14 @@ GroupPage.prototype.getSearchFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.GROUPS.TITLE_FILTER,
+    name: this.translations.CORE.GROUPS.TITLE_FILTER,
     baseElement: form
   });
 
   // Description field
   fields.description = Field.get({
     type: 'text',
-    name: this.translations.GROUPS.DESCRIPTION_FILTER,
+    name: this.translations.CORE.GROUPS.DESCRIPTION_FILTER,
     baseElement: form
   });
 
@@ -71,14 +71,14 @@ GroupPage.prototype.getAddFormFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.GROUPS.FORM_ADD_NAME,
+    name: this.translations.CORE.GROUPS.FORM_ADD_NAME,
     baseElement: form
   });
 
   // Description field
   fields.description = Field.get({
     type: 'text',
-    name: this.translations.GROUPS.FORM_ADD_DESCRIPTION,
+    name: this.translations.CORE.GROUPS.FORM_ADD_DESCRIPTION,
     baseElement: form
   });
 
@@ -97,14 +97,14 @@ GroupPage.prototype.getEditFormFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.GROUPS.ATTR_NAME,
+    name: this.translations.CORE.GROUPS.ATTR_NAME,
     baseElement: form
   });
 
   // Description field
   fields.description = Field.get({
     type: 'text',
-    name: this.translations.GROUPS.ATTR_DESCRIPTION,
+    name: this.translations.CORE.GROUPS.ATTR_DESCRIPTION,
     baseElement: form
   });
 
@@ -163,7 +163,7 @@ GroupPage.prototype.editGroup = function(name, data) {
     self.openLine(name);
 
     // Click on edit button
-    browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_EDIT')));
+    browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_EDIT')));
 
     // Set group name
     if (data.name !== undefined)
@@ -174,6 +174,6 @@ GroupPage.prototype.editGroup = function(name, data) {
       fields.description.setValue(data.description);
 
     // Click on save button
-    return browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_SAVE')));
+    return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
   });
 };

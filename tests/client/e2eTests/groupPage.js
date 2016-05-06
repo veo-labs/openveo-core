@@ -96,7 +96,7 @@ describe('Group page', function() {
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(page.translations.GROUPS.NAME_COLUMN);
+    return tableAssert.checkSort(page.translations.CORE.GROUPS.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
@@ -112,7 +112,7 @@ describe('Group page', function() {
   });
 
   it('should be able to select lines', function() {
-    return tableAssert.checkLinesSelection(page.translations.GROUPS.NAME_COLUMN);
+    return tableAssert.checkLinesSelection(page.translations.CORE.GROUPS.NAME_COLUMN);
   });
 
   describe('Search', function() {
@@ -131,7 +131,7 @@ describe('Group page', function() {
       var search = {name: lines[0].name};
 
       // Get all line values before search
-      return page.getLineValues(page.translations.GROUPS.NAME_COLUMN).then(function(values) {
+      return page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -139,7 +139,7 @@ describe('Group page', function() {
         });
 
       }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.GROUPS.NAME_COLUMN);
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
       });
     });
 
@@ -148,7 +148,7 @@ describe('Group page', function() {
       var search = {name: lines[1].name.slice(0, 2)};
 
       // Get all line values before search
-      return page.getLineValues(page.translations.GROUPS.NAME_COLUMN).then(function(values) {
+      return page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -156,7 +156,7 @@ describe('Group page', function() {
         });
 
       }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.GROUPS.NAME_COLUMN);
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
       });
     });
 
@@ -176,7 +176,7 @@ describe('Group page', function() {
           expectedValues.push(filteredDatas[i].cells[1]);
 
       }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.GROUPS.NAME_COLUMN);
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
       });
     });
 
@@ -196,7 +196,7 @@ describe('Group page', function() {
           expectedValues.push(filteredDatas[i].cells[1]);
 
       }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.GROUPS.NAME_COLUMN);
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
       });
     });
 
@@ -204,14 +204,14 @@ describe('Group page', function() {
       var search = {name: lines[1].name.toUpperCase()};
 
       page.search(search);
-      assert.isRejected(page.getLineValues(page.translations.GROUPS.NAME_COLUMN));
+      assert.isRejected(page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN));
     });
 
     it('should be able to clear search', function() {
       var search = {name: lines[0].name};
       page.search(search);
       page.clearSearch();
-      assert.isFulfilled(page.getLineValues(page.translations.GROUPS.NAME_COLUMN));
+      assert.isFulfilled(page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN));
     });
 
   });

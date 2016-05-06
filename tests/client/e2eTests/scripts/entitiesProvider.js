@@ -69,8 +69,8 @@ module.exports.importGroups = function(groups, callback) {
  *      "core": { // Role reference which can be used by "users" property
  *        "name": "Core administrator", // Role name
  *        "permissions": [ // List of permission ids (as defined in conf.js) for the role
- *          "create-application",
- *          "update-application"
+ *          "core-add-application",
+ *          "core-update-application"
  *        ]
  *       },
  *     };

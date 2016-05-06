@@ -1,13 +1,13 @@
 <div class="groups">
-  <h2 ng-bind="'GROUPS.TITLE' | translate"></h2>
-  <div class="well well-lg" ng-bind="'GROUPS.INFO' | translate"></div>
+  <h2 ng-bind="'CORE.GROUPS.TITLE' | translate"></h2>
+  <div class="well well-lg" ng-bind="'CORE.GROUPS.INFO' | translate"></div>
   <hr/>
   <div ng-if="rights.add">
     <div class="container">
       <div class="add-form col-xs-12 col-md-6">
         <div class="add-element" ng-init="isCollapsed = true;" ng-click="isCollapsed = !isCollapsed">
           <span class="glyphicon" ng-class="isCollapsed?'glyphicon-plus':'glyphicon-minus'"aria-hidden="true"></span>
-          <span ng-bind="'GROUPS.ADD_GROUP' | translate"></span></div>
+          <span ng-bind="'CORE.GROUPS.ADD_GROUP' | translate"></span></div>
         <div uib-collapse="isCollapsed">
           <ng-include src="'views/elements/form.html'"></ng-include>
         </div>

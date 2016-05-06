@@ -44,12 +44,12 @@ describe('Top menu', function() {
   it('should display actual language in a popover on language icon', function() {
     page.setLanguageLinkMouseOver();
     assert.eventually.equal(page.popoverElement.getAttribute('content'),
-                            page.translations[page.language.translationCode]);
+                            page.translations.CORE.LANGUAGE[page.language.translationCode]);
   });
 
   it('should display a popover on logout icon', function() {
     page.setLogoutLinkMouseOver();
-    assert.eventually.equal(page.popoverElement.getAttribute('content'), page.translations.MENU.LOGOUT);
+    assert.eventually.equal(page.popoverElement.getAttribute('content'), page.translations.CORE.MENU.LOGOUT);
   });
 
 });

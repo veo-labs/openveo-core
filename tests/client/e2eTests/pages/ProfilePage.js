@@ -15,9 +15,9 @@ function ProfilePage() {
   this.path = 'be/profile';
 
   // Element finders specific to this page
-  this.pageTitleElement = element(by.binding('PROFILES.TITLE'));
-  this.pageDescriptionElement = element(by.binding('PROFILES.INFO'));
-  this.accountTitleElement = element(by.binding('PROFILES.ATTR_USER_ACCOUNT'));
+  this.pageTitleElement = element(by.binding('CORE.PROFILES.TITLE'));
+  this.pageDescriptionElement = element(by.binding('CORE.PROFILES.INFO'));
+  this.accountTitleElement = element(by.binding('CORE.PROFILES.ATTR_USER_ACCOUNT'));
   this.userNameLabelElement = element(by.repeater('field in fields').row(0)).element(by.css('label'));
   this.userNameElement = element(by.repeater('field in fields').row(0)).element(by.css('.literal span'));
   this.userNameInputElement = element(by.repeater('field in fields').row(0)).element(by.css('input'));
@@ -26,16 +26,16 @@ function ProfilePage() {
   this.userEmailElement = element(by.repeater('field in fields').row(1)).all(by.css('div > div > div')).first();
   this.userRolesLabelElement = element(by.repeater('field in fields').row(2)).element(by.css('label'));
   this.userRolesElement = element(by.repeater('field in fields').row(2)).all(by.css('div > div > div')).first();
-  this.editUserElement = element(by.css('.user-info')).element(by.binding('UI.FORM_EDIT'));
-  this.submitUserElement = element(by.css('.user-info')).element(by.binding('UI.FORM_SAVE'));
-  this.cancelUserElement = element(by.css('.user-info')).element(by.binding('UI.FORM_CANCEL'));
-  this.passwordTitleElement = element(by.binding('PROFILES.ATTR_MODIFY_PASSWORD'));
-  this.passwordLabelElement = element(by.binding('PROFILES.ATTR_PASSWORD'));
+  this.editUserElement = element(by.css('.user-info')).element(by.binding('CORE.UI.FORM_EDIT'));
+  this.submitUserElement = element(by.css('.user-info')).element(by.binding('CORE.UI.FORM_SAVE'));
+  this.cancelUserElement = element(by.css('.user-info')).element(by.binding('CORE.UI.FORM_CANCEL'));
+  this.passwordTitleElement = element(by.binding('CORE.PROFILES.ATTR_MODIFY_PASSWORD'));
+  this.passwordLabelElement = element(by.binding('CORE.PROFILES.ATTR_PASSWORD'));
   this.passwordElement = element(by.model('password'));
-  this.confirmPasswordLabelElement = element(by.binding('PROFILES.ATTR_CONFIRM_PASSWORD'));
+  this.confirmPasswordLabelElement = element(by.binding('CORE.PROFILES.ATTR_CONFIRM_PASSWORD'));
   this.confirmPasswordElement = element(by.model('confirmPassword'));
-  this.submitPasswordElement = element(by.css('.password')).element(by.binding('UI.FORM_SAVE'));
-  this.cancelPasswordElement = element(by.css('.password')).element(by.binding('UI.FORM_CANCEL'));
+  this.submitPasswordElement = element(by.css('.password')).element(by.binding('CORE.UI.FORM_SAVE'));
+  this.cancelPasswordElement = element(by.css('.password')).element(by.binding('CORE.UI.FORM_CANCEL'));
 }
 
 module.exports = ProfilePage;

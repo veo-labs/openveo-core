@@ -15,11 +15,9 @@ var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var openVeoAPI = require('@openveo/api');
 var Server = process.require('app/server/servers/Server.js');
-var conf = process.require('conf.js');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 var entityLoader = process.require('app/server/loaders/entityLoader.js');
-var migrationLoader = process.require('/app/server/loaders/migrationLoader');
 var DefaultController = process.require('app/server/controllers/DefaultController.js');
 var ErrorController = process.require('app/server/controllers/ErrorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
@@ -48,7 +46,6 @@ var staticServerOptions = {
  * @param {Object} configuration Service configuration
  */
 function ApplicationServer(configuration) {
-  var self = this;
   Server.call(this, configuration);
 
   /**
@@ -58,22 +55,6 @@ function ApplicationServer(configuration) {
    * @type Array
    */
   this.viewsFolders = [];
-
-  /**
-   * List of path holding public static resources.
-   *
-   * @property assets
-   * @type Array
-   */
-  this.assets = [];
-
-  /**
-   * List of path holding images needing processing.
-   *
-   * @property imagesFolders
-   * @type Array
-   */
-  this.imagesFolders = [];
 
   /**
    * Image styles for image processing.
@@ -89,7 +70,7 @@ function ApplicationServer(configuration) {
    * @property menu
    * @type Array
    */
-  this.menu = conf['backOffice']['menu'] || [];
+  this.menu = [];
 
   /**
    * migrations Script description object.
@@ -98,41 +79,6 @@ function ApplicationServer(configuration) {
    * @type Object
    */
   this.migrations = {};
-
-  /**
-   * Back end permissions.
-   *
-   * @property permissions
-   * @type Array
-   */
-  this.permissions = conf['permissions'] || [];
-
-  /**
-   * Back end public express router.
-   *
-   * @property router
-   * @type Router
-   */
-  this.router = express.Router();
-
-  /**
-   * Back end private express router.
-   *
-   * @property router
-   * @type Router
-   */
-  this.privateRouter = express.Router();
-
-  // Add core views folders to the list of folders
-  conf['viewsFolders'].forEach(function(folder) {
-    self.viewsFolders.push(path.normalize(process.root + '/' + folder));
-  });
-
-  // Add core image folder
-  conf['imageProcessing']['imagesFolders'].forEach(function(folder) {
-    self.imagesFolders.push(path.normalize(process.root + '/' + folder));
-  });
-  this.imagesStyle = conf['imageProcessing']['imagesStyle'] || {};
 
   // Apply favicon
   this.app.use(favicon(process.root + '/assets/favicon.ico'));
@@ -160,7 +106,6 @@ util.inherits(ApplicationServer, Server);
  *  - **Error** An error if something went wrong
  */
 ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
-  var self = this;
 
   // Update Session store with opened database connection
   // Allowed server to restart without loosing any session
@@ -186,42 +131,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   // Initialize passport (authentication manager)
   process.require('app/server/passport.js');
 
-  // Set main assets directory to be served first as the static server
-  this.app.use(express.static(path.normalize(process.root + '/assets'), staticServerOptions));
-
-  if (env === 'dev')
-    this.app.use(express.static(path.normalize(process.root + '/app/client/admin/js'), staticServerOptions));
-
-  // Mount routers (Need to be done after passport initialize, session and authent)
-  this.app.use('/be', this.privateRouter);
-  this.app.use('/', this.router);
-
-  // Load and apply main routes from configuration to public and private routers
-  routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['public']), this.router);
-  routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, conf['routes']['private']), this.privateRouter);
-
-  // Build routes for entities
-  if (conf['entities']) {
-    var entitiesRoutes = entityLoader.buildEntitiesRoutes(conf['entities']);
-    routeLoader.applyRoutes(routeLoader.decodeRoutes(process.root, entitiesRoutes), this.privateRouter);
-  }
-
-  // Load Core migrations script
-  db.get('core-system', {name: 'core'}, null, null, function(error, value) {
-    var lastVersion = '0.0.0';
-    if (value && value.length) lastVersion = value[0].version;
-
-    migrationLoader.getDiffMigrationScript(
-      path.join(process.root + '/migrations'),
-      lastVersion,
-      function(error, migrations) {
-        if (!error && migrations && Object.keys(migrations).length > 0)
-          self.migrations['core'] = migrations;
-      }
-    );
-
-    callback();
-  });
+  callback();
 };
 
 /**
@@ -237,6 +147,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
  *  - **Error** An error if something went wrong
  */
 ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
+  var self = this;
 
   // If plugin has an assets directory, it will be loaded as a static server
   if (plugin.assets && plugin.mountPath) {
@@ -252,22 +163,30 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
 
   }
 
-  // Mount plugin router to the plugin mount path
-  if (plugin.router && plugin.routes && plugin.mountPath) {
+  // Build plugin public routes
+  if (plugin.router && plugin.routes && plugin.mountPath)
     routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, plugin.routes), plugin.router);
-    this.app.use(plugin.mountPath, plugin.router);
-  }
 
-  // Mount the private router to the plugin private mount path
-  if (plugin.privateRouter && plugin.privateRoutes && plugin.mountPath) {
+  // Build plugin private routes
+  if (plugin.privateRouter && plugin.privateRoutes && plugin.mountPath)
     routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, plugin.privateRoutes), plugin.privateRouter);
-    this.app.use('/be' + plugin.mountPath, plugin.privateRouter);
-  }
 
   // Build routes for entities
   if (plugin.privateRouter && plugin.entities) {
     var entitiesRoutes = entityLoader.buildEntitiesRoutes(plugin.entities);
     routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, entitiesRoutes), plugin.privateRouter);
+  }
+
+  // Mount plugin public router to the plugin mount path
+  if (plugin.router && plugin.mountPath) {
+    process.logger.info('Mount ' + plugin.name + ' public router on ' + plugin.mountPath);
+    this.app.use(plugin.mountPath, plugin.router);
+  }
+
+  // Mount plugin private router to the plugin private mount path
+  if (plugin.privateRouter && plugin.mountPath) {
+    process.logger.info('Mount ' + plugin.name + ' private router on ' + plugin.mountPath);
+    this.app.use('/be' + plugin.mountPath, plugin.privateRouter);
   }
 
   // Found back end menu configuration for the plugin
@@ -280,13 +199,20 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
 
   // Found images folders to process
   if (plugin.imagesFolders) {
-    this.imagesFolders = this.imagesFolders.concat(plugin.imagesFolders);
+    var imagesStyles = {};
 
     if (plugin.imagesStyle) {
-      for (var attrname in plugin.imagesStyle) {
-        this.imagesStyle[attrname] = plugin.imagesStyle[attrname];
-      }
+      for (var attrname in plugin.imagesStyle)
+        imagesStyles[attrname] = plugin.imagesStyle[attrname];
     }
+
+    // Set thumbnail generator on image folders
+    plugin.imagesFolders.forEach(function(folder) {
+      process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
+      self.app.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
+        imagesStyle: imagesStyles
+      }));
+    });
   }
 
   // Update migration script to apply
@@ -310,19 +236,11 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
  *  - **Error** An error if something went wrong
  */
 ApplicationServer.prototype.onPluginsLoaded = function(callback) {
-  var self = this;
   var plugins = applicationStorage.getPlugins();
   var entities = applicationStorage.getEntities();
 
   // Set views folders for template engine
   this.app.set('views', this.viewsFolders);
-
-  // Set Thumbnail generator on image folder
-  this.imagesFolders.forEach(function(folder) {
-    self.app.use(expressThumbnail.register(folder + '/', {
-      imagesStyle: self.imagesStyle
-    }));
-  });
 
   applicationStorage.setMenu(this.menu);
 
@@ -334,14 +252,12 @@ ApplicationServer.prototype.onPluginsLoaded = function(callback) {
   this.app.use(errorController.errorAction);
 
   // Build permissions
-  permissionLoader.buildPermissions(this.permissions, entities, plugins, function(error, permissions) {
+  permissionLoader.buildPermissions(entities, plugins, function(error, permissions) {
     if (error)
       return callback(error);
 
-    self.permissions = permissions;
-
     // Store application's permissions
-    applicationStorage.setPermissions(self.permissions);
+    applicationStorage.setPermissions(permissions);
 
     callback();
   });

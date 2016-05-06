@@ -45,9 +45,9 @@ describe('Home page translations', function() {
         page.openVersions();
 
         // Verify translations
-        assert.eventually.equal(page.getTitle(), page.translations.HOME.PAGE_TITLE);
-        assert.eventually.equal(page.pageTitleElement.getText(), page.translations.HOME.TITLE);
-        assert.eventually.equal(page.pageDescriptionElement.getText(), page.translations.HOME.DESCRIPTION);
+        assert.eventually.equal(page.getTitle(), page.translations.CORE.HOME.PAGE_TITLE);
+        assert.eventually.equal(page.pageTitleElement.getText(), page.translations.CORE.HOME.TITLE);
+        assert.eventually.equal(page.pageDescriptionElement.getText(), page.translations.CORE.HOME.DESCRIPTION);
 
         // Close versions
         return page.closeVersions();

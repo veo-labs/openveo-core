@@ -24,76 +24,58 @@ module.exports = {
     groups: 'app/server/controllers/GroupController',
     taxonomies: 'app/server/controllers/TaxonomyController'
   },
-  webServiceScopes: [
-    {
-      id: 'taxonomy',
-      name: 'WS_SCOPES.GET_TAXONOMY_NAME',
-      description: 'WS_SCOPES.GET_TAXONOMY_DESCRIPTON',
-      paths: [
-        'get /taxonomies*'
-      ]
-    },
-    {
-      id: 'group',
-      name: 'WS_SCOPES.GET_GROUP_NAME',
-      description: 'WS_SCOPES.GET_GROUP_DESCRIPTON',
-      paths: [
-        'get /groups*'
-      ]
-    }
-  ],
   permissions: [
     {
-      id: 'access-applications-page',
-      name: 'PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME'
+      id: 'core-access-applications-page',
+      name: 'CORE.PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME'
     },
     {
-      id: 'access-users-page',
-      name: 'PERMISSIONS.ACCESS_USERS_PAGE_NAME',
+      id: 'core-access-users-page',
+      name: 'CORE.PERMISSIONS.ACCESS_USERS_PAGE_NAME',
       paths: [
         'get /roles'
       ]
     },
     {
-      id: 'access-roles-page',
-      name: 'PERMISSIONS.ACCESS_ROLES_PAGE_NAME'
+      id: 'core-access-roles-page',
+      name: 'CORE.PERMISSIONS.ACCESS_ROLES_PAGE_NAME'
     },
     {
-      id: 'access-groups-page',
-      name: 'PERMISSIONS.ACCESS_GROUPS_PAGE_NAME'
+      id: 'core-access-groups-page',
+      name: 'CORE.PERMISSIONS.ACCESS_GROUPS_PAGE_NAME'
     }
   ],
   backOffice: {
     menu: [
       {
         weight: 100,
-        label: 'MENU.WEB_SERVICE',
+        label: 'CORE.MENU.WEB_SERVICE',
         subMenu: [
           {
-            label: 'MENU.APPLICATIONS',
+            label: 'CORE.MENU.APPLICATIONS',
             path: 'applications-list',
-            permission: 'access-applications-page'
+            permission: 'core-access-applications-page'
           }
         ]
       },
       {
         weight: 99,
-        label: 'MENU.RIGHTS',
+        label: 'CORE.MENU.RIGHTS',
         subMenu: [
           {
-            label: 'MENU.USERS',
+            label: 'CORE.MENU.USERS',
             path: 'users-list',
-            permission: 'access-users-page'
+            permission: 'core-access-users-page'
           },
           {
-            label: 'MENU.ROLES',
+            label: 'CORE.MENU.ROLES',
             path: 'roles-list',
-            permission: 'access-roles-page'
+            permission: 'core-access-roles-page'
           },
           {
-            label: 'MENU.GROUPS',
+            label: 'CORE.MENU.GROUPS',
             path: 'groups-list',
-            permission: 'access-groups-page'
+            permission: 'core-access-groups-page'
           }
         ]
       }

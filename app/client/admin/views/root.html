@@ -41,13 +41,13 @@
         <!-- /Sidebar Toggler -->
         <!-- Top Right Menu -->
         <ul class="nav navbar-nav navbar-right ">
-          <li popover-title="{{'MENU.PROFILES' | translate}}" uib-popover="{{userInfo.name}}" popover-trigger="mouseenter click" popover-placement="bottom">
+          <li popover-title="{{'CORE.MENU.PROFILES' | translate}}" uib-popover="{{userInfo.name}}" popover-trigger="mouseenter click" popover-placement="bottom">
             <a class="icon" href="profile" ng-click="navigate($event)" >
               <div class="glyphicon glyphicon-user"></div>
             </a>
           </li>
           <li class="dropdown language" uib-dropdown is-open="menuDropdownIsOpen">
-            <a popover-title="{{'MENU.LANGUAGE' | translate}}" uib-popover="{{language | translate}}" popover-trigger="mouseenter click" popover-placement="bottom"  class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" uib-dropdown-toggle role="button"  ng-disabled="disabled">
+            <a popover-title="{{'CORE.MENU.LANGUAGE' | translate}}" uib-popover="{{language | translate}}" popover-trigger="mouseenter click" popover-placement="bottom"  class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" uib-dropdown-toggle role="button"  ng-disabled="disabled">
               <span class="glyphicon glyphicon-globe"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
@@ -56,7 +56,7 @@
               </li>
             </ul>
           </li>
-          <li uib-popover="{{'MENU.LOGOUT' | translate}}" popover-trigger="mouseenter click" popover-placement="bottom">
+          <li uib-popover="{{'CORE.MENU.LOGOUT' | translate}}" popover-trigger="mouseenter click" popover-placement="bottom">
             <a class="icon" href="logout" ng-click="logout()">
               <div class="glyphicon glyphicon-log-out"></div>
             </a>

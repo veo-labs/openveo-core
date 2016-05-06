@@ -11,7 +11,7 @@ var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var TokenProvider = process.require('app/server/providers/TokenProvider.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
-var conf = process.require('conf.js');
+var CorePlugin = process.require('app/server/CorePlugin.js');
 var TaxonomyProvider = openVeoAPI.TaxonomyProvider;
 var applicationStorage = openVeoAPI.applicationStorage;
 var configurationDirectoryPath = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
@@ -22,8 +22,8 @@ var loggerConf;
 var serverConf;
 var databaseConf;
 var coreConf;
+var corePlugin;
 
-var migrationProcess = process.require('app/server/migration/migrationProcess.js');
 
 // Process arguments
 var knownProcessOptions = {
@@ -62,6 +62,8 @@ if (processOptions['ws']) {
 // Loaders
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var entityLoader = process.require('app/server/loaders/entityLoader.js');
+var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
+var migrationProcess = process.require('app/server/migration/migrationProcess.js');
 
 // Set super administrator and anonymous user id from configuration
 applicationStorage.setSuperAdminId(coreConf.superAdminId || '0');
@@ -116,10 +118,15 @@ async.series([
     server.onDatabaseAvailable(applicationStorage.getDatabase(), callback);
   },
 
-  // Load openveo plugins under node_modules directory
+  // Load Core plugin
   function(callback) {
+    corePlugin = new CorePlugin();
+    pluginLoader.loadPluginMetadata(corePlugin, callback);
+  },
 
-    pluginLoader.loadPlugins(path.join(process.root), function(error, plugins) {
+  // Load openveo plugins
+  function(callback) {
+    pluginLoader.loadPlugins(process.root, function(error, plugins) {
 
       // An error occurred when loading plugins
       // The server must not be launched, exit process
@@ -128,6 +135,7 @@ async.series([
         throw new Error(error);
       } else {
         var asyncFunctions = [];
+        plugins.unshift(corePlugin);
         applicationStorage.setPlugins(plugins);
 
         plugins.forEach(function(loadedPlugin) {
@@ -140,31 +148,21 @@ async.series([
           callback();
         });
       }
-    });
-  },
-
-  // Load web service scopes
-  function(callback) {
-    var webServiceScopes = conf['webServiceScopes'] || [];
-
-    applicationStorage.getPlugins().forEach(function(loadedPlugin) {
-
-      // Found a list of web service scopes for the plugin
-      if (loadedPlugin.webServiceScopes) {
-        for (var scopeName in loadedPlugin.webServiceScopes)
-          webServiceScopes = webServiceScopes.concat(loadedPlugin.webServiceScopes[scopeName]);
-      }
 
     });
-
-    applicationStorage.setWebServiceScopes(webServiceScopes);
-    callback();
   },
 
   // Load entities
   function(callback) {
-    var entities = entityLoader.buildEntities(conf['entities'], applicationStorage.getPlugins());
+    var entities = entityLoader.buildEntities(applicationStorage.getPlugins());
     applicationStorage.setEntities(entities);
+    callback();
+  },
+
+  // Load web service scopes
+  function(callback) {
+    var webServiceScopes = permissionLoader.generateEntityScopes(applicationStorage.getEntities());
+    applicationStorage.setWebServiceScopes(webServiceScopes);
     callback();
   },
 

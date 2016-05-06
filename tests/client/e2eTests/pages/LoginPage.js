@@ -19,12 +19,12 @@ function LoginPage() {
 
   // Element finders specific to this page
   this.languageSelectElement = element(by.model('language'));
-  this.userLabelElement = element(by.binding('LOGIN.LOGIN'));
-  this.passwordLabelElement = element(by.binding('LOGIN.PASSWORD'));
+  this.userLabelElement = element(by.binding('CORE.LOGIN.LOGIN'));
+  this.passwordLabelElement = element(by.binding('CORE.LOGIN.PASSWORD'));
   this.userInputElement = element(by.model('userEmail'));
   this.passwordInputElement = element(by.model('password'));
-  this.buttonElement = element(by.binding('LOGIN.SUBMIT'));
-  this.errorMessageElement = element(by.binding('LOGIN.ERROR'));
+  this.buttonElement = element(by.binding('CORE.LOGIN.SUBMIT'));
+  this.errorMessageElement = element(by.binding('CORE.LOGIN.ERROR'));
 }
 
 module.exports = LoginPage;

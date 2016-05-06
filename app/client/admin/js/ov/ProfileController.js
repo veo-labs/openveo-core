@@ -40,7 +40,7 @@
         email: userInfo.email
       }).then(function() {
         userInfo.saving = false;
-        $scope.$emit('setAlert', 'success', $filter('translate')('UI.SAVE_SUCCESS'), 4000);
+        $scope.$emit('setAlert', 'success', $filter('translate')('CORE.UI.SAVE_SUCCESS'), 4000);
         $scope.password = '';
         $scope.confirmPassword = '';
         $scope.isInValid = true;
@@ -84,7 +84,7 @@
         key: 'name',
         type: 'horizontalEditableInput',
         templateOptions: {
-          label: $filter('translate')('PROFILES.ATTR_NAME'),
+          label: $filter('translate')('CORE.PROFILES.ATTR_NAME'),
           required: true
         }
       },
@@ -92,7 +92,7 @@
         key: 'email',
         type: 'emptyrow',
         templateOptions: {
-          label: $filter('translate')('PROFILES.ATTR_EMAIL'),
+          label: $filter('translate')('CORE.PROFILES.ATTR_EMAIL'),
           message: user.email
         }
       }];
@@ -104,7 +104,7 @@
             noFormControl: true,
             type: 'emptyrow',
             templateOptions: {
-              label: $filter('translate')('PROFILES.ATTR_ROLES'),
+              label: $filter('translate')('CORE.PROFILES.ATTR_ROLES'),
               message: getRoles()
             }
           }

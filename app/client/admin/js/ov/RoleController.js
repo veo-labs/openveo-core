@@ -98,7 +98,7 @@
       entityService.removeEntity(entityType, null, selected.join(','))
         .then(function() {
           userService.cacheClear(entityType);
-          $scope.$emit('setAlert', 'success', $filter('translate')('ROLES.REMOVE_SUCCESS'), 4000);
+          $scope.$emit('setAlert', 'success', $filter('translate')('CORE.ROLES.REMOVE_SUCCESS'), 4000);
           reload();
         });
     }
@@ -113,9 +113,9 @@
      *
      */
     $scope.rights = {};
-    $scope.rights.add = $scope.checkAccess('create-' + entityType);
-    $scope.rights.edit = $scope.checkAccess('update-' + entityType);
-    $scope.rights.delete = $scope.checkAccess('delete-' + entityType);
+    $scope.rights.add = $scope.checkAccess('core-add-' + entityType);
+    $scope.rights.edit = $scope.checkAccess('core-update-' + entityType);
+    $scope.rights.delete = $scope.checkAccess('core-delete-' + entityType);
 
     /*
      *
@@ -127,22 +127,22 @@
       {
         key: 'name',
         value: '',
-        label: $filter('translate')('ROLES.TITLE_FILTER')
+        label: $filter('translate')('CORE.ROLES.TITLE_FILTER')
       }
     ];
     scopeDataTable.header = [{
       key: 'name',
-      name: $filter('translate')('ROLES.NAME_COLUMN'),
+      name: $filter('translate')('CORE.ROLES.NAME_COLUMN'),
       class: ['col-xs-11']
     },
     {
       key: 'action',
-      name: $filter('translate')('UI.ACTIONS_COLUMN'),
+      name: $filter('translate')('CORE.UI.ACTIONS_COLUMN'),
       class: ['col-xs-1']
     }];
 
     scopeDataTable.actions = [{
-      label: $filter('translate')('UI.REMOVE'),
+      label: $filter('translate')('CORE.UI.REMOVE'),
       warningPopup: true,
       condition: function(row) {
         return $scope.rights.delete && !row.locked && !row.saving;
@@ -172,7 +172,7 @@
         key: 'name',
         type: 'horizontalEditableInput',
         templateOptions: {
-          label: $filter('translate')('ROLES.ATTR_NAME'),
+          label: $filter('translate')('CORE.ROLES.ATTR_NAME'),
           required: true
         }
       }
@@ -180,14 +180,14 @@
     if ($scope.permissions.length == 0) {
       scopeEditForm.fields.push({
         noFormControl: true,
-        template: '<p>' + $filter('translate')('ROLES.NO_DATA') + '</p>'
+        template: '<p>' + $filter('translate')('CORE.ROLES.NO_DATA') + '</p>'
       });
     } else {
       accordionArray = [];
       scopeEditForm.fields.push({
         noFormControl: true,
         templateOptions: {
-          label: $filter('translate')('ROLES.FORM_ADD_PERMISSIONS')
+          label: $filter('translate')('CORE.ROLES.FORM_ADD_PERMISSIONS')
         },
         wrapper: ['horizontalBootstrapLabelOnly'],
         template: ''
@@ -234,23 +234,23 @@
         key: 'name',
         type: 'horizontalInput',
         templateOptions: {
-          label: $filter('translate')('ROLES.FORM_ADD_NAME'),
+          label: $filter('translate')('CORE.ROLES.FORM_ADD_NAME'),
           required: true,
-          description: $filter('translate')('ROLES.FORM_ADD_NAME_DESC')
+          description: $filter('translate')('CORE.ROLES.FORM_ADD_NAME_DESC')
         }
       }
     ];
     if ($scope.permissions.length == 0)
       scopeAddForm.fields.push({
         noFormControl: true,
-        template: '<p>' + $filter('translate')('ROLES.NO_DATA') + '</p>'
+        template: '<p>' + $filter('translate')('CORE.ROLES.NO_DATA') + '</p>'
       });
     else {
       accordionArray = [];
       scopeAddForm.fields.push({
         noFormControl: true,
         templateOptions: {
-          label: $filter('translate')('ROLES.FORM_ADD_PERMISSIONS')
+          label: $filter('translate')('CORE.ROLES.FORM_ADD_PERMISSIONS')
         },
         wrapper: ['horizontalBootstrapLabelOnly'],
         template: ''

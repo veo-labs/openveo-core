@@ -16,9 +16,9 @@ function RolePage(model) {
   this.path = 'be/roles-list';
 
   // Element finders specific to this page
-  this.pageTitleElement = element(by.binding('ROLES.TITLE'));
-  this.pageDescriptionElement = element(by.binding('ROLES.INFO'));
-  this.addFormLabelElement = element(by.binding('ROLES.ADD_ROLE'));
+  this.pageTitleElement = element(by.binding('CORE.ROLES.TITLE'));
+  this.pageDescriptionElement = element(by.binding('CORE.ROLES.INFO'));
+  this.addFormLabelElement = element(by.binding('CORE.ROLES.ADD_ROLE'));
 }
 
 module.exports = RolePage;
@@ -111,7 +111,7 @@ RolePage.prototype.getSearchFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.ROLES.TITLE_FILTER,
+    name: this.translations.CORE.ROLES.TITLE_FILTER,
     baseElement: form
   });
 
@@ -130,7 +130,7 @@ RolePage.prototype.getAddFormFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.ROLES.FORM_ADD_NAME,
+    name: this.translations.CORE.ROLES.FORM_ADD_NAME,
     baseElement: form
   });
 
@@ -149,7 +149,7 @@ RolePage.prototype.getEditFormFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.ROLES.ATTR_NAME,
+    name: this.translations.CORE.ROLES.ATTR_NAME,
     baseElement: form
   });
 
@@ -163,18 +163,25 @@ RolePage.prototype.getEditFormFields = function(form) {
  */
 RolePage.prototype.getCorePermissions = function() {
   return [
-    this.translations.PERMISSIONS.CREATE_APPLICATIONS_NAME,
-    this.translations.PERMISSIONS.UPDATE_APPLICATIONS_NAME,
-    this.translations.PERMISSIONS.DELETE_APPLICATIONS_NAME,
-    this.translations.PERMISSIONS.CREATE_USERS_NAME,
-    this.translations.PERMISSIONS.UPDATE_USERS_NAME,
-    this.translations.PERMISSIONS.DELETE_USERS_NAME,
-    this.translations.PERMISSIONS.CREATE_ROLES_NAME,
-    this.translations.PERMISSIONS.UPDATE_ROLES_NAME,
-    this.translations.PERMISSIONS.DELETE_ROLES_NAME,
-    this.translations.PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME,
-    this.translations.PERMISSIONS.ACCESS_USERS_PAGE_NAME,
-    this.translations.PERMISSIONS.ACCESS_ROLES_PAGE_NAME
+    this.translations.CORE.PERMISSIONS.ADD_APPLICATIONS_NAME,
+    this.translations.CORE.PERMISSIONS.UPDATE_APPLICATIONS_NAME,
+    this.translations.CORE.PERMISSIONS.DELETE_APPLICATIONS_NAME,
+    this.translations.CORE.PERMISSIONS.ADD_USERS_NAME,
+    this.translations.CORE.PERMISSIONS.UPDATE_USERS_NAME,
+    this.translations.CORE.PERMISSIONS.DELETE_USERS_NAME,
+    this.translations.CORE.PERMISSIONS.ADD_ROLES_NAME,
+    this.translations.CORE.PERMISSIONS.UPDATE_ROLES_NAME,
+    this.translations.CORE.PERMISSIONS.DELETE_ROLES_NAME,
+    this.translations.CORE.PERMISSIONS.ADD_GROUPS_NAME,
+    this.translations.CORE.PERMISSIONS.UPDATE_GROUPS_NAME,
+    this.translations.CORE.PERMISSIONS.DELETE_GROUPS_NAME,
+    this.translations.CORE.PERMISSIONS.ADD_TAXONOMIES_NAME,
+    this.translations.CORE.PERMISSIONS.UPDATE_TAXONOMIES_NAME,
+    this.translations.CORE.PERMISSIONS.DELETE_TAXONOMIES_NAME,
+    this.translations.CORE.PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME,
+    this.translations.CORE.PERMISSIONS.ACCESS_USERS_PAGE_NAME,
+    this.translations.CORE.PERMISSIONS.ACCESS_ROLES_PAGE_NAME,
+    this.translations.CORE.PERMISSIONS.ACCESS_GROUPS_PAGE_NAME
   ];
 };
 
@@ -185,10 +192,11 @@ RolePage.prototype.getCorePermissions = function() {
  */
 RolePage.prototype.getCorePermissionGroups = function() {
   return [
-    this.translations.PERMISSIONS.GROUP_OTHERS,
-    this.translations.PERMISSIONS.GROUP_APPLICATIONS,
-    this.translations.PERMISSIONS.GROUP_USERS,
-    this.translations.PERMISSIONS.GROUP_ROLES
+    this.translations.CORE.PERMISSIONS.GROUP_OTHERS,
+    this.translations.CORE.PERMISSIONS.GROUP_APPLICATIONS,
+    this.translations.CORE.PERMISSIONS.GROUP_USERS,
+    this.translations.CORE.PERMISSIONS.GROUP_ROLES,
+    this.translations.CORE.PERMISSIONS.GROUP_GROUPS
   ];
 };
 
@@ -394,7 +402,7 @@ RolePage.prototype.editRole = function(name, data) {
     self.openLine(name);
 
     // Click on edit button
-    browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_EDIT')));
+    browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_EDIT')));
 
     // Set role name
     if (data.name !== undefined)
@@ -405,7 +413,7 @@ RolePage.prototype.editRole = function(name, data) {
       selectRolePermissions.call(self, formElement, data.permissions);
 
     // Click on save button
-    return browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_SAVE')));
+    return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
 
   });
 };

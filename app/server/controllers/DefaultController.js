@@ -7,8 +7,6 @@
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 var applicationStorage = openVeoAPI.applicationStorage;
-var applicationConf = process.require('conf.js');
-var applicationVersion = process.require('package.json');
 var Controller = openVeoAPI.controllers.Controller;
 
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
@@ -44,19 +42,10 @@ DefaultController.prototype.defaultAction = function(request, response) {
   var plugins = applicationStorage.getPlugins();
   var angularJsModules = [];
 
-  // Retrieve the list of scripts and css files from
-  // application configuration and sub plugins configuration
-  response.locals.librariesScriptsBase = applicationConf['backOffice']['scriptLibFiles']['base'] || [];
-  response.locals.librariesScripts = applicationConf['backOffice']['scriptLibFiles'][env] || [];
-  response.locals.librariesScripts = response.locals.librariesScriptsBase.concat(response.locals.librariesScripts);
-  response.locals.scriptsBase = applicationConf['backOffice']['scriptFiles']['base'] || [];
-  response.locals.scripts = applicationConf['backOffice']['scriptFiles'][env] || [];
-  response.locals.scripts = response.locals.scriptsBase.concat(response.locals.scripts);
-  response.locals.css = applicationConf['backOffice']['cssFiles'] || [];
-  response.locals.version = [{
-    name: applicationVersion['name'],
-    version: applicationVersion['version']
-  }] || [];
+  response.locals.librariesScripts = [];
+  response.locals.scripts = [];
+  response.locals.css = [];
+  response.locals.version = [];
 
   // Got sub plugins
   if (plugins) {
@@ -65,7 +54,7 @@ DefaultController.prototype.defaultAction = function(request, response) {
 
       // Plugin has a name and has a back office page configured.
       // It must have an angularjs module associated to it
-      if (plugin.name && plugin.menu)
+      if (plugin.name && plugin.menu && plugin.name !== 'core')
         angularJsModules.push('"' + plugin.name.toLowerCase() + '"');
 
       // Plugin has JavaScript libraries files to load

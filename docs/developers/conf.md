@@ -110,14 +110,15 @@ module.exports = {
 
 # Create entities
 
-Entities are elements subject to CRUD (**C**reate **R**ead **U**pdate **D**elete). OpenVeo core defines 4 entities :
+Entities are elements subject to CRUD (**C**reate **R**ead **U**pdate **D**elete). OpenVeo core defines 5 entities :
 
-- application - Web Service client applications
-- user - Back end users
-- role - Back end roles
-- group - Groups
+- applications - Web Service client applications
+- users - Back end users
+- roles - Back end roles
+- groups - Groups
+- taxonomies - Taxonomies with associated terms
 
-Each entity will automatically have 3 associated back end permissions : create, update and delete.
+Each entity will automatically have 3 associated back end permissions : add, update and delete.
 
 To create a new entity you need to create new EntityController, EntityModel and EntityProvider. Let's say we want to create a new entity called **book**.
 
@@ -135,7 +136,7 @@ var openVeoAPI = require('@openveo/api');
 function BookProvider(database) {
 
   // In BookProvider collection "books"
-  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'books');
+  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'book-books');
 }
 
 // BookProvider must extend EntityProvider
@@ -202,13 +203,13 @@ module.exports = {
 
 ## Use the entity
 
-Now that you entity **book** is created you can see the 3 new permissions in the back end (create, update and delete). You can also perform CRUD operations on your entity using the following routes :
+Now that you entity **book** is created you can see the 3 new permissions in the back end (add, update and delete). You can also perform CRUD operations on your entity using the following routes :
 
-- **get /books/:id** - Get a particular book
-- **get /books** - Get all books
-- **post /books/:id** - Update a particular book
-- **put /books** - Add a new book
-- **delete /books/:id** - Delete a book
+- **get /book/books/:id** - Get a particular book
+- **get /book/books** - Get all books
+- **post /book/books/:id** - Update a particular book
+- **put /book/books** - Add a new book
+- **delete /book/books/:id** - Delete a book
 
 # Define back end permissions
 
@@ -230,19 +231,19 @@ Let's create new permissions "sell" and "buy" to sell / buy books.
 module.exports = {
   permissions: [
     {
-      id: 'sell-book', // Permission id
+      id: 'book-sell-book', // Permission id
       name: 'Sell', // Permission name
       description: 'Sell books', // Permission description
       paths: [ // List of paths associated to the permission
-        'get /sell*'
+        'get /book/sell*'
       ]
     },
     {
-      id: 'buy-book', // Permission id
+      id: 'book-buy-book', // Permission id
       name: 'Buy', // Permission name
       description: 'Buy books', // Permission description
       paths: [ // List of paths associated to the permission
-        'get /buy*'
+        'get /book/buy*'
       ]
     }
   ]
@@ -262,19 +263,19 @@ module.exports = {
       label: 'Books', // Group label
       permissions: [ // List of permission in the group
         {
-          id: 'sell-book',
+          id: 'book-sell-book',
           name: 'Sell',
           description: 'Sell books',
           paths: [
-            'get /sell*'
+            'get /book/sell*'
           ]
         },
         {
-          id: 'buy-book',
+          id: 'book-buy-book',
           name: 'Buy',
           description: 'Buy books',
           paths: [
-            'get /buy*'
+            'get /book/buy*'
           ]
         }
       ]
@@ -312,13 +313,13 @@ module.exports = {
     menu: [
       {
         label: 'Sell books', // Menu item name
-        path: 'sell-books', // Menu item path
-        permission: 'sell-book' // Menu item associated permission
+        path: 'book/sell-books', // Menu item path
+        permission: 'book-sell-book' // Menu item associated permission
       },
       {
         label: 'Buy books', // Menu item name
-        path: 'buy-books', // Menu item path
-        permission: 'buy-book' // Menu item associated permission
+        path: 'book/buy-books', // Menu item path
+        permission: 'book-buy-book' // Menu item associated permission
       }
     ]
   }
@@ -345,13 +346,13 @@ module.exports = {
         subMenu: [ // List of sub menu items
           {
             label: 'Sell books', // Menu item name
-            path: 'sell-books', // Menu item path
-            permission: 'sell-book' // Menu item associated permission
+            path: 'book/sell-books', // Menu item path
+            permission: 'book-sell-book' // Menu item associated permission
           },
           {
             label: 'Buy books', // Menu item name
-            path: 'buy-books', // Menu item path
-            permission: 'buy-book' // Menu item associated permission
+            path: 'book/buy-books', // Menu item path
+            permission: 'book-buy-book' // Menu item associated permission
           }
         ]
       }
@@ -440,7 +441,7 @@ Default quality is 90.
 Then you can call the image with your custom style **small**
 
 ```html
-<img src="example/images/image1.jpg?thumb=small"/>
+<img src="book/example/images/image1.jpg?thumb=small"/>
 ```
 
 # Define custom configuration
@@ -466,12 +467,12 @@ You can define Web Service scopes in **conf.js** :
 module.exports = {
   webServiceScopes: [
     {
-      id: 'scopeId',
+      id: 'book-scopeId',
       name: 'Scope name',
       description: 'Scope description',
       paths: [
-        'get /book/sell/*',
-        'get /book/books*'
+        'get /book/book/sell/*',
+        'get /book/book/books*'
       ]
     }
   ]
@@ -479,4 +480,4 @@ module.exports = {
 ```
 
 A scope is defined by an id, a name, a description and a list of authorized paths for a Web Service application who has access to this scope.<br/>
-Routes like **/book/sell/25** or **/book/books** will be available for a Web Service application with the scope **scopeId** in the above example.
+Routes like **/book/book/sell/25** or **/book/book/books** will be available for a Web Service application with the scope **book-scopeId** in the above example.

@@ -178,11 +178,11 @@ describe('User page', function() {
   });
 
   it('should be able to cancel when removing a user', function() {
-    return tableAssert.checkCancelRemove(page.translations.USERS.TITLE_FILTER);
+    return tableAssert.checkCancelRemove(page.translations.CORE.USERS.TITLE_FILTER);
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(page.translations.USERS.NAME_COLUMN);
+    return tableAssert.checkSort(page.translations.CORE.USERS.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
@@ -198,7 +198,7 @@ describe('User page', function() {
   });
 
   it('should be able to select lines', function() {
-    return tableAssert.checkLinesSelection(page.translations.USERS.NAME_COLUMN);
+    return tableAssert.checkLinesSelection(page.translations.CORE.USERS.NAME_COLUMN);
   });
 
   describe('Search', function() {
@@ -217,7 +217,7 @@ describe('User page', function() {
       var search = {name: lines[0].name};
 
       // Get all line values before search
-      page.getLineValues(page.translations.USERS.NAME_COLUMN).then(function(values) {
+      page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -225,7 +225,7 @@ describe('User page', function() {
         });
 
       }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, page.translations.USERS.NAME_COLUMN);
+        tableAssert.checkSearch(search, expectedValues, page.translations.CORE.USERS.NAME_COLUMN);
       });
     });
 
@@ -234,7 +234,7 @@ describe('User page', function() {
       var search = {name: lines[1].name.slice(0, 2)};
 
       // Get all line values before search
-      page.getLineValues(page.translations.USERS.NAME_COLUMN).then(function(values) {
+      page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -242,7 +242,7 @@ describe('User page', function() {
         });
 
       }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, page.translations.USERS.NAME_COLUMN);
+        tableAssert.checkSearch(search, expectedValues, page.translations.CORE.USERS.NAME_COLUMN);
       });
     });
 
@@ -250,7 +250,7 @@ describe('User page', function() {
       var search = {name: lines[1].name.toUpperCase()};
 
       page.search(search);
-      assert.isRejected(page.getLineValues(page.translations.USERS.NAME_COLUMN));
+      assert.isRejected(page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN));
     });
 
     it('should be able to clear search', function() {
@@ -258,7 +258,7 @@ describe('User page', function() {
 
       page.search(search);
       page.clearSearch();
-      assert.isFulfilled(page.getLineValues(page.translations.USERS.NAME_COLUMN));
+      assert.isFulfilled(page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN));
     });
 
   });

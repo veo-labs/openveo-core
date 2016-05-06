@@ -130,13 +130,13 @@
           // on error
           // reset the form
           self.options.resetModel();
-          $scope.$emit('setAlert', 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
+          $scope.$emit('setAlert', 'danger', $filter('translate')('CORE.UI.SAVE_ERROR'), 4000);
           self.model.saving = false;
         });
       } else {
 
         // if there is no submit function : alert
-        $scope.$emit('setAlert', 'danger', $filter('translate')('UI.SAVE_ERROR'), 4000);
+        $scope.$emit('setAlert', 'danger', $filter('translate')('CORE.UI.SAVE_ERROR'), 4000);
       }
     };
 
@@ -148,12 +148,12 @@
           var cacheMustBeDeleted = self.updateRowBeforeEdit(self.model, lastValue);
 
           if (cacheMustBeDeleted) {
-            $scope.$emit('setAlert', 'warning', $filter('translate')('UI.WARNING_ENTITY_MODIFIED'), 8000);
+            $scope.$emit('setAlert', 'warning', $filter('translate')('CORE.UI.WARNING_ENTITY_MODIFIED'), 8000);
             entityService.deleteCache(type, pluginName);
           }
         } else {
           entityService.deleteCache(type, pluginName);
-          $scope.$emit('setAlert', 'danger', $filter('translate')('UI.WARNING_ENTITY_DELETED'), 8000);
+          $scope.$emit('setAlert', 'danger', $filter('translate')('CORE.UI.WARNING_ENTITY_DELETED'), 8000);
           tableReloadEventService.broadcast();
           return;
         }
@@ -190,7 +190,7 @@
         tableReloadEventService.broadcast();
 
         // Emit a success message
-        $scope.$emit('setAlert', 'success', $filter('translate')('UI.SAVE_SUCCESS'), 4000);
+        $scope.$emit('setAlert', 'success', $filter('translate')('CORE.UI.SAVE_SUCCESS'), 4000);
       }, function() {
 
         // Do nothing

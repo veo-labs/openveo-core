@@ -65,20 +65,24 @@ module.exports = {
     code: 0x300,
     httpCode: 404
   },
-  GET_TAXONOMY_ERROR: {
+  I18N_DICTIONARY_ERROR: {
     code: 0x301,
     httpCode: 500
   },
-  GET_TAXONOMIES_ERROR: {
+  GET_TAXONOMY_ERROR: {
     code: 0x302,
     httpCode: 500
   },
-  GET_GROUP_ERROR: {
+  GET_TAXONOMIES_ERROR: {
     code: 0x303,
     httpCode: 500
   },
-  GET_GROUPS_ERROR: {
+  GET_GROUP_ERROR: {
     code: 0x304,
+    httpCode: 500
+  },
+  GET_GROUPS_ERROR: {
+    code: 0x305,
     httpCode: 500
   }
 

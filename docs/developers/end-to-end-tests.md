@@ -133,22 +133,22 @@ Structure is as follow :
     "coreAdmin": { // Id of the role to use when creating users
       "name": "core-admin", // The name of the role
       "permissions": [ // The list of permissions ids as described in conf.js file
-        "create-application",
+        "add-application",
         "update-application",
         "delete-application",
-        "create-taxonomy",
+        "add-taxonomy",
         "update-taxonomy",
         "delete-taxonomy",
-        "create-user",
+        "add-user",
         "update-user",
         "delete-user",
-        "create-role",
+        "add-role",
         "update-role",
         "delete-role",
         "access-applications-page",
         "access-users-page",
         "access-roles-page",
-        "read-group-coreGroupId", // Permission "read" on the group "coreGroupId"
+        "get-group-coreGroupId", // Permission "get" on the group "coreGroupId"
         "update-group-coreGroupId", // Permission "update" on the group "coreGroupId"
         "delete-group-coreGroupId" // Permission "delete" on the group "coreGroupId"
       ]
@@ -179,7 +179,7 @@ Structure is as follow :
   "applications": {
     "coreApplicationsGuest": { // Id of the application (not used)
       "name": "core-applications-guest", // Name of the application
-      "scopes": [ "video" ] // List of scope ids for the application
+      "scopes": [ "publish-videos" ] // List of scope ids for the application
     }
   }
 }

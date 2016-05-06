@@ -99,7 +99,7 @@ describe('Role page', function() {
     page.addLine(name, corePermissions);
 
     var newRolePermissions = [
-      page.translations.PERMISSIONS.UPDATE_ROLES_NAME
+      page.translations.CORE.PERMISSIONS.UPDATE_ROLES_NAME
     ];
 
     page.editRole(name, {name: newName, permissions: newRolePermissions});
@@ -111,7 +111,7 @@ describe('Role page', function() {
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(page.translations.ROLES.NAME_COLUMN);
+    return tableAssert.checkSort(page.translations.CORE.ROLES.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
@@ -127,7 +127,7 @@ describe('Role page', function() {
   });
 
   it('should be able to select lines', function() {
-    return tableAssert.checkLinesSelection(page.translations.ROLES.NAME_COLUMN);
+    return tableAssert.checkLinesSelection(page.translations.CORE.ROLES.NAME_COLUMN);
   });
 
   describe('Search', function() {
@@ -146,7 +146,7 @@ describe('Role page', function() {
       var search = {name: lines[0].name};
 
       // Get all line values before search
-      page.getLineValues(page.translations.ROLES.NAME_COLUMN).then(function(values) {
+      page.getLineValues(page.translations.CORE.ROLES.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -154,7 +154,7 @@ describe('Role page', function() {
         });
 
       }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, page.translations.ROLES.NAME_COLUMN);
+        tableAssert.checkSearch(search, expectedValues, page.translations.CORE.ROLES.NAME_COLUMN);
       });
     });
 
@@ -163,7 +163,7 @@ describe('Role page', function() {
       var search = {name: lines[1].name.slice(0, 2)};
 
       // Get all line values before search
-      page.getLineValues(page.translations.ROLES.NAME_COLUMN).then(function(values) {
+      page.getLineValues(page.translations.CORE.ROLES.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
@@ -171,7 +171,7 @@ describe('Role page', function() {
         });
 
       }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, page.translations.ROLES.NAME_COLUMN);
+        tableAssert.checkSearch(search, expectedValues, page.translations.CORE.ROLES.NAME_COLUMN);
       });
     });
 
@@ -179,7 +179,7 @@ describe('Role page', function() {
       var search = {name: lines[1].name.toUpperCase()};
 
       page.search(search);
-      assert.isRejected(page.getLineValues(page.translations.ROLES.NAME_COLUMN));
+      assert.isRejected(page.getLineValues(page.translations.CORE.ROLES.NAME_COLUMN));
     });
 
     it('should be able to clear search', function() {
@@ -187,7 +187,7 @@ describe('Role page', function() {
 
       page.search(search);
       page.clearSearch();
-      assert.isFulfilled(page.getLineValues(page.translations.ROLES.NAME_COLUMN));
+      assert.isFulfilled(page.getLineValues(page.translations.CORE.ROLES.NAME_COLUMN));
     });
 
   });

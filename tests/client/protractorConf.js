@@ -11,13 +11,13 @@ var entityLoader = process.require('app/server/loaders/entityLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
 var UserModel = process.require('app/server/models/UserModel.js');
+var CorePlugin = process.require('app/server/CorePlugin.js');
 var screenshotPlugin = e2e.plugins.screenshotPlugin;
 var configurationDirectoryPath = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverTestConf.json');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerTestConf.json');
 var databaseConfPath = path.join(configurationDirectoryPath, 'databaseTestConf.json');
 var confPath = path.join(configurationDirectoryPath, 'conf.json');
-var conf = process.require('conf.js');
 var databaseConf = require(databaseConfPath);
 var serverConf = require(serverConfPath);
 var coreConf = require(confPath);
@@ -27,6 +27,7 @@ var applicationServer;
 var webServiceServer;
 var webServiceApplications;
 var users;
+var corePlugin;
 
 // Load a console logger
 process.logger = openVeoAPI.logger.get('openveo');
@@ -142,12 +143,19 @@ exports.config = {
         });
       },
 
+      // Load Core plugin
+      function(callback) {
+        corePlugin = new CorePlugin();
+        pluginLoader.loadPluginMetadata(corePlugin, callback);
+      },
+
       // Load openveo plugins
       function(callback) {
         pluginLoader.loadPlugins(path.join(process.root), function(error, plugins) {
           if (error) {
             throw new Error(error);
           } else {
+            plugins.unshift(corePlugin);
             applicationStorage.setPlugins(plugins);
             callback();
           }
@@ -156,7 +164,7 @@ exports.config = {
 
       // Load entities
       function(callback) {
-        var entities = entityLoader.buildEntities(conf['entities'], applicationStorage.getPlugins());
+        var entities = entityLoader.buildEntities(applicationStorage.getPlugins());
         applicationStorage.setEntities(entities);
         callback();
       },
@@ -165,7 +173,7 @@ exports.config = {
       function(callback) {
         var entities = applicationStorage.getEntities();
         var plugins = applicationStorage.getPlugins();
-        permissionLoader.buildPermissions(conf['permissions'], entities, plugins, function(error, permissions) {
+        permissionLoader.buildPermissions(entities, plugins, function(error, permissions) {
           if (error)
             return callback(error);
 

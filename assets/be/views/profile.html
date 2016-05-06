@@ -1,22 +1,22 @@
 <div class="profile">
-    <h2 ng-bind="'PROFILES.TITLE' | translate"></h2>
-    <div class="well well-lg" ng-bind="'PROFILES.INFO' | translate"></div>
+    <h2 ng-bind="'CORE.PROFILES.TITLE' | translate"></h2>
+    <div class="well well-lg" ng-bind="'CORE.PROFILES.INFO' | translate"></div>
     <div class="container row">
         <div class='col-md-6 user-info'>
-            <h2 ng-bind="'PROFILES.ATTR_USER_ACCOUNT' | translate"> </h2>
+            <h2 ng-bind="'CORE.PROFILES.ATTR_USER_ACCOUNT' | translate"> </h2>
             <ng-include src="'views/elements/dataTableForm.html'"></ng-include>
         </div>
         <div class="col-md-6 detail password" ng-show="passwordEditable()">
-            <h2 ng-bind="'PROFILES.ATTR_MODIFY_PASSWORD' | translate"></h2>
+            <h2 ng-bind="'CORE.PROFILES.ATTR_MODIFY_PASSWORD' | translate"></h2>
             <form class="form-horizontal"  ng-submit="onSubmit(row)" novalidate  name="profileForm" >
                 <div class="form-group">
-                    <label  for="password" class='col-md-4 control-label' ng-bind="'PROFILES.ATTR_PASSWORD' | translate"></label>
+                    <label  for="password" class='col-md-4 control-label' ng-bind="'CORE.PROFILES.ATTR_PASSWORD' | translate"></label>
                     <div class="col-md-8 ">
                       <input id="password" class='form-control' type="password" ng-change="checkValid()" required='true' name="password" ng-model="password" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="confirmPassword" class='col-md-4 control-label' ng-bind="'PROFILES.ATTR_CONFIRM_PASSWORD' | translate"></label>
+                    <label for="confirmPassword" class='col-md-4 control-label' ng-bind="'CORE.PROFILES.ATTR_CONFIRM_PASSWORD' | translate"></label>
                     <div class="col-md-8 ">
                       <input id="confirmPassword" class='col-md-8 form-control' type="password"  required='true'   ng-change="checkValid()" name="confirmPassword" ng-model="confirmPassword" />
                     </div>
@@ -24,8 +24,8 @@
                 <!-- buttons to submit / cancel form -->
                 <div class="col-md-8 col-md-push-4 form-submit-bouton ">
                     <span >
-                        <button type="submit" class="btn btn-primary" ng-disabled="isInValid" ng-bind="'UI.FORM_SAVE' | translate" ></button>
-                        <button type="button" class="btn btn-default" ng-click="cancelForm()" ng-bind="'UI.FORM_CANCEL' | translate"></button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="isInValid" ng-bind="'CORE.UI.FORM_SAVE' | translate" ></button>
+                        <button type="button" class="btn btn-default" ng-click="cancelForm()" ng-bind="'CORE.UI.FORM_CANCEL' | translate"></button>
                     </span>
                 </div>
             </form>

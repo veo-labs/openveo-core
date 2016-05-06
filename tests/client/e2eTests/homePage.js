@@ -42,7 +42,7 @@ describe('Home page', function() {
 
   it('should display a popup to display the list of versions', function() {
     page.openVersions();
-    assert.eventually.isAbove(page.versionElements.count(), 2);
+    assert.eventually.isAbove(page.versionElements.count(), 1);
     page.closeVersions();
   });
 

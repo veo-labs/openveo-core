@@ -16,9 +16,9 @@ function UserPage(model) {
   this.path = 'be/users-list';
 
   // Element finders specific to this page
-  this.pageTitleElement = element(by.binding('USERS.TITLE'));
-  this.pageDescriptionElement = element(by.binding('USERS.INFO'));
-  this.addFormLabelElement = element(by.binding('USERS.ADD_USER'));
+  this.pageTitleElement = element(by.binding('CORE.USERS.TITLE'));
+  this.pageDescriptionElement = element(by.binding('CORE.USERS.INFO'));
+  this.addFormLabelElement = element(by.binding('CORE.USERS.ADD_USER'));
 }
 
 module.exports = UserPage;
@@ -45,7 +45,7 @@ UserPage.prototype.getSearchFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.USERS.TITLE_FILTER,
+    name: this.translations.CORE.USERS.TITLE_FILTER,
     baseElement: form
   });
 
@@ -64,35 +64,35 @@ UserPage.prototype.getAddFormFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.USERS.FORM_ADD_NAME,
+    name: this.translations.CORE.USERS.FORM_ADD_NAME,
     baseElement: form
   });
 
   // Email field
   fields.email = Field.get({
     type: 'text',
-    name: this.translations.USERS.FORM_ADD_EMAIL,
+    name: this.translations.CORE.USERS.FORM_ADD_EMAIL,
     baseElement: form
   });
 
   // Password field
   fields.password = Field.get({
     type: 'text',
-    name: this.translations.USERS.FORM_ADD_PASSWORD,
+    name: this.translations.CORE.USERS.FORM_ADD_PASSWORD,
     baseElement: form
   });
 
   // Password validate field
   fields.passwordValidate = Field.get({
     type: 'text',
-    name: this.translations.USERS.FORM_ADD_PASSWORD_VALIDATE,
+    name: this.translations.CORE.USERS.FORM_ADD_PASSWORD_VALIDATE,
     baseElement: form
   });
 
   // Roles field
   fields.roles = Field.get({
     type: 'checkboxes',
-    name: this.translations.USERS.FORM_ADD_ROLE,
+    name: this.translations.CORE.USERS.FORM_ADD_ROLE,
     baseElement: form
   });
 
@@ -111,21 +111,21 @@ UserPage.prototype.getEditFormFields = function(form) {
   // Name field
   fields.name = Field.get({
     type: 'text',
-    name: this.translations.USERS.ATTR_NAME,
+    name: this.translations.CORE.USERS.ATTR_NAME,
     baseElement: form
   });
 
   // Email field
   fields.email = Field.get({
     type: 'text',
-    name: this.translations.USERS.ATTR_EMAIL,
+    name: this.translations.CORE.USERS.ATTR_EMAIL,
     baseElement: form
   });
 
   // Roles field
   fields.roles = Field.get({
     type: 'checkboxes',
-    name: this.translations.USERS.ATTR_ROLE,
+    name: this.translations.CORE.USERS.ATTR_ROLE,
     baseElement: form
   });
 
@@ -195,7 +195,7 @@ UserPage.prototype.editUser = function(name, data) {
     self.openLine(name);
 
     // Click on edit button
-    browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_EDIT')));
+    browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_EDIT')));
 
     // Set user name
     if (data.name !== undefined)
@@ -210,6 +210,6 @@ UserPage.prototype.editUser = function(name, data) {
       fields.roles.setValue(data.roles);
 
     // Click on save button
-    return browserExt.click(self.lineDetailElement.element(by.binding('UI.FORM_SAVE')));
+    return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
   });
 };

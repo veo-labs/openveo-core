@@ -158,9 +158,15 @@
      * Looks for a translation inside a translations object.
      *
      * @example
-     *     getTranslationFromDictionary('HOME.LOGIN', { 'HOME' : { 'LOGIN' : 'The translation to look for' } });
+     *     getTranslationFromDictionary('CORE.HOME.LOGIN', {
+     *        'CORE': {
+     *          'HOME': {
+     *             'LOGIN': 'The translation to look for'
+     *           }
+     *         }
+     *     });
      *
-     * @param {String} id The id to retrieve (e.g. HOME.LOGIN)
+     * @param {String} id The id to retrieve (e.g. CORE.HOME.LOGIN)
      * @param {Object} dictionary Translations where to look for
      * @return {String} The translated text corresponding to the given id
      * in the translations or the unchanged id if no translation found
@@ -243,11 +249,11 @@
       supportedLanguages = [
         {
           value: 'en',
-          label: 'LANGUAGE.ENGLISH'
+          label: 'CORE.LANGUAGE.ENGLISH'
         },
         {
           value: 'fr',
-          label: 'LANGUAGE.FRENCH'
+          label: 'CORE.LANGUAGE.FRENCH'
         }
       ];
 
