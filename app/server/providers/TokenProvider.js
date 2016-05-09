@@ -16,7 +16,7 @@ var openVeoAPI = require('@openveo/api');
  * @param {Database} database The database to interact with
  */
 function TokenProvider(database) {
-  openVeoAPI.EntityProvider.call(this, database, 'tokens');
+  openVeoAPI.EntityProvider.call(this, database, 'core_tokens');
 }
 
 module.exports = TokenProvider;

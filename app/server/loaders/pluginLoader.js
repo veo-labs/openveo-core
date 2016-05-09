@@ -496,7 +496,7 @@ module.exports.loadPluginMetadata = function(plugin, callback) {
       function(callback) {
 
         var db = openVeoAPI.applicationStorage.getDatabase();
-        db.get('core-system', {name: plugin.name}, null, null, function(error, value) {
+        db.get('core_system', {name: plugin.name}, null, null, function(error, value) {
           if (error) {
             callback(error);
             return;

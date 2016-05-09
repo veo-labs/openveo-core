@@ -15,7 +15,7 @@ var semver = require('semver');
 var async = require('async');
 var openVeoAPI = require('@openveo/api');
 
-/** Save in core-system table the last migration successfull done
+/** Save in core_system table the last migration successfull done
  *
  * @method saveMigrationVersion
  * @private
@@ -27,15 +27,15 @@ var openVeoAPI = require('@openveo/api');
  *    - **Error** An Error object or null
  */
 function saveMigrationVersion(name, version, db, callback) {
-  db.get('core-system', {name: name}, null, null, function(error, value) {
+  db.get('core_system', {name: name}, null, null, function(error, value) {
     if (error) {
       callback(error);
       return;
     }
-    if (!value || !value.length) db.insert('core-system', [{name: name, version: version}], function(error) {
+    if (!value || !value.length) db.insert('core_system', [{name: name, version: version}], function(error) {
       callback(error);
     });
-    else db.update('core-system', {name: name}, {version: version}, function(error) {
+    else db.update('core_system', {name: name}, {version: version}, function(error) {
       callback(error);
     });
   });
