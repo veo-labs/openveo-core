@@ -25,7 +25,7 @@ describe('TagsDirective', function() {
     scope = $rootScope.$new();
   });
 
-  it('Should define a list of tags using the model', function() {
+  it('should define a list of tags using the model', function() {
     $rootScope.data = ['tag1', 'tag2'];
 
     var element = angular.element('<ov-tags ng-model="data"></ov-tags>');
@@ -33,12 +33,12 @@ describe('TagsDirective', function() {
     scope.$digest();
 
     var elementScope = element.scope();
+
     assert.isDefined(elementScope.tags);
-    assert.equal(elementScope.tags[0], $rootScope.data[0]);
-    assert.equal(elementScope.tags[1], $rootScope.data[1]);
+    assert.sameMembers(elementScope.tags, $rootScope.data);
   });
 
-  it('Should be able to add a tag using enter key', function() {
+  it('should be able to add a tag using enter key', function() {
     var value = 'value';
     $rootScope.data = [];
 
@@ -51,11 +51,11 @@ describe('TagsDirective', function() {
     elementScope.editableTagsInput = value;
     elementScope.$digest();
     tagsInput.triggerHandler({type: 'keydown', keyCode: 13});
-    assert.equal(elementScope.tags.length, 1);
+
     assert.equal(elementScope.tags[0], value);
   });
 
-  it('Should be not able to add an empty tag', function() {
+  it('should be not able to add an empty tag', function() {
     $rootScope.data = [];
 
     var element = angular.element('<ov-tags ng-model="data"></ov-tags>');
@@ -65,10 +65,11 @@ describe('TagsDirective', function() {
     var elementScope = element.scope();
     var tagsInput = angular.element(element.find('input')[0]);
     tagsInput.triggerHandler({type: 'keydown', keyCode: 13});
+
     assert.equal(elementScope.tags.length, 0);
   });
 
-  it('Should be able to remove a tag', function() {
+  it('should be able to remove a tag', function() {
     $rootScope.data = ['value'];
 
     var element = angular.element('<ov-tags ng-model="data"></ov-tags>');
@@ -78,6 +79,7 @@ describe('TagsDirective', function() {
     var elementScope = element.scope();
     var removeLink = angular.element(element.find('a')[0]);
     removeLink.triggerHandler('click', 0);
+
     assert.equal(elementScope.tags.length, 0);
   });
 

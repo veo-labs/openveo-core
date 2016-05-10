@@ -25,7 +25,7 @@ describe('MultiCheckBoxDirective', function() {
     scope = $rootScope.$new();
   });
 
-  it('Should be able to check a list of checkboxes using the model', function() {
+  it('should be able to check a list of checkboxes using the model', function() {
     $rootScope.data = ['value2'];
     $rootScope.options = [
       {
@@ -48,13 +48,13 @@ describe('MultiCheckBoxDirective', function() {
     scope.$digest();
 
     var elementScope = element.isolateScope();
-    assert.equal(elementScope.options.length, $rootScope.options.length);
-    assert.equal(elementScope.values.length, $rootScope.options.length);
-    assert.isUndefined(elementScope.values[0]);
-    assert.ok(elementScope.values[1]);
+    assert.equal(elementScope.options.length, $rootScope.options.length, 'Expected options to be set');
+    assert.equal(elementScope.values.length, $rootScope.options.length, 'Expected values to be set');
+    assert.isUndefined(elementScope.values[0], 'Unexpected value');
+    assert.ok(elementScope.values[1], 'Expected a selected value');
   });
 
-  it('Should be able to choose the property to use as name and value in the list of options', function() {
+  it('should be able to choose the property to use as name and value in the list of options', function() {
     $rootScope.data = ['value1', 'value2'];
     $rootScope.labelProperty = 'label';
     $rootScope.valueProperty = 'id';
@@ -81,10 +81,10 @@ describe('MultiCheckBoxDirective', function() {
     scope.$digest();
 
     var elementScope = element.isolateScope();
-    assert.equal(elementScope.labelProperty, $rootScope.labelProperty);
-    assert.equal(elementScope.valueProperty, $rootScope.valueProperty);
-    assert.equal(elementScope.options.length, $rootScope.options.length);
-    assert.equal(elementScope.values.length, $rootScope.options.length);
+    assert.equal(elementScope.labelProperty, $rootScope.labelProperty, 'Unexpected label property');
+    assert.equal(elementScope.valueProperty, $rootScope.valueProperty, 'Unexpected value property');
+    assert.equal(elementScope.options.length, $rootScope.options.length, 'Unexpected list of options');
+    assert.equal(elementScope.values.length, $rootScope.options.length, 'Unexpected list of values');
   });
 
 });

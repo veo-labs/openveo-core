@@ -1,43 +1,37 @@
 'use strict';
 
-// Module dependencies
 var assert = require('chai').assert;
-var ut = require('@openveo/test').unit.generator;
+var applicationStorage = require('@openveo/api').applicationStorage;
+var AuthenticationController = process.require('app/server/controllers/AuthenticationController.js');
 
 // AuthenticationController.js
 describe('AuthenticationController', function() {
-  var request,
-    response,
-    authenticationController;
+  var request = {params: {}};
+  var response = {};
+  var authenticationController;
+  var ADMIN_ID = '0';
 
   before(function() {
-    var AuthenticationController = process.require('app/server/controllers/AuthenticationController.js');
     authenticationController = new AuthenticationController();
-  });
-
-  beforeEach(function() {
-    ut.generatePermissions();
-    request = {
-      params: {}
-    };
-    response = {};
+    applicationStorage.setSuperAdminId(ADMIN_ID);
   });
 
   // getPermissionsAction function
   describe('getPermissionsAction', function() {
 
-    it('Should be able to get a list of permissions as a JSON object', function(done) {
+    it('should be able to get a list of permissions as a JSON object', function(done) {
+      var permissions = [];
+      applicationStorage.setPermissions(permissions);
       response.status = function() {
         return this;
       };
       response.send = function(data) {
-        assert.isDefined(data);
-        assert.isArray(data.permissions);
+        assert.strictEqual(data.permissions, permissions);
         done();
       };
 
-      authenticationController.getPermissionsAction(request, response, function() {
-        assert.ok(false);
+      authenticationController.getPermissionsAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected error : ' + (error && error.message));
       });
     });
 
@@ -46,44 +40,97 @@ describe('AuthenticationController', function() {
   // restrictAction function
   describe('restrictAction', function() {
 
-    it('Should grant access to user if its id is 0', function(done) {
+    before(function() {
+      var permissions = [
+        {
+          id: 'perm1',
+          name: 'name 1',
+          description: 'description 1',
+          paths: [
+            'get /applications'
+          ]
+        },
+        {
+          id: 'perm2',
+          name: 'name 2',
+          description: 'description 2',
+          paths: [
+            'put /applications'
+          ]
+        }
+      ];
+      applicationStorage.setPermissions(permissions);
+    });
+
+    it('should grant access to the administrator', function(done) {
       request = {
         method: 'GET',
         url: '/applications',
         params: {},
         user: {
-          id: 0
+          id: ADMIN_ID
         },
         isAuthenticated: function() {
           return true;
         }
       };
 
-      response.status = function() {
-        return this;
-      };
       response.send = function() {
-        assert.ok(false);
+        assert.ok(false, 'Unexpected response send for restrictAction');
       };
 
-      authenticationController.restrictAction(request, response, function() {
+      authenticationController.restrictAction(request, response, function(error) {
+        assert.notOk(error, 'Unexpected error : ' + (error && error.message));
         done();
       });
-
     });
 
-    it('Should grant access to user with the right permission', function(done) {
+    it('should send an HTTP Unauthorized if user is not authenticated', function(done) {
+      request = {
+        method: 'GET',
+        url: '/applications',
+        params: {},
+        isAuthenticated: function() {
+          return false;
+        }
+      };
+
+      response.send = function() {
+        assert.ok(false, 'Unexpected response send for restrictAction');
+      };
+
+      authenticationController.restrictAction(request, response, function(error) {
+        assert.equal(error.httpCode, 401);
+        done();
+      });
+    });
+
+    it('should grant access to user profile page', function(done) {
+      request = {
+        method: 'POST',
+        url: '/users/42',
+        params: {},
+        user: {
+          id: '42'
+        },
+        isAuthenticated: function() {
+          return true;
+        }
+      };
+
+      authenticationController.restrictAction(request, response, function(error) {
+        assert.notOk(error, 'Unexpected error : ' + (error && error.message));
+        done();
+      });
+    });
+
+    it('should grant access to user with the right permission', function(done) {
       request = {
         method: 'GET',
         url: '/applications',
         params: {},
         user: {
-          id: 1,
-          roles: [
-            {
-              id: 'role1'
-            }
-          ],
+          id: '42',
           permissions: [
             'perm1'
           ]
@@ -94,10 +141,34 @@ describe('AuthenticationController', function() {
       };
 
       authenticationController.restrictAction(request, response, function(error) {
-        assert.isUndefined(error);
+        assert.notOk(error, 'Unexpected error : ' + (error && error.message));
         done();
       });
 
+    });
+
+    it('should send an HTTP Forbidden if user does not have the right permission', function(done) {
+      request = {
+        method: 'GET',
+        url: '/applications',
+        params: {},
+        isAuthenticated: function() {
+          return true;
+        },
+        user: {
+          id: '42',
+          permissions: []
+        }
+      };
+
+      response.send = function() {
+        assert.ok(false, 'Unexpected response send for restrictAction');
+      };
+
+      authenticationController.restrictAction(request, response, function(error) {
+        assert.equal(error.httpCode, 403);
+        done();
+      });
     });
 
   });

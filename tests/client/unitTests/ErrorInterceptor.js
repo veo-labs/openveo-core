@@ -20,7 +20,7 @@ describe('ErrorInterceptor', function() {
     scope = $rootScope.$new();
   });
 
-  it('Should force to logout if receiving a 401 request', function(done) {
+  it('should force to logout if receiving an HTTP unauthorized code', function(done) {
     scope.$on('forceLogout', function() {
       done();
     });
@@ -29,7 +29,7 @@ describe('ErrorInterceptor', function() {
     });
   });
 
-  it('Should set an error message if receiving an error other than 401', function(done) {
+  it('should set an error message if receiving an HTTP error other than an unauthorized code', function(done) {
     scope.$on('setAlert', function() {
       done();
     });

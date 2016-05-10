@@ -1,129 +1,32 @@
 'use strict';
 
-// Module dependencies
 var path = require('path');
 var assert = require('chai').assert;
+var routeLoader = process.require('app/server/loaders/routeLoader.js');
+var pluginPath = path.join(__dirname, 'plugins/node_modules/@openveo/example');
+var pluginConf = require(path.join(pluginPath, 'conf.js'));
 
 // routeLoader.js
 describe('routeLoader', function() {
-  var routeLoader,
-    pluginConf;
-
-  before(function() {
-    pluginConf = require('./plugins/node_modules/@openveo/example/conf.js');
-    routeLoader = process.require('app/server/loaders/routeLoader.js');
-  });
 
   // decodeRoutes method
   describe('decodeRoutes', function() {
-    var routes;
-    var privateRoutes;
 
-    before(function() {
-      routes = routeLoader.decodeRoutes(path.join(__dirname, 'plugins', 'node_modules', '@openveo/example'),
-        pluginConf['routes']['public']);
-      privateRoutes = routeLoader.decodeRoutes(path.join(__dirname, 'plugins', 'node_modules', '@openveo/example'),
-        pluginConf['routes']['private']);
+    it('should be able to decode routes and eliminate invalid routes', function() {
+      var publicRoutes = routeLoader.decodeRoutes(pluginPath, pluginConf['routes']['public']);
+      var privateRoutes = routeLoader.decodeRoutes(pluginPath, pluginConf['routes']['private']);
+      assert.equal(publicRoutes.length, 4, 'Expected 4 public routes');
+      assert.equal(privateRoutes.length, 6, 'Expected 6 private routes');
     });
 
-    it('Should load 4 public routes and ignores 3', function() {
-      assert.equal(routes.length, 4);
-    });
+    it('should be able to decode routes and eliminate invalid routes', function() {
+      var invalidValues = [undefined, null, 42, {}, []];
 
-    it('Should load 6 private routes', function() {
-      assert.equal(privateRoutes.length, 6);
-    });
-
-    it('Should load routes as an array of objects', function() {
-      assert.isArray(routes);
-      assert.isObject(routes[0]);
-    });
-
-    it('Should be able to load routes with several actions', function() {
-      var countRoutes = 0;
-      privateRoutes.forEach(function(privateRoute) {
-        if (privateRoute.path === '*' && privateRoute.method === 'all')
-          countRoutes++;
+      invalidValues.forEach(function(invalidValue) {
+        assert.throws(function() {
+          routeLoader.decodeRoutes(invalidValue, pluginConf['routes']['public']);
+        }, TypeError, null, 'Expected exception when pluginPath is ' + typeof invalidValue);
       });
-
-      assert.equal(countRoutes, 2);
-    });
-
-    it('Should load objects with properties "method", "path" and "action"', function() {
-      assert.isDefined(routes[0].method);
-      assert.isDefined(routes[0].path);
-      assert.isDefined(routes[0].action);
-      assert.isString(routes[0].method);
-      assert.isString(routes[0].path);
-      assert.isFunction(routes[0].action);
-    });
-
-  });
-
-  // applyRoutes method
-  describe('applyRoutes', function() {
-
-    it('Should be able to apply a route to an express router', function(done) {
-
-      var routes = [
-        {
-          method: 'get',
-          path: '/get',
-          action: function() {
-          }
-        },
-        {
-          method: 'post',
-          path: '/post',
-          action: function() {
-          }
-        },
-        {
-          method: 'put',
-          path: '/put',
-          action: function() {
-          }
-        },
-        {
-          method: 'delete',
-          path: '/delete',
-          action: function() {
-          }
-        },
-        {
-          method: 'all',
-          path: '/all',
-          action: function() {
-          }
-        }
-      ];
-
-      var router = {
-        get: function(routePath, action) {
-          assert.equal(routePath, '/get');
-          assert.isFunction(action);
-        },
-        post: function(routePath, action) {
-          assert.equal(routePath, '/post');
-          assert.isFunction(action);
-        },
-        put: function(routePath, action) {
-          assert.equal(routePath, '/put');
-          assert.isFunction(action);
-        },
-        delete: function(routePath, action) {
-          assert.equal(routePath, '/delete');
-          assert.isFunction(action);
-        },
-        all: function(routePath, action) {
-          assert.equal(routePath, '/all');
-          assert.isFunction(action);
-          done();
-        }
-      };
-
-      routeLoader.applyRoutes(routes, router);
-
     });
 
   });

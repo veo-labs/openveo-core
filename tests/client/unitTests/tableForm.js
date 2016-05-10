@@ -4,13 +4,13 @@ window.assert = chai.assert;
 
 // EntityApp.js
 describe('tableForm', function() {
-  var $rootScope,
-    $controller,
-    $filter,
-    $scope,
-    entityService,
-    tableReloadEventService,
-    $q;
+  var $rootScope;
+  var $controller;
+  var $filter;
+  var $scope;
+  var entityService;
+  var tableReloadEventService;
+  var $q;
 
   // Load entity module
   beforeEach(function() {
@@ -59,7 +59,7 @@ describe('tableForm', function() {
       };
     });
 
-    it('Should use fields if defined', function() {
+    it('should use fields if defined', function() {
       $scope.editFormContainer.fields = [{
         key: 'key1',
         type: 'test'
@@ -71,7 +71,7 @@ describe('tableForm', function() {
       assert.ok(fec.fields[0].key == 'key1');
     });
 
-    it('Should launch an init function if defined', function() {
+    it('should launch an init function if defined', function() {
       $scope.editFormContainer.init = function(row) {
         angular.forEach(row, function(value, key) {
           $scope.editFormContainer.fields.push({
@@ -95,7 +95,7 @@ describe('tableForm', function() {
       assert.ok(fec.fields[0].key == 'key1');
     });
 
-    it('Should launch a submit function and set row saving key to false and call success', function(done) {
+    it('should launch a submit function and set row saving key to false and call success', function(done) {
 
       fec = $controller('FormEditController', {
         $scope: $scope,
@@ -122,7 +122,7 @@ describe('tableForm', function() {
       $rootScope.$apply();
     });
 
-    it('Should launch a submit function and set row saving key to false and call error', function(done) {
+    it('should launch a submit function and set row saving key to false and call error', function(done) {
 
       fec = $controller('FormEditController', {
         $scope: $scope,
@@ -164,7 +164,7 @@ describe('tableForm', function() {
       $scope.addFormContainer.fields = [];
     });
 
-    it('Should launch a submit function and call success', function(done) {
+    it('should launch a submit function and call success', function(done) {
       $scope.addFormContainer.model = $scope.test.row[0];
       vm = $controller('FormAddController', {
         $scope: $scope,

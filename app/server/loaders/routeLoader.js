@@ -47,9 +47,13 @@ var controllers = {};
  * @param {String} pluginPath The root path of the plugin associated to the routes
  * @param {Object} routes An object of routes
  * @return {Array} The decoded list of routes
+ * @throws {TypeError} If pluginPath is not a valid string
  */
 module.exports.decodeRoutes = function(pluginPath, routes) {
   var decodedRoutes = [];
+
+  if (!pluginPath || typeof pluginPath !== 'string')
+    throw new TypeError('pluginPath must be a valid string');
 
   if (routes) {
 

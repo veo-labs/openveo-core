@@ -335,11 +335,11 @@ module.exports.generateGroupPermissions = function(callback) {
  * @param {String} id The group id
  * @param {String} name The group name
  * @return {Object} The group permissions
- * @throws {Error} An error if required parameters are not specified
+ * @throws {TypeError} An error if required parameters are not specified
  */
 module.exports.createGroupPermissions = function(id, name) {
-  if (!id || !name)
-    throw new Error('id and name are required to createGroupPermissions');
+  if (!id || !name || (typeof id !== 'string') || (typeof name !== 'string'))
+    throw new TypeError('id and name must be valid String');
 
   var operations = ['get', 'update', 'delete'];
   var permissionGroup = {
@@ -366,13 +366,13 @@ module.exports.createGroupPermissions = function(id, name) {
  *
  * @example
  *     var permissionLoader= process.require("app/server/loaders/permissionLoader.js");
- *     var permissions = {
+ *     var permissions = [
  *       {
  *         "id" : "orphaned-permission",
  *         "name" : "ORPHANED_PERM_NAME",
  *         "description" : "ORPHANED_PERM_DESCRIPTION"
  *       }
- *     };
+ *     ];
  *     console.log(permissionLoader.groupOrphanedPermissions(permissions));
  *     // [
  *     //   {
@@ -394,8 +394,12 @@ module.exports.createGroupPermissions = function(id, name) {
  * group
  * @return {Object} The same list of permissions except that orphaned
  * permissions are extracted into a generic group
+ * @throws {TypeError} An error if permissions is not a valid array
  */
 module.exports.groupOrphanedPermissions = function(permissions) {
+  if (!permissions || Object.prototype.toString.call(permissions) !== '[object Array]')
+    throw new TypeError('permissions must be a valid array');
+
   var formattedPermissions = [];
   var orphanedGroup = {
     label: 'CORE.PERMISSIONS.GROUP_OTHERS',
@@ -408,7 +412,7 @@ module.exports.groupOrphanedPermissions = function(permissions) {
     if (permissions[i].id)
       orphanedGroup.permissions.push(permissions[i]);
 
-        // Group permission
+    // Group permission
     else if (permissions[i].label) {
       var index = groupLabelList.indexOf(permissions[i].label);
       if (index == -1) {

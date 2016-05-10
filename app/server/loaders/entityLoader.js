@@ -35,6 +35,7 @@
  * @method buildEntities
  * @param {Array} plugins The list of plugins
  * @return {Object} The list of entities, for plugins, ordered by plugin name
+ * @throws {TypeError} A TypeError if plugins is not an array
  */
 module.exports.buildEntities = function(plugins) {
   var entities = {};

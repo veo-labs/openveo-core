@@ -96,83 +96,82 @@ function filterPluginsPaths(pluginsPaths) {
  * @param {Function} callback A callback with two arguments :
  *    - **Error** An Error object or null
  *    - **Array** The list of plugins paths
+ * @throws {TypeError} An error if starting path is not a valid string
  */
 module.exports.getPluginPaths = function(startingPath, callback) {
   var self = this;
 
-  if (startingPath) {
-    startingPath = path.join(startingPath, 'node_modules', '@openveo');
-    var pluginsPaths = [];
+  startingPath = path.join(startingPath, 'node_modules', '@openveo');
+  var pluginsPaths = [];
 
-    // Open directory
-    fs.readdir(startingPath, function(error, resources) {
+  // Open directory
+  fs.readdir(startingPath, function(error, resources) {
 
-      // Failed reading directory
-      if (error)
-        return callback(error);
+    // Failed reading directory
+    if (error)
+      return callback(error);
 
-      var pendingFilesNumber = resources.length;
+    var pendingFilesNumber = resources.length;
 
-      // No more pending resources, done for this directory
-      if (!pendingFilesNumber)
-        callback(null, pluginsPaths);
+    // No more pending resources, done for this directory
+    if (!pendingFilesNumber)
+      callback(null, pluginsPaths);
 
-      // Iterate through the list of resources in the directory
-      resources.forEach(function(resource) {
+    // Iterate through the list of resources in the directory
+    resources.forEach(function(resource) {
 
-        // Get resource stats
-        fs.stat(path.join(startingPath, resource), function(statError, stats) {
-          if (statError)
-            return callback(statError);
+      // Get resource stats
+      fs.stat(path.join(startingPath, resource), function(statError, stats) {
+        if (statError)
+          return callback(statError);
 
-          // Resource correspond to an openveo plugin
-          if (stats.isDirectory()) {
-            pluginsPaths.push(path.join(startingPath, resource));
+        // Resource correspond to an openveo plugin
+        if (stats.isDirectory()) {
+          pluginsPaths.push(path.join(startingPath, resource));
 
-            // Test if node_modules/@openveo directory exists under the
-            // plugin directory
-            fs.exists(path.join(startingPath, resource, 'node_modules', '@openveo'), function(exists) {
+          // Test if node_modules/@openveo directory exists under the
+          // plugin directory
+          fs.exists(path.join(startingPath, resource, 'node_modules', '@openveo'), function(exists) {
 
-              // node_modules/@openveo directory exists
-              if (exists) {
+            // node_modules/@openveo directory exists
+            if (exists) {
 
-                // Recursively load modules inside the new
-                // node_modules/@openveo directory
-                var pluginPath = path.join(startingPath, resource);
-                resources = self.getPluginPaths(pluginPath, function(pathsError, subPluginsPaths) {
+              // Recursively load modules inside the new
+              // node_modules/@openveo directory
+              var pluginPath = path.join(startingPath, resource);
+              resources = self.getPluginPaths(pluginPath, function(pathsError, subPluginsPaths) {
 
-                  if (pathsError)
-                    return callback(pathsError);
+                if (pathsError)
+                  return callback(pathsError);
 
-                  pluginsPaths = pluginsPaths.concat(subPluginsPaths);
+                pluginsPaths = pluginsPaths.concat(subPluginsPaths);
 
-                  pendingFilesNumber--;
-
-                  if (!pendingFilesNumber)
-                    callback(null, pluginsPaths);
-
-                });
-              } else {
-
-                // node_modules directory does not exist
                 pendingFilesNumber--;
 
                 if (!pendingFilesNumber)
                   callback(null, pluginsPaths);
 
-              }
-            });
+              });
+            } else {
 
-            if (!pendingFilesNumber)
-              callback(null, pluginsPaths);
-          }
+              // node_modules directory does not exist
+              pendingFilesNumber--;
 
-        });
+              if (!pendingFilesNumber)
+                callback(null, pluginsPaths);
+
+            }
+          });
+
+          if (!pendingFilesNumber)
+            callback(null, pluginsPaths);
+        }
 
       });
 
     });
-  }
+
+  });
 
 };
 
@@ -197,6 +196,7 @@ module.exports.getPluginPaths = function(startingPath, callback) {
  * @param {Function} callback A callback with two arguments :
  *    - **Error** An Error object or null
  *    - **Array** A list of Plugin objects
+ * @throws {TypeError} An error if starting path is not a valid string
  */
 module.exports.loadPlugins = function(startingPath, callback) {
   var self = this;
@@ -293,6 +293,7 @@ module.exports.loadPlugins = function(startingPath, callback) {
  * @param {Function} callback A callback with two arguments :
  *    - **Error** An Error object or null
  *    - **Plugin** The loaded plugin or null
+ * @throws {TypeError} An error if plugin path or starting path is not a valid string
  */
 module.exports.loadPlugin = function(pluginPath, startingPath, callback) {
   var plugin = {};

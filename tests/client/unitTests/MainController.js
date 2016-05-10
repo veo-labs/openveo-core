@@ -4,18 +4,18 @@ window.assert = chai.assert;
 
 // MainController.js
 describe('MainController', function() {
-  var $rootScope,
-    $controller,
-    $httpBackend,
-    authenticationService,
-    $route,
-    $location,
-    i18nService,
-    menuService,
-    entityService,
-    scope,
-    childScope,
-    logoutRequestHandler;
+  var $rootScope;
+  var $controller;
+  var $httpBackend;
+  var authenticationService;
+  var $route;
+  var $location;
+  var i18nService;
+  var menuService;
+  var entityService;
+  var scope;
+  var childScope;
+  var logoutRequestHandler;
 
   // Load openveo module
   beforeEach(module('ov'));
@@ -66,35 +66,10 @@ describe('MainController', function() {
     $httpBackend.when('POST', /.*/).respond(200, '');
   });
 
-  // toggleResponsiveMenu method
-  describe('toggleResponsiveMenu', function() {
-
-    it('Should be able to toggle responsive menu', function() {
-      assert.ok(scope.isResponsiveMenuClosed);
-      scope.toggleResponsiveMenu();
-      assert.notOk(scope.isResponsiveMenuClosed);
-      scope.toggleResponsiveMenu();
-      assert.ok(scope.isResponsiveMenuClosed);
-    });
-
-  });
-
-  // changeLanguage method
-  describe('changeLanguage', function() {
-
-    it('Should be able to change language', function() {
-      var languages = i18nService.getLanguages();
-      i18nService.setLanguage(languages[0].value);
-      scope.changeLanguage(languages[1].value);
-
-      assert.equal(i18nService.getLanguage(), languages[1].value);
-    });
-
-  });
-
-  // $routeChangeStart event handler
+  // $routeChangeSuccess event handler
   describe('$routeChangeStart', function() {
-    it('Should be redirect if user is authenticated and has not permissions to access the route', function() {
+
+    it('should be redirected if user is authenticated and has no permissions to access the route', function() {
       $route = {
         title: 'Page title',
         access: 'isAllowed'
@@ -109,12 +84,13 @@ describe('MainController', function() {
       childScope.$emit('$routeChangeStart', $route);
       assert.equal($location.path(), '/');
     });
+
   });
 
   // $routeChangeSuccess event handler
-  describe('$routeChangeStart', function() {
+  describe('$routeChangeSuccess', function() {
 
-    it('Should handle $routeChangeSuccess from child scope and set page title', function() {
+    it('should handle $routeChangeSuccess from child scope and set page title', function() {
       $route.current = {
         title: 'Page title'
       };
@@ -123,7 +99,7 @@ describe('MainController', function() {
       assert.equal(scope.title, $route.current.title);
     });
 
-    it('Should not display menu if user is not authenticated', function() {
+    it('should not display menu if user is not authenticated', function() {
       childScope.$emit('$routeChangeSuccess');
       menuService.getMenu = function() {
         return true;
@@ -133,7 +109,7 @@ describe('MainController', function() {
       assert.notOk(scope.isResponsiveMenuOpened);
     });
 
-    it('Should display menu if user is authenticated and route has its access granted', function() {
+    it('should display menu if user is authenticated and route has its access granted', function() {
       $route = {
         title: 'Page title'
       };
@@ -147,7 +123,8 @@ describe('MainController', function() {
       assert.ok(scope.menu);
       assert.ok(scope.displayMainMenu);
     });
-    it('Should display menu if user is authenticated and has permissions to access the route', function() {
+
+    it('should display menu if user is authenticated and has permissions to access the route', function() {
       $route = {
         title: 'Page title',
         access: 'isAllowed'
@@ -163,19 +140,20 @@ describe('MainController', function() {
       assert.ok(scope.menu);
       assert.ok(scope.displayMainMenu);
     });
+
   });
 
   // $routeChangeError event handler
   describe('$routeChangeError', function() {
 
-    it('Should redirect user to /login if authentication failed', function() {
+    it('should redirect user to /login if authentication failed', function() {
       childScope.$emit('$routeChangeError', null, null, {
         authenticated: false
       });
       assert.equal($location.path(), '/login');
     });
 
-    it('Should redirect user to / if authentication succeeded', function() {
+    it('should redirect user to / if authentication succeeded', function() {
       scope.userInfo = {};
       childScope.$emit('$routeChangeError');
       assert.equal($location.path(), '/');
@@ -192,7 +170,7 @@ describe('MainController', function() {
       $httpBackend.verifyNoOutstandingRequest();
     });
 
-    it('Should redirect to /login if logout succeeded', function() {
+    it('should redirect to /login if logout succeeded', function() {
       logoutRequestHandler.respond(200, '');
 
       entityService.deleteCache = function() {
@@ -207,7 +185,7 @@ describe('MainController', function() {
       assert.notOk(scope.displayMainMenu);
     });
 
-    it('Should redirect to /login if logout failed', function() {
+    it('should redirect to /login if logout failed', function() {
       logoutRequestHandler.respond(500, '');
 
       scope.logout();

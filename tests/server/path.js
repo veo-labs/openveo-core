@@ -1,6 +1,5 @@
 'use strict';
 
-// Module dependencies
 var assert = require('chai').assert;
 
 // path.js
@@ -14,22 +13,89 @@ describe('path', function() {
   // validate method
   describe('validate', function() {
 
-    it('Should be able to validate a path against a rule', function() {
-      assert.ok(path.validate('get /test', 'get /test'));
-      assert.ok(path.validate('get /test', '/test'));
-      assert.ok(path.validate('get /test', '/*'));
-      assert.ok(path.validate('get /test', '*'));
-      assert.ok(path.validate('post /test', 'post /test'));
-      assert.ok(path.validate('put /test', 'put /test'));
-      assert.ok(path.validate('delete /test', 'delete /test'));
-      assert.ok(path.validate('/test', '/test'));
-      assert.notOk(path.validate('get /test', ''));
-      assert.notOk(path.validate('get /test', '/'));
-      assert.notOk(path.validate('get /test', '/other'));
-      assert.notOk(path.validate('get /test', 'post /test'));
-      assert.notOk(path.validate('get /test', 'post'));
-      assert.notOk(path.validate('get /test', 'get'));
-      assert.notOk(path.validate('get /test', 'unknwon /test'));
+    it('should be able to validate a path against a rule', function() {
+      var validTests = [
+        {
+          path: 'get /test',
+          rule: 'get /test'
+        },
+        {
+          path: 'get /test',
+          rule: '/test'
+        },
+        {
+          path: 'get /test',
+          rule: '/*'
+        },
+        {
+          path: 'get /test',
+          rule: '*'
+        },
+        {
+          path: 'post /test',
+          rule: 'post /test'
+        },
+        {
+          path: 'put /test',
+          rule: 'put /test'
+        },
+        {
+          path: 'delete /test',
+          rule: 'delete /test'
+        },
+        {
+          path: '/test',
+          rule: '/test'
+        }
+      ];
+      var invalidTests = [
+        {
+          path: 'get /test',
+          rule: ''
+        },
+        {
+          path: 'get /test',
+          rule: '/'
+        },
+        {
+          path: 'get /test',
+          rule: '/other'
+        },
+        {
+          path: 'get /test',
+          rule: 'post /test'
+        },
+        {
+          path: 'get /test',
+          rule: 'post'
+        },
+        {
+          path: 'get /test',
+          rule: 'get'
+        },
+        {
+          path: 'get /test',
+          rule: 'unkown /test'
+        }
+      ];
+
+      validTests.forEach(function(test) {
+        var rule = test.rule;
+        var testPath = test.path;
+        assert.ok(path.validate(testPath, rule), 'Expected "' + rule + '" to validate rule "' + testPath + '"');
+      });
+
+      invalidTests.forEach(function(test) {
+        var rule = test.rule;
+        var testPath = test.path;
+        assert.notOk(path.validate(testPath, rule), 'Expected "' + rule + '" to validate rule "' + testPath + '"');
+      });
+    });
+
+    it('should return false if either the path or the rule is not specified', function() {
+      assert.notOk(path.validate(null, '/test'), 'Expected false if path is not specified');
+      assert.notOk(path.validate('/test', null), 'Expected false if rule is not specified');
+      assert.notOk(path.validate(null, null), 'Expected false if both path and rule are not specified');
     });
 
   });

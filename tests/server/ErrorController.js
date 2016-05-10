@@ -1,31 +1,23 @@
 'use strict';
 
-// Module dependencies
 var assert = require('chai').assert;
+var ErrorController = process.require('app/server/controllers/ErrorController.js');
 
 // ErrorController.js
 describe('ErrorController', function() {
-  var request,
-    response,
-    errorController;
+  var request = {params: {}};
+  var response = {locals: {}};
+  var errorController;
 
   beforeEach(function() {
-    var ErrorController = process.require('app/server/controllers/ErrorController.js');
     errorController = new ErrorController();
-    request = {
-      params: {}
-    };
-    response = {
-      locals: {}
-    };
   });
 
   // notFoundAction method
   describe('notFoundAction', function() {
 
-    it('Should send an error with http code 404', function(done) {
+    it('should send an HTTP not found', function(done) {
       errorController.notFoundAction(request, response, function(error) {
-        assert.isDefined(error);
         assert.equal(error.httpCode, 404);
         done();
       });
@@ -36,58 +28,56 @@ describe('ErrorController', function() {
   // notFoundPageAction method
   describe('notFoundPageAction', function() {
 
-    it('Should send an HTML page with http code 404 if HTML is accepted', function(done) {
+    it('should send an HTML page with an HTTP not found if HTML is accepted', function(done) {
       request.accepts = function(format) {
         return (format === 'html');
       };
       request.url = '/notFound';
 
       response.status = function(status) {
-        assert.equal(status, 404);
+        assert.equal(status, 404, 'Expected not found status');
       };
 
       response.render = function(page, data) {
-        assert.isDefined(page);
-        assert.isDefined(data);
-        assert.equal(data.url, request.url);
+        assert.isDefined(page, 'Expected a page to render');
+        assert.equal(data.url, request.url, 'Expected the requested url to be transmitted to the page');
         done();
       };
 
       errorController.notFoundPageAction(request, response, function() {
-        assert.ok(false);
+        assert.ok(false, 'Unexpected next action, should be the end of the line');
       });
     });
 
-    it('Should send a JSON with http code 404 if HTML is not accepted and JSON is', function(done) {
+    it('should send a JSON with HTTP not found if HTML is not accepted and JSON is', function(done) {
       request.accepts = function(format) {
         return (format === 'json');
       };
       request.url = '/notFound';
 
       response.status = function(status) {
-        assert.equal(status, 404);
+        assert.equal(status, 404, 'Expected not found status');
       };
 
       response.send = function(data) {
-        assert.isDefined(data);
-        assert.isDefined(data.error);
-        assert.equal(data.url, request.url);
+        assert.isDefined(data, 'Expected a page to render');
+        assert.equal(data.url, request.url, 'Expected the requested url to be transmitted to the page');
         done();
       };
 
       errorController.notFoundPageAction(request, response, function() {
-        assert.ok(false);
+        assert.ok(false, 'Unexpected next action, should be the end of the line');
       });
     });
 
-    it('Should send a simple text with http code 404 if neither HTML nor JSON is accepted', function(done) {
+    it('should send a simple text with HTTP not found if neither HTML nor JSON is accepted', function(done) {
       request.accepts = function() {
         return false;
       };
       request.url = '/notFound';
 
       response.status = function(status) {
-        assert.equal(status, 404);
+        assert.equal(status, 404, 'Expected not found status');
       };
 
       response.type = function() {
@@ -95,12 +85,12 @@ describe('ErrorController', function() {
       };
 
       response.send = function(text) {
-        assert.isDefined(text);
+        assert.isDefined(text, 'Expected text to be send');
         done();
       };
 
       errorController.notFoundPageAction(request, response, function() {
-        assert.ok(false);
+        assert.ok(false, 'Unexpected next action, should be the end of the line');
       });
     });
 
@@ -109,8 +99,7 @@ describe('ErrorController', function() {
   // errorAction method
   describe('errorAction', function() {
 
-    it('Should send back a JSON object with error code and module', function(done) {
-
+    it('should send back a JSON object with the error code, http code and module', function(done) {
       var error = {
         httpCode: 500,
         code: 25,
@@ -118,7 +107,7 @@ describe('ErrorController', function() {
       };
 
       response.status = function(status) {
-        assert.equal(status, 500);
+        assert.equal(status, error.httpCode);
         return this;
       };
 
@@ -127,71 +116,19 @@ describe('ErrorController', function() {
       };
 
       response.send = function(data) {
-        assert.equal(data.error.code, 25);
-        assert.equal(data.error.module, 'core');
+        assert.equal(data.error.code, error.code, 'Unexpected error code ' + data.error.code);
+        assert.equal(data.error.module, error.module, 'Unexpected module name ' + data.error.module);
         done();
       };
 
       errorController.errorAction(error, request, response, function() {
-        assert.ok(false);
+        assert.ok(false, 'Unexpected next action, should be the end of the line');
       });
     });
 
-    it('Should send back a 401 html page', function(done) {
-
-      var error = {
-        httpCode: 401,
-        code: 26
-      };
-
-
-      request.accepts = function(type) {
-        return type === 'html';
-      };
-
-      response.status = function() {
-        return this;
-      };
-
-      response.render = function(template) {
-        assert.equal(template, 'root');
-        done();
-      };
-
-      errorController.errorAction(error, request, response, function() {
-        assert.ok(false);
-      });
-    });
-
-    it('Should send back a 403 html page', function(done) {
-
-      var error = {
-        httpCode: 403,
-        code: 26
-      };
-
-      request.accepts = function(type) {
-        return type === 'html';
-      };
-
-      response.status = function() {
-        return this;
-      };
-
-      response.render = function(template) {
-        assert.equal(template, 'root');
-        done();
-      };
-
-      errorController.errorAction(error, request, response, function() {
-        assert.ok(false);
-      });
-    });
-
-    it('Should send an error 500 if no error is specified', function(done) {
-
+    it('should send an HTTP server error if no error is specified', function(done) {
       response.status = function(status) {
-        assert.equal(status, 500);
+        assert.equal(status, 500, 'Expected an HTTP server error code');
         return this;
       };
 
@@ -200,12 +137,11 @@ describe('ErrorController', function() {
       };
 
       response.send = function(data) {
-        assert.equal(data.error.module, 'core');
         done();
       };
 
       errorController.errorAction(null, request, response, function() {
-        assert.ok(false);
+        assert.ok(false, 'Unexpected next action, should be the end of the line');
       });
     });
 
