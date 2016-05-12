@@ -55,6 +55,8 @@ describe('tableForm', function() {
         entityService: entityService,
         tableReloadEventService: tableReloadEventService
       });
+      fec.options.resetModel = function() {
+      };
     });
 
     it('Should use fields if defined', function() {
@@ -83,6 +85,8 @@ describe('tableForm', function() {
         $scope: $scope,
         $filter: $filter
       });
+      fec.options.resetModel = function() {
+      };
 
       fec.init($scope.test.row[0]);
 
@@ -102,6 +106,8 @@ describe('tableForm', function() {
       fec.options = {};
       fec.options.updateInitialValue = function() {
         done();
+      };
+      fec.options.resetModel = function() {
       };
 
       $scope.editFormContainer.onSubmit = function(row) {

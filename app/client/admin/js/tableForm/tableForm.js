@@ -164,7 +164,11 @@
 
     this.cancelForm = function() {
       $scope.editFormContainer.pendingEdition = false;
+      if (!self.options.formState)
+        self.options.formState = {};
+
       self.options.formState.showForm = false;
+
       self.options.resetModel();
     };
   }
