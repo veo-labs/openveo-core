@@ -214,8 +214,8 @@
   /**
    * Configures application main routes and set location mode to HTML5.
    */
-  app.config(['$routeProvider', '$locationProvider', '$httpProvider',
-    function($routeProvider, $locationProvider, $httpProvider) {
+  app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$touchProvider',
+    function($routeProvider, $locationProvider, $httpProvider, $touchProvider) {
 
       // Register / route with authentication
       $routeProvider.when('/', {
@@ -304,6 +304,10 @@
 
       $locationProvider.html5Mode(true);
       $httpProvider.interceptors.push('errorInterceptor');
+
+      // Enable ngTouch's ngClick directive to remove the 300ms delay
+      // fir click event on browser for touch-devices
+      $touchProvider.ngClickOverrideEnabled(true);
 
     }]);
 
