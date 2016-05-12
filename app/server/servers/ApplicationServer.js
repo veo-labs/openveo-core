@@ -113,7 +113,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
     secret: this.configuration.sessionSecret,
     saveUninitialized: true,
     resave: true,
-    store: db.getStore()
+    store: db.getStore('core_sessions')
   }));
 
   // The cookieParser and session middlewares are required
