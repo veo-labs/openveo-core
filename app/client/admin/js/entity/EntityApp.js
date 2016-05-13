@@ -28,7 +28,7 @@
      */
     function deleteCache(entityType, pluginName) {
       if (!entityType && !pluginName) {
-        entityCache[pluginName] = {};
+        entityCache = [];
         return;
       }
 
