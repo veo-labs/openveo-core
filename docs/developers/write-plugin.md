@@ -126,13 +126,13 @@ For our example, let's create a public route, a private route and a Web Service 
 module.exports = {
   routes: {
     public: {
-      'get /:id': 'controllers/bookController.displayBookAction'
+      'get /:id': 'controllers/BookController.displayBookAction'
     },
     private: {
-      'get /read/:id': 'controllers/bookController.readBookAction'
+      'get /read/:id': 'controllers/BookController.readBookAction'
     },
     ws: {
-      'get /read/:id': 'controllers/bookController.readBookAction'
+      'get /read/:id': 'controllers/BookController.readBookAction'
     }
   }
 };
@@ -148,22 +148,30 @@ As a reminder :
 
 3 routes have been defined in **conf.js** :
 
-- **/book/:id** pointing to **controllers/bookController.js**, method **displayBookAction**
-- **/book/read/:id** pointing to **controllers/bookController.js**, method **readBookAction**
-- **/book/read/:id** pointing to **controllers/bookController.js**, method **readBookAction**
+- **/book/:id** pointing to **controllers/BookController.js**, method **displayBookAction**
+- **/book/read/:id** pointing to **controllers/BookController.js**, method **readBookAction**
+- **/book/read/:id** pointing to **controllers/BookController.js**, method **readBookAction**
 
-Create a file **controllers/bookController.js** with **displayBookAction** and **readBookAction** methods :
+Create a file **controllers/BookController.js** with **displayBookAction** and **readBookAction** methods :
 
 ```javascript
 'use strict';
 
-// Module dependencies
+var util = require('util');
 var openVeoAPI = require('@openveo/api');
+var Controller = openVeoAPI.controllers.Controller;
+
+function BookController() {
+  Controller.call(this);
+}
+
+module.exports = BookController;
+util.inherits(BookController, Controller);
 
 /**
  * Displays a book.
  */
-module.exports.displayBookAction = function(request, response, next) {
+DefaultController.prototype.displayBookAction = function(request, response, next) {
   var bookId = request.params.id;
 
   // Retrieve books
@@ -181,7 +189,7 @@ module.exports.displayBookAction = function(request, response, next) {
 /**
  * Reads book content and return it as a JSON object.
  */
-module.exports.readBookAction = function(request, response, next) {
+DefaultController.prototype.readBookAction = function(request, response, next) {
   var bookId = request.params.id;
 
   // Retrieve books
@@ -202,7 +210,7 @@ You can now restart your server, connect to the back end (/be/login) and navigat
 
 ## Create a template
 
-The public route **/book/:id** call the **displayBookAction** function on the **bookController**.<br/>
+The public route **/book/:id** call the **displayBookAction** function on the **BookController**.<br/>
 **displayBookAction** needs a template **book.html** to display information about the book.
 
 Create a file **views/book.html** :
