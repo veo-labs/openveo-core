@@ -433,6 +433,29 @@ module.exports.groupOrphanedPermissions = function(permissions) {
 };
 
 /**
+ * Builds the list of scopes.
+ *
+ * @method buildScopes
+ * @static
+ * @param {Object} entities Entities to build scopes from
+ * @param {Array} plugins The list of plugins
+ * @return {Array} The list of generated scopes
+ */
+module.exports.buildScopes = function(entities, plugins, callback) {
+  var scopes = this.generateEntityScopes(entities);
+
+  // Get plugin's scopes
+  if (plugins) {
+    plugins.forEach(function(plugin) {
+      if (plugin.webServiceScopes)
+        scopes = scopes.concat(plugin.webServiceScopes);
+    });
+  }
+
+  return scopes;
+};
+
+/**
  * Builds the list of permissions.
  *
  * add/delete/update permissions are generated for each entity and get/update/delete permissions are

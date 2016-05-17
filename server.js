@@ -161,8 +161,8 @@ async.series([
 
   // Load web service scopes
   function(callback) {
-    var webServiceScopes = permissionLoader.generateEntityScopes(applicationStorage.getEntities());
-    applicationStorage.setWebServiceScopes(webServiceScopes);
+    var scopes = permissionLoader.buildScopes(applicationStorage.getEntities(), applicationStorage.getPlugins());
+    applicationStorage.setWebServiceScopes(scopes);
     callback();
   },
 
