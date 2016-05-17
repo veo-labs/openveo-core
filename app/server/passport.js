@@ -39,7 +39,8 @@ function getUserRoles(user, callback) {
         callback(null, user);
       }
     });
-  }
+  } else
+    callback(null, user);
 
 }
 
