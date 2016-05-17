@@ -120,7 +120,7 @@ Entities are elements subject to CRUD (**C**reate **R**ead **U**pdate **D**elete
 
 Each entity will automatically have 3 associated back end permissions : add, update and delete.
 
-To create a new entity you need to create new EntityController, EntityModel and EntityProvider. Let's say we want to create a new entity called **book**.
+To create a new entity you need to create a new EntityController, EntityModel and EntityProvider. Let's say we want to create a new entity called **book**.
 
 ## Create entity provider
 

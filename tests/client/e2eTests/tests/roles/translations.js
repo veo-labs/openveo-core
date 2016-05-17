@@ -4,7 +4,7 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
-var datas = process.require('tests/client/e2eTests/database/data.json');
+var datas = process.require('tests/client/e2eTests/resources/data.json');
 var browserExt = e2e.browser;
 
 // Load assertion library

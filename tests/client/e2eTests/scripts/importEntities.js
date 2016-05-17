@@ -6,8 +6,8 @@
  * End to end tests require plugins and core to create their own users, groups and roles to be able to test
  * permissions.
  *
- * Description file must be named "data.json" and must be contained in "tests/client/e2eTests/database" directory.
- * Each plugin can have its own "data.json" file in the own "tests/client/e2eTests/database" directory. When the
+ * Description file must be named "data.json" and must be contained in "tests/client/e2eTests/resources" directory.
+ * Each plugin can have its own "data.json" file in the own "tests/client/e2eTests/resources" directory. When the
  * script is launched, all groups, roles and users from "data.json" will be created in test database.
  *
  * @example
@@ -66,7 +66,7 @@ var configDir = openVeoAPI.fileSystem.getConfDir();
 var databaseConf = require(path.join(configDir, 'core/databaseTestConf.json'));
 
 // Path to the description files to import
-var descriptionFilePath = '/tests/client/e2eTests/database/data.json';
+var descriptionFilePath = '/tests/client/e2eTests/resources/data.json';
 
 // Plugin paths (core act as a plugin)
 var pluginPaths = [process.root];

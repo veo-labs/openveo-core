@@ -38,7 +38,6 @@ util.inherits(GroupController, EntityController);
  */
 GroupController.prototype.getEntitiesAction = function(request, response, next) {
   var model = new this.Entity(request.user);
-  var orderedGroups = ['name', 'description'];
   var params;
 
   try {
@@ -46,15 +45,11 @@ GroupController.prototype.getEntitiesAction = function(request, response, next) 
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gt: 0, default: 1},
-      sortBy: {type: 'string', in: orderedGroups, default: 'name'},
+      sortBy: {type: 'string', in: ['name', 'description'], default: 'name'},
       sortOrder: {type: 'string', in: ['asc', 'desc'], default: 'desc'}
     });
   } catch (error) {
-    return response.status(500).send({
-      error: {
-        message: error.message
-      }
-    });
+    return next(errors.GET_GROUPS_WRONG_PARAMETERS);
   }
 
   // Build sort
@@ -77,13 +72,13 @@ GroupController.prototype.getEntitiesAction = function(request, response, next) 
     params.page,
     sort,
     null,
-    function(error, groups, pagination) {
+    function(error, entities, pagination) {
       if (error) {
-        process.logger.error(error);
+        process.logger.error(error.message, {error: error, method: 'getEntitiesAction'});
         next(errors.GET_GROUPS_ERROR);
       } else {
         response.send({
-          entities: groups,
+          entities: entities,
           pagination: pagination
         });
       }

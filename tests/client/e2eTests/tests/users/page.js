@@ -6,7 +6,7 @@ var e2e = require('@openveo/test').e2e;
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var UserModel = process.require('app/server/models/UserModel.js');
 var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
-var datas = process.require('tests/client/e2eTests/database/data.json');
+var datas = process.require('tests/client/e2eTests/resources/data.json');
 var TableAssert = e2e.asserts.TableAssert;
 
 // Load assertion library
@@ -201,7 +201,7 @@ describe('User page', function() {
     return tableAssert.checkLinesSelection(page.translations.CORE.USERS.NAME_COLUMN);
   });
 
-  describe('Search', function() {
+  describe('search', function() {
     var lines;
 
     // Add lines to test search

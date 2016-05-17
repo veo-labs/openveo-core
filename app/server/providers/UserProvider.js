@@ -105,7 +105,8 @@ UserProvider.prototype.getOne = function(id, filter, callback) {
  */
 UserProvider.prototype.createIndexes = function(callback) {
   this.database.createIndexes(this.collection, [
-    {key: {name: 1}, name: 'byName'}
+    {key: {name: 1}, name: 'byName'},
+    {key: {name: 'text'}, weights: {name: 1}, name: 'querySearch'}
   ], function(error, result) {
     if (result && result.note)
       process.logger.debug('Create users indexes : ' + result.note);

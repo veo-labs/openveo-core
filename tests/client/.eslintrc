@@ -6,7 +6,10 @@
     "browser": true,
 
     // Add mocha environment globals
-    "mocha": true
+    "mocha": true,
+
+    // Enable ECMAScript 6 features
+    "es6": true
 
   },
   "globals": {

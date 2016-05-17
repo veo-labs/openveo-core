@@ -119,11 +119,13 @@ GroupModel.prototype.remove = function(ids, callback) {
   this.provider.remove(ids, function(error, deletedCount) {
     var permissions = openVeoAPI.applicationStorage.getPermissions();
 
-    permissions = permissions.filter(function(permission) {
-      return (ids.indexOf(permission.groupId) === -1);
-    });
+    if (permissions) {
+      permissions = permissions.filter(function(permission) {
+        return (ids.indexOf(permission.groupId) === -1);
+      });
 
-    openVeoAPI.applicationStorage.setPermissions(permissions);
+      openVeoAPI.applicationStorage.setPermissions(permissions);
+    }
 
     if (callback)
       callback(error, deletedCount);

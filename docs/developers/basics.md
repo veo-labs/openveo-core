@@ -2,11 +2,11 @@
 
 Based on [Express framwork](https://www.npmjs.com/package/express), OpenVeo creates an HTTP server with a list of routes.
 Routes are mounted on **/** while plugins routes are mounted on **/PLUGIN_NAME** with PLUGIN_NAME the name of the plugin.
-There are two categories of routes :
+There are three categories of routes :
 
 - Public routes : Routes accessible to anyone who has access to the url
 - Private routes : Routes accessible only to users authenticated to the back end
-- Web Service routes : Routes accessible to user authenticated to the Web Service
+- Web Service routes : Routes accessible only to users authenticated to the Web Service
 
 # Back end
 

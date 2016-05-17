@@ -6,8 +6,10 @@
 
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
+var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
 var errors = process.require('app/server/httpErrors.js');
 var EntityController = openVeoAPI.controllers.EntityController;
+var AccessError = openVeoAPI.errors.AccessError;
 
 /**
  * Provides route actions to manage taxonomies.
@@ -17,7 +19,7 @@ var EntityController = openVeoAPI.controllers.EntityController;
  * @extends EntityController
  */
 function TaxonomyController() {
-  EntityController.call(this, openVeoAPI.TaxonomyModel);
+  EntityController.call(this, TaxonomyModel);
 }
 
 module.exports = TaxonomyController;
@@ -37,7 +39,6 @@ util.inherits(TaxonomyController, EntityController);
  */
 TaxonomyController.prototype.getEntitiesAction = function(request, response, next) {
   var model = new this.Entity(request.user);
-  var orderedTaxonomies = ['name'];
   var params;
 
   try {
@@ -45,15 +46,11 @@ TaxonomyController.prototype.getEntitiesAction = function(request, response, nex
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gt: 0, default: 1},
-      sortBy: {type: 'string', in: orderedTaxonomies, default: 'name'},
+      sortBy: {type: 'string', in: ['name'], default: 'name'},
       sortOrder: {type: 'string', in: ['asc', 'desc'], default: 'desc'}
     });
   } catch (error) {
-    return response.status(500).send({
-      error: {
-        message: error.message
-      }
-    });
+    return next(errors.GET_TAXONOMIES_WRONG_PARAMETERS);
   }
 
   // Build sort
@@ -78,7 +75,7 @@ TaxonomyController.prototype.getEntitiesAction = function(request, response, nex
     null,
     function(error, taxonomies, pagination) {
       if (error) {
-        process.logger.error(error);
+        process.logger.error(error.message, {error: error, method: 'getEntitiesAction'});
         next(errors.GET_TAXONOMIES_ERROR);
       } else {
         response.send({
@@ -88,4 +85,38 @@ TaxonomyController.prototype.getEntitiesAction = function(request, response, nex
       }
     }
   );
+};
+
+/**
+ * Gets the list of terms of a taxonomy.
+ *
+ * Parameters :
+ *  - **id** The id of the taxonomy
+ *
+ * @method getTaxonomyTermsAction
+ */
+TaxonomyController.prototype.getTaxonomyTermsAction = function(request, response, next) {
+  if (request.params.id) {
+    var model = new this.Entity(request.user);
+    var entityId = request.params.id;
+
+    model.getOne(entityId, null, function(error, entity) {
+      if (error) {
+        process.logger.error(error.message, {error: error, method: 'getTaxonomyTermsAction', entity: entityId});
+        next((error instanceof AccessError) ? errors.GET_TAXONOMY_FORBIDDEN : errors.GET_TAXONOMY_ERROR);
+      } else if (!entity) {
+        process.logger.warn('Not found', {method: 'getTaxonomyTermsAction', entity: entityId});
+        next(errors.GET_TAXONOMY_NOT_FOUND);
+      } else {
+        response.send({
+          terms: entity.tree || []
+        });
+      }
+    });
+  } else {
+
+    // Missing id of the taxonomy
+    next(errors.GET_TAXONOMY_TERMS_MISSING_PARAMETERS);
+
+  }
 };

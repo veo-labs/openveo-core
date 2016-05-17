@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
 var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
-var datas = process.require('tests/client/e2eTests/database/data.json');
+var datas = process.require('tests/client/e2eTests/resources/data.json');
 
 // Load assertion library
 var assert = chai.assert;

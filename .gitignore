@@ -43,4 +43,4 @@ nbproject/
 /.grunt
 
 # End to end tests
-/tests/client/e2eTests/suites
+/tests/client/e2eTests/build

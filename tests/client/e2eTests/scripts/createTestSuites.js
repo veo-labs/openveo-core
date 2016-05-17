@@ -18,7 +18,7 @@ var suites = process.require('tests/client/protractorSuites.json');
 
 // Path to the test suites files to load
 var suiteFilePath = 'tests/client/protractorSuites.json';
-var aggregatedSuiteFilePath = path.join(process.root, 'tests/client/e2eTests/suites/suites.json');
+var aggregatedSuiteFilePath = path.join(process.root, 'tests/client/e2eTests/build/suites.json');
 
 /**
  * Transforms all suites relatve path to absolute path.

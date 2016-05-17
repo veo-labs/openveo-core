@@ -33,7 +33,7 @@ var corePlugin;
 process.logger = openVeoAPI.logger.get('openveo');
 
 // Load suites
-var suites = process.require('tests/client/e2eTests/suites/suites.json');
+var suites = process.require('tests/client/e2eTests/build/suites.json');
 
 exports.config = {
   seleniumServerJar: process.env.SELENIUM_JAR,

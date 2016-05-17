@@ -130,7 +130,7 @@ describe('Role page', function() {
     return tableAssert.checkLinesSelection(page.translations.CORE.ROLES.NAME_COLUMN);
   });
 
-  describe('Search', function() {
+  describe('search', function() {
     var lines;
 
     // Add lines to test search

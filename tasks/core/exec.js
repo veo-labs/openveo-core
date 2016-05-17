@@ -32,6 +32,13 @@ module.exports = {
     command: 'node -r ./processRequire.js ./tests/client/e2eTests/scripts/createTestSuites.js',
     stdout: true,
     stderr: true
+  },
+
+  // Aggregates all entities from core and plugins
+  createEntities: {
+    command: 'node -r ./processRequire.js ./tests/client/e2eTests/scripts/createEntities.js',
+    stdout: true,
+    stderr: true
   }
 
 };

@@ -15,6 +15,9 @@ module.exports = {
       'get /permissions': 'app/server/controllers/AuthenticationController.getPermissionsAction',
       'get /ws/scopes': 'app/server/controllers/ApplicationController.getScopesAction',
       'post /search/:type': 'app/server/controllers/SearchController.searchEntitiesAction'
+    },
+    ws: {
+      'get /taxonomies/:id/terms': 'app/server/controllers/TaxonomyController.getTaxonomyTermsAction'
     }
   },
   entities: {

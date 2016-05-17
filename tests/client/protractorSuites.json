@@ -1,13 +1,13 @@
 {
-  "applicationPage": "e2eTests/applicationPage*.js",
-  "homePage": "e2eTests/homePage*.js",
-  "leftMenu": "e2eTests/leftMenu*.js",
-  "loginPage": "e2eTests/loginPage*.js",
-  "profilePage": "e2eTests/profilePage*.js",
-  "rolePage": "e2eTests/rolePage*.js",
-  "topMenu": "e2eTests/topMenu*.js",
-  "userPage": "e2eTests/userPage*.js",
-  "group": "e2eTests/group*.js",
-  "coreWebService": "e2eTests/webService*.js",
-  "core": "e2eTests/*.js"
+  "coreApplications": "e2eTests/tests/applications/*.js",
+  "coreGroups": "e2eTests/tests/groups/*.js",
+  "coreHome": "e2eTests/tests/home/*.js",
+  "coreLogin": "e2eTests/tests/login/*.js",
+  "coreMenu": "e2eTests/tests/menu/*.js",
+  "coreProfile": "e2eTests/tests/profile/*.js",
+  "coreRoles": "e2eTests/tests/roles/*.js",
+  "coreTaxonomies": "e2eTests/tests/taxonomies/*.js",
+  "coreUsers": "e2eTests/tests/users/*.js",
+  "coreWebService": ["e2eTests/tests/webService/*.js", "e2eTests/tests/**/webService.js"],
+  "core": "e2eTests/tests/**/*.js"
 }

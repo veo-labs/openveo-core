@@ -61,6 +61,7 @@ module.exports = function(grunt) {
     'exec:dropTestDatabase',
     'exec:createTestEntities',
     'exec:createTestSuites',
+    'exec:createEntities',
     'protractor'
   ]);
 

@@ -1,6 +1,7 @@
 'use strict';
 
 var util = require('util');
+var shortid = require('shortid');
 var e2e = require('@openveo/test').e2e;
 var Helper = e2e.helpers.Helper;
 
@@ -13,6 +14,11 @@ var Helper = e2e.helpers.Helper;
  */
 function UserHelper(model) {
   UserHelper.super_.call(this, model);
+  this.textSearchProperties = ['name'];
+  this.sortProperties = [{
+    name: 'name',
+    type: 'string'
+  }];
 }
 
 module.exports = UserHelper;
@@ -45,4 +51,63 @@ UserHelper.prototype.addEntitiesAuto = function(name, total, offset) {
   }
 
   return this.addEntities(entities);
+};
+
+/**
+ * Gets entity object example to use with web service put /entityName.
+ *
+ * If the entity managed by the Helper is registered to be tested automatically by the core, it needs to implement
+ * this method which will be used to perform a put /entityName.
+ *
+ * @method getAddExample
+ * @return {Object} The data to add
+ */
+UserHelper.prototype.getAddExample = function() {
+  return {
+    id: shortid.generate(),
+    name: 'User example',
+    email: 'peter.venkman@ghosts.com',
+    password: 'peter',
+    passwordValidate: 'peter',
+    roles: ['role1', 'role2']
+  };
+};
+
+/**
+ * Prepares an entity to be tested against an entity coming from a get /entityName/:id.
+ *
+ * All properties of the returned object must match properties from a get /entityName/:id.
+ *
+ * If the entity managed by the Helper is registered to be tested automatically by the core, it needs to implement
+ * this method which will be used to perform a post /entityName.
+ *
+ * @method getValidationExample
+ * @return {Object} The entity which will validate a get /entityName/:id response
+ */
+UserHelper.prototype.getValidationExample = function(entity) {
+  var excludedProperties = ['password', 'passwordValidate'];
+  var validationEntity = {};
+
+  for (var property in entity)
+    if (excludedProperties.indexOf(property) === -1)
+      validationEntity[property] = entity[property];
+
+  return validationEntity;
+};
+
+/**
+ * Gets entity object example to use with web service post /entityName.
+ *
+ * If the entity managed by the Helper is registered to be tested automatically by the core, it needs to implement
+ * this method which will be used to perform a post /entityName.
+ *
+ * @method getUpdateExample
+ * @return {Object} The data to perform the update
+ */
+UserHelper.prototype.getUpdateExample = function() {
+  return {
+    name: 'User example new name',
+    email: 'peter.venkman@ghosts.com',
+    roles: ['role3']
+  };
 };

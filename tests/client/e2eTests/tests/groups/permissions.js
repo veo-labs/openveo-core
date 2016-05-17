@@ -5,7 +5,7 @@ var chaiAsPromised = require('chai-as-promised');
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
 var GroupHelper = process.require('tests/client/e2eTests/helpers/GroupHelper.js');
 var GroupModel = process.require('app/server/models/GroupModel.js');
-var datas = process.require('tests/client/e2eTests/database/data.json');
+var datas = process.require('tests/client/e2eTests/resources/data.json');
 
 // Load assertion library
 var assert = chai.assert;

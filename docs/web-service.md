@@ -129,19 +129,21 @@ Get taxonomies.
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on taxonomies' name
-sortBy | String | No | name | To sort taxonomies by **name**
 sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
 page | Number | No | 1 | The expected page
 limit | Number | No | - | To limit the number of taxonomies per page. If not specified get all taxonomies
 
 HTTP Status Code | Details
 ---- | ----
-500 | An error occured on the server side
 200 | Got the list of taxonomies (even if the list is empty)
+500 | An error occured on the server side
+400 | Wrong list of parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
 
 ```json
 {
-  "taxonomies": [
+  "entities": [
     {
       "id": "1443533344313",
       "name": "Taxonomy 1",
@@ -182,16 +184,121 @@ Get taxonomy.
 
 HTTP Status Code | Details
 ---- | ----
-500 | An error occured on the server side
 200 | Got the taxonomy
+500 | An error occured on the server side
+400 | Missing the taxonomy id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
 
 ```json
 {
-  "taxonomy": {
-    "name": "{taxonomy_id}",
+  "entity": {
+    "name": "My taxonomy",
+    "id": "{taxonomy_id}",
+    "tree": []
+  }
+}
+```
+
+---
+
+Get the list of terms of a taxonomy.
+
+    GET WEB_SERVICE_URL/taxonomies/{taxonomy_id}/terms
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the taxonomy's terms
+500 | An error occured on the server side
+400 | Missing the taxonomy id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "terms": [
+    {
+      "id" : "1445433239636",
+      "title": "Term 1",
+      "items": [
+        {
+          "id" : "1445433239637",
+          "items": [],
+          "title": "Sub term 1"
+        }
+      ]
+    },
+    {
+      "title": "Term 2",
+      "id" : "1333443134453",
+      "items": []
+    }
+  ]
+}
+```
+
+---
+
+Add a taxonomy.
+
+    PUT WEB_SERVICE_URL/taxonomies
+
+HTTP Status Code | Details
+---- | ----
+200 | The taxonomy has been added
+500 | An error occured on the server side
+400 | Wrong PUT parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "name": "My taxonomy",
     "id": "41U3sYipg",
     "tree": []
   }
+}
+```
+---
+
+Update a taxonomy.
+
+    POST WEB_SERVICE_URL/taxonomies/{taxonomy_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The taxonomy has been updated
+500 | An error occured on the server side
+400 | Missing the taxonomy id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+---
+
+Delete a taxonomy.
+
+    DELETE WEB_SERVICE_URL/taxonomies/{taxonomy_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The taxonomy has been deleted
+500 | An error occured on the server side
+400 | Missing the taxonomy id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
 }
 ```
 
@@ -211,12 +318,15 @@ limit | Number | No | - | To limit the number of groups per page. If not specifi
 
 HTTP Status Code | Details
 ---- | ----
-500 | An error occured on the server side
 200 | Got the list of groups (even if the list is empty)
+500 | An error occured on the server side
+400 | Wrong list of parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
 
 ```json
 {
-  "groups": [
+  "entities": [
     {
       "id": "Nk0fPIulZ",
       "name": "Group name",
@@ -249,17 +359,490 @@ group_id | String | Yes | - | The id of the group to fetch
 
 HTTP Status Code | Details
 ---- | ----
-500 | An error occured on the server side
-400 | The id of the group is missing
 200 | Got the group
+500 | An error occured on the server side
+400 | Missing the id of the group
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
 
 ```json
 {
-  "group": {
-    "id": "Nk0fPIulZ",
+  "entity": {
+    "id": "{group_id}",
     "name": "Group name",
     "description": "Group description"
   }
+}
+```
+
+---
+
+Add a group.
+
+    PUT WEB_SERVICE_URL/groups
+
+HTTP Status Code | Details
+---- | ----
+200 | The group has been added
+500 | An error occured on the server side
+400 | Wrong PUT parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "41U3sYipg",
+    "name": "Group name",
+    "description": "Group description"
+  }
+}
+```
+
+---
+
+Update a group.
+
+    POST WEB_SERVICE_URL/groups/{group_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The group has been updated
+500 | An error occured on the server side
+400 | Missing the group id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+---
+
+Delete a group.
+
+    DELETE WEB_SERVICE_URL/groups/{group_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The group has been deleted
+500 | An error occured on the server side
+400 | Missing the group id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+## Roles
+
+Get roles.
+
+    GET WEB_SERVICE_URL/roles
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+query | String | No | - | To search on roles' name
+sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+page | Number | No | 1 | The expected page
+limit | Number | No | - | To limit the number of roles per page. If not specified get all roles
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the list of roles (even if the list is empty)
+500 | An error occured on the server side
+400 | Wrong list of parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entities": [
+    {
+      "id": "4J5KIL_lb",
+      "name": "Role name",
+      "permissions" : [...]
+    }
+  ],
+  "pagination": {
+    "limit": 1,
+    "page": 1,
+    "pages": 2,
+    "size": 2
+  }
+}
+```
+
+---
+
+Get information about a role.
+
+    GET WEB_SERVICE_URL/roles/{role_id}
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+role_id | String | Yes | - | The id of the role to fetch
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the role
+500 | An error occured on the server side
+400 | Missing the id of the role
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "{role_id}",
+    "name": "Role name",
+    "permissions" : [...]
+  }
+}
+```
+
+---
+
+Add a role.
+
+    PUT WEB_SERVICE_URL/roles
+
+HTTP Status Code | Details
+---- | ----
+200 | The role has been added
+500 | An error occured on the server side
+400 | Wrong PUT parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "41U3sYipg",
+    "name": "Role name",
+    "permissions" : [...]
+  }
+}
+```
+
+---
+
+Update a role.
+
+    POST WEB_SERVICE_URL/roles/{role_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The role has been updated
+500 | An error occured on the server side
+400 | Missing the role id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+---
+
+Delete a role.
+
+    DELETE WEB_SERVICE_URL/roles/{role_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The role has been deleted
+500 | An error occured on the server side
+400 | Missing the role id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+## Users
+
+Get users.
+
+    GET WEB_SERVICE_URL/users
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+query | String | No | - | To search on users' name
+sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+page | Number | No | 1 | The expected page
+limit | Number | No | - | To limit the number of users per page. If not specified get all users
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the list of users (even if the list is empty)
+500 | An error occured on the server side
+400 | Wrong list of parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entities": [
+    {
+      "id": "42",
+      "name": "User name",
+      "password": "38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d",
+      "email" : "user.mail@company.com"
+    }
+  ],
+  "pagination": {
+    "limit": 1,
+    "page": 1,
+    "pages": 2,
+    "size": 2
+  }
+}
+```
+
+---
+
+Get information about a user.
+
+    GET WEB_SERVICE_URL/users/{user_id}
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+user_id | String | Yes | - | The id of the user to fetch
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the user
+500 | An error occured on the server side
+400 | Missing the id of the user
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "{user_id}",
+    "name": "User name",
+    "password": "38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d",
+    "email" : "user.mail@company.com"
+  }
+}
+```
+
+---
+
+Add a user.
+
+    PUT WEB_SERVICE_URL/users
+
+HTTP Status Code | Details
+---- | ----
+200 | The user has been added
+500 | An error occured on the server side
+400 | Wrong PUT parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "41U3sYipg",
+    "name": "User name",
+    "password": "38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d",
+    "email" : "user.mail@company.com"
+  }
+}
+```
+
+---
+
+Update a user.
+
+    POST WEB_SERVICE_URL/users/{user_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The user has been updated
+500 | An error occured on the server side
+400 | Missing the user id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+---
+
+Delete a user.
+
+    DELETE WEB_SERVICE_URL/users/{user_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The user has been deleted
+500 | An error occured on the server side
+400 | Missing the user id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+## Applications
+
+Get applications.
+
+    GET WEB_SERVICE_URL/applications
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+query | String | No | - | To search on applications' name
+sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+page | Number | No | 1 | The expected page
+limit | Number | No | - | To limit the number of applications per page. If not specified get all applications
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the list of applications (even if the list is empty)
+500 | An error occured on the server side
+400 | Wrong list of parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entities": [
+    {
+      "id": "4J6CUL_gZ",
+      "name": "Application name",
+      "scopes": [...],
+      "secret" : "179a905785d4258bba255ffb812a25f2225f7d4c"
+    }
+  ],
+  "pagination": {
+    "limit": 1,
+    "page": 1,
+    "pages": 2,
+    "size": 2
+  }
+}
+```
+
+---
+
+Get information about an application.
+
+    GET WEB_SERVICE_URL/applications/{application_id}
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+application_id | String | Yes | - | The id of the application to fetch
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the application
+500 | An error occured on the server side
+400 | Missing the id of the application
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "{application_id}",
+    "name": "Application name",
+    "scopes": [...],
+    "secret" : "179a905785d4258bba255ffb812a25f2225f7d4c"
+  }
+}
+```
+
+---
+
+Add an application.
+
+    PUT WEB_SERVICE_URL/applications
+
+HTTP Status Code | Details
+---- | ----
+200 | The application has been added
+500 | An error occured on the server side
+400 | Wrong PUT parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "41U3sYipg",
+    "name": "Application name",
+    "scopes": [...],
+    "secret" : "179a905785d4258bba255ffb812a25f2225f7d4c"
+  }
+}
+```
+
+---
+
+Update an application.
+
+    POST WEB_SERVICE_URL/applications/{application_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The application has been updated
+500 | An error occured on the server side
+400 | Missing the application id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+---
+
+Delete an application.
+
+    DELETE WEB_SERVICE_URL/applications/{application_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The application has been deleted
+500 | An error occured on the server side
+400 | Missing the application id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
 }
 ```
 

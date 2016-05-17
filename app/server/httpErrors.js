@@ -14,76 +14,124 @@
  */
 module.exports = {
 
-  // General errors
+  // Server errors
   UNKNOWN_ERROR: {
     code: 0x000,
     httpCode: 500
   },
-  PATH_NOT_FOUND: {
+  I18N_DICTIONARY_ERROR: {
     code: 0x001,
+    httpCode: 500
+  },
+  GET_TAXONOMIES_ERROR: {
+    code: 0x002,
+    httpCode: 500
+  },
+  GET_GROUPS_ERROR: {
+    code: 0x003,
+    httpCode: 500
+  },
+  BACK_END_AUTHENTICATION_ERROR: {
+    code: 0x004,
+    httpCode: 500
+  },
+  GET_APPLICATIONS_ERROR: {
+    code: 0x005,
+    httpCode: 500
+  },
+  GET_ROLES_ERROR: {
+    code: 0x006,
+    httpCode: 500
+  },
+  GET_USERS_ERROR: {
+    code: 0x007,
+    httpCode: 500
+  },
+  UPDATE_USER_ERROR: {
+    code: 0x008,
+    httpCode: 500
+  },
+  GET_TAXONOMY_ERROR: {
+    code: 0x009,
+    httpCode: 500
+  },
+
+  // Not found errors
+  PATH_NOT_FOUND: {
+    code: 0x100,
+    httpCode: 404
+  },
+  I18N_DICTIONARY_NOT_FOUND: {
+    code: 0x101,
+    httpCode: 404
+  },
+  GET_TAXONOMY_NOT_FOUND: {
+    code: 0x102,
     httpCode: 404
   },
 
   // Authentication errors
-  BACK_END_AUTHENTICATION_ERROR: {
-    code: 0x100,
-    httpCode: 500
-  },
   BACK_END_AUTHENTICATION_FAILED: {
-    code: 0x101,
+    code: 0x200,
     httpCode: 401
   },
   BACK_END_UNAUTHORIZED: {
-    code: 0x102,
+    code: 0x201,
     httpCode: 401
   },
   BACK_END_FORBIDDEN: {
-    code: 0x103,
+    code: 0x202,
     httpCode: 403
   },
   WS_FORBIDDEN: {
-    code: 0x104,
+    code: 0x203,
     httpCode: 403
   },
   WS_UNAUTHORIZED: {
-    code: 0x105,
+    code: 0x204,
     httpCode: 401
   },
-
-  // Missing parameters errors
-  GET_TAXONOMY_MISSING_PARAMETERS: {
-    code: 0x200,
-    httpCode: 400
+  UPDATE_USER_FORBIDDEN: {
+    code: 0x205,
+    httpCode: 403
   },
-  GET_GROUP_MISSING_PARAMETERS: {
-    code: 0x201,
-    httpCode: 400
+  GET_TAXONOMY_FORBIDDEN: {
+    code: 0x206,
+    httpCode: 403
   },
 
-  // Other errors
-  I18N_DICTIONARY_NOT_FOUND: {
+  // Wrong parameters
+  GET_USERS_WRONG_PARAMETERS: {
     code: 0x300,
-    httpCode: 404
+    httpCode: 400
   },
-  I18N_DICTIONARY_ERROR: {
+  UPDATE_USER_MISSING_PARAMETERS: {
     code: 0x301,
-    httpCode: 500
+    httpCode: 400
   },
-  GET_TAXONOMY_ERROR: {
+  UPDATE_USER_WRONG_PARAMETERS: {
     code: 0x302,
-    httpCode: 500
+    httpCode: 400
   },
-  GET_TAXONOMIES_ERROR: {
+  GET_TAXONOMIES_WRONG_PARAMETERS: {
     code: 0x303,
-    httpCode: 500
+    httpCode: 400
   },
-  GET_GROUP_ERROR: {
+  GET_APPLICATIONS_WRONG_PARAMETERS: {
     code: 0x304,
-    httpCode: 500
+    httpCode: 400
   },
-  GET_GROUPS_ERROR: {
+  GET_GROUPS_WRONG_PARAMETERS: {
     code: 0x305,
-    httpCode: 500
+    httpCode: 400
+  },
+  GET_ROLES_WRONG_PARAMETERS: {
+    code: 0x306,
+    httpCode: 400
+  },
+  GET_TAXONOMY_TERMS_MISSING_PARAMETERS: {
+    code: 0x307,
+    httpCode: 400
   }
 
 };

@@ -211,13 +211,25 @@
     }
   },
   "applications": {
+    "coreApplicationsApplications": {
+      "name": "core-applications-applications",
+      "scopes": [ "core-get-applications", "core-add-applications", "core-delete-applications", "core-update-applications" ]
+    },
     "coreApplicationsTaxonomies": {
       "name": "core-applications-taxonomies",
-      "scopes": [ "core-get-taxonomies" ]
+      "scopes": [ "core-get-taxonomies", "core-add-taxonomies", "core-delete-taxonomies", "core-update-taxonomies" ]
     },
     "coreApplicationsGroups": {
       "name": "core-applications-groups",
-      "scopes": [ "core-get-groups" ]
+      "scopes": [ "core-get-groups", "core-add-groups", "core-delete-groups", "core-update-groups" ]
+    },
+    "coreApplicationsRoles": {
+      "name": "core-applications-roles",
+      "scopes": [ "core-get-roles", "core-add-roles", "core-delete-roles", "core-update-roles" ]
+    },
+    "coreApplicationsUsers": {
+      "name": "core-applications-users",
+      "scopes": [ "core-get-users", "core-add-users", "core-delete-users", "core-update-users" ]
     },
     "coreApplicationsGuest": {
       "name": "core-applications-guest",

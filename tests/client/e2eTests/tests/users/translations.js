@@ -3,15 +3,15 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
-var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
-var datas = process.require('tests/client/e2eTests/database/data.json');
+var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
+var datas = process.require('tests/client/e2eTests/resources/data.json');
 var browserExt = e2e.browser;
 
 // Load assertion library
 var assert = chai.assert;
 chai.use(chaiAsPromised);
 
-describe('Application page translations', function() {
+describe('User page translations', function() {
   var page;
 
   /**
@@ -29,20 +29,30 @@ describe('Application page translations', function() {
         var coreTranslations = page.translations.CORE;
 
         // Page translations
-        assert.eventually.equal(page.getTitle(), coreTranslations.APPLICATIONS.PAGE_TITLE);
-        assert.eventually.equal(page.pageTitleElement.getText(), coreTranslations.APPLICATIONS.TITLE);
-        assert.eventually.equal(page.pageDescriptionElement.getText(), coreTranslations.APPLICATIONS.INFO);
-        assert.eventually.equal(page.addFormLabelElement.getText(), coreTranslations.APPLICATIONS.ADD_APPLICATION);
+        assert.eventually.equal(page.getTitle(), coreTranslations.USERS.PAGE_TITLE);
+        assert.eventually.equal(page.pageTitleElement.getText(), coreTranslations.USERS.TITLE);
+        assert.eventually.equal(page.pageDescriptionElement.getText(), coreTranslations.USERS.INFO);
+        assert.eventually.equal(page.addFormLabelElement.getText(), coreTranslations.USERS.ADD_USER);
 
         // Add form translations
         page.openAddForm();
         var addFormFields = page.getAddFormFields(page.addFormElement);
         var nameField = addFormFields.name;
-        var scopesField = addFormFields.scopes;
-        assert.eventually.equal(nameField.getLabel(), coreTranslations.APPLICATIONS.FORM_ADD_NAME);
-        assert.eventually.equal(nameField.getDescription(), coreTranslations.APPLICATIONS.FORM_ADD_NAME_DESC);
-        assert.eventually.equal(scopesField.getLabel(), coreTranslations.APPLICATIONS.FORM_ADD_SCOPES);
-        assert.eventually.equal(scopesField.getDescription(), coreTranslations.APPLICATIONS.FORM_ADD_SCOPES_DESC);
+        var emailField = addFormFields.email;
+        var passwordField = addFormFields.password;
+        var passwordValidateField = addFormFields.passwordValidate;
+        var rolesField = addFormFields.roles;
+        assert.eventually.equal(nameField.getLabel(), coreTranslations.USERS.FORM_ADD_NAME);
+        assert.eventually.equal(nameField.getDescription(), coreTranslations.USERS.FORM_ADD_NAME_DESC);
+        assert.eventually.equal(emailField.getLabel(), coreTranslations.USERS.FORM_ADD_EMAIL);
+        assert.eventually.equal(emailField.getDescription(), coreTranslations.USERS.FORM_ADD_EMAIL_DESC);
+        assert.eventually.equal(passwordField.getLabel(), coreTranslations.USERS.FORM_ADD_PASSWORD);
+        assert.eventually.equal(passwordField.getDescription(), coreTranslations.USERS.FORM_ADD_PASSWORD_DESC);
+        assert.eventually.equal(passwordValidateField.getLabel(), coreTranslations.USERS.FORM_ADD_PASSWORD_VALIDATE);
+        assert.eventually.equal(passwordValidateField.getDescription(),
+                               coreTranslations.USERS.FORM_ADD_PASSWORD_VALIDATE_DESC);
+        assert.eventually.equal(rolesField.getLabel(), coreTranslations.USERS.FORM_ADD_ROLE);
+        assert.eventually.equal(rolesField.getDescription(), coreTranslations.USERS.FORM_ADD_ROLE_DESC);
         assert.eventually.equal(page.addButtonElement.getText(), coreTranslations.UI.FORM_ADD);
         page.closeAddForm();
 
@@ -53,7 +63,7 @@ describe('Application page translations', function() {
 
         var searchFields = page.getSearchFields(page.searchFormElement);
         var searchNameField = searchFields.name;
-        assert.eventually.equal(searchNameField.getLabel(), coreTranslations.APPLICATIONS.TITLE_FILTER);
+        assert.eventually.equal(searchNameField.getLabel(), coreTranslations.USERS.TITLE_FILTER);
 
         // All actions translations
         page.setSelectAllMouseOver();
@@ -65,17 +75,17 @@ describe('Application page translations', function() {
         assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing all remove action');
 
         // Headers translations
-        assert.eventually.ok(page.isTableHeader(coreTranslations.APPLICATIONS.NAME_COLUMN), 'Missing name column');
+        assert.eventually.ok(page.isTableHeader(coreTranslations.USERS.NAME_COLUMN), 'Missing name column');
         assert.eventually.ok(page.isTableHeader(coreTranslations.UI.ACTIONS_COLUMN), 'Missing actions column');
 
         // Individual actions
-        page.getLine(datas.applications.coreApplicationsGuest.name).then(function(line) {
+        page.getLine(datas.users.coreGuest.name).then(function(line) {
           var actionTd = line.all(by.css('td')).last();
           var actionButton = actionTd.element(by.css('button'));
-          var removeAction = actionTd.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
+          var removeActionElement = actionTd.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
 
           browserExt.click(actionButton).then(function() {
-            assert.eventually.ok(removeAction.isDisplayed(), 'Missing remove action');
+            assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing remove action');
           });
         }, function(error) {
           assert.ok(false, error.message);
@@ -90,14 +100,14 @@ describe('Application page translations', function() {
     }
   }
 
-  // Prepare page
+  // Load page
   before(function() {
-    page = new ApplicationPage();
+    page = new UserPage();
     page.logAsAdmin();
     page.load();
   });
 
-  // Logout after tests
+  // Logout
   after(function() {
     page.logout();
   });
