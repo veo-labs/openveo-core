@@ -3,7 +3,15 @@
 var path = require('path');
 var openVeoAPI = require('@openveo/api');
 var configDir = openVeoAPI.fileSystem.getConfDir();
-var databaseConf = require(path.join(configDir, 'core/databaseTestConf.json'));
+var databaseConf;
+
+// Test if databaseTestConf.json exists to avoid error on first install
+try {
+  databaseConf = require(path.join(configDir, 'core/databaseTestConf.json'));
+} catch (e) {
+  return module.exports = null;
+}
+
 
 // For more information about Grunt exec, have a look at https://www.npmjs.com/package/grunt-exec
 module.exports = {
