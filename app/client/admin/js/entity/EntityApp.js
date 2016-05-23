@@ -129,7 +129,10 @@
     function getEntities(entityType, pluginName, param, canceller) {
       var deferred = $q.defer();
       var options = {};
-      if (canceller) options = {timeout: canceller};
+      if (canceller) {
+        canceller.promise.status = true;
+        options = {timeout: canceller};
+      }
       if (!pluginName) pluginName = 'core';
       var pluginCache = entityCache[pluginName];
 

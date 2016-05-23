@@ -270,7 +270,12 @@
     // callback to load Resource on filter, pagination or sort change
     this.getResource = function(params, paramsObj) {
       var param = {};
-      if (canceller) canceller.resolve();
+      if (canceller) {
+
+        // Hack to differentiate cancel from server not repond on HttpInterceptor
+        canceller.promise.status = true;
+        canceller.resolve();
+      }
       canceller = $q.defer();
 
       param['limit'] = paramsObj.count;
