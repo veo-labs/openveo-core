@@ -130,7 +130,6 @@
       var deferred = $q.defer();
       var options = {};
       if (canceller) {
-        canceller.promise.status = true;
         options = {timeout: canceller};
       }
       if (!pluginName) pluginName = 'core';
