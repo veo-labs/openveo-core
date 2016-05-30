@@ -1,3 +1,17 @@
+# 2.0.0 / 2016-05-30
+
+- Update Form to delete xeditable dependencies
+- Create index for core search entities
+- Add Webservices for entities
+- Update entities to call new API Model (Content or Entities)
+- Add Groups to content entities (with CRUD permissions)
+- Add Owner to content entities (with owner CRUD permissions)
+- Use Controller API interface
+- Use Taxonomy Model from API to manage all taxonomies
+- Aggregation of migration script and execution
+- Avoid collision between core and plug-in for entities, database table or image filter.
+- Update dependencies
+
 # 1.2.1 / 2016-02-19
 
 - Freeze project's dependencies due to incompatibilities with AngularJS version 1.4.9

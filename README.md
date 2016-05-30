@@ -8,13 +8,14 @@ This interface gives access to a limited set of default features:
 
 - Users management
 - Permissions and roles management
+- Content group management
 - Web service management
 - A profile page
 - Each plugin brings zero to many additive administration pages and zero to many additive public pages.
 
 # Documentation
 
-Documentation is available on [Github pages](http://veo-labs.github.io/openveo-core/1.2.1).
+Documentation is available on [Github pages](http://veo-labs.github.io/openveo-core/2.0.0).
 
 # Contributors
 
