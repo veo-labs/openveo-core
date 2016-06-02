@@ -136,7 +136,7 @@ var openVeoAPI = require('@openveo/api');
 function BookProvider(database) {
 
   // In BookProvider collection "books"
-  openVeoAPI.EntityProvider.prototype.init.call(this, database, 'book-books');
+  openVeoAPI.EntityProvidercall(this, database, 'book-books');
 }
 
 // BookProvider must extend EntityProvider
@@ -154,13 +154,13 @@ util.inherits(BookProvider, openVeoAPI.EntityProvider);
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
 
-var BookProvider = process.require('BookProvider.js');
+var BookProvider = process.requireBook('app/server/providers/BookProvider.js');
 
 /**
  * Creates a BookModel.
  */
 function BookModel() {
-  openVeoAPI.EntityModel.prototype.init.call(this, new BookProvider(openVeoAPI.applicationStorage.getDatabase()));
+  openVeoAPI.EntityModel.call(this, new BookProvider(openVeoAPI.applicationStorage.getDatabase()));
 }
 
 module.exports = BookModel;
@@ -174,7 +174,7 @@ util.inherits(BookModel, openVeoAPI.EntityModel);
 
 var util = require('util');
 var openVeoAPI = require('@openveo/api');
-var BookModel = process.require('BookModel.js');
+var BookModel = process.requireBook('app/server/models/BookModel.js');
 var EntityController = openVeoAPI.controllers.EntityController;
 
 /**
