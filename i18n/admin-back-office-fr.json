@@ -227,7 +227,8 @@
     "NO_ACTION" : "Aucune action autorisée.",
     "REQUIRED_FIELD" : "Ce champs est obligatoire",
     "TRUE" : "Vrai",
-    "FALSE" : "Faux"
+    "FALSE" : "Faux",
+    "OWNER" : "Propriétaire"
   },
   "DATEPICKER" : {
     "TODAY" : "Aujourd'hui",

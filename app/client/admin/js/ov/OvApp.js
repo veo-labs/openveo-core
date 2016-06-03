@@ -20,6 +20,7 @@
     'ov.entity',
     'ov.alert',
     'ov.tableForm',
+    'ov.utilService',
     'ui.bootstrap',
     'ui.tree',
     'ngTouch',

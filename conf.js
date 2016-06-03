@@ -106,7 +106,8 @@ module.exports = {
         '/i18n/I18nApp.js',
         '/entity/EntityApp.js',
         '/alert/AlertApp.js',
-        '/tableForm/tableForm.js'
+        '/tableForm/tableForm.js',
+        '/util/utilService.js'
       ],
       prod: [
         '/be/js/libOpenveo.js'

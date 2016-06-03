@@ -227,7 +227,8 @@
     "NO_ACTION" : "No action allowed.",
     "REQUIRED_FIELD" : "This is a required field.",
     "TRUE" : "True",
-    "FALSE" : "False"
+    "FALSE" : "False",
+    "OWNER" : "Owner"
   },
   "DATEPICKER" : {
     "TODAY" : "Today",

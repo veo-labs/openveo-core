@@ -79,8 +79,11 @@
   &:nth-of-type(odd){
     background: transparent;
   }
-  &.odd{
+  &.odd {
     background-color:#eee;
+    hr {
+      border-top: 1px solid #FFF;
+    }
   }
   &.open-tab > td{
     border:0 none;
