@@ -16,7 +16,6 @@ Open **~/.openveo/core/conf.json**
 ```json
 {
   "passwordHashKey" : "KEY", // Replace KEY by a secret key used to encrypt users passwords
-  "superAdminId" : "ID", // Replace ID by the super administrator id
   "anonymousUserId" : "ID" // Replace ID by the anonymous user id
 }
 ```

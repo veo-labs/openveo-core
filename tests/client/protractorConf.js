@@ -101,7 +101,6 @@ exports.config = {
             }
           }
         });
-
       },
 
       // Launch openveo web service server
@@ -136,7 +135,7 @@ exports.config = {
           applicationStorage.setDatabase(db);
 
           // Set super administrator and anonymous user id from configuration
-          applicationStorage.setSuperAdminId(coreConf.superAdminId || '0');
+          applicationStorage.setSuperAdminId('0');
           applicationStorage.setAnonymousUserId(coreConf.anonymousUserId || '1');
 
           callback();

@@ -62,7 +62,6 @@ function createConf(callback) {
   var confFile = path.join(confDir, 'conf.json');
   var conf = {
     passwordHashKey: getRandomHash(10),
-    superAdminId: '0',
     anonymousUserId: '1'
   };
 
@@ -79,12 +78,6 @@ function createConf(callback) {
       rl.question('Enter a secret key used to encrypt users passwords (default: ' + conf.passwordHashKey + ') :\n',
       function(answer) {
         if (answer) conf.passwordHashKey = answer;
-        callback();
-      });
-    },
-    function(callback) {
-      rl.question('Enter super administrator id (default: ' + conf.superAdminId + ') :\n', function(answer) {
-        if (answer) conf.superAdminId = answer;
         callback();
       });
     },
@@ -261,7 +254,7 @@ function createServerConf(callback) {
 /**
  * Verifies connection to the database.
  */
-function verifyDatbaseConf(callback) {
+function verifyDatabaseConf(callback) {
   var databaseConf = require(path.join(confDir, 'databaseConf.json'));
   var db = openVeoAPI.Database.getDatabase(databaseConf);
 
@@ -283,7 +276,7 @@ function createSuperAdmin(callback) {
   var userProvider = new UserProvider(openVeoAPI.applicationStorage.getDatabase());
   var conf = require(path.join(confDir, 'conf.json'));
   var user = {
-    id: conf.superAdminId,
+    id: '0',
     locked: true
   };
 
@@ -291,7 +284,7 @@ function createSuperAdmin(callback) {
     function(callback) {
 
       // Verify if the super admin does not exist
-      userProvider.getOne(conf.superAdminId, null, function(error, user) {
+      userProvider.getOne('0', null, function(error, user) {
         if (user)
           callback(new Error('A super admin user already exists\n'));
         else if (error)
@@ -340,7 +333,7 @@ async.series([
   createLoggerConf,
   createLoggerDir,
   createServerConf,
-  verifyDatbaseConf,
+  verifyDatabaseConf,
   createSuperAdmin
 ], function(error, results) {
   if (error)
