@@ -1,6 +1,8 @@
-# Write a plugin
+# Yeoman generator 
 
-If you want to write your own OpenVeo plugin, you have two possibilities:
+To write your own OpenVeo plugin you should use the OpenVeo Yeoman generator to automatically create the skeleton of your plugin with [OpenVeo Plugin Generator](http://veo-labs.github.io/openveo-plugin-generator/1.0.0) 
 
-  - Use the Yeoman generator to automatically creates the plugin with [OpenVeo Plugin Generator](http://veo-labs.github.io/openveo-plugin-generator/1.0.0) (Recommended)
-  - Create manually the plugin with this [documentation](http://veo-labs.github.io/openveo-plugin-generator/1.0.0/developers/write-plugin)
+# "How to"
+
+All documentation needed to implement your plugin is available on the [OpenVeo Plugin Generator](http://veo-labs.github.io/openveo-plugin-generator/1.0.0) project.
+See the direct link to the [documentation](http://veo-labs.github.io/openveo-plugin-generator/1.0.0/developers/conf).

@@ -1,6 +1,6 @@
 {
   "name": "@openveo/core",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "OpenVeo core CMS",
   "keywords": [
     "openveo",
@@ -102,7 +102,7 @@
     "karma"
   ],
   "engines": {
-    "node": "0.10.0 - 4.4.3",
-    "npm": "2.5.0 - 2.15.1"
+    "node": "0.10.0 - 4.4.5",
+    "npm": "2.5.0 - 2.15.5"
   }
 }

@@ -1,3 +1,9 @@
+# 2.0.1 / 2016-06-10
+
+- Add Util service module in Front-End
+- Update documentation to link OpenVeo generator plugin
+- SECURITY DEBUG: Do not let conf set SuperAdminId
+
 # 2.0.0 / 2016-05-30
 
 - Update Form to delete xeditable dependencies
