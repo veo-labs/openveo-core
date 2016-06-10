@@ -1,3 +1,0 @@
-OpenVeo uses [Mustache](https://github.com/janl/mustache.js) as the template engine. You have to declare your directory containing template files before using a mustache template file. You can do it in [conf.js](/developers/conf#list-of-directories-containing-templates) file.
-
-Then you can call the template using [render express function](http://expressjs.com/4x/api.html#app.render) in your controller action.
