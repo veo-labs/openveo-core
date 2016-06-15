@@ -74,15 +74,14 @@
           <li ng-if="item.subMenu && item.subMenu.length" ng-repeat="(holder, item) in menu | orderBy:'+weight'"  ng-class="{'open':indexOpen == $index, 'current' : item.active}">
             <a href="#" ng-click="toggleSidebarSubMenu($index)"><i class="icon-angle-down"></i><span ng-bind="item.label | translate"></span></a>
             <ul class="sub-menu">
-              <li ng-repeat="subItem in item.subMenu | orderBy:'+weight'" ng-class="{'current' : subItem.active}">
+              <li ng-repeat="subItem in item.subMenu | orderBy:'+weight'" ng-class="{'current' : subItem.active}" ng-click="closeResponsiveMenu();">
                 <a href="{{subItem.path}}" ><i class="icon-angle-right"></i><span ng-bind="subItem.label | translate"></span></a>
               </li>
             </ul>
           </li>
         </ul>
       </div>
-      <div id="page-content-wrapper" ng-class="{'login':!displayMainMenu}">
-        <div ng-if="!isResponsiveMenuClosed" class='close-listener' ng-click="swiping ? ( swiping = false ) : closeResponsiveMenu()" ng-swipe-disable-mouse ng-swipe-left="swiping=true;closeResponsiveMenu()"></div>
+      <div id="page-content-wrapper" ng-class="{'login':!displayMainMenu}" ng-click="closeResponsiveMenu()">
         <div class="alert-container">
           <div class="container">
               <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></uib-alert>
