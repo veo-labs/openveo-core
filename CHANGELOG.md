@@ -1,3 +1,8 @@
+# 2.0.2 / 2016-07-07
+
+- Update Node and NPM dependencies
+- Modify menu close effect to improve navigation
+
 # 2.0.1 / 2016-06-10
 
 - Add Util service module in Front-End
