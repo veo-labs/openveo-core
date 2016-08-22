@@ -291,7 +291,7 @@
    *
    * @class translateFilter
    */
-  function TranslateFilter(i18nService) {
+  function TranslateFilter(i18nService, $parse, $interpolate) {
 
     /**
      * Translates an id, contained inside a dictionary, into the appropriated text.
@@ -321,17 +321,28 @@
      *     // Search for id LOGIN.DESCRIPTION in dictionary "login" : "Login page description"
      *
      *     // In HTML
-     *     // <label ng-bind="'LOGIN.DESCRIPTION' | translate:login"></label>
+     *     // <label ng-bind="'LOGIN.DESCRIPTION' | translate:login:{Object}"></label>
      *
      *     // In JavaScript
-     *     $filter('translate')('LOGIN.DESCRIPTION', 'login');
+     *     $filter('translate')('LOGIN.DESCRIPTION', 'login', {name: "John"});
      *
      * @param {String} id The id of the translation
      * @param {String} dictionaryName An optional dictionary to prevent looking in all dictionaries
      * @method translate
      */
-    return function(id, dictionaryName) {
-      return i18nService.translate(id, dictionaryName);
+    return function(id, dictionaryName, interpolateParams) {
+      var translateValue = i18nService.translate(id, dictionaryName),
+        exp;
+
+      if (interpolateParams) {
+        if (!angular.isObject(interpolateParams)) {
+          interpolateParams = $parse(interpolateParams)(this);
+        }
+        exp = $interpolate(translateValue);
+        translateValue = exp(interpolateParams);
+      }
+
+      return translateValue;
     };
 
   }
@@ -339,6 +350,6 @@
   app.factory('i18nService', I18nService);
   app.filter('translate', TranslateFilter);
   I18nService.$inject = ['$http', '$cookies'];
-  TranslateFilter.$inject = ['i18nService'];
+  TranslateFilter.$inject = ['i18nService', '$parse', '$interpolate'];
 
 })(angular);
