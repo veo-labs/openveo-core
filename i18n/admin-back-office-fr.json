@@ -185,7 +185,7 @@
   },
   "GROUPS" : {
     "PAGE_TITLE" : "Openveo - Groupes",
-    "TITLE" : "Groupes d'utilisateurs",
+    "TITLE" : "Groupes de contenu",
     "INFO" : "Les groupes sont conçus pour définir quels utilisateurs peuvent manipuler un contenu. Pour chaque groupe créé, de nouvelles permissions sont disponibles et peuvent être ajoutées à un rôle. Vous pouvez associer un ou plusieurs groupes à un contenu.",
     "ADD_GROUP" : "Ajouter un groupe",
     "NAME_COLUMN" : "Nom",
