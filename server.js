@@ -115,7 +115,10 @@ async.series([
 
   // Inform server that database is loaded and available
   function(callback) {
-    server.onDatabaseAvailable(applicationStorage.getDatabase(), callback);
+    server.onDatabaseAvailable(applicationStorage.getDatabase(), function() {
+      applicationStorage.setSessionSecret(server.configuration.sessionSecret);
+      callback();
+    });
   },
 
   // Load Core plugin
