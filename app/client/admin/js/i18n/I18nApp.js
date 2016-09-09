@@ -313,7 +313,7 @@
      *     // {
      *     //   "LOGIN" : {
      *     //     "PAGE_TITLE" : "Openveo - Sign In",
-     *     //     "DESCRIPTION" : "Login page description",
+     *     //     "DESCRIPTION" : "Login page description for {{name}}",
      *     //     "LOGIN" : "User",
      *     //   }
      *     // }

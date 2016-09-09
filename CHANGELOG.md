@@ -1,3 +1,8 @@
+# 2.0.3 / 2016-09-09
+
+- Add the possibility to use variable values within translations
+- Store the session secret in the applicationStorage on server start
+
 # 2.0.2 / 2016-07-07
 
 - Update Node and NPM dependencies

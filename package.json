@@ -1,6 +1,6 @@
 {
   "name": "@openveo/core",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "OpenVeo core CMS",
   "keywords": [
     "openveo",
@@ -31,7 +31,7 @@
     "url": "https://github.com/veo-labs/openveo-core.git"
   },
   "dependencies": {
-    "@openveo/api": "3.*",
+    "@openveo/api": "3.* >=3.0.2",
     "async": "1.2.0",
     "body-parser": "1.15.1",
     "connect-mongo": "1.1.0",
