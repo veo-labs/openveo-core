@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" class="yui-overrride">
+<head>
+    <meta charset="utf-8">
+    <title>app/client/admin/js/ov/MainController.js - OpenVeo AngularJS back end</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            <h1 class="blue-main-title">OpenVeo AngularJS back end</h1>
+        </div>
+        <div class="yui3-u-1-4 version project-version">
+            API Docs for: 2.0.3
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/alertService.html">alertService</a></li>
+                                <li><a href="../classes/applicationService.html">applicationService</a></li>
+                                <li><a href="../classes/authenticationService.html">authenticationService</a></li>
+                                <li><a href="../classes/entityService.html">entityService</a></li>
+                                <li><a href="../classes/i18nService.html">i18nService</a></li>
+                                <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
+                                <li><a href="../classes/ovTags.html">ovTags</a></li>
+                                <li><a href="../classes/storageProvider.html">storageProvider</a></li>
+                                <li><a href="../classes/translateFilter.html">translateFilter</a></li>
+                                <li><a href="../classes/truncateFilter.html">truncateFilter</a></li>
+                                <li><a href="../classes/userService.html">userService</a></li>
+                                <li><a href="../classes/utilService.html">utilService</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/ov.html">ov</a></li>
+                                <li><a href="../modules/ov.alert.html">ov.alert</a></li>
+                                <li><a href="../modules/ov.authentication.html">ov.authentication</a></li>
+                                <li><a href="../modules/ov.entity.html">ov.entity</a></li>
+                                <li><a href="../modules/ov.i18n.html">ov.i18n</a></li>
+                                <li><a href="../modules/ov.storage.html">ov.storage</a></li>
+                                <li><a href="../modules/ov.util.html">ov.util</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app/client/admin/js/ov/MainController.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x27;use strict&#x27;;
+
+(function(app) {
+
+  /**
+   * Defines the main controller parent of all controllers in the
+   * application. All actions not handled in partials are handled
+   * by the main controller.
+   */
+  function MainController($rootScope,
+     $scope,
+     $location,
+     $route,
+     authenticationService,
+     menuService,
+     applicationService,
+     userService,
+     i18nService,
+     alertService,
+     entityService,
+     $window,
+     $q) {
+
+    $scope.displayMainMenu = false;
+    $scope.isResponsiveMenuClosed = true;
+    $scope.languages = i18nService.getLanguages();
+    $scope.language = i18nService.getLanguageName(i18nService.getLanguage());
+    $scope.indexOpen = -1;
+    $scope.menuDropdownIsOpen = false;
+    $scope.newAnimation = &#x27;&#x27;;
+
+    /**
+     * Logs out the user.
+     * Remove user information, remove all admin informations
+     * and broadcast a loggedOut event to children controllers.
+     */
+    function logout() {
+      $scope.closeResponsiveMenu();
+      authenticationService.setUserInfo();
+      $scope.menu = false;
+      $scope.displayMainMenu = false;
+      menuService.destroyMenu();
+      i18nService.removeDictionary(&#x27;back-office&#x27;);
+      applicationService.destroy();
+      userService.destroy();
+      entityService.deleteCache();
+      alertService.closeAll();
+      $location.path(&#x27;/login&#x27;);
+    }
+
+    /**
+     * Replaces placeholders by corresponding values in the given string.
+     * Function copied from AngularJS ngRoute.
+     *
+     * @param {string} string A string containing placeholders
+     * @param {string} params An array of parameters
+     * @return {string} interpolation of the redirect path with the parameters
+     */
+    function interpolate(string, params) {
+      var result = [];
+      angular.forEach((string || &#x27;&#x27;).split(&#x27;:&#x27;), function(segment, i) {
+        if (i === 0) {
+          result.push(segment);
+        } else {
+          var segmentMatch = segment.match(/(\w+)(?:[?*])?(.*)/);
+          var key = segmentMatch[1];
+          result.push(params[key]);
+          result.push(segmentMatch[2] || &#x27;&#x27;);
+          delete params[key];
+        }
+      });
+      return result.join(&#x27;&#x27;);
+    }
+
+    /**
+     * Replaces placeholders by corresponding values in the given string.
+     *
+     * @param {string} string A string containing placeholders
+     * @param {string} params An array of parameters
+     * @return {string} The compiled string
+     */
+    function resolvePath(string, params) {
+      params = angular.copy(params);
+
+      if (params &amp;&amp; Object.keys(params).length)
+        return interpolate(string, params);
+      else
+        return string;
+    }
+
+    /**
+     * Gets permissions from groups for the given operation.
+     *
+     * @param {Array} groupIds A list of group ids
+     * @param {String} operation &quot;get&quot;, &quot;update&quot; or &quot;delete&quot;
+     * @return {Array} The list of permissions
+     */
+    function getPermissionsFromGroups(groupIds, operation) {
+      var permissions = [];
+
+      if (groupIds &amp;&amp; groupIds.length) {
+        groupIds.forEach(function(groupId) {
+          permissions.push(operation + &#x27;-group-&#x27; + groupId);
+        });
+      }
+
+      return permissions;
+    }
+
+    $scope.toggleResponsiveMenu = function() {
+      $scope.isResponsiveMenuClosed = !$scope.isResponsiveMenuClosed;
+    };
+
+    $scope.closeResponsiveMenu = function() {
+      if (!$scope.isResponsiveMenuClosed &amp;&amp; $scope.displayMainMenu)
+        $scope.isResponsiveMenuClosed = true;
+    };
+
+    $scope.openResponsiveMenu = function() {
+      if ($scope.isResponsiveMenuClosed &amp;&amp; $scope.displayMainMenu)
+        $scope.isResponsiveMenuClosed = false;
+    };
+
+    $scope.navigate = function(event) {
+      if (event) {
+        $scope.closeResponsiveMenu();
+        $location.path(angular.element(event.currentTarget).attr(&#x27;href&#x27;));
+      }
+    };
+
+    /**
+     * Changes the language to the given one.
+     *
+     * This will reload the page due to the main menu which can&#x27;t be
+     * reloaded.
+     *
+     * @param {String} language The new language code (e.g. fr_FR)
+     */
+    $scope.changeLanguage = function(language) {
+      i18nService.setLanguage(language);
+      $window.location.reload();
+    };
+
+    $scope.toggleSidebarSubMenu = function(id) {
+      if ($scope.indexOpen == -1)
+        $scope.indexOpen = id;
+      else if ($scope.indexOpen == id)
+        $scope.indexOpen = -1;
+      else
+        $scope.indexOpen = id;
+    };
+
+    /**
+     * Logs out the actual user.
+     * This will remove user information and redirect to the login
+     * page.
+     */
+    $scope.logout = function() {
+      authenticationService.logout().then(logout, logout);
+    };
+
+    // Listen to alert add
+    $scope.$on(&#x27;setAlert&#x27;, function(event, type, msg, timeout) {
+      alertService.add(type, msg, timeout);
+    });
+
+    // Listen to logout request event to logout the user
+    $scope.$on(&#x27;logout&#x27;, function() {
+      $scope.logout();
+    });
+
+    // Listen to forceLogout request event to logout the user
+    // without making a call to the server
+    $scope.$on(&#x27;forceLogout&#x27;, function() {
+      logout();
+    });
+
+    // Listen to angular router change start event
+    // Some promises, like translations and back end menu must be retrieved
+    // before routing to an authenticated page
+    // Also check if the user is authenticated to grant him access to an authenticated page.
+    $scope.$on(&#x27;$routeChangeStart&#x27;, function(event, route) {
+      var expectedParams = route.params;
+      var expectedPath = resolvePath(route.originalPath, expectedParams);
+
+      // No destination route, nothing to do
+      if (!expectedPath)
+        return false;
+
+      // Retrieve user information and back end translations
+      var userInfo = authenticationService.getUserInfo();
+      var translations = i18nService.getDictionary(&#x27;back-office&#x27;, i18nService.getLanguage());
+
+      if ($location.path() !== &#x27;/login&#x27; &amp;&amp; userInfo &amp;&amp; (!menuService.getMenu() || !translations)) {
+
+        // User has access to the back end
+        // Some promises are required to access the back end
+        // Prevent router from routing to the specified destination and retrieve promises first
+
+        event.preventDefault();
+
+        // List of promises required to access an authenticated page
+        var initPromises = {
+          i18nCommon: i18nService.addDictionary(&#x27;common&#x27;),
+          i18nBE: i18nService.addDictionary(&#x27;back-office&#x27;, true),
+          menu: menuService.loadMenu()
+        };
+
+        $q.all(initPromises).then(
+          function(values) {
+
+            // Got enough information to display the back end
+            // Just resume the route
+            if (expectedPath === resolvePath($location.path(), expectedParams))
+              $route.reload();
+            else
+              $location.path(expectedPath);
+
+          },
+          function(error) {
+
+            // User is not authorized to access the back end page
+            // It means that its session has expired
+            // Cleanly logout the user
+            if (error.status === 401) {
+              logout();
+              $route.reload();
+            }
+
+          }
+        );
+
+        return false;
+      } else if ($location.path() !== &#x27;/login&#x27; &amp;&amp; !userInfo) {
+
+        // User is not authenticated and tries to access the back end
+        // Redirect to login page
+
+        event.preventDefault();
+        $location.path(&#x27;/login&#x27;);
+        return false;
+      } else if ($location.path() !== &#x27;/login&#x27; &amp;&amp; userInfo) {
+
+        // User is authenticated and tries to access a back end page
+
+        // Check if user has access to the expected page
+        $scope.userInfo = userInfo;
+        if (route.access &amp;&amp; !$scope.checkAccess(route.access)) {
+          event.preventDefault();
+          $location.path(&#x27;/&#x27;);
+          return false;
+        }
+
+        if (event.targetScope.newAnimation == &#x27;LR&#x27;)
+          event.currentScope.newAnimation = &#x27;RL&#x27;;
+        else if (event.targetScope.newAnimation == &#x27;RL&#x27;)
+          event.currentScope.newAnimation = &#x27;LR&#x27;;
+        else
+          event.currentScope.newAnimation = &#x27;&#x27;;
+      } else if ($location.path() === &#x27;/login&#x27; &amp;&amp; userInfo) {
+        event.preventDefault();
+        $location.path(&#x27;/&#x27;);
+        return false;
+      }
+
+    });
+
+    // Listen to route change success event to
+    // set new page title and offers access to the menu if
+    // user is authenticated
+    $scope.$on(&#x27;$routeChangeSuccess&#x27;, function(event, route) {
+      entityService.deleteCache();
+      $scope.userInfo = authenticationService.getUserInfo();
+      if ($scope.userInfo) {
+        $scope.menu = menuService.getMenu();
+        $scope.displayMainMenu = ($scope.menu) ? true : false;
+        menuService.setActiveMenuItem();
+      } else
+        $scope.displayMainMenu = false;
+
+      // Change page title
+      $scope.title = $route.current &amp;&amp; $route.current.title || &#x27;&#x27;;
+      $scope.newAnimation = $rootScope.newAnimation;
+    });
+
+    // Listen to the route change error event
+    // If user is not authenticated, redirect to the login page
+    // otherwise redirect to the home page
+    $scope.$on(&#x27;$routeChangeError&#x27;, function(event, current, previous, eventObj) {
+      if (!$scope.userInfo)
+        $location.path(&#x27;/login&#x27;);
+      else if (eventObj &amp;&amp; eventObj.redirect)
+        $location.path(eventObj.redirect);
+      else $location.path(&#x27;/&#x27;);
+    });
+
+    /**
+     * Checks that authenticated user has a permission.
+     *
+     * @param {Array|String} permissions One or several permissions
+     * @return {Boolean} true if user has one of the permissions, false otherwise
+     */
+    $scope.checkAccess = function(permissions) {
+      if ($scope.userInfo) {
+
+        // Access granted to admin
+        if ($scope.userInfo.id == 0) return true;
+
+        if (typeof permissions === &#x27;string&#x27;)
+          permissions = [permissions];
+
+        // Access granted to user with roles and with the right permissions
+        if ($scope.userInfo.roles &amp;&amp; $scope.userInfo.roles.length != 0 &amp;&amp;
+                $scope.userInfo.permissions &amp;&amp; $scope.userInfo.permissions.length != 0) {
+          return permissions.filter(function(permission) {
+            return $scope.userInfo.permissions.indexOf(permission) &gt;= 0;
+          }).length &gt; 0;
+        }
+
+      }
+
+      return false;
+    };
+
+    /**
+     * Checks that user has permission to access a content.
+     *
+     * @param {Object} content The content entity to try to access
+     * @param {String} operation The operation that will be performed on the content
+     * @return {Boolean} true if user has sufficient permission to perform the operation on the content
+     */
+    $scope.checkContentAccess = function(content, operation) {
+      if ($scope.userInfo &amp;&amp; content &amp;&amp; operation) {
+
+        // Access granted to super administrator and owner
+        // Access is also granted for contents belonging to the anonymous user
+        if ($scope.userInfo.id === &#x27;0&#x27; ||
+            content.metadata.user === &#x27;1&#x27; ||
+            $scope.userInfo.id === content.metadata.user
+        ) return true;
+
+        // Access granted to users belonging to, at least, one of the groups associated to the content
+        // User must have group permission on the operation
+        if (content.metadata.groups &amp;&amp; content.metadata.groups.length) {
+          var contentPermissions = getPermissionsFromGroups(content.metadata.groups, operation);
+
+          for (var i = 0; i &lt; contentPermissions.length; i++) {
+            if ($scope.userInfo.permissions.indexOf(contentPermissions[i]) &gt;= 0)
+              return true;
+          }
+
+        }
+      }
+
+      return false;
+    };
+
+  }
+
+  app.controller(&#x27;MainController&#x27;, MainController);
+  MainController.$inject = [
+    &#x27;$rootScope&#x27;,
+    &#x27;$scope&#x27;,
+    &#x27;$location&#x27;,
+    &#x27;$route&#x27;,
+    &#x27;authenticationService&#x27;,
+    &#x27;menuService&#x27;,
+    &#x27;applicationService&#x27;,
+    &#x27;userService&#x27;,
+    &#x27;i18nService&#x27;,
+    &#x27;alertService&#x27;,
+    &#x27;entityService&#x27;,
+    &#x27;$window&#x27;,
+    &#x27;$q&#x27;
+  ];
+
+})(angular.module(&#x27;ov&#x27;));
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
