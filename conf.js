@@ -91,14 +91,14 @@ module.exports = {
         '/lib/angular-route/angular-route.min.js',
         '/lib/angular-cookies/angular-cookies.min.js',
         '/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-        '/lib/angular-touch/angular-touch.min.js',
         '/lib/angular-sanitize/angular-sanitize.min.js',
         '/lib/angular-ui-tree/dist/angular-ui-tree.min.js',
         '/lib/angular-formly/dist/formly.min.js',
         '/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
         '/lib/checklist-model/checklist-model.js',
         '/lib/ng-jsonpath/dist/ng-jsonpath.min.js',
-        '/lib/ng-tasty/ng-tasty-tpls.min.js'
+        '/lib/ng-tasty/ng-tasty-tpls.min.js',
+        '/lib/fastclick/lib/fastclick.js'
       ],
       dev: [
         '/authentication/AuthenticationApp.js',

@@ -23,7 +23,6 @@
     'ov.utilService',
     'ui.bootstrap',
     'ui.tree',
-    'ngTouch',
     'ngTasty',
     'formly',
     'formlyBootstrap',
@@ -215,8 +214,8 @@
   /**
    * Configures application main routes and set location mode to HTML5.
    */
-  app.config(['$routeProvider', '$locationProvider', '$httpProvider', '$touchProvider',
-    function($routeProvider, $locationProvider, $httpProvider, $touchProvider) {
+  app.config(['$routeProvider', '$locationProvider', '$httpProvider',
+    function($routeProvider, $locationProvider, $httpProvider) {
 
       // Register / route with authentication
       $routeProvider.when('/', {
@@ -306,10 +305,9 @@
       $locationProvider.html5Mode(true);
       $httpProvider.interceptors.push('errorInterceptor');
 
-      // Enable ngTouch's ngClick directive to remove the 300ms delay
-      // fir click event on browser for touch-devices
-      $touchProvider.ngClickOverrideEnabled(true);
-
+      // Remove the 300ms delay on touch device
+      /* global FastClick */
+      FastClick.attach(document.body);
     }]);
 
   // Replace "classic" spaces with non-breaking-spaces
