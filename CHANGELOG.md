@@ -1,3 +1,7 @@
+# 2.0.4 / 2016-09-15
+
+- Debug touch due to deprecated use of angular-touch on Angularjs 1.5.x. Use of fastclick instead.
+
 # 2.0.3 / 2016-09-09
 
 - Add the possibility to use variable values within translations
