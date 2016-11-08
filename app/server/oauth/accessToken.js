@@ -51,11 +51,14 @@ accessToken.create = function(userId, clientId, scopes, ttl, callback) {
   var model = getTokenModel();
 
   // Before adding the token, remove all tokens for this client
-  model.removeTokensByClientId(clientId);
+  // Then save the new token
+  model.removeTokensByClientId(clientId, function(error) {
+    if (error)
+      return callback(error);
 
-  // Save the new token
-  model.add(token, clientId, scopes, new Date().getTime() + ttl * 1000, function(error) {
-    callback(error, token);
+    model.add(token, clientId, scopes, new Date().getTime() + ttl * 1000, function(error) {
+      callback(error, token);
+    });
   });
 };
 
