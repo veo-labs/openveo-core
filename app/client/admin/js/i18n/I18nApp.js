@@ -328,6 +328,7 @@
      *
      * @param {String} id The id of the translation
      * @param {String} dictionaryName An optional dictionary to prevent looking in all dictionaries
+     * @param {Object} interpolateParams Translation parameters
      * @method translate
      */
     return function(id, dictionaryName, interpolateParams) {
