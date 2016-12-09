@@ -2,7 +2,7 @@
 
     npm install @openveo/core
 
-**Nb :** You will be prompted for some configuration. Don't worry if you made an error, you can edit configuration anytime using [advanced configuration](advanced-configuration).
+**Nb :** You will be prompted for some configuration. Don't worry if you made an error, you can edit configuration anytime using [advanced configuration](advanced-configuration.md).
 
 # Create a back end user
 
