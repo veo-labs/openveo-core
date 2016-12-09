@@ -12,4 +12,4 @@ To use OpenVeo in a production environment, start the server in production :
 
 # Replicate database
 
-You should consider replicating your database using [MongoDB ReplicaSets](http://docs.mongodb.org/manual/replication/). You can configure OpenVeo to [use your ReplicaSets](/scalability).
+You should consider replicating your database using [MongoDB ReplicaSets](http://docs.mongodb.org/manual/replication/). You can configure OpenVeo to [use your ReplicaSets](scalability.md).
