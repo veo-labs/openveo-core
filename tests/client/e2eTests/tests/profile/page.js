@@ -40,8 +40,12 @@ describe('Profile page', function() {
   it('should display user name, email and roles', function() {
     assert.eventually.equal(page.userNameElement.getText(), page.getUser().name);
     assert.eventually.equal(page.userEmailElement.getText(), page.getUser().email);
-    assert.eventually.equal(page.userRolesElement.getText(), datas.roles.coreAdmin.name + ', ' +
-                            datas.roles.coreGuest.name);
+
+    page.userRolesElement.getText().then(function(text) {
+      var roles = text.split(', ');
+      assert.includeMembers(roles, [datas.roles.coreAdmin.name, datas.roles.coreGuest.name]);
+    });
+
     return assert.eventually.ok(page.editUserElement.isPresent());
   });
 
