@@ -201,5 +201,5 @@ If a test fails, a screenshot of the browser at the instant is taken and availab
     # Launch all end to end tests on firefox
     grunt test-e2e --capabilities="{\"browserName\": \"firefox\"}" --directConnect=true
 
-    # Launch only homePage suite on chrome
-    grunt test-e2e --capabilities="{\"browserName\": \"chrome\"}" --directConnect=true --suite="homePage"
+    # Launch only coreHome suite on chrome
+    grunt test-e2e --capabilities="{\"browserName\": \"chrome\"}" --directConnect=true --suite="coreHome"
