@@ -45,7 +45,7 @@ module.exports.update = function(callback) {
         }
 
         // No need to change anything
-        if (!value || !value.length) callback();
+        if (!value || !value.length) return callback();
 
         else {
           async.series([
@@ -73,13 +73,13 @@ module.exports.update = function(callback) {
         }
 
         // No need to change anything
-        if (!value || !value.length) callback();
+        if (!value || !value.length) return callback();
 
-        var permissions = [];
+        var asyncActions = [];
 
         value.forEach(function(role) {
           if (role.permissions) {
-            permissions = [];
+            var permissions = [];
             role['permissions'].forEach(function(permission) {
               switch (permission) {
                 case 'create-application':
@@ -133,15 +133,15 @@ module.exports.update = function(callback) {
               }
             });
 
-            async.series([
-              function(callback) {
-                db.update('core_roles', {id: role.id}, {permissions: permissions}, function(error) {
-                  callback(error);
-                });
-              }
-            ], callback);
+            asyncActions.push(function(callback) {
+              db.update('core_roles', {id: role.id}, {permissions: permissions}, function(error) {
+                callback(error);
+              });
+            });
           }
         });
+
+        async.series(asyncActions, callback);
       });
     }
 
