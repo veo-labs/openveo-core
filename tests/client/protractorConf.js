@@ -36,8 +36,6 @@ process.logger = openVeoAPI.logger.get('openveo');
 var suites = process.require('tests/client/e2eTests/build/suites.json');
 
 exports.config = {
-  seleniumServerJar: process.env.SELENIUM_JAR,
-  chromeDriver: process.env.CHROME_DRIVER,
   framework: 'mocha',
   mochaOpts: {
     timeout: 200000,

@@ -4,20 +4,13 @@ End to end tests are performed using [Protractor](http://www.protractortest.org/
 
 Each plugin (and OpenVeo core) defines a list of test suites in **tests/client/protractorSuites.json**.
 
-# Install Protractor globally
+# Install selenium web driver and chrome driver
 
-First of all you need to install Protractor, all information are available on Protractor's web site.
-
-# Remove grunt-protractor-runner local protractor
-
-    rm -rf node_modules/grunt-protractor-runner/node_modules/protractor
+    node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update
 
 # Configure tests
 
-To be able to launch end to end tests, OpenVeo needs to find the selenium jar and the chrome driver file installed with Protractor.
-You can specify the path of the selenium jar using **SELENIUM_JAR** environment variable and chrome driver using **CHROME_DRIVER** environment variable.
-
-You also need to specify a new database which will be used during tests. To do so, you can add a new configuration file in user's directory under **~/.openveo/core** called **databaseTestConf.json**.
+You need to specify a new database which will be used during tests. To do so, you can add a new configuration file in user's directory under **~/.openveo/core** called **databaseTestConf.json**.
 
 **~/.openveo/core/databaseTestConf.json**
 

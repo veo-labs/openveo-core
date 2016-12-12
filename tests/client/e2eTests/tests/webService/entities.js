@@ -103,8 +103,6 @@ describe('Web service', function() {
           var entitiesToAdd = [helper.getAddExample()];
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            page.refresh();
-
             client.delete(entity.webServicePath + '/' + addedEntities[0].id).then(function(results) {
               check(function() {
                 assert.isNull(results.error, 'Unexpected error : ' + results.error);
@@ -132,8 +130,6 @@ describe('Web service', function() {
           var entitiesToAdd = [helper.getAddExample()];
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            page.refresh();
-
             clientWithoutPermission.delete(entity.webServicePath + '/' + addedEntities[0].id).then(function(results) {
               check(function() {
                 assert.ok(false, 'Applications without permission should not be able to delete ' + entity.name);
@@ -154,8 +150,6 @@ describe('Web service', function() {
           var entitiesToAdd = [helper.getAddExample()];
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            page.refresh();
-
             client.get(entity.webServicePath + '/' + addedEntities[0].id).then(function(results) {
               var entity = results.entity;
               check(function() {
@@ -185,8 +179,6 @@ describe('Web service', function() {
           var entitiesToAdd = [helper.getAddExample()];
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            page.refresh();
-
             clientWithoutPermission.get(entity.webServicePath + '/' + addedEntities[0].id).then(function(results) {
               check(function() {
                 assert.ok(false, 'Application without permission should not be able to get ' + entity.name);
@@ -208,8 +200,6 @@ describe('Web service', function() {
           var newEntityValues = helper.getUpdateExample();
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            page.refresh();
-
             client.post(entity.webServicePath + '/' + addedEntities[0].id, newEntityValues).then(function(results) {
               check(function() {
                 assert.isNull(results.error, 'Unexpected error : ' + results.error);
@@ -241,8 +231,6 @@ describe('Web service', function() {
           var newEntityValues = helper.getUpdateExample();
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            page.refresh();
-
             clientWithoutPermission.post(entity.webServicePath + '/' + addedEntities[0].id,
             newEntityValues).then(function(results) {
               check(function() {
@@ -264,8 +252,6 @@ describe('Web service', function() {
           var entitiesToAdd = [helper.getAddExample()];
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            page.refresh();
-
             client.get(entity.webServicePath).then(function(results) {
               var entities = results.entities;
               check(function() {
@@ -306,7 +292,6 @@ describe('Web service', function() {
           });
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            page.refresh();
             var promises = [];
 
             searchQueries.forEach(function(searchQuery) {

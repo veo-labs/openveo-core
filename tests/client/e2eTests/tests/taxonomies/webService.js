@@ -59,8 +59,6 @@ describe('Taxonomies web service', function() {
       ];
 
       helper.addEntities(taxonomiesToAdd).then(function(addedTaxonomies) {
-        page.refresh();
-
         webServiceClient.get('taxonomies/' + addedTaxonomies[0].id + '/terms').then(function(results) {
           var terms = results.terms;
           check(function() {
@@ -110,8 +108,6 @@ describe('Taxonomies web service', function() {
       ];
 
       helper.addEntities(taxonomiesToAdd).then(function(addedTaxonomies) {
-        page.refresh();
-
         clientWithoutPermission.get('taxonomies/' + addedTaxonomies[0].id + '/terms').then(function(results) {
           check(function() {
             assert.ok(false, 'Application without permission should not be able to get taxonomy terms');

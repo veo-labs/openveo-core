@@ -99,7 +99,7 @@ describe('Group permissions creation', function() {
     // Navigate to role page
     rolePage.load();
     rolePage.openAddForm();
-    assert.isRejected(rolePage.getGroupPermissions(name, rolePage.addFormElement), 'Unexpected group ' + name);
+    assert.isRejected(rolePage.getGroupPermissions(name, rolePage.addFormElement));
   });
 
   it('should automatically update group permissions when updating a group', function() {
