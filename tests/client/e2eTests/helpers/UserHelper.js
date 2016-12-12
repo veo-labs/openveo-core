@@ -63,10 +63,11 @@ UserHelper.prototype.addEntitiesAuto = function(name, total, offset) {
  * @return {Object} The data to add
  */
 UserHelper.prototype.getAddExample = function() {
+  var id = shortid.generate();
   return {
-    id: shortid.generate(),
+    id: id,
     name: 'User example',
-    email: 'peter.venkman@ghosts.com',
+    email: 'peter.venkman' + id + '@ghosts.com',
     password: 'peter',
     passwordValidate: 'peter',
     roles: ['role1', 'role2']
