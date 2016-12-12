@@ -21,6 +21,7 @@ module.exports = {
   dropTestDatabase: {
     command: 'mongo -u ' + databaseConf['username'] +
       ' -p ' + databaseConf['password'] +
+      ' --host ' + databaseConf['replicaSet'] + '/' + databaseConf['seedlist'] +
       ' --authenticationDatabase ' + databaseConf['database'] +
       ' --eval "db.dropDatabase()"' +
       ' ' + databaseConf['database'],
