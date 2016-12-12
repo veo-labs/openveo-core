@@ -225,7 +225,7 @@
     this.actions = $scope.tableContainer.actions || [];
 
     // Column unsortable
-    this.notSortBy = ['action'];
+    this.notSortBy = ($scope.tableContainer.init ? $scope.tableContainer.init.notSortBy : []).concat(['action']);
 
     this.conditionToggleDetail = $scope.editFormContainer.conditionToggleDetail || function() {
       return true;
