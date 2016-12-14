@@ -4,17 +4,15 @@
 
 **Nb :** You will be prompted for some configuration. Don't worry if you made an error, you can edit configuration anytime using [advanced configuration](advanced-configuration.md).
 
-# Create a back end user
-
-OpenVeo CMS requires a super admin to access the back end. This user has full access to all the features of the back end and can't be removed. You can create it using the following command :
-
-    node install.js
-
 # Launch the application
 
 OpenVeo is now installed. Launch it :
 
     node server.js
+
+# Verify that OpenVeo is working
+
+OpenVeo does not have any public pages. Consequently navigating to `http://localhost:PORT` will lead you to a 404 error page (it's a good sign if it does). To check that OpenVeo is working, try to log to the back end.
 
 # Log to the back end
 
