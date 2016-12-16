@@ -17,6 +17,25 @@ var rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout
 });
+var rlSecure = false;
+
+/**
+ * Secure question to not show stdout
+ */
+function secureQuestion(query, callback) {
+  rlSecure = true;
+  rl.question(query, function(value) {
+    rl.history = rl.history.slice(1);
+    rlSecure = false;
+    callback(value);
+  });
+}
+
+// rewrite stdout in cas of secure rl
+process.stdin.on('data', function(char) {
+  if (rlSecure)
+    process.stdout.write('\x1B[2K\x1B[200D' + Array(rl.line.length + 1).join('*'));
+});
 
 /**
  * Creates a random hash.
@@ -142,7 +161,7 @@ function createDatabaseConf(callback) {
       });
     },
     function(callback) {
-      rl.question('Enter database user password :\n', function(answer) {
+      secureQuestion('Enter database user password :\n', function(answer) {
         conf.password = answer || '';
         callback();
       });
@@ -301,7 +320,7 @@ function createSuperAdmin(callback) {
       });
     },
     function(callback) {
-      rl.question('Enter the password of the OpenVeo super admin to create :\n', function(answer) {
+      secureQuestion('Enter the password of the OpenVeo super admin to create :\n', function(answer) {
         if (!answer) callback(new Error('Invalid password, aborting'));
         user.password = crypto.createHmac('sha256', conf.passwordHashKey).update(answer).digest('hex');
         callback();
