@@ -1,3 +1,10 @@
+# 3.0.0 / 2017-01-03
+
+- Update async module from version 1.2.0 to 2.1.4
+- Update protractor and chai-as-promised dependencies
+- Correct issue when creating a Web Service token for a client
+- Debug UI issues
+
 # 2.0.4 / 2016-09-15
 
 - Debug touch due to deprecated use of angular-touch on Angularjs 1.5.x. Use of fastclick instead.
