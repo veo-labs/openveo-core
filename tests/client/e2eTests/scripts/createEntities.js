@@ -11,7 +11,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var entities = process.require('tests/client/e2eTests/resources/entities.json').entities;
 
@@ -24,13 +24,24 @@ var aggregatedEntitiesFilePath = path.join(process.root, 'tests/client/e2eTests/
  *
  * By default all entities model and helper are relative to plugin's root path.
  *
- * @param {Object} entities Entities description object
+ * @param {Array} entities The list of entities
  * @param {String} basePath Base absolute path for these entities
  */
 function setEntitiesAbsolutePath(entities, basePath) {
   entities.forEach(function(entity) {
     if (entity.model)
       entity.model = path.join(basePath, entity.model);
+
+    if (entity.modelParameters) {
+      var modelParameters = [];
+      entity.modelParameters.forEach(function(parameter) {
+        if (parameter)
+          modelParameters.push(path.join(basePath, parameter));
+        else
+          modelParameters.push(parameter);
+      });
+      entity.modelParameters = modelParameters;
+    }
 
     if (entity.helper)
       entity.helper = path.join(basePath, entity.helper);
@@ -53,7 +64,7 @@ pluginLoader.getPluginPaths(process.root, function(error, pluginPaths) {
         process.stdout.write('Can\'t load file ' + path.join(pluginPath, entitiesFilePath) + '\n');
       }
     }
-    openVeoAPI.fileSystem.mkdir(path.dirname(aggregatedEntitiesFilePath), function(error) {
+    openVeoApi.fileSystem.mkdir(path.dirname(aggregatedEntitiesFilePath), function(error) {
       if (!error)
         fs.writeFile(aggregatedEntitiesFilePath, JSON.stringify({entities: entities}), {encoding: 'utf8'});
     });

@@ -8,9 +8,12 @@
  * Provides functions to interface oauth clients and openveo Web Service.
  *
  * @class client
+ * @static
  */
 
+var openVeoApi = require('@openveo/api');
 var ClientModel = process.require('app/server/models/ClientModel.js');
+var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 
 var clientModel;
 var client = {};
@@ -24,7 +27,7 @@ var client = {};
  */
 function getClientModel() {
   if (!clientModel)
-    clientModel = new ClientModel();
+    clientModel = new ClientModel(new ClientProvider(openVeoApi.api.getCoreApi().getDatabase()));
 
   return clientModel;
 }
@@ -35,6 +38,7 @@ function getClientModel() {
  * @method getId
  * @static
  * @param {Object} oAuthClient An OAuth client
+ * @param {String} oAuthClient.id The client's id
  * @return {String} The client id
  */
 client.getId = function(oAuthClient) {
@@ -62,11 +66,14 @@ client.fetchById = function(id, callback) {
  * @method checkSecret
  * @static
  * @param {Object} oAuthClient An OAuth client
+ * @param {String} oAuthClient.secret The client's secret
  * @param {String} secret OAuth client's secret to verify
- * @return {Boolean} true if the client's secret is verified
+ * @param {Function} callback with :
+ *  - **Error** An error is something went wrong or null if everything is fine
+ *  - **Boolean** true if the client's secret is verified
  */
-client.checkSecret = function(oAuthClient, secret) {
-  return (oAuthClient.secret === secret);
+client.checkSecret = function(oAuthClient, secret, callback) {
+  callback(null, (oAuthClient.secret === secret));
 };
 
 /**
@@ -78,7 +85,7 @@ client.checkSecret = function(oAuthClient, secret) {
  * @static
  * @param {Object} client An OAuth client
  * @param {String} grantType The grant type asked by client
- * @return {Boolean} true if the grand type is "client_credentials"
+ * @return {Boolean} true if the grant type is "client_credentials"
  * false otherwise
  */
 client.checkGrantType = function(client, grantType) {
@@ -91,7 +98,8 @@ client.checkGrantType = function(client, grantType) {
  * @method checkScope
  * @static
  * @param {Object} oAuthClient An OAuth client
- * @param {String} scope The list of scopes sent by the OAuth client
+ * @param {Object} oAuthClient.scopes The client's scopes
+ * @return {Array} scope The list of scopes sent by the OAuth client
  */
 client.checkScope = function(oAuthClient) {
   return oAuthClient.scopes;

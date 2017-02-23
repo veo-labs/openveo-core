@@ -5,14 +5,14 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var pathUtil = process.require('app/server/path.js');
 var errors = process.require('app/server/httpErrors.js');
-var applicationStorage = openVeoAPI.applicationStorage;
-var Controller = openVeoAPI.controllers.Controller;
+var storage = process.require('app/server/storage.js');
+var Controller = openVeoApi.controllers.Controller;
 
 /**
- * Retrieves the scope corresponding to the couple url / http method.
+ * Retrieves, from list of scopes, the scope corresponding to the couple url / http method.
  *
  * @method getScopeByUrl
  * @private
@@ -22,7 +22,7 @@ var Controller = openVeoAPI.controllers.Controller;
  * @return {String} The scope id if found, null otherwise
  */
 function getScopeByUrl(url, httpMethod) {
-  var scopes = applicationStorage.getWebServiceScopes();
+  var scopes = storage.getWebServiceScopes();
 
   for (var i = 0; i < scopes.length; i++) {
     var scope = scopes[i];
@@ -45,15 +45,14 @@ function getScopeByUrl(url, httpMethod) {
 }
 
 /**
- * Provides route actions for all requests relative to Web Service
- * authentication.
+ * Defines a controller to handle requests relative to Web Service authentication.
  *
  * @class OauthController
- * @constructor
  * @extends Controller
+ * @constructor
  */
 function OauthController() {
-  Controller.call(this);
+  OauthController.super_.call(this);
 }
 
 module.exports = OauthController;
@@ -65,6 +64,13 @@ util.inherits(OauthController, Controller);
  * Revoke access to the service if client does not have permission.
  *
  * @method validateScopesAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Object} request.oauth2 Request's OAuth information
+ * @param {Object} request.oauth2.accessToken The connected client's token
+ * @param {String} request.url The request's url
+ * @param {String} request.method The request's method
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 OauthController.prototype.validateScopesAction = function(request, response, next) {
 

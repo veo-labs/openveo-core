@@ -1,6 +1,6 @@
 # Launch in production
 
-To use OpenVeo in a production environment, start the server in production :
+To use OpenVeo in a production environment, start the server using **NODE_ENV** environment variable :
 
     # Starts OpenVeo application in production environment
     NODE_ENV=production node server.js

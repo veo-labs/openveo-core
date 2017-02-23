@@ -4,16 +4,19 @@ require('../../processRequire.js');
 var path = require('path');
 var async = require('async');
 var childProcess = require('child_process');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var e2e = require('@openveo/test').e2e;
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var entityLoader = process.require('app/server/loaders/entityLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
+var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 var UserModel = process.require('app/server/models/UserModel.js');
-var CorePlugin = process.require('app/server/CorePlugin.js');
+var UserProvider = process.require('app/server/providers/UserProvider.js');
+var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
+var storage = process.require('app/server/storage.js');
 var screenshotPlugin = e2e.plugins.screenshotPlugin;
-var configurationDirectoryPath = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
+var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverTestConf.json');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerTestConf.json');
 var databaseConfPath = path.join(configurationDirectoryPath, 'databaseTestConf.json');
@@ -21,7 +24,7 @@ var confPath = path.join(configurationDirectoryPath, 'conf.json');
 var databaseConf = require(databaseConfPath);
 var serverConf = require(serverConfPath);
 var coreConf = require(confPath);
-var applicationStorage = openVeoAPI.applicationStorage;
+var pluginManager = openVeoApi.plugin.pluginManager;
 var db;
 var applicationServer;
 var webServiceServer;
@@ -30,7 +33,7 @@ var users;
 var corePlugin;
 
 // Load a console logger
-process.logger = openVeoAPI.logger.get('openveo');
+process.logger = openVeoApi.logger.add('openveo');
 
 // Load suites
 var suites = process.require('tests/client/e2eTests/build/suites.json');
@@ -42,7 +45,7 @@ exports.config = {
     bail: false
   },
   suites: suites,
-  baseUrl: 'http://127.0.0.1:' + serverConf.app.port + '/',
+  baseUrl: 'http://127.0.0.1:' + serverConf.app.httpPort + '/',
   webServiceUrl: 'http://127.0.0.1:' + serverConf.ws.port + '/',
   plugins: [
     {
@@ -76,7 +79,7 @@ exports.config = {
     e2e.browser.setSize(1920, 1080);
 
     // Get a Database instance to the test database
-    db = openVeoAPI.Database.getDatabase(databaseConf);
+    db = openVeoApi.database.factory.get(databaseConf);
 
     async.series([
 
@@ -130,11 +133,11 @@ exports.config = {
           if (error)
             throw new Error(error);
 
-          applicationStorage.setDatabase(db);
+          storage.setDatabase(db);
 
           // Set super administrator and anonymous user id from configuration
-          applicationStorage.setSuperAdminId('0');
-          applicationStorage.setAnonymousUserId(coreConf.anonymousUserId || '1');
+          storage.setSuperAdminId('0');
+          storage.setAnonymousUserId(coreConf.anonymousUserId || '1');
 
           callback();
         });
@@ -153,7 +156,11 @@ exports.config = {
             throw new Error(error);
           } else {
             plugins.unshift(corePlugin);
-            applicationStorage.setPlugins(plugins);
+
+            plugins.forEach(function(plugin) {
+              pluginManager.addPlugin(plugin);
+            });
+
             callback();
           }
         });
@@ -161,21 +168,21 @@ exports.config = {
 
       // Load entities
       function(callback) {
-        var entities = entityLoader.buildEntities(applicationStorage.getPlugins());
-        applicationStorage.setEntities(entities);
+        var entities = entityLoader.buildEntities(pluginManager.getPlugins());
+        storage.setEntities(entities);
         callback();
       },
 
       // Load permissions
       function(callback) {
-        var entities = applicationStorage.getEntities();
-        var plugins = applicationStorage.getPlugins();
+        var entities = storage.getEntities();
+        var plugins = pluginManager.getPlugins();
         permissionLoader.buildPermissions(entities, plugins, function(error, permissions) {
           if (error)
             return callback(error);
 
           // Store application's permissions
-          applicationStorage.setPermissions(permissions);
+          storage.setPermissions(permissions);
 
           callback();
         });
@@ -183,7 +190,7 @@ exports.config = {
 
       // Get the list of available client applications and expose it to plugins
       function(callback) {
-        var clientModel = new ClientModel();
+        var clientModel = new ClientModel(new ClientProvider(storage.getDatabase()));
         clientModel.get(null, function(error, entities) {
           if (error) {
             throw new Error(error);
@@ -196,7 +203,7 @@ exports.config = {
 
       // Get the list of available users and expose it to plugins
       function(callback) {
-        var userModel = new UserModel();
+        var userModel = new UserModel(new UserProvider(storage.getDatabase()));
         userModel.get(null, function(error, entities) {
           if (error) {
             throw new Error(error);

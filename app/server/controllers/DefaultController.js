@@ -5,21 +5,22 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
-var applicationStorage = openVeoAPI.applicationStorage;
-var Controller = openVeoAPI.controllers.Controller;
+var openVeoApi = require('@openveo/api');
+var storage = process.require('app/server/storage.js');
+var pluginManager = openVeoApi.plugin.pluginManager;
+var Controller = openVeoApi.controllers.Controller;
 
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
 
 /**
- * Provides default route action to deal with angularJS single page application.
+ * Defines a controller to handle request relative to AngularJS single page application.
  *
  * @class DefaultController
- * @constructor
  * @extends Controller
+ * @constructor
  */
 function DefaultController() {
-  Controller.call(this);
+  DefaultController.super_.call(this);
 }
 
 module.exports = DefaultController;
@@ -35,11 +36,14 @@ util.inherits(DefaultController, Controller);
  * JavaScript libraries, JavaScript files and CSS files.
  *
  * @method defaultAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 DefaultController.prototype.defaultAction = function(request, response) {
 
   // Retrieve openveo sub plugins
-  var plugins = applicationStorage.getPlugins();
+  var plugins = pluginManager.getPlugins();
   var angularJsModules = [];
 
   response.locals.librariesScripts = [];
@@ -49,7 +53,6 @@ DefaultController.prototype.defaultAction = function(request, response) {
 
   // Got sub plugins
   if (plugins) {
-
     plugins.forEach(function(plugin) {
 
       // Plugin has a name and has a back office page configured.
@@ -81,6 +84,7 @@ DefaultController.prototype.defaultAction = function(request, response) {
   }
 
   response.locals.version = JSON.stringify(response.locals.version);
+  response.locals.socketServerPort = storage.getServerConfiguration().browserSocketPort;
   response.locals.angularJsModules = angularJsModules.join(',');
   response.render('root', response.locals);
 

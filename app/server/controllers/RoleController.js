@@ -5,20 +5,21 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var RoleModel = process.require('app/server/models/RoleModel.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var errors = process.require('app/server/httpErrors.js');
-var EntityController = openVeoAPI.controllers.EntityController;
+var EntityController = openVeoApi.controllers.EntityController;
 
 /**
- * Provides all route actions to deal with roles.
+ * Defines an entity controller to handle requests relative to roles' entities.
  *
  * @class RoleController
- * @constructor
  * @extends EntityController
+ * @constructor
  */
 function RoleController() {
-  EntityController.call(this, RoleModel);
+  RoleController.super_.call(this, RoleModel, RoleProvider);
 }
 
 module.exports = RoleController;
@@ -34,13 +35,21 @@ util.inherits(RoleController, EntityController);
  *  - **sortOrder** Sort order (either asc or desc)
  *
  * @method getEntitiesAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Object} [request.query] Request's query parameters
+ * @param {Number} [request.query.limit=1] The maximum number of expected results
+ * @param {Number} [request.query.page] The expected page in pagination system
+ * @param {String} [request.query.sortBy=name] The name of the property on which to sort (only "name" is available)
+ * @param {String} [request.query.sortOrder=desc] The sort order (either "asc" or "desc")
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 RoleController.prototype.getEntitiesAction = function(request, response, next) {
-  var model = new this.Entity(request.user);
+  var model = this.getModel(request);
   var params;
 
   try {
-    params = openVeoAPI.util.shallowValidateObject(request.query, {
+    params = openVeoApi.util.shallowValidateObject(request.query, {
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gt: 0, default: 1},
@@ -61,7 +70,7 @@ RoleController.prototype.getEntitiesAction = function(request, response, next) {
   // Add search query
   if (params.query) {
     filter.$text = {
-      $search: params.query
+      $search: '"' + params.query + '"'
     };
   }
 

@@ -6,6 +6,7 @@
 
 var path = require('path');
 var util = require('util');
+var async = require('async');
 var express = require('express');
 var consolidate = require('consolidate');
 var session = require('express-session');
@@ -13,15 +14,19 @@ var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var Server = process.require('app/server/servers/Server.js');
 var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 var entityLoader = process.require('app/server/loaders/entityLoader.js');
+var namespaceLoader = process.require('app/server/loaders/namespaceLoader.js');
 var DefaultController = process.require('app/server/controllers/DefaultController.js');
 var ErrorController = process.require('app/server/controllers/ErrorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
-var applicationStorage = openVeoAPI.applicationStorage;
+var storage = process.require('app/server/storage.js');
+var pluginManager = openVeoApi.plugin.pluginManager;
+var SocketServer = openVeoApi.socket.SocketServer;
+var SocketNamespace = openVeoApi.socket.SocketNamespace;
 
 var defaultController = new DefaultController();
 var errorController = new ErrorController();
@@ -38,57 +43,94 @@ var staticServerOptions = {
 };
 
 /**
- * Creates an HTTP server for the openveo application, which serves front and back end pages.
+ * Defines an HTTP server for the openveo application, which serves front and back end pages.
  *
  * @class ApplicationServer
- * @constructor
  * @extends Server
+ * @constructor
  * @param {Object} configuration Service configuration
+ * @param {String} configuration.sessionSecret Hash to encrypt sessions
+ * @param {Number} configuration.httpPort HTTP server port
+ * @param {Number} configuration.socketPort Socket server port
  */
 function ApplicationServer(configuration) {
-  Server.call(this, configuration);
+  ApplicationServer.super_.call(this, configuration);
 
-  /**
-   * List of path holding template engine views.
-   *
-   * @property viewsFolders
-   * @type Array
-   */
-  this.viewsFolders = [];
+  Object.defineProperties(this, {
 
-  /**
-   * Image styles for image processing.
-   *
-   * @property imagesStyle
-   * @type Object
-   */
-  this.imagesStyle = {};
+    /**
+     * List of path holding template engine views.
+     *
+     * @property viewsFolders
+     * @type Array
+     */
+    viewsFolders: {value: [], writable: true},
 
-  /**
-   * Back end menu description object.
-   *
-   * @property menu
-   * @type Array
-   */
-  this.menu = [];
+    /**
+     * Image styles for image processing.
+     *
+     * @property imagesStyle
+     * @type Object
+     * @final
+     */
+    imagesStyle: {value: {}},
 
-  /**
-   * migrations Script description object.
-   *
-   * @property migrations
-   * @type Object
-   */
-  this.migrations = {};
+    /**
+     * Back end menu description object.
+     *
+     * @property menu
+     * @type Array
+     */
+    menu: {value: [], writable: true},
+
+    /**
+     * Migrations scripts to execute.
+     *
+     * @property migrations
+     * @type Object
+     * @final
+     */
+    migrations: {value: {}},
+
+    /**
+     * Socket server.
+     *
+     * @property socketServer
+     * @type SocketServer
+     * @final
+     */
+    socketServer: {value: new SocketServer()},
+
+    /**
+     * Database session storage.
+     *
+     * @property sessionStore
+     * @type Object
+     */
+    sessionStore: {value: null, writable: true},
+
+    /**
+     * Express session middleware.
+     *
+     * @property sessionMiddleware
+     * @type Object
+     */
+    sessionMiddleware: {value: null, writable: true}
+
+  });
 
   // Apply favicon
-  this.app.use(favicon(process.root + '/assets/favicon.ico'));
+  this.httpServer.use(favicon(process.root + '/assets/favicon.ico'));
 
   // Set mustache as the template engine
-  this.app.engine('html', consolidate.mustache);
-  this.app.set('view engine', 'html');
+  this.httpServer.engine('html', consolidate.mustache);
+  this.httpServer.set('view engine', 'html');
 
   // Log each request
-  this.app.use(openVeoAPI.middlewares.logRequestMiddleware);
+  this.httpServer.use(openVeoApi.middlewares.logRequestMiddleware);
+
+  // Save server configuration
+  storage.setServerConfiguration(configuration);
 
 }
 
@@ -96,8 +138,7 @@ module.exports = ApplicationServer;
 util.inherits(ApplicationServer, Server);
 
 /**
- * Applies all routes, found in configuration, to the public and
- * the private routers.
+ * Prepares the express application.
  *
  * @method onDatabaseAvailable
  * @async
@@ -106,27 +147,29 @@ util.inherits(ApplicationServer, Server);
  *  - **Error** An error if something went wrong
  */
 ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
+  this.sessionStore = db.getStore('core_sessions');
 
   // Update Session store with opened database connection
   // Allowed server to restart without loosing any session
-  this.app.use(session({
+  this.sessionMiddleware = session({
     secret: this.configuration.sessionSecret,
     saveUninitialized: true,
     resave: true,
-    store: db.getStore('core_sessions')
-  }));
+    store: this.sessionStore
+  });
+  this.httpServer.use(this.sessionMiddleware);
 
   // The cookieParser and session middlewares are required
   // by passport
-  this.app.use(cookieParser());
-  this.app.use(bodyParser.urlencoded({
+  this.httpServer.use(cookieParser());
+  this.httpServer.use(bodyParser.urlencoded({
     extended: true
   }));
-  this.app.use(bodyParser.json());
+  this.httpServer.use(bodyParser.json());
 
   // passport Initialize : Need to be done after session settings DB
-  this.app.use(passport.initialize());
-  this.app.use(passport.session());
+  this.httpServer.use(passport.initialize());
+  this.httpServer.use(passport.session());
 
   // Initialize passport (authentication manager)
   process.require('app/server/passport.js');
@@ -148,17 +191,18 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
  */
 ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   var self = this;
+  process.logger.info('Start loading plugin ' + plugin.name);
 
   // If plugin has an assets directory, it will be loaded as a static server
   if (plugin.assets && plugin.mountPath) {
     process.logger.info('Mount ' + plugin.assets + ' on ' + plugin.mountPath);
-    this.app.use(plugin.mountPath, express.static(plugin.assets, staticServerOptions));
+    this.httpServer.use(plugin.mountPath, express.static(plugin.assets, staticServerOptions));
 
     if (env === 'dev') {
       var frontJSPath = path.normalize(plugin.assets + '/../app/client/front/js');
       var adminJSPath = path.normalize(plugin.assets + '/../app/client/admin/js');
-      this.app.use(plugin.mountPath, express.static(frontJSPath, staticServerOptions));
-      this.app.use(plugin.mountPath, express.static(adminJSPath, staticServerOptions));
+      this.httpServer.use(plugin.mountPath, express.static(frontJSPath, staticServerOptions));
+      this.httpServer.use(plugin.mountPath, express.static(adminJSPath, staticServerOptions));
     }
 
   }
@@ -180,13 +224,13 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   // Mount plugin public router to the plugin mount path
   if (plugin.router && plugin.mountPath) {
     process.logger.info('Mount ' + plugin.name + ' public router on ' + plugin.mountPath);
-    this.app.use(plugin.mountPath, plugin.router);
+    this.httpServer.use(plugin.mountPath, plugin.router);
   }
 
   // Mount plugin private router to the plugin private mount path
   if (plugin.privateRouter && plugin.mountPath) {
     process.logger.info('Mount ' + plugin.name + ' private router on ' + plugin.mountPath);
-    this.app.use('/be' + plugin.mountPath, plugin.privateRouter);
+    this.httpServer.use('/be' + plugin.mountPath, plugin.privateRouter);
   }
 
   // Found back end menu configuration for the plugin
@@ -209,7 +253,7 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
     // Set thumbnail generator on image folders
     plugin.imagesFolders.forEach(function(folder) {
       process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
-      self.app.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
+      self.httpServer.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
         imagesStyle: imagesStyles
       }));
     });
@@ -219,6 +263,69 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   if (plugin.migrations)
     this.migrations[plugin.name] = plugin.migrations;
 
+  // Found namespaces for the plugin
+  if (plugin.namespaces) {
+
+    /*
+     * Mounts namespaces on the socket server.
+     *
+     * @param {Object} namespaces Namespaces with the namespaces names as the key and the list
+     * of namespaces messages as the value
+     * @param {Boolean} isPrivate true to make each namespace private requiring a back end
+     * authentication
+     */
+    var mountNamespaces = function(namespaces, isPrivate) {
+      for (var namespaceName in namespaces) {
+        var messagesDescriptors = namespaces[namespaceName];
+        var mountPath = (plugin.mountPath === '/') ? namespaceName : plugin.mountPath + '/' + namespaceName;
+        var socketNamespace = null;
+
+        // Namespaces names must be unique
+        if (!self.socketServer.getNamespace(mountPath)) {
+
+          // Namespace not registered yet
+          // Mount it
+          socketNamespace = new SocketNamespace();
+          process.logger.info('Mount ' + plugin.name + ' "' + namespaceName + '" namespace on ' + mountPath);
+
+          // Attaches messages' handlers to namespace
+          namespaceLoader.addHandlers(socketNamespace, messagesDescriptors, plugin.path);
+
+          if (isPrivate) {
+
+            // Use HTTP session middleware to populate socket request with HTTP session information
+            socketNamespace.use(function(socket, next) {
+              self.sessionMiddleware(socket.request, socket.request.res, next);
+            });
+
+            // Add middleware to check that the user is authenticated to the back end
+            // Add a middleware to all routes on the namespace to control the back end authentication
+            // depending on the requested route
+            socketNamespace.use(function(socket, next) {
+              if (socket.request.session && socket.request.session.passport && socket.request.session.passport.user)
+                next();
+              else
+                next({error: 'Not authenticated'});
+            });
+          }
+
+          // Add namespace to socket server
+          self.socketServer.addNamespace(mountPath, socketNamespace);
+        }
+      }
+    };
+
+    // Mount public namespaces on the socket server
+    if (plugin.namespaces.public)
+      mountNamespaces(plugin.namespaces.public);
+
+    // Mount private namespaces on the socket server
+    if (plugin.namespaces.private)
+      mountNamespaces(plugin.namespaces.private, true);
+
+  }
+
+  process.logger.info(plugin.name + ' plugin loaded');
   callback();
 };
 
@@ -236,20 +343,20 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
  *  - **Error** An error if something went wrong
  */
 ApplicationServer.prototype.onPluginsLoaded = function(callback) {
-  var plugins = applicationStorage.getPlugins();
-  var entities = applicationStorage.getEntities();
+  var plugins = pluginManager.getPlugins();
+  var entities = storage.getEntities();
 
   // Set views folders for template engine
-  this.app.set('views', this.viewsFolders);
+  this.httpServer.set('views', this.viewsFolders);
 
-  applicationStorage.setMenu(this.menu);
+  storage.setMenu(this.menu);
 
   // Handle not found and errors
-  this.app.all('/be*', defaultController.defaultAction);
-  this.app.all('*', errorController.notFoundPageAction);
+  this.httpServer.all('/be*', defaultController.defaultAction);
+  this.httpServer.all('*', errorController.notFoundPageAction);
 
   // Handle errors
-  this.app.use(errorController.errorAction);
+  this.httpServer.use(errorController.errorAction);
 
   // Build permissions
   permissionLoader.buildPermissions(entities, plugins, function(error, permissions) {
@@ -257,14 +364,14 @@ ApplicationServer.prototype.onPluginsLoaded = function(callback) {
       return callback(error);
 
     // Store application's permissions
-    applicationStorage.setPermissions(permissions);
+    storage.setPermissions(permissions);
 
     callback();
   });
 };
 
 /**
- * Starts the HTTP server.
+ * Starts the HTTP and socket servers.
  *
  * @method startServer
  * @async
@@ -272,10 +379,26 @@ ApplicationServer.prototype.onPluginsLoaded = function(callback) {
  *  - **Error** An error if something went wrong, null otherwise
  */
 ApplicationServer.prototype.startServer = function(callback) {
+  var self = this;
 
-  // Start server
-  var server = this.app.listen(this.configuration.port, function(error) {
-    process.logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
+  async.series([
+
+    // Start HTTP server
+    function(callback) {
+      self.httpServer.listen(self.configuration.httpPort, function(error) {
+        process.logger.info('HTTP Server listening on port ' + self.configuration.httpPort);
+        callback(error);
+      });
+    },
+
+    // Start socket server
+    function(callback) {
+      self.socketServer.listen(self.configuration.socketPort, function() {
+        process.logger.info('Socket server listening on port ' + self.configuration.socketPort);
+        callback();
+      });
+    }
+  ], function(error, results) {
 
     // If process is a child process, send an event to parent process informing that the server has started
     if (process.connected)

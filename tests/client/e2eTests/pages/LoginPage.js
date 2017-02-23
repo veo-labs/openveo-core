@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var e2e = require('@openveo/test').e2e;
 var i18n = e2e.i18n;
 var Page = e2e.pages.Page;
@@ -82,7 +82,7 @@ LoginPage.prototype.selectLanguage = function(language) {
     ];
     return protractor.promise.all(promises);
   }).then(function(translations) {
-    openVeoAPI.util.merge(translations[0], translations[1]);
+    openVeoApi.util.merge(translations[0], translations[1]);
     self.translations = translations[0];
     return protractor.promise.fulfilled();
   });

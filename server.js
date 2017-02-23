@@ -5,16 +5,17 @@ var path = require('path');
 var async = require('async');
 var nopt = require('nopt');
 
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var TokenProvider = process.require('app/server/providers/TokenProvider.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var TaxonomyProvider = process.require('app/server/providers/TaxonomyProvider.js');
-var CorePlugin = process.require('app/server/CorePlugin.js');
-var applicationStorage = openVeoAPI.applicationStorage;
-var configurationDirectoryPath = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
+var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
+var storage = process.require('app/server/storage.js');
+var pluginManager = openVeoApi.plugin.pluginManager;
+var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerConf.json');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverConf.json');
 var databaseConfPath = path.join(configurationDirectoryPath, 'databaseConf.json');
@@ -23,7 +24,6 @@ var serverConf;
 var databaseConf;
 var coreConf;
 var corePlugin;
-
 
 // Process arguments
 var knownProcessOptions = {
@@ -50,11 +50,11 @@ var server;
 
 if (processOptions['ws']) {
   process.isWebService = true;
-  process.logger = openVeoAPI.logger.add('openveo', loggerConf.ws);
+  process.logger = openVeoApi.logger.add('openveo', loggerConf.ws);
   var WebServiceServer = process.require('app/server/servers/WebServiceServer.js');
   server = new WebServiceServer(serverConf.ws);
 } else {
-  process.logger = openVeoAPI.logger.add('openveo', loggerConf.app);
+  process.logger = openVeoApi.logger.add('openveo', loggerConf.app);
   var ApplicationServer = process.require('app/server/servers/ApplicationServer.js');
   server = new ApplicationServer(serverConf.app);
 }
@@ -66,8 +66,8 @@ var permissionLoader = process.require('app/server/loaders/permissionLoader.js')
 var migrationProcess = process.require('app/server/migration/migrationProcess.js');
 
 // Set super administrator and anonymous user id from configuration
-applicationStorage.setSuperAdminId('0');
-applicationStorage.setAnonymousUserId(coreConf.anonymousUserId || '1');
+storage.setSuperAdminId('0');
+storage.setAnonymousUserId(coreConf.anonymousUserId || '1');
 
 /**
  * Executes a plugin function on all plugins in parallel.
@@ -77,7 +77,7 @@ applicationStorage.setAnonymousUserId(coreConf.anonymousUserId || '1');
  *  - **Error** An error if something went wrong, null otherwise
  */
 function executePluginFunction(functionToExecute, callback) {
-  var plugins = applicationStorage.getPlugins();
+  var plugins = pluginManager.getPlugins();
   var asyncFunctions = [];
 
   plugins.forEach(function(plugin) {
@@ -99,7 +99,7 @@ async.series([
   function(callback) {
 
     // Get a Database instance
-    var db = openVeoAPI.Database.getDatabase(databaseConf);
+    var db = openVeoApi.database.factory.get(databaseConf);
 
     // Establish connection to the database
     db.connect(function(error) {
@@ -108,15 +108,14 @@ async.series([
         throw new Error(error);
       }
 
-      applicationStorage.setDatabase(db);
+      storage.setDatabase(db);
       callback();
     });
   },
 
   // Inform server that database is loaded and available
   function(callback) {
-    server.onDatabaseAvailable(applicationStorage.getDatabase(), function() {
-      applicationStorage.setSessionSecret(server.configuration.sessionSecret);
+    server.onDatabaseAvailable(storage.getDatabase(), function() {
       callback();
     });
   },
@@ -124,7 +123,16 @@ async.series([
   // Load Core plugin
   function(callback) {
     corePlugin = new CorePlugin();
-    pluginLoader.loadPluginMetadata(corePlugin, callback);
+    pluginLoader.loadPluginMetadata(corePlugin, function(error) {
+      if (error)
+        return callback(error);
+
+      // Add core plugin and exposes its APIs before loading other plugins
+      // as some plugins could use its APIs
+      pluginManager.addPlugin(corePlugin);
+
+      callback();
+    });
   },
 
   // Load openveo plugins
@@ -138,10 +146,15 @@ async.series([
         throw new Error(error);
       } else {
         var asyncFunctions = [];
-        plugins.unshift(corePlugin);
-        applicationStorage.setPlugins(plugins);
+
+        // Inform that core plugin is loaded
+        asyncFunctions.push(function(callback) {
+          server.onPluginLoaded(corePlugin, callback);
+        });
 
         plugins.forEach(function(loadedPlugin) {
+          pluginManager.addPlugin(loadedPlugin);
+
           asyncFunctions.push(function(callback) {
             server.onPluginLoaded(loadedPlugin, callback);
           });
@@ -157,15 +170,15 @@ async.series([
 
   // Load entities
   function(callback) {
-    var entities = entityLoader.buildEntities(applicationStorage.getPlugins());
-    applicationStorage.setEntities(entities);
+    var entities = entityLoader.buildEntities(pluginManager.getPlugins());
+    storage.setEntities(entities);
     callback();
   },
 
   // Load web service scopes
   function(callback) {
-    var scopes = permissionLoader.buildScopes(applicationStorage.getEntities(), applicationStorage.getPlugins());
-    applicationStorage.setWebServiceScopes(scopes);
+    var scopes = permissionLoader.buildScopes(storage.getEntities(), pluginManager.getPlugins());
+    storage.setWebServiceScopes(scopes);
     callback();
   },
 
@@ -177,7 +190,7 @@ async.series([
 
   // Create core indexes
   function(callback) {
-    var database = openVeoAPI.applicationStorage.getDatabase();
+    var database = storage.getDatabase();
     var asyncFunctions = [];
     var providers = [
       new ClientProvider(database),
@@ -203,11 +216,13 @@ async.series([
 
   // Intitializes plugins
   function(callback) {
+    process.logger.debug('Launch plugins "init" step');
     executePluginFunction('init', callback);
   },
 
   // Start plugins
   function(callback) {
+    process.logger.debug('Launch plugins "start" step');
     executePluginFunction('start', callback);
   },
 

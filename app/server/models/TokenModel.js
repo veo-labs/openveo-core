@@ -5,24 +5,22 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
-
-var TokenProvider = process.require('app/server/providers/TokenProvider.js');
+var openVeoApi = require('@openveo/api');
 
 /**
- * Defines a TokenModel class to manipulate tokens for Web Service
- * authentication.
+ * Defines a TokenModel to manipulate tokens for Web Service authentication.
  *
  * @class TokenModel
- * @constructor
  * @extends EntityModel
+ * @constructor
+ * @param {TokenProvider} provider The entity provider
  */
-function TokenModel() {
-  openVeoAPI.EntityModel.call(this, new TokenProvider(openVeoAPI.applicationStorage.getDatabase()));
+function TokenModel(provider) {
+  TokenModel.super_.call(this, provider);
 }
 
 module.exports = TokenModel;
-util.inherits(TokenModel, openVeoAPI.EntityModel);
+util.inherits(TokenModel, openVeoApi.models.EntityModel);
 
 /**
  * Adds a new token.

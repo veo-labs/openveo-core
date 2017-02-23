@@ -2,7 +2,7 @@
 
 End to end tests are performed using [Protractor](http://www.protractortest.org/).
 
-Each plugin (and OpenVeo core) defines a list of test suites in **tests/client/protractorSuites.json**.
+Each plugin (including OpenVeo core) defines a list of test suites in **tests/client/protractorSuites.json**.
 
 # Install selenium web driver and chrome driver
 
@@ -27,14 +27,16 @@ You need to specify a new database which will be used during tests. To do so, yo
 
 **WARNING** : Each time you launch end to end tests, all information will be removed from this database ! DO NOT use the same database as the one described in **databaseConf.json**
 
-When launching tests, an OpenVeo server is automatically spawned and must be configured through **serverTestConf.json**. Typically you may want to change the server port.
+When launching tests, OpenVeo HTTP and socket servers are automatically spawned and must be configured through **serverTestConf.json**. Typically you may want to change servers ports.
 
 **~/.openveo/core/serverTestConf.json**
 
 ```json
 {
   "app": {
-    "port": 3004,
+    "httpPort": 3003,
+    "socketPort": 3004,
+    "browserSocketPort": 3004,
     "sessionSecret": "2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx"
   },
   "ws": {
@@ -77,10 +79,11 @@ When launching end to end tests, several things happen before the first test is 
 1. Database defined in **~/.openveo/core/databaseTestConf.json** is dropped
 2. Users, roles, groups and applications described in **tests/client/e2eTests/database/data.json**, from core and plugins, are inserted into database
 3. Tests suites files, in **tests/client/e2eTests/protractorSuites.json** from core and plugins, are merged into one single file (**tests/client/e2eTests/suites/suites.json**)
-4. An OpenVeo server is launched
-4. An OpenVeo Web Service server is launched
-5. A database connection is made to be able to use models in tests
-6. All plugins are loaded and available in ApplicationStorage
+4. An OpenVeo HTTP server is launched
+5. An OpenVeo socket server is launched
+6. An OpenVeo Web Service server is launched
+7. A database connection is made to be able to use models in tests
+8. All plugins are loaded
 
 ## Add users, roles, groups and application before tests
 

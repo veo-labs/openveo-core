@@ -5,6 +5,8 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
 var GroupModel = process.require('app/server/models/GroupModel.js');
+var GroupProvider = process.require('app/server/providers/GroupProvider.js');
+var storage = process.require('app/server/storage.js');
 var GroupHelper = process.require('tests/client/e2eTests/helpers/GroupHelper.js');
 var browserExt = e2e.browser;
 
@@ -60,8 +62,8 @@ describe('Group page translations', function() {
         });
 
         var searchFields = page.getSearchFields(page.searchFormElement);
-        var searchNameField = searchFields.name;
-        assert.eventually.equal(searchNameField.getLabel(), coreTranslations.GROUPS.TITLE_FILTER);
+        var searchQueryField = searchFields.query;
+        assert.eventually.equal(searchQueryField.getLabel(), coreTranslations.GROUPS.QUERY_FILTER);
 
         // All actions translations
         page.setSelectAllMouseOver();
@@ -101,7 +103,7 @@ describe('Group page translations', function() {
 
   // Prepare page
   before(function() {
-    groupHelper = new GroupHelper(new GroupModel());
+    groupHelper = new GroupHelper(new GroupModel(new GroupProvider(storage.getDatabase())));
     page = new GroupPage();
     page.logAsAdmin();
     groupHelper.getEntities().then(function(groups) {

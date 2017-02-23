@@ -5,6 +5,8 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
+var ClientProvider = process.require('app/server/providers/ClientProvider.js');
+var storage = process.require('app/server/storage.js');
 var ApplicationHelper = process.require('tests/client/e2eTests/helpers/ApplicationHelper.js');
 var TableAssert = e2e.asserts.TableAssert;
 
@@ -17,7 +19,7 @@ describe('Application page', function() {
 
   // Prepare page
   before(function() {
-    var clientModel = new ClientModel();
+    var clientModel = new ClientModel(new ClientProvider(storage.getDatabase()));
     applicationHelper = new ApplicationHelper(clientModel);
     page = new ApplicationPage(clientModel);
     tableAssert = new TableAssert(page, applicationHelper);
@@ -121,14 +123,14 @@ describe('Application page', function() {
 
     it('should be able to search by full name', function() {
       var expectedValues;
-      var search = {name: lines[0].name};
+      var search = {query: lines[0].name};
 
       // Get all line values before search
       return page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
-          return element === search.name;
+          return element === search.query;
         });
 
       }).then(function() {
@@ -136,32 +138,33 @@ describe('Application page', function() {
       });
     });
 
-    it('should be able to search by partial name', function() {
-      var expectedValues;
-      var search = {name: lines[1].name.slice(0, 2)};
-
-      // Get all line values before search
-      return page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN).then(function(values) {
-
-        // Predict values
-        expectedValues = values.filter(function(element) {
-          return new RegExp(search.name).test(element);
-        });
-
-      }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.APPLICATIONS.NAME_COLUMN);
-      });
-    });
-
-    it('should be case sensitive', function() {
-      var search = {name: lines[1].name.toUpperCase()};
+    it('should not be able to search by partial name', function() {
+      var search = {query: lines[1].name.slice(0, 2)};
 
       page.search(search);
       assert.isRejected(page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN));
     });
 
+    it('should be case insensitive', function() {
+      var expectedValues;
+      var search = {query: lines[1].name.toUpperCase()};
+
+      // Get all line values before search
+      return page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN).then(function(values) {
+        var regexp = new RegExp(search.query, 'i');
+
+        // Predict values
+        expectedValues = values.filter(function(element) {
+          return regexp.test(element);
+        });
+
+      }).then(function() {
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.APPLICATIONS.NAME_COLUMN);
+      });
+    });
+
     it('should be able to clear search', function() {
-      var search = {name: lines[0].name};
+      var search = {query: lines[0].name};
       page.search(search);
       page.clearSearch();
       assert.isFulfilled(page.getLineValues(page.translations.CORE.APPLICATIONS.NAME_COLUMN));

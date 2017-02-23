@@ -1,23 +1,24 @@
 'use strict';
 
 module.exports = {
-  routes: {
-    public: {
-      'get /getDictionary/:dictionary/:code': 'app/server/controllers/I18nController.getDictionaryAction'
-    },
-    private: {
-      'get /login': 'app/server/controllers/DefaultController.defaultAction',
-      'post /authenticate': 'app/server/controllers/AuthenticationController.authenticateAction',
-      '*': 'app/server/controllers/AuthenticationController.restrictAction',
-      'post /logout': 'app/server/controllers/AuthenticationController.logoutAction',
-      'get /getMenu': 'app/server/controllers/MenuController.getMenuAction',
-      'get /getDictionary/:dictionary/:code': 'app/server/controllers/I18nController.getAdminDictionaryAction',
-      'get /permissions': 'app/server/controllers/AuthenticationController.getPermissionsAction',
-      'get /ws/scopes': 'app/server/controllers/ApplicationController.getScopesAction',
-      'post /search/:type': 'app/server/controllers/SearchController.searchEntitiesAction'
-    },
-    ws: {
-      'get /taxonomies/:id/terms': 'app/server/controllers/TaxonomyController.getTaxonomyTermsAction'
+  http: {
+    routes: {
+      public: {
+        'get /getDictionary/:dictionary/:code': 'app/server/controllers/I18nController.getDictionaryAction'
+      },
+      private: {
+        'get /login': 'app/server/controllers/DefaultController.defaultAction',
+        'post /authenticate': 'app/server/controllers/AuthenticationController.authenticateAction',
+        '*': 'app/server/controllers/AuthenticationController.restrictAction',
+        'post /logout': 'app/server/controllers/AuthenticationController.logoutAction',
+        'get /getMenu': 'app/server/controllers/MenuController.getMenuAction',
+        'get /getDictionary/:dictionary/:code': 'app/server/controllers/I18nController.getAdminDictionaryAction',
+        'get /permissions': 'app/server/controllers/AuthenticationController.getPermissionsAction',
+        'get /ws/scopes': 'app/server/controllers/ApplicationController.getScopesAction'
+      },
+      ws: {
+        'get /taxonomies/:id/terms': 'app/server/controllers/TaxonomyController.getTaxonomyTermsAction'
+      }
     }
   },
   entities: {
@@ -98,7 +99,8 @@ module.exports = {
         '/lib/checklist-model/checklist-model.js',
         '/lib/ng-jsonpath/dist/ng-jsonpath.min.js',
         '/lib/ng-tasty/ng-tasty-tpls.min.js',
-        '/lib/fastclick/lib/fastclick.js'
+        '/lib/fastclick/lib/fastclick.js',
+        '/lib/socket.io-client/socket.io.js'
       ],
       dev: [
         '/authentication/AuthenticationApp.js',
@@ -106,6 +108,7 @@ module.exports = {
         '/i18n/I18nApp.js',
         '/entity/EntityApp.js',
         '/alert/AlertApp.js',
+        '/socket/SocketApp.js',
         '/tableForm/tableForm.js',
         '/util/utilService.js'
       ],

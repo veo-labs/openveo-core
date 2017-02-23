@@ -5,6 +5,8 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
 var GroupModel = process.require('app/server/models/GroupModel.js');
+var GroupProvider = process.require('app/server/providers/GroupProvider.js');
+var storage = process.require('app/server/storage.js');
 var GroupHelper = process.require('tests/client/e2eTests/helpers/GroupHelper.js');
 var TableAssert = e2e.asserts.TableAssert;
 
@@ -17,7 +19,7 @@ describe('Group page', function() {
 
   // Prepare page
   before(function() {
-    var groupModel = new GroupModel();
+    var groupModel = new GroupModel(new GroupProvider(storage.getDatabase()));
     groupHelper = new GroupHelper(groupModel);
     page = new GroupPage(groupModel);
     tableAssert = new TableAssert(page, groupHelper);
@@ -128,14 +130,14 @@ describe('Group page', function() {
 
     it('should be able to search by full name', function() {
       var expectedValues;
-      var search = {name: lines[0].name};
+      var search = {query: lines[0].name};
 
       // Get all line values before search
       return page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
-          return element === search.name;
+          return element === search.query;
         });
 
       }).then(function() {
@@ -143,72 +145,89 @@ describe('Group page', function() {
       });
     });
 
-    it('should be able to search by partial name', function() {
-      var expectedValues;
-      var search = {name: lines[1].name.slice(0, 2)};
-
-      // Get all line values before search
-      return page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN).then(function(values) {
-
-        // Predict values
-        expectedValues = values.filter(function(element) {
-          return new RegExp(search.name).test(element);
-        });
-
-      }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
-      });
-    });
-
-    it('should be able to search by full description', function() {
-      var expectedValues = [];
-      var search = {description: lines[0].description};
-
-      // Get all line values before search
-      return page.getAllLineDetails().then(function(datas) {
-
-        // Predict values
-        var filteredDatas = datas.filter(function(data) {
-          return data.fields.description === search.description;
-        });
-
-        for (var i = 0; i < filteredDatas.length; i++)
-          expectedValues.push(filteredDatas[i].cells[1]);
-
-      }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
-      });
-    });
-
-    it('should be able to search by both description and name', function() {
-      var expectedValues = [];
-      var search = {name: lines[0].name, description: lines[0].description};
-
-      // Get all line values before search
-      return page.getAllLineDetails().then(function(datas) {
-
-        // Predict values
-        var filteredDatas = datas.filter(function(data) {
-          return data.fields.name === search.name && data.fields.description === search.description;
-        });
-
-        for (var i = 0; i < filteredDatas.length; i++)
-          expectedValues.push(filteredDatas[i].cells[1]);
-
-      }).then(function() {
-        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
-      });
-    });
-
-    it('should be case sensitive', function() {
-      var search = {name: lines[1].name.toUpperCase()};
+    it('should not be able to search by partial name', function() {
+      var search = {query: lines[1].name.slice(0, 2)};
 
       page.search(search);
       assert.isRejected(page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN));
     });
 
+    it('should be able to search by full description', function() {
+      var expectedValues = [];
+      var search = {query: lines[0].description};
+
+      // Get all line values before search
+      return page.getAllLineDetails().then(function(datas) {
+
+        // Predict values
+        var filteredDatas = datas.filter(function(data) {
+          return data.fields.description === search.query;
+        });
+
+        for (var i = 0; i < filteredDatas.length; i++)
+          expectedValues.push(filteredDatas[i].cells[1]);
+
+      }).then(function() {
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
+      });
+    });
+
+    it('should be able to search in name and description', function() {
+      var expectedValues = [];
+      var linesToAdd = [
+        {
+          name: 'first name',
+          description: 'first name description'
+        },
+        {
+          name: 'second name',
+          description: 'second description after first'
+        }
+      ];
+
+      // Add lines
+      groupHelper.addEntities(linesToAdd);
+      page.refresh();
+
+      var search = {query: 'first'};
+
+      // Get all line values before search
+      return page.getAllLineDetails().then(function(datas) {
+        var regexp = new RegExp('\\b' + search.query + '\\b');
+
+        // Predict values
+        var filteredDatas = datas.filter(function(data) {
+          return regexp.test(data.fields.description) || regexp.test(data.fields.name);
+        });
+
+        for (var i = 0; i < filteredDatas.length; i++)
+          expectedValues.push(filteredDatas[i].cells[1]);
+
+      }).then(function() {
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
+      });
+    });
+
+    it('should be case insensitive', function() {
+      var expectedValues;
+      var search = {query: lines[1].name.toUpperCase()};
+
+      // Get all line values before search
+      return page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN).then(function(values) {
+        var regexp = new RegExp(search.query, 'i');
+
+        // Predict values
+        expectedValues = values.filter(function(element) {
+          return regexp.test(element);
+        });
+
+      }).then(function() {
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.GROUPS.NAME_COLUMN);
+      });
+    });
+
     it('should be able to clear search', function() {
-      var search = {name: lines[0].name};
+      var search = {query: lines[0].name};
       page.search(search);
       page.clearSearch();
       assert.isFulfilled(page.getLineValues(page.translations.CORE.GROUPS.NAME_COLUMN));

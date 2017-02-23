@@ -42,7 +42,7 @@ The Web Service uses [OAuth2](http://oauth.net/2/) for authentication.
 
 ## Get a client id and client secret
 
-You can create a new application with a client id and a client secret through the back end (`http://localhost:PORT/be/applications`).
+You can create a new application with a client id and a client secret through the back end (`http://localhost:PORT/be/applications-list`).
 
 ## Get an access token
 
@@ -109,7 +109,7 @@ All requests to the Web Service must be authenticated using the HTTP header :
 ```php
 // Get the list of videos
 curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, 'GET');
-curl_setopt($curlHandle, CURLOPT_URL, '{OPENVEO_URL}/publish/videos');
+curl_setopt($curlHandle, CURLOPT_URL, '{OPENVEO_URL}/taxonomies');
 curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
   'Authorization: Bearer ' . $resultWithToken->access_token
 ));
@@ -247,7 +247,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The taxonomy has been added
 500 | An error occured on the server side
-400 | Wrong PUT parameters
+400 | Missing body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -270,7 +270,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The taxonomy has been updated
 500 | An error occured on the server side
-400 | Missing the taxonomy id
+400 | Missing the taxonomy id or body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -385,7 +385,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The group has been added
 500 | An error occured on the server side
-400 | Wrong PUT parameters
+400 | Missing body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -409,7 +409,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The group has been updated
 500 | An error occured on the server side
-400 | Missing the group id
+400 | Missing the group id or the body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -518,7 +518,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The role has been added
 500 | An error occured on the server side
-400 | Wrong PUT parameters
+400 | Missing body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -542,7 +542,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The role has been updated
 500 | An error occured on the server side
-400 | Missing the role id
+400 | Missing the role id or the body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -653,7 +653,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The user has been added
 500 | An error occured on the server side
-400 | Wrong PUT parameters
+400 | Missing body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -678,7 +678,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The user has been updated
 500 | An error occured on the server side
-400 | Missing the user id
+400 | Missing the user id or the body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -789,7 +789,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The application has been added
 500 | An error occured on the server side
-400 | Wrong PUT parameters
+400 | Missing the body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
@@ -814,7 +814,7 @@ HTTP Status Code | Details
 ---- | ----
 200 | The application has been updated
 500 | An error occured on the server side
-400 | Missing the application id
+400 | Missing the application id or the body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 

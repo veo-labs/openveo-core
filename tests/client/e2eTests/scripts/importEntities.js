@@ -54,15 +54,15 @@
  */
 
 var path = require('path');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var async = require('async');
-var applicationStorage = openVeoAPI.applicationStorage;
 var users = require('@openveo/test').e2e.users;
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
+var storage = process.require('app/server/storage.js');
 var provider = process.require('tests/client/e2eTests/scripts/entitiesProvider.js');
 
 // Test database configuration
-var configDir = openVeoAPI.fileSystem.getConfDir();
+var configDir = openVeoApi.fileSystem.getConfDir();
 var databaseConf = require(path.join(configDir, 'core/databaseTestConf.json'));
 
 // Path to the description files to import
@@ -77,7 +77,7 @@ var roles = {};
 var applications = {};
 
 // Get a Database instance to the test database
-var db = openVeoAPI.Database.getDatabase(databaseConf);
+var db = openVeoApi.database.factory.get(databaseConf);
 
 async.series([
 
@@ -87,7 +87,7 @@ async.series([
       if (error)
         throw new Error(error);
 
-      applicationStorage.setDatabase(db);
+      storage.setDatabase(db);
       callback();
     });
   },
@@ -107,10 +107,10 @@ async.series([
     pluginPaths.forEach(function(pluginPath) {
       try {
         var datas = require(path.join(pluginPath, descriptionFilePath));
-        openVeoAPI.util.merge(groups, datas.groups);
-        openVeoAPI.util.merge(roles, datas.roles);
-        openVeoAPI.util.merge(users, datas.users);
-        openVeoAPI.util.merge(applications, datas.applications);
+        openVeoApi.util.merge(groups, datas.groups);
+        openVeoApi.util.merge(roles, datas.roles);
+        openVeoApi.util.merge(users, datas.users);
+        openVeoApi.util.merge(applications, datas.applications);
       } catch (error) {
         process.stdout.write('Can\'t import file ' + path.join(pluginPath, descriptionFilePath) + '\n');
         return;

@@ -9,11 +9,12 @@
  * configuration.
  *
  * @class routeLoader
+ * @static
  */
 
 var path = require('path');
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 
 var controllers = {};
 
@@ -22,23 +23,23 @@ var controllers = {};
  * for each one, the method, the path and the action to call.
  *
  * @example
- *     var routeLoader = process.require("app/server/loaders/routeLoader.js");
+ *     var routeLoader = process.require('app/server/loaders/routeLoader.js');
  *     var routes = {
- *       "get /test" : "app/server/controllers/TestController.getTestAction",
- *       "post /test" : "app/server/controllers/TestController.postTestAction"
+ *       'get /test' : 'app/server/controllers/TestController.getTestAction',
+ *       'post /test' : 'app/server/controllers/TestController.postTestAction'
  *     };
  *
- *     console.log(routeLoader.decodeRoutes("/", routes));
+ *     console.log(routeLoader.decodeRoutes('/', routes));
  *     // [
  *     //   {
- *     //     "method" : "get",
- *     //     "path" : "/test",
- *     //     "action" : Function
+ *     //     method: 'get',
+ *     //     path: '/test',
+ *     //     action: Function
  *     //   },
  *     //   {
- *     //     "method" : "post",
- *     //     "path" : "test",
- *     //     "action" : Function
+ *     //     method: 'post',
+ *     //     path: 'test',
+ *     //     action: Function
  *     //   }
  *     // ]
  *
@@ -47,13 +48,10 @@ var controllers = {};
  * @param {String} pluginPath The root path of the plugin associated to the routes
  * @param {Object} routes An object of routes
  * @return {Array} The decoded list of routes
- * @throws {TypeError} If pluginPath is not a valid string
+ * @throws {TypeError} If one of the route controllers is not a Controller
  */
 module.exports.decodeRoutes = function(pluginPath, routes) {
   var decodedRoutes = [];
-
-  if (!pluginPath || typeof pluginPath !== 'string')
-    throw new TypeError('pluginPath must be a valid string');
 
   if (routes) {
 
@@ -93,6 +91,10 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
               controllerInstance = controllers[controllerFilePath];
             else {
               var Controller = require(controllerFilePath);
+
+              if (!(Controller.prototype instanceof openVeoApi.controllers.Controller))
+                throw new TypeError(controllerFilePath + ' is not a Controller');
+
               controllerInstance = new Controller();
               controllers[controllerFilePath] = controllerInstance;
             }
@@ -138,12 +140,12 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
  *
  * @example
  *     var router = express.Router();
- *     var routeLoader = process.require("app/server/loaders/routeLoader.js");
+ *     var routeLoader = process.require('app/server/loaders/routeLoader.js');
  *     var routes = [
  *       {
- *         method : "get",
- *         path : "/logout",
- *         action : [Function]
+ *         method: 'get',
+ *         path: '/logout',
+ *         action: [Function]
  *       }
  *     ];
  *     routeLoader.applyRoutes(routes, router);
@@ -162,7 +164,7 @@ module.exports.applyRoutes = function(routes, router) {
 
       // Deactivate cache on all requests made on this router
       if (route.method === 'get')
-        router[route.method](route.path, openVeoAPI.middlewares.disableCacheMiddleware);
+        router[route.method](route.path, openVeoApi.middlewares.disableCacheMiddleware);
 
       router[route.method](route.path, route.action);
     });

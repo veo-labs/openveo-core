@@ -5,6 +5,8 @@ var chaiAsPromised = require('chai-as-promised');
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
 var UserModel = process.require('app/server/models/UserModel.js');
+var UserProvider = process.require('app/server/providers/UserProvider.js');
+var storage = process.require('app/server/storage.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
 
 // Load assertion library
@@ -16,7 +18,7 @@ describe('User page', function() {
 
   // Prepare page
   before(function() {
-    userHelper = new UserHelper(new UserModel());
+    userHelper = new UserHelper(new UserModel(new UserProvider(storage.getDatabase())));
     page = new UserPage();
   });
 

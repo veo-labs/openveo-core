@@ -7,54 +7,32 @@
 var util = require('util');
 var crypto = require('crypto');
 var shortid = require('shortid');
-var openVeoAPI = require('@openveo/api');
-
-var ClientProvider = process.require('app/server/providers/ClientProvider.js');
+var openVeoApi = require('@openveo/api');
 
 /**
- * Defines a ClientModel class to manipulate Web Service client
- * applications.
+ * Defines a ClientModel to manipulate Web Service client applications.
  *
  * @class ClientModel
- * @constructor
  * @extends EntityModel
+ * @constructor
+ * @param {ClientProvider} provider The entity provider
  */
-function ClientModel() {
-  openVeoAPI.EntityModel.call(this, new ClientProvider(openVeoAPI.applicationStorage.getDatabase()));
+function ClientModel(provider) {
+  ClientModel.super_.call(this, provider);
 }
 
 module.exports = ClientModel;
-util.inherits(ClientModel, openVeoAPI.EntityModel);
+util.inherits(ClientModel, openVeoApi.models.EntityModel);
 
 /**
  * Adds a new client to the clients' collection.
  *
- * @example
- *     var ClientModel = new process.require("app/server/models/ClientModel.js");
- *     var client = new ClientModel();
- *     client.add({
- *       id : "Client id",
- *       secret : "Client secret",
- *       name : "Name of the client",
- *       scopes : [
- *        {
- *         id: "scope1",
- *         description : "description 1",
- *         name : "name 1",
- *         activated : true
- *        },
- *        {
- *         id: "scope2",
- *         description : "description 2",
- *         name : "name 2",
- *         activated : true
- *        }
- *      ]
- *     }, callback);
- *
  * @method add
  * @async
  * @param {Object} data A client object
+ * @param {String} [data.name] Client's name
+ * @param {Array} [data.scopes] Client's scopes
+ * @param {String} [data.id] Client's id, if not specified id is generated
  * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Number** The total amount of items inserted
@@ -76,32 +54,12 @@ ClientModel.prototype.add = function(data, callback) {
 /**
  * Updates client application.
  *
- * @example
- *     var ClientModel = new process.require("app/server/models/ClientModel.js");
- *     var client = new ClientModel();
- *     client.update("1", {
- *       name : "New client name",
- *       scopes : [
- *        {
- *         id : "scope1",
- *         description : "description 1",
- *         name : "name 1",
- *         activated : true
- *        },
- *        {
- *         id : "scope2",
- *         description : "description 2",
- *         name : "name 2",
- *         activated : true
- *        }
- *      ]
- *     }, callback);
- *
- *
  * @method update
  * @async
  * @param {String} id The id of the client
  * @param {Object} data The client with all properties to update
+ * @param {String} [data.name] Client's name
+ * @param {Array} [data.scopes] Client's scopes
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Number** The number of updated items
@@ -109,8 +67,9 @@ ClientModel.prototype.add = function(data, callback) {
 ClientModel.prototype.update = function(id, data, callback) {
   var client = {};
   if (data.name)
-    client['name'] = data.name;
+    client.name = data.name;
   if (data.scopes)
-    client['scopes'] = data.scopes;
+    client.scopes = data.scopes;
+
   this.provider.update(id, client, callback);
 };

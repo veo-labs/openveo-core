@@ -7,15 +7,17 @@
 /**
  * Provides functions to execute migration script.
  *
- * @class
- * @type {type} migrationProcess
+ * @main core-migration
+ * @class migrationProcess
+ * @static
  */
 
 var semver = require('semver');
 var async = require('async');
-var openVeoAPI = require('@openveo/api');
+var storage = process.require('app/server/storage.js');
 
-/** Save in core_system table the last migration successfull done
+/**
+ * Saves in core_system table the last migration successfull done.
  *
  * @method saveMigrationVersion
  * @private
@@ -42,7 +44,8 @@ function saveMigrationVersion(name, version, db, callback) {
 }
 
 /**
- * Create async series according to migration script order
+ * Creates async series according to migration script order.
+ *
  * @method createMigrationSeries
  * @private
  * @static
@@ -56,7 +59,7 @@ function saveMigrationVersion(name, version, db, callback) {
  */
 function createMigrationSeries(module, name) {
   var series = [];
-  var db = openVeoAPI.applicationStorage.getDatabase();
+  var db = storage.getDatabase();
   Object.keys(module).sort(semver.compare).forEach(function(version) {
     series.push(function(callback) {
 
@@ -76,7 +79,8 @@ function createMigrationSeries(module, name) {
 }
 
 /**
- * Execute a collection of migration script
+ * Executes a collection of migration script.
+ *
  * @method executeMigrationScript
  * @param {Object} migrations migrations object to execute
  *  exemple:

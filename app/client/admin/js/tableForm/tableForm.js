@@ -278,46 +278,51 @@
       }
       canceller = $q.defer();
 
+      // Build query parameters
+      var query = [];
       param['limit'] = paramsObj.count;
       param['page'] = paramsObj.page;
-      param['sort'] = {};
-      param['sort'][paramsObj.sortBy] = paramsObj.sortOrder == 'dsc' ? -1 : 1;
-      param['filter'] = {};
+      param['sortBy'] = paramsObj.sortBy;
+      param['sortOrder'] = paramsObj.sortOrder === 'dsc' ? 'desc' : 'asc';
+
       self.filterBy.forEach(function(filter) {
         if (filter.value && filter.value != '') {
-          if (filter.type == 'date') {
-            var date = new Date(filter.value);
-            var datePlus = new Date(date);
-            datePlus.setDate(date.getDate() + 1);
-            param['filter'][filter.key] = {
-              $gte: date.getTime(),
-              $lt: datePlus.getTime()
-            };
-          } else if (filter.type == 'select') {
-            var values = [filter.value];
-            if (filter.filterWithChildren) {
-              for (var i = 0; i < filter.options.length; i++) {
-                if (filter.options[i].value === filter.value) {
-                  if (filter.options[i].children !== '')
-                    values = values.concat(filter.options[i].children.split(','));
-                  break;
+          switch (filter.type) {
+            case 'date':
+              var date = new Date(filter.value);
+              var datePlus = new Date(date);
+              datePlus.setDate(date.getDate() + 1);
+
+              param[filter.param + 'Start'] = date.getTime();
+              param[filter.param + 'End'] = datePlus.getTime();
+              break;
+            case 'select':
+              var values = [filter.value];
+              if (filter.filterWithChildren) {
+                for (var i = 0; i < filter.options.length; i++) {
+                  if (filter.options[i].value === filter.value) {
+                    if (filter.options[i].children !== '')
+                      values = values.concat(filter.options[i].children.split(','));
+                    break;
+                  }
                 }
               }
-            }
 
-            param['filter'][filter.key] = {
-              $in: values
-            };
-          } else
-            param['filter'][filter.key] = {
-              $regex: '.*' + filter.value.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&') + '.*'
-            };
+              param[filter.param] = values;
+              break;
+            default:
+              query.push(filter.value);
+              break;
+          }
         }
       });
 
+      if (query.length)
+        param['query'] = query.join(' ');
+
       // call entities that match params
       return entityService.getEntities(self.entityType, pluginName, param, canceller.promise).then(function(response) {
-        self.rows = response.data.rows;
+        self.rows = response.data.entities;
         self.selectAll = false;
         self.isRowSelected = false;
         return {

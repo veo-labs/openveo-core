@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * @module core-oauth
- */
-
 var OAuthLib = require('oauth20-provider');
 var client = process.require('app/server/oauth/client.js');
 var accessToken = process.require('app/server/oauth/accessToken.js');

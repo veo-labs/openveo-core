@@ -8,25 +8,24 @@ var crypto = require('crypto');
 var path = require('path');
 var util = require('util');
 var shortid = require('shortid');
-var openVeoAPI = require('@openveo/api');
-
-var configDir = openVeoAPI.fileSystem.getConfDir();
+var openVeoApi = require('@openveo/api');
+var configDir = openVeoApi.fileSystem.getConfDir();
 var conf = require(path.join(configDir, 'core/conf.json'));
-var UserProvider = process.require('app/server/providers/UserProvider.js');
 
 /**
- * Defines a UserModel class to manipulate back end users.
+ * Defines a UserModel to manipulate back end users.
  *
  * @class UserModel
- * @constructor
  * @extends EntityModel
+ * @constructor
+ * @param {UserProvider} provider The entity provider
  */
-function UserModel() {
-  openVeoAPI.EntityModel.call(this, new UserProvider(openVeoAPI.applicationStorage.getDatabase()));
+function UserModel(provider) {
+  UserModel.super_.call(this, provider);
 }
 
 module.exports = UserModel;
-util.inherits(UserModel, openVeoAPI.EntityModel);
+util.inherits(UserModel, openVeoApi.models.EntityModel);
 
 /**
  * Gets a user by credentials.
@@ -50,20 +49,15 @@ UserModel.prototype.getUserByCredentials = function(email, password, callback) {
 /**
  * Adds a new user.
  *
- * @example
- *     var UserModel = new process.require("app/server/models/UserModel.js");
- *     var user = new UserModel();
- *     user.add({
- *       name : "User name",
- *       email : "User email",
- *       password : "User password",
- *       passwordValidate : "User password",
- *       roles : []
- *     }, callback);
- *
  * @method add
  * @async
  * @param {Object} data A user object
+ * @param {String} data.name User's name
+ * @param {String} data.email User's email
+ * @param {String} data.password User's password
+ * @param {String} data.passwordValidate User's password validation
+ * @param {String} [data.id] User's id, if not specified an id will be generated
+ * @param {Boolean} [data.locked=false] true to lock user from edition
  * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Number** The total amount of items inserted
@@ -84,7 +78,7 @@ UserModel.prototype.add = function(data, callback) {
   }
 
   // Validate email
-  if (!openVeoAPI.util.isEmailValid(data.email)) {
+  if (!openVeoApi.util.isEmailValid(data.email)) {
     callback(new Error('Invalid email address'));
     return;
   }
@@ -125,21 +119,14 @@ UserModel.prototype.add = function(data, callback) {
 /**
  * Updates a user.
  *
- * @example
- *     var UserModel = new process.require("app/server/models/UserModel.js");
- *     var user = new UserModel();
- *     user.update("1", {
- *       name : "User name",
- *       email : "User email",
- *       password : "User password",
- *       passwordValidate : "User password",
- *       roles : []
- *     }, callback);
- *
  * @method update
  * @async
  * @param {String} id The id of the user to update
  * @param {Object} data A user object
+ * @param {String} [data.email] User's email
+ * @param {String} [data.password] User's password
+ * @param {String} [data.passwordValidate] User's password validation
+ * @param {Boolean} [data.locked=false] true to lock user from edition
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Number** The number of updated items
@@ -161,7 +148,7 @@ UserModel.prototype.update = function(id, data, callback) {
   }
 
   // Validate email
-  if (data.email && !openVeoAPI.util.isEmailValid(data.email)) {
+  if (data.email && !openVeoApi.util.isEmailValid(data.email)) {
     callback(new Error('Invalid email address'));
     return;
   }

@@ -5,22 +5,21 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 
 /**
- * Defines a TokenProvider class to get and save Web Service tokens.
+ * Defines a TokenProvider to get and save Web Service tokens.
  *
  * @class TokenProvider
  * @constructor
- * @extends EntityProvider
  * @param {Database} database The database to interact with
  */
 function TokenProvider(database) {
-  openVeoAPI.EntityProvider.call(this, database, 'core_tokens');
+  TokenProvider.super_.call(this, database, 'core_tokens');
 }
 
 module.exports = TokenProvider;
-util.inherits(TokenProvider, openVeoAPI.EntityProvider);
+util.inherits(TokenProvider, openVeoApi.providers.EntityProvider);
 
 /**
  * Removes all tokens associated to a client application.

@@ -8,10 +8,13 @@
  * Provides functions to interface oauth tokens and openveo Web Service.
  *
  * @class accessToken
+ * @static
  */
 
 var crypto = require('crypto');
 var TokenModel = process.require('app/server/models/TokenModel.js');
+var TokenProvider = process.require('app/server/providers/TokenProvider.js');
+var storage = process.require('app/server/storage.js');
 
 var tokenModel;
 var accessToken = {};
@@ -25,7 +28,7 @@ var accessToken = {};
  */
 function getTokenModel() {
   if (!tokenModel)
-    tokenModel = new TokenModel();
+    tokenModel = new TokenModel(new TokenProvider(storage.getDatabase()));
 
   return tokenModel;
 }
@@ -90,7 +93,13 @@ accessToken.checkTTL = function(token) {
   return (token.ttl > new Date().getTime());
 };
 
-// Default token time to live value (1 hour)
+/**
+ * Default token Time To Live value (1 hour).
+ *
+ * @property ttl
+ * @type Number
+ * @default 3600
+ */
 accessToken.ttl = 3600;
 
 module.exports = accessToken;

@@ -108,10 +108,10 @@ RolePage.prototype.onLoaded = function() {
 RolePage.prototype.getSearchFields = function(form) {
   var fields = {};
 
-  // Name field
-  fields.name = Field.get({
+  // Query field
+  fields.query = Field.get({
     type: 'text',
-    name: this.translations.CORE.ROLES.TITLE_FILTER,
+    name: this.translations.CORE.ROLES.QUERY_FILTER,
     baseElement: form
   });
 

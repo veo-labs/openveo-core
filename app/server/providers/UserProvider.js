@@ -5,22 +5,22 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 
 /**
- * Defines a UserProvider class to get and save back end users.
+ * Defines a UserProvider to get and save back end users.
  *
  * @class UserProvider
- * @constructor
  * @extends EntityProvider
+ * @constructor
  * @param {Database} database The database to interact with
  */
 function UserProvider(database) {
-  openVeoAPI.EntityProvider.call(this, database, 'core_users');
+  UserProvider.super_.call(this, database, 'core_users');
 }
 
 module.exports = UserProvider;
-util.inherits(UserProvider, openVeoAPI.EntityProvider);
+util.inherits(UserProvider, openVeoApi.providers.EntityProvider);
 
 /**
  * Gets a user by its credentials.
@@ -76,7 +76,7 @@ UserProvider.prototype.getUserByEmail = function(email, callback) {
  * @method getOne
  * @async
  * @param {String} id The user id
- * @param {Object} filter A MongoDB filter
+ * @param {Object} [filter] A MongoDB filter
  * @param {Function} callback Function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Object** The user

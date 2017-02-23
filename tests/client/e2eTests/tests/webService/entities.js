@@ -2,7 +2,7 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var openVeoTest = require('@openveo/test');
 var OpenVeoClient = require('@openveo/rest-nodejs-client').OpenVeoClient;
 var HomePage = process.require('tests/client/e2eTests/pages/HomePage.js');
@@ -49,8 +49,18 @@ describe('Web service', function() {
         var Model = require(entity.model);
         var Helper = require(entity.helper);
         var application = process.protractorConf.getWebServiceApplication(entity.application);
+        var modelParameters = [null];
+
+        entity.modelParameters.forEach(function(parameter) {
+          if (parameter) {
+            var Provider = require(parameter);
+            modelParameters.push(new Provider(openVeoApi.api.getCoreApi().getDatabase()));
+          } else
+            modelParameters.push(parameter);
+        });
+
         client = new OpenVeoClient(process.protractorConf.webServiceUrl, application.id, application.secret);
-        helper = new Helper(new Model());
+        helper = new Helper(new (Function.prototype.bind.apply(Model, modelParameters))());
 
         return helper.getEntities().then(function(entities) {
           defaultEntities = entities;
@@ -69,7 +79,7 @@ describe('Web service', function() {
 
           client.put(entity.webServicePath, entityToAdd).then(function(results) {
             var entity = results.entity;
-            var isSameEntity = openVeoAPI.util.isContained(helper.getValidationExample(entityToAdd), entity);
+            var isSameEntity = openVeoApi.util.isContained(helper.getValidationExample(entityToAdd), entity);
 
             check(function() {
               assert.ok(isSameEntity, 'Unexpected entity');
@@ -208,7 +218,7 @@ describe('Web service', function() {
 
               client.get(entity.webServicePath + '/' + addedEntities[0].id).then(function(results) {
                 var entity = results.entity;
-                var isSameEntity = openVeoAPI.util.isContained(helper.getValidationExample(newEntityValues), entity);
+                var isSameEntity = openVeoApi.util.isContained(helper.getValidationExample(newEntityValues), entity);
 
                 check(function() {
                   assert.ok(isSameEntity, 'Expected entity to be updated');
@@ -296,7 +306,7 @@ describe('Web service', function() {
 
             searchQueries.forEach(function(searchQuery) {
               promises.push(client.get(entity.webServicePath + '?query=' +
-                                       encodeURIComponent('"' + searchQuery + '"')));
+                                       encodeURIComponent(searchQuery)));
             });
 
             Promise.all(promises).then(function(results) {

@@ -42,10 +42,10 @@ ApplicationPage.prototype.onLoaded = function() {
 ApplicationPage.prototype.getSearchFields = function(form) {
   var fields = {};
 
-  // Name field
-  fields.name = Field.get({
+  // Query field
+  fields.query = Field.get({
     type: 'text',
-    name: this.translations.CORE.APPLICATIONS.TITLE_FILTER,
+    name: this.translations.CORE.APPLICATIONS.QUERY_FILTER,
     baseElement: form
   });
 

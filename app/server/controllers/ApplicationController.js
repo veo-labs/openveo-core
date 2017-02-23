@@ -5,21 +5,22 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var ClientModel = process.require('app/server/models/ClientModel.js');
+var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 var errors = process.require('app/server/httpErrors.js');
-var applicationStorage = openVeoAPI.applicationStorage;
-var EntityController = openVeoAPI.controllers.EntityController;
+var storage = process.require('app/server/storage.js');
+var EntityController = openVeoApi.controllers.EntityController;
 
 /**
- * Provides route actions for all requests relative to the Web Service client applications and scopes.
+ * Defines an entity controller to handle requests relative to the Web Service client applications and scopes.
  *
  * @class ApplicationController
- * @constructor
  * @extends EntityController
+ * @constructor
  */
 function ApplicationController() {
-  EntityController.call(this, ClientModel);
+  ApplicationController.super_.call(this, ClientModel, ClientProvider);
 }
 
 module.exports = ApplicationController;
@@ -28,18 +29,12 @@ util.inherits(ApplicationController, EntityController);
 /**
  * Gets the list of scopes and return it as a JSON object.
  *
- * @example
- *     {
- *       "videos" : {
- *         "name" : "Name of the scope",
- *         "description" : "Scope description"
- *       }
- *     }
- *
  * @method getScopesAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Response} response ExpressJS HTTP Response
  */
 ApplicationController.prototype.getScopesAction = function(request, response) {
-  var scopes = applicationStorage.getWebServiceScopes();
+  var scopes = storage.getWebServiceScopes();
   var lightScopes = [];
   for (var i = 0; i < scopes.length; i++) {
     var scope = scopes[i];
@@ -57,20 +52,23 @@ ApplicationController.prototype.getScopesAction = function(request, response) {
 /**
  * Gets a list of applications.
  *
- * Parameters :
- *  - **query** Search query to search by application name
- *  - **page** The expected page
- *  - **limit** The expected limit
- *  - **sortOrder** Sort order (either asc or desc)
- *
  * @method getEntitiesAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Object} [request.query] Request's query parameters
+ * @param {String} [request.query.query] Search query to search on application name
+ * @param {Number} [request.query.page=1] The expected page in pagination system
+ * @param {Number} [request.query.limit] The maximum number of expected results
+ * @param {String} [request.query.sortBy=name] To sort by property name (only "name" is available right now)
+ * @param {String} [request.query.sortOrder=desc] The sort order (either "asc" or "desc")
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 ApplicationController.prototype.getEntitiesAction = function(request, response, next) {
-  var model = new this.Entity(request.user);
+  var model = this.getModel(request);
   var params;
 
   try {
-    params = openVeoAPI.util.shallowValidateObject(request.query, {
+    params = openVeoApi.util.shallowValidateObject(request.query, {
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gt: 0, default: 1},
@@ -91,7 +89,7 @@ ApplicationController.prototype.getEntitiesAction = function(request, response, 
   // Add search query
   if (params.query) {
     filter.$text = {
-      $search: params.query
+      $search: '"' + params.query + '"'
     };
   }
 

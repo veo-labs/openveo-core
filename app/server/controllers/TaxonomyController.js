@@ -5,21 +5,22 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
+var TaxonomyProvider = process.require('app/server/providers/TaxonomyProvider.js');
 var errors = process.require('app/server/httpErrors.js');
-var EntityController = openVeoAPI.controllers.EntityController;
-var AccessError = openVeoAPI.errors.AccessError;
+var EntityController = openVeoApi.controllers.EntityController;
+var AccessError = openVeoApi.errors.AccessError;
 
 /**
- * Provides route actions to manage taxonomies.
+ * Defines an entity controller to handle requests relative to taxonomies' entities.
  *
  * @class TaxonomyController
- * @constructor
  * @extends EntityController
+ * @constructor
  */
 function TaxonomyController() {
-  EntityController.call(this, TaxonomyModel);
+  TaxonomyController.super_.call(this, TaxonomyModel, TaxonomyProvider);
 }
 
 module.exports = TaxonomyController;
@@ -28,21 +29,23 @@ util.inherits(TaxonomyController, EntityController);
 /**
  * Gets a list of taxonomies.
  *
- * Parameters :
- *  - **query** Search query to search on taxonomy name
- *  - **page** The expected page
- *  - **limit** The expected limit
- *  - **sortBy** To sort taxonomies by name
- *  - **sortOrder** Sort order (either asc or desc)
- *
  * @method getEntitiesAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Object} [request.query] Request's query parameters
+ * @param {String} [request.query.query] Search query to search on taxonomy name
+ * @param {Number} [request.query.page=1] The expected page in pagination system
+ * @param {Number} [request.query.limit] The maximum number of expected results
+ * @param {String} [request.query.sortBy=name] To sort by property name (only "name" is available right now)
+ * @param {String} [request.query.sortOrder=desc] The sort order (either "asc" or "desc")
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 TaxonomyController.prototype.getEntitiesAction = function(request, response, next) {
-  var model = new this.Entity(request.user);
+  var model = this.getModel(request);
   var params;
 
   try {
-    params = openVeoAPI.util.shallowValidateObject(request.query, {
+    params = openVeoApi.util.shallowValidateObject(request.query, {
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gt: 0, default: 1},
@@ -63,7 +66,7 @@ TaxonomyController.prototype.getEntitiesAction = function(request, response, nex
   // Add search query
   if (params.query) {
     filter.$text = {
-      $search: params.query
+      $search: '"' + params.query + '"'
     };
   }
 
@@ -90,14 +93,16 @@ TaxonomyController.prototype.getEntitiesAction = function(request, response, nex
 /**
  * Gets the list of terms of a taxonomy.
  *
- * Parameters :
- *  - **id** The id of the taxonomy
- *
  * @method getTaxonomyTermsAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Object} request.params Request's parameters
+ * @param {String} request.params.id The id of the taxonomy to get terms from
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 TaxonomyController.prototype.getTaxonomyTermsAction = function(request, response, next) {
   if (request.params.id) {
-    var model = new this.Entity(request.user);
+    var model = this.getModel(request);
     var entityId = request.params.id;
 
     model.getOne(entityId, null, function(error, entity) {

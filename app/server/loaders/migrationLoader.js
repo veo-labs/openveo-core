@@ -8,6 +8,7 @@
  * Provides functions to load migration script.
  *
  * @class migrationLoader
+ * @static
  */
 
 var fs = require('fs');
@@ -16,13 +17,12 @@ var semver = require('semver');
 var async = require('async');
 
 module.exports.getDiffMigrationScript = function(migrationPath, lastVersion, callback) {
-
   var migrations = {};
   async.series([
 
     function(callback) {
-      fs.exists(migrationPath, function(exists) {
-        if (exists) {
+      fs.stat(migrationPath, function(error, stats) {
+        if (stats && stats.isDirectory()) {
 
           fs.readdir(migrationPath, function(error, resources) {
             if (error) {

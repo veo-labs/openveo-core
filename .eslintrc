@@ -61,8 +61,8 @@
     // Disallow multiline strings
     "no-multi-str": 2,
 
-    // Disallow reassignment of native objects
-    "no-native-reassign": 2,
+    // Disallow assignment to native objects or read-only global variables
+    "no-global-assign": 2,
 
     // Disallow function constructor
     "no-new-func": 2,
@@ -227,7 +227,10 @@
     "spaced-comment": [2, "always"],
 
     // Limit Maximum Length of Line
-    "max-len": [2, 120, 2, {"ignoreUrls": true}]
+    "max-len": [2, 120, 2, {"ignoreUrls": true}],
+
+    // Disallow trailing commas
+    "comma-dangle": 2
 
   }
 }

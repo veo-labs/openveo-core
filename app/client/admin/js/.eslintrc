@@ -1,11 +1,10 @@
 {
 
   "globals": {
-  
-    // Add openveo global vars to environment globals but do not authorize to overwrite it
-    version: false,
-    plugins: false
-    
+
+    // Add openveo global var to environment globals but do not authorize to overwrite it
+    openVeoSettings: false
+
   }
-  
+
 }

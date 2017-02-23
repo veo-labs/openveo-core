@@ -6,6 +6,8 @@ var openVeoTest = require('@openveo/test');
 var OpenVeoClient = require('@openveo/rest-nodejs-client').OpenVeoClient;
 var HomePage = process.require('tests/client/e2eTests/pages/HomePage.js');
 var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
+var TaxonomyProvider = process.require('app/server/providers/TaxonomyProvider.js');
+var storage = process.require('app/server/storage.js');
 var TaxonomyHelper = process.require('tests/client/e2eTests/helpers/TaxonomyHelper.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
 var check = openVeoTest.util.check;
@@ -24,7 +26,7 @@ describe('Taxonomies web service', function() {
       datas.applications.coreApplicationsTaxonomies.name
     );
     webServiceClient = new OpenVeoClient(process.protractorConf.webServiceUrl, application.id, application.secret);
-    helper = new TaxonomyHelper(new TaxonomyModel());
+    helper = new TaxonomyHelper(new TaxonomyModel(new TaxonomyProvider(storage.getDatabase())));
     page = new HomePage();
 
     page.logAsAdmin();

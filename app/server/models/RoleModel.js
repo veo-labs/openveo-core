@@ -6,49 +6,32 @@
 
 var util = require('util');
 var shortid = require('shortid');
-var openVeoAPI = require('@openveo/api');
-var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var openVeoApi = require('@openveo/api');
 
 /**
- * Defines a RoleModel class to manipulate user roles for back end
- * permissions.
+ * Defines a RoleModel to manipulate user roles for back end permissions.
  *
  * @class RoleModel
- * @constructor
  * @extends EntityModel
+ * @constructor
+ * @param {RoleProvider} provider The entity provider
  */
-function RoleModel() {
-  openVeoAPI.EntityModel.call(this, new RoleProvider(openVeoAPI.applicationStorage.getDatabase()));
+function RoleModel(provider) {
+  RoleModel.super_.call(this, provider);
 }
 
 module.exports = RoleModel;
-util.inherits(RoleModel, openVeoAPI.EntityModel);
+util.inherits(RoleModel, openVeoApi.models.EntityModel);
 
 /**
  * Adds a new role.
  *
- * @example
- *     var RoleModel = new process.require("app/server/models/RoleModel.js");
- *     var role = new RoleModel();
- *     role.add({
- *       name : "Name of the role",
- *       permissions : {
- *        perm1 : {
- *         name : "name 1",
- *         description : "description 1",
- *         activated : true
- *        },
- *        perm2 : {
- *         name : "name 2",
- *         description : "description 2",
- *         activated : true
- *        }
- *      }
- *     }, callback);
- *
  * @method add
  * @async
  * @param {Object} data A role object
+ * @param {String} data.name Role's name
+ * @param {Array} data.permissions Role's permissions
+ * @param {String} [data.id] Role's id, if not specified id is generated
  * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Number** The total amount of items inserted

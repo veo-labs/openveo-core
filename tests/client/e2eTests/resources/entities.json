@@ -3,6 +3,9 @@
     {
       "name": "applications",
       "model": "app/server/models/ClientModel.js",
+      "modelParameters": [
+        "app/server/providers/ClientProvider.js"
+      ],
       "helper": "tests/client/e2eTests/helpers/ApplicationHelper.js",
       "application": "core-applications-applications",
       "webServicePath": "/applications"
@@ -10,6 +13,9 @@
     {
       "name": "groups",
       "model": "app/server/models/GroupModel.js",
+      "modelParameters": [
+        "app/server/providers/GroupProvider.js"
+      ],
       "helper": "tests/client/e2eTests/helpers/GroupHelper.js",
       "application": "core-applications-groups",
       "webServicePath": "/groups"
@@ -17,6 +23,9 @@
     {
       "name": "roles",
       "model": "app/server/models/RoleModel.js",
+      "modelParameters": [
+        "app/server/providers/RoleProvider.js"
+      ],
       "helper": "tests/client/e2eTests/helpers/RoleHelper.js",
       "application": "core-applications-roles",
       "webServicePath": "/roles"
@@ -24,6 +33,9 @@
     {
       "name": "users",
       "model": "app/server/models/UserModel.js",
+      "modelParameters": [
+        "app/server/providers/UserProvider.js"
+      ],
       "helper": "tests/client/e2eTests/helpers/UserHelper.js",
       "application": "core-applications-users",
       "webServicePath": "/users"
@@ -31,6 +43,9 @@
     {
       "name": "taxonomies",
       "model": "app/server/models/TaxonomyModel.js",
+      "modelParameters": [
+        "app/server/providers/TaxonomyProvider.js"
+      ],
       "helper": "tests/client/e2eTests/helpers/TaxonomyHelper.js",
       "application": "core-applications-taxonomies",
       "webServicePath": "/taxonomies"

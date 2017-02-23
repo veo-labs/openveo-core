@@ -1,3 +1,54 @@
+# 4.0.0 /
+
+## BREAKING CHANGES
+
+- ov.tableForm AngularJS module now requires that datatable filters precise the name of the corresponding parameter in the server side getEntitiesAction. See documentation for further information.
+- Drop support for Node.js &lt;7.4.0
+- Drop support for NPM &lt;4.0.5
+
+## NEW FEATURES
+
+- OpenVeo now embeds a **socket server** based on socket.io. Launching OpenVeo main process will now automatically launch a socket server listening on the port specified in configuration. Plugins can now implement their own socket namespaces and handle messages. See documentation for further information.
+- **Search engines** for applications, groups, roles and users have been improved. Multiple search fields for groups have been replaced by a unique field. Search is now case insensitive and search is made on the whole string not just strings starting with the query. The query string is taken as the whole when searching meaning that special characters aren't interpreted and thus will be searched as is.
+- Add **detection for plugins** not in @openveo scope and starting by **openveo-**. Community plugins can now be implemented freely.
+- [OpenVeo plugin generator](https://github.com/veo-labs/openveo-plugin-generator) is now in core dev dependencies. You can use it to generate a new plugin.
+- Exposes API for plugins. See documentation for further information.
+
+## DEPENDENCIES
+
+- **body-parser** has been updated from 1.15.1 to **1.15.2**
+- **consolidate** has been updated from 0.14.1 to **0.14.5**
+- **cookie-parser** has been updated from 1.4.1 to **1.4.3**
+- **express** has been updated from 4.13.4 to **4.14.0**
+- **express-session** has been updated from 1.13.0 to **1.14.2**
+- **gm** has been updated from 1.22.0 to **1.23.0**
+- **mustache** has been updated from 2.2.1 to **2.3.0**
+- **nopt** has been updated from 3.0.6 to **4.0.1**
+- **oauth20-provider** has been updated from 0.5.1 to **0.6.0**
+- **semver** has been updated from 5.1.0 to **5.3.0**
+- **serve-favicon** has been updated from 2.3.0 to **2.3.2**
+- **grunt** has been updated from 0.4.5 to **1.0.1**
+- **grunt-contrib-uglify** has been updated from 1.0.1 to **2.0.0**
+- **grunt-eslint** has been updated from 18.1.0 to **19.0.0**
+- **grunt-exec** has been updated from 0.4.6 to **1.0.0**
+- **grunt-gh-pages** has been updated from 1.1.0 to **2.0.0**
+- **grunt-karma** has been updated from 1.0.0 to **2.0.0**
+- **grunt-mkdocs** has been updated from 0.1.3 to **0.2.0**
+- **grunt-mocha-test** has been updated from 0.12.7 to **0.13.2**
+- **karma** has been updated from 0.13.22 to **1.3.0**
+- **karma-chrome-launcher** has been updated from 1.0.1 to **2.0.0**
+- **karma-mocha** has been updated from 1.0.1 to **1.3.0**
+- **karma-phantomjs-launcher** has been updated from 1.0.0 to **1.0.2**
+- **mocha** has been updated from 2.4.5 to **3.2.0**
+- **nodemon** has been updated from 1.9.2 to **1.11.0**
+- **pre-commit** has been updated from 1.1.2 to **1.2.2**
+- **glob** has been removed
+- **grunt-remove** has been removed
+- **grunt-rename** has been removed
+- **grunt-extend-config** has been removed
+- **grunt-init** has been removed
+- **generator-openveo-plugin** is now directly included in development dependencies
+
 # 3.0.0 / 2017-01-03
 
 - Update async module from version 1.2.0 to 2.1.4

@@ -6,6 +6,9 @@ var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
 var GroupModel = process.require('app/server/models/GroupModel.js');
+var GroupProvider = process.require('app/server/providers/GroupProvider.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var storage = process.require('app/server/storage.js');
 var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
 var GroupHelper = process.require('tests/client/e2eTests/helpers/GroupHelper.js');
 
@@ -25,8 +28,8 @@ describe('Group permissions creation', function() {
   before(function() {
 
     // Models
-    var roleModel = new RoleModel();
-    var groupModel = new GroupModel();
+    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
+    var groupModel = new GroupModel(new GroupProvider(storage.getDatabase()));
 
     // Helpers
     roleHelper = new RoleHelper(roleModel);

@@ -5,6 +5,11 @@ var GroupModel = process.require('app/server/models/GroupModel.js');
 var UserModel = process.require('app/server/models/UserModel.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
 var ClientModel = process.require('app/server/models/ClientModel.js');
+var GroupProvider = process.require('app/server/providers/GroupProvider.js');
+var UserProvider = process.require('app/server/providers/UserProvider.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var ClientProvider = process.require('app/server/providers/ClientProvider.js');
+var storage = process.require('app/server/storage.js');
 
 /**
  * Imports groups from JSON file in database.
@@ -27,7 +32,7 @@ var ClientModel = process.require('app/server/models/ClientModel.js');
  */
 module.exports.importGroups = function(groups, callback) {
   var parallel = [];
-  var groupModel = new GroupModel();
+  var groupModel = new GroupModel(new GroupProvider(storage.getDatabase()));
 
   // Create function for async to add a group to the database
   function createAddFunction(groupKey) {
@@ -84,7 +89,7 @@ module.exports.importGroups = function(groups, callback) {
  */
 module.exports.importRoles = function(roles, callback) {
   var parallel = [];
-  var roleModel = new RoleModel();
+  var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
 
   // Create function for async to add a role to the database
   function createAddFunction(roleKey) {
@@ -139,7 +144,7 @@ module.exports.importRoles = function(roles, callback) {
  */
 module.exports.importUsers = function(users, callback) {
   var parallel = [];
-  var userModel = new UserModel();
+  var userModel = new UserModel(new UserProvider(storage.getDatabase()));
 
   // Create function for async to add a user to the database
   function createAddFunction(userKey) {
@@ -189,7 +194,7 @@ module.exports.importUsers = function(users, callback) {
  */
 module.exports.importApplications = function(applications, callback) {
   var parallel = [];
-  var clientModel = new ClientModel();
+  var clientModel = new ClientModel(new ClientProvider(storage.getDatabase()));
 
   // Create function for async to add an application to the database
   function createAddFunction(applicationKey) {

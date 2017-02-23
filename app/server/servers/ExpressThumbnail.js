@@ -5,7 +5,7 @@ var path = require('path');
 var imageMagick = require('gm').subClass({
   imageMagick: true
 });
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 
 var expressThumbnail = module.exports;
 
@@ -70,9 +70,10 @@ expressThumbnail.register = function(rootDir, options) {
 
       // send converted file
       location = path.join(options.cacheDir, dimension, filename);         // file location in cache
-      fs.exists(location, function(exists) {
+      fs.stat(location, function(error, stats) {
+
         // file was found in cache
-        if (exists) {
+        if (stats && stats.isFile()) {
           return res.sendFile(location);
         }
 
@@ -85,7 +86,7 @@ expressThumbnail.register = function(rootDir, options) {
 
 // Convert the image and store in the cache.
 expressThumbnail.convert = function(options, callback) {
-  openVeoAPI.fileSystem.mkdir(path.dirname(options.location), function(err) {
+  openVeoApi.fileSystem.mkdir(path.dirname(options.location), function(err) {
     if (err) {
       return callback(err);
     }

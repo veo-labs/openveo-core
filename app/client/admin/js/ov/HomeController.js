@@ -8,7 +8,7 @@
   function HomeController($scope, $uibModal) {
 
     // Global JS variable print by Mustache
-    $scope.version = version;
+    $scope.version = openVeoSettings.version;
 
     $scope.open = function(size) {
       $uibModal .open({

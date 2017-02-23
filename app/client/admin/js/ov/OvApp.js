@@ -21,6 +21,7 @@
     'ov.alert',
     'ov.tableForm',
     'ov.utilService',
+    'ov.socket',
     'ui.bootstrap',
     'ui.tree',
     'ngTasty',
@@ -32,8 +33,8 @@
   ];
 
   // Loads all openveo sub plugins as dependencies of the module "ov"
-  if (typeof plugins !== 'undefined') {
-    angular.forEach(plugins, function(pluginToLoad) {
+  if (typeof openVeoSettings !== 'undefined' && openVeoSettings.plugins) {
+    angular.forEach(openVeoSettings.plugins, function(pluginToLoad) {
 
       // If a module exists for a sub plugin
       // e.g ov.plugin1

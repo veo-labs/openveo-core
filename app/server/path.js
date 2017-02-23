@@ -1,11 +1,14 @@
 'use strict';
 
 /**
+ * @module core
+ */
+
+/**
  * Provides functions to manipulate HTTP paths handled by the server.
  *
- * @module core-path
- * @class core-path
- * @main core-path
+ * @class path
+ * @static
  */
 
 /**
@@ -30,6 +33,7 @@
  *     path.validate("get /test", "unknwon /test"); // false
  *
  * @method validate
+ * @static
  * @param {String} path The path to validate
  * @param String rule The rule to validate path
  * @return {Boolean} true if the rule validates the path, false

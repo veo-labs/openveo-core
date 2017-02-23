@@ -5,23 +5,22 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 
 /**
- * Defines a ClientProvider class to get and save Web Service client
- * applications.
+ * Defines a ClientProvider to get and save Web Service client applications.
  *
  * @class ClientProvider
- * @constructor
  * @extends EntityProvider
+ * @constructor
  * @param {Database} database The database to interact with
  */
 function ClientProvider(database) {
-  openVeoAPI.EntityProvider.call(this, database, 'core_clients');
+  ClientProvider.super_.call(this, database, 'core_clients');
 }
 
 module.exports = ClientProvider;
-util.inherits(ClientProvider, openVeoAPI.EntityProvider);
+util.inherits(ClientProvider, openVeoApi.providers.EntityProvider);
 
 /**
  * Retrieves a client application by its id.
@@ -29,7 +28,7 @@ util.inherits(ClientProvider, openVeoAPI.EntityProvider);
  * @method getOne
  * @async
  * @param {String} id The client id
- * @param {Object} filter A MongoDB filter
+ * @param {Object} [filter] A MongoDB filter
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Object** The entity

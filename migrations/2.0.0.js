@@ -1,9 +1,9 @@
 'use strict';
 
 var async = require('async');
-var openVeoAPI = require('@openveo/api');
-var db = openVeoAPI.applicationStorage.getDatabase();
+var storage = process.require('app/server/storage.js');
 
+var db = storage.getDatabase();
 
 module.exports.update = function(callback) {
   process.logger.info('Core 2.0.0 migration launched.');

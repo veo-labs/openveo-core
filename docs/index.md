@@ -1,6 +1,6 @@
 # What's OpenVeo ?
 
-OpenVeo is a [Node.js](http://nodejs.org/) and [AngularJS](https://angularjs.org/) CMS. It embeds an HTTP server based on Express framework ([Express](https://www.npmjs.com/package/express)) and a plugin loader mechanism.
+OpenVeo is a [Node.js](http://nodejs.org/) and [AngularJS](https://angularjs.org/) CMS. It embeds an HTTP server based on Express framework ([Express](https://www.npmjs.com/package/express)), a Socket server based on [socket.io](http://socket.io/) framework and a plugin loader mechanism.
 
 The core of the system (i.e. without any plugin) offers a simple connection form to the administration interface.
 
@@ -15,18 +15,18 @@ Each plugin brings zero to many additive administration pages and zero to many a
 
 ## Compatibility
 
-OpenVeo has been tested on the following operating systems :
+OpenVeo is tested on the following operating systems :
 
-- Windows 7
+- Windows 10
 - Ubuntu 14.04
-- Debian 8 (Jessy)
+- Xubuntu 16.04
 
-OpenVeo has been tested on the following  :
+OpenVeo is tested on the following browsers :
 
-- Google Chrome 45
-- Mozilla Firefox 40
-- Opera 32
-- Internet Explorer 11
+- Google Chrome 54
+- Mozilla Firefox 47
+- Opera 42
+- Internet Explorer Edge
 
 ![Ubuntu](images/operating-systems/ubuntu.gif)
 ![Debian](images/operating-systems/debian.gif)

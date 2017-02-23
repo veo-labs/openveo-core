@@ -5,21 +5,21 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var errors = process.require('app/server/httpErrors.js');
 var DefaultController = process.require('app/server/controllers/DefaultController.js');
-var Controller = openVeoAPI.controllers.Controller;
+var Controller = openVeoApi.controllers.Controller;
 var defaultController = new DefaultController();
 
 /**
- * Provides route actions to deal with errors.
+ * Defines a controller to handle errors.
  *
  * @class ErrorController
- * @constructor
  * @extends Controller
+ * @constructor
  */
 function ErrorController() {
-  Controller.call(this);
+  ErrorController.super_.call(this);
 }
 
 module.exports = ErrorController;
@@ -29,6 +29,9 @@ util.inherits(ErrorController, Controller);
  * Handles requests which does not correspond to anything.
  *
  * @method notFoundAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 ErrorController.prototype.notFoundAction = function(request, response, next) {
   next(errors.PATH_NOT_FOUND);
@@ -37,16 +40,18 @@ ErrorController.prototype.notFoundAction = function(request, response, next) {
 /**
  * Handles all errors.
  *
- * @example
- *     {
- *       "code" : 1,
- *       "httpCode" : 500,
- *       "module" : "core"
- *     }
- *
  * @method errorAction
- * @param {Object} error An error object with error code, HTTP code
- * and the module associated to the error
+ * @param {Object} error An error object
+ * @param {Number} error.httCode The code HTTP to return for this error
+ * @param {Number} error.message The message with the error
+ * @param {Number} [error.code=UNKNOWN_ERROR] The error code
+ * @param {Number} [error.module=core] The name of the plugin the error belongs to
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Request} request.method Request's HTTP method
+ * @param {Request} request.url Request's url
+ * @param {Request} request.headers Request's headers
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 ErrorController.prototype.errorAction = function(error, request, response, next) {
   if (!error || !error.code)
@@ -88,6 +93,11 @@ ErrorController.prototype.errorAction = function(error, request, response, next)
  * a JSON content or a text content will be returned with a 404 code.
  *
  * @method notFoundPageAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Request} request.method Request's HTTP method
+ * @param {Request} request.url Request's url
+ * @param {Request} request.headers Request's headers
+ * @param {Response} response ExpressJS HTTP Response
  */
 ErrorController.prototype.notFoundPageAction = function(request, response) {
   process.logger.warn('404 Not Found', {

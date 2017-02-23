@@ -5,20 +5,21 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var GroupModel = process.require('app/server/models/GroupModel.js');
+var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var errors = process.require('app/server/httpErrors.js');
-var EntityController = openVeoAPI.controllers.EntityController;
+var EntityController = openVeoApi.controllers.EntityController;
 
 /**
- * Provides route actions for all requests relative to groups.
+ * Defines an entity controller to handle requests relative to groups' entities.
  *
  * @class GroupController
- * @constructor
  * @extends EntityController
+ * @constructor
  */
 function GroupController() {
-  EntityController.call(this, GroupModel);
+  GroupController.super_.call(this, GroupModel, GroupProvider);
 }
 
 module.exports = GroupController;
@@ -27,21 +28,23 @@ util.inherits(GroupController, EntityController);
 /**
  * Gets a list of groups.
  *
- * Parameters :
- *  - **query** Search query to search on both group name and description
- *  - **page** The expected page
- *  - **limit** The expected limit
- *  - **sortBy** To sort groups by name or description (default is name)
- *  - **sortOrder** Sort order (either asc or desc)
- *
  * @method getEntitiesAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Object} [request.query] Request's query parameters
+ * @param {String} [request.query.query] Search query to search on both group's name and description
+ * @param {Number} [request.query.page=1] The expected page in pagination system
+ * @param {Number} [request.query.limit] The maximum number of expected results
+ * @param {String} [request.query.sortBy=name] To sort by property name (either "name" or "description")
+ * @param {String} [request.query.sortOrder=desc] The sort order (either "asc" or "desc")
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
  */
 GroupController.prototype.getEntitiesAction = function(request, response, next) {
-  var model = new this.Entity(request.user);
   var params;
+  var model = this.getModel(request);
 
   try {
-    params = openVeoAPI.util.shallowValidateObject(request.query, {
+    params = openVeoApi.util.shallowValidateObject(request.query, {
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gt: 0, default: 1},
@@ -62,7 +65,7 @@ GroupController.prototype.getEntitiesAction = function(request, response, next) 
   // Add search query
   if (params.query) {
     filter.$text = {
-      $search: params.query
+      $search: '"' + params.query + '"'
     };
   }
 

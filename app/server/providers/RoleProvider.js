@@ -5,22 +5,22 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 
 /**
- * Defines a RoleProvider class to get and save back end user roles.
+ * Defines a RoleProvider to get and save back end user roles.
  *
  * @class RoleProvider
- * @constructor
  * @extends EntityProvider
+ * @constructor
  * @param {Database} database The database to interact with
  */
 function RoleProvider(database) {
-  openVeoAPI.EntityProvider.call(this, database, 'core_roles');
+  RoleProvider.super_.call(this, database, 'core_roles');
 }
 
 module.exports = RoleProvider;
-util.inherits(RoleProvider, openVeoAPI.EntityProvider);
+util.inherits(RoleProvider, openVeoApi.providers.EntityProvider);
 
 /**
  * Gets roles by ids.

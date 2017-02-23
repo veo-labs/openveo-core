@@ -5,22 +5,22 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 
 /**
- * Defines a GroupProvider class to get and save content groups.
+ * Defines a GroupProvider to get and save content groups.
  *
  * @class GroupProvider
- * @constructor
  * @extends EntityProvider
+ * @constructor
  * @param {Database} database The database to interact with
  */
 function GroupProvider(database) {
-  openVeoAPI.EntityProvider.call(this, database, 'core_groups');
+  GroupProvider.super_.call(this, database, 'core_groups');
 }
 
 module.exports = GroupProvider;
-util.inherits(GroupProvider, openVeoAPI.EntityProvider);
+util.inherits(GroupProvider, openVeoApi.providers.EntityProvider);
 
 /**
  * Creates groups indexes.

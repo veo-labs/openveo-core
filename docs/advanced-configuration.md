@@ -26,12 +26,12 @@ Open **~/.openveo/core/databaseConf.json**
 
 ```json
 {
-  "type" : "mongodb", // Do not change
-  "host" : "localhost", // MongoDB server host
-  "port" : 27017, // MongoDB port
+  "type" : "mongodb", // Do not change. Only MongoDB is available right now
+  "host" : "localhost", // Database server host
+  "port" : 27017, // Database port
   "database" : "DATABASE_NAME", // Replace DATABASE_NAME by the name of the OpenVeo database
   "username" : "DATABASE_USER_NAME", // Replace DATABASE_USER_NAME by the name of the database user
-  "password" : "DATABASE_USER_PWD" // Replace DATABASE_USER_PWD  by the password of the database user
+  "password" : "DATABASE_USER_PWD" // Replace DATABASE_USER_PWD by the password of the database user
 }
 ```
 
@@ -63,11 +63,13 @@ Open **~/.openveo/core/serverConf.json**
 ```json
 {
   "app" : {
-    "port" : PORT, // Replace PORT by the HTTP server port to use (e.g. 3000)
+    "httpPort" : HTTP_PORT, // Replace HTTP_PORT by the HTTP server port to use (e.g. 3000)
+    "socketPort" : SOCKET_PORT, // Replace SOCKET_PORT by the socket server port to use (e.g. 3001)
+    "browserSocketPort" : SOCKET_PORT, // Replace SOCKET_PORT by the port of the socket server to connect to from the browser (e.g. 3001)
     "sessionSecret" : "SECRET" // Replace SECRET by a secret used to secure HTTP sessions
   },
   "ws": {
-    "port": WS_POST  // Replace WS_PORT by the HTTP server port to use (e.g. 3001)
+    "port": WS_HTTP_PORT // Replace WS_HTTP_PORT by the HTTP server port to use (e.g. 3002)
   }
 }
 ```

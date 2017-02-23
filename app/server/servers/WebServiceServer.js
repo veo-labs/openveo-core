@@ -6,7 +6,7 @@
  */
 
 var util = require('util');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var bodyParser = require('body-parser');
 var Server = process.require('app/server/servers/Server.js');
 var oAuth = process.require('app/server/oauth/oAuth.js');
@@ -15,79 +15,78 @@ var entityLoader = process.require('/app/server/loaders/entityLoader.js');
 var OAuthController = process.require('app/server/controllers/OAuthController.js');
 var ErrorController = process.require('app/server/controllers/ErrorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
+var storage = process.require('app/server/storage.js');
 
 var oAuthController = new OAuthController();
 var errorController = new ErrorController();
 
 /**
- * Creates an HTTP server for the openveo web service.
+ * Defines an HTTP server for the web service.
  *
  * @class WebServiceServer
- * @constructor
  * @extends Server
+ * @constructor
  * @param {Object} configuration Service configuration
+ * @param {Number} configuration.port Web service HTTP server port
  */
 function WebServiceServer(configuration) {
-  Server.call(this, configuration);
+  WebServiceServer.super_.call(this, configuration);
 
-  /**
-   * migrations Script description object.
-   *
-   * @property migrations
-   * @type Object
-   */
-  this.migrations = {};
+  Object.defineProperties(this, {
+
+    /**
+     * migrations Script description object.
+     *
+     * @property migrations
+     * @type Object
+     * @final
+     */
+    migrations: {value: {}}
+
+  });
 
   // Log each request
-  this.app.use(openVeoAPI.middlewares.logRequestMiddleware);
+  this.httpServer.use(openVeoApi.middlewares.logRequestMiddleware);
 
   // Load all middlewares which need to operate
   // on each request
-  this.app.use(bodyParser.urlencoded({
+  this.httpServer.use(bodyParser.urlencoded({
     extended: true
   }));
-  this.app.use(bodyParser.json());
+  this.httpServer.use(bodyParser.json());
 
   // Web service routes
-  this.app.use(oAuth.inject());
-  this.app.post('/token', oAuth.controller.token);
+  this.httpServer.use(oAuth.inject());
+  this.httpServer.post('/token', oAuth.controller.token);
 
   // no need to authent, validateScope nor disable cache for request url ending by
   // .jpg || .jpeg || .jpg?thumb=param || .jpeg?thumb=param with param up to 10 chars.
   var allPathExceptImages = /^(?!.*[\.](jpg|jpeg)(\?thumb=.{1,10})?$)/;
-  this.app.all(allPathExceptImages, oAuth.middleware.bearer);
-  this.app.all(allPathExceptImages, oAuthController.validateScopesAction);
+  this.httpServer.all(allPathExceptImages, oAuth.middleware.bearer);
+  this.httpServer.all(allPathExceptImages, oAuthController.validateScopesAction);
 
   // Disable cache on get requests
-  this.app.get(allPathExceptImages, openVeoAPI.middlewares.disableCacheMiddleware);
+  this.httpServer.get(allPathExceptImages, openVeoApi.middlewares.disableCacheMiddleware);
+
+  // Save server configuration
+  storage.setServerConfiguration(configuration);
 }
 
 module.exports = WebServiceServer;
 util.inherits(WebServiceServer, Server);
 
 /**
- * Applies all routes, found in configuration, to the router.
- *
- * @method onDatabaseAvailable
- * @async
- * @param {Database} db The application database
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
- */
-WebServiceServer.prototype.onDatabaseAvailable = function(db, callback) {
-  callback();
-};
-
-/**
  * Loads plugin.
  *
  * @method onPluginLoaded
+ * @async
  * @param {Object} plugin The openveo plugin
  * @param {Function} callback Function to call when its done with:
  *  - **Error** An error if something went wrong
  */
 WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
   var self = this;
+  process.logger.info('Start loading plugin ' + plugin.name);
 
   // Build web service routes
   if (plugin.webServiceRouter && plugin.webServiceRoutes && plugin.mountPath) {
@@ -103,7 +102,7 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
   // Mount plugin Web Service router to the plugin mount path
   if (plugin.webServiceRouter) {
     process.logger.info('Mount ' + plugin.name + ' web service router on ' + plugin.mountPath);
-    this.app.use(plugin.mountPath, plugin.webServiceRouter);
+    this.httpServer.use(plugin.mountPath, plugin.webServiceRouter);
   }
 
   // Update migation script to apply
@@ -122,12 +121,13 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
     // Set thumbnail generator on image folders
     plugin.imagesFolders.forEach(function(folder) {
       process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
-      self.app.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
+      self.httpServer.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
         imagesStyle: imagesStyles
       }));
     });
   }
 
+  process.logger.info(plugin.name + ' plugin loaded');
   callback();
 };
 
@@ -145,8 +145,8 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
 WebServiceServer.prototype.onPluginsLoaded = function(callback) {
 
   // Handle not found and errors
-  this.app.all('*', errorController.notFoundAction);
-  this.app.use(errorController.errorAction);
+  this.httpServer.all('*', errorController.notFoundAction);
+  this.httpServer.use(errorController.errorAction);
 
   callback();
 };
@@ -162,8 +162,8 @@ WebServiceServer.prototype.onPluginsLoaded = function(callback) {
 WebServiceServer.prototype.startServer = function(callback) {
 
   // Start server
-  var server = this.app.listen(this.configuration.port, function(error) {
-    process.logger.info('Server listening at http://%s:%s', server.address().address, server.address().port);
+  var server = this.httpServer.listen(this.configuration.port, function(error) {
+    process.logger.info('HTTP Server listening on port ' + server.address().port);
 
     // If process is a child process, send an event to parent process informing that the server has started
     if (process.connected)

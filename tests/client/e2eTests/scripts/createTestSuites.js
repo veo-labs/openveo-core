@@ -12,7 +12,7 @@
 var fs = require('fs');
 var util = require('util');
 var path = require('path');
-var openVeoAPI = require('@openveo/api');
+var openVeoApi = require('@openveo/api');
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var suites = process.require('tests/client/protractorSuites.json');
 
@@ -52,12 +52,12 @@ pluginLoader.getPluginPaths(process.root, function(error, pluginPaths) {
       try {
         var pluginSuites = require(path.join(pluginPath, suiteFilePath));
         setSuitesAbsolutePath(pluginSuites, path.join(pluginPath, 'tests/client'));
-        openVeoAPI.util.merge(suites, pluginSuites);
+        openVeoApi.util.merge(suites, pluginSuites);
       } catch (e) {
         process.stdout.write('Can\'t load file ' + path.join(pluginPath, suiteFilePath) + '\n');
       }
     }
-    openVeoAPI.fileSystem.mkdir(path.dirname(aggregatedSuiteFilePath), function(error) {
+    openVeoApi.fileSystem.mkdir(path.dirname(aggregatedSuiteFilePath), function(error) {
       if (!error)
         fs.writeFile(aggregatedSuiteFilePath, JSON.stringify(suites), {encoding: 'utf8'});
     });

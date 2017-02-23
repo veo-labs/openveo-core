@@ -7,10 +7,11 @@ var path = require('path');
 var fs = require('fs');
 var os = require('os');
 var async = require('async');
-var openVeoAPI = require('@openveo/api');
-var confDir = path.join(openVeoAPI.fileSystem.getConfDir(), 'core');
+var openVeoApi = require('@openveo/api');
+var confDir = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var exit = process.exit;
 var UserProvider = process.require('app/server/providers/UserProvider.js');
+var storage = process.require('app/server/storage.js');
 
 // Create a readline interface to interact with the user
 var rl = readline.createInterface({
@@ -51,7 +52,7 @@ function getRandomHash(size) {
  * Creates conf directory if it does not exist.
  */
 function createConfDir(callback) {
-  openVeoAPI.fileSystem.mkdir(confDir, callback);
+  openVeoApi.fileSystem.mkdir(confDir, callback);
 }
 
 /**
@@ -61,10 +62,10 @@ function createLoggerDir(callback) {
   var conf = require(path.join(confDir, 'loggerConf.json'));
   async.series([
     function(callback) {
-      openVeoAPI.fileSystem.mkdir(path.dirname(conf.app.fileName), callback);
+      openVeoApi.fileSystem.mkdir(path.dirname(conf.app.fileName), callback);
     },
     function(callback) {
-      openVeoAPI.fileSystem.mkdir(path.dirname(conf.ws.fileName), callback);
+      openVeoApi.fileSystem.mkdir(path.dirname(conf.ws.fileName), callback);
     }
   ], function(error, results) {
     if (error)
@@ -86,8 +87,8 @@ function createConf(callback) {
 
   async.series([
     function(callback) {
-      fs.exists(confFile, function(exists) {
-        if (exists)
+      fs.stat(confFile, function(error, stats) {
+        if (stats && stats.isFile())
           callback(new Error(confFile + ' already exists\n'));
         else
           callback();
@@ -129,8 +130,8 @@ function createDatabaseConf(callback) {
 
   async.series([
     function(callback) {
-      fs.exists(confFile, function(exists) {
-        if (exists)
+      fs.stat(confFile, function(error, stats) {
+        if (stats && stats.isFile())
           callback(new Error(confFile + ' already exists\n'));
         else
           callback();
@@ -195,8 +196,8 @@ function createLoggerConf(callback) {
 
   async.series([
     function(callback) {
-      fs.exists(confFile, function(exists) {
-        if (exists)
+      fs.stat(confFile, function(error, stats) {
+        if (stats && stats.isFile())
           callback(new Error(confFile + ' already exists\n'));
         else
           callback();
@@ -226,17 +227,19 @@ function createServerConf(callback) {
   var confFile = path.join(confDir, 'serverConf.json');
   var conf = {
     app: {
-      port: 3000
+      httpPort: 3000,
+      socketPort: 3001,
+      browserSocketPort: 3001
     },
     ws: {
-      port: 3001
+      port: 3002
     }
   };
 
   async.series([
     function(callback) {
-      fs.exists(confFile, function(exists) {
-        if (exists)
+      fs.stat(confFile, function(error, stats) {
+        if (stats && stats.isFile())
           callback(new Error(confFile + ' already exists\n'));
         else
           callback();
@@ -250,13 +253,30 @@ function createServerConf(callback) {
       });
     },
     function(callback) {
-      rl.question('Enter OpenVeo server port (default: ' + conf.app.port + ') :\n', function(answer) {
-        conf.app.port = answer || conf.app.port;
+      rl.question('Enter OpenVeo HTTP server port (default: ' + conf.app.httpPort + ') :\n', function(answer) {
+        conf.app.httpPort = answer || conf.app.httpPort;
         callback();
       });
     },
     function(callback) {
-      rl.question('Enter OpenVeo Web Service server port (default: ' + conf.ws.port + ') :\n', function(answer) {
+      rl.question('Enter OpenVeo socket server port (default: ' + conf.app.socketPort + ') :\n', function(answer) {
+        conf.app.socketPort = answer || conf.app.socketPort;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question(
+        'Enter OpenVeo browser\'s socket server port (default: ' +
+        conf.app.browserSocketPort +
+        ') :\n',
+        function(answer) {
+          conf.app.browserSocketPort = answer || conf.app.browserSocketPort;
+          callback();
+        }
+      );
+    },
+    function(callback) {
+      rl.question('Enter OpenVeo Web Service HTTP server port (default: ' + conf.ws.port + ') :\n', function(answer) {
         conf.ws.port = answer || conf.ws.port;
         callback();
       });
@@ -275,7 +295,7 @@ function createServerConf(callback) {
  */
 function verifyDatabaseConf(callback) {
   var databaseConf = require(path.join(confDir, 'databaseConf.json'));
-  var db = openVeoAPI.Database.getDatabase(databaseConf);
+  var db = openVeoApi.database.factory.get(databaseConf);
 
   db.connect(function(error) {
     if (error) {
@@ -283,7 +303,7 @@ function verifyDatabaseConf(callback) {
       exit();
     }
 
-    openVeoAPI.applicationStorage.setDatabase(db);
+    storage.setDatabase(db);
     callback();
   });
 }
@@ -292,7 +312,7 @@ function verifyDatabaseConf(callback) {
  * Creates super administrator if it does not exist.
  */
 function createSuperAdmin(callback) {
-  var userProvider = new UserProvider(openVeoAPI.applicationStorage.getDatabase());
+  var userProvider = new UserProvider(storage.getDatabase());
   var conf = require(path.join(confDir, 'conf.json'));
   var user = {
     id: '0',
@@ -328,7 +348,7 @@ function createSuperAdmin(callback) {
     },
     function(callback) {
       rl.question('Enter the email of the OpenVeo super admin to create :\n', function(answer) {
-        if (!answer || !openVeoAPI.util.isEmailValid(answer)) callback(Error('Invalid email, aborting'));
+        if (!answer || !openVeoApi.util.isEmailValid(answer)) callback(Error('Invalid email, aborting'));
         user.email = answer;
         callback();
       });

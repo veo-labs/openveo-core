@@ -10,39 +10,35 @@ var express = require('express');
  * Defines an HTTP Server. This Class must not be used directly,
  * instead use one of the sub classes.
  *
- * @example
- *     var Server = process.require("app/server/servers/Server.js");
- *     function MyServer(app){
- *       Server.prototype.init.call(this);
- *     }
- *
- *     module.exports = MyServer;
- *     util.inherits(MyServer, Server);
- *
  * @class Server
  * @constructor
  * @param {Object} configuration Service configuration
  */
 function Server(configuration) {
+  Object.defineProperties(this, {
 
-  /**
-   * Server configuration object.
-   *
-   * @property configuration
-   * @type Object
-   */
-  this.configuration = configuration;
+    /**
+     * Server configuration object.
+     *
+     * @property configuration
+     * @type Object
+     * @final
+     */
+    configuration: {value: configuration},
 
-  /**
-   * Express application.
-   *
-   * @property app
-   * @type Application
-   */
-  this.app = express();
+    /**
+     * Express application.
+     *
+     * @property httpServer
+     * @type Application
+     * @final
+     */
+    httpServer: {value: express()}
+
+  });
 
   // Remove x-powered-by http header
-  this.app.set('x-powered-by', false);
+  this.httpServer.set('x-powered-by', false);
 
 }
 
@@ -51,12 +47,14 @@ function Server(configuration) {
  *
  * It assures that the database is loaded and can be accessed.
  *
+ * @method onDatabaseAvailable
  * @async
  * @param {Database} db The application database
  * @param {Function} callback Function to call when its done with:
  *  - **Error** An error if something went wrong
  */
 Server.prototype.onDatabaseAvailable = function(db, callback) {
+  callback();
 };
 
 /**
@@ -67,27 +65,6 @@ Server.prototype.onDatabaseAvailable = function(db, callback) {
  * @example
  *     MyServer.prototype.onPluginLoaded(plugin){
  *       console.log(plugin);
- *       // {
- *       //   router: [Function],
- *       //   privateRouter: [Function],
- *       //   webServiceRouter: [Function],
- *       //   mountPath: "/publish",
- *       //   name: "publish",
- *       //   assetsDirectory: "/home/veo-labs/openveo/node_modules/@openveo/publish/public",
- *       //   i18nDirectory: "/home/veo-labs/openveo/node_modules/@openveo/publish/i18n",
- *       //   custom: [Object],
- *       //   webServiceScopes: [Object],
- *       //   permissions: [Array],
- *       //   viewsFolders: [Array],
- *       //   routes: [Array],
- *       //   privateRoutes: [Array],
- *       //   webServiceRoutes: [Array],
- *       //   entities: [Object],
- *       //   menu: [Array],
- *       //   scriptLibFiles: [Array],
- *       //   scriptFiles: [Array],
- *       //   cssFiles: [Array]
- *       // }
  *     };
  *
  * @method onPluginLoaded

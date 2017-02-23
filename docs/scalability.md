@@ -8,7 +8,7 @@ Open **~openveo/core/databaseConf.json** and add a name for the ReplicaSet and a
 {
   ...
   "replicaSet" : "REPLICA_SET_NAME", // Replace REPLICA_SET_NAME by the name of the ReplicaSet
-  "seedlist": "IP_1:PORT_1,IP_2:PORT_2" // The list comma separated list of secondary servers
+  "seedlist": "IP_1:PORT_1,IP_2:PORT_2" // The comma separated list of secondary servers
 }
 ```
 

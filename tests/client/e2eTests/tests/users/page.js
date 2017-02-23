@@ -5,6 +5,8 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var UserModel = process.require('app/server/models/UserModel.js');
+var UserProvider = process.require('app/server/providers/UserProvider.js');
+var storage = process.require('app/server/storage.js');
 var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
 var TableAssert = e2e.asserts.TableAssert;
@@ -52,7 +54,7 @@ describe('User page', function() {
 
   // Prepare page
   before(function() {
-    var userModel = new UserModel();
+    var userModel = new UserModel(new UserProvider(storage.getDatabase()));
     userHelper = new UserHelper(userModel);
     page = new UserPage(userModel);
     tableAssert = new TableAssert(page, userHelper);
@@ -178,7 +180,7 @@ describe('User page', function() {
   });
 
   it('should be able to cancel when removing a user', function() {
-    return tableAssert.checkCancelRemove(page.translations.CORE.USERS.TITLE_FILTER);
+    return tableAssert.checkCancelRemove(page.translations.CORE.USERS.QUERY_FILTER);
   });
 
   it('should be able to sort by name', function() {
@@ -214,14 +216,14 @@ describe('User page', function() {
 
     it('should be able to search by full name', function() {
       var expectedValues;
-      var search = {name: lines[0].name};
+      var search = {query: lines[0].name};
 
       // Get all line values before search
       page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
-          return element === search.name;
+          return element === search.query;
         });
 
       }).then(function() {
@@ -229,32 +231,33 @@ describe('User page', function() {
       });
     });
 
-    it('should be able to search by partial name', function() {
-      var expectedValues;
-      var search = {name: lines[1].name.slice(0, 2)};
-
-      // Get all line values before search
-      page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN).then(function(values) {
-
-        // Predict values
-        expectedValues = values.filter(function(element) {
-          return new RegExp(search.name).test(element);
-        });
-
-      }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, page.translations.CORE.USERS.NAME_COLUMN);
-      });
-    });
-
-    it('should be case sensitive', function() {
-      var search = {name: lines[1].name.toUpperCase()};
+    it('should not be able to search by partial name', function() {
+      var search = {query: lines[1].name.slice(0, 2)};
 
       page.search(search);
       assert.isRejected(page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN));
     });
 
+    it('should be case insensitive', function() {
+      var expectedValues;
+      var search = {query: lines[1].name.toUpperCase()};
+
+      // Get all line values before search
+      page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN).then(function(values) {
+        var regexp = new RegExp(search.query, 'i');
+
+        // Predict values
+        expectedValues = values.filter(function(element) {
+          return regexp.test(element);
+        });
+
+      }).then(function() {
+        tableAssert.checkSearch(search, expectedValues, page.translations.CORE.USERS.NAME_COLUMN);
+      });
+    });
+
     it('should be able to clear search', function() {
-      var search = {name: lines[0].name};
+      var search = {query: lines[0].name};
 
       page.search(search);
       page.clearSearch();

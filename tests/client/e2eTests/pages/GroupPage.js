@@ -42,17 +42,10 @@ GroupPage.prototype.onLoaded = function() {
 GroupPage.prototype.getSearchFields = function(form) {
   var fields = {};
 
-  // Name field
-  fields.name = Field.get({
+  // Query field
+  fields.query = Field.get({
     type: 'text',
-    name: this.translations.CORE.GROUPS.TITLE_FILTER,
-    baseElement: form
-  });
-
-  // Description field
-  fields.description = Field.get({
-    type: 'text',
-    name: this.translations.CORE.GROUPS.DESCRIPTION_FILTER,
+    name: this.translations.CORE.GROUPS.QUERY_FILTER,
     baseElement: form
   });
 

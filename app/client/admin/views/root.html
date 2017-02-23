@@ -11,8 +11,11 @@
     [[/css]]
 
     <script>
-      var version = [[& version]];
-      var plugins = [ [[& angularJsModules]] ];
+      var openVeoSettings = {
+        version: [[& version]],
+        plugins: [ [[& angularJsModules]] ],
+        socketServerPort: [[socketServerPort]]
+      };
     </script>
   </head>
 

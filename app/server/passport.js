@@ -1,14 +1,13 @@
 'use strict';
 
-// Module dependencies
 var passport = require('passport');
 var util = require('@openveo/api/lib/util.js');
 var LocalStrategy = require('passport-local').Strategy;
 var UserModel = process.require('app/server/models/UserModel.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
-
-var userModel = new UserModel();
-var roleModel = new RoleModel();
+var UserProvider = process.require('app/server/providers/UserProvider.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var storage = process.require('app/server/storage.js');
 
 /**
  * Gets user roles details.
@@ -25,6 +24,7 @@ function getUserRoles(user, callback) {
 
   // Get user permissions by roles
   if (user.roles) {
+    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
     roleModel.getByIds(user.roles, function(error, roles) {
       if (error)
         callback(null, false);
@@ -53,6 +53,7 @@ passport.use(new LocalStrategy(
     passwordField: 'password'
   },
   function(email, password, done) {
+    var userModel = new UserModel(new UserProvider(storage.getDatabase()));
     userModel.getUserByCredentials(email, password, function(error, user) {
       if (error || !user)
         done(null, false);
@@ -74,6 +75,7 @@ passport.serializeUser(function(user, done) {
 // When subsequent requests are received, the ID is used to find
 // the user, which will be restored to req.user.
 passport.deserializeUser(function(id, done) {
+  var userModel = new UserModel(new UserProvider(storage.getDatabase()));
   userModel.getOne(id, null, function(error, user) {
     if (error || !user)
       done(null, false);

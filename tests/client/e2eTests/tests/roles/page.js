@@ -5,6 +5,8 @@ var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
 var RoleModel = process.require('app/server/models/RoleModel.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var storage = process.require('app/server/storage.js');
 var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
 var TableAssert = e2e.asserts.TableAssert;
 
@@ -38,7 +40,7 @@ describe('Role page', function() {
 
   // Load roles page using super administrator account
   before(function() {
-    var roleModel = new RoleModel();
+    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
     roleHelper = new RoleHelper(roleModel);
     page = new RolePage(roleModel);
     tableAssert = new TableAssert(page, roleHelper);
@@ -143,14 +145,14 @@ describe('Role page', function() {
 
     it('should be able to search by full name', function() {
       var expectedValues;
-      var search = {name: lines[0].name};
+      var search = {query: lines[0].name};
 
       // Get all line values before search
       page.getLineValues(page.translations.CORE.ROLES.NAME_COLUMN).then(function(values) {
 
         // Predict values
         expectedValues = values.filter(function(element) {
-          return element === search.name;
+          return element === search.query;
         });
 
       }).then(function() {
@@ -158,32 +160,33 @@ describe('Role page', function() {
       });
     });
 
-    it('should be able to search by partial name', function() {
-      var expectedValues;
-      var search = {name: lines[1].name.slice(0, 2)};
-
-      // Get all line values before search
-      page.getLineValues(page.translations.CORE.ROLES.NAME_COLUMN).then(function(values) {
-
-        // Predict values
-        expectedValues = values.filter(function(element) {
-          return new RegExp(search.name).test(element);
-        });
-
-      }).then(function() {
-        tableAssert.checkSearch(search, expectedValues, page.translations.CORE.ROLES.NAME_COLUMN);
-      });
-    });
-
-    it('should be case sensitive', function() {
-      var search = {name: lines[1].name.toUpperCase()};
+    it('should not be able to search by partial name', function() {
+      var search = {query: lines[1].name.slice(0, 2)};
 
       page.search(search);
       assert.isRejected(page.getLineValues(page.translations.CORE.ROLES.NAME_COLUMN));
     });
 
+    it('should be case insensitive', function() {
+      var expectedValues;
+      var search = {query: lines[1].name.toUpperCase()};
+
+      // Get all line values before search
+      page.getLineValues(page.translations.CORE.ROLES.NAME_COLUMN).then(function(values) {
+        var regexp = new RegExp(search.query, 'i');
+
+        // Predict values
+        expectedValues = values.filter(function(element) {
+          return regexp.test(element);
+        });
+
+      }).then(function() {
+        tableAssert.checkSearch(search, expectedValues, page.translations.CORE.ROLES.NAME_COLUMN);
+      });
+    });
+
     it('should be able to clear search', function() {
-      var search = {name: lines[0].name};
+      var search = {query: lines[0].name};
 
       page.search(search);
       page.clearSearch();

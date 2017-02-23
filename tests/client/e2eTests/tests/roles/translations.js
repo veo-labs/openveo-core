@@ -61,8 +61,8 @@ describe('Role page translations', function() {
         });
 
         var searchFields = page.getSearchFields(page.searchFormElement);
-        var searchNameField = searchFields.name;
-        assert.eventually.equal(searchNameField.getLabel(), coreTranslations.ROLES.TITLE_FILTER);
+        var searchQueryField = searchFields.query;
+        assert.eventually.equal(searchQueryField.getLabel(), coreTranslations.ROLES.QUERY_FILTER);
 
         // All actions translations
         page.setSelectAllMouseOver();

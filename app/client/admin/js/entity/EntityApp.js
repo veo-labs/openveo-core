@@ -136,12 +136,14 @@
       var pluginCache = entityCache[pluginName];
 
       var cacheId = JSON.stringify(param);
+      options.params = param;
 
       // Return the data if we already have it
       if (pluginCache && pluginCache[entityType] && pluginCache[entityType][cacheId]) {
         deferred.resolve(angular.copy(pluginCache[entityType][cacheId]));
       } else {
-        $http.post(basePath + 'search/' + entityType, param, options).success(function(data) {
+        var path = basePath + ((pluginName !== 'core') ? pluginName + '/' : '') + entityType;
+        $http.get(path, options).success(function(data) {
           if (!pluginCache) pluginCache = entityCache[pluginName] = {};
           if (!pluginCache[entityType]) pluginCache[entityType] = {};
 

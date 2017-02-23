@@ -86,12 +86,8 @@
     scopeDataTable.entityType = entityType;
     scopeDataTable.filterBy = [
       {
-        key: 'name',
-        label: $filter('translate')('CORE.GROUPS.TITLE_FILTER')
-      },
-      {
-        key: 'description',
-        label: $filter('translate')('CORE.GROUPS.DESCRIPTION_FILTER')
+        key: 'query',
+        label: $filter('translate')('CORE.GROUPS.QUERY_FILTER')
       }
     ];
     scopeDataTable.header = [{
