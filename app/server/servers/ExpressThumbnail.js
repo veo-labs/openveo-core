@@ -52,35 +52,34 @@ expressThumbnail.register = function(rootDir, options) {
     var filename = decodeURI(req.url.replace(/\?(.*)/, ''));                 // file name in root dir
 
     var isImage = new RegExp('.*(.jpeg|.jpg|.png)$').test(filename);
-    if (isImage) {
-      filepath = path.join(rootDir, filename);                             // file path
-      dimension = req.query.thumb || '';                                      // thumbnail dimensions
+
+    filepath = path.join(rootDir, filename);  // file path
+    dimension = req.query.thumb || '';  // thumbnail dimensions
+
+    fs.stat(filepath, function(err, stats) {
+
+      // go forward
+      if (err || !stats.isFile()) {
+        return next();
+      }
+
+      // send original file
+      if (!isImage || !dimension || dimension == '') {
+        return res.sendFile(filepath);
+      }
+
+      // send converted file
       location = path.join(options.cacheDir, dimension, filename);         // file location in cache
-
-      fs.stat(filepath, function(err, stats) {
-        // go forward
-        if (err || !stats.isFile()) {
-          return next();
+      fs.exists(location, function(exists) {
+        // file was found in cache
+        if (exists) {
+          return res.sendFile(location);
         }
 
-        // send original file
-        if (!dimension || dimension == '') {
-          return res.sendFile(filepath);
-        }
-
-        // send converted file
-        fs.exists(location, function(exists) {
-          // file was found in cache
-          if (exists) {
-            return res.sendFile(location);
-          }
-
-          // convert and send
-          sendConverted();
-        });
+        // convert and send
+        sendConverted();
       });
-    } else
-      return next();
+    });
   };
 };
 
