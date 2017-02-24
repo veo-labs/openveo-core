@@ -123,7 +123,7 @@ $mq-show-breakpoints: () !default;
         @if $max-width != 0 { $mediaQuery: '#{$mediaQuery} and (max-width: #{$max-width})'; }
         @if $and            { $mediaQuery: '#{$mediaQuery} and #{$and}'; }
 
-        $mediaQuery: unquote(#{$mediaQuery});
+        $mediaQuery: unquote('#{$mediaQuery}');
 
         @media #{all+$mediaQuery} {
             @content;
