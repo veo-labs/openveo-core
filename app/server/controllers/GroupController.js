@@ -19,7 +19,7 @@ var EntityController = openVeoApi.controllers.EntityController;
  * @constructor
  */
 function GroupController() {
-  GroupController.super_.call(this, GroupModel, GroupProvider);
+  GroupController.super_.call(this);
 }
 
 module.exports = GroupController;
@@ -87,4 +87,14 @@ GroupController.prototype.getEntitiesAction = function(request, response, next) 
       }
     }
   );
+};
+
+/**
+ * Gets an instance of the entity model associated to the controller.
+ *
+ * @method getModel
+ * @return {EntityModel} The entity model
+ */
+GroupController.prototype.getModel = function() {
+  return new GroupModel(new GroupProvider(process.api.getCoreApi().getDatabase()));
 };

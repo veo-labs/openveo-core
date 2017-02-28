@@ -7,7 +7,6 @@
 var util = require('util');
 var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
-var pluginManager = openVeoApi.plugin.pluginManager;
 var Controller = openVeoApi.controllers.Controller;
 
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
@@ -43,7 +42,7 @@ util.inherits(DefaultController, Controller);
 DefaultController.prototype.defaultAction = function(request, response) {
 
   // Retrieve openveo sub plugins
-  var plugins = pluginManager.getPlugins();
+  var plugins = process.api.getPlugins();
   var angularJsModules = [];
 
   response.locals.librariesScripts = [];

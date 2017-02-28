@@ -14,7 +14,7 @@ var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var TaxonomyProvider = process.require('app/server/providers/TaxonomyProvider.js');
 var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
 var storage = process.require('app/server/storage.js');
-var pluginManager = openVeoApi.plugin.pluginManager;
+var api = process.require('app/server/api.js');
 var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerConf.json');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverConf.json');
@@ -45,6 +45,9 @@ try {
 } catch (error) {
   throw new Error('Invalid configuration file : ' + error.message);
 }
+
+// Exposes APIs
+process.api = api;
 
 var server;
 
@@ -77,7 +80,7 @@ storage.setAnonymousUserId(coreConf.anonymousUserId || '1');
  *  - **Error** An error if something went wrong, null otherwise
  */
 function executePluginFunction(functionToExecute, callback) {
-  var plugins = pluginManager.getPlugins();
+  var plugins = process.api.getPlugins();
   var asyncFunctions = [];
 
   plugins.forEach(function(plugin) {
@@ -129,7 +132,7 @@ async.series([
 
       // Add core plugin and exposes its APIs before loading other plugins
       // as some plugins could use its APIs
-      pluginManager.addPlugin(corePlugin);
+      process.api.addPlugin(corePlugin);
 
       callback();
     });
@@ -153,7 +156,7 @@ async.series([
         });
 
         plugins.forEach(function(loadedPlugin) {
-          pluginManager.addPlugin(loadedPlugin);
+          process.api.addPlugin(loadedPlugin);
 
           asyncFunctions.push(function(callback) {
             server.onPluginLoaded(loadedPlugin, callback);
@@ -170,14 +173,14 @@ async.series([
 
   // Load entities
   function(callback) {
-    var entities = entityLoader.buildEntities(pluginManager.getPlugins());
+    var entities = entityLoader.buildEntities(process.api.getPlugins());
     storage.setEntities(entities);
     callback();
   },
 
   // Load web service scopes
   function(callback) {
-    var scopes = permissionLoader.buildScopes(storage.getEntities(), pluginManager.getPlugins());
+    var scopes = permissionLoader.buildScopes(storage.getEntities(), process.api.getPlugins());
     storage.setWebServiceScopes(scopes);
     callback();
   },

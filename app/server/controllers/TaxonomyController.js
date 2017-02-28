@@ -20,7 +20,7 @@ var AccessError = openVeoApi.errors.AccessError;
  * @constructor
  */
 function TaxonomyController() {
-  TaxonomyController.super_.call(this, TaxonomyModel, TaxonomyProvider);
+  TaxonomyController.super_.call(this);
 }
 
 module.exports = TaxonomyController;
@@ -124,4 +124,14 @@ TaxonomyController.prototype.getTaxonomyTermsAction = function(request, response
     next(errors.GET_TAXONOMY_TERMS_MISSING_PARAMETERS);
 
   }
+};
+
+/**
+ * Gets an instance of the entity model associated to the controller.
+ *
+ * @method getModel
+ * @return {EntityModel} The entity model
+ */
+TaxonomyController.prototype.getModel = function() {
+  return new TaxonomyModel(new TaxonomyProvider(process.api.getCoreApi().getDatabase()));
 };

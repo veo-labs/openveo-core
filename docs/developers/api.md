@@ -2,10 +2,17 @@
 
 OpenVeo core is the base of OpenVeo but it is also a plugin. Like every OpenVeo plugin it can expose APIs to other plugins. The [OpenVeo Core API](/api/server) helps you write your OpenVeo plugins.
 
-You can use @openveo/api to get the OpenVeo Core API :
+You can use process.api to get the OpenVeo Core API :
 
-    var openVeoApi = require('@openveo/api');
-    var coreApi = openVeoApi.api.getCoreApi();
+```js
+var coreApi = process.api.getCoreApi();
+```
+
+or the API of a particular plugin :
+
+```js
+var myPluginApi = process.api.getApi('my-plugin');
+```
 
 # Backend client side API (AngularJS)
 

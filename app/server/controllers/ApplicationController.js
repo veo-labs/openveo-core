@@ -20,7 +20,7 @@ var EntityController = openVeoApi.controllers.EntityController;
  * @constructor
  */
 function ApplicationController() {
-  ApplicationController.super_.call(this, ClientModel, ClientProvider);
+  ApplicationController.super_.call(this);
 }
 
 module.exports = ApplicationController;
@@ -111,4 +111,14 @@ ApplicationController.prototype.getEntitiesAction = function(request, response, 
       }
     }
   );
+};
+
+/**
+ * Gets an instance of the entity model associated to the controller.
+ *
+ * @method getModel
+ * @return {EntityModel} The entity model
+ */
+ApplicationController.prototype.getModel = function() {
+  return new ClientModel(new ClientProvider(process.api.getCoreApi().getDatabase()));
 };

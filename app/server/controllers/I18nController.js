@@ -8,7 +8,6 @@ var util = require('util');
 var openVeoApi = require('@openveo/api');
 var errors = process.require('app/server/httpErrors.js');
 var Controller = openVeoApi.controllers.Controller;
-var i18n = openVeoApi.i18n;
 
 /**
  * Defines a controller to handle requests relative to internationalization.
@@ -45,7 +44,7 @@ util.inherits(I18nController, Controller);
  * @param {Function} next Function to defer execution to the next registered middleware
  */
 I18nController.prototype.getDictionaryAction = function(request, response, next) {
-  i18n.getTranslations(request.params.dictionary.replace(/^admin-/, ''), request.params.code,
+  process.api.getCoreApi().getTranslations(request.params.dictionary.replace(/^admin-/, ''), request.params.code,
     function(error, translations) {
       if (error) {
         process.logger.error(error.message);
@@ -74,13 +73,17 @@ I18nController.prototype.getDictionaryAction = function(request, response, next)
  * @param {Function} next Function to defer execution to the next registered middleware
  */
 I18nController.prototype.getAdminDictionaryAction = function(request, response, next) {
-  i18n.getTranslations('admin-' + request.params.dictionary, request.params.code, function(error, translations) {
-    if (error) {
-      process.logger.error(error.message);
-      next(errors.I18N_DICTIONARY_ERROR);
-    } else if (translations)
-      response.send(translations);
-    else
-      next(errors.I18N_DICTIONARY_NOT_FOUND);
-  });
+  process.api.getCoreApi().getTranslations(
+    'admin-' + request.params.dictionary,
+    request.params.code,
+    function(error, translations) {
+      if (error) {
+        process.logger.error(error.message);
+        next(errors.I18N_DICTIONARY_ERROR);
+      } else if (translations)
+        response.send(translations);
+      else
+        next(errors.I18N_DICTIONARY_NOT_FOUND);
+    }
+  );
 };

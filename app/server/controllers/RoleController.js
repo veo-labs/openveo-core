@@ -19,7 +19,7 @@ var EntityController = openVeoApi.controllers.EntityController;
  * @constructor
  */
 function RoleController() {
-  RoleController.super_.call(this, RoleModel, RoleProvider);
+  RoleController.super_.call(this);
 }
 
 module.exports = RoleController;
@@ -92,4 +92,14 @@ RoleController.prototype.getEntitiesAction = function(request, response, next) {
       }
     }
   );
+};
+
+/**
+ * Gets an instance of the entity model associated to the controller.
+ *
+ * @method getModel
+ * @return {EntityModel} The entity model
+ */
+RoleController.prototype.getModel = function() {
+  return new RoleModel(new RoleProvider(process.api.getCoreApi().getDatabase()));
 };

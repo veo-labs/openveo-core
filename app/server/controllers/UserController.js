@@ -20,7 +20,7 @@ var AccessError = openVeoApi.errors.AccessError;
  * @constructor
  */
 function UserController() {
-  UserController.super_.call(this, UserModel, UserProvider);
+  UserController.super_.call(this);
 }
 
 module.exports = UserController;
@@ -143,4 +143,14 @@ UserController.prototype.updateEntityAction = function(request, response, next) 
     next(errors.UPDATE_USER_MISSING_PARAMETERS);
 
   }
+};
+
+/**
+ * Gets an instance of the entity model associated to the controller.
+ *
+ * @method getModel
+ * @return {EntityModel} The entity model
+ */
+UserController.prototype.getModel = function() {
+  return new UserModel(new UserProvider(process.api.getCoreApi().getDatabase()));
 };

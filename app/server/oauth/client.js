@@ -11,7 +11,6 @@
  * @static
  */
 
-var openVeoApi = require('@openveo/api');
 var ClientModel = process.require('app/server/models/ClientModel.js');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 
@@ -27,7 +26,7 @@ var client = {};
  */
 function getClientModel() {
   if (!clientModel)
-    clientModel = new ClientModel(new ClientProvider(openVeoApi.api.getCoreApi().getDatabase()));
+    clientModel = new ClientModel(new ClientProvider(process.api.getCoreApi().getDatabase()));
 
   return clientModel;
 }

@@ -54,7 +54,7 @@ describe('Web service', function() {
         entity.modelParameters.forEach(function(parameter) {
           if (parameter) {
             var Provider = require(parameter);
-            modelParameters.push(new Provider(openVeoApi.api.getCoreApi().getDatabase()));
+            modelParameters.push(new Provider(process.api.getCoreApi().getDatabase()));
           } else
             modelParameters.push(parameter);
         });

@@ -11,7 +11,8 @@ module.exports = {
       'tests/server/init.js',
       'tests/server/core/*.js',
       'tests/server/controllers/*.js',
-      'tests/server/loaders/*.js'
+      'tests/server/loaders/*.js',
+      'tests/server/plugin/*.js'
     ]
   }
 

@@ -12,7 +12,8 @@
 - **Search engines** for applications, groups, roles and users have been improved. Multiple search fields for groups have been replaced by a unique field. Search is now case insensitive and search is made on the whole string not just strings starting with the query. The query string is taken as the whole when searching meaning that special characters aren't interpreted and thus will be searched as is.
 - Add **detection for plugins** not in @openveo scope and starting by **openveo-**. Community plugins can now be implemented freely.
 - [OpenVeo plugin generator](https://github.com/veo-labs/openveo-plugin-generator) is now in core dev dependencies. You can use it to generate a new plugin.
-- Exposes API for plugins. See documentation for further information.
+- Add an API mechanism to let plugins expose their own APIs to other plugins.
+- Expose APIs for Plugins. See documentation for more details.
 
 ## DEPENDENCIES
 

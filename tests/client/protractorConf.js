@@ -15,6 +15,7 @@ var UserModel = process.require('app/server/models/UserModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
 var storage = process.require('app/server/storage.js');
+var api = process.require('app/server/api.js');
 var screenshotPlugin = e2e.plugins.screenshotPlugin;
 var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverTestConf.json');
@@ -24,7 +25,6 @@ var confPath = path.join(configurationDirectoryPath, 'conf.json');
 var databaseConf = require(databaseConfPath);
 var serverConf = require(serverConfPath);
 var coreConf = require(confPath);
-var pluginManager = openVeoApi.plugin.pluginManager;
 var db;
 var applicationServer;
 var webServiceServer;
@@ -34,6 +34,9 @@ var corePlugin;
 
 // Load a console logger
 process.logger = openVeoApi.logger.add('openveo');
+
+// Exposes API
+process.api = api;
 
 // Load suites
 var suites = process.require('tests/client/e2eTests/build/suites.json');
@@ -158,7 +161,7 @@ exports.config = {
             plugins.unshift(corePlugin);
 
             plugins.forEach(function(plugin) {
-              pluginManager.addPlugin(plugin);
+              process.api.addPlugin(plugin);
             });
 
             callback();
@@ -168,7 +171,7 @@ exports.config = {
 
       // Load entities
       function(callback) {
-        var entities = entityLoader.buildEntities(pluginManager.getPlugins());
+        var entities = entityLoader.buildEntities(process.api.getPlugins());
         storage.setEntities(entities);
         callback();
       },
@@ -176,7 +179,7 @@ exports.config = {
       // Load permissions
       function(callback) {
         var entities = storage.getEntities();
-        var plugins = pluginManager.getPlugins();
+        var plugins = process.api.getPlugins();
         permissionLoader.buildPermissions(entities, plugins, function(error, permissions) {
           if (error)
             return callback(error);

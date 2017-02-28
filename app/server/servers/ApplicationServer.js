@@ -24,7 +24,6 @@ var DefaultController = process.require('app/server/controllers/DefaultControlle
 var ErrorController = process.require('app/server/controllers/ErrorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
 var storage = process.require('app/server/storage.js');
-var pluginManager = openVeoApi.plugin.pluginManager;
 var SocketServer = openVeoApi.socket.SocketServer;
 var SocketNamespace = openVeoApi.socket.SocketNamespace;
 
@@ -343,7 +342,7 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
  *  - **Error** An error if something went wrong
  */
 ApplicationServer.prototype.onPluginsLoaded = function(callback) {
-  var plugins = pluginManager.getPlugins();
+  var plugins = process.api.getPlugins();
   var entities = storage.getEntities();
 
   // Set views folders for template engine
