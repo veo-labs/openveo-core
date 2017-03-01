@@ -15,6 +15,10 @@
 - Add an API mechanism to let plugins expose their own APIs to other plugins.
 - Expose APIs for Plugins. See documentation for more details.
 
+## BUG FIXES
+
+- Fix bug when launching end to end tests without MongoDB replicaset
+
 ## DEPENDENCIES
 
 - **body-parser** has been updated from 1.15.1 to **1.15.2**
