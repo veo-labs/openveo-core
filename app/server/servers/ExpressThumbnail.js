@@ -29,6 +29,16 @@ expressThumbnail.register = function(rootDir, options) {
     var location;
 
     /**
+     * Sends image to client.
+     *
+     * @param {String} imagePath The absolute image path
+     */
+    function sendImage(imagePath) {
+      res.set(options.headers);
+      res.sendFile(imagePath);
+    }
+
+    /**
      * Send converted file from cache
      */
     function sendConverted() {
@@ -42,11 +52,10 @@ expressThumbnail.register = function(rootDir, options) {
         gravity: options.gravity
       };
       expressThumbnail.convert(convertOptions, function(err) {
-        if (err) {
-          res.sendFile(filepath);
-          return next();
-        }
-        return res.sendFile(location);
+        if (err)
+          return sendImage(filepath);
+
+        return sendImage(location);
       });
     }
     var filename = decodeURI(req.url.replace(/\?(.*)/, ''));                 // file name in root dir
@@ -59,23 +68,20 @@ expressThumbnail.register = function(rootDir, options) {
     fs.stat(filepath, function(err, stats) {
 
       // go forward
-      if (err || !stats.isFile()) {
+      if (err || !stats.isFile() || !isImage)
         return next();
-      }
 
       // send original file
-      if (!isImage || !dimension || dimension == '') {
-        return res.sendFile(filepath);
-      }
+      if (!dimension || dimension == '')
+        return sendImage(filepath);
 
       // send converted file
       location = path.join(options.cacheDir, dimension, filename);         // file location in cache
       fs.stat(location, function(error, stats) {
 
         // file was found in cache
-        if (stats && stats.isFile()) {
-          return res.sendFile(location);
-        }
+        if (stats && stats.isFile())
+          return sendImage(location);
 
         // convert and send
         sendConverted();

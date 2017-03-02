@@ -14,7 +14,6 @@ var routeLoader = process.require('app/server/loaders/routeLoader.js');
 var entityLoader = process.require('/app/server/loaders/entityLoader.js');
 var OAuthController = process.require('app/server/controllers/OAuthController.js');
 var ErrorController = process.require('app/server/controllers/ErrorController.js');
-var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
 var storage = process.require('app/server/storage.js');
 
 var oAuthController = new OAuthController();
@@ -59,14 +58,12 @@ function WebServiceServer(configuration) {
   this.httpServer.use(oAuth.inject());
   this.httpServer.post('/token', oAuth.controller.token);
 
-  // no need to authent, validateScope nor disable cache for request url ending by
-  // .jpg || .jpeg || .jpg?thumb=param || .jpeg?thumb=param with param up to 10 chars.
-  var allPathExceptImages = /^(?!.*[\.](jpg|jpeg)(\?thumb=.{1,10})?$)/;
-  this.httpServer.all(allPathExceptImages, oAuth.middleware.bearer);
-  this.httpServer.all(allPathExceptImages, oAuthController.validateScopesAction);
+  // Add oauth authentication
+  this.httpServer.use(oAuth.middleware.bearer);
+  this.httpServer.use(oAuthController.validateScopesAction);
 
   // Disable cache on get requests
-  this.httpServer.get(allPathExceptImages, openVeoApi.middlewares.disableCacheMiddleware);
+  this.httpServer.get('*', openVeoApi.middlewares.disableCacheMiddleware);
 
   // Save server configuration
   storage.setServerConfiguration(configuration);
@@ -85,7 +82,6 @@ util.inherits(WebServiceServer, Server);
  *  - **Error** An error if something went wrong
  */
 WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
-  var self = this;
   process.logger.info('Start loading plugin ' + plugin.name);
 
   // Build web service routes
@@ -108,24 +104,6 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
   // Update migation script to apply
   if (plugin.migrations)
     this.migrations[plugin.name] = plugin.migrations;
-
-  // Found images folders to process
-  if (plugin.imagesFolders) {
-    var imagesStyles = {};
-
-    if (plugin.imagesStyle) {
-      for (var attrname in plugin.imagesStyle)
-        imagesStyles[attrname] = plugin.imagesStyle[attrname];
-    }
-
-    // Set thumbnail generator on image folders
-    plugin.imagesFolders.forEach(function(folder) {
-      process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
-      self.httpServer.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
-        imagesStyle: imagesStyles
-      }));
-    });
-  }
 
   process.logger.info(plugin.name + ' plugin loaded');
   callback();

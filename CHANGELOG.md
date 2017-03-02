@@ -6,6 +6,7 @@
 - Drop support for Node.js &lt;7.4.0
 - Drop support for NPM &lt;4.0.5
 - OpenVeo now requires the configuration of a CDN. There is actually no common CDN to store users' files but there will be in a next version. All files are not stored in a common CDN but still need to be delivered by an HTTP server. That's the point of this configuration. See documentation for how to set CDN url.
+- Web Service server doesn't deliver images anymore
 - Usage of Web Service end points */taxonomies*, */groups*, */roles*, */users* and */applications* has change. *page* parameter now starts at 0 instead of 1.
 
 ## NEW FEATURES

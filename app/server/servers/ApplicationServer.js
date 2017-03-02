@@ -33,11 +33,17 @@ var errorController = new ErrorController();
 // Application's environment mode.
 var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
 
+// Headers for static files
+var staticHeaders = {
+  'x-timestamp': Date.now(),
+  'Access-Control-Allow-Origin': '*'
+};
+
 // Common options for all static servers delivering static files.
 var staticServerOptions = {
   extensions: ['htm', 'html'],
   setHeaders: function(response) {
-    response.set('x-timestamp', Date.now());
+    response.set(staticHeaders);
   }
 };
 
@@ -192,6 +198,25 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   var self = this;
   process.logger.info('Start loading plugin ' + plugin.name);
 
+  // Found images folders to process
+  if (plugin.imagesFolders) {
+    var imagesStyles = {};
+
+    if (plugin.imagesStyle) {
+      for (var attrname in plugin.imagesStyle)
+        imagesStyles[attrname] = plugin.imagesStyle[attrname];
+    }
+
+    // Set thumbnail generator on image folders
+    plugin.imagesFolders.forEach(function(folder) {
+      process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
+      self.httpServer.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
+        imagesStyle: imagesStyles,
+        headers: staticHeaders
+      }));
+    });
+  }
+
   // If plugin has an assets directory, it will be loaded as a static server
   if (plugin.assets && plugin.mountPath) {
     process.logger.info('Mount ' + plugin.assets + ' on ' + plugin.mountPath);
@@ -239,24 +264,6 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   // Found a list of folders containing views for the plugin
   if (plugin.viewsFolders)
     this.viewsFolders = this.viewsFolders.concat(plugin.viewsFolders);
-
-  // Found images folders to process
-  if (plugin.imagesFolders) {
-    var imagesStyles = {};
-
-    if (plugin.imagesStyle) {
-      for (var attrname in plugin.imagesStyle)
-        imagesStyles[attrname] = plugin.imagesStyle[attrname];
-    }
-
-    // Set thumbnail generator on image folders
-    plugin.imagesFolders.forEach(function(folder) {
-      process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
-      self.httpServer.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
-        imagesStyle: imagesStyles
-      }));
-    });
-  }
 
   // Update migration script to apply
   if (plugin.migrations)
