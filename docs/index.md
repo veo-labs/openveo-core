@@ -29,7 +29,7 @@ OpenVeo is tested on the following browsers :
 - Internet Explorer Edge
 
 ![Ubuntu](images/operating-systems/ubuntu.gif)
-![Debian](images/operating-systems/debian.gif)
+![Xubuntu](images/operating-systems/xubuntu.gif)
 ![Windows](images/operating-systems/windows.gif)
 
 ![Firefox](images/browsers/firefox.gif)
