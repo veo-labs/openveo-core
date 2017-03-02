@@ -52,7 +52,6 @@
   "devDependencies": {
     "@openveo/rest-nodejs-client": "1.*",
     "@openveo/test": "3.*",
-    "generator-openveo-plugin": "1.0.0",
     "chai": "3.5.0",
     "chai-spies": "0.7.1",
     "chai-as-promised": "6.0.0",
