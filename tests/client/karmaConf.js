@@ -47,6 +47,8 @@ module.exports = function(config) {
       'assets/lib/ng-jsonpath/dist/ng-jsonpath.js',
       'assets/lib/ng-tasty/ng-tasty-tpls.js',
       'assets/lib/fastclick/lib/fastclick.js',
+      'assets/lib/tinymce/tinymce.min.js',
+      'assets/lib/angular-ui-tinymce/dist/tinymce.min.js',
       'app/client/admin/js/authentication/AuthenticationApp.js',
       'app/client/admin/js/ov/OvApp.js',
       'app/client/admin/views/*.html',

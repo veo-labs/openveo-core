@@ -29,7 +29,8 @@
     'formlyBootstrap',
     'ngJSONPath',
     'ngAnimate',
-    'checklist-model'
+    'checklist-model',
+    'ui.tinymce'
   ];
 
   // Loads all openveo sub plugins as dependencies of the module "ov"
@@ -46,7 +47,7 @@
   }
 
   var app = angular.module('ov', moduleDependencies);
-  app.run(['formlyConfig', '$filter', function(formlyConfig, $filter) {
+  app.run(['formlyConfig', '$filter', '$sce', function(formlyConfig, $filter, $sce) {
 
     // Formly wrappers
     formlyConfig.setWrapper({
@@ -159,6 +160,34 @@
         };
       }
     });
+
+    formlyConfig.setType({
+      name: 'ovTinymce',
+      templateUrl: 'ov-core-textarea-tinymce.html'
+    });
+    formlyConfig.setType({
+      name: 'ovEditableTinymce',
+      extends: 'ovTinymce',
+      link: function(scope) {
+        scope.show = function() {
+          scope.isEmpty = scope.model[scope.options.key] ? false : true;
+          return scope.model[scope.options.key] || 'CORE.UI.EMPTY';
+        };
+      }
+    });
+
+    formlyConfig.setType({
+      name: 'horizontalTinymce',
+      extends: 'ovTinymce',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+
+    formlyConfig.setType({
+      name: 'horizontalEditableTinymce',
+      extends: 'ovEditableTinymce',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+
     formlyConfig.setType({
       name: 'horizontalInput',
       extends: 'input',

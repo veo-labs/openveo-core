@@ -100,7 +100,9 @@ module.exports = {
         '/lib/ng-jsonpath/dist/ng-jsonpath.min.js',
         '/lib/ng-tasty/ng-tasty-tpls.min.js',
         '/lib/fastclick/lib/fastclick.js',
-        '/lib/socket.io-client/socket.io.js'
+        '/lib/socket.io-client/socket.io.js',
+        '/lib/tinymce/tinymce.min.js',
+        '/lib/angular-ui-tinymce/dist/tinymce.min.js'
       ],
       dev: [
         '/authentication/AuthenticationApp.js',

@@ -111,6 +111,8 @@
       return cacheMustBeDeleted;
     };
 
+    var oldEditModel;
+
     // When submit the form
     this.onSubmit = function() {
       if ($scope.editFormContainer.onSubmit) {
@@ -132,6 +134,7 @@
           self.options.resetModel();
           $scope.$emit('setAlert', 'danger', $filter('translate')('CORE.UI.SAVE_ERROR'), 4000);
           self.model.saving = false;
+          self.model = oldEditModel;
         });
       } else {
 
@@ -142,6 +145,7 @@
 
     // Toggle between show and editable information
     this.editForm = function() {
+      oldEditModel = angular.copy(self.model);
       entityService.getEntity(type, pluginName, self.model.id).then(function(response) {
         if (response.data.entity) {
           var lastValue = response.data.entity;
@@ -170,6 +174,7 @@
       self.options.formState.showForm = false;
 
       self.options.resetModel();
+      self.model = oldEditModel;
     };
   }
 
@@ -189,6 +194,7 @@
         // on success
         // reset the form
         self.options.resetModel();
+        self.model = {};
 
         // Reload the table
         tableReloadEventService.broadcast();

@@ -165,8 +165,7 @@
     <script type="text/ng-template" id="ov-core-editable-wrapper.html">
       <div>
         <div class="literal" ng-show="!formState.showForm">
-          <span ng-class="{'editable-empty': isEmpty}">
-            {{ show() | translate }}
+          <span ng-class="{'editable-empty': isEmpty}" ng-bind-html="show() | translate">
           </span>
         </div>
         <div ng-show="formState.showForm">
@@ -201,6 +200,12 @@
           ng-model-options="{ allowInvalid: true }">
         </ov-multi-check-box>
       </div>
+    </script>
+
+    <!-- Formly "tinymce" type template -->
+    <script type="text/ng-template" id="ov-core-textarea-tinymce.html">
+      <textarea ui-tinymce="options.data.tinymceOptions"  ng-model="model[options.key]" class="form-control">
+      </textarea>
     </script>
 
     [[#librariesScripts]]
