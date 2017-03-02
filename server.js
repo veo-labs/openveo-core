@@ -68,9 +68,12 @@ var entityLoader = process.require('app/server/loaders/entityLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 var migrationProcess = process.require('app/server/migration/migrationProcess.js');
 
-// Set super administrator and anonymous user id from configuration
-storage.setSuperAdminId('0');
-storage.setAnonymousUserId(coreConf.anonymousUserId || '1');
+// Store configuration
+storage.setConfiguration({
+  superAdminId: '0',
+  anonymousId: coreConf.anonymousUserId || '1',
+  cdn: coreConf.cdn
+});
 
 /**
  * Executes a plugin function on all plugins in parallel.

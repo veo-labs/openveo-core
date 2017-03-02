@@ -139,8 +139,11 @@ exports.config = {
           storage.setDatabase(db);
 
           // Set super administrator and anonymous user id from configuration
-          storage.setSuperAdminId('0');
-          storage.setAnonymousUserId(coreConf.anonymousUserId || '1');
+          storage.setConfiguration({
+            superAdminId: '0',
+            anonymousId: coreConf.anonymousUserId || '1',
+            cdn: coreConf.cdn
+          });
 
           callback();
         });

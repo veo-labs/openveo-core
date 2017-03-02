@@ -17,9 +17,8 @@ var database;
 var scopes;
 var entities;
 var permissions;
-var superAdminId;
-var anonymousUserId;
 var serverConfiguration;
+var configuration;
 
 /**
  * Gets the computed back end menu with all links.
@@ -132,54 +131,6 @@ module.exports.getEntities = function() {
 };
 
 /**
- * Gets the id of the super administrator.
- *
- * @method getSuperAdminId
- * @static
- * @return {String} The super administrator id
- */
-module.exports.getSuperAdminId = function() {
-  return superAdminId;
-};
-
-/**
- * Sets the id of the super administrator.
- *
- * It can be set only once.
- *
- * @method setSuperAdminId
- * @static
- * @param {String} id The id of the super administrator
- */
-module.exports.setSuperAdminId = function(id) {
-  superAdminId = id;
-};
-
-/**
- * Gets the id of the anonymous user.
- *
- * @method getAnonymousUserId
- * @static
- * @return {String} The anonymous user id
- */
-module.exports.getAnonymousUserId = function() {
-  return anonymousUserId;
-};
-
-/**
- * Sets the id of the anonymous user.
- *
- * It can be set only once.
- *
- * @method setAnonymousUserId
- * @static
- * @param {String} id The id of the anonymous user
- */
-module.exports.setAnonymousUserId = function(id) {
-  anonymousUserId = id;
-};
-
-/**
  * Sets the application server configuration.
  *
  * @method setServerConfiguration
@@ -199,4 +150,26 @@ module.exports.setServerConfiguration = function(configuration) {
  */
 module.exports.getServerConfiguration = function() {
   return serverConfiguration;
+};
+
+/**
+ * Gets OpenVeo configuration.
+ *
+ * @method getConfiguration
+ * @static
+ * @return {Object} The OpenVeo configuration
+ */
+module.exports.getConfiguration = function() {
+  return configuration;
+};
+
+/**
+ * Sets the OpenVeo configuration.
+ *
+ * @method setConfiguration
+ * @static
+ * @param {Object} conf The OpenVeo configuration
+ */
+module.exports.setConfiguration = function(conf) {
+  configuration = conf;
 };

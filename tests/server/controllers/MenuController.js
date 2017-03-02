@@ -20,12 +20,14 @@ describe('MenuController', function() {
     request = {};
     response = {};
     menuController = new MenuController();
-    storage.setSuperAdminId(ADMIN_ID);
+    storage.setConfiguration({
+      superAdminId: ADMIN_ID
+    });
   });
 
   afterEach(function() {
     storage.setMenu(null);
-    storage.setSuperAdminId(null);
+    storage.setConfiguration(null);
   });
 
   // getMenuAction method

@@ -123,9 +123,10 @@ util.inherits(MenuController, Controller);
  */
 MenuController.prototype.getMenuAction = function(request, response, next) {
   var menu = storage.getMenu();
+  var superAdminId = storage.getConfiguration().superAdminId;
   if (menu) {
 
-    if (request.user && request.user.id !== storage.getSuperAdminId()) {
+    if (request.user && request.user.id !== superAdminId) {
 
       // Filters menu by permissions
       response.send(filterMenuByPermissions(menu, request.user));

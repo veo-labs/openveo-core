@@ -82,7 +82,10 @@ function createConf(callback) {
   var confFile = path.join(confDir, 'conf.json');
   var conf = {
     passwordHashKey: getRandomHash(10),
-    anonymousUserId: '1'
+    anonymousUserId: '1',
+    cdn: {
+      url: ''
+    }
   };
 
   async.series([
@@ -104,6 +107,12 @@ function createConf(callback) {
     function(callback) {
       rl.question('Enter anonymous user id (default: ' + conf.anonymousUserId + ') :\n', function(answer) {
         if (answer) conf.anonymousUserId = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter OpenVeo CDN url (e.g. http://cdn.openveo.com) :\n', function(answer) {
+        if (answer) conf.cdn.url = answer;
         callback();
       });
     }

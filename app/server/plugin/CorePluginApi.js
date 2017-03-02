@@ -7,6 +7,7 @@
 var util = require('util');
 var path = require('path');
 var fs = require('fs');
+var url = require('url');
 var async = require('async');
 var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
@@ -52,7 +53,7 @@ CorePluginApi.prototype.getDatabase = function() {
  * @return {String} The super administrator id
  */
 CorePluginApi.prototype.getSuperAdminId = function() {
-  return storage.getSuperAdminId();
+  return storage.getConfiguration().superAdminId;
 };
 
 /**
@@ -62,7 +63,7 @@ CorePluginApi.prototype.getSuperAdminId = function() {
  * @return {String} The anonymous user id
  */
 CorePluginApi.prototype.getAnonymousUserId = function() {
-  return storage.getAnonymousUserId();
+  return storage.getConfiguration().anonymousId;
 };
 
 /**
@@ -213,4 +214,14 @@ CorePluginApi.prototype.getTranslations = function(dictionary, code, callback) {
   async.parallel(asyncFunctions, function(error, results) {
     callback(error, translations);
   });
+};
+
+/**
+ * Gets OpenVeo CDN url ending with a slash.
+ *
+ * @method getCdnUrl
+ * @return {String} The CDN url
+ */
+CorePluginApi.prototype.getCdnUrl = function() {
+  return url.format(url.parse(storage.getConfiguration().cdn.url));
 };

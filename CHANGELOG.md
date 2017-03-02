@@ -5,6 +5,7 @@
 - ov.tableForm AngularJS module now requires that datatable filters precise the name of the corresponding parameter in the server side getEntitiesAction. See documentation for further information.
 - Drop support for Node.js &lt;7.4.0
 - Drop support for NPM &lt;4.0.5
+- OpenVeo now requires the configuration of a CDN. There is actually no common CDN to store users' files but there will be in a next version. All files are not stored in a common CDN but still need to be delivered by an HTTP server. That's the point of this configuration. See documentation for how to set CDN url.
 
 ## NEW FEATURES
 

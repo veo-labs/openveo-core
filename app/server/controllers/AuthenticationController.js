@@ -182,10 +182,11 @@ AuthenticationController.prototype.restrictAction = function(request, response, 
 
     // Get requested permission for this request
     var permissions = getPermissionByUrl(storage.getPermissions(), request.url, request.method);
+    var superAdminId = storage.getConfiguration().superAdminId;
 
     // No particular permission requested : access granted by default
     // Also always grant access to super administrator
-    if (!permissions || request.user.id === storage.getSuperAdminId() || isUserProfileUrl(request))
+    if (!permissions || request.user.id === superAdminId || isUserProfileUrl(request))
       return next();
 
     // Checks if user has permission on this url

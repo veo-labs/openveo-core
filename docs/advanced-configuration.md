@@ -17,6 +17,9 @@ Open **~/.openveo/core/conf.json**
 {
   "passwordHashKey" : "KEY", // Replace KEY by a secret key used to encrypt users passwords
   "anonymousUserId" : "ID" // Replace ID by the anonymous user id
+  "cdn" : {
+    "url": "CDN_URL" // Replace CDN_URL by the url of the OpenVeo CDN (actually the OpenVeo server url)
+  }
 }
 ```
 

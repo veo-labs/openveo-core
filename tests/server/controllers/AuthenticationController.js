@@ -20,13 +20,15 @@ describe('AuthenticationController', function() {
     request = {params: {}};
     response = {};
     authenticationController = new AuthenticationController();
-    storage.setSuperAdminId(ADMIN_ID);
+    storage.setConfiguration({
+      superAdminId: ADMIN_ID
+    });
     storage.setPermissions([]);
   });
 
   afterEach(function() {
     storage.setPermissions(null);
-    storage.setSuperAdminId(null);
+    storage.setConfiguration(null);
   });
 
   // logoutAction method
