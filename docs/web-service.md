@@ -130,7 +130,7 @@ Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on taxonomies' name
 sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
-page | Number | No | 1 | The expected page
+page | Number | No | 0 | The expected page
 limit | Number | No | - | To limit the number of taxonomies per page. If not specified get all taxonomies
 
 HTTP Status Code | Details
@@ -313,7 +313,7 @@ Name | Type | Required | Default | Details
 query | String | No | - | To search on both groups' name and description
 sortBy | String | No | name | To sort groups by either **name** or **description**
 sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
-page | Number | No | 1 | The expected page
+page | Number | No | 0 | The expected page
 limit | Number | No | - | To limit the number of groups per page. If not specified get all groups
 
 HTTP Status Code | Details
@@ -451,7 +451,7 @@ Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on roles' name
 sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
-page | Number | No | 1 | The expected page
+page | Number | No | 0 | The expected page
 limit | Number | No | - | To limit the number of roles per page. If not specified get all roles
 
 HTTP Status Code | Details
@@ -584,7 +584,7 @@ Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on users' name
 sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
-page | Number | No | 1 | The expected page
+page | Number | No | 0 | The expected page
 limit | Number | No | - | To limit the number of users per page. If not specified get all users
 
 HTTP Status Code | Details
@@ -720,7 +720,7 @@ Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on applications' name
 sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
-page | Number | No | 1 | The expected page
+page | Number | No | 0 | The expected page
 limit | Number | No | - | To limit the number of applications per page. If not specified get all applications
 
 HTTP Status Code | Details

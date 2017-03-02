@@ -35,7 +35,7 @@ describe('taxonomyController', function() {
       var expectedPagination = {page: 42, total: 60};
 
       model.getPaginatedFilteredEntities = function(filter, limit, page, sort, populate, callback) {
-        assert.strictEqual(page, 1, 'Wrong default page');
+        assert.strictEqual(page, 0, 'Wrong default page');
         assert.strictEqual(sort['name'], -1, 'Wrong default sort');
         callback(null, expectedEntities, expectedPagination);
       };
@@ -131,8 +131,8 @@ describe('taxonomyController', function() {
       });
     });
 
-    it('should call next middleware with an error if page parameter is under or equal to 0', function(done) {
-      request.query = {page: 0};
+    it('should call next middleware with an error if page parameter is under 0', function(done) {
+      request.query = {page: -1};
       taxonomyController.getEntitiesAction(request, response, function(error) {
         assert.strictEqual(error, errors.GET_TAXONOMIES_WRONG_PARAMETERS, 'Wrong error');
         done();

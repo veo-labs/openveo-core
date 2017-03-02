@@ -281,7 +281,7 @@
       // Build query parameters
       var query = [];
       param['limit'] = paramsObj.count;
-      param['page'] = paramsObj.page;
+      param['page'] = paramsObj.page - 1;
       param['sortBy'] = paramsObj.sortBy;
       param['sortOrder'] = paramsObj.sortOrder === 'dsc' ? 'desc' : 'asc';
 
@@ -325,6 +325,7 @@
         self.rows = response.data.entities;
         self.selectAll = false;
         self.isRowSelected = false;
+        response.data.pagination.page++;
         return {
           rows: self.rows,
           header: self.header,

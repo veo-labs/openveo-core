@@ -47,7 +47,7 @@ GroupController.prototype.getEntitiesAction = function(request, response, next) 
     params = openVeoApi.util.shallowValidateObject(request.query, {
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
-      page: {type: 'number', gt: 0, default: 1},
+      page: {type: 'number', gte: 0, default: 0},
       sortBy: {type: 'string', in: ['name', 'description'], default: 'name'},
       sortOrder: {type: 'string', in: ['asc', 'desc'], default: 'desc'}
     });
