@@ -198,25 +198,6 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   var self = this;
   process.logger.info('Start loading plugin ' + plugin.name);
 
-  // Found images folders to process
-  if (plugin.imagesFolders) {
-    var imagesStyles = {};
-
-    if (plugin.imagesStyle) {
-      for (var attrname in plugin.imagesStyle)
-        imagesStyles[attrname] = plugin.imagesStyle[attrname];
-    }
-
-    // Set thumbnail generator on image folders
-    plugin.imagesFolders.forEach(function(folder) {
-      process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
-      self.httpServer.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
-        imagesStyle: imagesStyles,
-        headers: staticHeaders
-      }));
-    });
-  }
-
   // If plugin has an assets directory, it will be loaded as a static server
   if (plugin.assets && plugin.mountPath) {
     process.logger.info('Mount ' + plugin.assets + ' on ' + plugin.mountPath);
@@ -268,6 +249,25 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   // Update migration script to apply
   if (plugin.migrations)
     this.migrations[plugin.name] = plugin.migrations;
+
+  // Found images folders to process
+  if (plugin.imagesFolders) {
+    var imagesStyles = {};
+
+    if (plugin.imagesStyle) {
+      for (var attrname in plugin.imagesStyle)
+        imagesStyles[attrname] = plugin.imagesStyle[attrname];
+    }
+
+    // Set thumbnail generator on image folders
+    plugin.imagesFolders.forEach(function(folder) {
+      process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
+      self.httpServer.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
+        imagesStyle: imagesStyles,
+        headers: staticHeaders
+      }));
+    });
+  }
 
   // Found namespaces for the plugin
   if (plugin.namespaces) {

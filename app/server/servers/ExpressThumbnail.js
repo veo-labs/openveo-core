@@ -11,6 +11,11 @@ var expressThumbnail = module.exports;
 
 // Register middleware.
 expressThumbnail.register = function(rootDir, options) {
+  var FILE_TYPES = {
+    JPG: 'ffd8ffe0',
+    PNG: '89504e47',
+    GIF: '47494638'
+  };
 
   rootDir = path.normalize(rootDir);
 
@@ -25,15 +30,15 @@ expressThumbnail.register = function(rootDir, options) {
 
   return function(req, res, next) {
     var dimension;
-    var filepath;
-    var location;
+    var fileSystemPath;
+    var cacheLocation;
 
     /**
      * Sends image to client.
      *
      * @param {String} imagePath The absolute image path
      */
-    function sendImage(imagePath) {
+    function sendFile(imagePath) {
       res.set(options.headers);
       res.sendFile(imagePath);
     }
@@ -45,46 +50,58 @@ expressThumbnail.register = function(rootDir, options) {
       var widthDimension = options.imagesStyle[dimension];
       var maxwidth = (widthDimension) ? (widthDimension) : options.imagesStyle['default'];
       var convertOptions = {
-        filepath: filepath,
-        location: location,
+        filepath: fileSystemPath,
+        location: cacheLocation,
         width: maxwidth,
         quality: options.quality,
         gravity: options.gravity
       };
       expressThumbnail.convert(convertOptions, function(err) {
         if (err)
-          return sendImage(filepath);
+          return sendFile(fileSystemPath);
 
-        return sendImage(location);
+        return sendFile(cacheLocation);
       });
     }
-    var filename = decodeURI(req.url.replace(/\?(.*)/, ''));                 // file name in root dir
 
-    var isImage = new RegExp('.*(.jpeg|.jpg|.png)$').test(filename);
+    var filePath = decodeURI(req.url.replace(/\?(.*)/, '')); // file name requested
 
-    filepath = path.join(rootDir, filename);  // file path
+    fileSystemPath = path.join(rootDir, filePath);  // file system path
     dimension = req.query.thumb || '';  // thumbnail dimensions
 
-    fs.stat(filepath, function(err, stats) {
+    fs.stat(fileSystemPath, function(err, stats) {
 
-      // go forward
-      if (err || !stats.isFile() || !isImage)
+      // error or not a file: go forward
+      if (err || !stats.isFile())
         return next();
 
-      // send original file
+      // no dimension requested, send original file
       if (!dimension || dimension == '')
-        return sendImage(filepath);
+        return sendFile(fileSystemPath);
 
-      // send converted file
-      location = path.join(options.cacheDir, dimension, filename);         // file location in cache
-      fs.stat(location, function(error, stats) {
+      // verify that file is supported
+      var readable = fs.createReadStream(path.normalize(fileSystemPath), {start: 0, end: 3});
+      var isImage;
+      readable.on('data', function(chunk) {
+        isImage = Object.values(FILE_TYPES).indexOf(chunk.toString('hex', 0, 4));
+      });
+      readable.on('end', function() {
 
-        // file was found in cache
-        if (stats && stats.isFile())
-          return sendImage(location);
+        // send original file which type not supported
+        if (!isImage)
+          return sendFile(fileSystemPath);
 
-        // convert and send
-        sendConverted();
+        // send converted file
+        cacheLocation = path.join(options.cacheDir, dimension, filePath);         // file location in cache
+        fs.stat(cacheLocation, function(error, stats) {
+
+          // file was found in cache
+          if (stats && stats.isFile())
+            return sendFile(cacheLocation);
+
+          // convert and send
+          sendConverted();
+        });
       });
     });
   };
