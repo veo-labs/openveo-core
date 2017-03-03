@@ -82,7 +82,6 @@ function createConf(callback) {
   var confFile = path.join(confDir, 'conf.json');
   var conf = {
     passwordHashKey: getRandomHash(10),
-    anonymousUserId: '1',
     cdn: {
       url: ''
     }
@@ -101,12 +100,6 @@ function createConf(callback) {
       rl.question('Enter a secret key used to encrypt users passwords (default: ' + conf.passwordHashKey + ') :\n',
       function(answer) {
         if (answer) conf.passwordHashKey = answer;
-        callback();
-      });
-    },
-    function(callback) {
-      rl.question('Enter anonymous user id (default: ' + conf.anonymousUserId + ') :\n', function(answer) {
-        if (answer) conf.anonymousUserId = answer;
         callback();
       });
     },
