@@ -165,7 +165,7 @@ CorePluginApi.prototype.getTranslations = function(dictionary, code, callback) {
             return;
           }
           var translationFile;
-          var pluginNameUpperCase = plugin.name.toUpperCase();
+          var pluginNameUpperCase = plugin.name.toUpperCase().replace('-', '_');
 
           // Iterate through directory files to find the dictionary
           for (var i = 0; i < directoryFiles.length; i++) {
