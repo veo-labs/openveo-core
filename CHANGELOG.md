@@ -21,6 +21,7 @@
 ## BUG FIXES
 
 - Fix bug when launching end to end tests without MongoDB replicaset
+- Fix process starting error when having files other than JavaScript files (extension .js) in migrations directory
 
 ## DEPENDENCIES
 

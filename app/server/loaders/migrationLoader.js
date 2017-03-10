@@ -39,7 +39,8 @@ module.exports.getDiffMigrationScript = function(migrationPath, lastVersion, cal
             }
 
             resources.forEach(function(resource) {
-              migrations[path.basename(resource, '.js')] = migrationPath + '/' + resource;
+              if (/.js$/.test(resource))
+                migrations[path.basename(resource, '.js')] = migrationPath + '/' + resource;
             });
 
             callback();
