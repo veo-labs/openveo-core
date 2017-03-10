@@ -83,7 +83,7 @@ module.exports.addHandlers = function(namespace, messagesDescriptors, pluginPath
         socket.on(id, function(data, callback) {
           process.logger.silly('Socket client message "' + id + '"', socketInfo);
           messages[id](data, socket, function(data) {
-            callback(data);
+            callback && callback(data);
           });
         });
       }(id));
