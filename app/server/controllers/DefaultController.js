@@ -56,8 +56,18 @@ DefaultController.prototype.defaultAction = function(request, response) {
 
       // Plugin has a name and has a back office page configured.
       // It must have an angularjs module associated to it
-      if (plugin.name && plugin.menu && plugin.name !== 'core')
-        angularJsModules.push('"' + plugin.name.toLowerCase() + '"');
+      if (plugin.name && plugin.menu && plugin.name !== 'core') {
+
+        // Convert plugin name to camel case
+
+        var nameChunks = plugin.name.split('-');
+        var pluginName = '';
+
+        for (var i = 0; i < nameChunks.length; i++)
+          pluginName += (i === 0) ? nameChunks[i] : nameChunks[i].charAt(0).toUpperCase() + nameChunks[i].slice(1);
+
+        angularJsModules.push('"' + pluginName + '"');
+      }
 
       // Plugin has JavaScript libraries files to load
       if (plugin['scriptLibFiles'] && util.isArray(plugin['scriptLibFiles']['base']))
