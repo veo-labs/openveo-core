@@ -215,7 +215,7 @@
     "VIEW" : "View",
     "SELECT_ALL" : "Select all rows",
     "WARNING": "Warning",
-    "WARNING_MODAL_ACTION": "You are going to modify permanently your information. <br> <h2>Are you sure?</h2>",
+    "WARNING_MODAL_ACTION": "You are going to modify permanently your information. <br> <h2>Are you sure ?</h2>",
     "WARNING_ENTITY_MODIFIED": "Another user has changed this entity since the last update. Entity is now up to date.",
     "WARNING_ENTITY_DELETED": "Another user has deleted this entity since the last update. All data have been updated.",
     "SHARE": "Share",
