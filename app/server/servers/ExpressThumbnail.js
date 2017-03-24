@@ -32,6 +32,7 @@ expressThumbnail.register = function(rootDir, options) {
     var dimension;
     var fileSystemPath;
     var cacheLocation;
+    var filename = req.query && req.query.filename ? req.query.filename : null;
 
     /**
      * Sends image to client.
@@ -40,7 +41,7 @@ expressThumbnail.register = function(rootDir, options) {
      */
     function sendFile(imagePath) {
       res.set(options.headers);
-      res.sendFile(imagePath);
+      res.download(imagePath, filename);
     }
 
     /**
