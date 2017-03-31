@@ -1,6 +1,6 @@
 {
   "name": "@openveo/core",
-  "version": "3.0.0",
+  "version": "4.0.0-RC2",
   "description": "OpenVeo core CMS",
   "keywords": [
     "openveo",
@@ -31,7 +31,7 @@
     "url": "https://github.com/veo-labs/openveo-core.git"
   },
   "dependencies": {
-    "@openveo/api": "3.1.0",
+    "@openveo/api": "4.0.0-RC2",
     "async": "2.1.4",
     "body-parser": "1.15.2",
     "consolidate": "0.14.5",
@@ -50,8 +50,8 @@
     "shortid": "2.2.6"
   },
   "devDependencies": {
-    "@openveo/rest-nodejs-client": "1.*",
-    "@openveo/test": "3.*",
+    "@openveo/rest-nodejs-client": "2.0.0-RC2",
+    "@openveo/test": "4.0.0-RC1",
     "chai": "3.5.0",
     "chai-spies": "0.7.1",
     "chai-as-promised": "6.0.0",

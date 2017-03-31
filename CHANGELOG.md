@@ -22,6 +22,7 @@
 
 - Fix bug when launching end to end tests without MongoDB replicaset
 - Fix process starting error when having files other than JavaScript files (extension .js) in migrations directory
+- Fix deprecation warning on compass (_mq.scss file) when installing
 
 ## DEPENDENCIES
 
