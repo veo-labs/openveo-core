@@ -147,7 +147,7 @@ function createDatabaseConf(callback) {
     },
     function(callback) {
       rl.question('Enter database port (default: ' + conf.port + ') :\n', function(answer) {
-        conf.port = answer || conf.port;
+        conf.port = parseInt(answer || conf.port);
         callback();
       });
     },
@@ -256,13 +256,14 @@ function createServerConf(callback) {
     },
     function(callback) {
       rl.question('Enter OpenVeo HTTP server port (default: ' + conf.app.httpPort + ') :\n', function(answer) {
-        conf.app.httpPort = answer || conf.app.httpPort;
+        conf.app.httpPort = parseInt(answer || conf.app.httpPort);
         callback();
       });
     },
     function(callback) {
       rl.question('Enter OpenVeo socket server port (default: ' + conf.app.socketPort + ') :\n', function(answer) {
-        conf.app.socketPort = answer || conf.app.socketPort;
+        conf.app.socketPort = parseInt(answer || conf.app.socketPort);
+
         callback();
       });
     },
@@ -272,14 +273,14 @@ function createServerConf(callback) {
         conf.app.browserSocketPort +
         ') :\n',
         function(answer) {
-          conf.app.browserSocketPort = answer || conf.app.browserSocketPort;
+          conf.app.browserSocketPort = parseInt(answer || conf.app.browserSocketPort);
           callback();
         }
       );
     },
     function(callback) {
       rl.question('Enter OpenVeo Web Service HTTP server port (default: ' + conf.ws.port + ') :\n', function(answer) {
-        conf.ws.port = answer || conf.ws.port;
+        conf.ws.port = parseInt(answer || conf.ws.port);
         callback();
       });
     }
