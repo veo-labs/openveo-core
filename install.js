@@ -186,12 +186,12 @@ function createLoggerConf(callback) {
   var conf = {
     app: {
       level: 'info',
-      maxFileSize: 1048576,
+      maxFileSize: 10485760,
       maxFiles: 2
     },
     ws: {
       level: 'info',
-      maxFileSize: 1048576,
+      maxFileSize: 10485760,
       maxFiles: 2
     }
   };

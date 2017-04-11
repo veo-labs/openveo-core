@@ -46,13 +46,13 @@ Open **~/.openveo/core/loggerConf.json**
   "app" : {
     "fileName" : "/var/log/openveo/openveo.log", // Path to application log file
     "level" : "info", // Log level
-    "maxFileSize" : 1048576, // Maximum log file size (in Bytes)
+    "maxFileSize" : 10485760, // Maximum log file size (in Bytes)
     "maxFiles" : 2 // Maximum number of files archived
   },
   "ws" : {
     "fileName" : "/var/log/openveo/openveo-ws.log", // Path to the web service log file
     "level" : "info", // Log level
-    "maxFileSize" : 1048576, // Maximum log file size (in Bytes)
+    "maxFileSize" : 10485760, // Maximum log file size (in Bytes)
     "maxFiles" : 2 // Maximum number of files archived
   }
 }
