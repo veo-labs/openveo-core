@@ -11,8 +11,8 @@
     var sharedService = {};
 
     // deliver a broadcast service to reload datatable
-    sharedService.broadcast = function() {
-      $rootScope.$broadcast('reloadDataTable');
+    sharedService.broadcast = function(callback) {
+      $rootScope.$broadcast('reloadDataTable', {callback: callback});
     };
     return sharedService;
   }
@@ -273,6 +273,9 @@
     // Promise that cancel $http
     var canceller = $q.defer();
 
+    // Array of callback to execute on reload success
+    var callbackArrayOnReload = [];
+
     // callback to load Resource on filter, pagination or sort change
     this.getResource = function(params, paramsObj) {
       var param = {};
@@ -332,6 +335,15 @@
         self.selectAll = false;
         self.isRowSelected = false;
         response.data.pagination.page++;
+
+        // Execute callback array
+        if (callbackArrayOnReload.length) {
+          for (var i = 0; i < callbackArrayOnReload.length; i++) {
+            callbackArrayOnReload[i]();
+          }
+          callbackArrayOnReload = [];
+        }
+
         return {
           rows: self.rows,
           header: self.header,
@@ -357,7 +369,8 @@
     };
 
     // Broadcast listner to reload dataTable (on add row for exemple)
-    $scope.$on('reloadDataTable', function() {
+    $scope.$on('reloadDataTable', function(e, arg) {
+      if (arg.callback) callbackArrayOnReload.push(arg.callback);
       self.reloadCallback();
     });
 
