@@ -45,12 +45,19 @@
     return {
       responseError: function(rejection) {
 
-        // No authentified
+        // Not authentified
         if (rejection.status === 401)
           $rootScope.$broadcast('forceLogout');
-        else if (rejection.status !== -1 &&
-                 (!rejection.config || !rejection.config.timeout || !rejection.config.timeout.status))
-          $rootScope.$broadcast('setAlert', 'danger', getErrorMessage(rejection, $filter), 0);
+
+        // Canceled or network error
+        else if (rejection.status == -1) {
+
+          // Set alert only on network error, not on cancel
+          if (!rejection.config || !rejection.config.timeout || !rejection.config.timeout.status)
+            $rootScope.$broadcast('setAlert', 'danger', getErrorMessage(rejection, $filter), 0);
+
+        // Other status
+        } else $rootScope.$broadcast('setAlert', 'danger', getErrorMessage(rejection, $filter), 0);
 
         return $q.reject(rejection);
       }
