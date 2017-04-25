@@ -45,6 +45,7 @@
 - **grunt-karma** has been updated from 1.0.0 to **2.0.0**
 - **grunt-mkdocs** has been updated from 0.1.3 to **0.2.0**
 - **grunt-mocha-test** has been updated from 0.12.7 to **0.13.2**
+- **grunt-protractor-runner** has been updated from 4.0.0 to **5.0.0**
 - **karma** has been updated from 0.13.22 to **1.3.0**
 - **karma-chrome-launcher** has been updated from 1.0.1 to **2.0.0**
 - **karma-mocha** has been updated from 1.0.1 to **1.3.0**
