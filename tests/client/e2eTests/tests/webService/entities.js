@@ -442,7 +442,7 @@ describe('Web service', function() {
               check(function() {
                 assert.equal(entities.length, 1, 'Wrong number of results');
                 assert.equal(pagination.limit, 1, 'Wrong limit');
-                assert.equal(pagination.page, 1, 'Wrong page');
+                assert.equal(pagination.page, 0, 'Wrong page');
                 assert.equal(pagination.pages, allEntities.length, 'Wrong pages');
                 assert.equal(pagination.size, allEntities.length, 'Wrong size');
               }, done);
