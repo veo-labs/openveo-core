@@ -1,6 +1,16 @@
+# Download OpenVeo
+
+Actually OpenVeo can be downloaded directly from [github](https://github.com/veo-labs/openveo-core):
+
+- Select the tag you want to download (**from version >=4.0.0**)
+- Then download the associated archive
+- Deploy the archive on your server
+
 # Installation
 
-    npm install @openveo/core
+From OpenVeo root directory:
+
+    npm install --production
 
 **Nb :** You will be prompted for some configuration. Don't worry if you made an error, you can edit configuration anytime using [advanced configuration](advanced-configuration.md).
 
