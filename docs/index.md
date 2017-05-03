@@ -15,13 +15,13 @@ Each plugin brings zero to many additive administration pages and zero to many a
 
 ## Compatibility
 
-OpenVeo is tested on the following operating systems :
+OpenVeo is tested on the following operating systems:
 
 - Windows 10
 - Ubuntu 16.04
 - Xubuntu 16.04
 
-OpenVeo is tested on the following browsers :
+OpenVeo is tested on the following browsers:
 
 - Google Chrome 54
 - Mozilla Firefox 47

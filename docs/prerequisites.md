@@ -1,4 +1,4 @@
-OpenVeo requires and is tested on :
+OpenVeo requires and is tested on:
 
 - [Node.js](https://nodejs.org/en/) (**&gt;7.4.0**) - The server side of OpenVeo is written in Node.js
 - [Npm](https://www.npmjs.com/) (**&gt;=4.0.5**) - Npm will help you install all OpenVeo server dependencies
@@ -7,4 +7,4 @@ OpenVeo requires and is tested on :
 - [ImageMagick](http://www.imagemagick.org/script/index.php) - Image Magick is used to dynamically generate derivated images (e.g. thumbs)
 - [FFMPEG](https://ffmpeg.org/) - FFMPEG is used to extract information from incoming videos
 
-**NB :** Moreover, for a Windows installation, Visual Studio Express is required as some OpenVeo dependencies are written in C and need to be compiled. For Linux you may have to install the package libkrb5-dev.
+**NB:** Moreover, for a Windows installation, Visual Studio Express is required as some OpenVeo dependencies are written in C and need to be compiled. For Linux you may have to install the package libkrb5-dev.

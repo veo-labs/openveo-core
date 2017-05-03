@@ -2,18 +2,18 @@
 
 Based on [Express framework](https://www.npmjs.com/package/express), OpenVeo creates an HTTP server with a list of routes.
 Core routes are mounted on **/** while plugins' routes are mounted on **/PLUGIN_NAME** with PLUGIN_NAME the name of the plugin.
-There are three categories of routes :
+There are three categories of routes:
 
-- Public routes : Routes accessible to anyone who has access to the url
-- Private routes : Routes accessible only to users authenticated to the back end
-- Web Service routes : Routes accessible only to users authenticated to the Web Service
+- Public routes: Routes accessible to anyone who has access to the url
+- Private routes: Routes accessible only to users authenticated to the back end
+- Web Service routes: Routes accessible only to users authenticated to the Web Service
 
 # Socket server
 
-Based on [socket.io](http://socket.io), OpenVeo creates a socket server with a list of namespaces. Core namespaces are mounted on **/NAMESPACE_NAME** while plugins' namespaces are mounted on **/PLUGIN_NAME/NAMESPACE_NAME** with PLUGIN_NAME the name ot the plugin and NAMESPACE_NAME the name of the namespace described in plugin's configuration file (see [how to write a plugin](plugins.md) for more details). There are two categories of namespaces :
+Based on [socket.io](http://socket.io), OpenVeo creates a socket server with a list of namespaces. Core namespaces are mounted on **/NAMESPACE_NAME** while plugins' namespaces are mounted on **/PLUGIN_NAME/NAMESPACE_NAME** with PLUGIN_NAME the name ot the plugin and NAMESPACE_NAME the name of the namespace described in plugin's configuration file (see [how to write a plugin](plugins.md) for more details). There are two categories of namespaces:
 
-- Public namespaces : Namespace accessible to anyone
-- Private namespaces : Namespace accessible only to users authenticated to the back end
+- Public namespaces: Namespaces accessible to anyone
+- Private namespaces: Namespaces accessible only to users authenticated to the back end
 
 # Back end
 
@@ -27,7 +27,7 @@ Through the back end you can create an application with its associated list of s
 
 # Plugins
 
-OpenVeo core loads all plugins found in **node_modules/@openveo/** (plugins maintained by the OpenVeo team) or **node_modules/openveo-*** (community plugins) when starting the process. Each plugin can :
+OpenVeo core loads all plugins found in **node_modules/@openveo/** (plugins maintained by the OpenVeo team) or **node_modules/openveo-*** (community plugins) when starting the process. Each plugin can:
 
 - Create its own back end pages
 - Create public and private routes

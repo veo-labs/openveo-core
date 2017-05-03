@@ -8,6 +8,8 @@ Each plugin (including OpenVeo core) defines a list of test suites in **tests/cl
 
     node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update
 
+NB: Note that protractor module could be in node_modules/protractor
+
 # Configure tests
 
 You need to specify a new database which will be used during tests. To do so, you can add a new configuration file in user's directory under **~/.openveo/core** called **databaseTestConf.json**.
@@ -74,7 +76,7 @@ Finally the logger has to be configured through **loggerTestConf.json**. Typical
 
 ## Boot steps
 
-When launching end to end tests, several things happen before the first test is launched :
+When launching end to end tests, several things happen before the first test is launched:
 
 1. Database defined in **~/.openveo/core/databaseTestConf.json** is dropped
 2. Users, roles, groups and applications described in **tests/client/e2eTests/database/data.json**, from core and plugins, are inserted into database
@@ -89,7 +91,7 @@ When launching end to end tests, several things happen before the first test is 
 
 Users, roles, groups and applications can be added before tests are launched using **tests/client/e2eTests/database/data.json** configuration file.
 
-Structure is as follow :
+Structure is as follow:
 
 ```json
 {

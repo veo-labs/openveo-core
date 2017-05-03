@@ -9,7 +9,7 @@ Open **~openveo/core/serverConf.json**
 ```json
 {
   "ws" : {
-    "port" : PORT // Replace PORT by the HTTP server port to use (e.g. 3001)
+    "port" : PORT // Replace PORT by the HTTP server port to use (e.g. 3002)
   }
 }
 ```
@@ -32,7 +32,7 @@ Open **~openveo/core/loggerConf.json**
 # Launch the Web Service
 
 If you want to interact with OpenVeo through the Web Service, you need to start it.
-To start the OpenVeo Web Service, just use the **-ws** option :
+To start the OpenVeo Web Service, just use the **-ws** option:
 
     node server.js -ws
 
@@ -100,7 +100,7 @@ $resultWithToken = json_decode(curl_exec($curlHandle));
 
 ## Authenticate a request
 
-All requests to the Web Service must be authenticated using the HTTP header :
+All requests to the Web Service must be authenticated using the HTTP header:
 
 - **'Authorization: Bearer TOKEN'** (Replace TOKEN by your access token)
 

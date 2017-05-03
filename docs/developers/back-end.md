@@ -2,7 +2,7 @@
 
 OpenVeo back end is an [AngularJS](https://angularjs.org/) single page application served on **/be**.
 
-The back end relies on a couple of libraries :
+The back end relies on a couple of libraries:
 
 - **angular-route** to perform single page application routing
 - **angular-animate** for CSS animations
@@ -34,7 +34,7 @@ The main AngularJS module of the back end is named **ov** and is applied to the 
 </html>
 ```
 
-It has dependencies on all AngularJS libraries and all AngularJS modules described by OpenVeo plugins. It also defines all core routes :
+It has dependencies on all AngularJS libraries and all AngularJS modules described by OpenVeo plugins. It also defines all core routes:
 
 - **/be/login** to access the login page
 - **/be** to access the back end home page
@@ -59,7 +59,7 @@ Offers a service to authenticate / logout or manipulate authenticated user infor
 
 ## Entity module (**ov.entity**)
 
-Offers a service to manage (CRUD) OpenVeo entities.
+Offers a service to manage OpenVeo entities (CRUD).
 
 **Nb:** Available services defined in **ov.entity** module are described in the [API](api.md).
 

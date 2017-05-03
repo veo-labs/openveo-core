@@ -4,7 +4,7 @@ All server logs are performed by module [Winston](https://www.npmjs.com/package/
 
 # Use OpenVeo logger
 
-By default OpenVeo core creates one logger named **openveo**. You can use it directly :
+By default OpenVeo core creates one logger named **openveo**. You can use it directly:
 
 ```javascript
 process.logger.silly('Silly log');

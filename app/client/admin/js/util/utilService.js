@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * OpenVeo helper .
+ * OpenVeo helper.
  *
  * @module ov.util
  * @main ov.util

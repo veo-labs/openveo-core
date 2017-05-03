@@ -6,7 +6,7 @@
 
 # Launch the application
 
-OpenVeo is now installed. Launch it :
+OpenVeo is now installed. Launch it:
 
     node server.js
 
