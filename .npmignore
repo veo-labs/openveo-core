@@ -10,8 +10,6 @@ Icon?
 # Windows
 Thumbs.db
 Desktop.ini
-
-# Windows XP
 ehthumbs.db
 
 # Logs
@@ -25,18 +23,17 @@ ehthumbs.db
 
 # IDE
 nbproject
+.idea/
 
-# Deliver
+# Build
 /build
+/tests/client/e2eTests/build
 
 # Sass
 /.sass-cache
 
 # Unit tests
 /tests
-
-# End to end tests
-/tests/client/e2eTests/build
 
 # Front JavaScript files
 /app/client/admin/compass
@@ -45,12 +42,12 @@ nbproject
 # Documentation
 /docs
 /mkdocs.yml
-/.grunt
 /site
 
 # Grunt files
 /Gruntfile.js
 /tasks
+/.grunt
 
 # Nodemon
 /nodemon.json

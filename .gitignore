@@ -11,8 +11,6 @@ Icon?
 # Windows
 Thumbs.db
 Desktop.ini
-
-# Windows XP
 ehthumbs.db
 
 # Logs
@@ -21,26 +19,24 @@ ehthumbs.db
 # Project npm dependencies
 /node_modules
 
-# Bower libraries
+# Bower dependencies
 /assets/lib
 
 # IDE
 nbproject/
 .idea/
 
-# Deliver
+# Build
 /build
+/assets/be/js/*
+/assets/be/css/*
+/tests/client/e2eTests/build
 
 # Sass
 .sass-cache
 
-# Compiled file
-/assets/be/js/*
-/assets/be/css/*
-
 # Documentation
 /site
-/.grunt
 
-# End to end tests
-/tests/client/e2eTests/build
+# Grunt files
+/.grunt
