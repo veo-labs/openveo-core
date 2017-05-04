@@ -15,11 +15,11 @@ This interface gives access to a limited set of default features:
 
 # Documentation
 
-Documentation is available on [Github pages](http://veo-labs.github.io/openveo-core/3.0.0).
+Documentation is available on [Github pages](http://veo-labs.github.io/openveo-core/4.0.0/).
 
 # Contributors
 
-Maintainer : [Veo-Labs](http://www.veo-labs.com/)
+Maintainer: [Veo-Labs](http://www.veo-labs.com/)
 
 # License
 
