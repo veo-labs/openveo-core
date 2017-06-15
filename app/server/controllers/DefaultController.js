@@ -95,6 +95,8 @@ DefaultController.prototype.defaultAction = function(request, response) {
   response.locals.version = JSON.stringify(response.locals.version);
   response.locals.socketServerPort = storage.getServerConfiguration().browserSocketPort;
   response.locals.angularJsModules = angularJsModules.join(',');
+  response.locals.anonymousId = storage.getConfiguration().anonymousId;
+  response.locals.superAdminId = storage.getConfiguration().superAdminId;
   response.render('root', response.locals);
 
 };

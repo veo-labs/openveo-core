@@ -1,3 +1,9 @@
+# 4.1.0 /
+
+## NEW FEATURES
+
+- Expose anonymous and super admin id to back end client
+
 # 4.0.0 / 2017-05-04
 
 ## BREAKING CHANGES
