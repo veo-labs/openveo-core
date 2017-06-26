@@ -3,6 +3,7 @@
 ## NEW FEATURES
 
 - Expose anonymous and super admin id to back end client
+- Add script to create a super admin without prompting the user
 
 # 4.0.0 / 2017-05-04
 

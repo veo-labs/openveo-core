@@ -6,6 +6,7 @@ var crypto = require('crypto');
 var path = require('path');
 var fs = require('fs');
 var os = require('os');
+var exec = require('child_process').exec;
 var async = require('async');
 var openVeoApi = require('@openveo/api');
 var confDir = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
@@ -316,11 +317,7 @@ function verifyDatabaseConf(callback) {
  */
 function createSuperAdmin(callback) {
   var userProvider = new UserProvider(storage.getDatabase());
-  var conf = require(path.join(confDir, 'conf.json'));
-  var user = {
-    id: '0',
-    locked: true
-  };
+  var user = {};
 
   async.series([
     function(callback) {
@@ -337,21 +334,21 @@ function createSuperAdmin(callback) {
     },
     function(callback) {
       rl.question('Enter the name of the OpenVeo super admin to create :\n', function(answer) {
-        if (!answer) callback(new Error('Invalid name, aborting'));
+        if (!answer) callback(new Error('Invalid name, aborting\n'));
         user.name = answer;
         callback();
       });
     },
     function(callback) {
       secureQuestion('Enter the password of the OpenVeo super admin to create :\n', function(answer) {
-        if (!answer) callback(new Error('Invalid password, aborting'));
-        user.password = crypto.createHmac('sha256', conf.passwordHashKey).update(answer).digest('hex');
+        if (!answer) callback(new Error('Invalid password, aborting\n'));
+        user.password = answer;
         callback();
       });
     },
     function(callback) {
       rl.question('Enter the email of the OpenVeo super admin to create :\n', function(answer) {
-        if (!answer || !openVeoApi.util.isEmailValid(answer)) callback(Error('Invalid email, aborting'));
+        if (!answer || !openVeoApi.util.isEmailValid(answer)) callback(Error('Invalid email, aborting\n'));
         user.email = answer;
         callback();
       });
@@ -360,10 +357,15 @@ function createSuperAdmin(callback) {
     if (error) {
       process.stdout.write(error.message);
       callback();
-    } else
-      userProvider.add(user, function(error) {
-        callback(error);
-      });
+    } else {
+      exec('node createSuperAdmin.js --name="' + user.name +
+           '" --email="' + user.email +
+           '" --password="' + user.password + '"',
+         function(error, stdout, stderr) {
+           callback(error);
+         }
+      );
+    }
   });
 }
 

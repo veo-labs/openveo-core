@@ -8,6 +8,7 @@ module.exports = {
       'server.js',
       'Gruntfile.js',
       'processRequire.js',
+      'createSuperAdmin.js',
       'tasks/**/*.js',
       'tests/**/*.js',
       'app/**/*.js',
