@@ -7,6 +7,7 @@ module.exports = {
       'install.js',
       'server.js',
       'Gruntfile.js',
+      'flightplan.js',
       'processRequire.js',
       'tasks/**/*.js',
       'tests/**/*.js',

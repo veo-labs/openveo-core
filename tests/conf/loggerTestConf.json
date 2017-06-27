@@ -1,0 +1,16 @@
+{
+  "app": {
+    "level": "info",
+    "maxFileSize": 10485760,
+    "maxFiles": 2,
+    "fileName": "/tmp/openveo-test.log",
+    "console": false
+  },
+  "ws": {
+    "level": "info",
+    "maxFileSize": 10485760,
+    "maxFiles": 2,
+    "fileName": "/tmp/openveo-test-ws.log",
+    "console": false
+  }
+}

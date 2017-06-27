@@ -3,6 +3,8 @@
 ## NEW FEATURES
 
 - Expose anonymous and super admin id to back end client
+- Execute functional tests on Travis
+- Execute unit tests on Travis
 
 # 4.0.0 / 2017-05-04
 

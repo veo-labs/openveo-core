@@ -1,0 +1,11 @@
+{
+  "app": {
+    "httpPort": 3003,
+    "socketPort": 3004,
+    "browserSocketPort": 3004,
+    "sessionSecret": "2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx"
+  },
+  "ws": {
+    "port": 3005
+  }
+}

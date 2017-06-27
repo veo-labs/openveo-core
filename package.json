@@ -80,7 +80,8 @@
     "mocha": "3.2.0",
     "nodemon": "1.11.0",
     "pre-commit": "1.2.2",
-    "yuidoc-theme-blue": "0.1.9"
+    "yuidoc-theme-blue": "0.1.9",
+    "flightplan": "0.6.17"
   },
   "scripts": {
     "prepublish": "grunt prod",
