@@ -25,7 +25,6 @@ module.exports = function(config) {
     plugins: [
       'karma-chai',
       'karma-mocha',
-      'karma-phantomjs-launcher',
       'karma-chrome-launcher',
       unit.plugins.inlineTemplatesPreprocessor
     ],

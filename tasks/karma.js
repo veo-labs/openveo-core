@@ -24,7 +24,7 @@ module.exports = {
 
     // List of browsers to execute tests on
     browsers: [
-      'PhantomJS'
+      'Chrome'
     ],
 
     // Continuous Integration mode
