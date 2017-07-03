@@ -30,23 +30,43 @@ module.exports = {
   },
   permissions: [
     {
-      id: 'core-access-applications-page',
-      name: 'CORE.PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME'
-    },
-    {
-      id: 'core-access-users-page',
-      name: 'CORE.PERMISSIONS.ACCESS_USERS_PAGE_NAME',
-      paths: [
-        'get /roles'
+      label: 'CORE.PERMISSIONS.GROUP_APPLICATIONS',
+      permissions: [
+        {
+          id: 'core-access-applications-page',
+          name: 'CORE.PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME'
+        }
       ]
     },
     {
-      id: 'core-access-roles-page',
-      name: 'CORE.PERMISSIONS.ACCESS_ROLES_PAGE_NAME'
+      label: 'CORE.PERMISSIONS.GROUP_USERS',
+      permissions: [
+        {
+          id: 'core-access-users-page',
+          name: 'CORE.PERMISSIONS.ACCESS_USERS_PAGE_NAME',
+          paths: [
+            'get /roles'
+          ]
+        }
+      ]
     },
     {
-      id: 'core-access-groups-page',
-      name: 'CORE.PERMISSIONS.ACCESS_GROUPS_PAGE_NAME'
+      label: 'CORE.PERMISSIONS.GROUP_ROLES',
+      permissions: [
+        {
+          id: 'core-access-roles-page',
+          name: 'CORE.PERMISSIONS.ACCESS_ROLES_PAGE_NAME'
+        }
+      ]
+    },
+    {
+      label: 'CORE.PERMISSIONS.GROUP_GROUPS',
+      permissions: [
+        {
+          id: 'core-access-groups-page',
+          name: 'CORE.PERMISSIONS.ACCESS_GROUPS_PAGE_NAME'
+        }
+      ]
     }
   ],
   backOffice: {

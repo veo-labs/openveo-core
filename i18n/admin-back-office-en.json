@@ -89,7 +89,7 @@
     "ACCESS_ROLES_PAGE_NAME": "Access roles page",
     "ACCESS_GROUPS_PAGE_NAME": "Access groups page",
     "GROUP_OTHERS" : "Other permissions",
-    "GROUP_APPLICATIONS" : "Web Service",
+    "GROUP_APPLICATIONS" : "Web Service applications",
     "GROUP_USERS" : "Users",
     "GROUP_ROLES" : "Roles",
     "GROUP_GROUPS" : "Groups",
