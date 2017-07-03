@@ -35,7 +35,6 @@ describe('Application page', function() {
       return page.logAs(datas.users.coreGuest);
     });
 
-
     it('should not access the page', function() {
       return page.load().then(function() {
         assert.ok(false, 'User has access to application page and should not');

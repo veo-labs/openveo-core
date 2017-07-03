@@ -17,7 +17,7 @@ describe('Web service', function() {
   var clientWithoutAccess;
   var clientWithoutCredentials;
 
-  // Initiliaze different clients
+  // Initialize different clients
   before(function() {
     var application;
     var webServiceUrl = process.protractorConf.webServiceUrl;

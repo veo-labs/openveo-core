@@ -23,18 +23,31 @@ describe('Login page', function() {
     page.refresh();
   });
 
-  it('should display an error message if trying to log without password', function() {
-    page.setEmail('john');
-    page.setPassword('');
+  it('should display an error message if trying to log without email and password', function() {
     page.submit();
     assert.eventually.ok(page.errorMessageElement.isDisplayed());
+    assert.eventually.ok(page.isEmailOnError());
+    assert.eventually.ok(page.isPasswordOnError());
+  });
+
+  it('should display an error message if trying to log without password', function() {
+    page.setEmail('john');
+    page.submit();
+    assert.eventually.ok(page.errorMessageElement.isDisplayed());
+    assert.eventually.ok(page.isEmailOnError());
+    assert.eventually.ok(page.isPasswordOnError());
+    assert.eventually.equal(page.getEmail(), '');
+    assert.eventually.equal(page.getPassword(), '');
   });
 
   it('should display an error message if trying to log without email', function() {
-    page.setEmail('');
     page.setPassword('password');
     page.submit();
     assert.eventually.ok(page.errorMessageElement.isDisplayed());
+    assert.eventually.ok(page.isEmailOnError());
+    assert.eventually.ok(page.isPasswordOnError());
+    assert.eventually.equal(page.getEmail(), '');
+    assert.eventually.equal(page.getPassword(), '');
   });
 
   it('should display an error message if trying to log with a wrong account', function() {
@@ -42,6 +55,18 @@ describe('Login page', function() {
     page.setPassword('in the kingdom of denmark');
     page.submit();
     assert.eventually.ok(page.errorMessageElement.isDisplayed());
+    assert.eventually.ok(page.isEmailOnError());
+    assert.eventually.ok(page.isPasswordOnError());
+    assert.eventually.equal(page.getEmail(), '');
+    assert.eventually.equal(page.getPassword(), '');
   });
 
+  it('should no longer consider fields on error when modified', function() {
+    page.submit();
+    page.setEmail('email');
+    page.setPassword('password');
+    page.unfocus();
+    assert.eventually.notOk(page.isEmailOnError());
+    assert.eventually.notOk(page.isPasswordOnError());
+  });
 });

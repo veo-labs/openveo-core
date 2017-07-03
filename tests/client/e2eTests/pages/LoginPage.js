@@ -7,6 +7,7 @@ var i18n = e2e.i18n;
 var Page = e2e.pages.Page;
 var BackEndPage = e2e.pages.BackEndPage;
 var browserExt = e2e.browser;
+var Field = e2e.fields.Field;
 
 /**
  * Creates a new LoginPage representing the back end login page.
@@ -108,6 +109,41 @@ LoginPage.prototype.submit = function() {
 };
 
 /**
+ * Gets email field.
+ *
+ * @return {TextField} The email field
+ */
+LoginPage.prototype.getEmailField = function() {
+  return Field.get({
+    type: 'text',
+    name: this.translations.CORE.LOGIN.LOGIN,
+    baseElement: element(by.css('form'))
+  });
+};
+
+/**
+ * Gets password field.
+ *
+ * @return {TextField} The password field
+ */
+LoginPage.prototype.getPasswordField = function() {
+  return Field.get({
+    type: 'text',
+    name: this.translations.CORE.LOGIN.PASSWORD,
+    baseElement: element(by.css('form'))
+  });
+};
+
+/**
+ * Gets value of the user email field.
+ *
+ * @return {Promise} Promise resolving with the field value
+ */
+LoginPage.prototype.getEmail = function() {
+  return this.getEmailField().getValue();
+};
+
+/**
  * Fills the user email field.
  *
  * @param {String} email The email to enter
@@ -118,6 +154,24 @@ LoginPage.prototype.setEmail = function(email) {
 };
 
 /**
+ * Tests if email field is on error.
+ *
+ * @return {Promise} Promise resolving with a boolean indicating if the field is on error
+ */
+LoginPage.prototype.isEmailOnError = function() {
+  return this.getEmailField().isOnError();
+};
+
+/**
+ * Gets value of the user password field.
+ *
+ * @return {Promise} Promise resolving with the field value
+ */
+LoginPage.prototype.getPassword = function() {
+  return this.getPasswordField().getValue();
+};
+
+/**
  * Fills the user password field.
  *
  * @param {String} password The password to enter
@@ -125,4 +179,22 @@ LoginPage.prototype.setEmail = function(email) {
  */
 LoginPage.prototype.setPassword = function(password) {
   return this.passwordInputElement.sendKeys(password);
+};
+
+/**
+ * Tests if password field is on error.
+ *
+ * @return {Promise} Promise resolving with a boolean indicating if the field is on error
+ */
+LoginPage.prototype.isPasswordOnError = function() {
+  return this.getPasswordField().isOnError();
+};
+
+/**
+ * Unfocuses fields by focusing the body.
+ *
+ * @return {Promise} Promise resolving when the focus is made on the body
+ */
+LoginPage.prototype.unfocus = function() {
+  return element(by.css('body')).click();
 };
