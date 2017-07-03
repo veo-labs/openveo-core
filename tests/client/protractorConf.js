@@ -26,8 +26,7 @@ var databaseConf = require(databaseConfPath);
 var serverConf = require(serverConfPath);
 var coreConf = require(confPath);
 var db;
-var applicationServer;
-var webServiceServer;
+var servers = {};
 var webServiceApplications;
 var users;
 var corePlugin;
@@ -56,20 +55,105 @@ exports.config = {
       inline: screenshotPlugin
     }
   ],
-  getWebServiceApplication: function(applicationName) {
+
+  /**
+   * Gets Web Service application configuration by application id.
+   *
+   * @param {String} applicationId The application id as defined in data.json file
+   * @return {Object} The description object of the application
+   */
+  getWebServiceApplication: function(applicationId) {
     for (var i = 0; i < webServiceApplications.length; i++) {
-      if (webServiceApplications[i].name === applicationName)
+      if (webServiceApplications[i].name === applicationId)
         return webServiceApplications[i];
     }
     return null;
   },
-  getUser: function(userName) {
+
+  /**
+   * Gets user configuration by user id.
+   *
+   * @param {String} userId The user id as defined in data.json file
+   * @return {Object} The description object of the user
+   */
+  getUser: function(userId) {
     for (var i = 0; i < users.length; i++) {
-      if (users[i].name === userName)
+      if (users[i].name === userId)
         return users[i];
     }
     return null;
   },
+
+  /**
+   * Starts OpenVeo as a sub process.
+   *
+   * @param {Boolean} ws true to start OpenVeo Web Service, false to start OpenVeo
+   * @return {Promise} Promise resolved when OpenVeo has started
+   */
+  startOpenVeo: function(ws) {
+    var flow = browser.controlFlow();
+
+    return flow.execute(function() {
+      var server = (ws) ? 'webServiceServer' : 'applicationServer';
+
+      if (servers[server] && servers[server].connected)
+        return protractor.promise.fulfilled();
+
+      var deferred = protractor.promise.defer();
+      var options = [
+        '--serverConf', serverConfPath,
+        '--loggerConf', loggerConfPath,
+        '--databaseConf', databaseConfPath
+      ];
+      if (ws) options.push('--ws');
+
+      // Executes server as a child process
+      servers[server] = childProcess.fork(path.join(process.root, '/server.js'), options);
+
+      // Listen to messages from sub process
+      servers[server].on('message', function(data) {
+        if (data)
+          if (data.status === 'started') deferred.fulfill();
+      });
+
+      return deferred.promise;
+    });
+  },
+
+  /**
+   * Stops OpenVeo sub process.
+   *
+   * @param {Boolean} ws true to stop OpenVeo Web Service, false to stop OpenVeo
+   * @return {Promise} Promise resolved when OpenVeo has stopped
+   */
+  stopOpenVeo: function(ws) {
+    var flow = browser.controlFlow();
+
+    return flow.execute(function() {
+      var server = (ws) ? 'webServiceServer' : 'applicationServer';
+
+      if (!servers[server] || !servers[server].connected)
+        return protractor.promise.fulfilled();
+
+      var deferred = protractor.promise.defer();
+      servers[server].on('exit', function(code, signal) {
+        deferred.fulfill();
+      });
+
+      servers[server].kill('SIGINT');
+      return deferred.promise;
+    });
+  },
+
+  /**
+   * Prepares tests environment.
+   *
+   * Prepare browser before executing tests, spawn an OpenVeo server, spawn an OpenVeo Web Service
+   * server, establish connection to the database, expose the list of plugins, expose the list of
+   * users, expose the list of applications.
+   *
+   * @return {Promise} Promise resolved when environment is prepared
+   */
   onPrepare: function() {
     var deferred = protractor.promise.defer();
     var flow = browser.controlFlow();
@@ -86,46 +170,19 @@ exports.config = {
 
     async.series([
 
-      // Launch openveo server
+      // Launch openveo server as a sub process
       function(callback) {
 
-        // Executes server as a child process
-        applicationServer = childProcess.fork(path.join(process.root, '/server.js'), [
-          '--serverConf', serverConfPath,
-          '--loggerConf', loggerConfPath,
-          '--databaseConf', databaseConfPath
-        ]);
-
-        // Listen to messages from server process
-        applicationServer.on('message', function(data) {
-          if (data) {
-            if (data.status === 'started') {
-              process.logger.info('Server started');
-              callback();
-            }
-          }
+        exports.config.startOpenVeo().then(function() {
+          callback();
         });
       },
 
-      // Launch openveo web service server
+      // Launch openveo web service server as a sub process
       function(callback) {
 
-        // Executes server as a child process
-        webServiceServer = childProcess.fork(path.join(process.root, '/server.js'), [
-          '--ws',
-          '--serverConf', serverConfPath,
-          '--loggerConf', loggerConfPath,
-          '--databaseConf', databaseConfPath
-        ]);
-
-        // Listen to messages from server process
-        webServiceServer.on('message', function(data) {
-          if (data) {
-            if (data.status === 'started') {
-              process.logger.info('Web service server started');
-              callback();
-            }
-          }
+        exports.config.startOpenVeo(true).then(function() {
+          callback();
         });
 
       },
@@ -230,8 +287,8 @@ exports.config = {
   },
   onCleanUp: function() {
     process.logger.info('Tests finished, exit servers and close connection to the database');
-    applicationServer.kill('SIGINT');
-    webServiceServer.kill('SIGINT');
+    servers['applicationServer'].kill('SIGINT');
+    servers['webServiceServer'].kill('SIGINT');
     db.close();
   }
 };
