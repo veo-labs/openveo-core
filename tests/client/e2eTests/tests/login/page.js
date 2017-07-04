@@ -69,4 +69,20 @@ describe('Login page', function() {
     assert.eventually.notOk(page.isEmailOnError());
     assert.eventually.notOk(page.isPasswordOnError());
   });
+
+  it('should display a 404 not found page if accessing a wrong public URI as an anonymous user', function() {
+    browser.driver.get(process.protractorConf.baseUrl + 'wrongUri');
+    assert.eventually.equal(browser.driver.findElement(by.css('h1')).getText(), 'Not Found');
+    assert.eventually.equal(
+      browser.driver.findElement(by.css('p')).getText(),
+      'The requested URL /wrongUri was not found on this server.'
+    );
+    page.load();
+  });
+
+  it('should redirect to login page if accessing a wrong back end URI as an anonymous user', function() {
+    browser.get(process.protractorConf.baseUrl + 'be/wrongUri');
+    assert.eventually.equal(browser.getCurrentUrl(), process.protractorConf.baseUrl + 'be/login');
+  });
+
 });
