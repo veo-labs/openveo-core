@@ -29,7 +29,7 @@ describe('Top menu', function() {
   });
 
   it('should have a link to the home page', function() {
-    assert.eventually.ok(page.profileLinkElement.isPresent());
+    assert.eventually.ok(page.homeLinkElement.isPresent());
   });
 
   it('should have a link to the profile page', function() {
