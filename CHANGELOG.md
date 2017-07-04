@@ -1,5 +1,9 @@
 # 4.1.0 /
 
+## BUG FIXES
+
+- Remove failing process.api.getCoreApi().getPlugins() function. You should use process.api.getPlugins() instead.
+
 ## NEW FEATURES
 
 - Expose anonymous and super admin id to back end client

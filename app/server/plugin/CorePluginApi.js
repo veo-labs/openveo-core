@@ -27,16 +27,6 @@ module.exports = CorePluginApi;
 util.inherits(CorePluginApi, openVeoApi.plugin.PluginApi);
 
 /**
- * Gets the list of loaded openveo plugins.
- *
- * @method getPlugins
- * @return {Array} The list of loaded plugins
- */
-CorePluginApi.prototype.getPlugins = function() {
-  return storage.getPlugins();
-};
-
-/**
  * Gets the current database instance.
  *
  * @method getDatabase
