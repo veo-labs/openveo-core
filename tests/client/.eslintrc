@@ -32,7 +32,10 @@
   "rules": {
 
     // Require JSDoc comment
-    "require-jsdoc": 0
+    "require-jsdoc": 0,
+
+    // Disallow eval()
+    "no-eval": 0
 
   }
 

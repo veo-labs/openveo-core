@@ -41,8 +41,24 @@ describe('Home page', function() {
   });
 
   it('should display a popup to display the list of versions', function() {
+    var plugins = process.api.getPlugins();
     page.openVersions();
-    assert.eventually.isAbove(page.versionElements.count(), 1);
+
+    page.versionElements.each(function(versionElement, index) {
+      versionElement.getText().then(function(text) {
+        var found = false;
+        for (var i = 0; i < plugins.length; i++) {
+          var version = plugins[i].version[0];
+          if (text === version.name + ' : ' + version.version)
+            found = true;
+        }
+
+        assert.ok(found, 'Unexpected version ' + text);
+      });
+    });
+
+    assert.eventually.equal(page.versionElements.count(), plugins.length);
+
     page.closeVersions();
   });
 

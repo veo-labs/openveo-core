@@ -85,6 +85,34 @@ exports.config = {
   },
 
   /**
+   * Gets back end menu ordered by weight.
+   *
+   * @return {Array} The menu and sub menus
+   */
+  getMenu: function() {
+    var plugins = process.api.getPlugins();
+    var menu = [];
+
+    function sortByWeight(item1, item2) {
+      if (!item1.weight) return -1;
+      if (!item2.weight) return 1;
+      return (item1.weight < item2.weight) ? -1 : 1;
+    }
+
+    plugins.forEach(function(plugin) {
+      if (plugin.menu) {
+        menu = menu.concat(plugin.menu);
+        menu = menu.sort(sortByWeight);
+
+        if (menu.subMenu)
+          menu.subMenu = menu.subMenu.sort(sortByWeight);
+      }
+    });
+
+    return menu;
+  },
+
+  /**
    * Starts OpenVeo as a sub process.
    *
    * @param {Boolean} ws true to start OpenVeo Web Service, false to start OpenVeo
