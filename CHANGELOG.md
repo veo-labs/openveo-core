@@ -12,6 +12,7 @@
 - Some of the permissions in group "Other permissions" have been moved to other groups. "Access applications page" permission has been moved to "Web Service applications" group. "Access users page" permission has been moved to "Users" group. "Access roles page" permission has been moved to "Roles" group. "Access groups page" permission has been moved to "Groups" group. Also note that "Web Service" group has been renamed into "Web Service applications".
 - Expose functions to start / stop OpenVeo within functional tests. Use process.protractorConf.startOpenVeo() and process.protractorConf.stopOpenVeo() to start / stop OpenVeo server respecting Protractor's flow.
 - Cover more functional tests on back end home page and left menu
+- Add a Protractor "coreCommon" suite to tests generic features common to plugins and core. Each plugin should execute this suite with their functional tests
 
 ## DEPENDENCIES
 

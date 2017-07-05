@@ -3,11 +3,17 @@
   "coreGroups": "e2eTests/tests/groups/*.js",
   "coreHome": "e2eTests/tests/home/*.js",
   "coreLogin": "e2eTests/tests/login/*.js",
-  "coreMenu": "e2eTests/tests/menu/*.js",
+  "coreTopMenu": "e2eTests/tests/topMenu/*.js",
+  "coreLeftMenu": "e2eTests/tests/leftMenu/*.js",
   "coreProfile": "e2eTests/tests/profile/*.js",
   "coreRoles": "e2eTests/tests/roles/*.js",
   "coreTaxonomies": "e2eTests/tests/taxonomies/*.js",
   "coreUsers": "e2eTests/tests/users/*.js",
   "coreWebService": ["e2eTests/tests/webService/*.js", "e2eTests/tests/**/webService.js"],
+  "coreCommon": [
+    "e2eTests/tests/leftMenu/*.js",
+    "e2eTests/tests/webService/entities.js",
+    "e2eTests/tests/home/page.js"
+  ],
   "core": "e2eTests/tests/**/*.js"
 }
