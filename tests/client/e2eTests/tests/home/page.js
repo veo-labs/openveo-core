@@ -48,7 +48,7 @@ describe('Home page', function() {
       versionElement.getText().then(function(text) {
         var found = false;
         for (var i = 0; i < plugins.length; i++) {
-          var version = plugins[i].version[0];
+          var version = plugins[i].version;
           if (text === version.name + ' : ' + version.version)
             found = true;
         }

@@ -87,8 +87,8 @@ DefaultController.prototype.defaultAction = function(request, response) {
         response.locals.css = response.locals.css.concat(plugin['cssFiles']);
 
       // Plugin version
-      if (plugin['version'] && util.isArray(plugin['version']))
-        response.locals.version = response.locals.version.concat(plugin['version']);
+      if (plugin['version'] && plugin['version'])
+        response.locals.version.push(plugin['version']);
     });
   }
 

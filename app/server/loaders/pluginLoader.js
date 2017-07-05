@@ -497,10 +497,10 @@ module.exports.loadPluginMetadata = function(plugin, callback) {
 
           if (stats && stats.isFile()) {
             var pluginPackage = require(path.join(plugin.path, 'package.json'));
-            plugin.version = [{
+            plugin.version = {
               name: pluginPackage['name'],
               version: pluginPackage['version']
-            }] || null;
+            } || null;
           }
 
           callback();
