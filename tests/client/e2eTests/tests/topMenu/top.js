@@ -2,6 +2,8 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
+var e2e = require('@openveo/test').e2e;
+var browserExt = e2e.browser;
 var MenuPage = process.require('tests/client/e2eTests/pages/MenuPage.js');
 
 // Load assertion library
@@ -25,15 +27,18 @@ describe('Top menu', function() {
 
   // Reload page after each test
   afterEach(function() {
+    page.load();
     page.refresh();
   });
 
   it('should have a link to the home page', function() {
-    assert.eventually.ok(page.homeLinkElement.isPresent());
+    browserExt.click(page.homeLinkElement);
+    assert.eventually.equal(browser.getCurrentUrl(), process.protractorConf.baseUrl + 'be/');
   });
 
   it('should have a link to the profile page', function() {
-    assert.eventually.ok(page.profileLinkElement.isPresent());
+    browserExt.click(page.profileLinkElement);
+    assert.eventually.equal(browser.getCurrentUrl(), process.protractorConf.baseUrl + 'be/profile');
   });
 
   it('should display actual profile name in a popover on profile icon', function() {
