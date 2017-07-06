@@ -3,6 +3,7 @@
 ## BUG FIXES
 
 - Remove failing process.api.getCoreApi().getPlugins() function. You should use process.api.getPlugins() instead.
+- Fix super admin id and anonymous id from OpenVeoSettings which were Numbers instead of Strings.
 
 ## NEW FEATURES
 
