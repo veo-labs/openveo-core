@@ -52,9 +52,9 @@
   "devDependencies": {
     "@openveo/rest-nodejs-client": "2.*",
     "@openveo/test": "4.*",
-    "chai": "3.5.0",
+    "chai": "4.0.2",
     "chai-spies": "0.7.1",
-    "chai-as-promised": "6.0.0",
+    "chai-as-promised": "7.1.1",
     "grunt": "1.0.1",
     "grunt-cli": "1.2.0",
     "grunt-contrib-compass": "1.1.1",
