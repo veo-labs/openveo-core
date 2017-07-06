@@ -134,16 +134,8 @@ ProfilePage.prototype.cancelEdition = function() {
 ProfilePage.prototype.setNameAndSave = function(userName) {
   var self = this;
 
-  // Activate account edition
-  return this.activateEdition().then(function() {
-
-    // Fill name field
-    self.userNameInputElement.clear();
-    self.userNameInputElement.sendKeys(userName || '');
-
-    // Submit form
+  return this.setName(userName).then(function() {
     return browserExt.click(self.submitUserElement);
-
   });
 };
 

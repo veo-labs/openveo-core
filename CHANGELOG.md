@@ -15,6 +15,7 @@
 - Expose functions to start / stop OpenVeo within functional tests. Use process.protractorConf.startOpenVeo() and process.protractorConf.stopOpenVeo() to start / stop OpenVeo server respecting Protractor's flow.
 - Cover more functional tests on back end home page and left menu
 - Add a Protractor "coreCommon" suite to tests generic features common to plugins and core. Each plugin should execute this suite with their functional tests
+- Cover more functional tests on back end profile page
 
 ## DEPENDENCIES
 

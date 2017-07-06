@@ -137,6 +137,13 @@
       "password": "core-guest",
       "roles": []
     },
+    "coreLocked": {
+      "name": "core-locked",
+      "email": "core-locked@veo-labs.com",
+      "password": "core-locked",
+      "roles": [],
+      "locked": true
+    },
     "coreRolesNoWrite": {
       "name": "core-roles-no-write",
       "email": "core-roles-no-write@veo-labs.com",

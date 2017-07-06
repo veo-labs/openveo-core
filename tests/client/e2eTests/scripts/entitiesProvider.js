@@ -131,7 +131,8 @@ module.exports.importRoles = function(roles, callback) {
  *         "name": "Core administrator", // User name
  *         "email": "core-admin@veo-labs.com", // User email
  *         "password": "core-admin", // User password
- *         "roles": [ "coreAdmin", "guest" ] // User role reference as defined in roles property
+ *         "roles": [ "coreAdmin", "guest" ], // User role reference as defined in roles property
+ *         "locked": false // Indicates if user can be modified or not
  *       }
  *     };
  *
