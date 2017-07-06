@@ -112,7 +112,7 @@
     }
 
     scopeEditForm.conditionEditDetail = function(userInfo) {
-      return (userInfo.id !== 0);
+      return userInfo.id !== openVeoSettings.superAdminId && !userInfo.locked;
     };
     scopeEditForm.onSubmit = function(model) {
       return saveProfile(model);
@@ -142,7 +142,7 @@
     };
 
     $scope.passwordEditable = function() {
-      return user.id != 0 && !user.locked;
+      return user.id != openVeoSettings.superAdminId && !user.locked;
     };
 
   }
