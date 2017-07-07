@@ -116,36 +116,47 @@ exports.config = {
    * Starts OpenVeo as a sub process.
    *
    * @param {Boolean} ws true to start OpenVeo Web Service, false to start OpenVeo
+   * @param {Boolean} doNotWaitForAngular true to not wait for angular application
    * @return {Promise} Promise resolved when OpenVeo has started
    */
-  startOpenVeo: function(ws) {
+  startOpenVeo: function(ws, doNotWaitForAngular) {
     var flow = browser.controlFlow();
 
-    return flow.execute(function() {
-      var server = (ws) ? 'webServiceServer' : 'applicationServer';
+    function start() {
+      return flow.execute(function() {
+        var server = (ws) ? 'webServiceServer' : 'applicationServer';
 
-      if (servers[server] && servers[server].connected)
-        return protractor.promise.fulfilled();
+        if (servers[server] && servers[server].connected)
+          return protractor.promise.fulfilled();
 
-      var deferred = protractor.promise.defer();
-      var options = [
-        '--serverConf', serverConfPath,
-        '--loggerConf', loggerConfPath,
-        '--databaseConf', databaseConfPath
-      ];
-      if (ws) options.push('--ws');
+        var deferred = protractor.promise.defer();
+        var options = [
+          '--serverConf', serverConfPath,
+          '--loggerConf', loggerConfPath,
+          '--databaseConf', databaseConfPath
+        ];
+        if (ws) options.push('--ws');
 
-      // Executes server as a child process
-      servers[server] = childProcess.fork(path.join(process.root, '/server.js'), options);
+        // Executes server as a child process
+        servers[server] = childProcess.fork(path.join(process.root, '/server.js'), options);
 
-      // Listen to messages from sub process
-      servers[server].on('message', function(data) {
-        if (data)
-          if (data.status === 'started') deferred.fulfill();
+        // Listen to messages from sub process
+        servers[server].on('message', function(data) {
+          if (data)
+            if (data.status === 'started') deferred.fulfill();
+        });
+
+        return deferred.promise;
       });
+    }
 
-      return deferred.promise;
-    });
+    if (doNotWaitForAngular) {
+      return start();
+    } else {
+      return browser.waitForAngular().then(function() {
+        return start();
+      });
+    }
   },
 
   /**
@@ -157,19 +168,21 @@ exports.config = {
   stopOpenVeo: function(ws) {
     var flow = browser.controlFlow();
 
-    return flow.execute(function() {
-      var server = (ws) ? 'webServiceServer' : 'applicationServer';
+    return browser.waitForAngular().then(function() {
+      return flow.execute(function() {
+        var server = (ws) ? 'webServiceServer' : 'applicationServer';
 
-      if (!servers[server] || !servers[server].connected)
-        return protractor.promise.fulfilled();
+        if (!servers[server] || !servers[server].connected)
+          return protractor.promise.fulfilled();
 
-      var deferred = protractor.promise.defer();
-      servers[server].on('exit', function(code, signal) {
-        deferred.fulfill();
+        var deferred = protractor.promise.defer();
+        servers[server].on('exit', function(code, signal) {
+          deferred.fulfill();
+        });
+
+        servers[server].kill('SIGINT');
+        return deferred.promise;
       });
-
-      servers[server].kill('SIGINT');
-      return deferred.promise;
     });
   },
 
@@ -201,7 +214,7 @@ exports.config = {
       // Launch openveo server as a sub process
       function(callback) {
 
-        exports.config.startOpenVeo().then(function() {
+        exports.config.startOpenVeo(false, true).then(function() {
           callback();
         });
       },
@@ -209,7 +222,7 @@ exports.config = {
       // Launch openveo web service server as a sub process
       function(callback) {
 
-        exports.config.startOpenVeo(true).then(function() {
+        exports.config.startOpenVeo(true, true).then(function() {
           callback();
         });
 
