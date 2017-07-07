@@ -30,7 +30,7 @@ function CorePlugin() {
      * @property name
      * @type String
      */
-    name: {value: 'core', writable: true},
+    name: {value: 'core', writable: true, enumerable: true},
 
     /**
      * Core plugin path.
