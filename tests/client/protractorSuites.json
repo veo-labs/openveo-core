@@ -13,7 +13,9 @@
   "coreCommon": [
     "e2eTests/tests/leftMenu/*.js",
     "e2eTests/tests/webService/entities.js",
-    "e2eTests/tests/home/page.js"
+    "e2eTests/tests/home/page.js",
+    "e2eTests/tests/applications/page.js",
+    "e2eTests/tests/applications/translations.js"
   ],
   "core": "e2eTests/tests/**/*.js"
 }

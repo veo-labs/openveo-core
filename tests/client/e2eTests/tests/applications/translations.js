@@ -2,10 +2,11 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var e2e = require('@openveo/test').e2e;
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
-var datas = process.require('tests/client/e2eTests/resources/data.json');
-var browserExt = e2e.browser;
+var ClientModel = process.require('app/server/models/ClientModel.js');
+var ClientProvider = process.require('app/server/providers/ClientProvider.js');
+var ApplicationHelper = process.require('tests/client/e2eTests/helpers/ApplicationHelper.js');
+var storage = process.require('app/server/storage.js');
 
 // Load assertion library
 var assert = chai.assert;
@@ -13,6 +14,9 @@ chai.use(chaiAsPromised);
 
 describe('Application page translations', function() {
   var page;
+  var applicationHelper;
+  var defaultApplications;
+  var baseName = 'test translations';
 
   /**
    * Checks translations.
@@ -44,6 +48,8 @@ describe('Application page translations', function() {
         assert.eventually.equal(scopesField.getLabel(), coreTranslations.APPLICATIONS.FORM_ADD_SCOPES);
         assert.eventually.equal(scopesField.getDescription(), coreTranslations.APPLICATIONS.FORM_ADD_SCOPES_DESC);
         assert.eventually.equal(page.addButtonElement.getText(), coreTranslations.UI.FORM_ADD);
+        assert.eventually.sameMembers(page.getAvailableScopes(), applicationHelper.getScopes(page.translations));
+
         page.closeAddForm();
 
         // Search engine translations
@@ -55,31 +61,27 @@ describe('Application page translations', function() {
         var searchQueryField = searchFields.query;
         assert.eventually.equal(searchQueryField.getLabel(), coreTranslations.APPLICATIONS.QUERY_FILTER);
 
+        // Make search to deal only with entries specially added for the test
+        page.search({query: baseName});
+
         // All actions translations
         page.setSelectAllMouseOver();
         assert.eventually.equal(page.popoverElement.getAttribute('content'), coreTranslations.UI.SELECT_ALL);
 
         page.selectAllLines();
-        browserExt.click(page.actionsButtonElement);
-        var removeActionElement = page.actionsElement.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
-        assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing all remove action');
+
+        assert.eventually.sameMembers(page.getGlobalActions(), [
+          coreTranslations.UI.REMOVE
+        ]);
 
         // Headers translations
         assert.eventually.ok(page.isTableHeader(coreTranslations.APPLICATIONS.NAME_COLUMN), 'Missing name column');
         assert.eventually.ok(page.isTableHeader(coreTranslations.UI.ACTIONS_COLUMN), 'Missing actions column');
 
         // Individual actions
-        page.getLine(datas.applications.coreApplicationsGuest.name).then(function(line) {
-          var actionTd = line.all(by.css('td')).last();
-          var actionButton = actionTd.element(by.css('button'));
-          var removeAction = actionTd.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
-
-          browserExt.click(actionButton).then(function() {
-            assert.eventually.ok(removeAction.isDisplayed(), 'Missing remove action');
-          });
-        }, function(error) {
-          assert.ok(false, error.message);
-        });
+        assert.eventually.sameMembers(page.getLineActions(baseName + ' 1'), [
+          coreTranslations.UI.REMOVE
+        ]);
 
         return browser.waitForAngular();
       }).then(function() {
@@ -92,8 +94,13 @@ describe('Application page translations', function() {
 
   // Prepare page
   before(function() {
+    var clientModel = new ClientModel(new ClientProvider(storage.getDatabase()));
+    applicationHelper = new ApplicationHelper(clientModel);
     page = new ApplicationPage();
     page.logAsAdmin();
+    applicationHelper.getEntities().then(function(applications) {
+      defaultApplications = applications;
+    });
     page.load();
   });
 
@@ -104,11 +111,21 @@ describe('Application page translations', function() {
 
   // Reload page after each test
   afterEach(function() {
+    applicationHelper.removeAllEntities(defaultApplications);
     page.refresh();
   });
 
   it('should be available in different languages', function() {
-    return checkTranslations();
+    applicationHelper.addEntities([
+      {
+        name: baseName + ' 1'
+      },
+      {
+        name: baseName + ' 2'
+      }
+    ]);
+
+    checkTranslations();
   });
 
 });

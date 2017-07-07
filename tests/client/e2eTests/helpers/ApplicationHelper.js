@@ -56,3 +56,39 @@ ApplicationHelper.prototype.getUpdateExample = function() {
     scopes: ['scope3']
   };
 };
+
+/**
+ * Gets scopes names from configuration files.
+ *
+ * @param {Object} OpenVeo translations
+ * @return {Array} The list of scopes names
+ */
+ApplicationHelper.prototype.getScopes = function(translations) {
+  var plugins = process.api.getPlugins();
+  var scopes = [];
+
+  // Get the list of entities and the list of scopes from plugins' configuration
+  plugins.forEach(function(plugin) {
+
+    // Scopes
+    if (plugin.webServiceScopes) {
+      plugin.webServiceScopes.forEach(function(webServiceScope) {
+        scopes.push(eval('translations.' + webServiceScope.name));
+      });
+    }
+
+    // Scopes based on entities
+    if (plugin.entities) {
+      for (var id in plugin.entities) {
+        var idUc = id.toUpperCase();
+        var pluginNameUc = plugin.name.toUpperCase();
+        scopes.push(eval('translations.' + pluginNameUc + '.WS_SCOPES.GET_' + idUc + '_NAME'));
+        scopes.push(eval('translations.' + pluginNameUc + '.WS_SCOPES.UPDATE_' + idUc + '_NAME'));
+        scopes.push(eval('translations.' + pluginNameUc + '.WS_SCOPES.DELETE_' + idUc + '_NAME'));
+        scopes.push(eval('translations.' + pluginNameUc + '.WS_SCOPES.ADD_' + idUc + '_NAME'));
+      }
+    }
+  });
+
+  return scopes;
+};

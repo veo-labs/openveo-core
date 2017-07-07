@@ -35,12 +35,9 @@ describe('Application page', function() {
       return page.logAs(datas.users.coreGuest);
     });
 
-    it('should not access the page', function() {
-      return page.load().then(function() {
-        assert.ok(false, 'User has access to application page and should not');
-      }, function() {
-        assert.ok(true);
-      });
+    it('should not be able to access the page', function() {
+      assert.isRejected(page.load());
+      assert.eventually.equal(browser.getCurrentUrl(), process.protractorConf.baseUrl + 'be/');
     });
 
   });
@@ -139,7 +136,9 @@ describe('Application page', function() {
     });
 
     it('should not have delete action to remove an application', function() {
-      assert.isRejected(page.removeLine(datas.applications.coreApplicationsGuest.name));
+      assert.eventually.sameMembers(page.getLineActions(datas.applications.coreApplicationsGuest.name), [
+        page.translations.CORE.UI.NO_ACTION
+      ]);
     });
 
     it('should not be able to delete application by requesting the server directly', function() {

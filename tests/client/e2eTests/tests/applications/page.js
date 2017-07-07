@@ -37,6 +37,7 @@ describe('Application page', function() {
 
   // Remove all extra applications after each test then reload the page
   afterEach(function() {
+    process.protractorConf.startOpenVeo();
     applicationHelper.removeAllEntities(defaultApplications);
     page.refresh();
   });
@@ -49,65 +50,141 @@ describe('Application page', function() {
     assert.eventually.ok(page.pageDescriptionElement.isPresent());
   });
 
+  it('should propose scopes as defined in configuration', function() {
+    assert.eventually.sameMembers(page.getAvailableScopes(), applicationHelper.getScopes(page.translations));
+  });
+
   it('should be able to add / remove an application', function() {
     var name = 'test add / remove application';
+    page.addLine(name, applicationHelper.getScopes(page.translations));
+    assert.eventually.equal(page.getLineFieldText(name, 'name'), name);
+    assert.eventually.notEmpty(page.getApplicationClientId(name));
+    assert.eventually.notEmpty(page.getApplicationClientKey(name));
+    page.getLineFieldText(name, 'scopes').then(function(scopesText) {
+      assert.sameMembers(scopesText.split(', '), applicationHelper.getScopes(page.translations));
+    });
+    page.removeLine(name);
+    assert.isRejected(page.getLine(name));
+  });
+
+  it('should indicate "Not set" if no scopes in the application', function() {
+    var name = 'test add no scopes application';
     page.addLine(name);
-    assert.isFulfilled(page.getLine(name));
-    assert.eventually.isDefined(page.getApplicationClientId(name));
-    assert.eventually.isDefined(page.getApplicationClientKey(name));
-    assert.eventually.isDefined(page.getLineFieldText(name, 'scopes'));
-    assert.eventually.notEqual(page.getLineFieldText(name, 'scopes'), page.translations.CORE.APPLICATIONS.EMPTY);
+    assert.eventually.equal(page.getLineFieldText(name, 'scopes'), page.translations.CORE.UI.EMPTY);
     page.removeLine(name);
   });
 
-  it('should not be able to add an application with no name', function() {
+  it('should display an error if adding an application failed on server side', function() {
+    var name = 'test add error';
+
+    process.protractorConf.stopOpenVeo();
+    page.addLine(name);
+
+    assert.eventually.sameMembers(page.getAlertMessages(), [page.translations.CORE.ERROR.SERVER]);
+    page.closeAlerts();
+
+    process.protractorConf.startOpenVeo();
+    assert.isRejected(page.getLine(name));
+  });
+
+  it('should display an error if removing an application failed on server side', function() {
+    var name = 'test remove error';
+
+    page.addLine(name);
+
+    // Search for the line before stopping the server
+    page.search({query: name});
+
+    process.protractorConf.stopOpenVeo();
+    page.removeLine(name);
+
+    assert.eventually.sameMembers(page.getAlertMessages(), [page.translations.CORE.ERROR.SERVER]);
+    page.closeAlerts();
+
+    assert.isFulfilled(page.getLine(name));
+  });
+
+  it('should not be able to add an application without a name', function() {
     page.openAddForm();
     assert.eventually.notOk(page.addButtonElement.isEnabled());
     page.closeAddForm();
   });
 
-  it('should not display buttons to change the number of items per page if applications lower than 6', function() {
-    page.getTotalLines().then(function(totalLines) {
-      if (totalLines < 6)
-        assert.eventually.equal(page.itemsPerPageLinkElements.count(), 0);
-    });
-  });
-
   it('should be able to edit an application', function() {
     var name = 'test edition';
     var newName = 'test edition renamed';
+    var scopes = applicationHelper.getScopes(page.translations);
+    var newScopes = scopes.slice(0, scopes.length - 2);
+
+    // Create line
+    page.addLine(name, scopes);
+
+    // Edit application with a new name
+    page.editApplication(name, {name: newName, scopes: newScopes});
+    assert.eventually.notOk(page.isOpenedLine(newName));
+    assert.eventually.equal(page.getLineFieldText(newName, 'name'), newName);
+    page.getLineFieldText(newName, 'scopes').then(function(scopesText) {
+      assert.sameMembers(scopesText.split(', '), newScopes);
+    });
+
+  });
+
+  it('should be able to cancel when editing an application', function() {
+    var name = 'test edition';
+    var newName = 'test edition renamed';
+    var scopes = applicationHelper.getScopes(page.translations);
+    var newScopes = scopes.slice(0, scopes.length - 2);
+
+    // Create line
+    page.addLine(name, scopes);
+
+    // Edit application with a new name and cancel
+    page.editApplication(name, {name: newName, scopes: newScopes}, true);
+    assert.eventually.ok(page.isOpenedLine(name));
+
+    assert.eventually.equal(page.getLineFieldText(name, 'name'), name);
+    page.getLineFieldText(name, 'scopes').then(function(scopesText) {
+      assert.sameMembers(scopesText.split(', '), scopes);
+    });
+  });
+
+  it('should not be able to update an application without a name', function() {
+    var name = 'test edition without a name';
 
     // Create line
     page.addLine(name);
 
-    // Edit application with a new name
-    page.editApplication(name, {name: newName});
-    assert.isFulfilled(page.getLine(newName));
-
+    assert.isRejected(page.editApplication(name, {name: ''}));
   });
 
   it('should be able to cancel when removing an application', function() {
-    return tableAssert.checkCancelRemove();
+    tableAssert.checkCancelRemove();
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(page.translations.CORE.APPLICATIONS.NAME_COLUMN);
+    tableAssert.checkSort(page.translations.CORE.APPLICATIONS.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
-    return tableAssert.checkItemsPerPage();
+    tableAssert.checkItemsPerPage();
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove();
+    tableAssert.checkMassiveRemove();
   });
 
   it('should be paginated', function() {
-    return tableAssert.checkPagination();
+    tableAssert.checkPagination();
   });
 
   it('should be able to select lines', function() {
-    return tableAssert.checkLinesSelection(page.translations.CORE.APPLICATIONS.NAME_COLUMN);
+    tableAssert.checkLinesSelection();
+  });
+
+  it('should have actions to remove applications', function() {
+    tableAssert.checkActions([
+      page.translations.CORE.UI.REMOVE
+    ]);
   });
 
   describe('search', function() {

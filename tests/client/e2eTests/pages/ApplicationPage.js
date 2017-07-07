@@ -123,7 +123,8 @@ ApplicationPage.prototype.addLine = function(name, data) {
     // Set application name
     fields.name.setValue(name);
 
-    // For now no scopes are defined in core
+    // Set application scopes
+    fields.scopes.setValue(data);
 
     // Click the add button
     browserExt.click(self.addButtonElement);
@@ -139,11 +140,14 @@ ApplicationPage.prototype.addLine = function(name, data) {
  *
  * User must be logged and have permission to update applications.
  *
- * @param {String} name Application name
- * @param {Array} data The list of scopes labels
+ * @param {String} name Application name to edit
+ * @param {Object} data The new values
+ * @param {String} [data.name] The new name
+ * @param {Array} [data.scopes] The new scopes
+ * @param {Boolean} cancel true to cancel the edition instead of saving
  * @return {Promise} Promise resolving when the application has been saved
  */
-ApplicationPage.prototype.editApplication = function(name, data) {
+ApplicationPage.prototype.editApplication = function(name, data, cancel) {
   var self = this;
 
   // Close eventually opened line
@@ -161,10 +165,15 @@ ApplicationPage.prototype.editApplication = function(name, data) {
     if (data.name !== undefined)
       fields.name.setValue(data.name);
 
-    // For now no scopes are defined in core
+    // Set application scopes
+    if (data.scopes)
+      fields.scopes.setValue(data.scopes);
 
-    // Click on save button
-    return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
+    // Click on save or cancel button
+    if (cancel)
+      return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_CANCEL')));
+    else
+      return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
   });
 };
 
@@ -219,5 +228,18 @@ ApplicationPage.prototype.getApplicationClientKey = function(name) {
     return field.getText();
   }).then(function(clientKey) {
     return protractor.promise.fulfilled(clientKey);
+  });
+};
+
+/**
+ * Gets available scopes from add form.
+ *
+ * @return {Promise} Promise resolving with the list of scopes
+ */
+ApplicationPage.prototype.getAvailableScopes = function() {
+  var self = this;
+
+  return this.openAddForm().then(function() {
+    return self.getAddFormFields(self.addFormElement).scopes.getOptions();
   });
 };
