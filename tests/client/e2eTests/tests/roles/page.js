@@ -242,7 +242,7 @@ describe('Role page', function() {
     var lines;
 
     // Add lines to test search
-    before(function() {
+    beforeEach(function() {
       return roleHelper.addEntitiesAuto('test search', 2).then(function(addedLines) {
         lines = addedLines;
         return page.refresh();

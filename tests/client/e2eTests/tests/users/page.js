@@ -207,7 +207,7 @@ describe('User page', function() {
     var lines;
 
     // Add lines to test search
-    before(function() {
+    beforeEach(function() {
       return userHelper.addEntitiesAuto('test search', 2).then(function(addedLines) {
         lines = addedLines;
         return page.refresh();

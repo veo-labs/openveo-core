@@ -5,6 +5,7 @@
 - Remove failing process.api.getCoreApi().getPlugins() function. You should use process.api.getPlugins() instead.
 - Fix super admin id and anonymous id from OpenVeoSettings which were Numbers instead of Strings.
 - Fix profile page for super admin user, it was possible to edit the name of the super administrator even if it wasn't saved in server side. It is now impossible to edit the name of the super administrator.
+- Fix functional tests errors on roles page and users page ("Search should be case insensitive")
 
 ## NEW FEATURES
 
