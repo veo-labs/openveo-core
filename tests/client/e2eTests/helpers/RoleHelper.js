@@ -216,3 +216,36 @@ RoleHelper.prototype.getPermissions = function(dictionary) {
     });
   });
 };
+
+
+/**
+ * Gets roles names.
+ *
+ * @async
+ * @method getRoles
+ * @return {Promise} A promise resolving with the list of roles names
+ */
+RoleHelper.prototype.getRoles = function() {
+  var self = this;
+
+  return browser.waitForAngular().then(function() {
+    return self.flow.execute(function() {
+      var deferred = protractor.promise.defer();
+
+      self.model.get(null, function(error, roles) {
+        if (error)
+          deferred.reject(error);
+        else {
+          var names = [];
+          roles.forEach(function(role) {
+            names.push(role.name);
+          });
+
+          deferred.fulfill(names);
+        }
+      });
+
+      return deferred.promise;
+    });
+  });
+};

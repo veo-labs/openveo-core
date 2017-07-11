@@ -35,11 +35,8 @@ describe('User page', function() {
     });
 
     it('should not access the page', function() {
-      return page.load().then(function() {
-        assert.ok(false, 'User has access to users page and should not');
-      }, function() {
-        assert.ok(true);
-      });
+      assert.isRejected(page.load());
+      assert.eventually.equal(browser.getCurrentUrl(), process.protractorConf.baseUrl + 'be/');
     });
 
   });
@@ -141,7 +138,13 @@ describe('User page', function() {
     });
 
     it('should not have delete action to remove a user', function() {
-      assert.isRejected(page.removeLine(datas.users.coreGuest.name));
+      var name = 'Test delete without permission';
+      var email = 'test-delete-without-permission@veo-labs.com';
+      var password = 'Test delete without permission';
+      page.addLine(name, {email: email, password: password, passwordValidate: password});
+      assert.eventually.sameMembers(page.getLineActions(name), [
+        page.translations.CORE.UI.NO_ACTION
+      ]);
     });
 
     it('should not be able to delete user by requesting the server directly', function() {

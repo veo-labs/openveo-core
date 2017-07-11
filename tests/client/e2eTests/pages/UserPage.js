@@ -27,6 +27,8 @@ util.inherits(UserPage, TablePage);
 /**
  * Checks if the users page is loaded.
  *
+ * @async
+ * @method onLoaded
  * @return {Promise} Promise resolving when page is fully loaded
  */
 UserPage.prototype.onLoaded = function() {
@@ -36,6 +38,8 @@ UserPage.prototype.onLoaded = function() {
 /**
  * Gets search form fields.
  *
+ * @async
+ * @method getSearchFields
  * @param {ElementFinder} Search engine element
  * @return {Object} The list of fields
  */
@@ -55,6 +59,7 @@ UserPage.prototype.getSearchFields = function(form) {
 /**
  * Gets add form fields.
  *
+ * @method getAddFormFields
  * @param {ElementFinder} Add form element
  * @return {Object} The list of fields
  */
@@ -102,8 +107,9 @@ UserPage.prototype.getAddFormFields = function(form) {
 /**
  * Gets edit form fields.
  *
+ * @method getEditFormFields
  * @param {ElementFinder} Edit form element
- * @return {Obect} The list of fields
+ * @return {Object} The list of fields
  */
 UserPage.prototype.getEditFormFields = function(form) {
   var fields = {};
@@ -137,6 +143,8 @@ UserPage.prototype.getEditFormFields = function(form) {
  *
  * User must be logged and have permission to create users.
  *
+ * @async
+ * @method addLine
  * @param {String} name User name
  * @param {Array} data User's email, password and roles
  * @return {Promise} Promise resolving when the user has been added
@@ -167,6 +175,8 @@ UserPage.prototype.addLine = function(name, data) {
 /**
  * Gets roles of a user.
  *
+ * @async
+ * @method getUserRoles
  * @param {String} name User name
  * @return {Promise} Promise resolving with the list of roles
  */
@@ -179,11 +189,14 @@ UserPage.prototype.getUserRoles = function(name) {
 /**
  * Edits user.
  *
+ * @async
+ * @method editUser
  * @param {String} name User name
  * @param {Array} data User's email, password and roles
+ * @param {Boolean} cancel true to cancel the edition instead of saving
  * @return {Promise} Promise resolving when the save button is clicked
  */
-UserPage.prototype.editUser = function(name, data) {
+UserPage.prototype.editUser = function(name, data, cancel) {
   var self = this;
 
   // Close eventually opened line
@@ -209,7 +222,25 @@ UserPage.prototype.editUser = function(name, data) {
     if (data.roles !== undefined)
       fields.roles.setValue(data.roles);
 
-    // Click on save button
-    return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
+    // Click on save or cancel button
+    if (cancel)
+      return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_CANCEL')));
+    else
+      return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
+  });
+};
+
+/**
+ * Gets the list of available roles from add form.
+ *
+ * @method getAvailableRoles
+ * @return {Promise} Promise resolving with the list of roles names
+ */
+UserPage.prototype.getAvailableRoles = function() {
+  var self = this;
+
+  // Open add form
+  return this.openAddForm().then(function() {
+    return self.getAddFormFields(self.addFormElement).roles.getOptions();
   });
 };

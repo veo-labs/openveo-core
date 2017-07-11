@@ -2,10 +2,12 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var e2e = require('@openveo/test').e2e;
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
-var browserExt = e2e.browser;
+var storage = process.require('app/server/storage.js');
+var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
+var UserModel = process.require('app/server/models/UserModel.js');
+var UserProvider = process.require('app/server/providers/UserProvider.js');
 
 // Load assertion library
 var assert = chai.assert;
@@ -13,6 +15,9 @@ chai.use(chaiAsPromised);
 
 describe('User page translations', function() {
   var page;
+  var userHelper;
+  var defaultUsers;
+  var baseName = 'test translations';
 
   /**
    * Checks translations.
@@ -65,31 +70,38 @@ describe('User page translations', function() {
         var searchQueryField = searchFields.query;
         assert.eventually.equal(searchQueryField.getLabel(), coreTranslations.USERS.QUERY_FILTER);
 
+        // Some not locked users
+        page.search({query: baseName});
+
         // All actions translations
         page.setSelectAllMouseOver();
         assert.eventually.equal(page.popoverElement.getAttribute('content'), coreTranslations.UI.SELECT_ALL);
 
         page.selectAllLines();
-        browserExt.click(page.actionsButtonElement);
-        var removeActionElement = page.actionsElement.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
-        assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing all remove action');
+
+        assert.eventually.sameMembers(page.getGlobalActions(), [
+          coreTranslations.UI.REMOVE
+        ]);
 
         // Headers translations
         assert.eventually.ok(page.isTableHeader(coreTranslations.USERS.NAME_COLUMN), 'Missing name column');
         assert.eventually.ok(page.isTableHeader(coreTranslations.UI.ACTIONS_COLUMN), 'Missing actions column');
 
         // Individual actions
-        page.getLine(datas.users.coreGuest.name).then(function(line) {
-          var actionTd = line.all(by.css('td')).last();
-          var actionButton = actionTd.element(by.css('button'));
-          var removeActionElement = actionTd.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
+        assert.eventually.sameMembers(page.getLineActions(baseName + ' 1'), [
+          coreTranslations.UI.REMOVE
+        ]);
 
-          browserExt.click(actionButton).then(function() {
-            assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing remove action');
-          });
-        }, function(error) {
-          assert.ok(false, error.message);
-        });
+        // Locked users
+        page.search({query: datas.users.coreLocked.name});
+
+        assert.eventually.sameMembers(page.getGlobalActions(), [
+          coreTranslations.UI.NO_COMMON_ACTION
+        ]);
+
+        assert.eventually.sameMembers(page.getLineActions(datas.users.coreLocked.name), [
+          coreTranslations.UI.NO_ACTION
+        ]);
 
         return browser.waitForAngular();
       }).then(function() {
@@ -102,8 +114,13 @@ describe('User page translations', function() {
 
   // Load page
   before(function() {
+    var userModel = new UserModel(new UserProvider(storage.getDatabase()));
+    userHelper = new UserHelper(userModel);
     page = new UserPage();
     page.logAsAdmin();
+    userHelper.getEntities().then(function(users) {
+      defaultUsers = users;
+    });
     page.load();
   });
 
@@ -114,11 +131,27 @@ describe('User page translations', function() {
 
   // Reload page after each test
   afterEach(function() {
+    userHelper.removeAllEntities(defaultUsers);
     page.refresh();
   });
 
   it('should be available in different languages', function() {
-    return checkTranslations();
+    userHelper.addEntities([
+      {
+        name: baseName + ' 1',
+        email: 'test-translations@veo-labs.com',
+        password: 'test-translations',
+        passwordValidate: 'test-translations'
+      },
+      {
+        name: baseName + ' 2',
+        email: 'test-translations@veo-labs.com',
+        password: 'test-translations',
+        passwordValidate: 'test-translations'
+      }
+    ]);
+
+    checkTranslations();
   });
 
 });

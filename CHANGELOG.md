@@ -19,6 +19,7 @@
 - Cover more functional tests on back end profile page
 - Cover more functional tests on back end Web Service page
 - Cover more functional tests on back end Roles page
+- Cover more functional tests on back end Users page
 
 ## DEPENDENCIES
 
