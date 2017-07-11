@@ -35,11 +35,8 @@ describe('Role page', function() {
     });
 
     it('should not access the page', function() {
-      return page.load().then(function() {
-        assert.ok(false, 'User has access to role page and should not');
-      }, function() {
-        assert.ok(true);
-      });
+      assert.isRejected(page.load());
+      assert.eventually.equal(browser.getCurrentUrl(), process.protractorConf.baseUrl + 'be/');
     });
 
   });
@@ -101,6 +98,9 @@ describe('Role page', function() {
       page.addLine(name, []);
 
       assert.isRejected(page.editRole(name, {name: 'Another name'}));
+
+      // Remove line
+      page.removeLine(name);
     });
 
     it('should not be able to edit role by requesting the server directly', function() {
@@ -132,7 +132,11 @@ describe('Role page', function() {
     });
 
     it('should not have delete action to remove a role', function() {
-      assert.isRejected(page.removeLine(datas.roles.coreAdmin.name));
+      var name = 'Test delete without permission';
+      page.addLine(name, []);
+      assert.eventually.sameMembers(page.getLineActions(name), [
+        page.translations.CORE.UI.NO_ACTION
+      ]);
     });
 
     it('should not be able to delete role by requesting the server directly', function() {

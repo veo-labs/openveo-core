@@ -17,27 +17,6 @@ chai.use(chaiAsPromised);
 describe('Role page', function() {
   var page, tableAssert, defaultRoles, roleHelper;
 
-  /**
-   * Verifies permission of a role.
-   *
-   * @param {String} roleName The role name
-   * @param {Array} rolePermissions List of permissions expected for the role
-   * @return {Promise} Promise resolving when check is done
-   */
-  function checkPermissions(roleName, rolePermissions) {
-    return page.getRolePermissions(roleName).then(function(permissions) {
-      var j = 0;
-
-      for (var i = 0; i < permissions.length; i++) {
-        var permission = permissions[i];
-        if (rolePermissions.indexOf(permission) >= 0)
-          j++;
-      }
-
-      assert.equal(j, rolePermissions.length, 'Permissions of role ' + roleName + ' are incorrect');
-    });
-  }
-
   // Load roles page using super administrator account
   before(function() {
     var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
@@ -58,6 +37,7 @@ describe('Role page', function() {
 
   // Remove all extra application after each test and reload the page
   afterEach(function() {
+    process.protractorConf.startOpenVeo();
     roleHelper.removeAllEntities(defaultRoles);
     page.refresh();
   });
@@ -70,66 +50,192 @@ describe('Role page', function() {
     assert.eventually.ok(page.pageDescriptionElement.isDisplayed());
   });
 
+  it('should propose groups of permissions as defined in configuration files and added groups', function() {
+    page.openAddForm();
+    roleHelper.getPermissionsGroups(page.translations).then(function(groups) {
+      assert.eventually.sameMembers(page.getPermissionGroups(page.addFormElement), groups);
+    });
+    page.closeAddForm();
+  });
+
+  it('should propose permissions as defined in configuration files and permissions from added groups', function() {
+    page.openAddForm();
+    page.getPermissionGroups(page.addFormElement).then(function(groups) {
+      groups.forEach(function(group) {
+        roleHelper.getGroupPermissions(group, page.translations).then(function(expectedPermissions) {
+          assert.eventually.sameMembers(page.getGroupPermissions(group, page.addFormElement), expectedPermissions);
+        });
+      });
+    });
+    page.closeAddForm();
+  });
+
   it('should be able to add / remove a role', function() {
     var name = 'test add / remove role';
-    var corePermissions = page.getCorePermissions();
-    page.addLine(name, corePermissions);
-    assert.isFulfilled(page.getLine(name));
-    checkPermissions(name, corePermissions);
+
+    roleHelper.getPermissions(page.translations).then(function(permissions) {
+      page.addLine(name, permissions);
+      assert.eventually.equal(page.getLineFieldText(name, 'name'), name);
+      assert.eventually.sameDeepMembers(page.getRolePermissions(name), permissions);
+      page.removeLine(name);
+      assert.isRejected(page.getLine(name));
+    });
+  });
+
+  it('should indicate "Not set" if no permission in the role', function() {
+    var name = 'test add no permission roles';
+
+    page.addLine(name);
+    roleHelper.getPermissionsGroups(page.translations).then(function(groups) {
+      var permissions = [];
+
+      // Build permissions descriptors
+      groups.forEach(function(group) {
+        permissions.push({
+          name: page.translations.CORE.UI.EMPTY,
+          group: group
+        });
+      });
+
+      assert.eventually.sameDeepMembers(page.getRolePermissions(name), permissions);
+    });
     page.removeLine(name);
   });
 
-  it('should not be able to add a new role with no name', function() {
+  it('should not be able to add a new role without a name', function() {
     page.openAddForm();
     assert.eventually.notOk(page.addButtonElement.isEnabled());
     page.closeAddForm();
   });
 
-  it('should not display buttons to change the number of items per page if roles lower than 6', function() {
-    page.getTotalLines().then(function(totalRoles) {
-      if (totalRoles < 6)
-        assert.eventually.equal(page.itemsPerPageLinkElements.count(), 0);
-    });
+  it('should display an error if adding a role failed on server side', function() {
+    var name = 'test add error';
+
+    process.protractorConf.stopOpenVeo();
+    page.addLine(name);
+
+    assert.eventually.sameMembers(page.getAlertMessages(), [page.translations.CORE.ERROR.SERVER]);
+    page.closeAlerts();
+
+    process.protractorConf.startOpenVeo();
+    assert.isRejected(page.getLine(name));
+  });
+
+  it('should display an error if removing a role failed on server side', function() {
+    var name = 'test remove error';
+
+    page.addLine(name);
+
+    // Search for the line before stopping the server
+    page.search({query: name});
+
+    process.protractorConf.stopOpenVeo();
+    page.removeLine(name);
+
+    assert.eventually.sameMembers(page.getAlertMessages(), [page.translations.CORE.ERROR.SERVER]);
+    page.closeAlerts();
+
+    assert.isFulfilled(page.getLine(name));
   });
 
   it('should be able to edit a role', function() {
     var name = 'test edition';
     var newName = 'test edition renamed';
-
-    // Create line
-    var corePermissions = page.getCorePermissions();
-    page.addLine(name, corePermissions);
-
-    var newRolePermissions = [
-      page.translations.CORE.PERMISSIONS.UPDATE_ROLES_NAME
+    var newPermissions = [
+      {
+        name: page.translations.CORE.PERMISSIONS.UPDATE_ROLES_NAME,
+        group: page.translations.CORE.PERMISSIONS.GROUP_ROLES
+      }
     ];
 
-    page.editRole(name, {name: newName, permissions: newRolePermissions});
-    checkPermissions(newName, newRolePermissions);
+    roleHelper.getPermissionsGroups(page.translations).then(function(groups) {
+      var expectedPermissions = [];
+
+      // Build permissions descriptors
+      groups.forEach(function(group) {
+        if (group === page.translations.CORE.PERMISSIONS.GROUP_ROLES) {
+          expectedPermissions.push(newPermissions[0]);
+        } else {
+          expectedPermissions.push({
+            name: page.translations.CORE.UI.EMPTY,
+            group: group
+          });
+        }
+      });
+
+      page.addLine(name);
+      page.editRole(name, {name: newName, permissions: newPermissions});
+      assert.eventually.sameDeepMembers(page.getRolePermissions(newName), expectedPermissions);
+      page.removeLine(newName);
+    });
+  });
+
+  it('should be able to cancel when editing a role', function() {
+    var name = 'test edition';
+    var newName = 'test edition renamed';
+    var newPermissions = [
+      {
+        name: page.translations.CORE.PERMISSIONS.UPDATE_ROLES_NAME,
+        group: page.translations.CORE.PERMISSIONS.GROUP_ROLES
+      }
+    ];
+
+    roleHelper.getPermissionsGroups(page.translations).then(function(groups) {
+      var expectedPermissions = [];
+
+      // Build permissions descriptors
+      groups.forEach(function(group) {
+        expectedPermissions.push({
+          name: page.translations.CORE.UI.EMPTY,
+          group: group
+        });
+      });
+
+      page.addLine(name);
+      page.editRole(name, {name: newName, permissions: newPermissions}, true);
+      assert.eventually.ok(page.isOpenedLine(name));
+      assert.eventually.equal(page.getLineFieldText(name, 'name'), name);
+      assert.eventually.sameDeepMembers(page.getRolePermissions(name), expectedPermissions);
+    });
+  });
+
+  it('should not be able to update a role without a name', function() {
+    var name = 'test edition without a name';
+
+    // Create line
+    page.addLine(name);
+
+    assert.isRejected(page.editRole(name, {name: ''}));
   });
 
   it('should be able to cancel when removing a role', function() {
-    return tableAssert.checkCancelRemove();
+    tableAssert.checkCancelRemove();
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(page.translations.CORE.ROLES.NAME_COLUMN);
+    tableAssert.checkSort(page.translations.CORE.ROLES.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
-    return tableAssert.checkItemsPerPage();
+    tableAssert.checkItemsPerPage();
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove();
+    tableAssert.checkMassiveRemove();
   });
 
   it('should be paginated', function() {
-    return tableAssert.checkPagination();
+    tableAssert.checkPagination();
   });
 
   it('should be able to select lines', function() {
-    return tableAssert.checkLinesSelection(page.translations.CORE.ROLES.NAME_COLUMN);
+    tableAssert.checkLinesSelection();
+  });
+
+  it('should have actions to remove roles', function() {
+    tableAssert.checkActions([
+      page.translations.CORE.UI.REMOVE
+    ]);
   });
 
   describe('search', function() {

@@ -15,7 +15,9 @@
     "e2eTests/tests/webService/entities.js",
     "e2eTests/tests/home/page.js",
     "e2eTests/tests/applications/page.js",
-    "e2eTests/tests/applications/translations.js"
+    "e2eTests/tests/applications/translations.js",
+    "e2eTests/tests/roles/page.js",
+    "e2eTests/tests/roles/translations.js"
   ],
   "core": "e2eTests/tests/**/*.js"
 }

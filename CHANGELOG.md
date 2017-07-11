@@ -17,6 +17,7 @@
 - Add a Protractor "coreCommon" suite to tests generic features common to plugins and core. Each plugin should execute this suite with their functional tests
 - Cover more functional tests on back end profile page
 - Cover more functional tests on back end Web Service page
+- Cover more functional tests on back end Roles page
 
 ## DEPENDENCIES
 

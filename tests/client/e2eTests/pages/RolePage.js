@@ -25,69 +25,88 @@ module.exports = RolePage;
 util.inherits(RolePage, TablePage);
 
 /**
- * Selects permissions.
- *
- * All permissions not present in the list of permission will be unselected.
+ * Selects / unselects a permission.
  *
  * @param {ElementFinder} elementFinder Element where to look for permissions
- * @param {Array} permissions The list of permissions labels for the role
- * @return {Promise} Promise resolving when permissions are selected
+ * @param {Object} descriptor Permission descriptor
+ * @param {String} descriptor.name Name of the permission
+ * @param {String} descriptor.group Name of the group associated to the permission
+ * @param {Boolean} select true to select permission, false to unselect permission
+ * @return {Promise} Promise resolving when permission is selected
  */
-function selectRolePermissions(elementFinder, permissions) {
+function selectRolePermission(elementFinder, descriptor, select) {
   var self = this;
-  var deferred = protractor.promise.defer();
+  var permissions = [];
+  var group;
 
-  if (!permissions.length)
-    return protractor.promise.fulfilled();
+  return browser.waitForAngular().then(function() {
 
-  // Roles are organized by panels, open panel to search for permissions
-  elementFinder.all(by.css('.panel')).each(function(panel, index) {
-    var panelBodyElement = panel.element(by.css('.panel-body'));
-
-    panelBodyElement.isDisplayed().then(function(isDisplayed) {
-      if (!isDisplayed) {
-
-        // Panel is not opened
-        // Open it
-        browserExt.click(panel.element(by.css('.panel-heading'))).then(function() {
-          browser.wait(self.EC.visibilityOf(panelBodyElement), 5000, 'Missing panel body (' + index + ')');
-        });
-
-      }
-
-      // Iterate on each permissions labels;
-      browser.waitForAngular().then(function() {
-        panel.all(by.css('label')).each(function(label, index) {
-
-          // Test if permission is checked
-          label.element(by.css('input')).getAttribute('checked').then(function(isChecked) {
-
-            // Get permission name
-            label.getText().then(function(text) {
-              var isPartOfPermissions = permissions.indexOf(text.replace(/ ?\*?$/, '')) >= 0;
-
-              if ((!isChecked && isPartOfPermissions) || (isChecked && !isPartOfPermissions)) {
-
-                // Permission not checked and must be or checked and must not
-                browserExt.click(label, text);
-
-              }
-            });
-
-          });
-
-        });
+    // Look for the group
+    elementFinder.all(by.css('.panel')).each(function(panel, index) {
+      panel.element(by.css('.panel-heading')).getText().then(function(text) {
+        if (text === descriptor.group)
+          group = panel;
       });
-
     });
 
   }).then(function() {
-    return deferred.fulfill();
-  }, function(error) {
-    return deferred.reject(error);
-  });
+    if (!group)
+      return protractor.promise.rejected(new Error('Group "' + descriptor.group + '" not found'));
 
-  return deferred.promise;
+    // Open group if not already opened
+    var panelBody = group.element(by.css('.panel-body'));
+    panelBody.isDisplayed().then(function(isDisplayed) {
+      if (!isDisplayed) {
+        return browserExt.click(group.element(by.css('.panel-heading'))).then(function() {
+          return browser.wait(self.EC.visibilityOf(panelBody), 5000, 'Missing panel body (' +
+                       descriptor.group + ')');
+        });
+      }
+    });
+
+  }).then(function() {
+
+    // Look for permissions within the group
+    group.all(by.css('.panel-body label')).each(function(label, index) {
+
+      // Test if permission is checked
+      label.element(by.css('input')).getAttribute('checked').then(function(isChecked) {
+
+        // Get permission name
+        label.getText().then(function(text) {
+          var isTheOne = text.replace(/ ?\*?$/, '') === descriptor.name;
+
+          // Permission is not checked and needs to be or is checked and needs not to be
+          if ((isTheOne && !isChecked && select) || (isTheOne && isChecked && !select))
+            browserExt.click(label, text);
+        });
+
+      });
+    });
+  }).then(function() {
+    return protractor.promise.fulfilled(permissions);
+  });
+}
+
+/**
+ * Selects / unselects several permissions.
+ *
+ * @param {ElementFinder} elementFinder Element where to look for permissions
+ * @param {Array} descriptors The list of permission descriptors (group name and permission name)
+ * @param {Boolean} select true to select permissions, false to unselect permissions
+ * @return {Promise} Promise resolving when permissions are selected / unselected
+ */
+function selectRolePermissions(elementFinder, descriptors, select) {
+  var self = this;
+
+  if (!descriptors.length)
+    return protractor.promise.fulfilled();
+
+  return browser.waitForAngular().then(function() {
+    descriptors.forEach(function(descriptor) {
+      selectRolePermission.call(self, elementFinder, descriptor, select);
+    });
+  });
 }
 
 /**
@@ -157,50 +176,6 @@ RolePage.prototype.getEditFormFields = function(form) {
 };
 
 /**
- * Gets the list of permissions for the core.
- *
- * @return {Array} The list of permissions regarding the actual selected language
- */
-RolePage.prototype.getCorePermissions = function() {
-  return [
-    this.translations.CORE.PERMISSIONS.ADD_APPLICATIONS_NAME,
-    this.translations.CORE.PERMISSIONS.UPDATE_APPLICATIONS_NAME,
-    this.translations.CORE.PERMISSIONS.DELETE_APPLICATIONS_NAME,
-    this.translations.CORE.PERMISSIONS.ADD_USERS_NAME,
-    this.translations.CORE.PERMISSIONS.UPDATE_USERS_NAME,
-    this.translations.CORE.PERMISSIONS.DELETE_USERS_NAME,
-    this.translations.CORE.PERMISSIONS.ADD_ROLES_NAME,
-    this.translations.CORE.PERMISSIONS.UPDATE_ROLES_NAME,
-    this.translations.CORE.PERMISSIONS.DELETE_ROLES_NAME,
-    this.translations.CORE.PERMISSIONS.ADD_GROUPS_NAME,
-    this.translations.CORE.PERMISSIONS.UPDATE_GROUPS_NAME,
-    this.translations.CORE.PERMISSIONS.DELETE_GROUPS_NAME,
-    this.translations.CORE.PERMISSIONS.ADD_TAXONOMIES_NAME,
-    this.translations.CORE.PERMISSIONS.UPDATE_TAXONOMIES_NAME,
-    this.translations.CORE.PERMISSIONS.DELETE_TAXONOMIES_NAME,
-    this.translations.CORE.PERMISSIONS.ACCESS_APPLICATIONS_PAGE_NAME,
-    this.translations.CORE.PERMISSIONS.ACCESS_USERS_PAGE_NAME,
-    this.translations.CORE.PERMISSIONS.ACCESS_ROLES_PAGE_NAME,
-    this.translations.CORE.PERMISSIONS.ACCESS_GROUPS_PAGE_NAME
-  ];
-};
-
-/**
- * Gets the list of permission group for the core.
- *
- * @return {Array} The list of permission groups regarding the actual selected language
- */
-RolePage.prototype.getCorePermissionGroups = function() {
-  return [
-    this.translations.CORE.PERMISSIONS.GROUP_OTHERS,
-    this.translations.CORE.PERMISSIONS.GROUP_APPLICATIONS,
-    this.translations.CORE.PERMISSIONS.GROUP_USERS,
-    this.translations.CORE.PERMISSIONS.GROUP_ROLES,
-    this.translations.CORE.PERMISSIONS.GROUP_GROUPS
-  ];
-};
-
-/**
  * Gets name field.
  *
  * @param {ElementFinder} formElement Element where to look for groups
@@ -265,26 +240,32 @@ RolePage.prototype.getGroupPermissions = function(name, formElement) {
 };
 
 /**
- * Gets permissions.
+ * Gets permissions descriptors (group name and permission name).
  *
  * @param {ElementFinder} formElement Element where to look for permissions
- * @return {Promise} Promise resolving with the list of permissions
+ * @return {Promise} Promise resolving with the list of permissions descriptors
  */
 RolePage.prototype.getPermissions = function(formElement) {
   var self = this;
   var deferred = protractor.promise.defer();
   var permissions = [];
 
-  // Roles are organized by panels, open panel to search for permissions
+  // Permissions are organized by groups (panels), open group to search for permissions
   formElement.all(by.css('.panel')).each(function(panel, index) {
     var panelBodyElement = panel.element(by.css('.panel-body'));
+    var group;
 
-    // Test if panel is opened
-    panelBodyElement.isDisplayed().then(function(isDisplayed) {
+    // Retrieve group name
+    panelBodyElement.element(by.css('.panel-heading')).getText().then(function(groupName) {
+      group = groupName;
 
+      // Test if group is opened
+      return panelBodyElement.isDisplayed();
+
+    }).then(function(isDisplayed) {
       if (!isDisplayed) {
 
-        // Panel is not opened
+        // Group is not open
         // Open it
         browserExt.click(panel.element(by.css('.panel-heading'))).then(function() {
           browser.wait(self.EC.visibilityOf(panelBodyElement), 5000, 'Missing panel body (' + index + ')');
@@ -292,22 +273,24 @@ RolePage.prototype.getPermissions = function(formElement) {
 
       }
 
-      // Iterate on each permissions labels
+      // Retrieve permissions inside group
       browser.waitForAngular().then(function() {
         panel.all(by.css('label')).each(function(label, index) {
 
           // Get permission name
           label.getText().then(function(text) {
-            permissions.push(text.replace(/ ?\*?$/, ''));
+            permissions.push({
+              name: text.replace(/ ?\*?$/, ''),
+              group: group
+            });
           });
 
         });
       });
 
-    }, function(error) {
+    }).catch(function(error) {
       deferred.reject(error);
     });
-
   }).then(function() {
     deferred.fulfill(permissions);
   }, function(error) {
@@ -337,7 +320,7 @@ RolePage.prototype.addLine = function(name, data) {
     fields.name.setValue(name);
 
     // Set permissions
-    selectRolePermissions.call(self, self.addFormElement, data || []);
+    selectRolePermissions.call(self, self.addFormElement, data || [], true);
 
     // Click the add button
     browserExt.click(self.addButtonElement);
@@ -367,14 +350,26 @@ RolePage.prototype.getRolePermissions = function(name) {
     // Get permissions
     self.lineDetailElement.all(by.css('.panel')).each(function(panel, index) {
 
-      // Open panel
-      browserExt.click(panel.element(by.css('.panel-heading'))).then(function() {
-        browser.wait(self.EC.visibilityOf(panel.element(by.css('.panel-body'))), 5000, 'Missing panel body (' +
-                     index + ')');
+      // Get group name
+      return panel.element(by.css('.panel-heading')).getText().then(function(groupName) {
 
-        panel.all(by.css('.panel-body .literal')).first().getText().then(function(text) {
-          permissions = permissions.concat(text.split(', '));
+        // Open panel
+        browserExt.click(panel.element(by.css('.panel-heading'))).then(function() {
+          browser.wait(self.EC.visibilityOf(panel.element(by.css('.panel-body'))), 5000, 'Missing panel body (' +
+                       groupName + ')');
+
+          panel.all(by.css('.panel-body .literal')).first().getText().then(function(text) {
+            var fetchedPermissions = text.split(', ');
+
+            fetchedPermissions.forEach(function(fetchedPermission) {
+              permissions.push({
+                name: fetchedPermission,
+                group: groupName
+              });
+            });
+          });
         });
+
       });
 
     });
@@ -388,9 +383,10 @@ RolePage.prototype.getRolePermissions = function(name) {
  *
  * @param {String} name Role name
  * @param {Array} data The list of permissions labels for the role
+ * @param {Boolean} cancel true to cancel the edition instead of saving
  * @return {Promise} Promise resolving when the save button is clicked
  */
-RolePage.prototype.editRole = function(name, data) {
+RolePage.prototype.editRole = function(name, data, cancel) {
   var self = this;
 
   // Close eventually opened line
@@ -410,10 +406,13 @@ RolePage.prototype.editRole = function(name, data) {
 
     // Set permissions
     if (data.permissions !== undefined)
-      selectRolePermissions.call(self, formElement, data.permissions);
+      selectRolePermissions.call(self, formElement, data.permissions, true);
 
-    // Click on save button
-    return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
+    // Click on save or cancel button
+    if (cancel)
+      return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_CANCEL')));
+    else
+      return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
 
   });
 };

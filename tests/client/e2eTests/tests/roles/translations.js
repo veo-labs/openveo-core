@@ -2,10 +2,11 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var e2e = require('@openveo/test').e2e;
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
-var datas = process.require('tests/client/e2eTests/resources/data.json');
-var browserExt = e2e.browser;
+var RoleModel = process.require('app/server/models/RoleModel.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var storage = process.require('app/server/storage.js');
+var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
 
 // Load assertion library
 var assert = chai.assert;
@@ -13,6 +14,9 @@ chai.use(chaiAsPromised);
 
 describe('Role page translations', function() {
   var page;
+  var roleHelper;
+  var defaultRoles;
+  var baseName = 'test translations';
 
   /**
    * Checks translations.
@@ -37,28 +41,28 @@ describe('Role page translations', function() {
         // Add form translations
         page.openAddForm();
         var addFormFields = page.getAddFormFields(page.addFormElement);
-        var coreGroups = page.getCorePermissionGroups();
-        var corePermissions = page.getCorePermissions();
         var nameField = addFormFields.name;
         assert.eventually.equal(nameField.getLabel(), coreTranslations.ROLES.FORM_ADD_NAME);
         assert.eventually.equal(nameField.getDescription(), coreTranslations.ROLES.FORM_ADD_NAME_DESC);
         assert.eventually.equal(page.addButtonElement.getText(), coreTranslations.UI.FORM_ADD);
 
         page.getPermissionGroups(page.addFormElement).then(function(groups) {
-          for (var i = 0; i < coreGroups.length; i++)
-            assert.ok(groups.indexOf(coreGroups[i]) >= 0, 'Missing group ' + coreGroups[i]);
+          groups.forEach(function(group) {
+            roleHelper.getGroupPermissions(group, page.translations).then(function(expectedPermissions) {
+              assert.eventually.sameMembers(page.getGroupPermissions(group, page.addFormElement), expectedPermissions);
+            });
+          });
         });
 
-        page.getPermissions(page.addFormElement).then(function(permissions) {
-          for (var i = 0; i < corePermissions.length; i++)
-            assert.ok(permissions.indexOf(corePermissions[i]) >= 0, 'Missing permission ' + corePermissions[i]);
-        });
         page.closeAddForm();
 
         // Search engine translations
         page.searchLinkElement.getText().then(function(text) {
           assert.equal(text.trim(), coreTranslations.UI.SEARCH_BY);
         });
+
+        // Some not locked roles
+        page.search({query: baseName});
 
         var searchFields = page.getSearchFields(page.searchFormElement);
         var searchQueryField = searchFields.query;
@@ -69,26 +73,19 @@ describe('Role page translations', function() {
         assert.eventually.equal(page.popoverElement.getAttribute('content'), coreTranslations.UI.SELECT_ALL);
 
         page.selectAllLines();
-        browserExt.click(page.actionsButtonElement);
-        var removeActionElement = page.actionsElement.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
-        assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing all remove action');
+
+        assert.eventually.sameMembers(page.getGlobalActions(), [
+          coreTranslations.UI.REMOVE
+        ]);
 
         // Headers translations
         assert.eventually.ok(page.isTableHeader(coreTranslations.ROLES.NAME_COLUMN), 'Missing name column');
         assert.eventually.ok(page.isTableHeader(coreTranslations.UI.ACTIONS_COLUMN), 'Missing actions column');
 
         // Individual actions
-        page.getLine(datas.roles.coreAdmin.name).then(function(line) {
-          var actionTd = line.all(by.css('td')).last();
-          var actionButton = actionTd.element(by.css('button'));
-          var removeActionElement = actionTd.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
-
-          browserExt.click(actionButton).then(function() {
-            assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing remove action');
-          });
-        }, function(error) {
-          assert.ok(false, error.message);
-        });
+        assert.eventually.sameMembers(page.getLineActions(baseName + ' 1'), [
+          coreTranslations.UI.REMOVE
+        ]);
 
         return browser.waitForAngular();
       }).then(function() {
@@ -101,8 +98,13 @@ describe('Role page translations', function() {
 
   // Load page
   before(function() {
+    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
+    roleHelper = new RoleHelper(roleModel);
     page = new RolePage();
     page.logAsAdmin();
+    roleHelper.getEntities().then(function(roles) {
+      defaultRoles = roles;
+    });
     page.load();
   });
 
@@ -113,11 +115,23 @@ describe('Role page translations', function() {
 
   // Reload page after each test
   afterEach(function() {
+    roleHelper.removeAllEntities(defaultRoles);
     page.refresh();
   });
 
   it('should be available in different languages', function() {
-    return checkTranslations();
+    roleHelper.addEntities([
+      {
+        name: baseName + ' 1',
+        permissions: []
+      },
+      {
+        name: baseName + ' 2',
+        permissions: []
+      }
+    ]);
+
+    checkTranslations();
   });
 
 });
