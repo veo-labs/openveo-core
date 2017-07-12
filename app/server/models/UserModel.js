@@ -79,14 +79,14 @@ UserModel.prototype.add = function(data, callback) {
 
   // Validate email
   if (!openVeoApi.util.isEmailValid(data.email)) {
-    callback(new Error('Invalid email address'));
+    callback(new Error('Invalid email address ' + data.email));
     return;
   }
 
   // Verify if the email address is not already used
   this.provider.getUserByEmail(data.email, function(error, user) {
     if (error || user)
-      callback(new Error('Email not available'));
+      callback(new Error('Email "' + data.email + '"not available'));
     else {
 
       // Encrypt password
