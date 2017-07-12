@@ -35,11 +35,8 @@ describe('Group page', function() {
     });
 
     it('should not access the page', function() {
-      return page.load().then(function() {
-        assert.ok(false, 'User has access to group page and should not');
-      }, function() {
-        assert.ok(true);
-      });
+      assert.isRejected(page.load());
+      assert.eventually.equal(browser.getCurrentUrl(), process.protractorConf.baseUrl + 'be/');
     });
 
   });
@@ -58,6 +55,10 @@ describe('Group page', function() {
     // Remove all groups after each test and reload the page
     afterEach(function() {
       groupHelper.removeAllEntities(defaultGroups);
+
+      // After removing a group OpenVeo sub process has to be restarted to rebuild its in memory permissions
+      process.protractorConf.restartOpenVeo();
+
       page.refresh();
     });
 
@@ -91,6 +92,10 @@ describe('Group page', function() {
     // Remove all groups after each test and reload the page
     afterEach(function() {
       groupHelper.removeAllEntities(defaultGroups);
+
+      // After removing a group OpenVeo sub process has to be restarted to rebuild its in memory permissions
+      process.protractorConf.restartOpenVeo();
+
       page.refresh();
     });
 
@@ -132,11 +137,17 @@ describe('Group page', function() {
     // Remove all groups after each test and reload the page
     afterEach(function() {
       groupHelper.removeAllEntities(defaultGroups);
+
+      // After removing a group OpenVeo sub process has to be restarted to rebuild its in memory permissions
+      process.protractorConf.restartOpenVeo();
+
       page.refresh();
     });
 
     it('should not have delete action to remove a group', function() {
-      assert.isRejected(page.removeLine(datas.groups.coreGroup.name));
+      assert.eventually.sameMembers(page.getLineActions(datas.groups.coreGroup.name), [
+        page.translations.CORE.UI.NO_ACTION
+      ]);
     });
 
     it('should not be able to delete group by requesting the server directly', function() {

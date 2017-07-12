@@ -57,6 +57,10 @@ describe('Group permissions creation', function() {
   afterEach(function() {
     roleHelper.removeAllEntities(defaultRoles);
     groupHelper.removeAllEntities(defaultGroups);
+
+    // After removing a group OpenVeo sub process has to be restarted to rebuild its in memory permissions
+    process.protractorConf.restartOpenVeo();
+
     groupPage.load();
     groupPage.logout();
   });

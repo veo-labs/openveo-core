@@ -38,6 +38,10 @@ describe('Group page', function() {
   // Remove all groups after each test then reload the page
   afterEach(function() {
     groupHelper.removeAllEntities(defaultGroups);
+
+    // After removing a group OpenVeo sub process has to be restarted to rebuild its in memory permissions
+    process.protractorConf.restartOpenVeo();
+
     page.refresh();
   });
 
@@ -52,28 +56,55 @@ describe('Group page', function() {
   it('should be able to add / remove a group', function() {
     var name = 'test add / remove group';
     var description = 'test add / remove group description';
+
     page.addLine(name, description);
-    assert.isFulfilled(page.getLine(name));
-    assert.eventually.isDefined(page.getLineFieldText(name, 'description'));
+    assert.eventually.notOk(page.isOpenedLine());
+    assert.eventually.equal(page.getLineFieldText(name, 'name'), name);
     assert.eventually.equal(page.getLineFieldText(name, 'description'), description);
     page.removeLine(name);
+    assert.isRejected(page.getLine(name));
   });
 
-  it('should not be able to add a group with no name', function() {
+  it('should not be able to add a group without a name', function() {
     page.openAddForm();
     assert.eventually.notOk(page.addButtonElement.isEnabled());
     page.closeAddForm();
   });
 
-  it('should not be able to add a group with no description', function() {
+  it('should not be able to add a group without a description', function() {
     assert.isRejected(page.addLine('Name'));
   });
 
-  it('should not display buttons to change the number of items per page if groups lower than 6', function() {
-    page.getTotalLines().then(function(totalLines) {
-      if (totalLines < 6)
-        assert.eventually.equal(page.itemsPerPageLinkElements.count(), 0);
-    });
+  it('should display an error if adding a group failed on server side', function() {
+    var name = 'test add error';
+    var description = 'test add error';
+
+    process.protractorConf.stopOpenVeo();
+    page.addLine(name, description);
+
+    assert.eventually.sameMembers(page.getAlertMessages(), [page.translations.CORE.ERROR.SERVER]);
+    page.closeAlerts();
+
+    process.protractorConf.startOpenVeo();
+    assert.isRejected(page.getLine(name));
+  });
+
+  it('should display an error if removing a group failed on server side', function() {
+    var name = 'test remove error';
+    var description = 'test remove error';
+
+    page.addLine(name, description);
+
+    // Search for the line before stopping the server
+    page.search({query: name});
+
+    process.protractorConf.stopOpenVeo();
+    page.removeLine(name);
+
+    assert.eventually.sameMembers(page.getAlertMessages(), [page.translations.CORE.ERROR.SERVER]);
+    page.closeAlerts();
+
+    assert.isFulfilled(page.getLine(name));
   });
 
   it('should be able to edit a group', function() {
@@ -82,39 +113,78 @@ describe('Group page', function() {
     var description = 'test edition description';
     var newDescription = 'test edition description renamed';
 
-    // Create line
     page.addLine(name, description);
-
-    // Edit group with a new name
     page.editGroup(name, {name: newName, description: newDescription});
-    assert.isFulfilled(page.getLine(newName));
+
+    assert.eventually.equal(page.getLineFieldText(newName, 'name'), newName);
     assert.eventually.equal(page.getLineFieldText(newName, 'description'), newDescription);
 
     page.removeLine(newName);
   });
 
+  it('should be able to cancel when editing a group', function() {
+    var name = 'test edition';
+    var newName = 'test edition renamed';
+    var description = 'test edition description';
+    var newDescription = 'test edition description renamed';
+
+    // Create line
+    page.addLine(name, description);
+
+    // Edit group with a new name and cancel
+    page.editGroup(name, {name: newName, description: newDescription}, true);
+    assert.eventually.ok(page.isOpenedLine(name));
+
+    assert.eventually.equal(page.getLineFieldText(name, 'name'), name);
+    assert.eventually.equal(page.getLineFieldText(name, 'description'), description);
+  });
+
+  it('should not be able to update a group without a name', function() {
+    var name = 'test edition without a name';
+    var description = 'test edition without a name';
+
+    // Create line
+    page.addLine(name, description);
+    assert.isRejected(page.editGroup(name, {name: ''}));
+  });
+
+  it('should not be able to update a group without a description', function() {
+    var name = 'test edition without a description';
+    var description = 'test edition without a description';
+
+    // Create line
+    page.addLine(name, description);
+    assert.isRejected(page.editGroup(name, {description: ''}));
+  });
+
   it('should be able to cancel when removing a group', function() {
-    return tableAssert.checkCancelRemove();
+    tableAssert.checkCancelRemove();
   });
 
   it('should be able to sort by name', function() {
-    return tableAssert.checkSort(page.translations.CORE.GROUPS.NAME_COLUMN);
+    tableAssert.checkSort(page.translations.CORE.GROUPS.NAME_COLUMN);
   });
 
   it('should have buttons to change the number of items per page', function() {
-    return tableAssert.checkItemsPerPage();
+    tableAssert.checkItemsPerPage();
   });
 
   it('should be able to remove several lines simultaneously', function() {
-    return tableAssert.checkMassiveRemove();
+    tableAssert.checkMassiveRemove();
   });
 
   it('should be paginated', function() {
-    return tableAssert.checkPagination();
+    tableAssert.checkPagination();
   });
 
   it('should be able to select lines', function() {
-    return tableAssert.checkLinesSelection(page.translations.CORE.GROUPS.NAME_COLUMN);
+    tableAssert.checkLinesSelection();
+  });
+
+  it('should have actions to remove groups', function() {
+    tableAssert.checkActions([
+      page.translations.CORE.UI.REMOVE
+    ]);
   });
 
   describe('search', function() {

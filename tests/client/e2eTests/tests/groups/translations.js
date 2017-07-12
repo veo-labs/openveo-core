@@ -2,13 +2,11 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
-var e2e = require('@openveo/test').e2e;
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
 var GroupModel = process.require('app/server/models/GroupModel.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var storage = process.require('app/server/storage.js');
 var GroupHelper = process.require('tests/client/e2eTests/helpers/GroupHelper.js');
-var browserExt = e2e.browser;
 
 // Load assertion library
 var assert = chai.assert;
@@ -18,6 +16,7 @@ describe('Group page translations', function() {
   var page;
   var defaultGroups;
   var groupHelper;
+  var baseName = 'test translations';
 
   /**
    * Checks translations.
@@ -65,31 +64,27 @@ describe('Group page translations', function() {
         var searchQueryField = searchFields.query;
         assert.eventually.equal(searchQueryField.getLabel(), coreTranslations.GROUPS.QUERY_FILTER);
 
+        // Make search to deal only with entries specially added for the test
+        page.search({query: baseName});
+
         // All actions translations
         page.setSelectAllMouseOver();
         assert.eventually.equal(page.popoverElement.getAttribute('content'), coreTranslations.UI.SELECT_ALL);
 
         page.selectAllLines();
-        browserExt.click(page.actionsButtonElement);
-        var removeActionElement = page.actionsElement.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
-        assert.eventually.ok(removeActionElement.isDisplayed(), 'Missing all remove action');
+
+        assert.eventually.sameMembers(page.getGlobalActions(), [
+          coreTranslations.UI.REMOVE
+        ]);
 
         // Headers translations
         assert.eventually.ok(page.isTableHeader(coreTranslations.GROUPS.NAME_COLUMN), 'Missing name column');
         assert.eventually.ok(page.isTableHeader(coreTranslations.UI.ACTIONS_COLUMN), 'Missing actions column');
 
         // Individual actions
-        page.getLine(name).then(function(line) {
-          var actionTd = line.all(by.css('td')).last();
-          var actionButton = actionTd.element(by.css('button'));
-          var removeAction = actionTd.element(by.cssContainingText('a', coreTranslations.UI.REMOVE));
-
-          browserExt.click(actionButton).then(function() {
-            assert.eventually.ok(removeAction.isDisplayed(), 'Missing remove action');
-          });
-        }, function(error) {
-          assert.ok(false, error.message);
-        });
+        assert.eventually.sameMembers(page.getLineActions(baseName + ' 1'), [
+          coreTranslations.UI.REMOVE
+        ]);
 
         page.removeLine(name);
         return browser.waitForAngular();
@@ -120,10 +115,24 @@ describe('Group page translations', function() {
   // Reload page after each test
   afterEach(function() {
     groupHelper.removeAllEntities(defaultGroups);
+
+    // After removing a group OpenVeo sub process has to be restarted to rebuild its in memory permissions
+    process.protractorConf.restartOpenVeo();
+
     page.refresh();
   });
 
   it('should be available in different languages', function() {
+    groupHelper.addEntities([
+      {
+        name: baseName + ' 1',
+        description: baseName + ' 1'
+      },
+      {
+        name: baseName + ' 2',
+        description: baseName + ' 2'
+      }
+    ]);
     return checkTranslations();
   });
 

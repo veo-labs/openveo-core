@@ -142,9 +142,10 @@ GroupPage.prototype.addLine = function(name, data) {
  *
  * @param {String} name Group name
  * @param {String} data Group new name and description
+ * @param {Boolean} cancel true to cancel the edition instead of saving
  * @return {Promise} Promise resolving when the group has been saved
  */
-GroupPage.prototype.editGroup = function(name, data) {
+GroupPage.prototype.editGroup = function(name, data, cancel) {
   var self = this;
 
   // Close eventually opened line
@@ -166,7 +167,10 @@ GroupPage.prototype.editGroup = function(name, data) {
     if (data.description !== undefined)
       fields.description.setValue(data.description);
 
-    // Click on save button
-    return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
+    // Click on save or cancel button
+    if (cancel)
+      return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_CANCEL')));
+    else
+      return browserExt.click(self.lineDetailElement.element(by.binding('CORE.UI.FORM_SAVE')));
   });
 };
