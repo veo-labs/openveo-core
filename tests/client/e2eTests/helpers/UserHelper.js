@@ -67,7 +67,7 @@ UserHelper.prototype.getAddExample = function() {
   return {
     id: id,
     name: 'User example',
-    email: 'peter.venkman' + id + '@ghosts.com',
+    email: 'peter.venkman' + id.toLowerCase() + '@ghosts.com',
     password: 'peter',
     passwordValidate: 'peter',
     roles: ['role1', 'role2']
