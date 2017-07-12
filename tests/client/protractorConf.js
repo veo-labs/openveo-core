@@ -187,6 +187,18 @@ exports.config = {
   },
 
   /**
+   * Restarts OpenVeo sub process.
+   *
+   * @param {Boolean} ws true to restart OpenVeo Web Service, false to restart OpenVeo
+   * @param {Boolean} doNotWaitForAngular true to not wait for angular application
+   * @return {Promise} Promise resolved when OpenVeo has restarted
+   */
+  restartOpenVeo: function(ws, doNotWaitForAngular) {
+    exports.config.stopOpenVeo(ws);
+    exports.config.startOpenVeo(ws);
+  },
+
+  /**
    * Prepares tests environment.
    *
    * Prepare browser before executing tests, spawn an OpenVeo server, spawn an OpenVeo Web Service
