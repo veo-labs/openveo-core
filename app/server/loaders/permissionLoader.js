@@ -271,100 +271,6 @@ module.exports.generateEntityScopes = function(pluginsEntities) {
 };
 
 /**
- * Generates permissions using groups.
- *
- * Permission's translation keys for name and description are generated
- * using the formats "GROUP_{OPERATION}_NAME" and
- * "{GROUP}_{OPERATION}_DESCRIPTION".
- *
- * @example
- *     var permissionLoader= process.require('app/server/loaders/permissionLoader.js');
- *
- *     permissionLoader.generateGroupPermissions(function() {
- *        // [
- *        //   {
- *        //     label: 'My group name',
- *        //     permissions: [
- *        //       {
- *        //         id : 'get-group-groupID',
- *        //         name : 'CORE.PERMISSIONS.GROUP_GET_NAME',
- *        //         description : 'CORE.PERMISSIONS.GROUP_GET_DESCRIPTION'
- *        //       },
- *        //       {
- *        //         id : 'update-group-groupID',
- *        //         name : 'CORE.PERMISSIONS.GROUP_UPDATE_NAME',
- *        //         description : 'CORE.PERMISSIONS.GROUP_UPDATE_DESCRIPTION'
- *        //       },
- *        //       {
- *        //         id : 'delete-group-groupID',
- *        //         name : 'CORE.PERMISSIONS.GROUP_DELETE_NAME',
- *        //         description : 'CORE.PERMISSIONS.GROUP_DELETE_DESCRIPTION'
- *        //       }
- *        //     ]
- *        //   }
- *        // ]
- *
- *     });
- *
- * @method generateGroupPermissions
- * @static
- * @async
- * @param {Function} callback Function to call when its done with :
- *  - **Array** The list of group permissions
- */
-module.exports.generateGroupPermissions = function(callback) {
-  var self = this;
-  var groupModel = new GroupModel(new GroupProvider(storage.getDatabase()));
-
-  // Get the complete list of groups
-  groupModel.get(null, function(error, entities) {
-    if (error)
-      return callback(error);
-    else if (entities) {
-      var permissions = [];
-      entities.forEach(function(entity) {
-        permissions.push(self.createGroupPermissions(entity.id, entity.name));
-      });
-      callback(null, permissions);
-    }
-  });
-
-};
-
-/**
- * Creates permissions for a group.
- *
- * @method createGroupPermissions
- * @param {String} id The group id
- * @param {String} name The group name
- * @return {Object} The group permissions
- * @throws {TypeError} An error if required parameters are not specified
- */
-module.exports.createGroupPermissions = function(id, name) {
-  if (!id || !name || (typeof id !== 'string') || (typeof name !== 'string'))
-    throw new TypeError('id and name must be valid String');
-
-  var operations = ['get', 'update', 'delete'];
-  var permissionGroup = {
-    label: name,
-    groupId: id,
-    permissions: []
-  };
-
-  for (var i = 0; i < operations.length; i++) {
-    var operation = operations[i];
-    var operationUC = operation.toUpperCase();
-    permissionGroup.permissions.push({
-      id: operation + '-group-' + id,
-      name: 'CORE.PERMISSIONS.GROUP_' + operationUC + '_NAME',
-      description: 'CORE.PERMISSIONS.GROUP_' + operationUC + '_NAME'
-    });
-  }
-
-  return permissionGroup;
-};
-
-/**
  * Reorganizes orphaned top permissions into a generic group.
  *
  * @example
@@ -477,6 +383,7 @@ module.exports.buildScopes = function(entities, plugins, callback) {
 module.exports.buildPermissions = function(entities, plugins, callback) {
   var self = this;
   var permissions = this.generateEntityPermissions(entities);
+  var groupModel = new GroupModel(new GroupProvider(storage.getDatabase()));
 
   // Get plugin's permissions
   if (plugins) {
@@ -492,7 +399,7 @@ module.exports.buildPermissions = function(entities, plugins, callback) {
     });
   }
 
-  this.generateGroupPermissions(function(error, groupsPermissions) {
+  groupModel.generateGroupPermissions(function(error, groupsPermissions) {
     if (error)
       return callback(error);
 

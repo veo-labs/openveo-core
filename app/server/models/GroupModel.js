@@ -7,7 +7,6 @@
 var util = require('util');
 var shortid = require('shortid');
 var openVeoApi = require('@openveo/api');
-var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 var storage = process.require('app/server/storage.js');
 
 /**
@@ -46,6 +45,7 @@ GroupModel.prototype.add = function(data, callback) {
   if (!data.name || !data.description)
     return callback(new Error('Both name and description are required to create a group'));
 
+  var self = this;
   var info = {
     id: data.id || shortid.generate(),
     name: data.name,
@@ -56,7 +56,7 @@ GroupModel.prototype.add = function(data, callback) {
     if (!error && insertCount) {
       var group = documents[0];
       var permissions = storage.getPermissions() || [];
-      var groupPermissions = permissionLoader.createGroupPermissions(group.id, group.name);
+      var groupPermissions = self.createGroupPermissions(group.id, group.name);
 
       // Add new group permissions to the list of permissions
       // The last group must stay the last group, this is the group of orphaned permissions
@@ -136,4 +136,94 @@ GroupModel.prototype.remove = function(ids, callback) {
     if (callback)
       callback(error, deletedCount);
   });
+};
+
+/**
+ * Creates permissions for a group.
+ *
+ * @method createGroupPermissions
+ * @param {String} id The group id
+ * @param {String} name The group name
+ * @return {Object} The group permissions
+ * @throws {TypeError} An error if required parameters are not specified
+ */
+GroupModel.prototype.createGroupPermissions = function(id, name) {
+  if (!id || !name || (typeof id !== 'string') || (typeof name !== 'string'))
+    throw new TypeError('id and name must be valid String');
+
+  var operations = ['get', 'update', 'delete'];
+  var permissionGroup = {
+    label: name,
+    groupId: id,
+    permissions: []
+  };
+
+  for (var i = 0; i < operations.length; i++) {
+    var operation = operations[i];
+    var operationUC = operation.toUpperCase();
+    permissionGroup.permissions.push({
+      id: operation + '-group-' + id,
+      name: 'CORE.PERMISSIONS.GROUP_' + operationUC + '_NAME',
+      description: 'CORE.PERMISSIONS.GROUP_' + operationUC + '_NAME'
+    });
+  }
+
+  return permissionGroup;
+};
+
+/**
+ * Generates permissions using groups.
+ *
+ * Permission's translation keys for name and description are generated
+ * using the formats "GROUP_{OPERATION}_NAME" and
+ * "{GROUP}_{OPERATION}_DESCRIPTION".
+ *
+ * @example
+ *        // Example of generated groups
+ *        // [
+ *        //   {
+ *        //     label: 'My group name',
+ *        //     permissions: [
+ *        //       {
+ *        //         id : 'get-group-groupID',
+ *        //         name : 'CORE.PERMISSIONS.GROUP_GET_NAME',
+ *        //         description : 'CORE.PERMISSIONS.GROUP_GET_DESCRIPTION'
+ *        //       },
+ *        //       {
+ *        //         id : 'update-group-groupID',
+ *        //         name : 'CORE.PERMISSIONS.GROUP_UPDATE_NAME',
+ *        //         description : 'CORE.PERMISSIONS.GROUP_UPDATE_DESCRIPTION'
+ *        //       },
+ *        //       {
+ *        //         id : 'delete-group-groupID',
+ *        //         name : 'CORE.PERMISSIONS.GROUP_DELETE_NAME',
+ *        //         description : 'CORE.PERMISSIONS.GROUP_DELETE_DESCRIPTION'
+ *        //       }
+ *        //     ]
+ *        //   }
+ *        // ]
+ *
+ *     });
+ *
+ * @method generateGroupPermissions
+ * @async
+ * @param {Function} callback Function to call when it's done with :
+ *  - **Array** The list of group permissions
+ */
+GroupModel.prototype.generateGroupPermissions = function(callback) {
+  var self = this;
+
+  // Get the complete list of groups
+  this.get(null, function(error, entities) {
+    if (error)
+      return callback(error);
+    else if (entities) {
+      var permissions = [];
+      entities.forEach(function(entity) {
+        permissions.push(self.createGroupPermissions(entity.id, entity.name));
+      });
+      callback(null, permissions);
+    }
+  });
+
 };

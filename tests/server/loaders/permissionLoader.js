@@ -67,34 +67,6 @@ describe('permissionLoader', function() {
 
   });
 
-  // createGroupPermissions method
-  describe('createGroupPermissions', function() {
-
-    it('should be able to generate permissions for a group', function() {
-      var permissions = permissionLoader.createGroupPermissions('id', 'name');
-      assert.equal(permissions.permissions.length, 3, 'Expected 3 permissions for a group');
-    });
-
-    it('should throw an exception if id or name are not valid String', function() {
-      var invalidValues = [undefined, null, 42, {}, []];
-
-      invalidValues.forEach(function(invalidValue) {
-        assert.throws(function() {
-          permissionLoader.createGroupPermissions(invalidValue, 'name');
-        }, TypeError, null, 'Expected exception when id is ' + typeof invalidValue);
-
-        assert.throws(function() {
-          permissionLoader.createGroupPermissions('id', invalidValue);
-        }, TypeError, null, 'Expected exception when name is ' + typeof invalidValue);
-
-        assert.throws(function() {
-          permissionLoader.createGroupPermissions(invalidValue, invalidValue);
-        }, TypeError, null, 'Expected exception when both id and name are ' + typeof invalidValue);
-      });
-    });
-
-  });
-
   // groupOrphanedPermissions method
   describe('groupOrphanedPermissions', function() {
 
