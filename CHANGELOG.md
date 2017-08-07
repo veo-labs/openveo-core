@@ -23,6 +23,7 @@
 - Cover more functional tests on back end Users page
 - Cover more functional tests on back end Groups page
 - Add button on back end add forms are now disabled while saving
+- Expose instances of Models through the Core API. It is now possible to manipulate taxonomies, Web Service clients, groups, roles and users through the Core API
 
 ## DEPENDENCIES
 

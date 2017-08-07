@@ -26,3 +26,30 @@ function TaxonomyModel(provider) {
 
 module.exports = TaxonomyModel;
 util.inherits(TaxonomyModel, openVeoApi.models.EntityModel);
+
+/**
+ * Gets the list of terms of a taxonomy.
+ *
+ * @method getTaxonomyTerms
+ * @param {String} name The taxonomy name
+ * @param {Function} callback Function to call when it's done
+ *  - **Error** An error if something went wrong
+ *  - **Object** The taxonomy terms
+ */
+TaxonomyModel.prototype.getTaxonomyTerms = function(name, callback) {
+  this.get(
+    {
+      $text: {
+        $search: name
+      }
+    },
+    function(error, taxonomies) {
+      if (error)
+        return callback(error);
+      else if (!taxonomies.length)
+        return callback(new Error('Taxonomy : "' + name + '" not found'));
+      else
+        return callback(null, taxonomies[0].tree);
+    }
+  );
+};

@@ -11,6 +11,16 @@ var url = require('url');
 var async = require('async');
 var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
+var ClientModel = process.require('app/server/models/ClientModel.js');
+var ClientProvider = process.require('app/server/providers/ClientProvider.js');
+var GroupModel = process.require('app/server/models/GroupModel.js');
+var GroupProvider = process.require('app/server/providers/GroupProvider.js');
+var RoleModel = process.require('app/server/models/RoleModel.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
+var TaxonomyProvider = process.require('app/server/providers/TaxonomyProvider.js');
+var UserModel = process.require('app/server/models/UserModel.js');
+var UserProvider = process.require('app/server/providers/UserProvider.js');
 
 /**
  * Defines the Core Plugin API exposed to other plugins.
@@ -21,6 +31,51 @@ var storage = process.require('app/server/storage.js');
  */
 function CorePluginApi() {
   CorePluginApi.super_.call(this);
+  var database = storage.getDatabase();
+
+  Object.defineProperties(this, {
+
+    /**
+     * An instance of ClientModel.
+     *
+     * @property clientModel
+     * @type ClientModel
+     */
+    clientModel: {value: new ClientModel(new ClientProvider(database))},
+
+    /**
+     * An instance of GroupModel.
+     *
+     * @property groupModel
+     * @type GroupModel
+     */
+    groupModel: {value: new GroupModel(new GroupProvider(database))},
+
+    /**
+     * An instance of RoleModel.
+     *
+     * @property roleModel
+     * @type RoleModel
+     */
+    roleModel: {value: new RoleModel(new RoleProvider(database))},
+
+    /**
+     * An instance of TaxonomyModel.
+     *
+     * @property taxonomyModel
+     * @type TaxonomyModel
+     */
+    taxonomyModel: {value: new TaxonomyModel(new TaxonomyProvider(database))},
+
+    /**
+     * An instance of UserModel.
+     *
+     * @property userModel
+     * @type UserModel
+     */
+    userModel: {value: new UserModel(new UserProvider(database))}
+
+  });
 }
 
 module.exports = CorePluginApi;

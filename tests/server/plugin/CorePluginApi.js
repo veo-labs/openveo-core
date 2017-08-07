@@ -5,6 +5,7 @@ var path = require('path');
 var assert = require('chai').assert;
 var openVeoApi = require('@openveo/api');
 var CorePluginApi = process.require('app/server/plugin/CorePluginApi.js');
+var storage = process.require('app/server/storage.js');
 
 // CorePluginApi.js
 describe('CorePluginApi', function() {
@@ -18,6 +19,8 @@ describe('CorePluginApi', function() {
     };
 
     util.inherits(TestPlugin, openVeoApi.plugin.Plugin);
+
+    storage.setDatabase(new openVeoApi.database.Database({}));
   });
 
   // Add core plugin
@@ -38,6 +41,7 @@ describe('CorePluginApi', function() {
 
   afterEach(function() {
     process.api.removePlugins();
+    storage.setDatabase(null);
   });
 
   // getTranslations method
