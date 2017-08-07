@@ -185,8 +185,10 @@
     var self = this;
     this.model = $scope.addFormContainer.model;
     this.fields = $scope.addFormContainer.fields;
+    this.isAddButtonDisabled = false;
 
     this.onSubmit = function() {
+      self.isAddButtonDisabled = true;
 
       // Call submit function must return Promises
       $scope.addFormContainer.onSubmit(self.model).then(function() {
@@ -200,9 +202,10 @@
 
         // Emit a success message
         $scope.$emit('setAlert', 'success', $filter('translate')('CORE.UI.SAVE_SUCCESS'), 4000);
-      }, function() {
 
-        // Do nothing
+        self.isAddButtonDisabled = false;
+      }, function() {
+        self.isAddButtonDisabled = false;
       });
     };
     this.options = {};

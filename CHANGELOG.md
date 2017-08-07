@@ -22,6 +22,7 @@
 - Cover more functional tests on back end Roles page
 - Cover more functional tests on back end Users page
 - Cover more functional tests on back end Groups page
+- Add button on back end add forms are now disabled while saving
 
 ## DEPENDENCIES
 
