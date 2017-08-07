@@ -30,7 +30,8 @@
     'ngJSONPath',
     'ngAnimate',
     'checklist-model',
-    'ui.tinymce'
+    'ui.tinymce',
+    'ngFileUpload'
   ];
 
   // Loads all openveo sub plugins as dependencies of the module "ov"
@@ -160,7 +161,6 @@
         };
       }
     });
-
     formlyConfig.setType({
       name: 'ovTinymce',
       templateUrl: 'ov-core-textarea-tinymce.html'
@@ -175,19 +175,45 @@
         };
       }
     });
+    formlyConfig.setType({
+      name: 'ovFile',
+      templateUrl: 'ov-file.html',
+      link: function(scope) {
 
+        // As a File object can't be copied the model of the ovFile type is not
+        // the file but the progress of the upload (in percent)
+        // File model is stored here
+        scope.file = null;
+
+        // Watch for model changes (progress of the upload)
+        scope.$watch('model["' + scope.options.key + '"]', function(progress) {
+          if (progress === 100) {
+
+            // Done uploading file
+            // Reset field
+            scope.file = null;
+            scope.form.file.$setUntouched();
+            scope.form.file.$setPristine();
+
+          }
+        });
+      }
+    });
+    formlyConfig.setType({
+      name: 'horizontalFile',
+      extends: 'ovFile',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
     formlyConfig.setType({
       name: 'horizontalTinymce',
       extends: 'ovTinymce',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
-
     formlyConfig.setType({
       name: 'horizontalEditableTinymce',
       extends: 'ovEditableTinymce',
       wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
     });
-
     formlyConfig.setType({
       name: 'horizontalInput',
       extends: 'input',

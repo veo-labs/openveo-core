@@ -48,6 +48,7 @@ module.exports = function(config) {
       'assets/lib/fastclick/lib/fastclick.js',
       'assets/lib/tinymce/tinymce.min.js',
       'assets/lib/angular-ui-tinymce/dist/tinymce.min.js',
+      'assets/lib/ng-file-upload/ng-file-upload.min.js',
       'app/client/admin/js/authentication/AuthenticationApp.js',
       'app/client/admin/js/ov/OvApp.js',
       'app/client/admin/views/*.html',

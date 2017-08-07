@@ -210,6 +210,28 @@
       </textarea>
     </script>
 
+    <!-- Formly "ovFile" type template -->
+    <script type="text/ng-template" id="ov-file.html">
+      <div>
+        <input type="file"
+               class="btn btn-default"
+               name="{{options.key}}"
+               ng-disabled="to.disabled"
+               ngf-accept="to.acceptedTypes"
+               ngf-select
+               ng-model="file"
+               ngf-model-options="{updateOn: 'change'}"
+               ngf-change="to.onFileChange($files, $file, $newFiles, $duplicateFiles, $invalidFiles, $event)">
+        <uib-progressbar ng-if="to.progressBar"
+                         ng-show="model[options.key] >= 0 && file"
+                         class="progress-striped"
+                         value="model[options.key]"
+                         type="warning">
+          {{model[options.key]}}%
+        </uib-progressbar>
+      </div>
+    </script>
+
     [[#librariesScripts]]
     <script type="text/javascript" src="[[.]]"></script>
     [[/librariesScripts]]

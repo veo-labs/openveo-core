@@ -122,7 +122,8 @@ module.exports = {
         '/lib/fastclick/lib/fastclick.js',
         '/lib/socket.io-client/dist/socket.io.min.js',
         '/lib/tinymce/tinymce.min.js',
-        '/lib/angular-ui-tinymce/dist/tinymce.min.js'
+        '/lib/angular-ui-tinymce/dist/tinymce.min.js',
+        '/lib/ng-file-upload/ng-file-upload.min.js'
       ],
       dev: [
         '/authentication/AuthenticationApp.js',
