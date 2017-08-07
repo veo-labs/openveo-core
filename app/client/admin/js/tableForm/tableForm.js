@@ -194,7 +194,6 @@
         // on success
         // reset the form
         self.options.resetModel();
-        self.model = {};
 
         // Reload the table
         tableReloadEventService.broadcast();
