@@ -130,6 +130,40 @@
       </div>
     </script>
 
+    <!-- "ov-match" directive template -->
+    <script type="text/ng-template" id="ov-core-match.html">
+      <div class="ov-field-match">
+        <a ng-click="addMatch()" ng-if="multiple || !matches.length" class="ov-field-match-add-button">
+          <span class="glyphicon glyphicon-plus-sign ov-field-match-add-icon"></span>
+          <span class="ov-field-match-add-label" ng-bind="addLabel"></span>
+        </a>
+        <div ng-repeat="match in matches track by $index" class="ov-field-match-value">
+          <div class="col-xs-5">
+            <input type="text"
+                   autocomplete="off"
+                   autocorrect="off"
+                   autocapitalize="off"
+                   spellcheck="false"
+                   class="form-control"
+                   ng-model="match[inputProperty]"
+                   ng-change="updateModel()"
+                   placeholder="{{inputPlaceholder}}"/>
+          </div>
+          <div class="col-xs-5">
+            <ov-tags ng-model="match[tagsProperty]"
+                     ng-model-options="{allowInvalid: true}"
+                     ng-change="updateModel()"
+                     ov-available-options="availableOptions"
+                     ov-placeholder="tagsPlaceholder">
+            </ov-tags>
+          </div>
+          <div class="col-xs-2">
+            <a ng-click="removeMatch($index)" class="glyphicon glyphicon-minus-sign ov-field-match-remove-icon"></a>
+          </div>
+        </div>
+      </div>
+    </script>
+
     <!-- "ov-multi-check-box" directive template -->
     <script type="text/ng-template" id="ov-core-mutli-check-box.html">
       <div class="ov-multi-check-box">
@@ -210,6 +244,20 @@
                ng-change="to.onChange && to.onChange()"
                ov-available-options="to.availableOptions"
                ov-placeholder="to.placeholder"></ov-tags>
+    </script>
+
+    <!-- Formly "match" type template -->
+    <script type="text/ng-template" id="ov-core-formly-match.html">
+      <ov-match ng-model="model[options.key]"
+                ng-model-options="{ allowInvalid: true }"
+                ov-multiple="to.multiple"
+                ov-available-options="to.availableOptions"
+                ov-input-placeholder="to.inputPlaceholder"
+                ov-tags-placeholder="to.tagsPlaceholder"
+                ov-input-property="to.inputProperty"
+                ov-tags-property="to.tagsProperty"
+                ov-add-label="to.addLabel">
+      </ov-match>
     </script>
 
     <!-- Formly "ovMultiCheckBox" type template -->

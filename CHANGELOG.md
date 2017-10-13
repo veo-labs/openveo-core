@@ -5,6 +5,7 @@
 - Add a new formly type "section" to display a level 3 title (h3) inside a formly form
 - Add a new formly type "simple" to display a simple text next to a form label
 - Improve directive ov-tags and its corresponding formly type "tags". ov-tags now accepts a placeholder and a list of predefined values. If predefined values are set only those values can be added using the auto-complete
+- Add a directive ov-match and its corresponding formly type "match" to associate a value with a list of values. It is made of two fields: an input field holding a simple value and a tags field (using directive ov-tags) holding a list of values. Depending on its configuration several associations can be added
 
 ## BUG FIXES
 

@@ -79,6 +79,15 @@
       }
     });
     formlyConfig.setType({
+      name: 'match',
+      templateUrl: 'ov-core-formly-match.html',
+      defaultOptions: {
+        validation: {
+          show: true
+        }
+      }
+    });
+    formlyConfig.setType({
       name: 'emptyrow',
       templateUrl: 'ov-core-empty-row.html',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
@@ -256,6 +265,11 @@
     formlyConfig.setType({
       name: 'horizontalTags',
       extends: 'tags',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalMatch',
+      extends: 'match',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({

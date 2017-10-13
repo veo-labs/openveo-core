@@ -1,0 +1,48 @@
+/* Style for match form element with an input and a tags autocomplete */
+.ov-field-match {
+
+  & > div {
+    height: 34px;
+    margin-bottom: 10px;
+  }
+
+  .ov-field-match-remove-icon, .ov-field-match-add-button {
+    display: block;
+    height: 34px;
+    line-height: 34px;
+    text-decoration: none;
+    color: #08ac01;
+
+    &:hover {
+      cursor: pointer;
+      color: #058400;
+    }
+  }
+
+  .ov-field-match-add-icon, .ov-field-match-remove-icon {
+    font-size: 26px;
+  }
+
+  .ov-field-match-add-label {
+    padding-left: 5px;
+    vertical-align: top;
+    line-height: 27px;
+  }
+
+  .ov-field-match-remove-icon {
+    color: #ce1919;
+
+    &:hover {
+      color: #aa0000;
+    }
+  }
+
+  .ov-field-tags {
+
+    input {
+      width: 100%;
+    }
+
+  }
+
+}

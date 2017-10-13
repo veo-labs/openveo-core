@@ -157,7 +157,8 @@ module.exports = {
         '/ov/ApplicationService.js',
         '/ov/TruncateFilter.js',
         '/ov/TagsDirective.js',
-        '/ov/MultiCheckBoxDirective.js'
+        '/ov/MultiCheckBoxDirective.js',
+        '/ov/MatchDirective.js'
       ],
       prod: [
         '/be/js/openveo.js'

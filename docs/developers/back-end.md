@@ -393,7 +393,8 @@ OpenVeo defines the following list of formly fields.
 Field type | Description | Specific options
 ------------ | ------------- | ------------
 tags | Display an input text to add a list of tags | **availableOptions** to specify the list of possible tags with, for each tag, a property "name" and a property "value". If this option is specified it will not be possible to enter tags which are not in the list (default is []) ; **placeholder** to specify the input placeholder (default to "") ; **onChange** to specify a function which will be called each time a tag is added or removed (default to null)
-emptyrow | Display a fake field with a static message | **message** the message to display
+match | Display an input text and a tags field to build 1 to many associations | **multiple** to specify if more than one association is possible (default to true) ; **availableOptions** to specify the list of possible tags for the tags field (default to []) ; **inputPlaceholder** to specify the value of the input field placeholder (default to "") ; **tagsPlaceholder** to specify the placeholder to use for the tags field (default to "") ; **inputProperty** to specify the property to use from the model to get the input field value of an association (default to "value") ; **tagsProperty** to specify the placeholder to use, from the model, to get the tags field values of an association (default to "values") ; **addLabel** to specify the text of the add button
+emptyrow | Display a fake field with a static message | **message** to specify the message
 section | Display an H3 title | **title** to specify the title
 ovMultiCheckBox | Same as the "multiCheckbox" type defined by [angular-formly-templates-bootstrap](https://github.com/formly-js/angular-formly-templates-bootstrap) | **options** the list of checkboxes description objects with a property for the name of the checkbox and a property for the value of the checkbox ; **valueProperty** to define the property to use to get the checkbox value (default is "value") ; **labelProperty** to define the property to use to get the checkbox label (default is "name")
 ovFile | Display a file input with a progress bar using [ng-file-upload](https://github.com/danialfarid/ng-file-upload) | **acceptedTypes** a comma separated list of accepted file types as described in [ng-file-upload documentation](https://github.com/danialfarid/ng-file-upload#full-reference) ; **onFileChange** a function to call when file has changed (it uses *ngf-change*) ; **progressBar** a boolean to display or not the progress bar while uploading a file (default to false)
@@ -402,6 +403,7 @@ horizontalInput | Same as "input" with horizontalBootstrapLabel and bootstrapHas
 horizontalSelect | Same as "select" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "select"
 horizontalMultiCheckbox | Same as "ovMultiCheckBox" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "ovMultiCheckBox"
 horizontalTags | Same as "tags" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "tags"
+horizontalMatch | Same as "match" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "match"
 horizontalFile | Same as "ovFile" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "ovFile"
 horizontalCheckbox | Same as "checkbox" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "checkbox"
 
