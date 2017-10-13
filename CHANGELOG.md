@@ -1,4 +1,8 @@
-# 4.1.1 /
+# 4.2.0 /
+
+## NEW FEATURES
+
+- Add a new formly type "section" to display a level 3 title (h3) inside a formly form
 
 ## BUG FIXES
 

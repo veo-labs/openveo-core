@@ -184,6 +184,11 @@
       <div class="well well-sm">{{ to.message }}</div>
     </script>
 
+    <!-- Formly "section" type template -->
+    <script type="text/ng-template" id="ov-core-section.html">
+      <h3 ng-bind="to.title"></h3>
+    </script>
+
     <!-- Formly "tags" type template -->
     <script type="text/ng-template" id="ov-core-formly-tags.html">
       <ov-tags ng-model="model[options.key]" ng-model-options="{ allowInvalid: true }"></ov-tags>

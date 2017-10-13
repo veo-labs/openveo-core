@@ -394,6 +394,7 @@ Field type | Description | Specific options
 ------------ | ------------- | ------------
 tags | Display an input text to add a list of tags | -
 emptyrow | Display a fake field with a static message | **message** the message to display
+section | Display an H3 title | **title** to specify the title
 ovMultiCheckBox | Same as the "multiCheckbox" type defined by [angular-formly-templates-bootstrap](https://github.com/formly-js/angular-formly-templates-bootstrap) | **options** the list of checkboxes description objects with a property for the name of the checkbox and a property for the value of the checkbox ; **valueProperty** to define the property to use to get the checkbox value (default is "value") ; **labelProperty** to define the property to use to get the checkbox label (default is "name")
 ovFile | Display a file input with a progress bar using [ng-file-upload](https://github.com/danialfarid/ng-file-upload) | **acceptedTypes** a comma separated list of accepted file types as described in [ng-file-upload documentation](https://github.com/danialfarid/ng-file-upload#full-reference) ; **onFileChange** a function to call when file has changed (it uses *ngf-change*) ; **progressBar** a boolean to display or not the progress bar while uploading a file (default to false)
 horizontalInput | Same as "input" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "input"

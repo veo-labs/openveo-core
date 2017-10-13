@@ -84,6 +84,10 @@
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({
+      name: 'section',
+      templateUrl: 'ov-core-section.html'
+    });
+    formlyConfig.setType({
       extends: 'input',
       name: 'editableInput',
       link: function(scope, element, attrs) {
