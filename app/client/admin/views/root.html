@@ -236,6 +236,11 @@
       </div>
     </script>
 
+    <!-- Formly "simple" type template -->
+    <script type="text/ng-template" id="ov-core-simple.html">
+      <div class="ov-formly-simple" ng-bind="model[options.key]" ng-class="{'ov-formly-simple-edit': formState.showForm}"></div>
+    </script>
+
     [[#librariesScripts]]
     <script type="text/javascript" src="[[.]]"></script>
     [[/librariesScripts]]

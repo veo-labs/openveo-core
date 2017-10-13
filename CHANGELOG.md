@@ -3,6 +3,7 @@
 ## NEW FEATURES
 
 - Add a new formly type "section" to display a level 3 title (h3) inside a formly form
+- Add a new formly type "simple" to display a simple text next to a form label
 
 ## BUG FIXES
 

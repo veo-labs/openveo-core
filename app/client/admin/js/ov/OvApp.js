@@ -204,6 +204,11 @@
       }
     });
     formlyConfig.setType({
+      name: 'simple',
+      templateUrl: 'ov-core-simple.html',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
       name: 'horizontalFile',
       extends: 'ovFile',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
