@@ -21,6 +21,7 @@ var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
 var TaxonomyProvider = process.require('app/server/providers/TaxonomyProvider.js');
 var UserModel = process.require('app/server/models/UserModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
+var CORE_HOOKS = process.require('app/server/plugin/hooks.js');
 
 /**
  * Defines the Core Plugin API exposed to other plugins.
@@ -269,4 +270,14 @@ CorePluginApi.prototype.getTranslations = function(dictionary, code, callback) {
  */
 CorePluginApi.prototype.getCdnUrl = function() {
   return url.format(url.parse(storage.getConfiguration().cdn.url));
+};
+
+/**
+ * Gets core hooks.
+ *
+ * @method getHooks
+ * @return {Object} The core hooks
+ */
+CorePluginApi.prototype.getHooks = function() {
+  return CORE_HOOKS;
 };

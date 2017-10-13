@@ -68,3 +68,26 @@ RoleModel.prototype.add = function(data, callback) {
 RoleModel.prototype.getByIds = function(roles, callback) {
   this.provider.getByIds(roles, callback);
 };
+
+/**
+ * Removes one or several entities.
+ *
+ * Execute hook ROLES_DELETED.
+ *
+ * @method remove
+ * @async
+ * @param {String|Array} ids Id(s) of the document(s) to remove from the collection
+ * @param {Function} callback The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of deleted entities
+ */
+RoleModel.prototype.remove = function(ids, callback) {
+  this.provider.remove(ids, function(error, deletedNumber) {
+    if (error) return callback(error);
+    var api = process.api.getCoreApi();
+
+    api.executeHook(api.getHooks().ROLES_DELETED, ids, function(hookError) {
+      callback(hookError, deletedNumber);
+    });
+  });
+};
