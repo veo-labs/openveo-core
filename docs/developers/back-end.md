@@ -401,6 +401,7 @@ horizontalSelect | Same as "select" with horizontalBootstrapLabel and bootstrapH
 horizontalMultiCheckbox | Same as "ovMultiCheckBox" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "ovMultiCheckBox"
 horizontalTags | Same as "tags" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "tags"
 horizontalFile | Same as "ovFile" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "ovFile"
+horizontalCheckbox | Same as "checkbox" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "checkbox"
 
 Nb: All field types defined in [angular-formly-templates-bootstrap](https://github.com/formly-js/angular-formly-templates-bootstrap) are also available.
 
@@ -417,11 +418,13 @@ editableTags | Make field type "tags" editable | -
 editableInput | Make field type "input" editable | Same as "input"
 editableSelect | Make field type "select" editable | Same as "select"
 editableTags | Make field type "tags" editable | Same as "tags"
+editableCheckbox | Make field type "checkbox" editable | Same as "checkbox"
 ovEditableMultiCheckBox | Make field type "ovMultiCheckBox" editable | Same as "ovMultiCheckBox"
 horizontalEditableInput | Same as "editableInput" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "editableInput"
 horizontalEditableSelect | Same as "editableSelect" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "editableSelect"
 horizontalEditableMultiCheckbox | Same as "ovEditableMultiCheckBox" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "ovEditableMultiCheckBox"
 horizontalEditableTags | Same as "editableTags" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "editableTags"
+horizontalEditableCheckbox | Same as "editableCheckbox" with horizontalBootstrapLabel and bootstrapHasError wrappers | Same as "editableCheckbox"
 
 ### Field wrappers
 
