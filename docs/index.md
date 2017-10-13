@@ -19,7 +19,6 @@ OpenVeo is tested on the following operating systems:
 
 - Windows 10
 - Ubuntu 16.04
-- Xubuntu 16.04
 
 OpenVeo is tested on the following browsers:
 
@@ -29,7 +28,6 @@ OpenVeo is tested on the following browsers:
 - Internet Explorer Edge
 
 ![Ubuntu](images/operating-systems/ubuntu.gif)
-![Xubuntu](images/operating-systems/xubuntu.gif)
 ![Windows](images/operating-systems/windows.gif)
 
 ![Firefox](images/browsers/firefox.gif)
