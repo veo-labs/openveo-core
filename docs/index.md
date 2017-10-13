@@ -13,6 +13,13 @@ This interface gives access to a limited set of default features:
 
 Each plugin brings zero to many additive administration pages and zero to many additive public pages.
 
+## Authentication
+
+OpenVeo supports the following SSO (Single Sign On) providers:
+
+- [LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol)
+- [CAS](https://www.apereo.org/projects/cas)
+
 ## Compatibility
 
 OpenVeo is tested on the following operating systems:
@@ -54,3 +61,6 @@ OpenVeo is tested on the following browsers:
 
 ### Back end applications management page
 ![Back end applications page](images/screenshots/back-end-applications.jpg)
+
+### Back end settings page
+![Back end settings page](images/screenshots/back-end-settings.jpg)

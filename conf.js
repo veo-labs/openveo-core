@@ -8,8 +8,10 @@ module.exports = {
       },
       private: {
         'get /login': 'app/server/controllers/DefaultController.defaultAction',
-        'post /authenticate': 'app/server/controllers/AuthenticationController.authenticateAction',
+        'post /authenticate': 'app/server/controllers/AuthenticationController.authenticateInternalAction',
+        'get /authenticate/:type': 'app/server/controllers/AuthenticationController.authenticateExternalAction',
         '*': 'app/server/controllers/AuthenticationController.restrictAction',
+        'get /logout': 'app/server/controllers/AuthenticationController.logoutAction',
         'post /logout': 'app/server/controllers/AuthenticationController.logoutAction',
         'get /getMenu': 'app/server/controllers/MenuController.getMenuAction',
         'get /getDictionary/:dictionary/:code': 'app/server/controllers/I18nController.getAdminDictionaryAction',
@@ -26,7 +28,8 @@ module.exports = {
     users: 'app/server/controllers/UserController',
     roles: 'app/server/controllers/RoleController',
     groups: 'app/server/controllers/GroupController',
-    taxonomies: 'app/server/controllers/TaxonomyController'
+    taxonomies: 'app/server/controllers/TaxonomyController',
+    settings: 'app/server/controllers/SettingsController'
   },
   permissions: [
     {
@@ -67,21 +70,22 @@ module.exports = {
           name: 'CORE.PERMISSIONS.ACCESS_GROUPS_PAGE_NAME'
         }
       ]
+    },
+    {
+      label: 'CORE.PERMISSIONS.GROUP_SETTINGS',
+      permissions: [
+        {
+          id: 'core-access-settings-page',
+          name: 'CORE.PERMISSIONS.ACCESS_SETTINGS_PAGE_NAME',
+          paths: [
+            'get /roles'
+          ]
+        }
+      ]
     }
   ],
   backOffice: {
     menu: [
-      {
-        weight: 100,
-        label: 'CORE.MENU.WEB_SERVICE',
-        subMenu: [
-          {
-            label: 'CORE.MENU.APPLICATIONS',
-            path: 'applications-list',
-            permission: 'core-access-applications-page'
-          }
-        ]
-      },
       {
         weight: 99,
         label: 'CORE.MENU.RIGHTS',
@@ -102,6 +106,23 @@ module.exports = {
             permission: 'core-access-groups-page'
           }
         ]
+      },
+      {
+        weight: 100,
+        label: 'CORE.MENU.WEB_SERVICE',
+        subMenu: [
+          {
+            label: 'CORE.MENU.APPLICATIONS',
+            path: 'applications-list',
+            permission: 'core-access-applications-page'
+          }
+        ]
+      },
+      {
+        weight: 101,
+        label: 'CORE.MENU.SETTINGS',
+        path: 'openveo-settings',
+        permission: 'core-access-settings-page'
       }
     ],
     scriptLibFiles: {
@@ -158,7 +179,8 @@ module.exports = {
         '/ov/TruncateFilter.js',
         '/ov/TagsDirective.js',
         '/ov/MultiCheckBoxDirective.js',
-        '/ov/MatchDirective.js'
+        '/ov/MatchDirective.js',
+        '/ov/SettingsController.js'
       ],
       prod: [
         '/be/js/openveo.js'

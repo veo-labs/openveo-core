@@ -8,6 +8,7 @@ var crypto = require('crypto');
 var path = require('path');
 var util = require('util');
 var shortid = require('shortid');
+var async = require('async');
 var openVeoApi = require('@openveo/api');
 var configDir = openVeoApi.fileSystem.getConfDir();
 var conf = require(path.join(configDir, 'core/conf.json'));
@@ -28,7 +29,7 @@ module.exports = UserModel;
 util.inherits(UserModel, openVeoApi.models.EntityModel);
 
 /**
- * Gets a user by credentials.
+ * Gets a local user by credentials.
  *
  * @method getUserByCredentials
  * @async
@@ -57,6 +58,8 @@ UserModel.prototype.getUserByCredentials = function(email, password, callback) {
  * @param {String} data.password User's password
  * @param {String} data.passwordValidate User's password validation
  * @param {String} [data.id] User's id, if not specified an id will be generated
+ * @param {String} [data.origin] User's origin, default to local
+ * @param {Array} [data.roles] User's role ids
  * @param {Boolean} [data.locked=false] true to lock user from edition
  * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
@@ -98,11 +101,10 @@ UserModel.prototype.add = function(data, callback) {
         name: data.name,
         email: data.email,
         password: password,
-        locked: data.locked || false
+        locked: data.locked || false,
+        origin: data.origin || openVeoApi.passport.STRATEGIES.LOCAL,
+        roles: data.roles || []
       };
-
-      if (data.roles)
-        user['roles'] = data.roles;
 
       self.provider.add(user, function(error, addedCount, users) {
         delete user['password'];
@@ -133,6 +135,7 @@ UserModel.prototype.add = function(data, callback) {
  */
 UserModel.prototype.update = function(id, data, callback) {
   var self = this;
+  var updatedItems;
 
   // Validate password
   if (data.password) {
@@ -153,12 +156,30 @@ UserModel.prototype.update = function(id, data, callback) {
     return;
   }
 
-  // Verify if the email address is not already used
-  this.provider.getUserByEmail(data.email, function(error, user) {
-    if (error || (user && user.id != id))
-      callback(new Error('Email not available'));
-    else
-      self.provider.update(id, data, callback);
+  async.series([
+
+    // Verify if the email address is not already used
+    function(callback) {
+      if (!data.email) return callback();
+
+      self.provider.getUserByEmail(data.email, function(error, user) {
+        if (error) return callback(error);
+        if (user && user.id != id) return callback(new Error('Email not available'));
+        callback();
+      });
+    },
+
+    // Update user
+    function(callback) {
+      self.provider.update(id, data, function(error, totalItems) {
+        if (error) return callback(error);
+        updatedItems = totalItems;
+        callback();
+      });
+    }
+
+  ], function(error) {
+    callback(error, updatedItems);
   });
 };
 
@@ -183,5 +204,74 @@ UserModel.prototype.remove = function(ids, callback) {
       if (error) return callback(error);
       callback(null, deletedNumber);
     });
+  });
+};
+
+/**
+ * Adds a third party provider user.
+ *
+ * @method addThirdPartyUser
+ * @async
+ * @param {Object} data A user object
+ * @param {String} data.name User's name
+ * @param {String} data.email User's email
+ * @param {String} [data.id] User's id, if not specified an id will be generated
+ * @param {Array} [data.roles] User's role ids
+ * @param {String} origin Id of the third party provider system
+ * @param {String} originId The user id in third party provider system
+ * @param {Array} [originGroups] The user groups in third party provider system
+ * @param {Function} [callback] The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of items inserted
+ *   - **Object** The inserted user
+ */
+UserModel.prototype.addThirdPartyUser = function(data, origin, originId, originGroups, callback) {
+  if (!origin || !data || !data.name || !data.email || !originId) {
+    callback(new Error('Requires name, origin and origin id to add a third party user'));
+    return;
+  }
+
+  var user = {
+    id: data.id || shortid.generate(),
+    name: data.name,
+    email: data.email,
+    origin: origin,
+    originId: originId,
+    originGroups: originGroups || [],
+    roles: data.roles || []
+  };
+
+  this.provider.add(user, function(error, addedCount, users) {
+    if (callback)
+      callback(error, addedCount, user);
+  });
+};
+
+/**
+ * Updates a third party provider user.
+ *
+ * @method updateThirdPartyUser
+ * @async
+ * @param {String} id User id in OpenVeo
+ * @param {Object} data A user object
+ * @param {String} [data.name] User's name
+ * @param {String} [data.email] User's email
+ * @param {Array} [data.originGroups] User's groups in third party provider system
+ * @param {Array} [data.roles] User's role ids
+ * @param {Function} [callback] The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of items updates
+ */
+UserModel.prototype.updateThirdPartyUser = function(id, data, callback) {
+  var userData = {};
+
+  if (data.name) userData.name = data.name;
+  if (data.email) userData.email = data.email;
+  if (data.originGroups) userData.originGroups = data.originGroups;
+  if (data.roles) userData.roles = data.roles;
+
+  this.provider.update(id, userData, function(error, updatedCount) {
+    if (callback)
+      callback(error, updatedCount);
   });
 };

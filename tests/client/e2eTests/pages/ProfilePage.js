@@ -31,11 +31,20 @@ function ProfilePage() {
   this.cancelUserElement = element(by.css('.user-info')).element(by.binding('CORE.UI.FORM_CANCEL'));
   this.passwordTitleElement = element(by.binding('CORE.PROFILES.ATTR_MODIFY_PASSWORD'));
   this.passwordLabelElement = element(by.binding('CORE.PROFILES.ATTR_PASSWORD'));
-  this.passwordElement = element(by.model('password'));
+  this.passwordElement = element(by.model('ctrl.password'));
   this.confirmPasswordLabelElement = element(by.binding('CORE.PROFILES.ATTR_CONFIRM_PASSWORD'));
-  this.confirmPasswordElement = element(by.model('confirmPassword'));
+  this.confirmPasswordElement = element(by.model('ctrl.confirmPassword'));
   this.submitPasswordElement = element(by.css('.password')).element(by.binding('CORE.UI.FORM_SAVE'));
   this.cancelPasswordElement = element(by.css('.password')).element(by.binding('CORE.UI.FORM_CANCEL'));
+  this.userFormElement = element(by.css('.user-info form'));
+  this.passwordFormElement = element(by.css('.password form'));
+  this.userNameInfoElement = element(by.binding('ctrl.user.name'));
+  this.userEmailInfoElement = element(by.binding('ctrl.user.email'));
+  this.userRolesInfoElement = element(by.binding('ctrl.roles'));
+  this.userNameInfoLabelElement = element(by.binding('CORE.PROFILES.ATTR_NAME'));
+  this.userEmailInfoLabelElement = element(by.binding('CORE.PROFILES.ATTR_EMAIL'));
+  this.userOriginInfoLabelElement = element(by.binding('CORE.PROFILES.ATTR_ORIGIN'));
+  this.userRolesInfoLabelElement = element(by.binding('CORE.PROFILES.ATTR_ROLES'));
 }
 
 module.exports = ProfilePage;
@@ -205,4 +214,14 @@ ProfilePage.prototype.setConfirmPassword = function(password) {
  */
 ProfilePage.prototype.cancelPasswordForm = function(password) {
   return browserExt.click(this.cancelPasswordElement);
+};
+
+/**
+ * Gets user's origin.
+ *
+ * @param {String} origin The origin id (e.g. CAS, LDAPAUTH etc.)
+ * @return {Promise} Promise resolving with the user's origin
+ */
+ProfilePage.prototype.getUserOrigin = function(origin) {
+  return element(by.binding('(\'CORE.PROFILES.ORIGIN_\' + ctrl.user.origin.toUpperCase())')).getText();
 };

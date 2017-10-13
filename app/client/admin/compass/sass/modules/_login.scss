@@ -1,22 +1,78 @@
-#loginForm{ 
+#loginForm {
   box-shadow: 0px 0px 0px 0px transparent;
   top:0px;
   position:relative;
   @include single-transition(all, 0.4s, ease);
-  padding: 0 0 10px; 
+  padding: 0 0 10px;
 
-  button{ 
+  button {
     width: 100%;
   }
-  img{ 
-    display: block; 
-    margin: 0 auto; 
+  img {
+    display: block;
+    margin: 0 auto;
     padding: 20px 0;
   }
   &:hover{
      top:-6px;
      box-shadow: 0px 4px 10px 1px #ccc;
      background: white;
+  }
+
+  .ov-cas-button {
+    padding: 0;
+    text-align: left;
+    background: none;
+    background-color: #73c062;
+    border: 0;
+    color: #ffffff;
+    font-weight: bold;
+
+    &:hover {
+      background-color: #63a854;
+    }
+
+    a {
+      display: table;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    span {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .ov-cas-logo {
+      width: 36px;
+
+      img {
+        padding: 0;
+        margin: 5px;
+      }
+    }
+
+    .ov-cas-label {
+      padding-left: 20px;
+    }
+
+  }
+
+  .ov-login-separator {
+    display: table;
+
+    & > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+
+    .ov-login-separator-bar {
+      width: 50%;
+    }
+
+    .ov-login-or span {
+      margin: 0 10px;
+    }
   }
 }
 

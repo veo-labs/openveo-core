@@ -1,7 +1,9 @@
 'use strict';
 
 require('../../processRequire.js');
+var fs = require('fs');
 var path = require('path');
+var url = require('url');
 var async = require('async');
 var childProcess = require('child_process');
 var openVeoApi = require('@openveo/api');
@@ -25,6 +27,12 @@ var confPath = path.join(configurationDirectoryPath, 'conf.json');
 var databaseConf = require(databaseConfPath);
 var serverConf = require(serverConfPath);
 var coreConf = require(confPath);
+var ldapConf = (serverConf.app.auth && serverConf.app.auth[openVeoApi.passport.STRATEGIES.LDAP]) || null;
+var casConf = (serverConf.app.auth && serverConf.app.auth[openVeoApi.passport.STRATEGIES.CAS]) || null;
+var serverConfPathWithoutAuth = path.join(process.root, 'tests/client/e2eTests/build/serverConf.json');
+var casDatabasePath = path.join(process.root, 'tests/client/e2eTests/build/casUsers.json');
+var ldapDatabasePath = path.join(process.root, 'tests/client/e2eTests/build/ldapUsers.json');
+var ldapConfPath = path.join(process.root, 'tests/client/e2eTests/build/ldapConf.json');
 var db;
 var servers = {};
 var webServiceApplications;
@@ -40,6 +48,10 @@ process.api = api;
 // Load suites
 var suites = process.require('tests/client/e2eTests/build/suites.json');
 
+// Load external users
+var casUsers = require(casDatabasePath);
+var ldapUsers = require(ldapDatabasePath);
+
 exports.config = {
   framework: 'mocha',
   mochaOpts: {
@@ -49,6 +61,8 @@ exports.config = {
   suites: suites,
   baseUrl: 'http://127.0.0.1:' + serverConf.app.httpPort + '/',
   webServiceUrl: 'http://127.0.0.1:' + serverConf.ws.port + '/',
+  casConf: casConf,
+  ldapConf: ldapConf,
   plugins: [
     {
       outdir: 'build/screenshots',
@@ -85,6 +99,48 @@ exports.config = {
   },
 
   /**
+   * Gets LDAP user by id.
+   *
+   * @param {String} userId The user id as defined in data.json file. Attribute holding the
+   * user id depends on the LDAP server configuration in serverTestConf.json
+   * @return {Object|Null} The user
+   */
+  getLdapUser: function(userId) {
+    if (ldapConf) {
+      var userIdAttribute = process.protractorConf.ldapConf.userIdAttribute;
+
+      for (var i = 0; i < ldapUsers.length; i++) {
+        var id = openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUsers[i]);
+        if (id === userId)
+          return ldapUsers[i];
+      }
+    }
+
+    return null;
+  },
+
+  /**
+   * Gets CAS user by id.
+   *
+   * @param {String} userId The user id as defined in data.json file. Attribute holding the
+   * user id depends on the CAS server configuration in serverTestConf.json
+   * @return {Object|Null} The user
+   */
+  getCasUser: function(userId) {
+    if (casConf) {
+      var userIdAttribute = process.protractorConf.casConf.userIdAttribute;
+
+      for (var i = 0; i < casUsers.length; i++) {
+        var id = openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUsers[i]);
+        if (id === userId)
+          return casUsers[i];
+      }
+    }
+
+    return null;
+  },
+
+  /**
    * Gets back end menu ordered by weight.
    *
    * @return {Array} The menu and sub menus
@@ -113,13 +169,49 @@ exports.config = {
   },
 
   /**
+   * Stops a sub process server.
+   *
+   * @param {String} server The id of the server to stop
+   * @param {Boolean} doNotWaitForAngular true to not wait for angular application
+   * @return {Promise} Promise resolved when server has stopped
+   */
+  stopServer: function(server, doNotWaitForAngular) {
+    var flow = browser.controlFlow();
+
+    function stop() {
+      return flow.execute(function() {
+        if (!servers[server] || !servers[server].connected)
+          return protractor.promise.fulfilled();
+
+        var deferred = protractor.promise.defer();
+        servers[server].on('exit', function(code, signal) {
+          deferred.fulfill();
+        });
+
+        servers[server].kill('SIGINT');
+        return deferred.promise;
+      });
+    }
+
+    if (doNotWaitForAngular) {
+      return stop();
+    } else {
+      return browser.waitForAngular().then(function() {
+        return stop();
+      });
+    }
+  },
+
+  /**
    * Starts OpenVeo as a sub process.
    *
    * @param {Boolean} ws true to start OpenVeo Web Service, false to start OpenVeo
    * @param {Boolean} doNotWaitForAngular true to not wait for angular application
+   * @param {Boolean} withoutExternalAuth true to restart OpenVeo without the external authentication
+   * providers (e.g. LDAP)
    * @return {Promise} Promise resolved when OpenVeo has started
    */
-  startOpenVeo: function(ws, doNotWaitForAngular) {
+  startOpenVeo: function(ws, doNotWaitForAngular, withoutExternalAuth) {
     var flow = browser.controlFlow();
 
     function start() {
@@ -131,7 +223,7 @@ exports.config = {
 
         var deferred = protractor.promise.defer();
         var options = [
-          '--serverConf', serverConfPath,
+          '--serverConf', withoutExternalAuth ? serverConfPathWithoutAuth : serverConfPath,
           '--loggerConf', loggerConfPath,
           '--databaseConf', databaseConfPath
         ];
@@ -163,27 +255,11 @@ exports.config = {
    * Stops OpenVeo sub process.
    *
    * @param {Boolean} ws true to stop OpenVeo Web Service, false to stop OpenVeo
+   * @param {Boolean} doNotWaitForAngular true to not wait for angular application
    * @return {Promise} Promise resolved when OpenVeo has stopped
    */
-  stopOpenVeo: function(ws) {
-    var flow = browser.controlFlow();
-
-    return browser.waitForAngular().then(function() {
-      return flow.execute(function() {
-        var server = (ws) ? 'webServiceServer' : 'applicationServer';
-
-        if (!servers[server] || !servers[server].connected)
-          return protractor.promise.fulfilled();
-
-        var deferred = protractor.promise.defer();
-        servers[server].on('exit', function(code, signal) {
-          deferred.fulfill();
-        });
-
-        servers[server].kill('SIGINT');
-        return deferred.promise;
-      });
-    });
+  stopOpenVeo: function(ws, doNotWaitForAngular) {
+    return exports.config.stopServer((ws) ? 'webServiceServer' : 'applicationServer', doNotWaitForAngular);
   },
 
   /**
@@ -191,11 +267,126 @@ exports.config = {
    *
    * @param {Boolean} ws true to restart OpenVeo Web Service, false to restart OpenVeo
    * @param {Boolean} doNotWaitForAngular true to not wait for angular application
+   * @param {Boolean} withoutExternalAuth true to restart OpenVeo without the external authentication
+   * providers (e.g. LDAP)
    * @return {Promise} Promise resolved when OpenVeo has restarted
    */
-  restartOpenVeo: function(ws, doNotWaitForAngular) {
-    exports.config.stopOpenVeo(ws);
-    exports.config.startOpenVeo(ws);
+  restartOpenVeo: function(ws, doNotWaitForAngular, withoutExternalAuth) {
+    exports.config.stopOpenVeo(ws, doNotWaitForAngular);
+    exports.config.startOpenVeo(ws, doNotWaitForAngular, withoutExternalAuth);
+  },
+
+  /**
+   * Starts LDAP server as a sub process.
+   *
+   * @param {Boolean} doNotWaitForAngular true to not wait for angular application
+   * @return {Promise} Promise resolved when LDAP server has started
+   */
+  startLdapServer: function(doNotWaitForAngular) {
+    var flow = browser.controlFlow();
+
+    function start() {
+      return flow.execute(function() {
+        var server = 'ldapServer';
+
+        if (servers[server] && servers[server].connected)
+          return protractor.promise.fulfilled();
+
+        var deferred = protractor.promise.defer();
+        var options = [
+          '--conf', ldapConfPath,
+          '--database', ldapDatabasePath
+        ];
+
+        // Executes server as a child process
+        servers[server] = childProcess.fork(
+          path.join(process.root, '/node_modules/ldap-server-mock/server.js'), options
+        );
+
+        // Listen to messages from sub process
+        servers[server].on('message', function(data) {
+          if (data)
+            if (data.status === 'started') deferred.fulfill();
+        });
+
+        return deferred.promise;
+      });
+    }
+
+    if (doNotWaitForAngular) {
+      return start();
+    } else {
+      return browser.waitForAngular().then(function() {
+        return start();
+      });
+    }
+  },
+
+  /**
+   * Stops LDAP server sub process.
+   *
+   * @param {Boolean} doNotWaitForAngular true to not wait for angular application
+   * @return {Promise} Promise resolved when LDAP server has stopped
+   */
+  stopLdapServer: function(doNotWaitForAngular) {
+    return exports.config.stopServer('ldapServer', doNotWaitForAngular);
+  },
+
+  /**
+   * Starts CAS server as a sub process.
+   *
+   * @param {Boolean} doNotWaitForAngular true to not wait for angular application
+   * @return {Promise} Promise resolved when CAS server has started
+   */
+  startCasServer: function(doNotWaitForAngular) {
+    var flow = browser.controlFlow();
+
+    function start() {
+      return flow.execute(function() {
+        var server = 'casServer';
+
+        if (servers[server] && servers[server].connected)
+          return protractor.promise.fulfilled();
+
+        var deferred = protractor.promise.defer();
+        var casUrl = url.parse(casConf.url);
+        var options = [
+          '--port', casUrl.port,
+          '--database', casDatabasePath
+        ];
+
+        // Executes server as a child process
+        servers[server] = childProcess.fork(
+          path.join(process.root, '/node_modules/cas-server-mock/server.js'), options
+        );
+
+        // Listen to messages from sub process
+        servers[server].on('message', function(data) {
+          if (data)
+            if (data.status === 'started') deferred.fulfill();
+        });
+
+        return deferred.promise;
+      });
+    }
+
+    if (doNotWaitForAngular) {
+      return start();
+    } else {
+      return browser.waitForAngular().then(function() {
+        return start();
+      });
+    }
+  },
+
+  /**
+   * Stops CAS server sub process.
+   *
+   * @param {Boolean} doNotWaitForAngular true to not wait for angular application
+   * @return {Promise} Promise resolved when CAS server has stopped
+   */
+  stopCasServer: function(doNotWaitForAngular) {
+    return exports.config.stopServer('casServer', doNotWaitForAngular);
   },
 
   /**
@@ -223,28 +414,93 @@ exports.config = {
 
     async.series([
 
-      // Launch openveo server as a sub process
+      // Generate a server configuration file based on serverTestConf.json but without
+      // the authentication mechanisms
       function(callback) {
+        process.stdout.write('Prepare > Generate ' +
+                             serverConfPathWithoutAuth +
+                             ' without authentication mechanisms\n');
 
-        exports.config.startOpenVeo(false, true).then(function() {
+        var conf = JSON.parse(JSON.stringify(serverConf));
+        delete conf.app.auth;
+
+        fs.writeFile(serverConfPathWithoutAuth, JSON.stringify(conf), function(error) {
+          if (error) throw error;
+
+          process.stdout.write(serverConfPathWithoutAuth + ' generated\n');
           callback();
         });
+      },
+
+      // Generate configuration file for LDAP server mock
+      function(callback) {
+        process.stdout.write('Prepare > Generate ' + ldapConfPath + '\n');
+
+        openVeoApi.fileSystem.mkdir(path.dirname(ldapDatabasePath), function(error) {
+          if (error) return callback(error);
+          var ldapUrl = url.parse(ldapConf.url);
+
+          fs.writeFile(ldapConfPath, JSON.stringify({
+            port: ldapUrl.port,
+            userLoginAttribute: ldapConf.userIdAttribute,
+            searchBase: ldapConf.searchBase,
+            searchFilter: ldapConf.searchFilter,
+            bindDn: ldapConf.bindDn
+          }), {encoding: 'utf8'}, function(error) {
+            if (error) return callback(error);
+            process.stdout.write(ldapConfPath + ' generated\n');
+            callback();
+          });
+        });
+      },
+
+      // Launch CAS server as a sub process
+      function(callback) {
+        process.stdout.write('Prepare > Start CAS server\n');
+
+        exports.config.startCasServer(true).then(function() {
+          process.stdout.write('Prepare > CAS server started\n');
+          callback();
+        }, callback);
+      },
+
+      // Launch LDAP server as a sub process
+      function(callback) {
+        process.stdout.write('Prepare > Starts LDAP server\n');
+
+        exports.config.startLdapServer(true).then(function() {
+          process.stdout.write('Prepare > LDAP server started\n');
+          callback();
+        }, callback);
+      },
+
+      // Launch openveo server as a sub process
+      function(callback) {
+        process.stdout.write('Prepare > Starts OpenVeo server\n');
+
+        exports.config.startOpenVeo(false, true).then(function() {
+          process.stdout.write('Prepare > OpenVeo server started\n');
+          callback();
+        }, callback);
       },
 
       // Launch openveo web service server as a sub process
       function(callback) {
+        process.stdout.write('Prepare > Starts OpenVeo Web Service server\n');
 
         exports.config.startOpenVeo(true, true).then(function() {
+          process.stdout.write('Prepare > OpenVeo Web Service server started\n');
           callback();
-        });
-
+        }, callback);
       },
 
       // Establish connection to the database
       function(callback) {
+        process.stdout.write('Prepare > Establish connection to the database\n');
+
         db.connect(function(error) {
-          if (error)
-            throw new Error(error);
+          if (error) return callback(error);
+          process.stdout.write('Prepare > Connection to the database established\n');
 
           storage.setDatabase(db);
 
@@ -252,7 +508,8 @@ exports.config = {
           storage.setConfiguration({
             superAdminId: '0',
             anonymousId: '1',
-            cdn: coreConf.cdn
+            cdn: coreConf.cdn,
+            auth: serverConf.app.auth
           });
 
           callback();
@@ -261,76 +518,91 @@ exports.config = {
 
       // Load Core plugin
       function(callback) {
+        process.stdout.write('Prepare > Load core plugin\n');
+
         corePlugin = new CorePlugin();
-        pluginLoader.loadPluginMetadata(corePlugin, callback);
+        pluginLoader.loadPluginMetadata(corePlugin, function(error) {
+          if (error) return callback(error);
+          process.stdout.write('Prepare > Core plugin loaded\n');
+          callback();
+        });
       },
 
       // Load openveo plugins
       function(callback) {
+        process.stdout.write('Prepare > Load plugins\n');
+
         pluginLoader.loadPlugins(path.join(process.root), function(error, plugins) {
-          if (error) {
-            throw new Error(error);
-          } else {
-            plugins.unshift(corePlugin);
+          if (error) return callback(error);
 
-            plugins.forEach(function(plugin) {
-              process.api.addPlugin(plugin);
-            });
+          plugins.unshift(corePlugin);
 
-            callback();
-          }
+          plugins.forEach(function(plugin) {
+            process.api.addPlugin(plugin);
+          });
+
+          process.stdout.write('Prepare > Plugins loaded\n');
+          callback();
         });
       },
 
       // Load entities
       function(callback) {
+        process.stdout.write('Prepare > Load entities\n');
+
         var entities = entityLoader.buildEntities(process.api.getPlugins());
         storage.setEntities(entities);
+
+        process.stdout.write('Prepare > Entities loaded\n');
         callback();
       },
 
       // Load permissions
       function(callback) {
+        process.stdout.write('Prepare > Load permissions\n');
+
         var entities = storage.getEntities();
         var plugins = process.api.getPlugins();
         permissionLoader.buildPermissions(entities, plugins, function(error, permissions) {
-          if (error)
-            return callback(error);
+          if (error) return callback(error);
 
           // Store application's permissions
           storage.setPermissions(permissions);
 
+          process.stdout.write('Prepare > Permissions loaded\n');
           callback();
         });
       },
 
       // Get the list of available client applications and expose it to plugins
       function(callback) {
+        process.stdout.write('Prepare > Load applications\n');
+
         var clientModel = new ClientModel(new ClientProvider(storage.getDatabase()));
         clientModel.get(null, function(error, entities) {
-          if (error) {
-            throw new Error(error);
-          } else {
-            webServiceApplications = entities;
-            callback(error);
-          }
+          if (error) return callback(error);
+          process.stdout.write('Prepare > Applications loaded\n');
+
+          webServiceApplications = entities;
+          callback();
         });
       },
 
       // Get the list of available users and expose it to plugins
       function(callback) {
+        process.stdout.write('Prepare > Load users\n');
+
         var userModel = new UserModel(new UserProvider(storage.getDatabase()));
         userModel.get(null, function(error, entities) {
-          if (error) {
-            throw new Error(error);
-          } else {
-            users = entities;
-            callback(error);
-          }
+          if (error) return callback(error);
+          process.stdout.write('Prepare > Users loaded\n');
+          users = entities;
+          callback();
         });
       }
 
     ], function(error) {
+      if (error) throw error;
       deferred.fulfill();
     });
 
@@ -339,9 +611,11 @@ exports.config = {
     });
   },
   onCleanUp: function() {
-    process.logger.info('Tests finished, exit servers and close connection to the database');
+    process.stdout.write('Prepare > Tests finished, exit servers and close connection to the database\n');
     servers['applicationServer'].kill('SIGINT');
     servers['webServiceServer'].kill('SIGINT');
+    servers['casServer'].kill('SIGINT');
+    servers['ldapServer'].kill('SIGINT');
     db.close();
   }
 };

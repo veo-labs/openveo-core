@@ -42,6 +42,7 @@ It has dependencies on all AngularJS libraries and all AngularJS modules describ
 - **/be/users-list** to access users page
 - **/be/profile** to access user's profile page
 - **/be/roles-list** to access roles page
+- **/be/openveo-settings** to access settings page
 
 **Nb:** Available services / filters defined in **ov** module are described in the [API](api.md).
 
@@ -53,7 +54,7 @@ Offers a service to control alerts for the whole application. Alerts are used to
 
 ## Authentication module (**ov.authentication**)
 
-Offers a service to authenticate / logout or manipulate authenticated user informations. User information are stored locally using the ov.storage module.
+Offers a service to authenticate / logout or manipulate authenticated user informations.
 
 **Nb:** Available services / filters defined in **ov.authentication** module are described in the [API](api.md).
 

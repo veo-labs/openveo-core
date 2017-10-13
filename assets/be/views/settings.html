@@ -1,0 +1,13 @@
+<div class="settings">
+  <h2 ng-bind="'CORE.SETTINGS.TITLE' | translate"></h2>
+  <div class="well well-lg" ng-bind="'CORE.SETTINGS.INFO' | translate"></div>
+  <div class="container row">
+    <div>
+      <formly-form model="ctrl.formValues" fields="ctrl.formFields" options="ctrl.formOptions" form="ctrl.form" root-el="form">
+        <div class="form-submit-bouton col-xs-12" ng-if="ctrl.hasLdap || ctrl.hasCas">
+          <button type="submit" class="btn btn-primary" ng-disabled="ctrl.form.$invalid || ctrl.form.$waiting" ng-bind="'CORE.UI.FORM_SAVE' | translate" ng-click="ctrl.save()"></button>
+        </div>
+      </formly-form>
+    </div>
+  </div>
+</div>

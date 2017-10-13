@@ -20,7 +20,9 @@ describe('UserController', function() {
   beforeEach(function() {
     model = {};
     request = {params: {}, query: {}};
-    response = {};
+    response = {
+      send: chai.spy(function() {})
+    };
     userController = new UserController();
     userController.getModel = function() {
       return model;
@@ -123,6 +125,23 @@ describe('UserController', function() {
       });
     });
 
+    it('should be able to filter by origin', function() {
+      var expectedOrigin = openVeoApi.passport.STRATEGIES.CAS;
+      var next = chai.spy(function() {});
+
+      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
+        assert.strictEqual(filter['origin'], expectedOrigin, 'Wrong origin');
+        callback();
+      });
+
+      request.query = {origin: expectedOrigin};
+      userController.getEntitiesAction(request, response, next);
+
+      model.getPaginatedFilteredEntities.should.have.been.called.exactly(1);
+      response.send.should.have.been.called.exactly(1);
+      next.should.have.been.called.exactly(0);
+    });
+
     it('should call next middleware with an error if limit parameter is under or equal to 0', function(done) {
       request.query = {limit: 0};
       userController.getEntitiesAction(request, response, function(error) {
@@ -153,6 +172,17 @@ describe('UserController', function() {
         assert.strictEqual(error, errors.GET_USERS_WRONG_PARAMETERS, 'Wrong error');
         done();
       });
+    });
+
+    it('should call next middleware with an error if origin parameter is not in available strategies', function() {
+      var next = chai.spy(function(error) {
+        assert.strictEqual(error, errors.GET_USERS_WRONG_PARAMETERS, 'Wrong error');
+      });
+
+      request.query = {origin: 'unknown strategy'};
+      userController.getEntitiesAction(request, response, next);
+
+      next.should.have.been.called.exactly(1);
     });
 
     it('should call next middleware with an error if getting the list of entities failed', function(done) {

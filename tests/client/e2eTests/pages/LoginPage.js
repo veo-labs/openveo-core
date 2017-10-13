@@ -22,10 +22,12 @@ function LoginPage() {
   this.languageSelectElement = element(by.model('language'));
   this.userLabelElement = element(by.binding('CORE.LOGIN.LOGIN'));
   this.passwordLabelElement = element(by.binding('CORE.LOGIN.PASSWORD'));
-  this.userInputElement = element(by.model('userEmail'));
+  this.userInputElement = element(by.model('userLogin'));
   this.passwordInputElement = element(by.model('password'));
   this.buttonElement = element(by.binding('CORE.LOGIN.SUBMIT'));
   this.errorMessageElement = element(by.binding('CORE.LOGIN.ERROR'));
+  this.casButtonElement = element(by.css('.ov-cas-button a'));
+  this.separatorElement = element(by.css('.ov-login-separator'));
 }
 
 module.exports = LoginPage;
@@ -109,11 +111,11 @@ LoginPage.prototype.submit = function() {
 };
 
 /**
- * Gets email field.
+ * Gets login field.
  *
- * @return {TextField} The email field
+ * @return {TextField} The login field
  */
-LoginPage.prototype.getEmailField = function() {
+LoginPage.prototype.getLoginField = function() {
   return Field.get({
     type: 'text',
     name: this.translations.CORE.LOGIN.LOGIN,
@@ -135,31 +137,31 @@ LoginPage.prototype.getPasswordField = function() {
 };
 
 /**
- * Gets value of the user email field.
+ * Gets value of the user login field.
  *
  * @return {Promise} Promise resolving with the field value
  */
-LoginPage.prototype.getEmail = function() {
-  return this.getEmailField().getValue();
+LoginPage.prototype.getLogin = function() {
+  return this.getLoginField().getValue();
 };
 
 /**
- * Fills the user email field.
+ * Fills the user login field.
  *
- * @param {String} email The email to enter
+ * @param {String} login The login to enter
  * @return {Promise} Promise resolving when the field has been filled
  */
-LoginPage.prototype.setEmail = function(email) {
-  return this.userInputElement.sendKeys(email);
+LoginPage.prototype.setLogin = function(login) {
+  return this.userInputElement.sendKeys(login);
 };
 
 /**
- * Tests if email field is on error.
+ * Tests if login field is on error.
  *
  * @return {Promise} Promise resolving with a boolean indicating if the field is on error
  */
-LoginPage.prototype.isEmailOnError = function() {
-  return this.getEmailField().isOnError();
+LoginPage.prototype.isLoginOnError = function() {
+  return this.getLoginField().isOnError();
 };
 
 /**

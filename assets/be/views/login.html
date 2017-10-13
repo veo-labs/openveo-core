@@ -3,16 +3,35 @@
   <img src="images/logo.png" alt="OpenVeo">
   <div class="col-sm-12">
 
+    <button type="button" class="ov-cas-button connect-with-button" ng-if="hasCas">
+      <a target="_self" href="authenticate/cas">
+        <span class="ov-cas-logo"><img src="images/apereo-logo-white.png"/></span>
+        <span class="ov-cas-label" ng-bind="'CORE.LOGIN.CAS_BUTTON' | translate"></span>
+      </a>
+    </button>
+
+    <div class="ov-login-separator" ng-if="hasCas">
+      <div class="ov-login-separator-bar">
+        <hr/>
+      </div>
+      <div class="ov-login-or">
+        <span ng-bind="'CORE.LOGIN.ALTERNATIVE' | translate"></span>
+      </div>
+      <div class="ov-login-separator-bar">
+        <hr/>
+      </div>
+    </div>
+
     <div>
       <form name="loginForm" ng-submit="signIn()" novalidate>
 
         <div ng-show="onError" class="alert alert-danger ng-hide" role="alert" ng-bind="'CORE.LOGIN.ERROR' | translate"></div>
 
-        <div class="form-group" ng-class="{'has-error': loginForm.userEmail.$invalid && loginForm.$submitted}">
+        <div class="form-group" ng-class="{'has-error': loginForm.userLogin.$invalid && loginForm.$submitted}">
           <label ng-bind="'CORE.LOGIN.LOGIN' | translate"></label>
           <div class="input-group">
             <div class="input-group-addon"><span class="glyphicon glyphicon-user"></span></div>
-            <input type="text" name="userEmail" class="form-control" placeholder="{{'CORE.LOGIN.LOGIN_DESCRIPTION' | translate}}" ng-model="userEmail" ng-model-options="{updateOn: 'blur'}" required>
+            <input type="text" name="userLogin" class="form-control" placeholder="{{'CORE.LOGIN.LOGIN_DESCRIPTION' | translate}}" ng-model="userLogin" ng-model-options="{updateOn: 'blur'}" required>
           </div>
         </div>
 
@@ -29,7 +48,7 @@
           </select>
         </div>
 
-        <button type="submit" class="btn btn-primary" ng-bind="'CORE.LOGIN.SUBMIT' | translate"></button>
+        <button type="submit" class="btn btn-primary" ng-bind="'CORE.LOGIN.SUBMIT' | translate" ng-disabled="isPending"></button>
       </form>
     </div>
 

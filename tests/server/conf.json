@@ -2,7 +2,7 @@
   "routes" : {
     "public" : {
       "get /logout" : "app/server/controllers/AuthenticationController.logoutAction",
-      "post /authenticate" : "app/server/controllers/AuthenticationController.authenticateAction",
+      "post /authenticate" : "app/server/controllers/AuthenticationController.authenticateInternalAction",
       "/login" : "app/server/controllers/DefaultController.defaultAction"
     },
     "admin" : {

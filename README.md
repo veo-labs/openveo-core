@@ -10,8 +10,9 @@ This interface gives access to a limited set of default features:
 - Permissions and roles management
 - Content group management
 - Web service management
+- Support for authentication using [CAS](https://www.apereo.org/projects/cas) or [LDAP](https://en.wikipedia.org/wiki/Lightweight_Directory_Access_Protocol)
 - A profile page
-- Each plugin brings zero to many additive administration pages and zero to many additive public pages.
+- Each plugin brings zero to many additive administration pages and zero to many additive public pages
 
 # Documentation
 

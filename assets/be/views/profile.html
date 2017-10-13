@@ -4,28 +4,42 @@
     <div class="container row">
         <div class='col-md-6 user-info'>
             <h2 ng-bind="'CORE.PROFILES.ATTR_USER_ACCOUNT' | translate"> </h2>
-            <ng-include src="'views/elements/dataTableForm.html'"></ng-include>
+            <ng-include src="'views/elements/dataTableForm.html'" ng-if="ctrl.user.origin === ctrl.authenticationStrategies.LOCAL"></ng-include>
+
+            <div  ng-if="ctrl.user.origin !== ctrl.authenticationStrategies.LOCAL">
+                <div class='col-md-4 ov-user-attributes' ng-bind="'CORE.PROFILES.ATTR_NAME' | translate"></div>
+                <div class='col-md-8' ng-bind="ctrl.user.name"></div>
+
+                <div class='col-md-4 ov-user-attributes' ng-bind="'CORE.PROFILES.ATTR_EMAIL' | translate"></div>
+                <div class='col-md-8' ng-bind="ctrl.user.email"></div>
+
+                <div class='col-md-4 ov-user-attributes' ng-bind="'CORE.PROFILES.ATTR_ORIGIN' | translate"></div>
+                <div class='col-md-8' ng-bind="('CORE.PROFILES.ORIGIN_' + ctrl.user.origin.toUpperCase()) | translate"></div>
+
+                <div class='col-md-4 ov-user-attributes' ng-bind="'CORE.PROFILES.ATTR_ROLES' | translate"></div>
+                <div class='col-md-8' ng-bind="ctrl.roles"></div>
+            </div>
         </div>
-        <div class="col-md-6 detail password" ng-show="passwordEditable()">
+        <div class="col-md-6 detail password" ng-if="ctrl.passwordEditable()">
             <h2 ng-bind="'CORE.PROFILES.ATTR_MODIFY_PASSWORD' | translate"></h2>
-            <form class="form-horizontal"  ng-submit="onSubmit(row)" novalidate  name="profileForm" >
+            <form class="form-horizontal" ng-submit="ctrl.updatePassword()" novalidate name="profileForm">
                 <div class="form-group">
-                    <label  for="password" class='col-md-4 control-label' ng-bind="'CORE.PROFILES.ATTR_PASSWORD' | translate"></label>
-                    <div class="col-md-8 ">
-                      <input id="password" class='form-control' type="password" ng-change="checkValid()" required='true' name="password" ng-model="password" />
+                    <label for="password" class="col-md-4 control-label" ng-bind="'CORE.PROFILES.ATTR_PASSWORD' | translate"></label>
+                    <div class="col-md-8">
+                      <input id="password" class="form-control" type="password" ng-change="ctrl.checkValid()" required="true" name="password" ng-model="ctrl.password" />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="confirmPassword" class='col-md-4 control-label' ng-bind="'CORE.PROFILES.ATTR_CONFIRM_PASSWORD' | translate"></label>
-                    <div class="col-md-8 ">
-                      <input id="confirmPassword" class='col-md-8 form-control' type="password"  required='true'   ng-change="checkValid()" name="confirmPassword" ng-model="confirmPassword" />
+                    <label for="confirmPassword" class="col-md-4 control-label" ng-bind="'CORE.PROFILES.ATTR_CONFIRM_PASSWORD' | translate"></label>
+                    <div class="col-md-8">
+                      <input id="confirmPassword" class="col-md-8 form-control" type="password" required="true" ng-change="ctrl.checkValid()" name="confirmPassword" ng-model="ctrl.confirmPassword" />
                     </div>
                 </div>
                 <!-- buttons to submit / cancel form -->
-                <div class="col-md-8 col-md-push-4 form-submit-bouton ">
-                    <span >
-                        <button type="submit" class="btn btn-primary" ng-disabled="isInValid" ng-bind="'CORE.UI.FORM_SAVE' | translate" ></button>
-                        <button type="button" class="btn btn-default" ng-click="cancelForm()" ng-bind="'CORE.UI.FORM_CANCEL' | translate"></button>
+                <div class="col-md-8 col-md-push-4 form-submit-bouton">
+                    <span>
+                        <button type="submit" class="btn btn-primary" ng-disabled="ctrl.isInvalid || ctrl.isSaving" ng-bind="'CORE.UI.FORM_SAVE' | translate"></button>
+                        <button type="button" class="btn btn-default" ng-click="ctrl.resetForm()" ng-bind="'CORE.UI.FORM_CANCEL' | translate"></button>
                     </span>
                 </div>
             </form>

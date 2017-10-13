@@ -44,6 +44,9 @@ DefaultController.prototype.defaultAction = function(request, response) {
   // Retrieve openveo sub plugins
   var plugins = process.api.getPlugins();
   var angularJsModules = [];
+  var authConf = storage.getConfiguration().auth;
+  var configuredAuth = (authConf && Object.keys(authConf)) || [];
+  configuredAuth.push(openVeoApi.passport.STRATEGIES.LOCAL);
 
   response.locals.librariesScripts = [];
   response.locals.scripts = [];
@@ -92,6 +95,9 @@ DefaultController.prototype.defaultAction = function(request, response) {
     });
   }
 
+  response.locals.user = request.isAuthenticated() ? JSON.stringify(request.user) : JSON.stringify(null);
+  response.locals.authenticationMechanisms = JSON.stringify(configuredAuth);
+  response.locals.authenticationStrategies = JSON.stringify(openVeoApi.passport.STRATEGIES);
   response.locals.version = JSON.stringify(response.locals.version);
   response.locals.socketServerPort = storage.getServerConfiguration().browserSocketPort;
   response.locals.angularJsModules = angularJsModules.join(',');

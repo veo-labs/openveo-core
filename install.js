@@ -76,6 +76,174 @@ function createLoggerDir(callback) {
 }
 
 /**
+ * Asks the user for CAS configuration.
+ *
+ * @param {Function} The function to call when its done with:
+ *   - **Error** An error if something went wrong
+ *   - **Object** The CAS configuration
+ */
+function askForCasAuthConf(callback) {
+  var conf = {
+    version: '3'
+  };
+
+  async.series([
+    function(callback) {
+      rl.question('Enter the application service registered in CAS server :\n', function(answer) {
+        conf.service = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the URL of the CAS server :\n', function(answer) {
+        conf.url = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the version of the CAS protocol to use to connect to the CAS server ? (default: ' +
+                  conf.version + ') :\n', function(answer) {
+        conf.version = answer || conf.version;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the complete path to the CAS certificate full chain:\n', function(answer) {
+        if (answer) conf.certificate = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the name of the attribute holding the user group:\n', function(answer) {
+        if (answer) conf.userGroupAttribute = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the name of the attribute holding the user unique id:\n', function(answer) {
+        if (answer) conf.userIdAttribute = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the name of the attribute holding the user name:\n', function(answer) {
+        if (answer) conf.userNameAttribute = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the name of the attribute holding the user email:\n', function(answer) {
+        if (answer) conf.userEmailAttribute = answer;
+        callback();
+      });
+    }
+  ], function(error, results) {
+    if (error) {
+      process.stdout.write(error.message);
+      callback();
+    } else
+      callback(conf);
+  });
+}
+
+/**
+ * Asks the user for LDAP configuration.
+ *
+ * @param {Function} The function to call when its done with:
+ *   - **Error** An error if something went wrong
+ *   - **Object** The LDAP configuration
+ */
+function askForLdapAuthConf(callback) {
+  var conf = {
+    searchFilter: '(&(objectclass=person)(cn={{username}}))'
+  };
+
+  async.series([
+    function(callback) {
+      rl.question('Enter the url of the LDAP server:\n', function(answer) {
+        conf.url = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question(
+        'Enter the entry attribute to bind to when connecting to LDAP server: (default: dn)\n',
+        function(answer) {
+          if (answer) conf.bindAttribute = answer;
+          callback();
+        }
+      );
+    },
+    function(callback) {
+      rl.question('Enter the entry id to use to connect to LDAP server:\n', function(answer) {
+        conf.bindDn = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      secureQuestion('Enter the entry password:\n', function(answer) {
+        conf.bindPassword = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the search base when looking for users:\n', function(answer) {
+        conf.searchBase = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the search scope when looking for users: (default: sub)\n', function(answer) {
+        if (answer) conf.searchScope = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the search filter to find a user: (default: ' + conf.searchFilter + ')\n', function(answer) {
+        conf.searchFilter = answer || conf.searchFilter;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the name of the attribute holding the user group:\n', function(answer) {
+        if (answer) conf.userGroupAttribute = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the name of the attribute holding the user unique id:\n', function(answer) {
+        if (answer) conf.userIdAttribute = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the name of the attribute holding the user name:\n', function(answer) {
+        if (answer) conf.userNameAttribute = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the name of the attribute holding the user email:\n', function(answer) {
+        if (answer) conf.userEmailAttribute = answer;
+        callback();
+      });
+    },
+    function(callback) {
+      rl.question('Enter the complete path to the LDAP certificate full chain:\n', function(answer) {
+        if (answer) conf.certificate = answer;
+        callback();
+      });
+    }
+  ], function(error, results) {
+    if (error) {
+      process.stdout.write(error.message);
+      callback();
+    } else
+      callback(conf);
+  });
+}
+
+/**
  * Creates general configuration file if it does not exist.
  */
 function createConf(callback) {
@@ -116,7 +284,6 @@ function createConf(callback) {
     } else
       fs.writeFile(confFile, JSON.stringify(conf, null, '\t'), {encoding: 'utf8'}, callback);
   });
-
 }
 
 /**
@@ -227,6 +394,7 @@ function createLoggerConf(callback) {
  */
 function createServerConf(callback) {
   var confFile = path.join(confDir, 'serverConf.json');
+  var authConf;
   var conf = {
     app: {
       httpPort: 3000,
@@ -283,13 +451,42 @@ function createServerConf(callback) {
         conf.ws.port = parseInt(answer || conf.ws.port);
         callback();
       });
+    },
+    function(callback) {
+      rl.question('Do you want to configure authentication using CAS ? (y/N) :\n', function(answer) {
+        if (answer === 'y') {
+          askForCasAuthConf(function(casConf) {
+            authConf = {
+              cas: casConf
+            };
+            callback();
+          });
+        } else {
+          callback();
+        }
+      });
+    },
+    function(callback) {
+      rl.question('Do you want to configure authentication using LDAP ? (y/N) :\n', function(answer) {
+        if (answer === 'y') {
+          askForLdapAuthConf(function(ldapConf) {
+            if (!authConf) authConf = {};
+            authConf.ldapauth = ldapConf;
+            callback();
+          });
+        } else {
+          callback();
+        }
+      });
     }
   ], function(error, results) {
     if (error) {
       process.stdout.write(error.message);
       callback();
-    } else
+    } else {
+      if (authConf) conf.app.auth = authConf;
       fs.writeFile(confFile, JSON.stringify(conf, null, '\t'), {encoding: 'utf8'}, callback);
+    }
   });
 }
 

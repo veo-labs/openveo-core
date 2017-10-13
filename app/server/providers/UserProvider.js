@@ -23,7 +23,7 @@ module.exports = UserProvider;
 util.inherits(UserProvider, openVeoApi.providers.EntityProvider);
 
 /**
- * Gets a user by its credentials.
+ * Gets a local user by its credentials.
  *
  * @method getUserByCredentials
  * @async
@@ -36,8 +36,15 @@ util.inherits(UserProvider, openVeoApi.providers.EntityProvider);
 UserProvider.prototype.getUserByCredentials = function(email, password, callback) {
   this.database.get(this.collection,
     {
-      email: email,
-      password: password
+      $and: [
+        {
+          origin: {$eq: openVeoApi.passport.STRATEGIES.LOCAL}
+        },
+        {
+          email: email,
+          password: password
+        }
+      ]
     },
     {
       password: 0
@@ -48,7 +55,7 @@ UserProvider.prototype.getUserByCredentials = function(email, password, callback
 };
 
 /**
- * Gets a user by its email.
+ * Gets a local user by its email.
  *
  * @method getUserByEmail
  * @async
@@ -60,7 +67,14 @@ UserProvider.prototype.getUserByCredentials = function(email, password, callback
 UserProvider.prototype.getUserByEmail = function(email, callback) {
   this.database.get(this.collection,
     {
-      email: email
+      $and: [
+        {
+          origin: {$eq: openVeoApi.passport.STRATEGIES.LOCAL}
+        },
+        {
+          email: email
+        }
+      ]
     },
     {
       password: 0

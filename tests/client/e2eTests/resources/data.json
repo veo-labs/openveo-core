@@ -122,6 +122,30 @@
         "core-add-groups",
         "core-update-groups"
       ]
+    },
+    "coreSettingsNoWrite": {
+      "name": "core-settings-no-write",
+      "permissions": [
+        "core-access-settings-page",
+        "core-update-settings",
+        "core-delete-settings"
+      ]
+    },
+    "coreSettingsNoUpdate": {
+      "name": "core-settings-no-update",
+      "permissions": [
+        "core-access-settings-page",
+        "core-add-settings",
+        "core-delete-settings"
+      ]
+    },
+    "coreSettingsNoDelete": {
+      "name": "core-settings-no-delete",
+      "permissions": [
+        "core-access-settings-page",
+        "core-add-settings",
+        "core-update-settings"
+      ]
     }
   },
   "users": {
@@ -215,8 +239,44 @@
       "email": "core-groups-no-delete@veo-labs.com",
       "password": "core-groups-no-delete",
       "roles": [ "coreGroupsNoDelete" ]
+    },
+    "coreSettingsNoWrite": {
+      "name": "core-settings-no-write",
+      "email": "core-settings-no-write@veo-labs.com",
+      "password": "core-settings-no-write",
+      "roles": [ "coreSettingsNoWrite", "coreRolesNoWrite" ]
+    },
+    "coreSettingsNoUpdate": {
+      "name": "core-settings-no-update",
+      "email": "core-settings-no-update@veo-labs.com",
+      "password": "core-settings-no-update",
+      "roles": [ "coreSettingsNoUpdate", "coreRolesNoWrite" ]
+    },
+    "coreSettingsNoDelete": {
+      "name": "core-settings-no-delete",
+      "email": "core-settings-no-delete@veo-labs.com",
+      "password": "core-settings-no-delete",
+      "roles": [ "coreSettingsNoDelete", "coreRolesNoWrite" ]
     }
   },
+  "ldapUsers": [
+    {
+      "dn": "cn=core-guest,dc=test",
+      "cn": "core-guest",
+      "groups": "core-guest-group1,core-guest-group2",
+      "mail": "core-guest@openveo.com"
+    }
+  ],
+  "casUsers": [
+    {
+      "name": "core-guest",
+      "attributes": {
+        "name": "core-guest",
+        "mail": "core-guest@openveo.com",
+        "groups": ["core-guest-group1", "core-guest-group2"]
+      }
+    }
+  ],
   "applications": {
     "coreApplicationsApplications": {
       "name": "core-applications-applications",

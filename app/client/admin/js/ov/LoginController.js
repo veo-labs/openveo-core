@@ -6,10 +6,13 @@
    * Defines the login controller for the login page.
    */
   function LoginController($scope, $location, $window, authenticationService, i18nService) {
+    var strategies = openVeoSettings.authenticationStrategies;
     $scope.verticalAlign = true;
     $scope.onError = false;
     $scope.languages = i18nService.getLanguages();
     $scope.language = i18nService.getLanguage();
+    $scope.isPending = false;
+    $scope.hasCas = openVeoSettings.authenticationMechanisms.indexOf(strategies.CAS) >= 0;
 
     /**
      * Sets language.
@@ -22,23 +25,21 @@
     };
 
     /**
-     * Signs in using the login form information (userEmail and password).
+     * Signs in using the login form information (userLogin and password).
      * If user successfully signed in, redirect to the back office
      * home page. Otherwise, set the form as on error.
      */
     $scope.signIn = function() {
-      var loginPromise = authenticationService.login($scope.userEmail, $scope.password);
-
-      if (loginPromise) {
-        loginPromise.then(function(result) {
-          authenticationService.setUserInfo(result.data);
-          $location.path('/');
-        }, function() {
-          $scope.onError = true;
-          $scope.userEmail = $scope.password = '';
-        });
-      }
-
+      $scope.isPending = true;
+      authenticationService.login($scope.userLogin, $scope.password).then(function(result) {
+        $scope.isPending = false;
+        authenticationService.setUserInfo(result.data);
+        $location.path('/');
+      }, function() {
+        $scope.isPending = false;
+        $scope.onError = true;
+        $scope.userLogin = $scope.password = '';
+      });
     };
 
   }

@@ -7,47 +7,34 @@
    */
   function ProfileController($scope, $filter, authenticationService, entityService, user) {
     var entityType = 'users';
-    $scope.password = '';
-    $scope.confirmPassword = '';
-    $scope.isInValid = true;
 
     /**
      * Gets the list of role's names.
      *
-     * @return {String} A comma separated role names
+     * @return {String} A comma separated list of role names
      */
     function getRoles() {
       var tmp = '';
-      var i = 0;
-      for (i = 0; i < user.roles.length - 1; i++) {
-        tmp += user.roles[i].name + ', ';
+
+      if (user.roles && user.roles.length) {
+        var i = 0;
+        for (i = 0; i < user.roles.length - 1; i++) {
+          tmp += user.roles[i].name + ', ';
+        }
+        tmp += user.roles[i].name;
       }
-      tmp += user.roles[i].name;
+
       return tmp;
     }
 
-    /**
-     * Updates user password.
-     *
-     * @param {Object} userInfo User data information
-     */
-    function updatePassword(userInfo) {
-      userInfo.saving = true;
-      userInfo.password = $scope.password;
-      entityService.updateEntity(entityType, null, userInfo.id, {
-        password: userInfo.password,
-        passwordValidate: userInfo.password,
-        email: userInfo.email
-      }).then(function() {
-        userInfo.saving = false;
-        $scope.$emit('setAlert', 'success', $filter('translate')('CORE.UI.SAVE_SUCCESS'), 4000);
-        $scope.password = '';
-        $scope.confirmPassword = '';
-        $scope.isInValid = true;
-      }, function(data, status) {
-        userInfo.saving = false;
-      });
-    }
+    var self = this;
+    this.password = '';
+    this.confirmPassword = '';
+    this.isInvalid = true;
+    this.isSaving = false;
+    this.user = user;
+    this.roles = getRoles() || $filter('translate')('CORE.PROFILES.NO_ROLES');
+    this.authenticationStrategies = openVeoSettings.authenticationStrategies;
 
     /**
      * Saves user information.
@@ -58,7 +45,7 @@
       userInfo.saving = true;
 
       // update session cookie
-      user.name = userInfo.name;
+      self.user.name = userInfo.name;
 
       return entityService.updateEntity(entityType, null, userInfo.id, {
         name: userInfo.name,
@@ -74,31 +61,30 @@
      * FORM
      */
     var scopeEditForm = $scope.editFormContainer = {};
-    $scope.row = user;
+    $scope.row = this.user;
     scopeEditForm.entityType = entityType;
-    scopeEditForm.fields = [
-      {
 
-        // The key to be used in the model values
-        // so this will be bound to vm.user.username
-        key: 'name',
-        type: 'horizontalEditableInput',
-        templateOptions: {
-          label: $filter('translate')('CORE.PROFILES.ATTR_NAME'),
-          required: true
+    if (this.user.origin === openVeoSettings.authenticationStrategies.LOCAL) {
+      scopeEditForm.fields = [
+        {
+          key: 'name',
+          type: 'horizontalEditableInput',
+          templateOptions: {
+            label: $filter('translate')('CORE.PROFILES.ATTR_NAME'),
+            required: true
+          }
+        },
+        {
+          key: 'email',
+          type: 'emptyrow',
+          templateOptions: {
+            label: $filter('translate')('CORE.PROFILES.ATTR_EMAIL'),
+            message: this.user.email
+          }
         }
-      },
-      {
-        key: 'email',
-        type: 'emptyrow',
-        templateOptions: {
-          label: $filter('translate')('CORE.PROFILES.ATTR_EMAIL'),
-          message: user.email
-        }
-      }];
+      ];
 
-    if (user.roles) {
-      if (user.roles.length)
+      if (this.user.roles && this.user.roles.length) {
         scopeEditForm.fields.push(
           {
             noFormControl: true,
@@ -109,6 +95,7 @@
             }
           }
         );
+      }
     }
 
     scopeEditForm.conditionEditDetail = function(userInfo) {
@@ -118,31 +105,59 @@
       return saveProfile(model);
     };
 
-    $scope.onSubmit = function(model) {
-      updatePassword(model);
+    /**
+     * Updates user password.
+     */
+    this.updatePassword = function() {
+      this.isSaving = true;
+
+      entityService.updateEntity(entityType, null, this.user.id, {
+        password: this.password,
+        passwordValidate: this.confirmPassword,
+        email: this.email
+      }).then(function() {
+        self.isSaving = false;
+        self.resetForm();
+        $scope.$emit('setAlert', 'success', $filter('translate')('CORE.UI.SAVE_SUCCESS'), 4000);
+      }, function(data, status) {
+        self.isSaving = false;
+      });
     };
 
-    $scope.cancelForm = function() {
-      $scope.password = '';
-      $scope.confirmPassword = '';
-      $scope.isInValid = true;
+    /**
+     * Resets password edition form.
+     */
+    this.resetForm = function() {
+      this.password = '';
+      this.confirmPassword = '';
+      this.isInvalid = true;
     };
 
-    $scope.checkValid = function() {
-      if (($scope.password === '') || $scope.confirmPassword === '') {
-        $scope.isInValid = true;
-      } else {
-        if ($scope.password === $scope.confirmPassword) {
-          $scope.isInValid = false;
-        } else {
-          $scope.isInValid = true;
-        }
-        return $scope.isInValid;
-      }
+    /**
+     * Validates password edition form.
+     *
+     * Password edition form is considered valid if password and password confirmation are the same.
+     * It sets isInvalid property with the same value as the one returned.
+     *
+     * @return {Boolean} true if valid, false otherwise
+     */
+    this.checkValid = function() {
+      this.isInvalid = !this.password || !this.confirmPassword || this.password !== this.confirmPassword;
+      return this.isInvalid;
     };
 
-    $scope.passwordEditable = function() {
-      return user.id != openVeoSettings.superAdminId && !user.locked;
+    /**
+     * Checks if password is editable.
+     *
+     * Some users can't edit their password, for example:
+     * A lock user, the super administrator or a user coming from a third party provider such as LDAP.
+     *
+     * @return {Boolean} true if editable, false otherwise
+     */
+    this.passwordEditable = function() {
+      return this.user.id != openVeoSettings.superAdminId &&
+        !this.user.locked &&
+        this.user.origin === openVeoSettings.authenticationStrategies.LOCAL;
     };
 
   }

@@ -44,7 +44,6 @@
     "nopt": "4.0.1",
     "oauth20-provider": "0.6.0",
     "passport": "0.3.2",
-    "passport-local": "1.0.0",
     "semver": "5.3.0",
     "serve-favicon": "2.3.2",
     "shortid": "2.2.6"
@@ -80,7 +79,9 @@
     "nodemon": "1.11.0",
     "pre-commit": "1.2.2",
     "yuidoc-theme-blue": "0.1.9",
-    "flightplan": "0.6.17"
+    "flightplan": "0.6.17",
+    "cas-server-mock": "1.0.0",
+    "ldap-server-mock": "1.0.0"
   },
   "scripts": {
     "prepublish": "grunt prod",

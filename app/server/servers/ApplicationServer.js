@@ -10,9 +10,9 @@ var async = require('async');
 var express = require('express');
 var consolidate = require('consolidate');
 var session = require('express-session');
-var passport = require('passport');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 var favicon = require('serve-favicon');
 var openVeoApi = require('@openveo/api');
 var Server = process.require('app/server/servers/Server.js');
@@ -24,8 +24,10 @@ var DefaultController = process.require('app/server/controllers/DefaultControlle
 var ErrorController = process.require('app/server/controllers/ErrorController.js');
 var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
 var storage = process.require('app/server/storage.js');
+var authenticator = process.require('app/server/authenticator.js');
 var SocketServer = openVeoApi.socket.SocketServer;
 var SocketNamespace = openVeoApi.socket.SocketNamespace;
+var strategyFactory = openVeoApi.passport.strategyFactory;
 
 var defaultController = new DefaultController();
 var errorController = new ErrorController();
@@ -143,6 +145,67 @@ module.exports = ApplicationServer;
 util.inherits(ApplicationServer, Server);
 
 /**
+ * Initializes passport strategies to manage user authentication.
+ *
+ * @method initializePassport
+ * @private
+ */
+function initializePassport() {
+  var self = this;
+  this.httpServer.use(passport.initialize());
+  this.httpServer.use(passport.session());
+
+  // Instantiate passport strategies
+  if (this.configuration.auth) {
+    Object.keys(this.configuration.auth).forEach(function(strategy) {
+      self.configuration.auth[strategy].usernameField = 'login';
+      self.configuration.auth[strategy].passwordField = 'password';
+      self.configuration.auth[strategy].logoutUri = 'be';
+
+      passport.use(strategyFactory.get(strategy, self.configuration.auth[strategy], function(user, callback) {
+        authenticator.verifyUserAuthentication(user, strategy, function(error, userWithPermissions) {
+          if (error) {
+            process.logger.error(error.message, {error: error, method: 'verify'});
+            callback(null, false);
+          } else
+            callback(null, userWithPermissions);
+        });
+      }));
+    });
+  }
+
+  // Add local strategy at the end because user verification does not work like for other strategies
+  passport.use(strategyFactory.get(openVeoApi.passport.STRATEGIES.LOCAL, {
+    usernameField: 'login',
+    passwordField: 'password'
+  }, function(login, password, callback) {
+    authenticator.verifyUserByCredentials(login, password, function(error, user) {
+      if (error) {
+        process.logger.error(error.message, {error: error, method: 'verify'});
+        callback(null, false);
+      } else
+        callback(null, user);
+    });
+  }));
+
+  // In order to support login sessions, Passport serialize and
+  // deserialize user instances to and from the session
+  passport.serializeUser(authenticator.serializeUser);
+
+  // When subsequent requests are received, the serialized datas are used to find
+  // the user, which will be restored to req.user
+  passport.deserializeUser(function(id, callback) {
+    authenticator.deserializeUser(id, function(error, user) {
+      if (error) {
+        process.logger.error(error.message, {error: error, method: 'deserializeUser'});
+        callback(null, false);
+      } else
+        callback(null, user);
+    });
+  });
+}
+
+/**
  * Prepares the express application.
  *
  * @method onDatabaseAvailable
@@ -172,13 +235,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   }));
   this.httpServer.use(bodyParser.json());
 
-  // passport Initialize : Need to be done after session settings DB
-  this.httpServer.use(passport.initialize());
-  this.httpServer.use(passport.session());
-
-  // Initialize passport (authentication manager)
-  process.require('app/server/passport.js');
-
+  initializePassport.call(this);
   callback();
 };
 

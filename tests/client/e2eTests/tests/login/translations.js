@@ -48,6 +48,8 @@ describe('Login page translations', function() {
         assert.eventually.equal(page.passwordLabelElement.getText(), coreTranslations.LOGIN.PASSWORD);
         assert.eventually.equal(page.buttonElement.getText(), coreTranslations.LOGIN.SUBMIT);
         assert.eventually.equal(page.errorMessageElement.getText(), coreTranslations.LOGIN.ERROR);
+        assert.eventually.equal(page.casButtonElement.getText(), coreTranslations.LOGIN.CAS_BUTTON);
+        assert.eventually.equal(page.separatorElement.getText(), coreTranslations.LOGIN.ALTERNATIVE);
 
         // Test languages selector options
         for (var i = 0; i < languages.length; i++) {

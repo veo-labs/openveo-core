@@ -50,7 +50,8 @@ UserController.prototype.getEntitiesAction = function(request, response, next) {
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gte: 0, default: 0},
       sortBy: {type: 'string', in: ['name'], default: 'name'},
-      sortOrder: {type: 'string', in: ['asc', 'desc'], default: 'desc'}
+      sortOrder: {type: 'string', in: ['asc', 'desc'], default: 'desc'},
+      origin: {type: 'string', in: Object.values(openVeoApi.passport.STRATEGIES).concat(['all']), default: 'all'}
     });
   } catch (error) {
     return next(errors.GET_USERS_WRONG_PARAMETERS);
@@ -69,6 +70,10 @@ UserController.prototype.getEntitiesAction = function(request, response, next) {
       $search: '"' + params.query + '"'
     };
   }
+
+  // Add origin filter
+  if (params.origin !== 'all')
+    filter.origin = params.origin;
 
   model.getPaginatedFilteredEntities(
     filter,

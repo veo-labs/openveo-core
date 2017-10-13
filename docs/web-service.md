@@ -846,6 +846,135 @@ HTTP Status Code | Details
 }
 ```
 
+## Settings
+
+Get settings.
+
+    GET WEB_SERVICE_URL/settings
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+ids | String/Array | No | - | To filter videos by ids
+page | Number | No | 0 | The expected page
+limit | Number | No | - | To limit the number of applications per page. If not specified get all applications
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the list of settings (even if the list is empty)
+500 | An error occured on the server side
+400 | Wrong list of parameters
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entities": [
+    {
+      "id": "my-setting",
+      "value": "Mixed value"
+    }
+  ],
+  "pagination": {
+    "limit": 1,
+    "page": 1,
+    "pages": 2,
+    "size": 2
+  }
+}
+```
+
+---
+
+Get information about a setting.
+
+    GET WEB_SERVICE_URL/settings/{setting_id}
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+setting_id | String | Yes | - | The id of the setting to fetch
+
+HTTP Status Code | Details
+---- | ----
+200 | Got the setting
+500 | An error occured on the server side
+400 | Missing the id of the setting
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "my-setting",
+    "value": "Mixed value"
+  }
+}
+```
+
+---
+
+Add a setting.
+
+    PUT WEB_SERVICE_URL/settings
+
+HTTP Status Code | Details
+---- | ----
+200 | The setting has been added
+500 | An error occured on the server side
+400 | Missing setting id in body
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "entity": {
+    "id": "my-setting",
+    "value": "Mixed value"
+  }
+}
+```
+
+---
+
+Update a setting.
+
+    POST WEB_SERVICE_URL/settings/{setting_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The setting has been updated
+500 | An error occured on the server side
+400 | Missing the setting id or the body
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
+---
+
+Delete a setting.
+
+    DELETE WEB_SERVICE_URL/settings/{setting_id}
+
+HTTP Status Code | Details
+---- | ----
+200 | The setting has been deleted
+500 | An error occured on the server side
+400 | Missing the setting id
+401 | Authentication to the web service failed
+403 | Authorization forbidden for this end point
+
+```json
+{
+  "error": null,
+  "status": "ok"
+}
+```
+
 # Client libraries
 
 ## PHP client

@@ -54,6 +54,38 @@ UserHelper.prototype.addEntitiesAuto = function(name, total, offset) {
 };
 
 /**
+ * Adds a third party user.
+ *
+ * This method bypass the web browser to directly add entity into database.
+ *
+ * @method addThirdPartyUser
+ * @param {Object} user The third party user to add
+ * @return {Promise} Promise resolving when the user has been added
+ */
+UserHelper.prototype.addThirdPartyUser = function(user) {
+  var self = this;
+
+  return browser.waitForAngular().then(function() {
+    return self.flow.execute(function() {
+      var deferred = protractor.promise.defer();
+
+      self.model.addThirdPartyUser({
+        name: user.name,
+        email: user.email,
+        roles: user.roles
+      }, user.origin, user.originId, user.originGroups, function(error, addedTotal, addedUser) {
+        if (error)
+          deferred.reject(error);
+        else
+          deferred.fulfill(addedUser);
+      });
+
+      return deferred.promise;
+    });
+  });
+};
+
+/**
  * Gets entity object example to use with web service put /entityName.
  *
  * If the entity managed by the Helper is registered to be tested automatically by the core, it needs to implement

@@ -31,6 +31,7 @@
 
     /**
      * Logs out the user.
+     *
      * Remove user information, remove all admin informations
      * and broadcast a loggedOut event to children controllers.
      */
@@ -152,11 +153,17 @@
 
     /**
      * Logs out the actual user.
-     * This will remove user information and redirect to the login
-     * page.
+     *
+     * If authentication was made on an external service such as CAS, user is redirected to
+     * the external service page.
+     * If authentication was made using an internal service such as LDAP (or local),
+     * logout is performed without reloading the page.
      */
     $scope.logout = function() {
-      authenticationService.logout().then(logout, logout);
+      if ($scope.userInfo && $scope.userInfo.origin === openVeoSettings.authenticationStrategies.CAS)
+        $window.location.href = 'logout';
+      else
+        authenticationService.logout().then(logout, logout);
     };
 
     // Listen to alert add

@@ -52,8 +52,30 @@
       });
     }
 
-    $scope.roles = roles.data.entities;
+    /**
+     * Builds options for origin filter.
+     *
+     * @return {Array} Select options
+     */
+    function buildOriginFilterOptions() {
+      var options = [
+        {
+          value: null,
+          name: $filter('translate')('CORE.USERS.ORIGIN_FILTER_ALL')
+        }
+      ];
 
+      openVeoSettings.authenticationMechanisms.forEach(function(strategy) {
+        options.push({
+          name: $filter('translate')('CORE.USERS.ORIGIN_FILTER_' + strategy.toUpperCase()),
+          value: strategy
+        });
+      });
+
+      return options;
+    }
+
+    $scope.roles = roles.data.entities;
 
     /*
      *
@@ -77,6 +99,14 @@
         key: 'query',
         value: '',
         label: $filter('translate')('CORE.USERS.QUERY_FILTER')
+      },
+      {
+        key: 'origin',
+        type: 'select',
+        param: 'origin',
+        value: null,
+        label: $filter('translate')('CORE.USERS.ORIGIN_FILTER'),
+        options: buildOriginFilterOptions()
       }
     ];
     scopeDataTable.header = [{
@@ -112,6 +142,13 @@
     scopeEditForm.model = {};
     scopeEditForm.entityType = entityType;
     scopeEditForm.fields = [
+      {
+        key: 'originLiteral',
+        type: 'simple',
+        templateOptions: {
+          label: $filter('translate')('CORE.USERS.ATTR_ORIGIN')
+        }
+      },
       {
 
         // the key to be used in the model values
@@ -151,6 +188,15 @@
     };
     scopeEditForm.onSubmit = function(model) {
       return saveUser(model);
+    };
+
+    /**
+     * Initializes edit form for a given user.
+     *
+     * @param {Object} row The user being edited
+     */
+    scopeEditForm.init = function(row) {
+      row.originLiteral = $filter('translate')('CORE.USERS.ORIGIN_' + row.origin.toUpperCase());
     };
 
     /*

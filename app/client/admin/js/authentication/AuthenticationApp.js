@@ -8,7 +8,7 @@
  */
 
 (function(angular) {
-  var app = angular.module('ov.authentication', ['ov.storage']);
+  var app = angular.module('ov.authentication', []);
 
   /**
    * Defines an authentication service to deal with user authentication.
@@ -16,30 +16,28 @@
    *
    * @class authenticationService
    */
-  function AuthenticationService($http, storage) {
+  function AuthenticationService($http) {
     var basePath = '/be/';
     var userInfo;
 
     /**
-     * Initializes user information from local storage.
+     * Initializes user information from openVeoSettings global.
      */
     function init() {
-      var info = storage.get('userInfo');
-      if (info)
-        userInfo = JSON.parse(info);
+      userInfo = openVeoSettings.user;
     }
 
     /**
      * Signs in using the given credentials.
      *
-     * @param {String} email The email
+     * @param {String} login The login
      * @param {String} password The password
      * @return {Promise} The authentication promise
      * @method login
      */
-    function login(email, password) {
+    function login(login, password) {
       return $http.post(basePath + 'authenticate', {
-        email: email,
+        login: login,
         password: password
       });
     }
@@ -72,13 +70,8 @@
      * @method setUserInfo
      */
     function setUserInfo(info) {
-      if (info) {
-        storage.set('userInfo', JSON.stringify(info));
-        userInfo = info;
-      } else {
-        userInfo = null;
-        storage.remove('userInfo');
-      }
+      if (info) userInfo = info;
+      else userInfo = null;
     }
 
     init();
@@ -93,6 +86,6 @@
   }
 
   app.factory('authenticationService', AuthenticationService);
-  AuthenticationService.$inject = ['$http', 'storage'];
+  AuthenticationService.$inject = ['$http'];
 
 })(angular);

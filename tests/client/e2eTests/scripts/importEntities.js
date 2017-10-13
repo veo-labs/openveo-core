@@ -3,6 +3,9 @@
 /**
  * Standalone script to import groups, roles and users, into database, based on a description file.
  *
+ * CAS users won't be added to the database but into a JSON database file (tests/client/e2eTests/build/casUsers.json).
+ * LDAP users won't be added to the database but into a JSON database (tests/client/e2eTests/build/ldapUsers.json).
+ *
  * End to end tests require plugins and core to create their own users, groups and roles to be able to test
  * permissions.
  *
@@ -43,6 +46,24 @@
  *           "locked": false // Indicates if user can be modified or not
  *         }
  *       },
+ *       "casUsers": [ // Define CAS users to import
+ *         {
+ *           "name": "core-guest",
+ *           "attributes": {
+ *             "name": "test",
+ *             "mail": "test@openveo.com",
+ *             "groups": ["test-group1", "test-group2"]
+ *           }
+ *         }
+ *       ],
+ *       "ldapUsers": [ // Define LDAP users to import
+ *         {
+ *           "dn": "cn=core-guest,dc=test",
+ *           "cn": "core-guest",
+ *           "group": "core-guest-group",
+ *           "mail": "core-guest@openveo.com"
+ *         }
+ *       ],
  *       "applications": { // Define applications to import
  *         "coreApplicationsGuest": { // not used internally
  *           "name": "core-applications-guest" Application name
@@ -55,6 +76,7 @@
  */
 
 var path = require('path');
+var fs = require('fs');
 var openVeoApi = require('@openveo/api');
 var async = require('async');
 var users = require('@openveo/test').e2e.users;
@@ -69,6 +91,12 @@ var databaseConf = require(path.join(configDir, 'core/databaseTestConf.json'));
 // Path to the description files to import
 var descriptionFilePath = '/tests/client/e2eTests/resources/data.json';
 
+// Path of the file to generate which will contain the list of CAS users
+var casDatabaseFilePath = path.join(process.root, 'tests/client/e2eTests/build/casUsers.json');
+
+// Path of the file to generate which will contain the list of LDAP users
+var ldapDatabaseFilePath = path.join(process.root, 'tests/client/e2eTests/build/ldapUsers.json');
+
 // Plugin paths (core act as a plugin)
 var pluginPaths = [process.root];
 
@@ -76,6 +104,8 @@ var pluginPaths = [process.root];
 var groups = {};
 var roles = {};
 var applications = {};
+var ldapUsers = [];
+var casUsers = [];
 
 // Get a Database instance to the test database
 var db = openVeoApi.database.factory.get(databaseConf);
@@ -112,6 +142,9 @@ async.series([
         openVeoApi.util.merge(roles, datas.roles);
         openVeoApi.util.merge(users, datas.users);
         openVeoApi.util.merge(applications, datas.applications);
+
+        if (datas.ldapUsers) ldapUsers = ldapUsers.concat(datas.ldapUsers);
+        if (datas.casUsers) casUsers = casUsers.concat(datas.casUsers);
       } catch (error) {
         process.stdout.write('Can\'t import file ' + path.join(pluginPath, descriptionFilePath) + '\n');
         return;
@@ -172,7 +205,24 @@ async.series([
       applications = importedApplications;
       callback();
     });
+  },
+
+  // Create resource file containing CAS users
+  function(callback) {
+    openVeoApi.fileSystem.mkdir(path.dirname(casDatabaseFilePath), function(error) {
+      if (error) return callback(error);
+      fs.writeFile(casDatabaseFilePath, JSON.stringify(casUsers), {encoding: 'utf8'}, callback);
+    });
+  },
+
+  // Create resource file containing LDAP users
+  function(callback) {
+    openVeoApi.fileSystem.mkdir(path.dirname(ldapDatabaseFilePath), function(error) {
+      if (error) return callback(error);
+      fs.writeFile(ldapDatabaseFilePath, JSON.stringify(ldapUsers), {encoding: 'utf8'}, callback);
+    });
   }
+
 ], function(error) {
   db.close();
 });

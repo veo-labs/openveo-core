@@ -29,7 +29,7 @@ You need to specify a new database which will be used during tests. To do so, yo
 
 **WARNING** : Each time you launch end to end tests, all information will be removed from this database ! DO NOT use the same database as the one described in **databaseConf.json**
 
-When launching tests, OpenVeo HTTP and socket servers are automatically spawned and must be configured through **serverTestConf.json**. Typically you may want to change servers ports.
+When launching tests, OpenVeo HTTP server, socket server, CAS mock server and LDAP mock server are automatically spawned and must be configured through **serverTestConf.json**. Typically you may want to change servers ports.
 
 **~/.openveo/core/serverTestConf.json**
 
@@ -39,10 +39,32 @@ When launching tests, OpenVeo HTTP and socket servers are automatically spawned 
     "httpPort": 3003,
     "socketPort": 3004,
     "browserSocketPort": 3004,
-    "sessionSecret": "2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx"
+    "sessionSecret": "2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx",
+    "cas": {
+      "version": "3",
+      "service": "http://127.0.0.1/be/authenticate/cas",
+      "url": "http://127.0.0.1:3005",
+      "userIdAttribute": "name",
+      "userNameAttribute": "attributes.name",
+      "userEmailAttribute": "attributes.mail",
+      "userGroupAttribute": "attributes.groups"
+    },
+    "ldapauth": {
+      "searchFilter": "cn={{username}}",
+      "url": "ldap://127.0.0.1:3006",
+      "bindAttribute": "dn",
+      "bindDn": "cn=openveo,dc=test",
+      "bindPassword": "test",
+      "searchBase": "dc=test",
+      "searchScope": "sub",
+      "userGroupAttribute": "group",
+      "userIdAttribute": "dn",
+      "userNameAttribute": "cn",
+      "userEmailAttribute": "mail"
+    }
   },
   "ws": {
-    "port": 3005
+    "port": 3007
   }
 }
 ```
@@ -80,12 +102,15 @@ When launching end to end tests, several things happen before the first test is 
 
 1. Database defined in **~/.openveo/core/databaseTestConf.json** is dropped
 2. Users, roles, groups and applications described in **tests/client/e2eTests/database/data.json**, from core and plugins, are inserted into database
-3. Tests suites files, in **tests/client/e2eTests/protractorSuites.json** from core and plugins, are merged into one single file (**tests/client/e2eTests/suites/suites.json**)
-4. An OpenVeo HTTP server is launched
-5. An OpenVeo socket server is launched
-6. An OpenVeo Web Service server is launched
-7. A database connection is made to be able to use models in tests
-8. All plugins are loaded
+3. CAS users and LDAP users described in **tests/client/e2eTests/database/data.json**, from core and plugins, are inserted respectively into **tests/client/e2eTests/build/casUsers.json** and **tests/client/e2eTests/build/ldapUsers.json**
+4. Tests suites files, in **tests/client/e2eTests/protractorSuites.json** from core and plugins, are merged into one single file (**tests/client/e2eTests/suites/suites.json**)
+5. A CAS server mock is launched
+6. An LDAP server mock is launched
+7. An OpenVeo HTTP server is launched
+8. An OpenVeo socket server is launched
+9. An OpenVeo Web Service server is launched
+10. A database connection is made to be able to use models in tests
+11. All plugins are loaded
 
 ## Add users, roles, groups and application before tests
 
@@ -104,6 +129,12 @@ Structure is as follow:
   "users": {
     ...
   },
+  "casUsers": [
+    ...
+  ],
+  "ldapUsers": [
+    ...
+  ],
   "applications": {
     ...
   }
@@ -167,6 +198,38 @@ Structure is as follow:
       "roles": [ "coreAdmin" ] // User's list of roles (role ids are the one described in the same file)
     }
   }
+}
+```
+
+### Create a CAS user
+
+```json
+{
+  "casUsers": [
+    {
+      "name": "my-user", // The id of the CAS user
+      "attributes": { // CAS user attributes
+        "name": "my-user", // The attribute holding the name of the CAS user
+        "mail": "my-usert@openveo.com", // The attribute holding the email of the CAS user
+        "groups": ["my-user1", "my-user2"]  // The attribute holding the groups of the CAS user
+      }
+    }
+  ]
+}
+```
+
+### Create an LDAP user
+
+```json
+{
+  "ldapUsers": [
+    {
+      "dn": "cn=my-user,dc=test", // User's id on LDAP
+      "cn": "my-user", // User's name
+      "groups": "my-user-group1,my-user-group2", // A comma separated list of groups
+      "mail": "my-user@openveo.com" // User's email
+    }
+  ]
 }
 ```
 

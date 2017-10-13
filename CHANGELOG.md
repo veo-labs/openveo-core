@@ -8,6 +8,7 @@
 - Add a directive ov-match and its corresponding formly type "match" to associate a value with a list of values. It is made of two fields: an input field holding a simple value and a tags field (using directive ov-tags) holding a list of values. Depending on its configuration several associations can be added
 - Add hook ROLES_DELETED when removing roles
 - Add hook USERS_DELETED when removing users
+- Add support for CAS and LDAP. OpenVeo can now authenticates users using external services (CAS and LDAP). See documentation on how to configure OpenVeo to be able to authenticate through those external services
 
 ## BUG FIXES
 

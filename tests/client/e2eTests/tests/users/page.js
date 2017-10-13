@@ -2,6 +2,7 @@
 
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
+var openVeoApi = require('@openveo/api');
 var e2e = require('@openveo/test').e2e;
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
@@ -415,7 +416,7 @@ describe('User page', function() {
   });
 
   it('should be able to select lines', function() {
-    tableAssert.checkLinesSelection(page.translations.CORE.USERS.NAME_COLUMN);
+    tableAssert.checkLinesSelection();
   });
 
   it('should have actions to remove users', function() {
@@ -483,6 +484,53 @@ describe('User page', function() {
       page.search(search);
       page.clearSearch();
       assert.isFulfilled(page.getLineValues(page.translations.CORE.USERS.NAME_COLUMN));
+    });
+
+    it('should be able to search by origin', function() {
+      var expectedValues = [];
+      var expectedUsers = [
+        {
+          name: 'test search by origin 42',
+          email: 'test-search-by-origin1@test.test',
+          originId: '42',
+          originGroups: [],
+          origin: openVeoApi.passport.STRATEGIES.LDAP,
+          roles: []
+        },
+        {
+          name: 'test search by origin 43',
+          email: 'test-search-by-origin43@test.test',
+          originId: '43',
+          originGroups: [],
+          origin: openVeoApi.passport.STRATEGIES.CAS,
+          roles: []
+        }
+      ];
+
+      expectedUsers.forEach(function(expectedUser) {
+        userHelper.addThirdPartyUser(expectedUser);
+      });
+
+      page.refresh();
+
+      // Build search query to search only the first item
+      var search = {origin: page.translations.CORE.USERS['ORIGIN_' + expectedUsers[0].origin.toUpperCase()]};
+
+      // Get all line details
+      page.getAllLineDetails().then(function(datas) {
+        var regexp = new RegExp(page.translations.CORE.USERS['ORIGIN_' + expectedUsers[0].origin.toUpperCase()]);
+
+        // Predict values
+        var filteredDatas = datas.filter(function(data) {
+          return regexp.test(data.fields.origin);
+        });
+
+        for (var i = 0; i < filteredDatas.length; i++)
+          expectedValues.push(filteredDatas[i].cells[1]);
+
+      }).then(function() {
+        return tableAssert.checkSearch(search, expectedValues, page.translations.CORE.USERS.NAME_COLUMN);
+      });
     });
 
   });

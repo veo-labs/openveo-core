@@ -53,6 +53,13 @@ UserPage.prototype.getSearchFields = function(form) {
     baseElement: form
   });
 
+  // Origin field
+  fields.origin = Field.get({
+    type: 'select',
+    name: this.translations.CORE.USERS.ORIGIN_FILTER,
+    baseElement: form
+  });
+
   return fields;
 };
 
@@ -132,6 +139,13 @@ UserPage.prototype.getEditFormFields = function(form) {
   fields.roles = Field.get({
     type: 'checkboxes',
     name: this.translations.CORE.USERS.ATTR_ROLE,
+    baseElement: form
+  });
+
+  // Origin field
+  fields.origin = Field.get({
+    type: 'fake',
+    name: this.translations.CORE.USERS.ATTR_ORIGIN,
     baseElement: form
   });
 

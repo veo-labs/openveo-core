@@ -2,10 +2,12 @@
   "LOGIN" : {
     "PAGE_TITLE" : "Openveo - Se connecter",
     "LOGIN" : "Utilisateur",
-    "LOGIN_DESCRIPTION" : "Entrez votre adresse email",
+    "LOGIN_DESCRIPTION" : "Entrez votre identifiant",
     "PASSWORD" : "Mot de passe",
     "PASSWORD_DESCRIPTION" : "Entrez votre mot de passe",
     "SUBMIT" : "Connexion",
-    "ERROR" : "Utilisateur et / ou mot de passe incorrect"
+    "ERROR" : "Utilisateur et / ou mot de passe incorrect",
+    "CAS_BUTTON" : "CONNECTEZ-VOUS AVEC CAS",
+    "ALTERNATIVE" : "ou"
   }
 }

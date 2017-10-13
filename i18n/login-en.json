@@ -2,10 +2,12 @@
   "LOGIN" : {
     "PAGE_TITLE" : "Openveo - Sign In",
     "LOGIN" : "User",
-    "LOGIN_DESCRIPTION" : "Enter your email address",
+    "LOGIN_DESCRIPTION" : "Enter your login name",
     "PASSWORD" : "Password",
     "PASSWORD_DESCRIPTION" : "Enter your password",
     "SUBMIT" : "Submit",
-    "ERROR" : "Wrong user and / or password"
+    "ERROR" : "Wrong user and / or password",
+    "CAS_BUTTON" : "LOG IN WITH CAS",
+    "ALTERNATIVE" : "or"
   }
 }

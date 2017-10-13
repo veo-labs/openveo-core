@@ -5,7 +5,17 @@
          border-left: 0px none;
       }
     }
-    .user-info{
-      overflow: auto;  
+    .user-info {
+      overflow: auto;
+
+      .ov-user-attributes {
+        text-align: right;
+        font-weight: normal;
+        color: #9a9a9a;
+
+        @include mobile-and-tablet{
+           text-align: left;
+        }
+      }
     }
 }

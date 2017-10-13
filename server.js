@@ -66,7 +66,8 @@ var migrationProcess = process.require('app/server/migration/migrationProcess.js
 storage.setConfiguration({
   superAdminId: '0',
   anonymousId: '1',
-  cdn: coreConf.cdn
+  cdn: coreConf.cdn,
+  auth: serverConf.app.auth
 });
 
 /**

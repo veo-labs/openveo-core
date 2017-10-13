@@ -140,6 +140,66 @@ var HTTP_ERRORS = {
     httpCode: 500
   },
 
+  /**
+   * A server error occurring when authenticating using an external provider (which require redirection).
+   *
+   * @property BACK_END_EXTERNAL_AUTHENTICATION_ERROR
+   * @type Object
+   * @final
+   */
+  BACK_END_EXTERNAL_AUTHENTICATION_ERROR: {
+    code: 0x00a,
+    httpCode: 500
+  },
+
+  /**
+   * A server error occurring when getting the list of settings.
+   *
+   * @property GET_SETTINGS_ERROR
+   * @type Object
+   * @final
+   */
+  GET_SETTINGS_ERROR: {
+    code: 0x00b,
+    httpCode: 500
+  },
+
+  /**
+   * A server error occurring when updating a setting.
+   *
+   * @property UPDATE_SETTINGS_ERROR
+   * @type Object
+   * @final
+   */
+  UPDATE_SETTINGS_ERROR: {
+    code: 0x00c,
+    httpCode: 500
+  },
+
+  /**
+   * A server error occurring when adding a setting.
+   *
+   * @property ADD_SETTINGS_ERROR
+   * @type Object
+   * @final
+   */
+  ADD_SETTINGS_ERROR: {
+    code: 0x00d,
+    httpCode: 500
+  },
+
+  /**
+   * A server error occurring when getting a setting.
+   *
+   * @property GET_SETTING_ERROR
+   * @type Object
+   * @final
+   */
+  GET_SETTING_ERROR: {
+    code: 0x00e,
+    httpCode: 500
+  },
+
   // Not found errors
 
   /**
@@ -264,6 +324,18 @@ var HTTP_ERRORS = {
     httpCode: 403
   },
 
+  /**
+   * A server error occurring when user authentication to the back end failed using an external provider.
+   *
+   * @property BACK_END_EXTERNAL_AUTHENTICATION_FAILED
+   * @type Object
+   * @final
+   */
+  BACK_END_EXTERNAL_AUTHENTICATION_FAILED: {
+    code: 0x207,
+    httpCode: 401
+  },
+
   // Wrong parameters
 
   /**
@@ -360,8 +432,93 @@ var HTTP_ERRORS = {
   GET_TAXONOMY_TERMS_MISSING_PARAMETERS: {
     code: 0x307,
     httpCode: 400
+  },
+
+  /**
+   * A server error occurring when authenticating to an internal provider using wrong parameters.
+   *
+   * @property AUTHENTICATE_INTERNAL_WRONG_PARAMETERS
+   * @type Object
+   * @final
+   */
+  AUTHENTICATE_INTERNAL_WRONG_PARAMETERS: {
+    code: 0x308,
+    httpCode: 400
+  },
+
+  /**
+   * A server error occurring when authenticating to an external provider using wrong parameters.
+   *
+   * @property AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS
+   * @type Object
+   * @final
+   */
+  AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS: {
+    code: 0x309,
+    httpCode: 400
+  },
+
+  /**
+   * A server error occurring when getting settings with wrong parameters.
+   *
+   * @property GET_SETTINGS_WRONG_PARAMETERS
+   * @type Object
+   * @final
+   */
+  GET_SETTINGS_WRONG_PARAMETERS: {
+    code: 0x30a,
+    httpCode: 400
+  },
+
+  /**
+   * A server error occurring when updating a setting with missing parameters.
+   *
+   * @property UPDATE_SETTINGS_MISSING_PARAMETERS
+   * @type Object
+   * @final
+   */
+  UPDATE_SETTINGS_MISSING_PARAMETERS: {
+    code: 0x30b,
+    httpCode: 400
+  },
+
+  /**
+   * A server error occurring when adding a setting with missing parameters.
+   *
+   * @property ADD_SETTINGS_MISSING_PARAMETERS
+   * @type Object
+   * @final
+   */
+  ADD_SETTINGS_MISSING_PARAMETERS: {
+    code: 0x30c,
+    httpCode: 400
+  },
+
+  /**
+   * A server error occurring when adding setting with wrong parameters.
+   *
+   * @property ADD_SETTINGS_WRONG_PARAMETERS
+   * @type Object
+   * @final
+   */
+  ADD_SETTINGS_WRONG_PARAMETERS: {
+    code: 0x30d,
+    httpCode: 400
+  },
+
+  /**
+   * A server error occurring when getting a setting with missing parameters.
+   *
+   * @property GET_SETTING_MISSING_PARAMETERS
+   * @type Object
+   * @final
+   */
+  GET_SETTING_MISSING_PARAMETERS: {
+    code: 0x30e,
+    httpCode: 400
   }
 
 };
+
 Object.freeze(HTTP_ERRORS);
 module.exports = HTTP_ERRORS;

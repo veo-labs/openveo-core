@@ -295,6 +295,9 @@
    */
   app.config(['$routeProvider', '$locationProvider', '$httpProvider',
     function($routeProvider, $locationProvider, $httpProvider) {
+      var strategies = openVeoSettings.authenticationStrategies;
+      var hasLdap = openVeoSettings.authenticationMechanisms.indexOf(strategies.LDAP) >= 0;
+      var hasCas = openVeoSettings.authenticationMechanisms.indexOf(strategies.CAS) >= 0;
 
       // Register / route with authentication
       $routeProvider.when('/', {
@@ -351,6 +354,7 @@
       $routeProvider.when('/profile', {
         templateUrl: 'views/profile.html',
         controller: 'ProfileController',
+        controllerAs: 'ctrl',
         title: 'CORE.PROFILES.PAGE_TITLE',
         resolve: {
           user: ['authenticationService', function(authenticationService) {
@@ -379,6 +383,29 @@
         controller: 'GroupController',
         title: 'CORE.GROUPS.PAGE_TITLE',
         access: 'core-access-groups-page'
+      });
+
+      // Register /openveo-settings route with authentication
+      // Also retrieve OpenVeo settings and roles
+      $routeProvider.when('/openveo-settings', {
+        templateUrl: 'views/settings.html',
+        controller: 'SettingsController',
+        controllerAs: 'ctrl',
+        title: 'CORE.SETTINGS.PAGE_TITLE',
+        access: 'core-access-settings-page',
+        resolve: {
+          ldapSettings: ['$q', 'entityService', function($q, entityService) {
+            if (!hasLdap) return $q.when({data: {}});
+            return entityService.getEntity('settings', null, 'core-' + strategies.LDAP);
+          }],
+          casSettings: ['$q', 'entityService', function($q, entityService) {
+            if (!hasCas) return $q.when({data: {}});
+            return entityService.getEntity('settings', null, 'core-' + strategies.CAS);
+          }],
+          roles: ['entityService', function(entityService) {
+            return entityService.getEntities('roles', null);
+          }]
+        }
       });
 
       $locationProvider.html5Mode(true);
