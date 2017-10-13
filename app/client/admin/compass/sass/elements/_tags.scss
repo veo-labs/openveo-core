@@ -1,9 +1,10 @@
 /* Style for tags form element with an input to add new tags followed by a list of tags */
-.ov-tags {
+.ov-field-tags {
+  position: relative;
 
   ul {
     padding: 0 20px 0 0;
-    margin: 0;
+    margin: 0 0 10px 0;
     white-space: normal;
   }
 
@@ -35,10 +36,37 @@
     width: 12px;
     height: 13px;
     outline: none;
+    text-decoration: none;
   }
 
   a:hover {
     cursor: pointer;
+  }
+
+  .ov-field-tags-auto-complete {
+    position: absolute;
+    z-index: 2;
+    top: 34px;
+    width: 100%;
+    padding: 0;
+    background-color: #ffffff;
+    border: 1px solid #e3e3e3;
+
+    li {
+      width: 100%;
+      padding: 5px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #129bc5;
+        color: #ffffff;
+      }
+
+      div {
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
   }
 
 }

@@ -105,12 +105,26 @@
 
     <!-- "ov-tags" directive template -->
     <script type="text/ng-template" id="ov-core-tags.html">
-      <div class="ov-tags">
-        <input type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ng-keydown="addTag($event);" ng-model="editableTagsInput" class="form-control">
+      <div class="ov-field-tags">
+        <input type="text"
+               autocomplete="off"
+               autocorrect="off"
+               autocapitalize="off"
+               spellcheck="false"
+               ng-keydown="handleKeys($event);"
+               ng-model="editableTagsInput"
+               ng-change="autoComplete()"
+               placeholder="{{placeholder}}"
+               class="form-control">
         <ul>
           <li ng-repeat="item in tags track by $index" class="option">
             <div ng-bind="item"></div>
             <a ng-click="removeTag($event, $index)" class="glyphicon glyphicon-remove"></a>
+          </li>
+        </ul>
+        <ul class="ov-field-tags-auto-complete" ng-if="autoCompleteValues.length">
+          <li ng-repeat="option in autoCompleteValues track by $index" ng-click="addTag(option.name)">
+            <div ng-bind="option.name"></div>
           </li>
         </ul>
       </div>
@@ -191,7 +205,11 @@
 
     <!-- Formly "tags" type template -->
     <script type="text/ng-template" id="ov-core-formly-tags.html">
-      <ov-tags ng-model="model[options.key]" ng-model-options="{ allowInvalid: true }"></ov-tags>
+      <ov-tags ng-model="model[options.key]"
+               ng-model-options="{ allowInvalid: true }"
+               ng-change="to.onChange && to.onChange()"
+               ov-available-options="to.availableOptions"
+               ov-placeholder="to.placeholder"></ov-tags>
     </script>
 
     <!-- Formly "ovMultiCheckBox" type template -->

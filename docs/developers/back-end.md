@@ -392,7 +392,7 @@ OpenVeo defines the following list of formly fields.
 
 Field type | Description | Specific options
 ------------ | ------------- | ------------
-tags | Display an input text to add a list of tags | -
+tags | Display an input text to add a list of tags | **availableOptions** to specify the list of possible tags with, for each tag, a property "name" and a property "value". If this option is specified it will not be possible to enter tags which are not in the list (default is []) ; **placeholder** to specify the input placeholder (default to "") ; **onChange** to specify a function which will be called each time a tag is added or removed (default to null)
 emptyrow | Display a fake field with a static message | **message** the message to display
 section | Display an H3 title | **title** to specify the title
 ovMultiCheckBox | Same as the "multiCheckbox" type defined by [angular-formly-templates-bootstrap](https://github.com/formly-js/angular-formly-templates-bootstrap) | **options** the list of checkboxes description objects with a property for the name of the checkbox and a property for the value of the checkbox ; **valueProperty** to define the property to use to get the checkbox value (default is "value") ; **labelProperty** to define the property to use to get the checkbox label (default is "name")
