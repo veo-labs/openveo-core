@@ -1,3 +1,9 @@
+# 4.1.1 /
+
+## BUG FIXES
+
+- Fix back end menu items positions. Items without sub items were organized between them and items with sub items were organized between them. There is now no distinction made between items without sub items and items with sub items
+
 # 4.1.0 / 2017-09-12
 
 ## BUG FIXES
