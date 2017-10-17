@@ -14,6 +14,7 @@
 
 - Fix back end menu items positions. Items without sub items were organized between them and items with sub items were organized between them. There is now no distinction made between items without sub items and items with sub items
 - Automatically remove role from users when a role is deleted
+- Fix error in install script when not answering a question about the super administrator account
 
 # 4.1.0 / 2017-09-12
 

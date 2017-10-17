@@ -535,21 +535,21 @@ function createSuperAdmin(callback) {
     },
     function(callback) {
       rl.question('Enter the name of the OpenVeo super admin to create :\n', function(answer) {
-        if (!answer) callback(new Error('Invalid name, aborting'));
+        if (!answer) return callback(new Error('Invalid name, aborting'));
         user.name = answer;
         callback();
       });
     },
     function(callback) {
       secureQuestion('Enter the password of the OpenVeo super admin to create :\n', function(answer) {
-        if (!answer) callback(new Error('Invalid password, aborting'));
+        if (!answer) return callback(new Error('Invalid password, aborting'));
         user.password = crypto.createHmac('sha256', conf.passwordHashKey).update(answer).digest('hex');
         callback();
       });
     },
     function(callback) {
       rl.question('Enter the email of the OpenVeo super admin to create :\n', function(answer) {
-        if (!answer || !openVeoApi.util.isEmailValid(answer)) callback(Error('Invalid email, aborting'));
+        if (!answer || !openVeoApi.util.isEmailValid(answer)) return callback(Error('Invalid email, aborting'));
         user.email = answer;
         callback();
       });
