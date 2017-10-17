@@ -238,7 +238,8 @@ UserModel.prototype.addThirdPartyUser = function(data, origin, originId, originG
     origin: origin,
     originId: originId,
     originGroups: originGroups || [],
-    roles: data.roles || []
+    roles: data.roles || [],
+    locked: true
   };
 
   this.provider.add(user, function(error, addedCount, users) {
@@ -258,11 +259,12 @@ UserModel.prototype.addThirdPartyUser = function(data, origin, originId, originG
  * @param {String} [data.email] User's email
  * @param {Array} [data.originGroups] User's groups in third party provider system
  * @param {Array} [data.roles] User's role ids
+ * @param {String} origin The user origin strategy (passport strategy)
  * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Number** The total amount of items updates
  */
-UserModel.prototype.updateThirdPartyUser = function(id, data, callback) {
+UserModel.prototype.updateThirdPartyUser = function(id, data, origin, callback) {
   var userData = {};
 
   if (data.name) userData.name = data.name;
@@ -270,7 +272,7 @@ UserModel.prototype.updateThirdPartyUser = function(id, data, callback) {
   if (data.originGroups) userData.originGroups = data.originGroups;
   if (data.roles) userData.roles = data.roles;
 
-  this.provider.update(id, userData, function(error, updatedCount) {
+  this.provider.updateThirdPartyUser(id, userData, origin, function(error, updatedCount) {
     if (callback)
       callback(error, updatedCount);
   });

@@ -211,7 +211,9 @@ module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, cal
     function(callback) {
       if (user.name !== thirdPartyUserName ||
           user.email !== thirdPartyUserEmail ||
-          !openVeoApi.util.areSameArrays(user.originGroups, originGroups)) {
+          !openVeoApi.util.areSameArrays(user.originGroups, originGroups) ||
+          !openVeoApi.util.areSameArrays(user.roles, roles)
+         ) {
 
         user.name = thirdPartyUserName;
         user.email = thirdPartyUserEmail;
@@ -223,7 +225,7 @@ module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, cal
           email: user.email,
           originGroups: user.originGroups,
           roles: user.roles
-        }, callback);
+        }, strategy, callback);
       } else
         callback();
     },

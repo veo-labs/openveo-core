@@ -110,6 +110,50 @@ UserProvider.prototype.getOne = function(id, filter, callback) {
 };
 
 /**
+ * Updates an internal user.
+ *
+ * If the entity has the property "locked", it won't be updated. It also won't be updated
+ * if user is not an OpenVeo user.
+ *
+ * @method update
+ * @async
+ * @param {String} id The id of the user to update
+ * @param {Object} data User's data
+ * @param {Function} callback The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of updated items
+ */
+UserProvider.prototype.update = function(id, data, callback) {
+  this.database.update(this.collection, {
+    id: id,
+    locked: {$ne: true},
+    origin: {$eq: openVeoApi.passport.STRATEGIES.LOCAL}
+  }, data, callback);
+};
+
+/**
+ * Updates an external user.
+ *
+ * @method updateThirdPartyUser
+ * @async
+ * @param {String} id The id of the user to update
+ * @param {Object} data User's data
+ * @param {String} origin The user's origin (see openVeoApi.passport.STRATEGIES)
+ * @param {Function} callback The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of updated items
+ */
+UserProvider.prototype.updateThirdPartyUser = function(id, data, origin, callback) {
+  if (origin === openVeoApi.passport.STRATEGIES.LOCAL)
+    return callback(new Error('Can\'t update a local user with "updateThirdPartyUser"'));
+
+  this.database.update(this.collection, {
+    id: id,
+    origin: {$eq: origin}
+  }, data, callback);
+};
+
+/**
  * Creates users indexes.
  *
  * @method createIndexes
