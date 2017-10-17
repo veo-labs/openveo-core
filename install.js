@@ -516,7 +516,8 @@ function createSuperAdmin(callback) {
   var conf = require(path.join(confDir, 'conf.json'));
   var user = {
     id: '0',
-    locked: true
+    locked: true,
+    origin: openVeoApi.passport.STRATEGIES.LOCAL
   };
 
   async.series([
