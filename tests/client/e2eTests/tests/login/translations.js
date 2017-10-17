@@ -14,6 +14,7 @@ describe('Login page translations', function() {
   // Prepare page
   before(function() {
     page = new LoginPage();
+    page.logout();
     page.load();
   });
 

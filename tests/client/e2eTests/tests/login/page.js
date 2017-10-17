@@ -37,7 +37,6 @@ describe('Login page', function() {
     settingHelper = new SettingHelper(settingModel);
     roleHelper = new RoleHelper(roleModel);
     page = new LoginPage();
-    page.logout();
     page.load();
 
     userHelper.getEntities().then(function(users) {
@@ -55,6 +54,7 @@ describe('Login page', function() {
 
   // Reload page after each test and remove added entities
   afterEach(function() {
+    page.logout();
     userHelper.removeAllEntities(defaultUsers);
     settingHelper.removeAllEntities(defaultSettings);
     roleHelper.removeAllEntities(defaultRoles);
