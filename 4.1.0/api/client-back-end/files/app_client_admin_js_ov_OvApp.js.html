@@ -45,6 +45,7 @@
                                 <li><a href="../classes/entityService.html">entityService</a></li>
                                 <li><a href="../classes/i18nService.html">i18nService</a></li>
                                 <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
                                 <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
                                 <li><a href="../classes/ovTags.html">ovTags</a></li>
                                 <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
@@ -182,9 +183,22 @@
       }
     });
     formlyConfig.setType({
+      name: &#x27;match&#x27;,
+      templateUrl: &#x27;ov-core-formly-match.html&#x27;,
+      defaultOptions: {
+        validation: {
+          show: true
+        }
+      }
+    });
+    formlyConfig.setType({
       name: &#x27;emptyrow&#x27;,
       templateUrl: &#x27;ov-core-empty-row.html&#x27;,
       wrapper: [&#x27;horizontalBootstrapLabel&#x27;, &#x27;bootstrapHasError&#x27;]
+    });
+    formlyConfig.setType({
+      name: &#x27;section&#x27;,
+      templateUrl: &#x27;ov-core-section.html&#x27;
     });
     formlyConfig.setType({
       extends: &#x27;input&#x27;,
@@ -303,6 +317,11 @@
       }
     });
     formlyConfig.setType({
+      name: &#x27;simple&#x27;,
+      templateUrl: &#x27;ov-core-simple.html&#x27;,
+      wrapper: [&#x27;horizontalBootstrapLabel&#x27;, &#x27;bootstrapHasError&#x27;]
+    });
+    formlyConfig.setType({
       name: &#x27;horizontalFile&#x27;,
       extends: &#x27;ovFile&#x27;,
       wrapper: [&#x27;horizontalBootstrapLabel&#x27;, &#x27;bootstrapHasError&#x27;]
@@ -353,6 +372,11 @@
       wrapper: [&#x27;horizontalBootstrapLabel&#x27;, &#x27;bootstrapHasError&#x27;]
     });
     formlyConfig.setType({
+      name: &#x27;horizontalMatch&#x27;,
+      extends: &#x27;match&#x27;,
+      wrapper: [&#x27;horizontalBootstrapLabel&#x27;, &#x27;bootstrapHasError&#x27;]
+    });
+    formlyConfig.setType({
       name: &#x27;horizontalEditableTags&#x27;,
       extends: &#x27;editableTags&#x27;,
       wrapper: [&#x27;editableWrapper&#x27;, &#x27;horizontalBootstrapLabel&#x27;, &#x27;bootstrapHasError&#x27;]
@@ -375,6 +399,9 @@
    */
   app.config([&#x27;$routeProvider&#x27;, &#x27;$locationProvider&#x27;, &#x27;$httpProvider&#x27;,
     function($routeProvider, $locationProvider, $httpProvider) {
+      var strategies = openVeoSettings.authenticationStrategies;
+      var hasLdap = openVeoSettings.authenticationMechanisms.indexOf(strategies.LDAP) &gt;= 0;
+      var hasCas = openVeoSettings.authenticationMechanisms.indexOf(strategies.CAS) &gt;= 0;
 
       // Register / route with authentication
       $routeProvider.when(&#x27;/&#x27;, {
@@ -431,6 +458,7 @@
       $routeProvider.when(&#x27;/profile&#x27;, {
         templateUrl: &#x27;views/profile.html&#x27;,
         controller: &#x27;ProfileController&#x27;,
+        controllerAs: &#x27;ctrl&#x27;,
         title: &#x27;CORE.PROFILES.PAGE_TITLE&#x27;,
         resolve: {
           user: [&#x27;authenticationService&#x27;, function(authenticationService) {
@@ -459,6 +487,29 @@
         controller: &#x27;GroupController&#x27;,
         title: &#x27;CORE.GROUPS.PAGE_TITLE&#x27;,
         access: &#x27;core-access-groups-page&#x27;
+      });
+
+      // Register /settings route with authentication
+      // Also retrieve OpenVeo settings and roles
+      $routeProvider.when(&#x27;/openveo-settings&#x27;, {
+        templateUrl: &#x27;views/settings.html&#x27;,
+        controller: &#x27;SettingsController&#x27;,
+        controllerAs: &#x27;ctrl&#x27;,
+        title: &#x27;CORE.SETTINGS.PAGE_TITLE&#x27;,
+        access: &#x27;core-access-settings-page&#x27;,
+        resolve: {
+          ldapSettings: [&#x27;$q&#x27;, &#x27;entityService&#x27;, function($q, entityService) {
+            if (!hasLdap) return $q.when({data: {}});
+            return entityService.getEntity(&#x27;settings&#x27;, null, &#x27;core-&#x27; + strategies.LDAP);
+          }],
+          casSettings: [&#x27;$q&#x27;, &#x27;entityService&#x27;, function($q, entityService) {
+            if (!hasCas) return $q.when({data: {}});
+            return entityService.getEntity(&#x27;settings&#x27;, null, &#x27;core-&#x27; + strategies.CAS);
+          }],
+          roles: [&#x27;entityService&#x27;, function(entityService) {
+            return entityService.getEntities(&#x27;roles&#x27;, null);
+          }]
+        }
       });
 
       $locationProvider.html5Mode(true);

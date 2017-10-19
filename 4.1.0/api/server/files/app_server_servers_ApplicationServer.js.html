@@ -44,9 +44,11 @@
                                 <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
                                 <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
                                 <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
                                 <li><a href="../classes/client.html">client</a></li>
                                 <li><a href="../classes/ClientModel.html">ClientModel</a></li>
                                 <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
                                 <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
                                 <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
                                 <li><a href="../classes/DefaultController.html">DefaultController</a></li>
@@ -57,6 +59,7 @@
                                 <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
                                 <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
                                 <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
                                 <li><a href="../classes/MenuController.html">MenuController</a></li>
                                 <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
                                 <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
@@ -70,6 +73,9 @@
                                 <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
                                 <li><a href="../classes/routeLoader.html">routeLoader</a></li>
                                 <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingModel.html">SettingModel</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
                                 <li><a href="../classes/storage.html">storage</a></li>
                                 <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
                                 <li><a href="../classes/TaxonomyModel.html">TaxonomyModel</a></li>
@@ -141,9 +147,9 @@ var async = require(&#x27;async&#x27;);
 var express = require(&#x27;express&#x27;);
 var consolidate = require(&#x27;consolidate&#x27;);
 var session = require(&#x27;express-session&#x27;);
-var passport = require(&#x27;passport&#x27;);
 var cookieParser = require(&#x27;cookie-parser&#x27;);
 var bodyParser = require(&#x27;body-parser&#x27;);
+var passport = require(&#x27;passport&#x27;);
 var favicon = require(&#x27;serve-favicon&#x27;);
 var openVeoApi = require(&#x27;@openveo/api&#x27;);
 var Server = process.require(&#x27;app/server/servers/Server.js&#x27;);
@@ -154,9 +160,15 @@ var namespaceLoader = process.require(&#x27;app/server/loaders/namespaceLoader.j
 var DefaultController = process.require(&#x27;app/server/controllers/DefaultController.js&#x27;);
 var ErrorController = process.require(&#x27;app/server/controllers/ErrorController.js&#x27;);
 var expressThumbnail = process.require(&#x27;app/server/servers/ExpressThumbnail.js&#x27;);
+var UserModel = process.require(&#x27;app/server/models/UserModel.js&#x27;);
+var RoleModel = process.require(&#x27;app/server/models/RoleModel.js&#x27;);
+var UserProvider = process.require(&#x27;app/server/providers/UserProvider.js&#x27;);
+var RoleProvider = process.require(&#x27;app/server/providers/RoleProvider.js&#x27;);
 var storage = process.require(&#x27;app/server/storage.js&#x27;);
+var authenticator = process.require(&#x27;app/server/authenticator.js&#x27;);
 var SocketServer = openVeoApi.socket.SocketServer;
 var SocketNamespace = openVeoApi.socket.SocketNamespace;
+var strategyFactory = openVeoApi.passport.strategyFactory;
 
 var defaultController = new DefaultController();
 var errorController = new ErrorController();
@@ -274,6 +286,71 @@ module.exports = ApplicationServer;
 util.inherits(ApplicationServer, Server);
 
 /**
+ * Initializes passport strategies to manage user authentication.
+ *
+ * @method initializePassport
+ * @private
+ */
+function initializePassport() {
+  var self = this;
+  this.httpServer.use(passport.initialize());
+  this.httpServer.use(passport.session());
+
+  // Add configuration for local authentication mechanism
+  // It is added here because it should not be editable as usernameField and
+  // passwordField are hardcoded
+
+  // Instantiate passport strategies
+  if (this.configuration.auth) {
+    Object.keys(this.configuration.auth).forEach(function(strategy) {
+      self.configuration.auth[strategy].usernameField = &#x27;email&#x27;;
+      self.configuration.auth[strategy].passwordField = &#x27;password&#x27;;
+      self.configuration.auth[strategy].logoutUri = &#x27;be&#x27;;
+
+      passport.use(strategyFactory.get(strategy, self.configuration.auth[strategy], function(user, callback) {
+        authenticator.verifyUserAuthentication(user, strategy, function(error, userWithPermissions) {
+          if (error) {
+            process.logger.error(error.message, {error: error, method: &#x27;verify&#x27;});
+            callback(null, false);
+          } else
+            callback(null, userWithPermissions);
+        });
+      }));
+    });
+  }
+
+  // Add local strategy at the end because user verification does not work like for other strategies
+  passport.use(strategyFactory.get(openVeoApi.passport.STRATEGIES.LOCAL, {
+    usernameField: &#x27;email&#x27;,
+    passwordField: &#x27;password&#x27;
+  }, function(email, password, callback) {
+    authenticator.verifyUserByCredentials(email, password, function(error, user) {
+      if (error) {
+        process.logger.error(error.message, {error: error, method: &#x27;verify&#x27;});
+        callback(null, false);
+      } else
+        callback(null, user);
+    });
+  }));
+
+  // In order to support login sessions, Passport serialize and
+  // deserialize user instances to and from the session
+  passport.serializeUser(authenticator.serializeUser);
+
+  // When subsequent requests are received, the serialized datas are used to find
+  // the user, which will be restored to req.user
+  passport.deserializeUser(function(id, callback) {
+    authenticator.deserializeUser(id, function(error, user) {
+      if (error) {
+        process.logger.error(error.message, {error: error, method: &#x27;deserializeUser&#x27;});
+        callback(null, false);
+      } else
+        callback(null, user);
+    });
+  });
+}
+
+/**
  * Prepares the express application.
  *
  * @method onDatabaseAvailable
@@ -303,13 +380,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   }));
   this.httpServer.use(bodyParser.json());
 
-  // passport Initialize : Need to be done after session settings DB
-  this.httpServer.use(passport.initialize());
-  this.httpServer.use(passport.session());
-
-  // Initialize passport (authentication manager)
-  process.require(&#x27;app/server/passport.js&#x27;);
-
+  initializePassport.call(this);
   callback();
 };
 

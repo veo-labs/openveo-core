@@ -304,17 +304,39 @@
 </code></pre>
 
 <p><strong>WARNING</strong> : Each time you launch end to end tests, all information will be removed from this database ! DO NOT use the same database as the one described in <strong>databaseConf.json</strong></p>
-<p>When launching tests, OpenVeo HTTP and socket servers are automatically spawned and must be configured through <strong>serverTestConf.json</strong>. Typically you may want to change servers ports.</p>
+<p>When launching tests, OpenVeo HTTP and socket servers are automatically spawned and must be configured through <strong>serverTestConf.json</strong>. Typically you may want to change servers ports. Also a fake LDAP server and a fake CAS server are spawned using configuration defined in <strong>serverTestConf.json</strong>.</p>
 <p><strong>~/.openveo/core/serverTestConf.json</strong></p>
 <pre><code class="json">{
   &quot;app&quot;: {
     &quot;httpPort&quot;: 3003,
     &quot;socketPort&quot;: 3004,
     &quot;browserSocketPort&quot;: 3004,
-    &quot;sessionSecret&quot;: &quot;2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx&quot;
+    &quot;sessionSecret&quot;: &quot;2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx&quot;,
+    &quot;cas&quot;: {
+      &quot;version&quot;: &quot;3&quot;,
+      &quot;service&quot;: &quot;http://127.0.0.1/be/authenticate/cas&quot;,
+      &quot;url&quot;: &quot;http://127.0.0.1:3005&quot;,
+      &quot;userIdAttribute&quot;: &quot;name&quot;,
+      &quot;userNameAttribute&quot;: &quot;attributes.name&quot;,
+      &quot;userEmailAttribute&quot;: &quot;attributes.mail&quot;,
+      &quot;userGroupAttribute&quot;: &quot;attributes.groups&quot;
+    },
+    &quot;ldapauth&quot;: {
+      &quot;searchFilter&quot;: &quot;cn={{username}}&quot;,
+      &quot;url&quot;: &quot;ldap://127.0.0.1:3006&quot;,
+      &quot;bindAttribute&quot;: &quot;dn&quot;,
+      &quot;bindDn&quot;: &quot;cn=openveo,dc=test&quot;,
+      &quot;bindPassword&quot;: &quot;test&quot;,
+      &quot;searchBase&quot;: &quot;dc=test&quot;,
+      &quot;searchScope&quot;: &quot;sub&quot;,
+      &quot;userGroupAttribute&quot;: &quot;group&quot;,
+      &quot;userIdAttribute&quot;: &quot;dn&quot;,
+      &quot;userNameAttribute&quot;: &quot;cn&quot;,
+      &quot;userEmailAttribute&quot;: &quot;mail&quot;
+    }
   },
   &quot;ws&quot;: {
-    &quot;port&quot;: 3005
+    &quot;port&quot;: 3007
   }
 }
 </code></pre>

@@ -45,6 +45,7 @@
                                 <li><a href="../classes/entityService.html">entityService</a></li>
                                 <li><a href="../classes/i18nService.html">i18nService</a></li>
                                 <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
                                 <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
                                 <li><a href="../classes/ovTags.html">ovTags</a></li>
                                 <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
@@ -110,9 +111,44 @@
    *
    * Tags form element is composed of an input element to add tags followed by the list of added tags.
    *
+   * Attributes are:
+   *   - ov-available-options to define possible values. If set, only values inside ov-available-options can
+   *     be added and auto-completion is activated. (This must be an assignable variable evaluated as an array)
+   *     e.g.
+   *     [
+   *       {
+   *         name: &#x27;First name&#x27;,
+   *         value: &#x27;firstValue&#x27;
+   *       }
+   *       {
+   *         name: &#x27;Second name&#x27;,
+   *         value: &#x27;secondValue&#x27;
+   *       }
+   *     ];
+   *   - ov-placeholder to set the input placeholder
+   *
    * @example
+   *     var placeholder = &#x27;Enter tags&#x27;;
    *     var listOfTags = [&#x27;tag1&#x27;, &#x27;tag2&#x27;];
-   *     &lt;ov-tags ng-model=&quot;listOfTags&quot; ng-model-options=&quot;{ allowInvalid: true }&quot;&gt;&lt;/ov-tags&gt;
+   *     var availableOptions = [
+   *       {
+   *         name: &#x27;Tag 1&#x27;,
+   *         value: &#x27;tag1&#x27;
+   *       },
+   *       {
+   *         name: &#x27;Tag 2&#x27;,
+   *         value: &#x27;tag2&#x27;
+   *       },
+   *       {
+   *         name: &#x27;Tag 3&#x27;,
+   *         value: &#x27;tag3&#x27;
+   *       }
+   *     ];
+   *     &lt;ov-tags ng-model=&quot;listOfTags&quot;
+   *              ng-model-options=&quot;{ allowInvalid: true }&quot;
+   *              ov-available-options=&quot;availableOptions&quot;
+   *              ov-placeholder=&quot;placeholder&quot;&gt;
+   *     &lt;/ov-tags&gt;
    *
    * @module ov
    * @class ovTags
@@ -123,44 +159,154 @@
       templateUrl: &#x27;ov-core-tags.html&#x27;,
       require: [&#x27;?ngModel&#x27;],
       replace: true,
-      scope: true,
+      scope: {
+        ovAvailableOptions: &#x27;=?&#x27;,
+        ovPlaceholder: &#x27;=?&#x27;
+      },
       link: function(scope, el, attrs, controllers) {
         var ngModelCtrl = controllers[0];
         scope.editableTagsInput = &#x27;&#x27;;
+        scope.autoCompleteValues = [];
 
         /**
-         * Renders the list of tags using the model.
+         * Updates and validates directive attributes.
+         */
+        function updateAttributes() {
+          scope.ovAvailableOptions =
+            scope.availableOptions = (typeof scope.ovAvailableOptions === &#x27;undefined&#x27;) ? [] : scope.ovAvailableOptions;
+
+          scope.ovPlaceholder =
+            scope.placeholder = (typeof scope.ovPlaceholder === &#x27;undefined&#x27;) ? &#x27;&#x27; : scope.ovPlaceholder;
+        }
+
+        /**
+         * Gets tag values.
+         *
+         * The directive stores either the list of values or the list of options depending
+         * on ovAvailableOptions attribute. Model should receive only the list of values.
+         *
+         * When directive does not have ovAvailableOptions, scope.tags stores values.
+         * When directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).
+         *
+         * @return {Array} The list of values
+         */
+        function getValues() {
+
+          // Directive without options
+          if (!scope.availableOptions)
+            return angular.copy(scope.tags);
+
+          // Directive with options
+          // Retrieve values from available options
+          var values = [];
+          scope.tags.forEach(function(name) {
+            for (var i = 0; i &lt; scope.availableOptions.length; i++) {
+              if (scope.availableOptions[i].name === name) {
+                values.push(scope.availableOptions[i].value);
+                break;
+              }
+            }
+          });
+
+          return values;
+        }
+
+        /**
+         * Renders the list of values using the model.
+         *
+         * The directive stores either the list of values or the list of options depending
+         * on ovAvailableOptions attribute. Model should receive only the list of values.
+         *
+         * When directive does not have ovAvailableOptions, scope.tags stores values.
+         * When directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).
          *
          * It overrides AngularJS $render.
          */
         ngModelCtrl.$render = function() {
-          scope.tags = angular.copy(ngModelCtrl.$viewValue) || [];
+
+          // Directive without options
+          if (!scope.availableOptions)
+            scope.tags = angular.copy(ngModelCtrl.$viewValue) || [];
+          else {
+
+            // Directive with options
+            // Retrieve values from available options
+            scope.tags = [];
+            (ngModelCtrl.$viewValue || []).forEach(function(value) {
+              for (var i = 0; i &lt; scope.availableOptions.length; i++) {
+                if (scope.availableOptions[i].value === value) {
+                  scope.tags.push(scope.availableOptions[i].name);
+                  break;
+                }
+              }
+            });
+
+          }
         };
 
         /**
-         * Adds a new tag when user press &quot;enter&quot;.
+         * Add a new tag.
+         *
+         * @param {String} tag Either the name of the option if ovAvailableOptions is specified or the value if not
+         */
+        scope.addTag = function(tag) {
+
+          // Without options
+          if ((!scope.availableOptions) &amp;&amp;
+              (tag &amp;&amp; scope.tags.indexOf(tag) === -1)
+             ) {
+            scope.editableTagsInput = &#x27;&#x27;;
+            scope.tags.push(tag);
+            ngModelCtrl.$setViewValue(getValues());
+
+            // Validate the model
+            ngModelCtrl.$validate();
+            return;
+          }
+
+          // With options
+          // Make sure tag is part of available values
+          for (var i = 0; i &lt; scope.availableOptions.length; i++) {
+            if (scope.availableOptions[i].name === tag) {
+
+              // Only register not already entered tags
+              if (tag &amp;&amp; scope.tags.indexOf(scope.availableOptions[i].name) === -1) {
+                scope.tags.push(tag);
+                ngModelCtrl.$setViewValue(getValues());
+
+                // Validate the model
+                ngModelCtrl.$validate();
+              }
+
+              // Clean up input and auto complete
+              scope.editableTagsInput = &#x27;&#x27;;
+              scope.autoComplete();
+
+              break;
+            }
+          }
+
+        };
+
+        /**
+         * Handles keys.
+         *
+         * Add a new tag when user press &quot;enter&quot;.
          *
          * @param {Event} event The keyboard event
          */
-        scope.addTag = function(event) {
+        scope.handleKeys = function(event) {
 
           // Capture &quot;enter&quot; key
           if (event.keyCode === 13) {
 
-            // Only register non empty tags
-            if (scope.editableTagsInput) {
-              scope.tags.push(scope.editableTagsInput);
-              scope.editableTagsInput = &#x27;&#x27;;
-              ngModelCtrl.$setViewValue(angular.copy(scope.tags));
-            }
+            scope.addTag(scope.editableTagsInput);
 
             // Stop event propagation and default
             event.stopImmediatePropagation();
             event.stopPropagation();
             event.preventDefault();
 
-            // Validate the model
-            ngModelCtrl.$validate();
           }
 
         };
@@ -175,7 +321,7 @@
 
           // Remove tag
           scope.tags.splice(index, 1);
-          ngModelCtrl.$setViewValue(angular.copy(scope.tags));
+          ngModelCtrl.$setViewValue(getValues());
 
           // Stop event propagation and default
           event.stopImmediatePropagation();
@@ -185,6 +331,26 @@
           // Validate the model
           ngModelCtrl.$validate();
 
+        };
+
+        /**
+         * Displays auto-complete depending on the given input value.
+         */
+        scope.autoComplete = function() {
+
+          // No predefined options, thus no auto-complete
+          if (!scope.availableOptions) return;
+
+          // Clear actual auto-complete list
+          scope.autoCompleteValues.splice(0, scope.autoCompleteValues.length);
+
+          // Search all auto-complete names which start by the input value (case insensitive)
+          if (scope.editableTagsInput) {
+            scope.availableOptions.forEach(function(option) {
+              if (option.name.toLowerCase().indexOf(scope.editableTagsInput.toLowerCase()) === 0)
+                scope.autoCompleteValues.push(option);
+            });
+          }
         };
 
         /**
@@ -199,6 +365,11 @@
           return !values || values.length === 0;
         };
 
+        // Watch for attributes changes
+        scope.$watch(&#x27;ovAvailableOptions&#x27;, updateAttributes);
+        scope.$watch(&#x27;ovPlaceholder&#x27;, updateAttributes);
+
+        updateAttributes();
       }
     };
   }

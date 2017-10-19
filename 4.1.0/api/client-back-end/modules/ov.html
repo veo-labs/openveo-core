@@ -45,6 +45,7 @@
                                 <li><a href="../classes/entityService.html">entityService</a></li>
                                 <li><a href="../classes/i18nService.html">i18nService</a></li>
                                 <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
                                 <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
                                 <li><a href="../classes/ovTags.html">ovTags</a></li>
                                 <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
@@ -118,36 +119,46 @@ by OpenVeo core.</p>
     <div class="example">
         <h4>Example:</h4>
         <div class="example-content">
-            <pre class="code prettyprint"><code>// The checkboxes to select (the model)
-$scope.listOfValues = ['value1'];
+            <pre class="code prettyprint"><code>// Associates &quot;value&quot; with &quot;associatedValue1&quot;, &quot;associatedValue2&quot;
+var matches = [
+  {
+    value: 'value',
+    values: ['associatedValue1', 'associatedValue2'],
+  }
+];
 
-// The list of checkboxes with a name and a value for each checkbox
-$scope.listOfOptions = [{
-  name: 'name1'
-  id: 'value1'
-},
-{
-  name: 'name2'
-  id: 'value2'
-}];
+// Available options which can be entered in ov-tags element
+var availableOptions = [
+  {
+    name: 'Associated value 1',
+    value: 'associatedValue1'
+  },
+  {
+    name: 'Associated value 2',
+    value: 'associatedValue2'
+  },
+  {
+    name: 'Associated value 3',
+    value: 'associatedValue3'
+  }
+];
 
-// The property to use as a label in listOfOptions object (&quot;name&quot; by default)
-$scope.labelProperty = 'name';
+var inputPlaceholder = 'Input placeholder';
+var tagsPlaceholder = 'Tags placeholder';
+var inputProperty = 'firstElement';
+var tagsProperty = 'secondElement';
+var addLabel = 'Add a new association';
 
-// The property to use as a value in listOfOptions object (&quot;value&quot; by default)
-$scope.valueProperty = 'id';
-
-// A boolean to activate / deactivate the group of checkboxes
-$scope.disabled = false;
-
-&lt;ov-multi-check-box
-  ng-model=&quot;listOfValues&quot;
-  options=&quot;listOfOptions&quot;
-  label-property=&quot;labelProperty&quot;
-  value-property=&quot;valueProperty&quot;
-  disabled=&quot;disabled&quot;
-  ng-model-options=&quot;{ allowInvalid: true }&quot;&gt;
-&lt;/ov-multi-check-box&gt;</code></pre>
+&lt;ov-match ng-model=&quot;matches&quot;
+          ng-model-options=&quot;{allowInvalid: true}&quot;
+          ov-multiple=&quot;{{true}}&quot;
+          ov-available-options=&quot;availableOptions&quot;
+          ov-input-placeholder=&quot;inputPlaceholder&quot;
+          ov-tags-placeholder=&quot;tagsPlaceholder&quot;
+          ov-input-property=&quot;inputProperty&quot;
+          ov-tags-property=&quot;tagsProperty&quot;
+          ov-add-label=&quot;addLabel&quot;&gt;
+&lt;/ov-match&gt;</code></pre>
 
         </div>
     </div>
@@ -165,6 +176,11 @@ $scope.disabled = false;
                 <li class="module-class">
                     <a href="../classes/menuService.html">
                         menuService
+                    </a>
+                </li>
+                <li class="module-class">
+                    <a href="../classes/ovMatch.html">
+                        ovMatch
                     </a>
                 </li>
                 <li class="module-class">

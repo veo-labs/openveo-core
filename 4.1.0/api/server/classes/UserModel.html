@@ -44,9 +44,11 @@
                                 <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
                                 <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
                                 <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
                                 <li><a href="../classes/client.html">client</a></li>
                                 <li><a href="../classes/ClientModel.html">ClientModel</a></li>
                                 <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
                                 <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
                                 <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
                                 <li><a href="../classes/DefaultController.html">DefaultController</a></li>
@@ -57,6 +59,7 @@
                                 <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
                                 <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
                                 <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
                                 <li><a href="../classes/MenuController.html">MenuController</a></li>
                                 <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
                                 <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
@@ -70,6 +73,9 @@
                                 <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
                                 <li><a href="../classes/routeLoader.html">routeLoader</a></li>
                                 <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingModel.html">SettingModel</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
                                 <li><a href="../classes/storage.html">storage</a></li>
                                 <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
                                 <li><a href="../classes/TaxonomyModel.html">TaxonomyModel</a></li>
@@ -133,7 +139,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/app_server_models_UserModel.js.html#l15"><code>app\server\models\UserModel.js:15</code></a>
+            Defined in: <a href="../files/app_server_models_UserModel.js.html#l16"><code>app\server\models\UserModel.js:16</code></a>
         </div>
 
             Module: <a href="../modules/core-models.html">core-models</a>
@@ -155,7 +161,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_models_UserModel.js.html#l15"><code>app\server\models\UserModel.js:15</code></a>
+      <a href="../files/app_server_models_UserModel.js.html#l16"><code>app\server\models\UserModel.js:16</code></a>
   </p>
 
 
@@ -230,11 +236,23 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_addThirdPartyUser">addThirdPartyUser</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_getUserByCredentials">getUserByCredentials</a>
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_remove">remove</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_update">update</a>
+
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_updateThirdPartyUser">updateThirdPartyUser</a>
 
                             </li>
                     </ul>
@@ -253,7 +271,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_models_UserModel.js.html#l49"><code>app\server\models\UserModel.js:49</code></a>
+      <a href="../files/app_server_models_UserModel.js.html#l50"><code>app\server\models\UserModel.js:50</code></a>
   </p>
 
 
@@ -357,6 +375,28 @@
 
                             </li>
                             <li class="param">
+                                    <code class="param-name optional">[origin]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>User's origin, default to local</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[roles]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>User's role ids</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
                                     <code class="param-name optional">[locked=false]</code>
                                     <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean" class="crosslink external" target="_blank">Boolean</a></span>
                                     <span class="flag optional" title="This parameter is optional.">optional</span>
@@ -392,13 +432,181 @@
 
 
 </div>
+<div id="method_addThirdPartyUser" class="method item">
+  <h3 class="blue-method-name">addThirdPartyUser</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/app_server_models_UserModel.js.html#l210"><code>app\server\models\UserModel.js:210</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>addThirdPartyUser</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>data</code>
+                </li>
+                <li class="arg">
+                        <code>origin</code>
+                </li>
+                <li class="arg">
+                        <code>originId</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[originGroups]</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[callback]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+        <span class="flag async">async</span>
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Adds a third party provider user.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>A user object</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">name</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+                                <div class="param-description">
+                                    <p>User's name</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name">email</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+                                <div class="param-description">
+                                    <p>User's email</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[id]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>User's id, if not specified an id will be generated</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[roles]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>User's role ids</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+                <li class="param">
+                        <code class="param-name">origin</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                        <p>Id of the third party provider system</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">originId</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                        <p>The user id in third party provider system</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[originGroups]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The user groups in third party provider system</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The function to call when it's done</p>
+<ul>
+<li><strong>Error</strong> The error if an error occurred, null otherwise</li>
+<li><strong>Number</strong> The total amount of items inserted</li>
+<li><strong>Object</strong> The inserted user</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_getUserByCredentials" class="method item">
   <h3 class="blue-method-name">getUserByCredentials</h3>
 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_models_UserModel.js.html#l30"><code>app\server\models\UserModel.js:30</code></a>
+      <a href="../files/app_server_models_UserModel.js.html#l31"><code>app\server\models\UserModel.js:31</code></a>
   </p>
 
 
@@ -434,7 +642,7 @@
   </div>
     <div class="description">
       <h3>Summary</h3>
-        <p>Gets a user by credentials.</p>
+        <p>Gets a local user by credentials.</p>
 
     </div>
 
@@ -485,13 +693,93 @@
 
 
 </div>
+<div id="method_remove" class="method item">
+  <h3 class="blue-method-name">remove</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/app_server_models_UserModel.js.html#l186"><code>app\server\models\UserModel.js:186</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>remove</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>ids</code>
+                </li>
+                <li class="arg">
+                        <code>callback</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+        <span class="flag async">async</span>
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Removes entities.</p>
+<p>Execute hook USERS_DELETED.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">ids</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a> | <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" class="crosslink external" target="_blank">Array</a></span>
+
+
+                    <div class="param-description">
+                        <p>Id(s) of the document(s) to remove from the collection</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">callback</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+
+
+                    <div class="param-description">
+                        <p>The function to call when it's done</p>
+<ul>
+<li><strong>Error</strong> The error if an error occurred, null otherwise</li>
+<li><strong>Number</strong> The number of deleted entities</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
 <div id="method_update" class="method item">
   <h3 class="blue-method-name">update</h3>
 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_models_UserModel.js.html#l119"><code>app\server\models\UserModel.js:119</code></a>
+      <a href="../files/app_server_models_UserModel.js.html#l121"><code>app\server\models\UserModel.js:121</code></a>
   </p>
 
 
@@ -613,6 +901,146 @@
 <ul>
 <li><strong>Error</strong> The error if an error occurred, null otherwise</li>
 <li><strong>Number</strong> The number of updated items</li>
+</ul>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_updateThirdPartyUser" class="method item">
+  <h3 class="blue-method-name">updateThirdPartyUser</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/app_server_models_UserModel.js.html#l250"><code>app\server\models\UserModel.js:250</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>updateThirdPartyUser</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>id</code>
+                </li>
+                <li class="arg">
+                        <code>data</code>
+                </li>
+                <li class="arg">
+                        <code class="optional">[callback]</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+        <span class="flag async">async</span>
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Updates a third party provider user.</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">id</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+
+                    <div class="param-description">
+                        <p>User id in OpenVeo</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">data</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+
+                    <div class="param-description">
+                        <p>A user object</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name optional">[name]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>User's name</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[email]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>User's email</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[originGroups]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>User's groups in third party provider system</p>
+
+                                </div>
+
+                            </li>
+                            <li class="param">
+                                    <code class="param-name optional">[originGroups]</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+                                    <span class="flag optional" title="This parameter is optional.">optional</span>
+
+                                <div class="param-description">
+                                    <p>User's groups in third party provider system</p>
+
+                                </div>
+
+                            </li>
+                        </ul>
+                </li>
+                <li class="param">
+                        <code class="param-name optional">[callback]</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+                        <span class="flag optional" title="This parameter is optional.">optional</span>
+
+
+                    <div class="param-description">
+                        <p>The function to call when it's done</p>
+<ul>
+<li><strong>Error</strong> The error if an error occurred, null otherwise</li>
+<li><strong>Number</strong> The total amount of items updates</li>
 </ul>
 
                     </div>

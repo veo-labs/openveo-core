@@ -44,9 +44,11 @@
                                 <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
                                 <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
                                 <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
                                 <li><a href="../classes/client.html">client</a></li>
                                 <li><a href="../classes/ClientModel.html">ClientModel</a></li>
                                 <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
                                 <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
                                 <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
                                 <li><a href="../classes/DefaultController.html">DefaultController</a></li>
@@ -57,6 +59,7 @@
                                 <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
                                 <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
                                 <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
                                 <li><a href="../classes/MenuController.html">MenuController</a></li>
                                 <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
                                 <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
@@ -70,6 +73,9 @@
                                 <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
                                 <li><a href="../classes/routeLoader.html">routeLoader</a></li>
                                 <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingModel.html">SettingModel</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
                                 <li><a href="../classes/storage.html">storage</a></li>
                                 <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
                                 <li><a href="../classes/TaxonomyModel.html">TaxonomyModel</a></li>
@@ -136,9 +142,19 @@
  */
 
 var util = require(&#x27;util&#x27;);
+var async = require(&#x27;async&#x27;);
 var express = require(&#x27;express&#x27;);
 var openVeoApi = require(&#x27;@openveo/api&#x27;);
 var CorePluginApi = process.require(&#x27;app/server/plugin/CorePluginApi.js&#x27;);
+var ClientProvider = process.require(&#x27;app/server/providers/ClientProvider.js&#x27;);
+var RoleProvider = process.require(&#x27;app/server/providers/RoleProvider.js&#x27;);
+var TokenProvider = process.require(&#x27;app/server/providers/TokenProvider.js&#x27;);
+var UserProvider = process.require(&#x27;app/server/providers/UserProvider.js&#x27;);
+var GroupProvider = process.require(&#x27;app/server/providers/GroupProvider.js&#x27;);
+var TaxonomyProvider = process.require(&#x27;app/server/providers/TaxonomyProvider.js&#x27;);
+var SettingProvider = process.require(&#x27;app/server/providers/SettingProvider.js&#x27;);
+var storage = process.require(&#x27;app/server/storage.js&#x27;);
+var listener = process.require(&#x27;app/server/plugin/listener.js&#x27;);
 
 /**
  * Defines the Core Plugin.
@@ -222,6 +238,56 @@ function CorePlugin() {
 
 module.exports = CorePlugin;
 util.inherits(CorePlugin, openVeoApi.plugin.Plugin);
+
+/**
+ * Sets listeners on core hooks.
+ *
+ * @method setCoreListeners
+ * @private
+ */
+function setCoreListeners() {
+  var coreApi = process.api.getCoreApi()
+  var CORE_HOOKS = coreApi.getHooks();
+  coreApi.registerAction(CORE_HOOKS.ROLES_DELETED, listener.onRolesDeleted);
+}
+
+/**
+ * Prepares plugin by creating required database indexes.
+ *
+ * This is automatically called by core application after plugin is loaded.
+ *
+ * @method init
+ * @async
+ * @param {Function} callback Function to call when it&#x27;s done with :
+ *  - **Error** An error if something went wrong, null otherwise
+ */
+CorePlugin.prototype.init = function(callback) {
+  var database = storage.getDatabase();
+  var asyncFunctions = [];
+  var providers = [
+    new ClientProvider(database),
+    new RoleProvider(database),
+    new TaxonomyProvider(database),
+    new TokenProvider(database),
+    new UserProvider(database),
+    new GroupProvider(database),
+    new SettingProvider(database)
+  ];
+
+  setCoreListeners.call(this);
+
+  providers.forEach(function(provider) {
+    if (provider.createIndexes) {
+      asyncFunctions.push(function(callback) {
+        provider.createIndexes(callback);
+      });
+    }
+  });
+
+  async.parallel(asyncFunctions, function(error, results) {
+    callback(error);
+  });
+};
 
     </pre>
 </div>

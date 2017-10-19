@@ -44,9 +44,11 @@
                                 <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
                                 <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
                                 <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
                                 <li><a href="../classes/client.html">client</a></li>
                                 <li><a href="../classes/ClientModel.html">ClientModel</a></li>
                                 <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
                                 <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
                                 <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
                                 <li><a href="../classes/DefaultController.html">DefaultController</a></li>
@@ -57,6 +59,7 @@
                                 <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
                                 <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
                                 <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
                                 <li><a href="../classes/MenuController.html">MenuController</a></li>
                                 <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
                                 <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
@@ -70,6 +73,9 @@
                                 <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
                                 <li><a href="../classes/routeLoader.html">routeLoader</a></li>
                                 <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingModel.html">SettingModel</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
                                 <li><a href="../classes/storage.html">storage</a></li>
                                 <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
                                 <li><a href="../classes/TaxonomyModel.html">TaxonomyModel</a></li>
@@ -133,7 +139,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/app_server_plugin_CorePluginApi.js.html#l25"><code>app\server\plugin\CorePluginApi.js:25</code></a>
+            Defined in: <a href="../files/app_server_plugin_CorePluginApi.js.html#l26"><code>app\server\plugin\CorePluginApi.js:26</code></a>
         </div>
 
             Module: <a href="../modules/core-plugin.html">core-plugin</a>
@@ -155,7 +161,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l25"><code>app\server\plugin\CorePluginApi.js:25</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l26"><code>app\server\plugin\CorePluginApi.js:26</code></a>
   </p>
 
 
@@ -220,6 +226,10 @@
 
                             </li>
                             <li class="index-item method">
+                                <a href="#method_getHooks">getHooks</a>
+
+                            </li>
+                            <li class="index-item method">
                                 <a href="#method_getPermissions">getPermissions</a>
 
                             </li>
@@ -281,7 +291,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l104"><code>app\server\plugin\CorePluginApi.js:104</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l105"><code>app\server\plugin\CorePluginApi.js:105</code></a>
   </p>
 
 
@@ -334,7 +344,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l264"><code>app\server\plugin\CorePluginApi.js:264</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l265"><code>app\server\plugin\CorePluginApi.js:265</code></a>
   </p>
 
 
@@ -387,7 +397,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l84"><code>app\server\plugin\CorePluginApi.js:84</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l85"><code>app\server\plugin\CorePluginApi.js:85</code></a>
   </p>
 
 
@@ -440,7 +450,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l114"><code>app\server\plugin\CorePluginApi.js:114</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l115"><code>app\server\plugin\CorePluginApi.js:115</code></a>
   </p>
 
 
@@ -487,13 +497,66 @@
 
 
 </div>
+<div id="method_getHooks" class="method item">
+  <h3 class="blue-method-name">getHooks</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l275"><code>app\server\plugin\CorePluginApi.js:275</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>getHooks</code></h3>
+
+        <span class="paren">()</span>
+
+        <span class="returns-inline">
+            <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+        </span>
+
+
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Gets core hooks.</p>
+
+    </div>
+
+
+        <div class="returns">
+            <h4>Returns:</h4>
+
+            <div class="returns-description">
+                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>:
+                <div class="blue-return-desc">
+                    <p>The core hooks</p>
+
+                </div>
+
+
+            </div>
+        </div>
+
+
+</div>
 <div id="method_getPermissions" class="method item">
   <h3 class="blue-method-name">getPermissions</h3>
 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l124"><code>app\server\plugin\CorePluginApi.js:124</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l125"><code>app\server\plugin\CorePluginApi.js:125</code></a>
   </p>
 
 
@@ -546,7 +609,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l144"><code>app\server\plugin\CorePluginApi.js:144</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l145"><code>app\server\plugin\CorePluginApi.js:145</code></a>
   </p>
 
 
@@ -599,7 +662,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l94"><code>app\server\plugin\CorePluginApi.js:94</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l95"><code>app\server\plugin\CorePluginApi.js:95</code></a>
   </p>
 
 
@@ -652,7 +715,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l158"><code>app\server\plugin\CorePluginApi.js:158</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l159"><code>app\server\plugin\CorePluginApi.js:159</code></a>
   </p>
 
 
@@ -762,7 +825,7 @@ extension</p>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_plugin_CorePluginApi.js.html#l134"><code>app\server\plugin\CorePluginApi.js:134</code></a>
+      <a href="../files/app_server_plugin_CorePluginApi.js.html#l135"><code>app\server\plugin\CorePluginApi.js:135</code></a>
   </p>
 
 
@@ -820,7 +883,7 @@ extension</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l38"><code>app\server\plugin\CorePluginApi.js:38</code></a>
+                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l39"><code>app\server\plugin\CorePluginApi.js:39</code></a>
                       </p>
                     
                     
@@ -853,7 +916,7 @@ extension</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l46"><code>app\server\plugin\CorePluginApi.js:46</code></a>
+                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l47"><code>app\server\plugin\CorePluginApi.js:47</code></a>
                       </p>
                     
                     
@@ -886,7 +949,7 @@ extension</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l54"><code>app\server\plugin\CorePluginApi.js:54</code></a>
+                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l55"><code>app\server\plugin\CorePluginApi.js:55</code></a>
                       </p>
                     
                     
@@ -919,7 +982,7 @@ extension</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l62"><code>app\server\plugin\CorePluginApi.js:62</code></a>
+                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l63"><code>app\server\plugin\CorePluginApi.js:63</code></a>
                       </p>
                     
                     
@@ -952,7 +1015,7 @@ extension</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l70"><code>app\server\plugin\CorePluginApi.js:70</code></a>
+                          <a href="../files/app_server_plugin_CorePluginApi.js.html#l71"><code>app\server\plugin\CorePluginApi.js:71</code></a>
                       </p>
                     
                     

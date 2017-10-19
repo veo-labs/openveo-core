@@ -45,6 +45,7 @@
                                 <li><a href="../classes/entityService.html">entityService</a></li>
                                 <li><a href="../classes/i18nService.html">i18nService</a></li>
                                 <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
                                 <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
                                 <li><a href="../classes/ovTags.html">ovTags</a></li>
                                 <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
@@ -134,6 +135,7 @@
 
     /**
      * Logs out the user.
+     *
      * Remove user information, remove all admin informations
      * and broadcast a loggedOut event to children controllers.
      */
@@ -255,11 +257,17 @@
 
     /**
      * Logs out the actual user.
-     * This will remove user information and redirect to the login
-     * page.
+     *
+     * If authentication has been made on an external service such as CAS, user is redirected to
+     * the external service page.
+     * If authentication has been made using an internal service such as LDAP (or local),
+     * logout is performed without reloading the page.
      */
     $scope.logout = function() {
-      authenticationService.logout().then(logout, logout);
+      if ($scope.userInfo &amp;&amp; $scope.userInfo.origin === openVeoSettings.authenticationStrategies.CAS)
+        $window.location.href = &#x27;logout&#x27;;
+      else
+        authenticationService.logout().then(logout, logout);
     };
 
     // Listen to alert add

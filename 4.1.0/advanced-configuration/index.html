@@ -332,7 +332,33 @@
     &quot;httpPort&quot; : HTTP_PORT, // Replace HTTP_PORT by the HTTP server port to use (e.g. 3000)
     &quot;socketPort&quot; : SOCKET_PORT, // Replace SOCKET_PORT by the socket server port to use (e.g. 3001)
     &quot;browserSocketPort&quot; : SOCKET_PORT, // Replace SOCKET_PORT by the port of the socket server to connect to from the browser (e.g. 3001)
-    &quot;sessionSecret&quot; : &quot;SECRET&quot; // Replace SECRET by a secret used to secure HTTP sessions
+    &quot;sessionSecret&quot; : &quot;SECRET&quot;, // Replace SECRET by a secret used to secure HTTP sessions
+    &quot;auth&quot;: {
+      &quot;cas&quot;: { // CAS configuration
+        &quot;version&quot;: &quot;3&quot;, // The version of the CAS server
+        &quot;service&quot;: &quot;https://my-openveo-portal.test&quot;, // The service to use to authenticate to the CAS server
+        &quot;url&quot;: &quot;https://my-cas-server.test:8443/cas&quot;, // The url of the CAS server
+        &quot;userGroupAttribute&quot;: &quot;group&quot;, // The name of the CAS attribute holding the group name of a user
+        &quot;userIdAttribute&quot;: &quot;id&quot;, // The name of the CAS attribute holding the unique id of a user
+        &quot;userNameAttribute&quot;: &quot;name&quot;, // The name of the CAS attribute holding the name of a user
+        &quot;userEmailAttribute&quot;: &quot;name&quot;, // The name of the CAS attribute holding the email of a user
+        &quot;certificate&quot;: &quot;/etc/ssl/certs/cas.crt&quot; // The absolute path of the CAS server certificate if root CA is not in the Node.JS well known CAs
+      },
+      &quot;ldapauth&quot;: { // LDAP configuration
+        &quot;url&quot;: &quot;ldaps://my-ldap.test&quot;, // The url of the LDAP server
+        &quot;bindAttribute&quot;: &quot;dn&quot;, // The LDAP attribute used by &quot;bindDn&quot; (default to &quot;dn&quot;)
+        &quot;bindDn&quot;: &quot;cn=my-user,dc=my-ldap,dc=test&quot;, // The value of the &quot;bindAttribute&quot; associated to the entry used to connect to the server
+        &quot;bindPassword&quot;: &quot;qT5gvobG2ZxYSiY2r4mt&quot;, // The password of the entry used to connect to the server
+        &quot;searchBase&quot;: &quot;ou=user,dc=my-ldap,dc=test&quot;, // The search base when looking for users
+        &quot;searchScope&quot;: &quot;sub&quot;, // The search scope when looking for users (default to &quot;sub&quot;)
+        &quot;searchFilter&quot;: &quot;(&amp;(objectclass=person)(cn={{username}}))&quot;, // The search filter to find user by name, use placeholder &quot;{{username}}&quot; which will be replaced by the user name when searching
+        &quot;userGroupAttribute&quot;: &quot;group&quot;, // The name of the LDAP attribute holding the group name of a user
+        &quot;userIdAttribute&quot;: &quot;dn&quot;, // The name of the LDAP attribute holding the unique id of a user
+        &quot;userNameAttribute&quot;: &quot;cn&quot;, // The name of the LDAP attribute holding the name of a user
+        &quot;userEmailAttribute&quot;: &quot;email&quot;, // The name of the LDAP attribute holding the email of a user
+        &quot;certificate&quot;: &quot;/etc/ssl/certs/ldap.crt&quot; // The absolute path of the LDAP server certificate full chain if root CA is not in the Node.JS well known CAs
+      }
+    }
   },
   &quot;ws&quot;: {
     &quot;port&quot;: WS_HTTP_PORT // Replace WS_HTTP_PORT by the HTTP server port to use (e.g. 3002)

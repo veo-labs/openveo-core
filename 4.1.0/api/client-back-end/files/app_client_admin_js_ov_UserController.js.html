@@ -45,6 +45,7 @@
                                 <li><a href="../classes/entityService.html">entityService</a></li>
                                 <li><a href="../classes/i18nService.html">i18nService</a></li>
                                 <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
                                 <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
                                 <li><a href="../classes/ovTags.html">ovTags</a></li>
                                 <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
@@ -155,8 +156,30 @@
       });
     }
 
-    $scope.roles = roles.data.entities;
+    /**
+     * Builds options for origin filter.
+     *
+     * @return {Array} Select options
+     */
+    function buildOriginFilterOptions() {
+      var options = [
+        {
+          value: null,
+          name: $filter(&#x27;translate&#x27;)(&#x27;CORE.USERS.ORIGIN_FILTER_ALL&#x27;)
+        }
+      ];
 
+      openVeoSettings.authenticationMechanisms.forEach(function(strategy) {
+        options.push({
+          name: $filter(&#x27;translate&#x27;)(&#x27;CORE.USERS.ORIGIN_FILTER_&#x27; + strategy.toUpperCase()),
+          value: strategy
+        });
+      });
+
+      return options;
+    }
+
+    $scope.roles = roles.data.entities;
 
     /*
      *
@@ -180,6 +203,14 @@
         key: &#x27;query&#x27;,
         value: &#x27;&#x27;,
         label: $filter(&#x27;translate&#x27;)(&#x27;CORE.USERS.QUERY_FILTER&#x27;)
+      },
+      {
+        key: &#x27;origin&#x27;,
+        type: &#x27;select&#x27;,
+        param: &#x27;origin&#x27;,
+        value: null,
+        label: $filter(&#x27;translate&#x27;)(&#x27;CORE.USERS.ORIGIN_FILTER&#x27;),
+        options: buildOriginFilterOptions()
       }
     ];
     scopeDataTable.header = [{
@@ -216,7 +247,13 @@
     scopeEditForm.entityType = entityType;
     scopeEditForm.fields = [
       {
-
+        key: &#x27;originLiteral&#x27;,
+        type: &#x27;simple&#x27;,
+        templateOptions: {
+          label: $filter(&#x27;translate&#x27;)(&#x27;CORE.USERS.ATTR_ORIGIN&#x27;)
+        }
+      },
+      {
         // the key to be used in the model values
         // so this will be bound to vm.user.username
         key: &#x27;name&#x27;,
@@ -254,6 +291,15 @@
     };
     scopeEditForm.onSubmit = function(model) {
       return saveUser(model);
+    };
+
+    /**
+     * Initializes edit form for a given user.
+     *
+     * @param {Object} row The user being edited
+     */
+    scopeEditForm.init = function(row) {
+      row.originLiteral = $filter(&#x27;translate&#x27;)(&#x27;CORE.USERS.ORIGIN_&#x27; + row.origin.toUpperCase());
     };
 
     /*

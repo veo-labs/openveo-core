@@ -45,6 +45,7 @@
                                 <li><a href="../classes/entityService.html">entityService</a></li>
                                 <li><a href="../classes/i18nService.html">i18nService</a></li>
                                 <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
                                 <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
                                 <li><a href="../classes/ovTags.html">ovTags</a></li>
                                 <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
@@ -109,10 +110,15 @@
    * Defines the login controller for the login page.
    */
   function LoginController($scope, $location, $window, authenticationService, i18nService) {
+    var self = this;
+    var strategies = openVeoSettings.authenticationStrategies;
     $scope.verticalAlign = true;
     $scope.onError = false;
     $scope.languages = i18nService.getLanguages();
     $scope.language = i18nService.getLanguage();
+    $scope.isPending = false;
+    $scope.hasLdap = openVeoSettings.authenticationMechanisms.indexOf(strategies.LDAP) &gt;= 0;
+    $scope.hasCas = openVeoSettings.authenticationMechanisms.indexOf(strategies.CAS) &gt;= 0;
 
     /**
      * Sets language.
@@ -130,18 +136,16 @@
      * home page. Otherwise, set the form as on error.
      */
     $scope.signIn = function() {
-      var loginPromise = authenticationService.login($scope.userEmail, $scope.password);
-
-      if (loginPromise) {
-        loginPromise.then(function(result) {
-          authenticationService.setUserInfo(result.data);
-          $location.path(&#x27;/&#x27;);
-        }, function() {
-          $scope.onError = true;
-          $scope.userEmail = $scope.password = &#x27;&#x27;;
-        });
-      }
-
+      $scope.isPending = true;
+      authenticationService.login($scope.userEmail, $scope.password).then(function(result) {
+        $scope.isPending = false;
+        authenticationService.setUserInfo(result.data);
+        $location.path(&#x27;/&#x27;);
+      }, function() {
+        $scope.isPending = false;
+        $scope.onError = true;
+        $scope.userEmail = $scope.password = &#x27;&#x27;;
+      });
     };
 
   }

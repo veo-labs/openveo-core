@@ -44,9 +44,11 @@
                                 <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
                                 <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
                                 <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
                                 <li><a href="../classes/client.html">client</a></li>
                                 <li><a href="../classes/ClientModel.html">ClientModel</a></li>
                                 <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
                                 <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
                                 <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
                                 <li><a href="../classes/DefaultController.html">DefaultController</a></li>
@@ -57,6 +59,7 @@
                                 <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
                                 <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
                                 <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
                                 <li><a href="../classes/MenuController.html">MenuController</a></li>
                                 <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
                                 <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
@@ -70,6 +73,9 @@
                                 <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
                                 <li><a href="../classes/routeLoader.html">routeLoader</a></li>
                                 <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingModel.html">SettingModel</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
                                 <li><a href="../classes/storage.html">storage</a></li>
                                 <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
                                 <li><a href="../classes/TaxonomyModel.html">TaxonomyModel</a></li>
@@ -139,6 +145,7 @@ var crypto = require(&#x27;crypto&#x27;);
 var path = require(&#x27;path&#x27;);
 var util = require(&#x27;util&#x27;);
 var shortid = require(&#x27;shortid&#x27;);
+var async = require(&#x27;async&#x27;);
 var openVeoApi = require(&#x27;@openveo/api&#x27;);
 var configDir = openVeoApi.fileSystem.getConfDir();
 var conf = require(path.join(configDir, &#x27;core/conf.json&#x27;));
@@ -159,7 +166,7 @@ module.exports = UserModel;
 util.inherits(UserModel, openVeoApi.models.EntityModel);
 
 /**
- * Gets a user by credentials.
+ * Gets a local user by credentials.
  *
  * @method getUserByCredentials
  * @async
@@ -188,6 +195,8 @@ UserModel.prototype.getUserByCredentials = function(email, password, callback) {
  * @param {String} data.password User&#x27;s password
  * @param {String} data.passwordValidate User&#x27;s password validation
  * @param {String} [data.id] User&#x27;s id, if not specified an id will be generated
+ * @param {String} [data.origin] User&#x27;s origin, default to local
+ * @param {Array} [data.roles] User&#x27;s role ids
  * @param {Boolean} [data.locked=false] true to lock user from edition
  * @param {Function} [callback] The function to call when it&#x27;s done
  *   - **Error** The error if an error occurred, null otherwise
@@ -229,11 +238,10 @@ UserModel.prototype.add = function(data, callback) {
         name: data.name,
         email: data.email,
         password: password,
-        locked: data.locked || false
+        locked: data.locked || false,
+        origin: data.origin || openVeoApi.passport.STRATEGIES.LOCAL,
+        roles: data.roles || []
       };
-
-      if (data.roles)
-        user[&#x27;roles&#x27;] = data.roles;
 
       self.provider.add(user, function(error, addedCount, users) {
         delete user[&#x27;password&#x27;];
@@ -264,6 +272,7 @@ UserModel.prototype.add = function(data, callback) {
  */
 UserModel.prototype.update = function(id, data, callback) {
   var self = this;
+  var updatedItems;
 
   // Validate password
   if (data.password) {
@@ -284,12 +293,123 @@ UserModel.prototype.update = function(id, data, callback) {
     return;
   }
 
-  // Verify if the email address is not already used
-  this.provider.getUserByEmail(data.email, function(error, user) {
-    if (error || (user &amp;&amp; user.id != id))
-      callback(new Error(&#x27;Email not available&#x27;));
-    else
-      self.provider.update(id, data, callback);
+  async.series([
+
+    // Verify if the email address is not already used
+    function(callback) {
+      if (!data.email) return callback();
+
+      self.provider.getUserByEmail(data.email, function(error, user) {
+        if (error) return callback(error);
+        if (user &amp;&amp; user.id != id) return callback(new Error(&#x27;Email not available&#x27;));
+        callback();
+      });
+    },
+
+    // Update user
+    function(callback) {
+      self.provider.update(id, data, function(error, totalItems) {
+        if (error) return callback(error);
+        updatedItems = totalItems;
+        callback();
+      });
+    }
+
+  ], function(error) {
+    callback(error, updatedItems);
+  });
+};
+
+/**
+ * Removes entities.
+ *
+ * Execute hook USERS_DELETED.
+ *
+ * @method remove
+ * @async
+ * @param {String|Array} ids Id(s) of the document(s) to remove from the collection
+ * @param {Function} callback The function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of deleted entities
+ */
+UserModel.prototype.remove = function(ids, callback) {
+  this.provider.remove(ids, function(error, deletedNumber) {
+    if (error) return callback(error);
+    var api = process.api.getCoreApi();
+
+    api.executeHook(api.getHooks().USERS_DELETED, ids, function(error) {
+      if (error) return callback(error);
+      callback(null, deletedNumber);
+    });
+  });
+};
+
+/**
+ * Adds a third party provider user.
+ *
+ * @method addThirdPartyUser
+ * @async
+ * @param {Object} data A user object
+ * @param {String} data.name User&#x27;s name
+ * @param {String} data.email User&#x27;s email
+ * @param {String} [data.id] User&#x27;s id, if not specified an id will be generated
+ * @param {Array} [data.roles] User&#x27;s role ids
+ * @param {String} origin Id of the third party provider system
+ * @param {String} originId The user id in third party provider system
+ * @param {Array} [originGroups] The user groups in third party provider system
+ * @param {Function} [callback] The function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of items inserted
+ *   - **Object** The inserted user
+ */
+UserModel.prototype.addThirdPartyUser = function(data, origin, originId, originGroups, callback) {
+  if (!origin || !data || !data.name || !data.email || !originId) {
+    callback(new Error(&#x27;Requires name, origin and origin id to add a third party user&#x27;));
+    return;
+  }
+
+  var user = {
+    id: data.id || shortid.generate(),
+    name: data.name,
+    email: data.email,
+    origin: origin,
+    originId: originId,
+    originGroups: originGroups || [],
+    roles: data.roles || []
+  };
+
+  this.provider.add(user, function(error, addedCount, users) {
+    if (callback)
+      callback(error, addedCount, user);
+  });
+};
+
+/**
+ * Updates a third party provider user.
+ *
+ * @method updateThirdPartyUser
+ * @async
+ * @param {String} id User id in OpenVeo
+ * @param {Object} data A user object
+ * @param {String} [data.name] User&#x27;s name
+ * @param {String} [data.email] User&#x27;s email
+ * @param {String} [data.originGroups] User&#x27;s groups in third party provider system
+ * @param {String} [data.originGroups] User&#x27;s groups in third party provider system
+ * @param {Function} [callback] The function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of items updates
+ */
+UserModel.prototype.updateThirdPartyUser = function(id, data, callback) {
+  var userData = {};
+
+  if (data.name) userData.name = data.name;
+  if (data.email) userData.email = data.email;
+  if (data.originGroups) userData.originGroups = data.originGroups;
+  if (data.roles) userData.roles = data.roles;
+
+  this.provider.update(id, userData, function(error, updatedCount) {
+    if (callback)
+      callback(error, updatedCount);
   });
 };
 

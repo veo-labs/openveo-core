@@ -44,9 +44,11 @@
                                 <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
                                 <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
                                 <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
                                 <li><a href="../classes/client.html">client</a></li>
                                 <li><a href="../classes/ClientModel.html">ClientModel</a></li>
                                 <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
                                 <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
                                 <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
                                 <li><a href="../classes/DefaultController.html">DefaultController</a></li>
@@ -57,6 +59,7 @@
                                 <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
                                 <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
                                 <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
                                 <li><a href="../classes/MenuController.html">MenuController</a></li>
                                 <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
                                 <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
@@ -70,6 +73,9 @@
                                 <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
                                 <li><a href="../classes/routeLoader.html">routeLoader</a></li>
                                 <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingModel.html">SettingModel</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
                                 <li><a href="../classes/storage.html">storage</a></li>
                                 <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
                                 <li><a href="../classes/TaxonomyModel.html">TaxonomyModel</a></li>
@@ -165,11 +171,39 @@ HTTP errors are sent by controllers.</p>
 
                     <ul class="index-list properties">
                             <li class="index-item property">
+                                <a href="#property_ADD_SETTINGS_ERROR">ADD_SETTINGS_ERROR</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ADD_SETTINGS_MISSING_PARAMETERS">ADD_SETTINGS_MISSING_PARAMETERS</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_ADD_SETTINGS_WRONG_PARAMETERS">ADD_SETTINGS_WRONG_PARAMETERS</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS">AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_AUTHENTICATE_INTERNAL_WRONG_PARAMETERS">AUTHENTICATE_INTERNAL_WRONG_PARAMETERS</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_BACK_END_AUTHENTICATION_ERROR">BACK_END_AUTHENTICATION_ERROR</a>
 
                             </li>
                             <li class="index-item property">
                                 <a href="#property_BACK_END_AUTHENTICATION_FAILED">BACK_END_AUTHENTICATION_FAILED</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_BACK_END_EXTERNAL_AUTHENTICATION_ERROR">BACK_END_EXTERNAL_AUTHENTICATION_ERROR</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_BACK_END_EXTERNAL_AUTHENTICATION_FAILED">BACK_END_EXTERNAL_AUTHENTICATION_FAILED</a>
 
                             </li>
                             <li class="index-item property">
@@ -202,6 +236,22 @@ HTTP errors are sent by controllers.</p>
                             </li>
                             <li class="index-item property">
                                 <a href="#property_GET_ROLES_WRONG_PARAMETERS">GET_ROLES_WRONG_PARAMETERS</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_GET_SETTING_ERROR">GET_SETTING_ERROR</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_GET_SETTING_MISSING_PARAMETERS">GET_SETTING_MISSING_PARAMETERS</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_GET_SETTINGS_ERROR">GET_SETTINGS_ERROR</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_GET_SETTINGS_WRONG_PARAMETERS">GET_SETTINGS_WRONG_PARAMETERS</a>
 
                             </li>
                             <li class="index-item property">
@@ -253,6 +303,14 @@ HTTP errors are sent by controllers.</p>
 
                             </li>
                             <li class="index-item property">
+                                <a href="#property_UPDATE_SETTINGS_ERROR">UPDATE_SETTINGS_ERROR</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_UPDATE_SETTINGS_MISSING_PARAMETERS">UPDATE_SETTINGS_MISSING_PARAMETERS</a>
+
+                            </li>
+                            <li class="index-item property">
                                 <a href="#property_UPDATE_USER_ERROR">UPDATE_USER_ERROR</a>
 
                             </li>
@@ -286,6 +344,176 @@ HTTP errors are sent by controllers.</p>
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+                    <div id="property_ADD_SETTINGS_ERROR" class="property item">
+                    
+                      <h3 class="blue-method-name">ADD_SETTINGS_ERROR</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l179"><code>app\server\httpErrors.js:179</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>ADD_SETTINGS_ERROR</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when adding a setting.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_ADD_SETTINGS_MISSING_PARAMETERS" class="property item">
+                    
+                      <h3 class="blue-method-name">ADD_SETTINGS_MISSING_PARAMETERS</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l485"><code>app\server\httpErrors.js:485</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>ADD_SETTINGS_MISSING_PARAMETERS</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when adding a setting with missing parameters.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_ADD_SETTINGS_WRONG_PARAMETERS" class="property item">
+                    
+                      <h3 class="blue-method-name">ADD_SETTINGS_WRONG_PARAMETERS</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l497"><code>app\server\httpErrors.js:497</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>ADD_SETTINGS_WRONG_PARAMETERS</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when adding setting with wrong parameters.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS" class="property item">
+                    
+                      <h3 class="blue-method-name">AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l449"><code>app\server\httpErrors.js:449</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when authenticating to an external provider using wrong parameters.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_AUTHENTICATE_INTERNAL_WRONG_PARAMETERS" class="property item">
+                    
+                      <h3 class="blue-method-name">AUTHENTICATE_INTERNAL_WRONG_PARAMETERS</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l437"><code>app\server\httpErrors.js:437</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>AUTHENTICATE_INTERNAL_WRONG_PARAMETERS</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when authenticating to an internal provider using wrong parameters.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
                     <div id="property_BACK_END_AUTHENTICATION_ERROR" class="property item">
                     
                       <h3 class="blue-method-name">BACK_END_AUTHENTICATION_ERROR</h3>
@@ -326,7 +554,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l183"><code>app\server\httpErrors.js:183</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l243"><code>app\server\httpErrors.js:243</code></a>
                       </p>
                     
                     
@@ -354,13 +582,81 @@ HTTP errors are sent by controllers.</p>
                     
                     
                     </div>
+                    <div id="property_BACK_END_EXTERNAL_AUTHENTICATION_ERROR" class="property item">
+                    
+                      <h3 class="blue-method-name">BACK_END_EXTERNAL_AUTHENTICATION_ERROR</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l143"><code>app\server\httpErrors.js:143</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>BACK_END_EXTERNAL_AUTHENTICATION_ERROR</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when authenticating using an external provider (which require redirection).</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_BACK_END_EXTERNAL_AUTHENTICATION_FAILED" class="property item">
+                    
+                      <h3 class="blue-method-name">BACK_END_EXTERNAL_AUTHENTICATION_FAILED</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l327"><code>app\server\httpErrors.js:327</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>BACK_END_EXTERNAL_AUTHENTICATION_FAILED</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when user authentication to the back end failed using an external provider.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
                     <div id="property_BACK_END_FORBIDDEN" class="property item">
                     
                       <h3 class="blue-method-name">BACK_END_FORBIDDEN</h3>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l207"><code>app\server\httpErrors.js:207</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l267"><code>app\server\httpErrors.js:267</code></a>
                       </p>
                     
                     
@@ -394,7 +690,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l195"><code>app\server\httpErrors.js:195</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l255"><code>app\server\httpErrors.js:255</code></a>
                       </p>
                     
                     
@@ -462,7 +758,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l317"><code>app\server\httpErrors.js:317</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l389"><code>app\server\httpErrors.js:389</code></a>
                       </p>
                     
                     
@@ -530,7 +826,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l329"><code>app\server\httpErrors.js:329</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l401"><code>app\server\httpErrors.js:401</code></a>
                       </p>
                     
                     
@@ -598,7 +894,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l341"><code>app\server\httpErrors.js:341</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l413"><code>app\server\httpErrors.js:413</code></a>
                       </p>
                     
                     
@@ -619,6 +915,142 @@ HTTP errors are sent by controllers.</p>
                         <div class="description">
                           <h3>Summary</h3>
                             <p>A server error occurring when getting roles with wrong parameters.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_GET_SETTING_ERROR" class="property item">
+                    
+                      <h3 class="blue-method-name">GET_SETTING_ERROR</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l191"><code>app\server\httpErrors.js:191</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>GET_SETTING_ERROR</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when getting a setting.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_GET_SETTING_MISSING_PARAMETERS" class="property item">
+                    
+                      <h3 class="blue-method-name">GET_SETTING_MISSING_PARAMETERS</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l509"><code>app\server\httpErrors.js:509</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>GET_SETTING_MISSING_PARAMETERS</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when getting a setting with missing parameters.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_GET_SETTINGS_ERROR" class="property item">
+                    
+                      <h3 class="blue-method-name">GET_SETTINGS_ERROR</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l155"><code>app\server\httpErrors.js:155</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>GET_SETTINGS_ERROR</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when getting the list of settings.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_GET_SETTINGS_WRONG_PARAMETERS" class="property item">
+                    
+                      <h3 class="blue-method-name">GET_SETTINGS_WRONG_PARAMETERS</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l461"><code>app\server\httpErrors.js:461</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>GET_SETTINGS_WRONG_PARAMETERS</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when getting settings with wrong parameters.</p>
                     
                         </div>
                     
@@ -666,7 +1098,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l305"><code>app\server\httpErrors.js:305</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l377"><code>app\server\httpErrors.js:377</code></a>
                       </p>
                     
                     
@@ -734,7 +1166,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l255"><code>app\server\httpErrors.js:255</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l315"><code>app\server\httpErrors.js:315</code></a>
                       </p>
                     
                     
@@ -768,7 +1200,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l169"><code>app\server\httpErrors.js:169</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l229"><code>app\server\httpErrors.js:229</code></a>
                       </p>
                     
                     
@@ -802,7 +1234,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l353"><code>app\server\httpErrors.js:353</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l425"><code>app\server\httpErrors.js:425</code></a>
                       </p>
                     
                     
@@ -870,7 +1302,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l269"><code>app\server\httpErrors.js:269</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l341"><code>app\server\httpErrors.js:341</code></a>
                       </p>
                     
                     
@@ -938,7 +1370,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l157"><code>app\server\httpErrors.js:157</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l217"><code>app\server\httpErrors.js:217</code></a>
                       </p>
                     
                     
@@ -972,7 +1404,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l145"><code>app\server\httpErrors.js:145</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l205"><code>app\server\httpErrors.js:205</code></a>
                       </p>
                     
                     
@@ -1034,6 +1466,74 @@ HTTP errors are sent by controllers.</p>
                     
                     
                     </div>
+                    <div id="property_UPDATE_SETTINGS_ERROR" class="property item">
+                    
+                      <h3 class="blue-method-name">UPDATE_SETTINGS_ERROR</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l167"><code>app\server\httpErrors.js:167</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>UPDATE_SETTINGS_ERROR</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when updating a setting.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
+                    <div id="property_UPDATE_SETTINGS_MISSING_PARAMETERS" class="property item">
+                    
+                      <h3 class="blue-method-name">UPDATE_SETTINGS_MISSING_PARAMETERS</h3>
+                      <div class="meta method-meta">
+                          <p>
+                              Defined in
+                          <a href="../files/app_server_httpErrors.js.html#l473"><code>app\server\httpErrors.js:473</code></a>
+                      </p>
+                    
+                    
+                      </div>
+                    
+                      <h3>Syntax</h3>
+                      <div class="blue-method-syntax">
+                        <h3 class="name"><code>UPDATE_SETTINGS_MISSING_PARAMETERS</code></h3>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+                    
+                    
+                    
+                            <span class="flag final">final</span>
+                    
+                    
+                        </div>
+                    
+                        <div class="description">
+                          <h3>Summary</h3>
+                            <p>A server error occurring when updating a setting with missing parameters.</p>
+                    
+                        </div>
+                    
+                    
+                    
+                    
+                    </div>
                     <div id="property_UPDATE_USER_ERROR" class="property item">
                     
                       <h3 class="blue-method-name">UPDATE_USER_ERROR</h3>
@@ -1074,7 +1574,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l243"><code>app\server\httpErrors.js:243</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l303"><code>app\server\httpErrors.js:303</code></a>
                       </p>
                     
                     
@@ -1108,7 +1608,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l281"><code>app\server\httpErrors.js:281</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l353"><code>app\server\httpErrors.js:353</code></a>
                       </p>
                     
                     
@@ -1142,7 +1642,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l293"><code>app\server\httpErrors.js:293</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l365"><code>app\server\httpErrors.js:365</code></a>
                       </p>
                     
                     
@@ -1176,7 +1676,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l219"><code>app\server\httpErrors.js:219</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l279"><code>app\server\httpErrors.js:279</code></a>
                       </p>
                     
                     
@@ -1210,7 +1710,7 @@ HTTP errors are sent by controllers.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_httpErrors.js.html#l231"><code>app\server\httpErrors.js:231</code></a>
+                          <a href="../files/app_server_httpErrors.js.html#l291"><code>app\server\httpErrors.js:291</code></a>
                       </p>
                     
                     

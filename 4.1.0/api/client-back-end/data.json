@@ -101,6 +101,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app\\client\\admin\\js\\ov\\MatchDirective.js": {
+            "name": "app\\client\\admin\\js\\ov\\MatchDirective.js",
+            "modules": {},
+            "classes": {
+                "ovMatch": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app\\client\\admin\\js\\ov\\MenuService.js": {
             "name": "app\\client\\admin\\js\\ov\\MenuService.js",
             "modules": {},
@@ -137,6 +146,13 @@
         },
         "app\\client\\admin\\js\\ov\\RoleController.js": {
             "name": "app\\client\\admin\\js\\ov\\RoleController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app\\client\\admin\\js\\ov\\SettingsController.js": {
+            "name": "app\\client\\admin\\js\\ov\\SettingsController.js",
             "modules": {},
             "classes": {},
             "fors": {},
@@ -285,6 +301,7 @@
             "elements": {},
             "classes": {
                 "applicationService": 1,
+                "ovMatch": 1,
                 "menuService": 1,
                 "ovMultiCheckBox": 1,
                 "ovTags": 1,
@@ -298,7 +315,7 @@
             "line": 5,
             "description": "Main OpenVeo module.\n\nLoads all AngularJS dependencies and plugins modules. It also initializes formly and define routes exposed\nby OpenVeo core.",
             "example": [
-                "\n\n    // The checkboxes to select (the model)\n    $scope.listOfValues = ['value1'];\n\n    // The list of checkboxes with a name and a value for each checkbox\n    $scope.listOfOptions = [{\n      name: 'name1'\n      id: 'value1'\n    },\n    {\n      name: 'name2'\n      id: 'value2'\n    }];\n\n    // The property to use as a label in listOfOptions object (\"name\" by default)\n    $scope.labelProperty = 'name';\n\n    // The property to use as a value in listOfOptions object (\"value\" by default)\n    $scope.valueProperty = 'id';\n\n    // A boolean to activate / deactivate the group of checkboxes\n    $scope.disabled = false;\n\n    <ov-multi-check-box\n      ng-model=\"listOfValues\"\n      options=\"listOfOptions\"\n      label-property=\"labelProperty\"\n      value-property=\"valueProperty\"\n      disabled=\"disabled\"\n      ng-model-options=\"{ allowInvalid: true }\">\n    </ov-multi-check-box>"
+                "\n    // Associates \"value\" with \"associatedValue1\", \"associatedValue2\"\n    var matches = [\n      {\n        value: 'value',\n        values: ['associatedValue1', 'associatedValue2'],\n      }\n    ];\n\n    // Available options which can be entered in ov-tags element\n    var availableOptions = [\n      {\n        name: 'Associated value 1',\n        value: 'associatedValue1'\n      },\n      {\n        name: 'Associated value 2',\n        value: 'associatedValue2'\n      },\n      {\n        name: 'Associated value 3',\n        value: 'associatedValue3'\n      }\n    ];\n\n    var inputPlaceholder = 'Input placeholder';\n    var tagsPlaceholder = 'Tags placeholder';\n    var inputProperty = 'firstElement';\n    var tagsProperty = 'secondElement';\n    var addLabel = 'Add a new association';\n\n    <ov-match ng-model=\"matches\"\n              ng-model-options=\"{allowInvalid: true}\"\n              ov-multiple=\"{{true}}\"\n              ov-available-options=\"availableOptions\"\n              ov-input-placeholder=\"inputPlaceholder\"\n              ov-tags-placeholder=\"tagsPlaceholder\"\n              ov-input-property=\"inputProperty\"\n              ov-tags-property=\"tagsProperty\"\n              ov-add-label=\"addLabel\">\n    </ov-match>"
             ],
             "itemtype": "main"
         },
@@ -433,6 +450,23 @@
             "line": 5,
             "description": "Defines service to manage the web service applications."
         },
+        "ovMatch": {
+            "name": "ovMatch",
+            "shortname": "ovMatch",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app\\client\\admin\\js\\ov\\MatchDirective.js",
+            "line": 5,
+            "description": "Creates a new Angular directive as an HTML element ov-match to be able to associate  a value with\na list of values.\n\nMatch form element is composed of an input element and an ov-tags element.\n\nAttributes are:\n  - ov-available-options to define possible values for the ov-tags element (This must be an assignable variable evaluated as an array)\n    e.g.\n    [\n      {\n        name: 'First name',\n        value: 'firstValue'\n      }\n      {\n        name: 'Second name',\n        value: 'secondValue'\n      }\n    ];\n  - ov-multiple to authorize multiple association (This must be an assignable variable evaluated as a boolean)\n  - ov-add-label to set the add button label (This must be an assignable variable evaluated as a string)\n  - ov-input-placeholder to set the input placeholder (This must be an assignable variable evaluated as a string)\n  - ov-tags-placeholder to set the ov-tags placeholder (This must be an assignable variable evaluated as a string)\n  - ov-input-property to set the name of the property used to store the input value (This must be an assignable\n    variable evaluated as a string)\n  - ov-tags-property to set the name of the property used to store the ov-tags values (This must be an assignable\n    variable evaluated as a string)",
+            "example": [
+                "\n    // Associates \"value\" with \"associatedValue1\", \"associatedValue2\"\n    var matches = [\n      {\n        value: 'value',\n        values: ['associatedValue1', 'associatedValue2'],\n      }\n    ];\n\n    // Available options which can be entered in ov-tags element\n    var availableOptions = [\n      {\n        name: 'Associated value 1',\n        value: 'associatedValue1'\n      },\n      {\n        name: 'Associated value 2',\n        value: 'associatedValue2'\n      },\n      {\n        name: 'Associated value 3',\n        value: 'associatedValue3'\n      }\n    ];\n\n    var inputPlaceholder = 'Input placeholder';\n    var tagsPlaceholder = 'Tags placeholder';\n    var inputProperty = 'firstElement';\n    var tagsProperty = 'secondElement';\n    var addLabel = 'Add a new association';\n\n    <ov-match ng-model=\"matches\"\n              ng-model-options=\"{allowInvalid: true}\"\n              ov-multiple=\"{{true}}\"\n              ov-available-options=\"availableOptions\"\n              ov-input-placeholder=\"inputPlaceholder\"\n              ov-tags-placeholder=\"tagsPlaceholder\"\n              ov-input-property=\"inputProperty\"\n              ov-tags-property=\"tagsProperty\"\n              ov-add-label=\"addLabel\">\n    </ov-match>"
+            ]
+        },
         "menuService": {
             "name": "menuService",
             "shortname": "menuService",
@@ -476,9 +510,9 @@
             "namespace": "",
             "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
             "line": 5,
-            "description": "Creates a new Angular directive as an HTML element ov-tags to be able to create a tags form element.\n\nTags form element is composed of an input element to add tags followed by the list of added tags.",
+            "description": "Creates a new Angular directive as an HTML element ov-tags to be able to create a tags form element.\n\nTags form element is composed of an input element to add tags followed by the list of added tags.\n\nAttributes are:\n  - ov-available-options to define possible values. If set, only values inside ov-available-options can\n    be added and auto-completion is activated. (This must be an assignable variable evaluated as an array)\n    e.g.\n    [\n      {\n        name: 'First name',\n        value: 'firstValue'\n      }\n      {\n        name: 'Second name',\n        value: 'secondValue'\n      }\n    ];\n  - ov-placeholder to set the input placeholder",
             "example": [
-                "\n    var listOfTags = ['tag1', 'tag2'];\n    <ov-tags ng-model=\"listOfTags\" ng-model-options=\"{ allowInvalid: true }\"></ov-tags>"
+                "\n    var placeholder = 'Enter tags';\n    var listOfTags = ['tag1', 'tag2'];\n    var availableOptions = [\n      {\n        name: 'Tag 1',\n        value: 'tag1'\n      },\n      {\n        name: 'Tag 2',\n        value: 'tag2'\n      },\n      {\n        name: 'Tag 3',\n        value: 'tag3'\n      }\n    ];\n    <ov-tags ng-model=\"listOfTags\"\n             ng-model-options=\"{ allowInvalid: true }\"\n             ov-available-options=\"availableOptions\"\n             ov-placeholder=\"placeholder\">\n    </ov-tags>"
             ]
         },
         "truncateFilter": {
@@ -641,7 +675,7 @@
         },
         {
             "file": "app\\client\\admin\\js\\authentication\\AuthenticationApp.js",
-            "line": 32,
+            "line": 30,
             "description": "Signs in using the given credentials.",
             "params": [
                 {
@@ -666,7 +700,7 @@
         },
         {
             "file": "app\\client\\admin\\js\\authentication\\AuthenticationApp.js",
-            "line": 47,
+            "line": 45,
             "description": "Logs out user.",
             "return": {
                 "description": "The logout promise",
@@ -679,7 +713,7 @@
         },
         {
             "file": "app\\client\\admin\\js\\authentication\\AuthenticationApp.js",
-            "line": 57,
+            "line": 55,
             "description": "Gets user information.",
             "return": {
                 "description": "The user description object",
@@ -692,7 +726,7 @@
         },
         {
             "file": "app\\client\\admin\\js\\authentication\\AuthenticationApp.js",
-            "line": 67,
+            "line": 65,
             "description": "Sets user information.",
             "params": [
                 {
@@ -1301,21 +1335,21 @@
                 "description": "The translated error message",
                 "type": "String"
             },
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\ErrorInterceptor.js",
             "line": 38,
             "description": "Defines an HTTP interceptor to handle all application errors.\n\nNot authorized errors (401) logs out the user while the other HTTP errors set an error message\nusing an alert.",
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\GroupController.js",
             "line": 5,
             "description": "Defines the group controller for the group page.",
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
@@ -1333,7 +1367,7 @@
                 "description": "A promise resolving when the group has been added",
                 "type": "Promise"
             },
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
@@ -1352,7 +1386,7 @@
                     "type": "Promise"
                 }
             ],
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
@@ -1371,33 +1405,33 @@
                     "type": "Function"
                 }
             ],
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\HomeController.js",
             "line": 5,
             "description": "Defines the back office controller for the home page.",
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\HomeController.js",
             "line": 27,
             "description": "Defines a controller for modal instance.",
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\LoginController.js",
             "line": 5,
             "description": "Defines the login controller for the login page.",
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\LoginController.js",
-            "line": 14,
+            "line": 19,
             "description": "Sets language.",
             "params": [
                 {
@@ -1406,33 +1440,33 @@
                     "type": "String"
                 }
             ],
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\LoginController.js",
-            "line": 24,
+            "line": 29,
             "description": "Signs in using the login form information (userEmail and password).\nIf user successfully signed in, redirect to the back office\nhome page. Otherwise, set the form as on error.",
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
             "line": 5,
             "description": "Defines the main controller parent of all controllers in the\napplication. All actions not handled in partials are handled\nby the main controller.",
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
             "line": 32,
-            "description": "Logs out the user.\nRemove user information, remove all admin informations\nand broadcast a loggedOut event to children controllers.",
-            "class": "menuService",
+            "description": "Logs out the user.\n\nRemove user information, remove all admin informations\nand broadcast a loggedOut event to children controllers.",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
-            "line": 51,
+            "line": 52,
             "description": "Replaces placeholders by corresponding values in the given string.\nFunction copied from AngularJS ngRoute.",
             "params": [
                 {
@@ -1450,12 +1484,12 @@
                 "description": "interpolation of the redirect path with the parameters",
                 "type": "String"
             },
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
-            "line": 75,
+            "line": 76,
             "description": "Replaces placeholders by corresponding values in the given string.",
             "params": [
                 {
@@ -1473,12 +1507,12 @@
                 "description": "The compiled string",
                 "type": "String"
             },
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
-            "line": 91,
+            "line": 92,
             "description": "Gets permissions from groups for the given operation.",
             "params": [
                 {
@@ -1496,12 +1530,12 @@
                 "description": "The list of permissions",
                 "type": "Array"
             },
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
-            "line": 131,
+            "line": 132,
             "description": "Changes the language to the given one.\n\nThis will reload the page due to the main menu which can't be\nreloaded.",
             "params": [
                 {
@@ -1510,19 +1544,19 @@
                     "type": "String"
                 }
             ],
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
-            "line": 153,
-            "description": "Logs out the actual user.\nThis will remove user information and redirect to the login\npage.",
-            "class": "menuService",
+            "line": 154,
+            "description": "Logs out the actual user.\n\nIf authentication has been made on an external service such as CAS, user is redirected to\nthe external service page.\nIf authentication has been made using an internal service such as LDAP (or local),\nlogout is performed without reloading the page.",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
-            "line": 297,
+            "line": 304,
             "description": "Checks that authenticated user has a permission.",
             "params": [
                 {
@@ -1535,12 +1569,12 @@
                 "description": "true if user has one of the permissions, false otherwise",
                 "type": "Boolean"
             },
-            "class": "menuService",
+            "class": "ovMatch",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\MainController.js",
-            "line": 325,
+            "line": 332,
             "description": "Checks that user has permission to access a content.",
             "params": [
                 {
@@ -1558,7 +1592,73 @@
                 "description": "true if user has sufficient permission to perform the operation on the content",
                 "type": "Boolean"
             },
-            "class": "menuService",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\MatchDirective.js",
+            "line": 96,
+            "description": "Updates and validates directive attributes.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\MatchDirective.js",
+            "line": 122,
+            "description": "Renders the list of matches using the model.\n\nIt overrides AngularJS $render.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\MatchDirective.js",
+            "line": 131,
+            "description": "Adds a new match.",
+            "itemtype": "method",
+            "name": "addMatch",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\MatchDirective.js",
+            "line": 141,
+            "description": "Removes a match.",
+            "itemtype": "method",
+            "name": "removeMatch",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "The index of the match to remove in the list of matches",
+                    "type": "Number"
+                }
+            ],
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\MatchDirective.js",
+            "line": 152,
+            "description": "Updates model with actual value.",
+            "itemtype": "method",
+            "name": "updateModel",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\MatchDirective.js",
+            "line": 162,
+            "description": "Tests if the model is empty.\n\nIt overrides AngularJS $isEmpty.\nThe input and the ov-tags elements must be filled otherwise ov-match is considered empty.",
+            "params": [
+                {
+                    "name": "values",
+                    "description": "The list of matches",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "true if there is no matches, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovMatch",
             "module": "ov"
         },
         {
@@ -1664,7 +1764,7 @@
         },
         {
             "file": "app\\client\\admin\\js\\ov\\OvApp.js",
-            "line": 270,
+            "line": 293,
             "description": "Configures application main routes and set location mode to HTML5.",
             "class": "ovTags",
             "module": "ov"
@@ -1678,10 +1778,10 @@
         },
         {
             "file": "app\\client\\admin\\js\\ov\\ProfileController.js",
-            "line": 14,
+            "line": 11,
             "description": "Gets the list of role's names.",
             "return": {
-                "description": "A comma separated role names",
+                "description": "A comma separated list of role names",
                 "type": "String"
             },
             "class": "ovTags",
@@ -1689,7 +1789,21 @@
         },
         {
             "file": "app\\client\\admin\\js\\ov\\ProfileController.js",
-            "line": 29,
+            "line": 39,
+            "description": "Saves user information.",
+            "params": [
+                {
+                    "name": "userInfo",
+                    "description": "The user information",
+                    "type": "Object"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\ProfileController.js",
+            "line": 110,
             "description": "Updates user password.",
             "params": [
                 {
@@ -1703,15 +1817,30 @@
         },
         {
             "file": "app\\client\\admin\\js\\ov\\ProfileController.js",
-            "line": 52,
-            "description": "Saves user information.",
-            "params": [
-                {
-                    "name": "userInfo",
-                    "description": "The user information",
-                    "type": "Object"
-                }
-            ],
+            "line": 131,
+            "description": "Resets password edition form.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\ProfileController.js",
+            "line": 140,
+            "description": "Validates password edition form.\n\nIt sets isInvalid property with the same value as the one returned.",
+            "return": {
+                "description": "true if valid, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\ProfileController.js",
+            "line": 152,
+            "description": "Checks if password is editable.\n\nSome users can't edit their password, for example:\nA lock user, the super administrator or a user coming from a third party provider such as LDAP.",
+            "return": {
+                "description": "true if editable, false otherwise",
+                "type": "Boolean"
+            },
             "class": "ovTags",
             "module": "ov"
         },
@@ -1820,16 +1949,73 @@
             "module": "ov"
         },
         {
-            "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
-            "line": 28,
-            "description": "Renders the list of tags using the model.\n\nIt overrides AngularJS $render.",
+            "file": "app\\client\\admin\\js\\ov\\SettingsController.js",
+            "line": 5,
+            "description": "Defines the settings controller for the settings page.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\SettingsController.js",
+            "line": 20,
+            "description": "Builds role options for matchers.",
+            "return": {
+                "description": "The list of role options with names and values",
+                "type": "Array"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\SettingsController.js",
+            "line": 91,
+            "description": "Saves settings.",
             "class": "ovTags",
             "module": "ov"
         },
         {
             "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
-            "line": 37,
-            "description": "Adds a new tag when user press \"enter\".",
+            "line": 67,
+            "description": "Updates and validates directive attributes.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
+            "line": 78,
+            "description": "Gets tag values.\n\nThe directive stores either the list of values or the list of options depending\non ovAvailableOptions attribute. Model should receive only the list of values.\n\nWhen directive does not have ovAvailableOptions, scope.tags stores values.\nWhen directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).",
+            "return": {
+                "description": "The list of values",
+                "type": "Array"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
+            "line": 110,
+            "description": "Renders the list of values using the model.\n\nThe directive stores either the list of values or the list of options depending\non ovAvailableOptions attribute. Model should receive only the list of values.\n\nWhen directive does not have ovAvailableOptions, scope.tags stores values.\nWhen directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).\n\nIt overrides AngularJS $render.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
+            "line": 143,
+            "description": "Add a new tag.",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "Either the name of the option if ovAvailableOptions is specified or the value if not",
+                    "type": "String"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
+            "line": 187,
+            "description": "Handles keys.\n\nAdd a new tag when user press \"enter\".",
             "params": [
                 {
                     "name": "event",
@@ -1842,7 +2028,7 @@
         },
         {
             "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
-            "line": 65,
+            "line": 210,
             "description": "Removes a tag when user click on the delete icon.",
             "params": [
                 {
@@ -1861,7 +2047,14 @@
         },
         {
             "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
-            "line": 87,
+            "line": 232,
+            "description": "Displays auto-complete depending on the given input value.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\TagsDirective.js",
+            "line": 252,
             "description": "Tests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
             "params": [
                 {
@@ -1925,6 +2118,31 @@
                 {
                     "name": "user",
                     "description": "The user data",
+                    "type": "Object"
+                }
+            ],
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\UserController.js",
+            "line": 55,
+            "description": "Builds options for origin filter.",
+            "return": {
+                "description": "Select options",
+                "type": "Array"
+            },
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app\\client\\admin\\js\\ov\\UserController.js",
+            "line": 192,
+            "description": "Initializes edit form for a given user.",
+            "params": [
+                {
+                    "name": "row",
+                    "description": "The user being edited",
                     "type": "Object"
                 }
             ],
@@ -2232,47 +2450,59 @@
         },
         {
             "message": "Missing item type\nSets language.",
-            "line": " app\\client\\admin\\js\\ov\\LoginController.js:14"
+            "line": " app\\client\\admin\\js\\ov\\LoginController.js:19"
         },
         {
             "message": "Missing item type\nSigns in using the login form information (userEmail and password).\nIf user successfully signed in, redirect to the back office\nhome page. Otherwise, set the form as on error.",
-            "line": " app\\client\\admin\\js\\ov\\LoginController.js:24"
+            "line": " app\\client\\admin\\js\\ov\\LoginController.js:29"
         },
         {
             "message": "Missing item type\nDefines the main controller parent of all controllers in the\napplication. All actions not handled in partials are handled\nby the main controller.",
             "line": " app\\client\\admin\\js\\ov\\MainController.js:5"
         },
         {
-            "message": "Missing item type\nLogs out the user.\nRemove user information, remove all admin informations\nand broadcast a loggedOut event to children controllers.",
+            "message": "Missing item type\nLogs out the user.\n\nRemove user information, remove all admin informations\nand broadcast a loggedOut event to children controllers.",
             "line": " app\\client\\admin\\js\\ov\\MainController.js:32"
         },
         {
             "message": "Missing item type\nReplaces placeholders by corresponding values in the given string.\nFunction copied from AngularJS ngRoute.",
-            "line": " app\\client\\admin\\js\\ov\\MainController.js:51"
+            "line": " app\\client\\admin\\js\\ov\\MainController.js:52"
         },
         {
             "message": "Missing item type\nReplaces placeholders by corresponding values in the given string.",
-            "line": " app\\client\\admin\\js\\ov\\MainController.js:75"
+            "line": " app\\client\\admin\\js\\ov\\MainController.js:76"
         },
         {
             "message": "Missing item type\nGets permissions from groups for the given operation.",
-            "line": " app\\client\\admin\\js\\ov\\MainController.js:91"
+            "line": " app\\client\\admin\\js\\ov\\MainController.js:92"
         },
         {
             "message": "Missing item type\nChanges the language to the given one.\n\nThis will reload the page due to the main menu which can't be\nreloaded.",
-            "line": " app\\client\\admin\\js\\ov\\MainController.js:131"
+            "line": " app\\client\\admin\\js\\ov\\MainController.js:132"
         },
         {
-            "message": "Missing item type\nLogs out the actual user.\nThis will remove user information and redirect to the login\npage.",
-            "line": " app\\client\\admin\\js\\ov\\MainController.js:153"
+            "message": "Missing item type\nLogs out the actual user.\n\nIf authentication has been made on an external service such as CAS, user is redirected to\nthe external service page.\nIf authentication has been made using an internal service such as LDAP (or local),\nlogout is performed without reloading the page.",
+            "line": " app\\client\\admin\\js\\ov\\MainController.js:154"
         },
         {
             "message": "Missing item type\nChecks that authenticated user has a permission.",
-            "line": " app\\client\\admin\\js\\ov\\MainController.js:297"
+            "line": " app\\client\\admin\\js\\ov\\MainController.js:304"
         },
         {
             "message": "Missing item type\nChecks that user has permission to access a content.",
-            "line": " app\\client\\admin\\js\\ov\\MainController.js:325"
+            "line": " app\\client\\admin\\js\\ov\\MainController.js:332"
+        },
+        {
+            "message": "Missing item type\nUpdates and validates directive attributes.",
+            "line": " app\\client\\admin\\js\\ov\\MatchDirective.js:96"
+        },
+        {
+            "message": "Missing item type\nRenders the list of matches using the model.\n\nIt overrides AngularJS $render.",
+            "line": " app\\client\\admin\\js\\ov\\MatchDirective.js:122"
+        },
+        {
+            "message": "Missing item type\nTests if the model is empty.\n\nIt overrides AngularJS $isEmpty.\nThe input and the ov-tags elements must be filled otherwise ov-match is considered empty.",
+            "line": " app\\client\\admin\\js\\ov\\MatchDirective.js:162"
         },
         {
             "message": "Missing item type\nFinds the index of the given value in the list of checkboxes.",
@@ -2296,7 +2526,7 @@
         },
         {
             "message": "Missing item type\nConfigures application main routes and set location mode to HTML5.",
-            "line": " app\\client\\admin\\js\\ov\\OvApp.js:270"
+            "line": " app\\client\\admin\\js\\ov\\OvApp.js:293"
         },
         {
             "message": "Missing item type\nDefines the profile controller for the profile page.",
@@ -2304,15 +2534,27 @@
         },
         {
             "message": "Missing item type\nGets the list of role's names.",
-            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:14"
-        },
-        {
-            "message": "Missing item type\nUpdates user password.",
-            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:29"
+            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:11"
         },
         {
             "message": "Missing item type\nSaves user information.",
-            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:52"
+            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:39"
+        },
+        {
+            "message": "Missing item type\nUpdates user password.",
+            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:110"
+        },
+        {
+            "message": "Missing item type\nResets password edition form.",
+            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:131"
+        },
+        {
+            "message": "Missing item type\nValidates password edition form.\n\nIt sets isInvalid property with the same value as the one returned.",
+            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:140"
+        },
+        {
+            "message": "Missing item type\nChecks if password is editable.\n\nSome users can't edit their password, for example:\nA lock user, the super administrator or a user coming from a third party provider such as LDAP.",
+            "line": " app\\client\\admin\\js\\ov\\ProfileController.js:152"
         },
         {
             "message": "Missing item type\nDefines the role controller for the role page.",
@@ -2343,20 +2585,48 @@
             "line": " app\\client\\admin\\js\\ov\\RoleController.js:91"
         },
         {
-            "message": "Missing item type\nRenders the list of tags using the model.\n\nIt overrides AngularJS $render.",
-            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:28"
+            "message": "Missing item type\nDefines the settings controller for the settings page.",
+            "line": " app\\client\\admin\\js\\ov\\SettingsController.js:5"
         },
         {
-            "message": "Missing item type\nAdds a new tag when user press \"enter\".",
-            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:37"
+            "message": "Missing item type\nBuilds role options for matchers.",
+            "line": " app\\client\\admin\\js\\ov\\SettingsController.js:20"
+        },
+        {
+            "message": "Missing item type\nSaves settings.",
+            "line": " app\\client\\admin\\js\\ov\\SettingsController.js:91"
+        },
+        {
+            "message": "Missing item type\nUpdates and validates directive attributes.",
+            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:67"
+        },
+        {
+            "message": "Missing item type\nGets tag values.\n\nThe directive stores either the list of values or the list of options depending\non ovAvailableOptions attribute. Model should receive only the list of values.\n\nWhen directive does not have ovAvailableOptions, scope.tags stores values.\nWhen directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).",
+            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:78"
+        },
+        {
+            "message": "Missing item type\nRenders the list of values using the model.\n\nThe directive stores either the list of values or the list of options depending\non ovAvailableOptions attribute. Model should receive only the list of values.\n\nWhen directive does not have ovAvailableOptions, scope.tags stores values.\nWhen directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).\n\nIt overrides AngularJS $render.",
+            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:110"
+        },
+        {
+            "message": "Missing item type\nAdd a new tag.",
+            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:143"
+        },
+        {
+            "message": "Missing item type\nHandles keys.\n\nAdd a new tag when user press \"enter\".",
+            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:187"
         },
         {
             "message": "Missing item type\nRemoves a tag when user click on the delete icon.",
-            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:65"
+            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:210"
+        },
+        {
+            "message": "Missing item type\nDisplays auto-complete depending on the given input value.",
+            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:232"
         },
         {
             "message": "Missing item type\nTests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
-            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:87"
+            "line": " app\\client\\admin\\js\\ov\\TagsDirective.js:252"
         },
         {
             "message": "Missing item type\nDefines the user controller for the user page.",
@@ -2373,6 +2643,14 @@
         {
             "message": "Missing item type\nSaves user.",
             "line": " app\\client\\admin\\js\\ov\\UserController.js:42"
+        },
+        {
+            "message": "Missing item type\nBuilds options for origin filter.",
+            "line": " app\\client\\admin\\js\\ov\\UserController.js:55"
+        },
+        {
+            "message": "Missing item type\nInitializes edit form for a given user.",
+            "line": " app\\client\\admin\\js\\ov\\UserController.js:192"
         },
         {
             "message": "Missing item type\nDefines a service reload Table.",

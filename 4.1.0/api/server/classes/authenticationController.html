@@ -44,9 +44,11 @@
                                 <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
                                 <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
                                 <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
                                 <li><a href="../classes/client.html">client</a></li>
                                 <li><a href="../classes/ClientModel.html">ClientModel</a></li>
                                 <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
                                 <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
                                 <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
                                 <li><a href="../classes/DefaultController.html">DefaultController</a></li>
@@ -57,6 +59,7 @@
                                 <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
                                 <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
                                 <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
                                 <li><a href="../classes/MenuController.html">MenuController</a></li>
                                 <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
                                 <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
@@ -70,6 +73,9 @@
                                 <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
                                 <li><a href="../classes/routeLoader.html">routeLoader</a></li>
                                 <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingModel.html">SettingModel</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
                                 <li><a href="../classes/storage.html">storage</a></li>
                                 <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
                                 <li><a href="../classes/TaxonomyModel.html">TaxonomyModel</a></li>
@@ -203,8 +209,14 @@
 
                     <ul class="index-list methods extends">
                             <li class="index-item method">
-                                <a href="#method_authenticateAction">authenticateAction</a>
+                                <a href="#method_authenticateExternalAction">authenticateExternalAction</a>
 
+                                    <span class="flag static">static</span>
+                            </li>
+                            <li class="index-item method">
+                                <a href="#method_authenticateInternalAction">authenticateInternalAction</a>
+
+                                    <span class="flag static">static</span>
                             </li>
                             <li class="index-item method private">
                                 <a href="#method_getPermissionByUrl">getPermissionByUrl</a>
@@ -237,13 +249,13 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_authenticateAction" class="method item">
-  <h3 class="blue-method-name">authenticateAction</h3>
+<div id="method_authenticateExternalAction" class="method item">
+  <h3 class="blue-method-name">authenticateExternalAction</h3>
 
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_controllers_AuthenticationController.js.html#l106"><code>app\server\controllers\AuthenticationController.js:106</code></a>
+      <a href="../files/app_server_controllers_AuthenticationController.js.html#l164"><code>app\server\controllers\AuthenticationController.js:164</code></a>
   </p>
 
 
@@ -252,7 +264,7 @@
 
   <h3>Syntax</h3>
   <div class="blue-method-syntax">
-  <h3 class="name"><code>authenticateAction</code></h3>
+  <h3 class="name"><code>authenticateExternalAction</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -272,16 +284,15 @@
 
 
 
+        <span class="flag static">static</span>
 
 
+        <span class="flag async">async</span>
 
   </div>
     <div class="description">
       <h3>Summary</h3>
-        <p>Establishes requests authentication using module passport.</p>
-<p>If authentication fails, an HTTP code 401 is returned to the client.
-If authentication succeeds, an HTTP code 200 is returned to the
-client with user information as a JSON Object.</p>
+        <p>Handles user authentication using external providers (which require a redirection on third party site).</p>
 
     </div>
 
@@ -299,6 +310,148 @@ client with user information as a JSON Object.</p>
 
                     </div>
 
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">params</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+                                <div class="param-description">
+                                    <p>Request's parameters</p>
+
+                                </div>
+
+                                    <ul class="params-list">
+                                        <li class="param">
+                                                <code class="param-name">type</code>
+                                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+                                            <div class="param-description">
+                                                The authentication provider to use
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </li>
+                        </ul>
+                </li>
+                <li class="param">
+                        <code class="param-name">response</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Response" class="crosslink external" target="_blank">Response</a></span>
+
+
+                    <div class="param-description">
+                        <p>ExpressJS HTTP Response</p>
+
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">next</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function" class="crosslink external" target="_blank">Function</a></span>
+
+
+                    <div class="param-description">
+                        <p>Function to defer execution to the next registered middleware</p>
+
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_authenticateInternalAction" class="method item">
+  <h3 class="blue-method-name">authenticateInternalAction</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/app_server_controllers_AuthenticationController.js.html#l106"><code>app\server\controllers\AuthenticationController.js:106</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>authenticateInternalAction</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>request</code>
+                </li>
+                <li class="arg">
+                        <code>response</code>
+                </li>
+                <li class="arg">
+                        <code>next</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+        <span class="flag static">static</span>
+
+
+        <span class="flag async">async</span>
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Handles user authentication using internal providers (which do not require a redirection to a third party site).</p>
+
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">request</code>
+                        <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/API/Request" class="crosslink external" target="_blank">Request</a></span>
+
+
+                    <div class="param-description">
+                        <p>ExpressJS HTTP Request</p>
+
+                    </div>
+
+                        <ul class="params-list">
+                            <li class="param">
+                                    <code class="param-name">body</code>
+                                    <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" class="crosslink external" target="_blank">Object</a></span>
+
+                                <div class="param-description">
+                                    <p>Request's body</p>
+
+                                </div>
+
+                                    <ul class="params-list">
+                                        <li class="param">
+                                                <code class="param-name">email</code>
+                                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+                                            <div class="param-description">
+                                                The login
+                                            </div>
+                                        </li>
+                                        <li class="param">
+                                                <code class="param-name">password</code>
+                                                <span class="type"><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String" class="crosslink external" target="_blank">String</a></span>
+
+                                            <div class="param-description">
+                                                The password
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </li>
+                        </ul>
                 </li>
                 <li class="param">
                         <code class="param-name">response</code>
@@ -462,7 +615,7 @@ getPermissionByUrl(permissions, '/video', 'GET'); // null</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_controllers_AuthenticationController.js.html#l210"><code>app\server\controllers\AuthenticationController.js:210</code></a>
+      <a href="../files/app_server_controllers_AuthenticationController.js.html#l297"><code>app\server\controllers\AuthenticationController.js:297</code></a>
   </p>
 
 
@@ -678,7 +831,7 @@ getPermissionByUrl(permissions, '/video', 'GET'); // null</code></pre>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_controllers_AuthenticationController.js.html#l144"><code>app\server\controllers\AuthenticationController.js:144</code></a>
+      <a href="../files/app_server_controllers_AuthenticationController.js.html#l212"><code>app\server\controllers\AuthenticationController.js:212</code></a>
   </p>
 
 
@@ -713,8 +866,7 @@ getPermissionByUrl(permissions, '/video', 'GET'); // null</code></pre>
   </div>
     <div class="description">
       <h3>Summary</h3>
-        <p>Removes requests authentication, requests are not authenticated
-anymore.</p>
+        <p>Logs out user.</p>
 <p>An HTTP code 200 is returned to the client with no content.</p>
 
     </div>
@@ -768,7 +920,7 @@ anymore.</p>
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_controllers_AuthenticationController.js.html#l160"><code>app\server\controllers\AuthenticationController.js:160</code></a>
+      <a href="../files/app_server_controllers_AuthenticationController.js.html#l247"><code>app\server\controllers\AuthenticationController.js:247</code></a>
   </p>
 
 

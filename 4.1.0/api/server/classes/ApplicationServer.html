@@ -44,9 +44,11 @@
                                 <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
                                 <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
                                 <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
                                 <li><a href="../classes/client.html">client</a></li>
                                 <li><a href="../classes/ClientModel.html">ClientModel</a></li>
                                 <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
                                 <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
                                 <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
                                 <li><a href="../classes/DefaultController.html">DefaultController</a></li>
@@ -57,6 +59,7 @@
                                 <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
                                 <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
                                 <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
                                 <li><a href="../classes/MenuController.html">MenuController</a></li>
                                 <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
                                 <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
@@ -70,6 +73,9 @@
                                 <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
                                 <li><a href="../classes/routeLoader.html">routeLoader</a></li>
                                 <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingModel.html">SettingModel</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
                                 <li><a href="../classes/storage.html">storage</a></li>
                                 <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
                                 <li><a href="../classes/TaxonomyModel.html">TaxonomyModel</a></li>
@@ -133,7 +139,7 @@
         </div>
 
         <div class="foundat">
-            Defined in: <a href="../files/app_server_servers_ApplicationServer.js.html#l50"><code>app\server\servers\ApplicationServer.js:50</code></a>
+            Defined in: <a href="../files/app_server_servers_ApplicationServer.js.html#l56"><code>app\server\servers\ApplicationServer.js:56</code></a>
         </div>
 
             Module: <a href="../modules/core-servers.html">core-servers</a>
@@ -155,7 +161,7 @@
   <div class="meta method-meta">
       <p>
           Defined in
-      <a href="../files/app_server_servers_ApplicationServer.js.html#l50"><code>app\server\servers\ApplicationServer.js:50</code></a>
+      <a href="../files/app_server_servers_ApplicationServer.js.html#l56"><code>app\server\servers\ApplicationServer.js:56</code></a>
   </p>
 
 
@@ -262,6 +268,10 @@
                                 <a href="#method_async">async</a>
 
                             </li>
+                            <li class="index-item method private">
+                                <a href="#method_initializePassport">initializePassport</a>
+
+                            </li>
                             <li class="index-item method inherited">
                                 <a href="#method_onDatabaseAvailable">onDatabaseAvailable</a>
 
@@ -335,7 +345,7 @@
         Server
       </a>
         but overwritten in
-      <a href="../files/app_server_servers_ApplicationServer.js.html#l338"><code>app\server\servers\ApplicationServer.js:338</code></a>
+      <a href="../files/app_server_servers_ApplicationServer.js.html#l403"><code>app\server\servers\ApplicationServer.js:403</code></a>
   </p>
 
 
@@ -396,6 +406,44 @@ application.</p>
 
 
 </div>
+<div id="method_initializePassport" class="method item private">
+  <h3 class="blue-method-name">initializePassport</h3>
+
+  <div class="meta method-meta">
+      <p>
+          Defined in
+      <a href="../files/app_server_servers_ApplicationServer.js.html#l151"><code>app\server\servers\ApplicationServer.js:151</code></a>
+  </p>
+
+
+
+  </div>
+
+  <h3>Syntax</h3>
+  <div class="blue-method-syntax">
+  <h3 class="name"><code>initializePassport</code></h3>
+
+        <span class="paren">()</span>
+
+
+
+        <span class="flag private">private</span>
+
+
+
+
+
+  </div>
+    <div class="description">
+      <h3>Summary</h3>
+        <p>Initializes passport strategies to manage user authentication.</p>
+
+    </div>
+
+
+
+
+</div>
 <div id="method_onDatabaseAvailable" class="method item">
   <h3 class="blue-method-name">onDatabaseAvailable</h3>
 
@@ -405,7 +453,7 @@ application.</p>
         Server
       </a>
         but overwritten in
-      <a href="../files/app_server_servers_ApplicationServer.js.html#l145"><code>app\server\servers\ApplicationServer.js:145</code></a>
+      <a href="../files/app_server_servers_ApplicationServer.js.html#l216"><code>app\server\servers\ApplicationServer.js:216</code></a>
   </p>
 
 
@@ -486,7 +534,7 @@ application.</p>
         Server
       </a>
         but overwritten in
-      <a href="../files/app_server_servers_ApplicationServer.js.html#l185"><code>app\server\servers\ApplicationServer.js:185</code></a>
+      <a href="../files/app_server_servers_ApplicationServer.js.html#l250"><code>app\server\servers\ApplicationServer.js:250</code></a>
   </p>
 
 
@@ -569,7 +617,7 @@ views folders and permissions.</p>
         Server
       </a>
         but overwritten in
-      <a href="../files/app_server_servers_ApplicationServer.js.html#l379"><code>app\server\servers\ApplicationServer.js:379</code></a>
+      <a href="../files/app_server_servers_ApplicationServer.js.html#l444"><code>app\server\servers\ApplicationServer.js:444</code></a>
   </p>
 
 
@@ -704,7 +752,7 @@ views folders and permissions.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_servers_ApplicationServer.js.html#l74"><code>app\server\servers\ApplicationServer.js:74</code></a>
+                          <a href="../files/app_server_servers_ApplicationServer.js.html#l80"><code>app\server\servers\ApplicationServer.js:80</code></a>
                       </p>
                     
                     
@@ -738,7 +786,7 @@ views folders and permissions.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_servers_ApplicationServer.js.html#l83"><code>app\server\servers\ApplicationServer.js:83</code></a>
+                          <a href="../files/app_server_servers_ApplicationServer.js.html#l89"><code>app\server\servers\ApplicationServer.js:89</code></a>
                       </p>
                     
                     
@@ -771,7 +819,7 @@ views folders and permissions.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_servers_ApplicationServer.js.html#l91"><code>app\server\servers\ApplicationServer.js:91</code></a>
+                          <a href="../files/app_server_servers_ApplicationServer.js.html#l97"><code>app\server\servers\ApplicationServer.js:97</code></a>
                       </p>
                     
                     
@@ -805,7 +853,7 @@ views folders and permissions.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_servers_ApplicationServer.js.html#l117"><code>app\server\servers\ApplicationServer.js:117</code></a>
+                          <a href="../files/app_server_servers_ApplicationServer.js.html#l123"><code>app\server\servers\ApplicationServer.js:123</code></a>
                       </p>
                     
                     
@@ -838,7 +886,7 @@ views folders and permissions.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_servers_ApplicationServer.js.html#l109"><code>app\server\servers\ApplicationServer.js:109</code></a>
+                          <a href="../files/app_server_servers_ApplicationServer.js.html#l115"><code>app\server\servers\ApplicationServer.js:115</code></a>
                       </p>
                     
                     
@@ -871,7 +919,7 @@ views folders and permissions.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_servers_ApplicationServer.js.html#l100"><code>app\server\servers\ApplicationServer.js:100</code></a>
+                          <a href="../files/app_server_servers_ApplicationServer.js.html#l106"><code>app\server\servers\ApplicationServer.js:106</code></a>
                       </p>
                     
                     
@@ -905,7 +953,7 @@ views folders and permissions.</p>
                       <div class="meta method-meta">
                           <p>
                               Defined in
-                          <a href="../files/app_server_servers_ApplicationServer.js.html#l66"><code>app\server\servers\ApplicationServer.js:66</code></a>
+                          <a href="../files/app_server_servers_ApplicationServer.js.html#l72"><code>app\server\servers\ApplicationServer.js:72</code></a>
                       </p>
                     
                     

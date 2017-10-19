@@ -86,6 +86,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app\\server\\controllers\\SettingsController.js": {
+            "name": "app\\server\\controllers\\SettingsController.js",
+            "modules": {},
+            "classes": {
+                "SettingsController": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app\\server\\controllers\\TaxonomyController.js": {
             "name": "app\\server\\controllers\\TaxonomyController.js",
             "modules": {},
@@ -214,6 +223,15 @@
             "fors": {},
             "namespaces": {}
         },
+        "app\\server\\models\\SettingModel.js": {
+            "name": "app\\server\\models\\SettingModel.js",
+            "modules": {},
+            "classes": {
+                "SettingModel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app\\server\\models\\TaxonomyModel.js": {
             "name": "app\\server\\models\\TaxonomyModel.js",
             "modules": {},
@@ -304,6 +322,24 @@
             "fors": {},
             "namespaces": {}
         },
+        "app\\server\\plugin\\hooks.js": {
+            "name": "app\\server\\plugin\\hooks.js",
+            "modules": {},
+            "classes": {
+                "CORE_HOOKS": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app\\server\\plugin\\listener.js": {
+            "name": "app\\server\\plugin\\listener.js",
+            "modules": {},
+            "classes": {
+                "listener": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app\\server\\providers\\ClientProvider.js": {
             "name": "app\\server\\providers\\ClientProvider.js",
             "modules": {},
@@ -327,6 +363,15 @@
             "modules": {},
             "classes": {
                 "RoleProvider": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app\\server\\providers\\SettingProvider.js": {
+            "name": "app\\server\\providers\\SettingProvider.js",
+            "modules": {},
+            "classes": {
+                "SettingProvider": 1
             },
             "fors": {},
             "namespaces": {}
@@ -421,19 +466,21 @@
             "fors": {},
             "namespaces": {}
         },
+        "app\\server\\authenticator.js": {
+            "name": "app\\server\\authenticator.js",
+            "modules": {},
+            "classes": {
+                "authenticator": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "app\\server\\httpErrors.js": {
             "name": "app\\server\\httpErrors.js",
             "modules": {},
             "classes": {
                 "HTTP_ERRORS": 1
             },
-            "fors": {},
-            "namespaces": {}
-        },
-        "app\\server\\passport.js": {
-            "name": "app\\server\\passport.js",
-            "modules": {},
-            "classes": {},
             "fors": {},
             "namespaces": {}
         },
@@ -471,6 +518,7 @@
                 "MenuController": 1,
                 "OauthController": 1,
                 "RoleController": 1,
+                "SettingsController": 1,
                 "TaxonomyController": 1,
                 "UserController": 1
             },
@@ -525,6 +573,7 @@
                 "ClientModel": 1,
                 "GroupModel": 1,
                 "RoleModel": 1,
+                "SettingModel": 1,
                 "TaxonomyModel": 1,
                 "TokenModel": 1,
                 "UserModel": 1
@@ -533,7 +582,7 @@
             "namespaces": {},
             "tag": "main",
             "file": "app\\server\\models\\UserModel.js",
-            "line": 15,
+            "line": 16,
             "description": "Models module includes all core models.",
             "itemtype": "main"
         },
@@ -559,13 +608,15 @@
             "elements": {},
             "classes": {
                 "CorePlugin": 1,
-                "CorePluginApi": 1
+                "CorePluginApi": 1,
+                "CORE_HOOKS": 1,
+                "listener": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "main",
-            "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 25,
+            "file": "app\\server\\plugin\\listener.js",
+            "line": 11,
             "description": "The Core plugin with its APIs.",
             "itemtype": "main"
         },
@@ -577,6 +628,7 @@
                 "ClientProvider": 1,
                 "GroupProvider": 1,
                 "RoleProvider": 1,
+                "SettingProvider": 1,
                 "TaxonomyProvider": 1,
                 "TokenProvider": 1,
                 "UserProvider": 1
@@ -612,6 +664,7 @@
             "elements": {},
             "classes": {
                 "api": 1,
+                "authenticator": 1,
                 "HTTP_ERRORS": 1,
                 "path": 1,
                 "storage": 1
@@ -765,6 +818,22 @@
             "file": "app\\server\\controllers\\RoleController.js",
             "line": 14,
             "description": "Defines an entity controller to handle requests relative to roles' entities.",
+            "extends": "EntityController",
+            "is_constructor": 1
+        },
+        "SettingsController": {
+            "name": "SettingsController",
+            "shortname": "SettingsController",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core-controllers",
+            "namespace": "",
+            "file": "app\\server\\controllers\\SettingsController.js",
+            "line": 15,
+            "description": "Defines an entity controller to handle requests relative to settings.",
             "extends": "EntityController",
             "is_constructor": 1
         },
@@ -978,6 +1047,29 @@
                 }
             ]
         },
+        "SettingModel": {
+            "name": "SettingModel",
+            "shortname": "SettingModel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core-models",
+            "namespace": "",
+            "file": "app\\server\\models\\SettingModel.js",
+            "line": 10,
+            "description": "Defines a SettingModel to manipulate settings.",
+            "extends": "EntityModel",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "provider",
+                    "description": "The entity provider",
+                    "type": "SettingProvider"
+                }
+            ]
+        },
         "TaxonomyModel": {
             "name": "TaxonomyModel",
             "shortname": "TaxonomyModel",
@@ -1027,7 +1119,7 @@
             "module": "core-models",
             "namespace": "",
             "file": "app\\server\\models\\UserModel.js",
-            "line": 15,
+            "line": 16,
             "description": "Defines a UserModel to manipulate back end users.",
             "extends": "EntityModel",
             "is_constructor": 1,
@@ -1080,7 +1172,7 @@
             "module": "core-plugin",
             "namespace": "",
             "file": "app\\server\\plugin\\CorePlugin.js",
-            "line": 12,
+            "line": 22,
             "description": "Defines the Core Plugin.\n\nIn some way, the core act just like any other plugins, it has a 3 routers (public, private and web service) and\na configuration file. Core plugin can be loaded just like any plugin.",
             "extends": "Plugin",
             "is_constructor": 1
@@ -1096,10 +1188,43 @@
             "module": "core-plugin",
             "namespace": "",
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 25,
+            "line": 26,
             "description": "Defines the Core Plugin API exposed to other plugins.",
             "extends": "PluginApi",
             "is_constructor": 1
+        },
+        "CORE_HOOKS": {
+            "name": "CORE_HOOKS",
+            "shortname": "CORE_HOOKS",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core-plugin",
+            "namespace": "",
+            "file": "app\\server\\plugin\\hooks.js",
+            "line": 7,
+            "description": "Defines the list of hooks sent by core.",
+            "example": [
+                "\n    var coreApi = process.api.getCoreApi();\n    var CORE_HOOKS = process.api.getCoreApi().getHooks();\n    coreApi.registerAction(CORE_HOOKS.USERS_DELETED, function(ids, callback) {\n      console.log(ids);\n      callback();\n    );"
+            ],
+            "static": 1
+        },
+        "listener": {
+            "name": "listener",
+            "shortname": "listener",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core-plugin",
+            "namespace": "",
+            "file": "app\\server\\plugin\\listener.js",
+            "line": 11,
+            "description": "Sets event listeners on core.",
+            "static": 1
         },
         "ClientProvider": {
             "name": "ClientProvider",
@@ -1160,6 +1285,29 @@
             "file": "app\\server\\providers\\RoleProvider.js",
             "line": 10,
             "description": "Defines a RoleProvider to get and save back end user roles.",
+            "extends": "EntityProvider",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "database",
+                    "description": "The database to interact with",
+                    "type": "Database"
+                }
+            ]
+        },
+        "SettingProvider": {
+            "name": "SettingProvider",
+            "shortname": "SettingProvider",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core-providers",
+            "namespace": "",
+            "file": "app\\server\\providers\\SettingProvider.js",
+            "line": 10,
+            "description": "Defines a SettingProvider to get and save settings.",
             "extends": "EntityProvider",
             "is_constructor": 1,
             "params": [
@@ -1249,7 +1397,7 @@
             "module": "core-servers",
             "namespace": "",
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 50,
+            "line": 56,
             "description": "Defines an HTTP server for the openveo application, which serves front and back end pages.",
             "extends": "Server",
             "is_constructor": 1,
@@ -1343,6 +1491,21 @@
             "file": "app\\server\\api.js",
             "line": 9,
             "description": "API manipulates the list of loaded plugins and exposes their APIs.",
+            "static": 1
+        },
+        "authenticator": {
+            "name": "authenticator",
+            "shortname": "authenticator",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "core",
+            "namespace": "",
+            "file": "app\\server\\authenticator.js",
+            "line": 17,
+            "description": "The authenticator helps manipulate users authenticated by passport strategies.\n\nUsers returned by passport are not necessary OpenVeo users. It could be users from a third party authentication\nserver. The authenticator helps making sure that the authenticated user is a ready to use OpenVeo user.",
             "static": 1
         },
         "HTTP_ERRORS": {
@@ -1589,14 +1752,35 @@
         {
             "file": "app\\server\\controllers\\AuthenticationController.js",
             "line": 106,
-            "description": "Establishes requests authentication using module passport.\n\nIf authentication fails, an HTTP code 401 is returned to the client.\nIf authentication succeeds, an HTTP code 200 is returned to the\nclient with user information as a JSON Object.",
+            "description": "Handles user authentication using internal providers (which do not require a redirection to a third party site).",
             "itemtype": "method",
-            "name": "authenticateAction",
+            "name": "authenticateInternalAction",
+            "static": 1,
+            "async": 1,
             "params": [
                 {
                     "name": "request",
                     "description": "ExpressJS HTTP Request",
-                    "type": "Request"
+                    "type": "Request",
+                    "props": [
+                        {
+                            "name": "body",
+                            "description": "Request's body",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "email",
+                                    "description": "The login",
+                                    "type": "String"
+                                },
+                                {
+                                    "name": "password",
+                                    "description": "The password",
+                                    "type": "String"
+                                }
+                            ]
+                        }
+                    ]
                 },
                 {
                     "name": "response",
@@ -1614,8 +1798,50 @@
         },
         {
             "file": "app\\server\\controllers\\AuthenticationController.js",
-            "line": 144,
-            "description": "Removes requests authentication, requests are not authenticated\nanymore.\n\nAn HTTP code 200 is returned to the client with no content.",
+            "line": 164,
+            "description": "Handles user authentication using external providers (which require a redirection on third party site).",
+            "itemtype": "method",
+            "name": "authenticateExternalAction",
+            "static": 1,
+            "async": 1,
+            "params": [
+                {
+                    "name": "request",
+                    "description": "ExpressJS HTTP Request",
+                    "type": "Request",
+                    "props": [
+                        {
+                            "name": "params",
+                            "description": "Request's parameters",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "type",
+                                    "description": "The authentication provider to use",
+                                    "type": "String"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "response",
+                    "description": "ExpressJS HTTP Response",
+                    "type": "Response"
+                },
+                {
+                    "name": "next",
+                    "description": "Function to defer execution to the next registered middleware",
+                    "type": "Function"
+                }
+            ],
+            "class": "authenticationController",
+            "module": "core-controllers"
+        },
+        {
+            "file": "app\\server\\controllers\\AuthenticationController.js",
+            "line": 212,
+            "description": "Logs out user.\n\nAn HTTP code 200 is returned to the client with no content.",
             "itemtype": "method",
             "name": "logoutAction",
             "params": [
@@ -1640,7 +1866,7 @@
         },
         {
             "file": "app\\server\\controllers\\AuthenticationController.js",
-            "line": 160,
+            "line": 247,
             "description": "Checks if current request is authenticated.\n\nIf not send back an HTTP code 401 with appropriate page.\nIt just get to the next route action if permission is granted.",
             "itemtype": "method",
             "name": "restrictAction",
@@ -1695,7 +1921,7 @@
         },
         {
             "file": "app\\server\\controllers\\AuthenticationController.js",
-            "line": 210,
+            "line": 297,
             "description": "Gets the tree of groups / permissions and return it as a JSON object.",
             "itemtype": "method",
             "name": "getPermissionsAction",
@@ -2308,6 +2534,218 @@
             "module": "core-controllers"
         },
         {
+            "file": "app\\server\\controllers\\SettingsController.js",
+            "line": 29,
+            "description": "Gets a specific setting.\n\nIf setting is not found it is sent with value null.",
+            "example": [
+                "\n\n    // Response example\n    {\n      \"entity\" : { ... }\n    }"
+            ],
+            "itemtype": "method",
+            "name": "getEntityAction",
+            "async": 1,
+            "params": [
+                {
+                    "name": "request",
+                    "description": "ExpressJS HTTP Request",
+                    "type": "Request",
+                    "props": [
+                        {
+                            "name": "params",
+                            "description": "Request's parameters",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "id",
+                                    "description": "The setting id to retrieve",
+                                    "type": "String"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "response",
+                    "description": "ExpressJS HTTP Response",
+                    "type": "Response"
+                },
+                {
+                    "name": "next",
+                    "description": "Function to defer execution to the next registered middleware",
+                    "type": "Function"
+                }
+            ],
+            "class": "SettingsController",
+            "module": "core-controllers"
+        },
+        {
+            "file": "app\\server\\controllers\\SettingsController.js",
+            "line": 76,
+            "description": "Gets a list of settings.",
+            "itemtype": "method",
+            "name": "getEntitiesAction",
+            "params": [
+                {
+                    "name": "request",
+                    "description": "ExpressJS HTTP Request",
+                    "type": "Request",
+                    "props": [
+                        {
+                            "name": "query",
+                            "description": "Request's query parameters",
+                            "type": "Object",
+                            "optional": true,
+                            "props": [
+                                {
+                                    "name": "ids",
+                                    "description": "The list of settings to fetch",
+                                    "type": "String|Array",
+                                    "optional": true
+                                },
+                                {
+                                    "name": "page",
+                                    "description": "The expected page in pagination system",
+                                    "type": "Number",
+                                    "optional": true,
+                                    "optdefault": "1"
+                                },
+                                {
+                                    "name": "limit",
+                                    "description": "The maximum number of expected results",
+                                    "type": "Number",
+                                    "optional": true
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "response",
+                    "description": "ExpressJS HTTP Response",
+                    "type": "Response"
+                },
+                {
+                    "name": "next",
+                    "description": "Function to defer execution to the next registered middleware",
+                    "type": "Function"
+                }
+            ],
+            "class": "SettingsController",
+            "module": "core-controllers"
+        },
+        {
+            "file": "app\\server\\controllers\\SettingsController.js",
+            "line": 132,
+            "description": "Updates a setting.",
+            "example": [
+                "\n\n    // Expected body example\n    {\n      value: SETTING_VALUE\n    }"
+            ],
+            "itemtype": "method",
+            "name": "updateEntityAction",
+            "async": 1,
+            "params": [
+                {
+                    "name": "request",
+                    "description": "ExpressJS HTTP Request",
+                    "type": "Request",
+                    "props": [
+                        {
+                            "name": "params",
+                            "description": "Request's parameters",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "id",
+                                    "description": "The setting id to update",
+                                    "type": "String"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "body",
+                            "description": "Request's body",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "value",
+                                    "description": "Setting value",
+                                    "type": "Mixed"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "response",
+                    "description": "ExpressJS HTTP Response",
+                    "type": "Response"
+                },
+                {
+                    "name": "next",
+                    "description": "Function to defer execution to the next registered middleware",
+                    "type": "Function"
+                }
+            ],
+            "class": "SettingsController",
+            "module": "core-controllers"
+        },
+        {
+            "file": "app\\server\\controllers\\SettingsController.js",
+            "line": 176,
+            "description": "Adds a new setting.",
+            "example": [
+                "\n\n    // Expected body example\n    {\n      \"id\" : SETTING_ID\n      \"value\" : SETTING_VALUE\n    }"
+            ],
+            "itemtype": "method",
+            "name": "addEntityAction",
+            "async": 1,
+            "params": [
+                {
+                    "name": "request",
+                    "description": "ExpressJS HTTP Request",
+                    "type": "Request",
+                    "props": [
+                        {
+                            "name": "body",
+                            "description": "Request's body",
+                            "type": "Object",
+                            "props": [
+                                {
+                                    "name": "value",
+                                    "description": "Setting value",
+                                    "type": "Mixed"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "response",
+                    "description": "ExpressJS HTTP Response",
+                    "type": "Response"
+                },
+                {
+                    "name": "next",
+                    "description": "Function to defer execution to the next registered middleware",
+                    "type": "Function"
+                }
+            ],
+            "class": "SettingsController",
+            "module": "core-controllers"
+        },
+        {
+            "file": "app\\server\\controllers\\SettingsController.js",
+            "line": 229,
+            "description": "Gets an instance of the entity model associated to the controller.",
+            "itemtype": "method",
+            "name": "getModel",
+            "return": {
+                "description": "The entity model",
+                "type": "EntityModel"
+            },
+            "class": "SettingsController",
+            "module": "core-controllers"
+        },
+        {
             "file": "app\\server\\controllers\\TaxonomyController.js",
             "line": 29,
             "description": "Gets a list of taxonomies.",
@@ -2500,7 +2938,7 @@
         },
         {
             "file": "app\\server\\controllers\\UserController.js",
-            "line": 93,
+            "line": 98,
             "description": "Updates a user.",
             "itemtype": "method",
             "name": "updateEntityAction",
@@ -2578,7 +3016,7 @@
         },
         {
             "file": "app\\server\\controllers\\UserController.js",
-            "line": 148,
+            "line": 153,
             "description": "Gets an instance of the entity model associated to the controller.",
             "itemtype": "method",
             "name": "getModel",
@@ -3416,6 +3854,96 @@
             "module": "core-models"
         },
         {
+            "file": "app\\server\\models\\RoleModel.js",
+            "line": 72,
+            "description": "Removes one or several entities.\n\nExecute hook ROLES_DELETED.",
+            "itemtype": "method",
+            "name": "remove",
+            "async": 1,
+            "params": [
+                {
+                    "name": "ids",
+                    "description": "Id(s) of the document(s) to remove from the collection",
+                    "type": "String|Array"
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Number** The number of deleted entities",
+                    "type": "Function"
+                }
+            ],
+            "class": "RoleModel",
+            "module": "core-models"
+        },
+        {
+            "file": "app\\server\\models\\SettingModel.js",
+            "line": 25,
+            "description": "Adds a new setting.\n\nIf setting already exists with the given id, no addition is performed.",
+            "itemtype": "method",
+            "name": "add",
+            "async": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Setting data",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "id",
+                            "description": "Setting id",
+                            "type": "String"
+                        },
+                        {
+                            "name": "value",
+                            "description": "Setting value",
+                            "type": "Mixed"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Number** The total amount of items inserted\n  - **Object** The added setting",
+                    "type": "Function"
+                }
+            ],
+            "class": "SettingModel",
+            "module": "core-models"
+        },
+        {
+            "file": "app\\server\\models\\SettingModel.js",
+            "line": 61,
+            "description": "Updates a setting.\n\nIf setting does not exist it is automatically created.",
+            "itemtype": "method",
+            "name": "update",
+            "async": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "The id of setting to update",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Setting data",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "value",
+                            "description": "Setting value",
+                            "type": "Mixed"
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Number** The number of updated / added items",
+                    "type": "Function"
+                }
+            ],
+            "class": "SettingModel",
+            "module": "core-models"
+        },
+        {
             "file": "app\\server\\models\\TaxonomyModel.js",
             "line": 17,
             "description": "Creates a TaxonomyModel.",
@@ -3536,8 +4064,8 @@
         },
         {
             "file": "app\\server\\models\\UserModel.js",
-            "line": 30,
-            "description": "Gets a user by credentials.",
+            "line": 31,
+            "description": "Gets a local user by credentials.",
             "itemtype": "method",
             "name": "getUserByCredentials",
             "async": 1,
@@ -3563,7 +4091,7 @@
         },
         {
             "file": "app\\server\\models\\UserModel.js",
-            "line": 49,
+            "line": 50,
             "description": "Adds a new user.",
             "itemtype": "method",
             "name": "add",
@@ -3601,6 +4129,18 @@
                             "optional": true
                         },
                         {
+                            "name": "origin",
+                            "description": "User's origin, default to local",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "roles",
+                            "description": "User's role ids",
+                            "type": "Array",
+                            "optional": true
+                        },
+                        {
                             "name": "locked",
                             "description": "true to lock user from edition",
                             "type": "Boolean",
@@ -3621,7 +4161,7 @@
         },
         {
             "file": "app\\server\\models\\UserModel.js",
-            "line": 119,
+            "line": 121,
             "description": "Updates a user.",
             "itemtype": "method",
             "name": "update",
@@ -3668,6 +4208,145 @@
                     "name": "callback",
                     "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Number** The number of updated items",
                     "type": "Function"
+                }
+            ],
+            "class": "UserModel",
+            "module": "core-models"
+        },
+        {
+            "file": "app\\server\\models\\UserModel.js",
+            "line": 186,
+            "description": "Removes entities.\n\nExecute hook USERS_DELETED.",
+            "itemtype": "method",
+            "name": "remove",
+            "async": 1,
+            "params": [
+                {
+                    "name": "ids",
+                    "description": "Id(s) of the document(s) to remove from the collection",
+                    "type": "String|Array"
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Number** The number of deleted entities",
+                    "type": "Function"
+                }
+            ],
+            "class": "UserModel",
+            "module": "core-models"
+        },
+        {
+            "file": "app\\server\\models\\UserModel.js",
+            "line": 210,
+            "description": "Adds a third party provider user.",
+            "itemtype": "method",
+            "name": "addThirdPartyUser",
+            "async": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "A user object",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "name",
+                            "description": "User's name",
+                            "type": "String"
+                        },
+                        {
+                            "name": "email",
+                            "description": "User's email",
+                            "type": "String"
+                        },
+                        {
+                            "name": "id",
+                            "description": "User's id, if not specified an id will be generated",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "roles",
+                            "description": "User's role ids",
+                            "type": "Array",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "origin",
+                    "description": "Id of the third party provider system",
+                    "type": "String"
+                },
+                {
+                    "name": "originId",
+                    "description": "The user id in third party provider system",
+                    "type": "String"
+                },
+                {
+                    "name": "originGroups",
+                    "description": "The user groups in third party provider system",
+                    "type": "Array",
+                    "optional": true
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Number** The total amount of items inserted\n  - **Object** The inserted user",
+                    "type": "Function",
+                    "optional": true
+                }
+            ],
+            "class": "UserModel",
+            "module": "core-models"
+        },
+        {
+            "file": "app\\server\\models\\UserModel.js",
+            "line": 250,
+            "description": "Updates a third party provider user.",
+            "itemtype": "method",
+            "name": "updateThirdPartyUser",
+            "async": 1,
+            "params": [
+                {
+                    "name": "id",
+                    "description": "User id in OpenVeo",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "A user object",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "name",
+                            "description": "User's name",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "email",
+                            "description": "User's email",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "originGroups",
+                            "description": "User's groups in third party provider system",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "originGroups",
+                            "description": "User's groups in third party provider system",
+                            "type": "String",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Number** The total amount of items updates",
+                    "type": "Function",
+                    "optional": true
                 }
             ],
             "class": "UserModel",
@@ -3936,7 +4615,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePlugin.js",
-            "line": 27,
+            "line": 37,
             "description": "Core plugin name.",
             "itemtype": "property",
             "name": "name",
@@ -3946,7 +4625,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePlugin.js",
-            "line": 35,
+            "line": 45,
             "description": "Core plugin path.",
             "itemtype": "property",
             "name": "path",
@@ -3957,7 +4636,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePlugin.js",
-            "line": 44,
+            "line": 54,
             "description": "Core plugin mount path.",
             "itemtype": "property",
             "name": "mountPath",
@@ -3968,7 +4647,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePlugin.js",
-            "line": 53,
+            "line": 63,
             "description": "Core APIs.",
             "itemtype": "property",
             "name": "api",
@@ -3979,7 +4658,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePlugin.js",
-            "line": 62,
+            "line": 72,
             "description": "Core public router.",
             "itemtype": "property",
             "name": "router",
@@ -3990,7 +4669,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePlugin.js",
-            "line": 71,
+            "line": 81,
             "description": "Core private router.",
             "itemtype": "property",
             "name": "router",
@@ -4001,7 +4680,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePlugin.js",
-            "line": 80,
+            "line": 90,
             "description": "Core web service router.",
             "itemtype": "property",
             "name": "router",
@@ -4011,8 +4690,36 @@
             "module": "core-plugin"
         },
         {
+            "file": "app\\server\\plugin\\CorePlugin.js",
+            "line": 105,
+            "description": "Sets listeners on core hooks.",
+            "itemtype": "method",
+            "name": "setCoreListeners",
+            "access": "private",
+            "tagname": "",
+            "class": "CorePlugin",
+            "module": "core-plugin"
+        },
+        {
+            "file": "app\\server\\plugin\\CorePlugin.js",
+            "line": 117,
+            "description": "Prepares plugin by creating required database indexes.\n\nThis is automatically called by core application after plugin is loaded.",
+            "itemtype": "method",
+            "name": "init",
+            "async": 1,
+            "params": [
+                {
+                    "name": "callback",
+                    "description": "Function to call when it's done with :\n - **Error** An error if something went wrong, null otherwise",
+                    "type": "Function"
+                }
+            ],
+            "class": "CorePlugin",
+            "module": "core-plugin"
+        },
+        {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 38,
+            "line": 39,
             "description": "An instance of ClientModel.",
             "itemtype": "property",
             "name": "clientModel",
@@ -4022,7 +4729,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 46,
+            "line": 47,
             "description": "An instance of GroupModel.",
             "itemtype": "property",
             "name": "groupModel",
@@ -4032,7 +4739,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 54,
+            "line": 55,
             "description": "An instance of RoleModel.",
             "itemtype": "property",
             "name": "roleModel",
@@ -4042,7 +4749,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 62,
+            "line": 63,
             "description": "An instance of TaxonomyModel.",
             "itemtype": "property",
             "name": "taxonomyModel",
@@ -4052,7 +4759,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 70,
+            "line": 71,
             "description": "An instance of UserModel.",
             "itemtype": "property",
             "name": "userModel",
@@ -4062,7 +4769,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 84,
+            "line": 85,
             "description": "Gets the current database instance.",
             "itemtype": "method",
             "name": "getDatabase",
@@ -4075,7 +4782,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 94,
+            "line": 95,
             "description": "Gets the id of the super administrator.",
             "itemtype": "method",
             "name": "getSuperAdminId",
@@ -4088,7 +4795,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 104,
+            "line": 105,
             "description": "Gets the id of the anonymous user.",
             "itemtype": "method",
             "name": "getAnonymousUserId",
@@ -4101,7 +4808,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 114,
+            "line": 115,
             "description": "Gets the list of entities defined by plugins.",
             "itemtype": "method",
             "name": "getEntities",
@@ -4114,7 +4821,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 124,
+            "line": 125,
             "description": "Gets the list of permissions defined by plugins.",
             "itemtype": "method",
             "name": "getPermissions",
@@ -4127,7 +4834,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 134,
+            "line": 135,
             "description": "Gets the list of Web Service scopes defined by plugins.",
             "itemtype": "method",
             "name": "getWebServiceScopes",
@@ -4140,7 +4847,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 144,
+            "line": 145,
             "description": "Gets information about the application server.",
             "itemtype": "method",
             "name": "getServerConfiguration",
@@ -4153,7 +4860,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 158,
+            "line": 159,
             "description": "Gets a dictionary of translations by its name and language.\n\nSearch is made on i18n directory and all plugin's i18n directories.\nIf the same dictionary name is found twice (same file name in different i18n directories),\ndictionaries are merged.",
             "example": [
                 "\n    process.api.getCoreApi().getTranslations('login', 'fr-FR', function(error, translations) {\n      console.log(translations);\n    });",
@@ -4184,7 +4891,7 @@
         },
         {
             "file": "app\\server\\plugin\\CorePluginApi.js",
-            "line": 264,
+            "line": 265,
             "description": "Gets OpenVeo CDN url ending with a slash.",
             "itemtype": "method",
             "name": "getCdnUrl",
@@ -4193,6 +4900,65 @@
                 "type": "String"
             },
             "class": "CorePluginApi",
+            "module": "core-plugin"
+        },
+        {
+            "file": "app\\server\\plugin\\CorePluginApi.js",
+            "line": 275,
+            "description": "Gets core hooks.",
+            "itemtype": "method",
+            "name": "getHooks",
+            "return": {
+                "description": "The core hooks",
+                "type": "Object"
+            },
+            "class": "CorePluginApi",
+            "module": "core-plugin"
+        },
+        {
+            "file": "app\\server\\plugin\\hooks.js",
+            "line": 24,
+            "description": "One or several OpenVeo users have been deleted.\n\nWith:\n- **Array** The list of deleted user ids\n- **Function** The function to call when action is done",
+            "itemtype": "property",
+            "name": "USERS_DELETED",
+            "type": "String",
+            "default": "'users.deleted'",
+            "final": 1,
+            "class": "CORE_HOOKS",
+            "module": "core-plugin"
+        },
+        {
+            "file": "app\\server\\plugin\\hooks.js",
+            "line": 38,
+            "description": "One or several OpenVeo roles have been deleted.\n\nWith:\n- **Array** The list of deleted role ids\n- **Function** The function to call when action is done",
+            "itemtype": "property",
+            "name": "ROLES_DELETED",
+            "type": "String",
+            "default": "'roles.deleted'",
+            "final": 1,
+            "class": "CORE_HOOKS",
+            "module": "core-plugin"
+        },
+        {
+            "file": "app\\server\\plugin\\listener.js",
+            "line": 18,
+            "description": "Handles hook when roles have been deleted.\n\nDeleted roles have to be removed from users.",
+            "itemtype": "method",
+            "name": "onRolesDeleted",
+            "static": 1,
+            "params": [
+                {
+                    "name": "The",
+                    "description": "list of deleted role ids",
+                    "type": "Array"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to call when it's done\n - **Error** An error if something went wrong, null otherwise",
+                    "type": "Function"
+                }
+            ],
+            "class": "listener",
             "module": "core-plugin"
         },
         {
@@ -4377,7 +5143,7 @@
         {
             "file": "app\\server\\providers\\UserProvider.js",
             "line": 25,
-            "description": "Gets a user by its credentials.",
+            "description": "Gets a local user by its credentials.",
             "itemtype": "method",
             "name": "getUserByCredentials",
             "async": 1,
@@ -4403,8 +5169,8 @@
         },
         {
             "file": "app\\server\\providers\\UserProvider.js",
-            "line": 50,
-            "description": "Gets a user by its email.",
+            "line": 57,
+            "description": "Gets a local user by its email.",
             "itemtype": "method",
             "name": "getUserByEmail",
             "async": 1,
@@ -4425,7 +5191,7 @@
         },
         {
             "file": "app\\server\\providers\\UserProvider.js",
-            "line": 73,
+            "line": 87,
             "description": "Gets a user without its paswword.",
             "itemtype": "method",
             "name": "getOne",
@@ -4453,7 +5219,7 @@
         },
         {
             "file": "app\\server\\providers\\UserProvider.js",
-            "line": 98,
+            "line": 112,
             "description": "Creates users indexes.",
             "itemtype": "method",
             "name": "createIndexes",
@@ -4470,7 +5236,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 66,
+            "line": 72,
             "description": "List of path holding template engine views.",
             "itemtype": "property",
             "name": "viewsFolders",
@@ -4480,7 +5246,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 74,
+            "line": 80,
             "description": "Image styles for image processing.",
             "itemtype": "property",
             "name": "imagesStyle",
@@ -4491,7 +5257,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 83,
+            "line": 89,
             "description": "Back end menu description object.",
             "itemtype": "property",
             "name": "menu",
@@ -4501,7 +5267,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 91,
+            "line": 97,
             "description": "Migrations scripts to execute.",
             "itemtype": "property",
             "name": "migrations",
@@ -4512,7 +5278,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 100,
+            "line": 106,
             "description": "Socket server.",
             "itemtype": "property",
             "name": "socketServer",
@@ -4523,7 +5289,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 109,
+            "line": 115,
             "description": "Database session storage.",
             "itemtype": "property",
             "name": "sessionStore",
@@ -4533,7 +5299,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 117,
+            "line": 123,
             "description": "Express session middleware.",
             "itemtype": "property",
             "name": "sessionMiddleware",
@@ -4543,7 +5309,18 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 145,
+            "line": 151,
+            "description": "Initializes passport strategies to manage user authentication.",
+            "itemtype": "method",
+            "name": "initializePassport",
+            "access": "private",
+            "tagname": "",
+            "class": "ApplicationServer",
+            "module": "core-servers"
+        },
+        {
+            "file": "app\\server\\servers\\ApplicationServer.js",
+            "line": 216,
             "description": "Prepares the express application.",
             "itemtype": "method",
             "name": "onDatabaseAvailable",
@@ -4565,7 +5342,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 185,
+            "line": 250,
             "description": "Loads plugin.\n\nMounts plugin's assets directories, public router, private router, menu\nviews folders and permissions.",
             "itemtype": "method",
             "name": "onPluginLoaded",
@@ -4587,7 +5364,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 338,
+            "line": 403,
             "description": "Finalizes the ApplicationServer initialization.\n\nMounts the assets directories of core and plugins, sets views\nfolders, sets permissions and set default route and error handling.\nDefault route must load the main view due to AngularJS single\napplication.",
             "itemtype": "method",
             "name": "async",
@@ -4603,7 +5380,7 @@
         },
         {
             "file": "app\\server\\servers\\ApplicationServer.js",
-            "line": 379,
+            "line": 444,
             "description": "Starts the HTTP and socket servers.",
             "itemtype": "method",
             "name": "startServer",
@@ -4910,6 +5687,138 @@
             "module": "core"
         },
         {
+            "file": "app\\server\\authenticator.js",
+            "line": 27,
+            "description": "Populates user with detailed roles and permissions.",
+            "itemtype": "method",
+            "name": "populateUser",
+            "async": 1,
+            "params": [
+                {
+                    "name": "user",
+                    "description": "The user to populate",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "roles",
+                            "description": "The list of role ids",
+                            "type": "Array",
+                            "optional": true
+                        }
+                    ]
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Object** The populated user",
+                    "type": "Function"
+                }
+            ],
+            "class": "authenticator",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\authenticator.js",
+            "line": 54,
+            "description": "Serializes only essential user information required to retrieve it later.",
+            "itemtype": "method",
+            "name": "serializeUser",
+            "async": 1,
+            "static": 1,
+            "params": [
+                {
+                    "name": "user",
+                    "description": "The user to serialize",
+                    "type": "Object"
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **String** The serialized user information",
+                    "type": "Function"
+                }
+            ],
+            "class": "authenticator",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\authenticator.js",
+            "line": 72,
+            "description": "Fetches a user with its permissions from serialized data.",
+            "itemtype": "method",
+            "name": "deserializeUser",
+            "async": 1,
+            "static": 1,
+            "params": [
+                {
+                    "name": "data",
+                    "description": "Serialized data as serialized by serializeUser(), the id of the user",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "The function to call when it's done\n  - **Error** The error if an error occurred, null otherwise\n  - **Object** The user with its permissions",
+                    "type": "Function"
+                }
+            ],
+            "class": "authenticator",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\authenticator.js",
+            "line": 97,
+            "description": "Verifies a user as returned by the passport local strategy.",
+            "itemtype": "method",
+            "name": "verifyUserByCredentials",
+            "async": 1,
+            "static": 1,
+            "params": [
+                {
+                    "name": "email",
+                    "description": "User email",
+                    "type": "String"
+                },
+                {
+                    "name": "password",
+                    "description": "User password",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to call when its done\n - **Error** An error if something went wrong, null otherwise\n - **Object** The user with its permissions",
+                    "type": "Function"
+                }
+            ],
+            "class": "authenticator",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\authenticator.js",
+            "line": 121,
+            "description": "Verifies user as returned by third party providers.\n\nOpenVeo trusts users from third party providers, if the user does not exist in OpenVeo\nit is created with minimum information.",
+            "itemtype": "method",
+            "name": "verifyUserAuthentication",
+            "async": 1,
+            "static": 1,
+            "params": [
+                {
+                    "name": "thirdPartyUser",
+                    "description": "The user from the third party provider",
+                    "type": "Object"
+                },
+                {
+                    "name": "strategy",
+                    "description": "The id of the strategy",
+                    "type": "String"
+                },
+                {
+                    "name": "callback",
+                    "description": "Function to call when its done\n - **Error** An error if something went wrong, null otherwise\n - **Object** The user with its permissions",
+                    "type": "Function"
+                }
+            ],
+            "class": "authenticator",
+            "module": "core"
+        },
+        {
             "file": "app\\server\\httpErrors.js",
             "line": 23,
             "description": "A server error occurring when no error were specified.",
@@ -5021,7 +5930,62 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 145,
+            "line": 143,
+            "description": "A server error occurring when authenticating using an external provider (which require redirection).",
+            "itemtype": "property",
+            "name": "BACK_END_EXTERNAL_AUTHENTICATION_ERROR",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 155,
+            "description": "A server error occurring when getting the list of settings.",
+            "itemtype": "property",
+            "name": "GET_SETTINGS_ERROR",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 167,
+            "description": "A server error occurring when updating a setting.",
+            "itemtype": "property",
+            "name": "UPDATE_SETTINGS_ERROR",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 179,
+            "description": "A server error occurring when adding a setting.",
+            "itemtype": "property",
+            "name": "ADD_SETTINGS_ERROR",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 191,
+            "description": "A server error occurring when getting a setting.",
+            "itemtype": "property",
+            "name": "GET_SETTING_ERROR",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 205,
             "description": "A server error occurring when requested path does not exist.",
             "itemtype": "property",
             "name": "PATH_NOT_FOUND",
@@ -5032,7 +5996,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 157,
+            "line": 217,
             "description": "A server error occurring when requested dictionary does not exist.",
             "itemtype": "property",
             "name": "I18N_DICTIONARY_NOT_FOUND",
@@ -5043,7 +6007,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 169,
+            "line": 229,
             "description": "A server error occurring when requested taxonomy does not exist.",
             "itemtype": "property",
             "name": "GET_TAXONOMY_NOT_FOUND",
@@ -5054,7 +6018,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 183,
+            "line": 243,
             "description": "A server error occurring when user authentication to the back end failed.",
             "itemtype": "property",
             "name": "BACK_END_AUTHENTICATION_FAILED",
@@ -5065,7 +6029,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 195,
+            "line": 255,
             "description": "A server error occurring when a back end authentication is needed to perform the action.",
             "itemtype": "property",
             "name": "BACK_END_UNAUTHORIZED",
@@ -5076,7 +6040,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 207,
+            "line": 267,
             "description": "A server error occurring when user connected to the back end is not authorized to perform an action.",
             "itemtype": "property",
             "name": "BACK_END_FORBIDDEN",
@@ -5087,7 +6051,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 219,
+            "line": 279,
             "description": "A server error occurring when user connected to the Web Service is not authorized to perform an action.",
             "itemtype": "property",
             "name": "WS_FORBIDDEN",
@@ -5098,7 +6062,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 231,
+            "line": 291,
             "description": "A server error occurring when a Web Service authentication is needed to perform an action.",
             "itemtype": "property",
             "name": "WS_UNAUTHORIZED",
@@ -5109,7 +6073,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 243,
+            "line": 303,
             "description": "A server error occurring when connected user is not authorized to update a user.",
             "itemtype": "property",
             "name": "UPDATE_USER_FORBIDDEN",
@@ -5120,7 +6084,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 255,
+            "line": 315,
             "description": "A server error occurring when connected user is not authorized to update a taxonomy.",
             "itemtype": "property",
             "name": "GET_TAXONOMY_FORBIDDEN",
@@ -5131,7 +6095,18 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 269,
+            "line": 327,
+            "description": "A server error occurring when user authentication to the back end failed using an external provider.",
+            "itemtype": "property",
+            "name": "BACK_END_EXTERNAL_AUTHENTICATION_FAILED",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 341,
             "description": "A server error occurring when getting users with wrong parameters.",
             "itemtype": "property",
             "name": "GET_USERS_WRONG_PARAMETERS",
@@ -5142,7 +6117,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 281,
+            "line": 353,
             "description": "A server error occurring when updating a user with missing parameters.",
             "itemtype": "property",
             "name": "UPDATE_USER_MISSING_PARAMETERS",
@@ -5153,7 +6128,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 293,
+            "line": 365,
             "description": "A server error occurring when updating a user with wrong parameters.",
             "itemtype": "property",
             "name": "UPDATE_USER_WRONG_PARAMETERS",
@@ -5164,7 +6139,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 305,
+            "line": 377,
             "description": "A server error occurring when getting taxonomies with wrong parameters.",
             "itemtype": "property",
             "name": "GET_TAXONOMIES_WRONG_PARAMETERS",
@@ -5175,7 +6150,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 317,
+            "line": 389,
             "description": "A server error occurring when getting applications with wrong parameters.",
             "itemtype": "property",
             "name": "GET_APPLICATIONS_WRONG_PARAMETERS",
@@ -5186,7 +6161,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 329,
+            "line": 401,
             "description": "A server error occurring when getting groups with wrong parameters.",
             "itemtype": "property",
             "name": "GET_GROUPS_WRONG_PARAMETERS",
@@ -5197,7 +6172,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 341,
+            "line": 413,
             "description": "A server error occurring when getting roles with wrong parameters.",
             "itemtype": "property",
             "name": "GET_ROLES_WRONG_PARAMETERS",
@@ -5208,7 +6183,7 @@
         },
         {
             "file": "app\\server\\httpErrors.js",
-            "line": 353,
+            "line": 425,
             "description": "A server error occurring when getting taxonomy terms with missing parameters.",
             "itemtype": "property",
             "name": "GET_TAXONOMY_TERMS_MISSING_PARAMETERS",
@@ -5218,27 +6193,80 @@
             "module": "core"
         },
         {
-            "file": "app\\server\\passport.js",
-            "line": 12,
-            "description": "Gets user roles details.",
-            "async": 1,
-            "itemtype": "method",
-            "name": "getUserRoles",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "user",
-                    "description": "The user",
-                    "type": "Object"
-                },
-                {
-                    "name": "callback",
-                    "description": "Function to call when its done\n - *Error* An error if something went wrong, null otherwise\n - *Object* The upgraded user with roles details",
-                    "type": "Function"
-                }
-            ],
-            "class": "path",
+            "file": "app\\server\\httpErrors.js",
+            "line": 437,
+            "description": "A server error occurring when authenticating to an internal provider using wrong parameters.",
+            "itemtype": "property",
+            "name": "AUTHENTICATE_INTERNAL_WRONG_PARAMETERS",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 449,
+            "description": "A server error occurring when authenticating to an external provider using wrong parameters.",
+            "itemtype": "property",
+            "name": "AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 461,
+            "description": "A server error occurring when getting settings with wrong parameters.",
+            "itemtype": "property",
+            "name": "GET_SETTINGS_WRONG_PARAMETERS",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 473,
+            "description": "A server error occurring when updating a setting with missing parameters.",
+            "itemtype": "property",
+            "name": "UPDATE_SETTINGS_MISSING_PARAMETERS",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 485,
+            "description": "A server error occurring when adding a setting with missing parameters.",
+            "itemtype": "property",
+            "name": "ADD_SETTINGS_MISSING_PARAMETERS",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 497,
+            "description": "A server error occurring when adding setting with wrong parameters.",
+            "itemtype": "property",
+            "name": "ADD_SETTINGS_WRONG_PARAMETERS",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
+            "module": "core"
+        },
+        {
+            "file": "app\\server\\httpErrors.js",
+            "line": 509,
+            "description": "A server error occurring when getting a setting with missing parameters.",
+            "itemtype": "property",
+            "name": "GET_SETTING_MISSING_PARAMETERS",
+            "type": "Object",
+            "final": 1,
+            "class": "HTTP_ERRORS",
             "module": "core"
         },
         {

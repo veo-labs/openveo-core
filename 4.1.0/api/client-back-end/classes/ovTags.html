@@ -45,6 +45,7 @@
                                 <li><a href="../classes/entityService.html">entityService</a></li>
                                 <li><a href="../classes/i18nService.html">i18nService</a></li>
                                 <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
                                 <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
                                 <li><a href="../classes/ovTags.html">ovTags</a></li>
                                 <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
@@ -114,6 +115,23 @@
 <div class="intro">
     <p>Creates a new Angular directive as an HTML element ov-tags to be able to create a tags form element.</p>
 <p>Tags form element is composed of an input element to add tags followed by the list of added tags.</p>
+<p>Attributes are:</p>
+<ul>
+<li>ov-available-options to define possible values. If set, only values inside ov-available-options can
+be added and auto-completion is activated. (This must be an assignable variable evaluated as an array)
+e.g.
+[
+{
+name: 'First name',
+value: 'firstValue'
+}
+{
+name: 'Second name',
+value: 'secondValue'
+}
+];</li>
+<li>ov-placeholder to set the input placeholder</li>
+</ul>
 
 </div>
 
