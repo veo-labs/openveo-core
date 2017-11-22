@@ -40,27 +40,29 @@ When launching tests, OpenVeo HTTP server, socket server, CAS mock server and LD
     "socketPort": 3004,
     "browserSocketPort": 3004,
     "sessionSecret": "2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx",
-    "cas": {
-      "version": "3",
-      "service": "http://127.0.0.1/be/authenticate/cas",
-      "url": "http://127.0.0.1:3005",
-      "userIdAttribute": "name",
-      "userNameAttribute": "attributes.name",
-      "userEmailAttribute": "attributes.mail",
-      "userGroupAttribute": "attributes.groups"
-    },
-    "ldapauth": {
-      "searchFilter": "cn={{username}}",
-      "url": "ldap://127.0.0.1:3006",
-      "bindAttribute": "dn",
-      "bindDn": "cn=openveo,dc=test",
-      "bindPassword": "test",
-      "searchBase": "dc=test",
-      "searchScope": "sub",
-      "userGroupAttribute": "group",
-      "userIdAttribute": "dn",
-      "userNameAttribute": "cn",
-      "userEmailAttribute": "mail"
+    "auth": {
+      "cas": {
+        "version": "3",
+        "service": "http://127.0.0.1:3003/be/authenticate/cas",
+        "url": "http://127.0.0.1:3005",
+        "userIdAttribute": "name",
+        "userNameAttribute": "attributes.name",
+        "userEmailAttribute": "attributes.mail",
+        "userGroupAttribute": "attributes.groups"
+      },
+      "ldapauth": {
+        "searchFilter": "(&(objectclass=person)(cn={{username}}))",
+        "url": "ldap://127.0.0.1:3006",
+        "bindAttribute": "dn",
+        "bindDn": "cn=openveo,dc=test",
+        "bindPassword": "test",
+        "searchBase": "dc=test",
+        "searchScope": "sub",
+        "userGroupAttribute": "groups",
+        "userIdAttribute": "dn",
+        "userNameAttribute": "cn",
+        "userEmailAttribute": "mail"
+      }
     }
   },
   "ws": {
