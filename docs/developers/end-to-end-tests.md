@@ -81,14 +81,14 @@ Finally the logger has to be configured through **loggerTestConf.json**. Typical
     "level": "info",
     "maxFileSize": 1048576,
     "maxFiles": 2,
-    "fileName": "C:/Users/Vodalys/AppData/Local/Temp/openveo/logs/openveo.log",
+    "fileName": "/tmp/openveo/logs/openveoTest.log",
     "console": false
   },
   "ws": {
     "level": "info",
     "maxFileSize": 1048576,
     "maxFiles": 2,
-    "fileName": "C:/Users/Vodalys/AppData/Local/Temp/openveo/logs/openveo-ws.log",
+    "fileName": "/tmp/openveo/logs/openveoTest-ws.log",
     "console": false
   }
 }
