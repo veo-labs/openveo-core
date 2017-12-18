@@ -102,7 +102,7 @@
       link: function(scope, element, attrs) {
         scope.show = function() {
           scope.isEmpty = scope.model[scope.options.key] ? false : true;
-          return scope.model[scope.options.key] || 'CORE.UI.EMPTY';
+          return scope.model[scope.options.key] || $filter('translate')('CORE.UI.EMPTY');
         };
       }
     });
@@ -128,7 +128,7 @@
           });
 
           scope.isEmpty = labels.length ? false : true;
-          return labels.length ? labels.join(', ') : 'CORE.UI.EMPTY';
+          return labels.length ? labels.join(', ') : $filter('translate')('CORE.UI.EMPTY');
         };
       }
     });
@@ -140,7 +140,7 @@
         scope.show = function() {
           var tags = scope.model[scope.options.key];
           scope.isEmpty = tags && tags.length ? false : true;
-          return tags && tags.join(', ') || 'CORE.UI.EMPTY';
+          return tags && tags.join(', ') || $filter('translate')('CORE.UI.EMPTY');
         };
       }
     });
@@ -160,7 +160,7 @@
             }
           });
           scope.isEmpty = selected.length ? false : true;
-          return selected.length ? selected.join(', ') : 'CORE.UI.EMPTY';
+          return selected.length ? selected.join(', ') : $filter('translate')('CORE.UI.EMPTY');
         };
       }
     });
@@ -184,7 +184,7 @@
       link: function(scope) {
         scope.show = function() {
           scope.isEmpty = scope.model[scope.options.key] ? false : true;
-          return scope.model[scope.options.key] || 'CORE.UI.EMPTY';
+          return scope.model[scope.options.key] || $filter('translate')('CORE.UI.EMPTY');
         };
       }
     });
