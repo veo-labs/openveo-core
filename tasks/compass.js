@@ -9,7 +9,8 @@ module.exports = {
       fontsDir: '<%= project.font %>',
       httpFontsPath: '<%= project.fontHttpPath %>',
       environment: 'development',
-      force: true
+      force: true,
+      raw: '::Sass::Script::Number.precision = 10\n'
     }
   },
   dist: {
@@ -21,7 +22,8 @@ module.exports = {
       httpFontsPath: '<%= project.fontHttpPath %>',
       environment: 'production',
       outputStyle: 'compressed',
-      force: true
+      force: true,
+      raw: '::Sass::Script::Number.precision = 10\n'
     }
   }
 };
