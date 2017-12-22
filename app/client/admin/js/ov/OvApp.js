@@ -70,6 +70,15 @@
 
     // Formly types
     formlyConfig.setType({
+      name: 'datepicker',
+      templateUrl: 'ov-core-formly-datepicker.html',
+      defaultOptions: {
+        validation: {
+          show: true
+        }
+      }
+    });
+    formlyConfig.setType({
       name: 'tags',
       templateUrl: 'ov-core-formly-tags.html',
       defaultOptions: {
@@ -129,6 +138,21 @@
 
           scope.isEmpty = labels.length ? false : true;
           return labels.length ? labels.join(', ') : $filter('translate')('CORE.UI.EMPTY');
+        };
+      }
+    });
+    formlyConfig.setType({
+      name: 'editableDatepicker',
+      extends: 'datepicker',
+      link: function(scope, element, attrs) {
+        scope.status = {opened: false};
+
+        scope.open = function() {
+          scope.status.opened = true;
+        };
+
+        scope.show = function() {
+          return $filter('date')(scope.model[scope.options.key], 'shortDate');
         };
       }
     });
@@ -240,6 +264,16 @@
     formlyConfig.setType({
       name: 'horizontalEditableInput',
       extends: 'editableInput',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalDatepicker',
+      extends: 'datepicker',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalEditableDatepicker',
+      extends: 'editableDatepicker',
       wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({

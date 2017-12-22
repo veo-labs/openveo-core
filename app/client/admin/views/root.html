@@ -240,6 +240,16 @@
       <h3 ng-bind="to.title"></h3>
     </script>
 
+    <!-- Formly "datepicker" type template -->
+    <script type="text/ng-template" id="ov-core-formly-datepicker.html">
+      <div class="input-group">
+        <input ng-model="model[options.key]" class="form-control" uib-datepicker-popup="shortDate" is-open="status.opened" ng-required="true" current-text="{{'CORE.DATEPICKER.TODAY' | translate}}" clear-text="{{'CORE.DATEPICKER.CLEAR' | translate}}" close-text="{{'CORE.DATEPICKER.CLOSE' | translate}}">
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+    </script>
+
     <!-- Formly "tags" type template -->
     <script type="text/ng-template" id="ov-core-formly-tags.html">
       <ov-tags ng-model="model[options.key]"
