@@ -76,6 +76,13 @@
         validation: {
           show: true
         }
+      },
+      link: function(scope, element, attrs) {
+        scope.status = {opened: false};
+
+        scope.open = function() {
+          scope.status.opened = true;
+        };
       }
     });
     formlyConfig.setType({
@@ -145,12 +152,6 @@
       name: 'editableDatepicker',
       extends: 'datepicker',
       link: function(scope, element, attrs) {
-        scope.status = {opened: false};
-
-        scope.open = function() {
-          scope.status.opened = true;
-        };
-
         scope.show = function() {
           return $filter('date')(scope.model[scope.options.key], 'shortDate');
         };
