@@ -115,32 +115,25 @@
 
     // When submit the form
     this.onSubmit = function() {
-      if ($scope.editFormContainer.onSubmit) {
-        self.model.saving = true;
+      self.model.saving = true;
 
-        // Call submit function must return Promises
-        $scope.editFormContainer.onSubmit(self.model).then(function() {
+      // Call submit function must return Promises
+      $scope.editFormContainer.onSubmit(self.model).then(function() {
 
-          // on success
-          // save value in the fields as initial value
-          self.options.updateInitialValue();
-          self.model.saving = false;
-          self.options.formState.showForm = false;
-          tableReloadEventService.broadcast();
-        }, function() {
+        // on success
+        // save value in the fields as initial value
+        self.options.updateInitialValue();
+        self.model.saving = false;
+        self.options.formState.showForm = false;
+        tableReloadEventService.broadcast();
+      }, function() {
 
-          // on error
-          // reset the form
-          self.options.resetModel();
-          $scope.$emit('setAlert', 'danger', $filter('translate')('CORE.UI.SAVE_ERROR'), 4000);
-          self.model.saving = false;
-          self.model = oldEditModel;
-        });
-      } else {
-
-        // if there is no submit function : alert
-        $scope.$emit('setAlert', 'danger', $filter('translate')('CORE.UI.SAVE_ERROR'), 4000);
-      }
+        // on error
+        // reset the form
+        self.options.resetModel();
+        self.model.saving = false;
+        self.model = oldEditModel;
+      });
     };
 
     // Toggle between show and editable information

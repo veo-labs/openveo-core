@@ -6,6 +6,7 @@
 
 ## BUG FIXES
 
+- Remove duplicate error alert in dataTable edit form when submission fails
 - Fix image processing which wasn't working since version 4.0.0. Requesting an image using image styles weren't working, the original file was always delivered instead of the resized one. Image processing now expects the **style** parameter instead of the **thumb** parameter. For example to request an image *my-image.jpg* and apply the style "my-style" you may now use my-image.jpg?**style**=my-style instead of my-image.jpg?**thumb**=my-style
 
 ## DEPENDENCIES
