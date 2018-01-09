@@ -1,3 +1,18 @@
+# 5.0.0 / YYYY-YY-YY
+
+## BREAKING CHANGES
+
+- Image processing configuration has changed. To clarify and facilitate further development on image processing, configuration has changed. It is now possible to specify a cache directory by images folder, also quality can be specified by style. Please have a look at the [documentation](https://github.com/veo-labs/openveo-plugin-generator) to find out the new way of configuring image processing
+
+## BUG FIXES
+
+- Fix image processing which wasn't working since version 4.0.0. Requesting an image using image styles weren't working, the original file was always delivered instead of the resized one. Image processing now expects the **style** parameter instead of the **thumb** parameter. For example to request an image *my-image.jpg* and apply the style "my-style" you may now use my-image.jpg?**style**=my-style instead of my-image.jpg?**thumb**=my-style
+
+## DEPENDENCIES
+
+- **gm** has been moved to OpenVeo API
+- **imagemagick** has been moved to OpenVeo API
+
 # 4.2.0 / 2017-10-19
 
 ## NEW FEATURES

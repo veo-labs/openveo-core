@@ -427,19 +427,23 @@ module.exports.loadPluginMetadata = function(plugin, callback) {
               }
 
               // Got images thumbnailable folders for this plugin
-              var pluginImageProc = pluginConf['imageProcessing'];
+              var imageProcessing = pluginConf.imageProcessing;
 
-              if (pluginImageProc) {
-                if (pluginImageProc['imagesFolders'] && pluginImageProc['imagesFolders'].length) {
-                  plugin.imagesFolders = [];
-                  pluginImageProc['imagesFolders'].forEach(function(imagesFolders) {
-                    plugin.imagesFolders.push(path.join(plugin.path, imagesFolders));
+              if (imageProcessing) {
+                if (imageProcessing.folders && imageProcessing.folders.length) {
+                  plugin.imageProcessingFolders = [];
+                  imageProcessing.folders.forEach(function(folder) {
+                    folder.imagesDirectory = path.join(plugin.path, folder.imagesDirectory);
+
+                    if (folder.cacheDirectory)
+                      folder.cacheDirectory = path.join(plugin.path, folder.cacheDirectory);
+
+                    plugin.imageProcessingFolders.push(folder);
                   });
-                  if (pluginImageProc['imagesStyle']) {
-                    plugin.imagesStyle = pluginImageProc['imagesStyle'];
-                  }
-                }
 
+                  if (imageProcessing.styles && imageProcessing.styles.length)
+                    plugin.imageProcessingStyles = imageProcessing.styles;
+                }
               }
 
               // Retrieve routes and back end conf from plugin conf

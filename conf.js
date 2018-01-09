@@ -196,9 +196,5 @@ module.exports = {
   },
   viewsFolders: [
     'app/client/admin/views'
-  ],
-  imageProcessing: {
-    imagesFolders: [],
-    imagesStyle: {}
-  }
+  ]
 };

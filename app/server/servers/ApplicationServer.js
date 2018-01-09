@@ -22,7 +22,6 @@ var entityLoader = process.require('app/server/loaders/entityLoader.js');
 var namespaceLoader = process.require('app/server/loaders/namespaceLoader.js');
 var DefaultController = process.require('app/server/controllers/DefaultController.js');
 var ErrorController = process.require('app/server/controllers/ErrorController.js');
-var expressThumbnail = process.require('app/server/servers/ExpressThumbnail.js');
 var storage = process.require('app/server/storage.js');
 var authenticator = process.require('app/server/authenticator.js');
 var SocketServer = openVeoApi.socket.SocketServer;
@@ -255,6 +254,7 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   var self = this;
   process.logger.info('Start loading plugin ' + plugin.name);
 
+
   // If plugin has an assets directory, it will be loaded as a static server
   if (plugin.assets && plugin.mountPath) {
     process.logger.info('Mount ' + plugin.assets + ' on ' + plugin.mountPath);
@@ -308,22 +308,25 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
     this.migrations[plugin.name] = plugin.migrations;
 
   // Found images folders to process
-  if (plugin.imagesFolders) {
-    var imagesStyles = {};
+  if (plugin.imageProcessingFolders) {
 
-    if (plugin.imagesStyle) {
-      for (var attrname in plugin.imagesStyle)
-        imagesStyles[attrname] = plugin.imagesStyle[attrname];
-    }
+    // Set thumbnail processor on images folders
+    plugin.imageProcessingFolders.forEach(function(folder) {
+      process.logger.info('Mount ' + folder.imagesDirectory + ' images processor on ' + plugin.mountPath);
+      self.httpServer.use(
+        plugin.mountPath,
+        openVeoApi.middlewares.imageProcessorMiddleware(
+          folder.imagesDirectory,
+          folder.cacheDirectory,
+          plugin.imageProcessingStyles,
+          staticHeaders
+        )
+      );
 
-    // Set thumbnail generator on image folders
-    plugin.imagesFolders.forEach(function(folder) {
-      process.logger.info('Mount ' + folder + ' thumbnail generator on ' + plugin.mountPath);
-      self.httpServer.use(plugin.mountPath, expressThumbnail.register(folder + '/', {
-        imagesStyle: imagesStyles,
-        headers: staticHeaders
-      }));
+      process.logger.info('Mount ' + folder.imagesDirectory + ' on ' + plugin.mountPath);
+      self.httpServer.use(plugin.mountPath, express.static(folder.imagesDirectory, staticServerOptions));
     });
+
   }
 
   // Found namespaces for the plugin
