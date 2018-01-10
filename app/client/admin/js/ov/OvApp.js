@@ -248,6 +248,11 @@
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({
+      name: 'horizontalEditableFile',
+      extends: 'horizontalFile',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
       name: 'horizontalTinymce',
       extends: 'ovTinymce',
       wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
