@@ -312,12 +312,14 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
 
     // Set thumbnail processor on images folders
     plugin.imageProcessingFolders.forEach(function(folder) {
+      var cacheDirectory = folder.cacheDirectory || path.join(folder.imagesDirectory, '.cache');
+
       process.logger.info('Mount ' + folder.imagesDirectory + ' images processor on ' + plugin.mountPath);
       self.httpServer.use(
         plugin.mountPath,
         openVeoApi.middlewares.imageProcessorMiddleware(
           folder.imagesDirectory,
-          folder.cacheDirectory,
+          cacheDirectory,
           plugin.imageProcessingStyles,
           staticHeaders
         )
