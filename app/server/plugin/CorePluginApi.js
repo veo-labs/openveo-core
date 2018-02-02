@@ -281,3 +281,37 @@ CorePluginApi.prototype.getCdnUrl = function() {
 CorePluginApi.prototype.getHooks = function() {
   return CORE_HOOKS;
 };
+
+/**
+ * Clear image cache
+ *
+ * @param string imagePath    Relative image path
+ * @param string pluginName   Plugin name
+ * @param {Function} callback Function to call when its done
+ * @method clearImageCache
+ */
+CorePluginApi.prototype.clearImageCache = function(imagePath, pluginName, callback) {
+  var plugin = process.api.getPlugin(pluginName);
+
+  if (null === plugin)
+    return callback(new Error('Failed to clear "' + imagePath + '" image cache: unknown plugin "' + pluginName + '".'));
+
+  plugin.imageProcessingFolders.forEach(function(folder) {
+    var cacheDirectory = folder.cacheDirectory || path.join(folder.imagesDirectory, '.cache');
+
+    plugin.imageProcessingStyles.forEach(function(style) {
+      var imageAbsPath = path.join(cacheDirectory, style.id, imagePath);
+
+      fs.stat(imageAbsPath, function(err, stats) {
+        if (err) return;
+
+        fs.unlink(imageAbsPath, function(err) {
+          if (err)
+            process.logger.error(err.message);
+        });
+      });
+    });
+  });
+
+  callback();
+};
