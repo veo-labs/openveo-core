@@ -116,7 +116,7 @@ When launching end to end tests, several things happen before the first test is 
 
 ## Add users, roles, groups and application before tests
 
-Users, roles, groups and applications can be added before tests are launched using **tests/client/e2eTests/database/data.json** configuration file.
+Users, roles, groups and applications can be added before tests are launched using **tests/client/e2eTests/resources/data.json** configuration file.
 
 Structure is as follow:
 
