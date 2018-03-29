@@ -1,7 +1,9 @@
 'use strict';
 
 var async = require('async');
+var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
+var databaseErrors = openVeoApi.storages.databaseErrors;
 
 var db = storage.getDatabase();
 
@@ -12,55 +14,38 @@ module.exports.update = function(callback) {
     // Prefix collection with the module name : core
     function(callback) {
       db.renameCollection('clients', 'core_clients', function(error) {
+        if (error && error.code === databaseErrors.RENAME_COLLECTION_NOT_FOUND_ERROR) return callback();
         callback(error);
       });
     },
     function(callback) {
       db.renameCollection('roles', 'core_roles', function(error) {
+        if (error && error.code === databaseErrors.RENAME_COLLECTION_NOT_FOUND_ERROR) return callback();
         callback(error);
       });
     },
     function(callback) {
       db.renameCollection('taxonomy', 'core_taxonomies', function(error) {
+        if (error && error.code === databaseErrors.RENAME_COLLECTION_NOT_FOUND_ERROR) return callback();
         callback(error);
       });
     },
     function(callback) {
       db.renameCollection('tokens', 'core_tokens', function(error) {
+        if (error && error.code === databaseErrors.RENAME_COLLECTION_NOT_FOUND_ERROR) return callback();
         callback(error);
       });
     },
     function(callback) {
       db.renameCollection('users', 'core_users', function(error) {
+        if (error && error.code === databaseErrors.RENAME_COLLECTION_NOT_FOUND_ERROR) return callback();
         callback(error);
       });
     },
-
-    // Get Sessions datas and remove collection
     function(callback) {
-      db.get('sessions', {}, null, null, function(error, value) {
-        if (error) {
-          callback(error);
-          return;
-        }
-
-        // No need to change anything
-        if (!value || !value.length) return callback();
-
-        else {
-          async.series([
-            function(callback) {
-              db.insert('core_sessions', value, function(error) {
-                callback(error);
-              });
-            },
-            function(callback) {
-              db.removeCollection('sessions', function(error) {
-                callback(error);
-              });
-            }
-          ], callback);
-        }
+      db.renameCollection('sessions', 'core_sessions', function(error) {
+        if (error && error.code === databaseErrors.RENAME_COLLECTION_NOT_FOUND_ERROR) return callback();
+        callback(error);
       });
     },
 
