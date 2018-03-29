@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@openveo/rest-nodejs-client": "2.*",
-    "@openveo/test": "5.*",
+    "@openveo/test": "6.*",
     "chai": "4.0.2",
     "chai-spies": "0.7.1",
     "chai-as-promised": "7.1.1",
@@ -79,7 +79,8 @@
     "yuidoc-theme-blue": "0.1.9",
     "flightplan": "0.6.17",
     "cas-server-mock": "1.*",
-    "ldap-server-mock": "1.*"
+    "ldap-server-mock": "1.*",
+    "mock-require": "3.0.1"
   },
   "scripts": {
     "prepublish": "grunt prod",

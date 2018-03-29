@@ -4,7 +4,6 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var SettingPage = process.require('tests/client/e2eTests/pages/SettingPage.js');
 var SettingHelper = process.require('tests/client/e2eTests/helpers/SettingHelper.js');
-var SettingModel = process.require('app/server/models/SettingModel.js');
 var SettingProvider = process.require('app/server/providers/SettingProvider.js');
 var storage = process.require('app/server/storage.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
@@ -20,8 +19,8 @@ describe('Settings page', function() {
 
   // Prepare page
   before(function() {
-    var model = new SettingModel(new SettingProvider(storage.getDatabase()));
-    settingHelper = new SettingHelper(model);
+    var provider = new SettingProvider(storage.getDatabase());
+    settingHelper = new SettingHelper(provider);
     page = new SettingPage();
   });
 
@@ -88,20 +87,6 @@ describe('Settings page', function() {
     afterEach(function() {
       settingHelper.removeAllEntities(defaultSettings);
       page.refresh();
-    });
-
-    it('should not be able to edit a setting', function() {
-      page.setMatchFieldValue(page.translations.CORE.SETTINGS.CAS.GROUP_ASSOC_LABEL, [
-        {
-          text: 'Test setting edition without update permission',
-          tags: []
-        }
-      ]);
-      page.saveSettings();
-
-      page.getAlertMessages().then(function(messages) {
-        assert.equal(messages.length, 1, 'Wrong number of messages');
-      });
     });
 
     it('should not be able to edit a setting by requesting the server directly', function() {

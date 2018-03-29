@@ -6,11 +6,11 @@
 
 var util = require('util');
 var openVeoApi = require('@openveo/api');
-var ClientModel = process.require('app/server/models/ClientModel.js');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 var errors = process.require('app/server/httpErrors.js');
 var storage = process.require('app/server/storage.js');
 var EntityController = openVeoApi.controllers.EntityController;
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 /**
  * Defines an entity controller to handle requests relative to the Web Service client applications and scopes.
@@ -50,25 +50,42 @@ ApplicationController.prototype.getScopesAction = function(request, response) {
 };
 
 /**
- * Gets a list of applications.
+ * Gets applications.
+ *
+ * @example
+ *
+ *     // Response example
+ *     {
+ *       "entities" : [ ... ],
+ *       "pagination" : {
+ *         "limit": ..., // The limit number of applications by page
+ *         "page": ..., // The actual page
+ *         "pages": ..., // The total number of pages
+ *         "size": ... // The total number of applications
+ *     }
  *
  * @method getEntitiesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} [request.query] Request's query parameters
+ * @param {String|Array} [request.query.include] The list of fields to include from returned applications
+ * @param {String|Array} [request.query.exclude] The list of fields to exclude from returned applications. Ignored if
+ * include is also specified.
  * @param {String} [request.query.query] Search query to search on application name
- * @param {Number} [request.query.page=1] The expected page in pagination system
- * @param {Number} [request.query.limit] The maximum number of expected results
- * @param {String} [request.query.sortBy=name] To sort by property name (only "name" is available right now)
- * @param {String} [request.query.sortOrder=desc] The sort order (either "asc" or "desc")
+ * @param {Number} [request.query.page=0] The expected page in pagination system
+ * @param {Number} [request.query.limit=10] The maximum number of expected results
+ * @param {String} [request.query.sortBy="name"] The application field To sort by (only "name" is available right now)
+ * @param {String} [request.query.sortOrder="desc"] The sort order (either "asc" or "desc")
  * @param {Response} response ExpressJS HTTP Response
  * @param {Function} next Function to defer execution to the next registered middleware
  */
 ApplicationController.prototype.getEntitiesAction = function(request, response, next) {
-  var model = this.getModel(request);
+  var provider = this.getProvider();
   var params;
 
   try {
     params = openVeoApi.util.shallowValidateObject(request.query, {
+      include: {type: 'array<string>'},
+      exclude: {type: 'array<string>'},
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gte: 0, default: 0},
@@ -81,31 +98,30 @@ ApplicationController.prototype.getEntitiesAction = function(request, response, 
 
   // Build sort
   var sort = {};
-  sort[params.sortBy] = params.sortOrder === 'asc' ? 1 : -1;
+  sort[params.sortBy] = params.sortOrder;
 
   // Build filter
-  var filter = {};
+  var filter = new ResourceFilter();
 
   // Add search query
-  if (params.query) {
-    filter.$text = {
-      $search: '"' + params.query + '"'
-    };
-  }
+  if (params.query) filter.search('"' + params.query + '"');
 
-  model.getPaginatedFilteredEntities(
+  provider.get(
     filter,
+    {
+      exclude: params.exclude,
+      include: params.include
+    },
     params.limit,
     params.page,
     sort,
-    null,
-    function(error, entities, pagination) {
+    function(error, clients, pagination) {
       if (error) {
         process.logger.error(error.message, {error: error, method: 'getEntitiesAction'});
         next(errors.GET_APPLICATIONS_ERROR);
       } else {
         response.send({
-          entities: entities,
+          entities: clients,
           pagination: pagination
         });
       }
@@ -114,11 +130,11 @@ ApplicationController.prototype.getEntitiesAction = function(request, response, 
 };
 
 /**
- * Gets an instance of the entity model associated to the controller.
+ * Gets an instance of the provider associated to the controller.
  *
- * @method getModel
- * @return {EntityModel} The entity model
+ * @method getProvider
+ * @return {ClientProvider} The provider
  */
-ApplicationController.prototype.getModel = function() {
-  return new ClientModel(new ClientProvider(process.api.getCoreApi().getDatabase()));
+ApplicationController.prototype.getProvider = function() {
+  return new ClientProvider(process.api.getCoreApi().getDatabase());
 };

@@ -5,7 +5,7 @@
   /**
    * Defines the role controller for the role page.
    */
-  function RoleController($scope, $filter, entityService, userService, permissions) {
+  function RoleController($scope, $filter, entityService, permissions) {
     var entityType = 'roles';
 
     /**
@@ -50,7 +50,6 @@
       var entity = getEntitiesFromModel(role);
       return entityService.updateEntity(entityType, null, role.id, entity).then(function() {
         role.permissions = angular.copy(entity.permissions);
-        userService.cacheClear(entityType);
       });
     }
 
@@ -62,9 +61,8 @@
      */
     function addRole(role) {
       var entity = getEntitiesFromModel(role);
-      return entityService.addEntity(entityType, null, entity).then(function() {
+      return entityService.addEntities(entityType, null, [entity]).then(function() {
         role.permissions = angular.copy(entity.permissions);
-        userService.cacheClear(entityType);
       });
     }
 
@@ -95,9 +93,8 @@
      * @param {Function} reload The reload Function to force reloading the table
      */
     function removeRows(selected, reload) {
-      entityService.removeEntity(entityType, null, selected.join(','))
+      entityService.removeEntities(entityType, null, selected.join(','))
         .then(function() {
-          userService.cacheClear(entityType);
           $scope.$emit('setAlert', 'success', $filter('translate')('CORE.ROLES.REMOVE_SUCCESS'), 4000);
           reload();
         });
@@ -283,6 +280,6 @@
   }
 
   app.controller('RoleController', RoleController);
-  RoleController.$inject = ['$scope', '$filter', 'entityService', 'userService', 'permissions'];
+  RoleController.$inject = ['$scope', '$filter', 'entityService', 'permissions'];
 
 })(angular.module('ov'));

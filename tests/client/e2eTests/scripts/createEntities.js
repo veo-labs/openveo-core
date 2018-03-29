@@ -20,28 +20,17 @@ var entitiesFilePath = 'tests/client/e2eTests/resources/entities.json';
 var aggregatedEntitiesFilePath = path.join(process.root, 'tests/client/e2eTests/build/entities.json');
 
 /**
- * Transforms all entities model and helper relative path to absolute path.
+ * Transforms all entities provider and helper relative path to absolute path.
  *
- * By default all entities model and helper are relative to plugin's root path.
+ * By default all entities provider and helper are relative to plugin's root path.
  *
  * @param {Array} entities The list of entities
  * @param {String} basePath Base absolute path for these entities
  */
 function setEntitiesAbsolutePath(entities, basePath) {
   entities.forEach(function(entity) {
-    if (entity.model)
-      entity.model = path.join(basePath, entity.model);
-
-    if (entity.modelParameters) {
-      var modelParameters = [];
-      entity.modelParameters.forEach(function(parameter) {
-        if (parameter)
-          modelParameters.push(path.join(basePath, parameter));
-        else
-          modelParameters.push(parameter);
-      });
-      entity.modelParameters = modelParameters;
-    }
+    if (entity.provider)
+      entity.provider = path.join(basePath, entity.provider);
 
     if (entity.helper)
       entity.helper = path.join(basePath, entity.helper);

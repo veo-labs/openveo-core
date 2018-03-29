@@ -17,6 +17,7 @@ var async = require('async');
 var openVeoApi = require('@openveo/api');
 var migrationLoader = process.require('app/server/loaders/migrationLoader.js');
 var storage = process.require('app/server/storage.js');
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 /**
  * Filters the list of plugins paths in case the same plugin appears
@@ -513,25 +514,25 @@ module.exports.loadPluginMetadata = function(plugin, callback) {
       },
       function(callback) {
         var db = storage.getDatabase();
-        db.get('core_system', {name: plugin.name}, null, null, function(error, value) {
-          if (error) {
-            callback(error);
-            return;
-          }
-          var lastVersion = '0.0.0';
-          if (value && value.length) lastVersion = value[0].version;
+        db.getOne(
+          'core_system',
+          new ResourceFilter().equal('name', plugin.name),
+          null,
+          function(error, pluginInformation) {
+            if (error) return callback(error);
 
-          var migrationPath = path.join(plugin.path, 'migrations');
-          migrationLoader.getDiffMigrationScript(migrationPath, lastVersion, function(error, migrations) {
-            if (error) {
-              callback(error);
-              return;
-            }
-            if (migrations && Object.keys(migrations).length > 0)
-              plugin.migrations = migrations;
-            callback();
-          });
-        });
+            var lastVersion = '0.0.0';
+            if (pluginInformation) lastVersion = pluginInformation.version;
+
+            var migrationPath = path.join(plugin.path, 'migrations');
+            migrationLoader.getDiffMigrationScript(migrationPath, lastVersion, function(error, migrations) {
+              if (error) return callback(error);
+              if (migrations && Object.keys(migrations).length > 0)
+                plugin.migrations = migrations;
+              callback();
+            });
+          }
+        );
       }
     ],
     function(error) {

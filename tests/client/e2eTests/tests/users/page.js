@@ -6,8 +6,6 @@ var openVeoApi = require('@openveo/api');
 var e2e = require('@openveo/test').e2e;
 var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
-var UserModel = process.require('app/server/models/UserModel.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var storage = process.require('app/server/storage.js');
@@ -31,12 +29,12 @@ describe('User page', function() {
 
   // Prepare page
   before(function() {
-    var userModel = new UserModel(new UserProvider(storage.getDatabase()));
-    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
-    userHelper = new UserHelper(userModel);
-    roleHelper = new RoleHelper(roleModel);
-    page = new UserPage(userModel);
-    rolePage = new RolePage(roleModel);
+    var userProvider = new UserProvider(storage.getDatabase());
+    var roleProvider = new RoleProvider(storage.getDatabase());
+    userHelper = new UserHelper(userProvider);
+    roleHelper = new RoleHelper(roleProvider);
+    page = new UserPage(userProvider);
+    rolePage = new RolePage(roleProvider);
     tableAssert = new TableAssert(page, userHelper);
     page.logAsAdmin();
     userHelper.getEntities().then(function(users) {
@@ -302,7 +300,7 @@ describe('User page', function() {
     assert.isRejected(page.editUser(name, {email: ''}));
   });
 
-  it('should not be able to remove the super administrator', function() {
+  it('should not be able to remove a locked user', function() {
     assert.eventually.sameMembers(page.getLineActions(e2e.users.testSuperAdmin.name), [
       page.translations.CORE.UI.NO_ACTION
     ]);

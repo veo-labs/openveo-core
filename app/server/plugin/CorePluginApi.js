@@ -11,16 +11,12 @@ var url = require('url');
 var async = require('async');
 var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
-var ClientModel = process.require('app/server/models/ClientModel.js');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
-var GroupModel = process.require('app/server/models/GroupModel.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
-var TaxonomyModel = process.require('app/server/models/TaxonomyModel.js');
 var TaxonomyProvider = process.require('app/server/providers/TaxonomyProvider.js');
-var UserModel = process.require('app/server/models/UserModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
+var SettingProvider = process.require('app/server/providers/SettingProvider.js');
 var CORE_HOOKS = process.require('app/server/plugin/hooks.js');
 
 /**
@@ -37,44 +33,52 @@ function CorePluginApi() {
   Object.defineProperties(this, {
 
     /**
-     * An instance of ClientModel.
+     * An instance of ClientProvider.
      *
-     * @property clientModel
-     * @type ClientModel
+     * @property clientProvider
+     * @type ClientProvider
      */
-    clientModel: {value: new ClientModel(new ClientProvider(database))},
+    clientProvider: {value: new ClientProvider(database)},
 
     /**
-     * An instance of GroupModel.
+     * An instance of GroupProvider.
      *
-     * @property groupModel
-     * @type GroupModel
+     * @property groupProvider
+     * @type GroupProvider
      */
-    groupModel: {value: new GroupModel(new GroupProvider(database))},
+    groupProvider: {value: new GroupProvider(database)},
 
     /**
-     * An instance of RoleModel.
+     * An instance of RoleProvider.
      *
-     * @property roleModel
-     * @type RoleModel
+     * @property roleProvider
+     * @type RoleProvider
      */
-    roleModel: {value: new RoleModel(new RoleProvider(database))},
+    roleProvider: {value: new RoleProvider(database)},
 
     /**
-     * An instance of TaxonomyModel.
+     * An instance of TaxonomyProvider.
      *
-     * @property taxonomyModel
-     * @type TaxonomyModel
+     * @property taxonomyProvider
+     * @type TaxonomyProvider
      */
-    taxonomyModel: {value: new TaxonomyModel(new TaxonomyProvider(database))},
+    taxonomyProvider: {value: new TaxonomyProvider(database)},
 
     /**
-     * An instance of UserModel.
+     * An instance of UserProvider.
      *
-     * @property userModel
-     * @type UserModel
+     * @property userProvider
+     * @type UserProvider
      */
-    userModel: {value: new UserModel(new UserProvider(database))}
+    userProvider: {value: new UserProvider(database)},
+
+    /**
+     * An instance of SettingProvider.
+     *
+     * @property settingProvider
+     * @type SettingProvider
+     */
+    settingProvider: {value: new SettingProvider(database)}
 
   });
 }

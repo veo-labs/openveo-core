@@ -6,7 +6,6 @@ var UserPage = process.require('tests/client/e2eTests/pages/UserPage.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
 var storage = process.require('app/server/storage.js');
 var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
-var UserModel = process.require('app/server/models/UserModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 
 // Load assertion library
@@ -114,8 +113,8 @@ describe('User page translations', function() {
 
   // Load page
   before(function() {
-    var userModel = new UserModel(new UserProvider(storage.getDatabase()));
-    userHelper = new UserHelper(userModel);
+    var userProvider = new UserProvider(storage.getDatabase());
+    userHelper = new UserHelper(userProvider);
     page = new UserPage();
     page.logAsAdmin();
     userHelper.getEntities().then(function(users) {

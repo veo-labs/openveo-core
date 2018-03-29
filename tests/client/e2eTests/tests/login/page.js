@@ -5,15 +5,13 @@ var chaiAsPromised = require('chai-as-promised');
 var openVeoApi = require('@openveo/api');
 var LoginPage = process.require('tests/client/e2eTests/pages/LoginPage.js');
 var storage = process.require('app/server/storage.js');
-var UserModel = process.require('app/server/models/UserModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
-var SettingModel = process.require('app/server/models/SettingModel.js');
 var SettingProvider = process.require('app/server/providers/SettingProvider.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
 var SettingHelper = process.require('tests/client/e2eTests/helpers/SettingHelper.js');
 var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 // Load assertion library
 var assert = chai.assert;
@@ -30,12 +28,12 @@ describe('Login page', function() {
 
   // Prepare page
   before(function() {
-    var userModel = new UserModel(new UserProvider(storage.getDatabase()));
-    var settingModel = new SettingModel(new SettingProvider(storage.getDatabase()));
-    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
-    userHelper = new UserHelper(userModel);
-    settingHelper = new SettingHelper(settingModel);
-    roleHelper = new RoleHelper(roleModel);
+    var userProvider = new UserProvider(storage.getDatabase());
+    var settingProvider = new SettingProvider(storage.getDatabase());
+    var roleProvider = new RoleProvider(storage.getDatabase());
+    userHelper = new UserHelper(userProvider);
+    settingHelper = new SettingHelper(settingProvider);
+    roleHelper = new RoleHelper(roleProvider);
     page = new LoginPage();
     page.load();
 
@@ -193,10 +191,11 @@ describe('Login page', function() {
 
         page.logToCasAs(casUser);
 
-        userHelper.getEntities({
-          origin: openVeoApi.passport.STRATEGIES.CAS,
-          originId: openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser)
-        }).then(function(entities) {
+        userHelper.getEntities(
+          new ResourceFilter()
+          .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
+          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
+        ).then(function(entities) {
           var entity = entities[0];
 
           assert.equal(entities.length, 1, 'Wrong number of CAS users');
@@ -225,10 +224,11 @@ describe('Login page', function() {
 
       page.logToCasAs(casUser);
 
-      userHelper.getEntities({
-        origin: openVeoApi.passport.STRATEGIES.CAS,
-        originId: openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser)
-      }).then(function(entities) {
+      userHelper.getEntities(
+        new ResourceFilter()
+        .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
+        .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
+      ).then(function(entities) {
         assert.equal(entities.length, 1, 'Wrong number of CAS users');
       });
     });
@@ -263,10 +263,11 @@ describe('Login page', function() {
 
         page.logToCasAs(casUser);
 
-        userHelper.getEntities({
-          origin: openVeoApi.passport.STRATEGIES.CAS,
-          originId: openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser)
-        }).then(function(entities) {
+        userHelper.getEntities(
+          new ResourceFilter()
+          .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
+          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
+        ).then(function(entities) {
           var entity = entities[0];
 
           assert.equal(entities.length, 1, 'Wrong number of CAS users');
@@ -326,10 +327,11 @@ describe('Login page', function() {
 
         page.logToLdapAs(ldapUser);
 
-        userHelper.getEntities({
-          origin: openVeoApi.passport.STRATEGIES.LDAP,
-          originId: openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser)
-        }).then(function(entities) {
+        userHelper.getEntities(
+          new ResourceFilter()
+          .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
+          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
+        ).then(function(entities) {
           var entity = entities[0];
 
           assert.equal(entities.length, 1, 'Wrong number of LDAP users');
@@ -357,10 +359,11 @@ describe('Login page', function() {
 
       page.logToLdapAs(ldapUser);
 
-      userHelper.getEntities({
-        origin: openVeoApi.passport.STRATEGIES.LDAP,
-        originId: openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser)
-      }).then(function(entities) {
+      userHelper.getEntities(
+        new ResourceFilter()
+        .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
+        .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
+      ).then(function(entities) {
         assert.equal(entities.length, 1, 'Wrong number of LDAP users');
       });
     });
@@ -395,10 +398,11 @@ describe('Login page', function() {
 
         page.logToLdapAs(ldapUser);
 
-        userHelper.getEntities({
-          origin: openVeoApi.passport.STRATEGIES.LDAP,
-          originId: openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser)
-        }).then(function(entities) {
+        userHelper.getEntities(
+          new ResourceFilter()
+          .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
+          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
+        ).then(function(entities) {
           var entity = entities[0];
 
           assert.equal(entities.length, 1, 'Wrong number of LDAP users');

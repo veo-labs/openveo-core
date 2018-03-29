@@ -46,21 +46,12 @@ describe('Web service', function() {
       var defaultEntities;
 
       before(function() {
-        var Model = require(entity.model);
+        var Provider = require(entity.provider);
         var Helper = require(entity.helper);
         var application = process.protractorConf.getWebServiceApplication(entity.application);
-        var modelParameters = [null];
-
-        entity.modelParameters.forEach(function(parameter) {
-          if (parameter) {
-            var Provider = require(parameter);
-            modelParameters.push(new Provider(process.api.getCoreApi().getDatabase()));
-          } else
-            modelParameters.push(parameter);
-        });
 
         client = new OpenVeoClient(process.protractorConf.webServiceUrl, application.id, application.secret);
-        helper = new Helper(new (Function.prototype.bind.apply(Model, modelParameters))());
+        helper = new Helper(new Provider(process.api.getCoreApi().getDatabase()));
 
         return helper.getEntities().then(function(entities) {
           defaultEntities = entities;
@@ -77,11 +68,12 @@ describe('Web service', function() {
         it('should be able to add ' + entity.name, function(done) {
           var entityToAdd = helper.getAddExample();
 
-          client.put(entity.webServicePath, entityToAdd).then(function(results) {
-            var entity = results.entity;
+          client.put(entity.webServicePath, [entityToAdd]).then(function(results) {
+            var entity = results.entities[0];
             var isSameEntity = openVeoApi.util.isContained(helper.getValidationExample(entityToAdd), entity);
 
             check(function() {
+              assert.equal(results.total, 1, 'Wrong total');
               assert.ok(isSameEntity, 'Unexpected entity');
             }, done);
           }).catch(function(error) {
@@ -115,7 +107,7 @@ describe('Web service', function() {
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
             client.delete(entity.webServicePath + '/' + addedEntities[0].id).then(function(results) {
               check(function() {
-                assert.isNull(results.error, 'Unexpected error : ' + results.error);
+                assert.equal(results.total, entitiesToAdd.length, 'Wrong total');
                 assert.equal(results.httpCode, 200, 'Unexpected HTTP code');
               }, done, true);
 
@@ -212,7 +204,7 @@ describe('Web service', function() {
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
             client.post(entity.webServicePath + '/' + addedEntities[0].id, newEntityValues).then(function(results) {
               check(function() {
-                assert.isNull(results.error, 'Unexpected error : ' + results.error);
+                assert.equal(results.total, 1, 'Wrong total');
                 assert.equal(results.httpCode, 200, 'Unexpected HTTP code');
               }, done, true);
 
@@ -258,14 +250,14 @@ describe('Web service', function() {
 
       describe('get ' + entity.webServicePath, function() {
 
-        it('should be able to get the list of ' + entity.name, function(done) {
+        it('should be able to get the first page of ' + entity.name, function(done) {
           var entitiesToAdd = [helper.getAddExample()];
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
             client.get(entity.webServicePath).then(function(results) {
               var entities = results.entities;
               check(function() {
-                assert.equal(entities.length, entitiesToAdd.length + defaultEntities.length);
+                assert.equal(entities.length, Math.min(entitiesToAdd.length + defaultEntities.length, 10));
               }, done);
             }).catch(function(error) {
               check(function() {
@@ -453,21 +445,6 @@ describe('Web service', function() {
             });
           });
 
-          it('should not paginate results if limit is not defined', function(done) {
-            client.get(entity.webServicePath + '?page=1').then(function(results) {
-              var entities = results.entities;
-              var pagination = results.pagination;
-              check(function() {
-                assert.equal(entities.length, allEntities.length, 'Wrong number of results');
-                assert.isUndefined(pagination, 'Unexpected pagination');
-              }, done);
-            }).catch(function(error) {
-              check(function() {
-                assert.eventually.ok(false, 'Unexpected error : ' + error.message);
-              }, done);
-            });
-          });
-
           it('should not return any entity if the specified page is outside the pagination', function(done) {
             var pageNumber = 100000;
 
@@ -488,6 +465,59 @@ describe('Web service', function() {
             });
           });
 
+        });
+
+        it('should be able to exclude fields from response', function(done) {
+          var entitiesToAdd = [helper.getAddExample()];
+          var fieldsToExclude = [Object.keys(entitiesToAdd[0])[0]];
+          var fieldsToExcludeQuery = '';
+
+          fieldsToExclude.forEach(function(fieldToExclude) {
+            if (fieldsToExcludeQuery) fieldsToExcludeQuery += '&';
+            fieldsToExcludeQuery += 'exclude[]=' + fieldToExclude;
+          });
+
+          helper.addEntities(entitiesToAdd).then(function(addedEntities) {
+            client.get(entity.webServicePath + '?' + fieldsToExcludeQuery).then(function(results) {
+              var entities = results.entities;
+              check(function() {
+                fieldsToExclude.forEach(function(fieldToExclude) {
+                  assert.notProperty(entities[0], fieldToExclude);
+                });
+              }, done);
+            }).catch(function(error) {
+              check(function() {
+                assert.ok(false, 'Unexpected error : ' + error.message);
+              }, done);
+            });
+          });
+        });
+
+        it('should be able to include only certain fields from response', function(done) {
+          var entitiesToAdd = [helper.getAddExample()];
+          var fieldsToInclude = [Object.keys(entitiesToAdd[0])[0]];
+          var fieldsToIncludeQuery = '';
+
+          fieldsToInclude.forEach(function(fieldToInclude) {
+            if (fieldsToIncludeQuery) fieldsToIncludeQuery += '&';
+            fieldsToIncludeQuery += 'include[]=' + fieldToInclude;
+          });
+
+          helper.addEntities(entitiesToAdd).then(function(addedEntities) {
+            client.get(entity.webServicePath + '?' + fieldsToIncludeQuery).then(function(results) {
+              var entities = results.entities;
+              check(function() {
+                fieldsToInclude.forEach(function(fieldToInclude) {
+                  assert.property(entities[0], fieldToInclude);
+                });
+                assert.equal(Object.keys(entities[0]).length, fieldsToInclude.length, 'Wrong fields');
+              }, done);
+            }).catch(function(error) {
+              check(function() {
+                assert.ok(false, 'Unexpected error : ' + error.message);
+              }, done);
+            });
+          });
         });
 
       });

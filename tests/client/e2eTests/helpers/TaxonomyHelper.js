@@ -10,10 +10,10 @@ var Helper = e2e.helpers.Helper;
  *
  * Each function is inserting in protractor's control flow.
  *
- * @param {TaxonomyModel} model The entity model that will be used by the Helper
+ * @param {TaxonomyProvider} provider The entity provider that will be used by the Helper
  */
-function TaxonomyHelper(model) {
-  TaxonomyHelper.super_.call(this, model);
+function TaxonomyHelper(provider) {
+  TaxonomyHelper.super_.call(this, provider);
   this.textSearchProperties = ['name'];
   this.sortProperties = [{
     name: 'name',

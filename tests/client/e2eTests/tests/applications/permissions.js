@@ -4,7 +4,6 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
 var ApplicationHelper = process.require('tests/client/e2eTests/helpers/ApplicationHelper.js');
-var ClientModel = process.require('app/server/models/ClientModel.js');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 var storage = process.require('app/server/storage.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
@@ -18,8 +17,8 @@ describe('Application page', function() {
 
   // Prepare page
   before(function() {
-    var model = new ClientModel(new ClientProvider(storage.getDatabase()));
-    applicationHelper = new ApplicationHelper(model);
+    var provider = new ClientProvider(storage.getDatabase());
+    applicationHelper = new ApplicationHelper(provider);
     page = new ApplicationPage();
   });
 

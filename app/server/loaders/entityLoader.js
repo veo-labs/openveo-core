@@ -73,8 +73,8 @@ module.exports.buildEntities = function(plugins) {
  *       'get /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.getEntityAction',
  *       'get /applications': '/home/openveo/app/server/controllers/ApplicationController.getEntitiesAction',
  *       'post /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.updateEntityAction',
- *       'put /applications': '/home/openveo/app/server/controllers/ApplicationController.addEntityAction',
- *       'delete /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.removeEntityAction'
+ *       'put /applications': '/home/openveo/app/server/controllers/ApplicationController.addEntitiesAction',
+ *       'delete /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.removeEntitiesAction'
  *     }
  *
  * @method buildEntitiesRoutes
@@ -91,8 +91,8 @@ module.exports.buildEntitiesRoutes = function(entities) {
     entitiesRoutes['get /' + entityName + '/:id'] = entityControllerPath + '.getEntityAction';
     entitiesRoutes['get /' + entityName] = entityControllerPath + '.getEntitiesAction';
     entitiesRoutes['post /' + entityName + '/:id'] = entityControllerPath + '.updateEntityAction';
-    entitiesRoutes['put /' + entityName] = entityControllerPath + '.addEntityAction';
-    entitiesRoutes['delete /' + entityName + '/:id'] = entityControllerPath + '.removeEntityAction';
+    entitiesRoutes['put /' + entityName] = entityControllerPath + '.addEntitiesAction';
+    entitiesRoutes['delete /' + entityName + '/:id'] = entityControllerPath + '.removeEntitiesAction';
   }
 
   return entitiesRoutes;

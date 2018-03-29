@@ -14,7 +14,9 @@
 
 var semver = require('semver');
 var async = require('async');
+var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 /**
  * Saves in core_system table the last migration successfull done.
@@ -29,17 +31,37 @@ var storage = process.require('app/server/storage.js');
  *    - **Error** An Error object or null
  */
 function saveMigrationVersion(name, version, db, callback) {
-  db.get('core_system', {name: name}, null, null, function(error, value) {
-    if (error) {
-      callback(error);
-      return;
+
+  // Find plugin information
+  db.getOne('core_system', new ResourceFilter().equal('name', name), null, function(error, pluginInformation) {
+    if (error) return callback(error);
+
+    if (!pluginInformation) {
+
+      // Plugin information not found
+      // Create it
+      db.add(
+        'core_system',
+        [
+          {
+            name: name,
+            version: version
+          }
+        ],
+        function(error) {
+          callback(error);
+        }
+      );
+
+    } else {
+
+      // Plugin information found
+      // Update it
+      db.updateOne('core_system', new ResourceFilter().equal('name', name), {version: version}, function(error) {
+        callback(error);
+      });
+
     }
-    if (!value || !value.length) db.insert('core_system', [{name: name, version: version}], function(error) {
-      callback(error);
-    });
-    else db.update('core_system', {name: name}, {version: version}, function(error) {
-      callback(error);
-    });
   });
 }
 

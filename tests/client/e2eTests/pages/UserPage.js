@@ -9,8 +9,8 @@ var browserExt = e2e.browser;
 /**
  * Creates a new UserPage representing the users back end page.
  */
-function UserPage(model) {
-  UserPage.super_.call(this, model);
+function UserPage(provider) {
+  UserPage.super_.call(this, provider);
 
   // Page path
   this.path = 'be/users-list';

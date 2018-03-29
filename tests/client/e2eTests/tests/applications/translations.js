@@ -3,7 +3,6 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
-var ClientModel = process.require('app/server/models/ClientModel.js');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 var ApplicationHelper = process.require('tests/client/e2eTests/helpers/ApplicationHelper.js');
 var storage = process.require('app/server/storage.js');
@@ -94,8 +93,8 @@ describe('Application page translations', function() {
 
   // Prepare page
   before(function() {
-    var clientModel = new ClientModel(new ClientProvider(storage.getDatabase()));
-    applicationHelper = new ApplicationHelper(clientModel);
+    var clientProvider = new ClientProvider(storage.getDatabase());
+    applicationHelper = new ApplicationHelper(clientProvider);
     page = new ApplicationPage();
     page.logAsAdmin();
     applicationHelper.getEntities().then(function(applications) {

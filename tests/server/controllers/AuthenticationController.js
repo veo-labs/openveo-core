@@ -1,82 +1,70 @@
 'use strict';
 
-var util = require('util');
+var path = require('path');
 var chai = require('chai');
 var spies = require('chai-spies');
-var passport = require('passport');
-var Strategy = require('passport-strategy');
+var mock = require('mock-require');
 var openVeoApi = require('@openveo/api');
-var AuthenticationController = process.require('app/server/controllers/AuthenticationController.js');
-var storage = process.require('app/server/storage.js');
 var errors = process.require('app/server/httpErrors.js');
 
 var assert = chai.assert;
 chai.should();
 chai.use(spies);
 
-// AuthenticationController.js
 describe('AuthenticationController', function() {
+  var storage;
+  var passport;
+  var expectedUser;
   var request;
   var response;
   var authenticationController;
-  var ADMIN_ID = '0';
-  var internalStrategy1;
-  var internalStrategy2;
-  var externalStrategy;
-  var internalStrategyName1 = 'internal-strategy1';
-  var internalStrategyName2 = 'internal-strategy2';
-  var externalStrategyName = openVeoApi.passport.STRATEGIES.CAS;
-
-  beforeEach(function() {
-    request = {params: {}};
-    response = {};
-    authenticationController = new AuthenticationController();
-    storage.setConfiguration({
-      superAdminId: ADMIN_ID
-    });
-    storage.setPermissions([]);
-  });
+  var superAdminId = '0';
 
   // Mocks
   beforeEach(function() {
-    function InternalStrategy1() {
-      InternalStrategy1.super_.call(this);
-      this.name = internalStrategyName1;
-    }
+    storage = {
+      getPermissions: function() {},
+      getConfiguration: function() {
+        return {
+          superAdminId: superAdminId
+        };
+      }
+    };
 
-    function InternalStrategy2() {
-      InternalStrategy2.super_.call(this);
-      this.name = internalStrategyName2;
-    }
+    passport = {
+      authenticate: chai.spy(function(strategies, callback) {
+        return function() {
+          callback(null, expectedUser);
+        };
+      }),
+      _strategies: {
 
-    function ExternalStrategy() {
-      ExternalStrategy.super_.call(this);
-      this.name = externalStrategyName;
-    }
+      },
+      _strategy: function(strategy) {
 
-    util.inherits(InternalStrategy1, Strategy);
-    util.inherits(InternalStrategy2, Strategy);
-    util.inherits(ExternalStrategy, Strategy);
+      }
+    };
 
-    internalStrategy1 = new InternalStrategy1();
-    internalStrategy2 = new InternalStrategy2();
-    externalStrategy = new ExternalStrategy();
+    mock(path.join(process.root, 'app/server/storage.js'), storage);
+    mock('passport', passport);
+  });
 
-    passport.use(internalStrategy1);
-    passport.use(internalStrategy2);
-    passport.use(externalStrategy);
+  // Initializes tests
+  beforeEach(function() {
+    var AuthenticationController = mock.reRequire(
+      path.join(process.root, 'app/server/controllers/AuthenticationController.js')
+    );
+    request = {params: {}};
+    response = {};
+    authenticationController = new AuthenticationController();
   });
 
   afterEach(function() {
-    storage.setPermissions(null);
-    storage.setConfiguration(null);
-    passport.unuse(internalStrategyName1);
-    passport.unuse(internalStrategyName2);
-    passport.unuse(externalStrategyName);
+    mock.stopAll();
   });
 
-  // authenticateInternalAction method
   describe('authenticateInternalAction', function() {
+    var expectedInternalStrategies;
 
     beforeEach(function() {
       request = {
@@ -95,16 +83,19 @@ describe('AuthenticationController', function() {
         }),
         send: chai.spy(function(user) {})
       };
+
+      expectedInternalStrategies = ['strategy1', 'strategy2'];
+
+      expectedInternalStrategies.forEach(function(expectedInternalStrategy) {
+        passport._strategies[expectedInternalStrategy] = {
+          internal: true
+        };
+      });
     });
 
-    it('should be able to authenticate using configured internal passport strategy', function() {
-      var expectedUser = {id: '42'};
+    it('should authenticate using configured internal passport strategy', function() {
+      expectedUser = {id: '42'};
       var next = chai.spy(function() {});
-
-      internalStrategy1.internal = true;
-      internalStrategy1.authenticate = chai.spy(function() {
-        this.success(expectedUser);
-      });
 
       response = {
         status: chai.spy(function(status) {
@@ -116,60 +107,35 @@ describe('AuthenticationController', function() {
         })
       };
 
+      passport.authenticate = chai.spy(function(strategies, callback) {
+        assert.deepEqual(strategies, expectedInternalStrategies, 'Wrong strategies');
+        return function() {
+          callback(null, expectedUser);
+        };
+      });
+
       authenticationController.authenticateInternalAction(request, response, next);
 
-      internalStrategy1.authenticate.should.have.been.called.exactly(1);
+      passport.authenticate.should.have.been.called.exactly(1);
       response.status.should.have.been.called.exactly(1);
       response.send.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(0);
     });
 
-    it('should be able to authenticate using several internal passport strategies', function() {
-      var expectedUser = {id: '42'};
-      var next = chai.spy(function() {});
-
-      internalStrategy1.internal = true;
-      internalStrategy2.internal = true;
-      internalStrategy1.authenticate = chai.spy(function() {
-        this.fail('message');
-      });
-
-      internalStrategy2.authenticate = chai.spy(function() {
-        this.success(expectedUser);
-      });
-
-      response = {
-        status: chai.spy(function(status) {
-          assert.equal(status, 200, 'Wrong status');
-          return response;
-        }),
-        send: chai.spy(function(user) {
-          assert.strictEqual(user, expectedUser, 'Wrong user');
-        })
-      };
-
-      authenticationController.authenticateInternalAction(request, response, next);
-
-      internalStrategy1.authenticate.should.have.been.called.exactly(1);
-      internalStrategy2.authenticate.should.have.been.called.exactly(1);
-      response.status.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(0);
-    });
-
-    it('should send an HTTP Unauthorized if none of the internal strategies worked', function() {
+    it('should send an HTTP Unauthorized if internal strategies did not authenticate the user', function() {
       var next = chai.spy(function(error) {
         assert.strictEqual(error, errors.BACK_END_AUTHENTICATION_FAILED);
       });
 
-      internalStrategy1.internal = true;
-      internalStrategy1.authenticate = chai.spy(function() {
-        this.fail('message');
+      passport.authenticate = chai.spy(function(strategies, callback) {
+        return function() {
+          callback();
+        };
       });
 
       authenticationController.authenticateInternalAction(request, response, next);
 
-      internalStrategy1.authenticate.should.have.been.called.exactly(1);
+      passport.authenticate.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(1);
       response.status.should.have.been.called.exactly(0);
       response.send.should.have.been.called.exactly(0);
@@ -180,29 +146,25 @@ describe('AuthenticationController', function() {
         assert.strictEqual(error, errors.BACK_END_AUTHENTICATION_ERROR);
       });
 
-      internalStrategy1.internal = true;
-      internalStrategy1.authenticate = chai.spy(function() {
-        this.error(new Error('Error'));
+      passport.authenticate = chai.spy(function(strategies, callback) {
+        return function() {
+          callback(new Error('Something went wrong'));
+        };
       });
 
       authenticationController.authenticateInternalAction(request, response, next);
 
-      internalStrategy1.authenticate.should.have.been.called.exactly(1);
+      passport.authenticate.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(1);
       response.status.should.have.been.called.exactly(0);
       response.send.should.have.been.called.exactly(0);
     });
 
     it('should send an HTTP error message if request login failed', function() {
-      var expectedUser = {id: '42'};
+      expectedUser = {id: '42'};
 
       var next = chai.spy(function(error) {
         assert.strictEqual(error, errors.BACK_END_AUTHENTICATION_ERROR);
-      });
-
-      internalStrategy1.internal = true;
-      internalStrategy1.authenticate = chai.spy(function() {
-        this.success(expectedUser);
       });
 
       request.login = chai.spy(function(user, callback) {
@@ -211,9 +173,9 @@ describe('AuthenticationController', function() {
 
       authenticationController.authenticateInternalAction(request, response, next);
 
+      passport.authenticate.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(1);
       request.login.should.have.been.called.exactly(1);
-      internalStrategy1.authenticate.should.have.been.called.exactly(1);
       response.status.should.have.been.called.exactly(0);
       response.send.should.have.been.called.exactly(0);
     });
@@ -242,8 +204,8 @@ describe('AuthenticationController', function() {
 
   });
 
-  // authenticateExternalAction method
   describe('authenticateExternalAction', function() {
+    var expectedExternalStrategies;
 
     beforeEach(function() {
       request = {
@@ -260,15 +222,25 @@ describe('AuthenticationController', function() {
           return response;
         })
       };
+
+      expectedExternalStrategies = ['strategy1', 'strategy2'];
+
+      expectedExternalStrategies.forEach(function(expectedExternalStrategy) {
+        passport._strategies[expectedExternalStrategy] = {
+          internal: false
+        };
+      });
     });
 
     it('should be able to authenticate using configured external passport strategy', function() {
-      var expectedUser = {id: '42'};
-
+      expectedUser = {id: '42'};
       var next = chai.spy(function() {});
 
-      externalStrategy.authenticate = chai.spy(function() {
-        this.success(expectedUser);
+      passport.authenticate = chai.spy(function(strategy, callback) {
+        assert.equal(strategy, request.params.type, 'Wrong strategy');
+        return function() {
+          callback(null, expectedUser);
+        };
       });
 
       response = {
@@ -280,27 +252,22 @@ describe('AuthenticationController', function() {
 
       authenticationController.authenticateExternalAction(request, response, next);
 
-      externalStrategy.authenticate.should.have.been.called.exactly(1);
+      passport.authenticate.should.have.been.called.exactly(1);
       response.redirect.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(0);
     });
 
     it('should send an HTTP bad request if type is not specified', function() {
-      var expectedUser = {id: '42'};
+      expectedUser = {id: '42'};
       request = {params: {}};
 
       var next = chai.spy(function(error) {
         assert.strictEqual(error, errors.AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS);
       });
 
-      externalStrategy.authenticate = chai.spy(function() {
-        this.success(expectedUser);
-      });
-
       authenticationController.authenticateExternalAction(request, response, next);
 
       next.should.have.been.called.exactly(1);
-      externalStrategy.authenticate.should.have.been.called.exactly(0);
       response.redirect.should.have.been.called.exactly(0);
     });
 
@@ -309,13 +276,15 @@ describe('AuthenticationController', function() {
         assert.strictEqual(error, errors.BACK_END_EXTERNAL_AUTHENTICATION_FAILED);
       });
 
-      externalStrategy.authenticate = chai.spy(function() {
-        this.fail('message');
+      passport.authenticate = chai.spy(function(strategy, callback) {
+        return function() {
+          callback();
+        };
       });
 
       authenticationController.authenticateExternalAction(request, response, next);
 
-      externalStrategy.authenticate.should.have.been.called.exactly(1);
+      passport.authenticate.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(1);
       response.redirect.should.have.been.called.exactly(0);
     });
@@ -325,26 +294,24 @@ describe('AuthenticationController', function() {
         assert.strictEqual(error, errors.BACK_END_EXTERNAL_AUTHENTICATION_ERROR);
       });
 
-      externalStrategy.authenticate = chai.spy(function() {
-        this.error(new Error('error'));
+      passport.authenticate = chai.spy(function(strategy, callback) {
+        return function() {
+          callback(new Error('Something went wrong'));
+        };
       });
 
       authenticationController.authenticateExternalAction(request, response, next);
 
-      externalStrategy.authenticate.should.have.been.called.exactly(1);
+      passport.authenticate.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(1);
       response.redirect.should.have.been.called.exactly(0);
     });
 
     it('should send an HTTP error message if request login failed', function() {
-      var expectedUser = {id: '42'};
+      expectedUser = {id: '42'};
 
       var next = chai.spy(function(error) {
         assert.strictEqual(error, errors.BACK_END_EXTERNAL_AUTHENTICATION_ERROR);
-      });
-
-      externalStrategy.authenticate = chai.spy(function() {
-        this.success(expectedUser);
       });
 
       request.login = chai.spy(function(user, callback) {
@@ -353,7 +320,7 @@ describe('AuthenticationController', function() {
 
       authenticationController.authenticateExternalAction(request, response, next);
 
-      externalStrategy.authenticate.should.have.been.called.exactly(1);
+      passport.authenticate.should.have.been.called.exactly(1);
       request.login.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(1);
       response.redirect.should.have.been.called.exactly(0);
@@ -361,8 +328,8 @@ describe('AuthenticationController', function() {
 
   });
 
-  // logoutAction method
   describe('logoutAction', function() {
+    var Strategy;
 
     beforeEach(function() {
       request = {
@@ -370,7 +337,7 @@ describe('AuthenticationController', function() {
           return true;
         },
         user: {
-          origin: internalStrategyName1
+          origin: 'origin'
         },
         session: {
           destroy: chai.spy(function(callback) {
@@ -386,17 +353,26 @@ describe('AuthenticationController', function() {
         }),
         send: chai.spy(function() {})
       };
+
+      Strategy = function() {};
+      Strategy.internal = true;
+
+      passport._strategy = function(strategy) {
+        return Strategy.prototype;
+      };
     });
 
     it('should be able to logout the request and the internal user', function() {
       var next = chai.spy(function() {});
 
-      internalStrategy1.internal = true;
-      request.user = {origin: internalStrategyName1};
-
       response.status = function(status) {
         assert.equal(status, 200, 'Wrong status');
         return this;
+      };
+
+      passport._strategy = function(strategy) {
+        assert.equal(strategy, request.user.origin, 'Wrong strategy');
+        return Strategy.prototype;
       };
 
       authenticationController.logoutAction(request, response, next);
@@ -409,12 +385,10 @@ describe('AuthenticationController', function() {
 
     it('should not do anything if user is not authenticated', function() {
       var next = chai.spy(function(error) {});
-      internalStrategy1.internal = true;
 
       request.isAuthenticated = chai.spy(function() {
         return false;
       });
-      request.user = {origin: internalStrategyName1};
 
       authenticationController.logoutAction(request, response, next);
 
@@ -429,10 +403,8 @@ describe('AuthenticationController', function() {
     it('should keep going if destroying session failed', function() {
       var next = chai.spy(function(error) {});
 
-      internalStrategy1.internal = true;
-      request.user = {origin: internalStrategyName1};
       request.session.destroy = chai.spy(function(callback) {
-        callback(new Error('error'));
+        callback(new Error('Something went wrong'));
       });
 
       authenticationController.logoutAction(request, response, next);
@@ -447,14 +419,13 @@ describe('AuthenticationController', function() {
     it('should ask the strategy to logout if external', function() {
       var next = chai.spy(function(error) {});
 
-      externalStrategy.internal = false;
-      externalStrategy.logout = chai.spy(function() {});
-      request.user = {origin: externalStrategyName};
+      Strategy.internal = false;
+      Strategy.prototype.logout = chai.spy(function() {});
 
       authenticationController.logoutAction(request, response, next);
 
       request.session.destroy.should.have.been.called.exactly(1);
-      externalStrategy.logout.should.have.been.called.exactly(1);
+      Strategy.prototype.logout.should.have.been.called.exactly(1);
       request.logout.should.have.been.called.exactly(1);
       response.status.should.have.been.called.exactly(0);
       response.send.should.have.been.called.exactly(0);
@@ -462,16 +433,18 @@ describe('AuthenticationController', function() {
     });
   });
 
-  // getPermissionsAction method
   describe('getPermissionsAction', function() {
 
     it('should send response with a list of permissions as a JSON object', function() {
-      var permissions = [];
+      var expectedPermissions = [];
       var next = chai.spy(function() {});
 
-      storage.setPermissions(permissions);
+      storage.getPermissions = function() {
+        return expectedPermissions;
+      };
+
       response.send = chai.spy(function(data) {
-        assert.strictEqual(data.permissions, permissions, 'Wrong permissions');
+        assert.strictEqual(data.permissions, expectedPermissions, 'Wrong permissions');
       });
 
       authenticationController.getPermissionsAction(request, response, next);
@@ -482,11 +455,11 @@ describe('AuthenticationController', function() {
 
   });
 
-  // restrictAction method
   describe('restrictAction', function() {
+    var expectedPermissions;
 
     beforeEach(function() {
-      var permissions = [
+      expectedPermissions = [
         {
           id: 'perm1',
           name: 'name 1',
@@ -504,7 +477,10 @@ describe('AuthenticationController', function() {
           ]
         }
       ];
-      storage.setPermissions(permissions);
+
+      storage.getPermissions = function() {
+        return expectedPermissions;
+      };
 
       response = {
         send: chai.spy(function() {})
@@ -520,7 +496,7 @@ describe('AuthenticationController', function() {
         url: '/applications',
         params: {},
         user: {
-          id: ADMIN_ID
+          id: superAdminId
         },
         isAuthenticated: chai.spy(function() {
           return true;

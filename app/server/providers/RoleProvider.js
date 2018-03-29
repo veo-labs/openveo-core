@@ -4,6 +4,7 @@
  * @module core-providers
  */
 
+var shortid = require('shortid');
 var util = require('util');
 var openVeoApi = require('@openveo/api');
 
@@ -23,26 +24,106 @@ module.exports = RoleProvider;
 util.inherits(RoleProvider, openVeoApi.providers.EntityProvider);
 
 /**
- * Gets roles by ids.
+ * Adds roles.
  *
- * @method getByIds
+ * @method add
  * @async
- * @param {Array} ids The list of role ids
- * @param {Function} callback Function to call when it's done
+ * @param {Array} roles The list of roles to store with for each role:
+ *   - **String** name The role name
+ *   - **Array** permissions The role permissions
+ *   - **String** [id] The role id, generated if not specified
+ * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
- *   - **Array** The list of roles
+ *   - **Number** The total amount of roles inserted
+ *   - **Array** The list of added roles
  */
-RoleProvider.prototype.getByIds = function(ids, callback) {
-  this.database.get(this.collection,
+RoleProvider.prototype.add = function(roles, callback) {
+  var rolesToAdd = [];
+
+  for (var i = 0; i < roles.length; i++) {
+    var role = roles[i];
+
+    if (!role.name || !role.permissions)
+      return this.executeCallback(callback, new TypeError('Requires name and permissions to add a role'));
+
+    rolesToAdd.push({
+      id: role.id || shortid.generate(),
+      name: role.name,
+      permissions: role.permissions
+    });
+  }
+
+  RoleProvider.super_.prototype.add.call(this, rolesToAdd, callback);
+};
+
+/**
+ * Removes roles.
+ *
+ * This will execute core hook "ROLES_DELETED" after deleting roles with:
+ * - **Array** ids The list of deleted role ids
+ *
+ * @method remove
+ * @async
+ * @param {ResourceFilter} [filter] Rules to filter roles to remove
+ * @param {Function} [callback] The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of removed roles
+ */
+RoleProvider.prototype.remove = function(filter, callback) {
+  var self = this;
+
+  // Find roles
+  this.getAll(
+    filter,
     {
-      id: {
-        $in: ids
-      }
+      include: ['id']
     },
     {
-      _id: 0
+      id: 'desc'
     },
-    -1, callback);
+    function(getAllError, roles) {
+      if (getAllError) return self.executeCallback(callback, getAllError);
+      if (!roles || !roles.length) return self.executeCallback(callback);
+
+      // Remove roles
+      RoleProvider.super_.prototype.remove.call(self, filter, function(removeError, total) {
+        if (removeError) return self.executeCallback(callback, removeError);
+
+        // Execute hook
+        var api = process.api.getCoreApi();
+        api.executeHook(
+          api.getHooks().ROLES_DELETED,
+          roles.map(function(role) {
+            return role.id;
+          }),
+          function(hookError) {
+            return self.executeCallback(callback, hookError, total);
+          }
+        );
+      });
+    }
+  );
+};
+
+/**
+ * Updates a role.
+ *
+ * @method updateOne
+ * @async
+ * @param {ResourceFilter} [filter] Rules to filter the role to update
+ * @param {Object} data The modifications to perform
+ * @param {String} [data.name] The role name
+ * @param {Array} [data.permissions] The role permissions
+ * @param {Function} [callback] The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** 1 if everything went fine
+ */
+RoleProvider.prototype.updateOne = function(filter, data, callback) {
+  var modifications = {};
+  if (data.name) modifications.name = data.name;
+  if (data.permissions) modifications.permissions = data.permissions;
+
+  RoleProvider.super_.prototype.updateOne.call(this, filter, modifications, callback);
 };
 
 /**
@@ -54,7 +135,7 @@ RoleProvider.prototype.getByIds = function(ids, callback) {
  *  - **Error** An error if something went wrong, null otherwise
  */
 RoleProvider.prototype.createIndexes = function(callback) {
-  this.database.createIndexes(this.collection, [
+  this.storage.createIndexes(this.location, [
     {key: {name: 1}, name: 'byName'},
     {key: {name: 'text'}, weights: {name: 1}, name: 'querySearch'}
   ], function(error, result) {

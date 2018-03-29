@@ -6,13 +6,11 @@
 
 var async = require('async');
 var openVeoApi = require('@openveo/api');
-var UserModel = process.require('app/server/models/UserModel.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
-var SettingModel = process.require('app/server/models/SettingModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var SettingProvider = process.require('app/server/providers/SettingProvider.js');
 var storage = process.require('app/server/storage.js');
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 /**
  * The authenticator helps manipulate users authenticated by passport strategies.
@@ -38,17 +36,26 @@ var storage = process.require('app/server/storage.js');
 function populateUser(user, callback) {
   if (!user.roles || !user.roles.length) return callback(null, user);
 
-  var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
-  roleModel.getByIds(user.roles, function(error, roles) {
-    if (error) return callback(error);
-    user.permissions = [];
+  var roleProvider = new RoleProvider(storage.getDatabase());
+  roleProvider.get(
+    new ResourceFilter().in('id', user.roles),
+    null,
+    user.roles.length,
+    null,
+    {
+      name: 'asc'
+    },
+    function(error, roles) {
+      if (error) return callback(error);
+      user.permissions = [];
 
-    for (var i = 0; i < roles.length; i++)
-      user.permissions = openVeoApi.util.joinArray(user.permissions, roles[i].permissions);
+      for (var i = 0; i < roles.length; i++)
+        user.permissions = openVeoApi.util.joinArray(user.permissions, roles[i].permissions);
 
-    user.roles = roles;
-    callback(null, user);
-  });
+      user.roles = roles;
+      callback(null, user);
+    }
+  );
 }
 
 /**
@@ -75,23 +82,26 @@ module.exports.serializeUser = function(user, callback) {
  * @method deserializeUser
  * @async
  * @static
- * @param {String} data Serialized data as serialized by serializeUser(), the id of the user
+ * @param {String} data Serialized data as serialized by serializeUser(): the id of the user
  * @param {Function} callback The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
  *   - **Object** The user with its permissions
  */
 module.exports.deserializeUser = function(data, callback) {
-  var userModel = new UserModel(new UserProvider(storage.getDatabase()));
+  var userProvider = new UserProvider(storage.getDatabase());
 
-  userModel.getOne(data, null, function(error, user) {
-    if (error) return callback(error);
-    if (!user) return callback(new Error('Unkown user "' + data + '"'));
-    if (user.id === process.api.getCoreApi().getSuperAdminId()) return callback(null, user);
+  userProvider.getOne(
+    new ResourceFilter().equal('id', data),
+    null,
+    function(error, user) {
+      if (error) return callback(error);
+      if (!user) return callback(new Error('Unkown user "' + data + '"'));
+      if (user.id === process.api.getCoreApi().getSuperAdminId()) return callback(null, user);
 
-    // Get user permissions and roles
-    populateUser(user, callback);
-
-  });
+      // Get user permissions and roles
+      populateUser(user, callback);
+    }
+  );
 };
 
 /**
@@ -107,9 +117,9 @@ module.exports.deserializeUser = function(data, callback) {
  *  - **Object** The user with its permissions
  */
 module.exports.verifyUserByCredentials = function(email, password, callback) {
-  var userModel = new UserModel(new UserProvider(storage.getDatabase()));
+  var userProvider = new UserProvider(storage.getDatabase());
 
-  userModel.getUserByCredentials(email, password, function(error, user) {
+  userProvider.getUserByCredentials(email, password, function(error, user) {
     if (error) return callback(error);
     if (!user) return callback(new Error('Email and / or password incorrect for "' + email + '"'));
     if (user.id === process.api.getCoreApi().getSuperAdminId()) return callback(null, user);
@@ -142,8 +152,8 @@ module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, cal
   var thirdPartyNameAttribute = strategyConfiguration.userNameAttribute;
   var thirdPartyEmailAttribute = strategyConfiguration.userEmailAttribute;
   var thirdPartyGroupAttribute = strategyConfiguration.userGroupAttribute;
-  var userModel = new UserModel(new UserProvider(storage.getDatabase()));
-  var settingModel = new SettingModel(new SettingProvider(storage.getDatabase()));
+  var userProvider = new UserProvider(storage.getDatabase());
+  var settingProvider = new SettingProvider(storage.getDatabase());
   var originId = openVeoApi.util.evaluateDeepObjectProperties(thirdPartyIdAttribute, thirdPartyUser).replace(/ /g, '');
   var originGroups = openVeoApi.util.evaluateDeepObjectProperties(thirdPartyGroupAttribute, thirdPartyUser);
   var thirdPartyUserName = openVeoApi.util.evaluateDeepObjectProperties(thirdPartyNameAttribute, thirdPartyUser);
@@ -156,17 +166,18 @@ module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, cal
     // Test if user already exists in OpenVeo
     function(callback) {
       if (originId) {
-        userModel.get({
-          origin: strategy,
-          originId: originId
-        }, function(error, users) {
-          if (error) return callback(error);
-          if (users && users.length) {
-            exists = true;
-            user = users[0];
+        userProvider.getOne(
+          new ResourceFilter().equal('origin', strategy).equal('originId', originId),
+          null,
+          function(error, fetchedUser) {
+            if (error) return callback(error);
+            if (fetchedUser) {
+              exists = true;
+              user = fetchedUser;
+            }
+            callback();
           }
-          callback();
-        });
+        );
       } else {
         exists = false;
         callback();
@@ -178,31 +189,40 @@ module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, cal
     function(callback) {
       if (!originGroups) return callback();
 
-      settingModel.getOne('core-' + strategy, null, function(error, settings) {
-        if (error) return callback(error);
+      settingProvider.getOne(
+        new ResourceFilter().equal('id', 'core-' + strategy),
+        null,
+        function(error, settings) {
+          if (error) return callback(error);
 
-        if (settings && settings.value && settings.value.length) {
+          if (settings && settings.value && settings.value.length) {
 
-          // Look for third party user group inside OpenVeo settings
-          settings.value.forEach(function(match) {
-            if (originGroups.indexOf(match.group) >= 0)
-              roles = roles.concat(match.roles);
-          });
+            // Look for third party user group inside OpenVeo settings
+            settings.value.forEach(function(match) {
+              if (originGroups.indexOf(match.group) >= 0)
+                roles = roles.concat(match.roles);
+            });
+          }
+          callback();
         }
-        callback();
-      });
+      );
     },
 
     // Create user if it does not exist yet
     function(callback) {
       if (exists) return callback();
 
-      userModel.addThirdPartyUser({
-        name: thirdPartyUserName,
-        email: thirdPartyUserEmail,
-        roles: roles
-      }, strategy, originId, originGroups, function(error, addedCount, addedUser) {
-        if (addedUser) user = addedUser;
+      userProvider.addThirdPartyUsers([
+        {
+          name: thirdPartyUserName,
+          email: thirdPartyUserEmail,
+          roles: roles,
+          origin: strategy,
+          originId: originId,
+          originGroups: originGroups
+        }
+      ], function(error, total, addedUsers) {
+        if (addedUsers) user = addedUsers[0];
         callback(error);
       });
     },
@@ -220,12 +240,17 @@ module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, cal
         user.roles = roles;
         user.originGroups = originGroups;
 
-        userModel.updateThirdPartyUser(user.id, {
-          name: user.name,
-          email: user.email,
-          originGroups: user.originGroups,
-          roles: user.roles
-        }, strategy, callback);
+        userProvider.updateThirdPartyUser(
+          new ResourceFilter().equal('id', user.id),
+          {
+            name: user.name,
+            email: user.email,
+            originGroups: user.originGroups,
+            roles: user.roles
+          },
+          strategy,
+          callback
+        );
       } else
         callback();
     },

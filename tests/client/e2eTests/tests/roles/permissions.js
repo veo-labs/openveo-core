@@ -4,7 +4,6 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
 var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var storage = process.require('app/server/storage.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
@@ -18,7 +17,7 @@ describe('Role page', function() {
 
   // Prepare page
   before(function() {
-    roleHelper = new RoleHelper(new RoleModel(new RoleProvider(storage.getDatabase())));
+    roleHelper = new RoleHelper(new RoleProvider(storage.getDatabase()));
     page = new RolePage();
   });
 

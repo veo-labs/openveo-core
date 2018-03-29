@@ -5,6 +5,7 @@
  */
 
 var util = require('util');
+var crypto = require('crypto');
 var openVeoApi = require('@openveo/api');
 
 /**
@@ -22,43 +23,56 @@ module.exports = TokenProvider;
 util.inherits(TokenProvider, openVeoApi.providers.EntityProvider);
 
 /**
- * Removes all tokens associated to a client application.
+ * Adds tokens.
  *
- * @method removeByClient
+ * @method add
  * @async
- * @param {String} clientId The id of the client
- * @param {Function} callback Function to call when it's done
+ * @param {Array} tokens The list of tokens to store with for each token:
+ *   - **String** clientId The client id the token belongs to
+ *   - **Number** ttl The time to live in milliseconds of the token
+ *   - **Array** [scopes] A list of scopes with granted access for this token
+ * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The number of deleted tokens
+ *   - **Number** The total amount of tokens inserted
+ *   - **Array** The list of added tokens
  */
-TokenProvider.prototype.removeByClient = function(clientId, callback) {
-  var filter = {};
-  filter['clientId'] = {$in: [clientId]};
+TokenProvider.prototype.add = function(tokens, callback) {
+  var tokensToAdd = [];
 
-  this.database.remove(this.collection, filter, callback);
+  for (var i = 0; i < tokens.length; i++) {
+    var token = tokens[i];
+
+    if (!token.clientId || !token.ttl)
+      return this.executeCallback(callback, new TypeError('Requires clientId and ttl to create a token'));
+
+    tokensToAdd.push({
+      token: crypto.randomBytes(64).toString('hex'),
+      clientId: token.clientId,
+      scopes: token.scopes || [],
+      ttl: token.ttl
+    });
+  }
+
+  TokenProvider.super_.prototype.add.call(this, tokensToAdd, callback);
 };
 
 /**
- * Gets a token by its value.
+ * Updates a token.
  *
- * @method getByValue
+ * @method updateOne
  * @async
- * @param {String} token The token value
- * @param {Function} callback Function to call when it's done
+ * @param {ResourceFilter} [filter] Rules to filter the token to update
+ * @param {Object} data The modifications to perform
+ * @param {Number} [data.ttl] The time to live in milliseconds of the token
+ * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
- *   - **Object** The fetched token
+ *   - **Number** 1 if everything went fine
  */
-TokenProvider.prototype.getByValue = function(token, callback) {
-  this.database.get(this.collection,
-    {
-      token: token
-    },
-    {
-      _id: 0
-    },
-    1, function(error, data) {
-      callback(error, data && data[0]);
-    });
+TokenProvider.prototype.updateOne = function(filter, data, callback) {
+  var modifications = {};
+  if (data.ttl) modifications.ttl = data.ttl;
+
+  TokenProvider.super_.prototype.updateOne.call(this, filter, modifications, callback);
 };
 
 /**
@@ -70,7 +84,7 @@ TokenProvider.prototype.getByValue = function(token, callback) {
  *  - **Error** An error if something went wrong, null otherwise
  */
 TokenProvider.prototype.createIndexes = function(callback) {
-  this.database.createIndexes(this.collection, [
+  this.storage.createIndexes(this.location, [
     {key: {clientId: 1}, name: 'byClientId'},
     {key: {token: 1}, name: 'byToken'}
   ], function(error, result) {

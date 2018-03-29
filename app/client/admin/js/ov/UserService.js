@@ -10,30 +10,7 @@
    */
   function UserService($http, $q) {
     var basePath = '/be/';
-    var roles, permissions;
-
-    /**
-     * Loads the list of roles from server.
-     *
-     * @return {Promise} The Http promise
-     * @method loadRoles
-     */
-    function loadRoles() {
-      if (!roles) {
-
-        // Get roles from server
-        return $http.get(basePath + 'roles').success(function(rolesObj) {
-          roles = rolesObj.entities;
-        });
-
-      }
-
-      return $q.when({
-        data: {
-          entities: roles
-        }
-      });
-    }
+    var permissions;
 
     /**
      * Loads the list of permissions from server.
@@ -57,16 +34,6 @@
     }
 
     /**
-     * Gets roles.
-     *
-     * @return {Array} The roles
-     * @method getRoles
-     */
-    function getRoles() {
-      return roles;
-    }
-
-    /**
      * Gets permissions.
      *
      * @return {Array} The permissions
@@ -82,7 +49,7 @@
      * @method destroy
      */
     function destroy() {
-      roles = permissions = null;
+      permissions = null;
     }
 
     /**
@@ -93,12 +60,9 @@
      */
     function cacheClear(type) {
       if (!type)
-        roles = permissions = null;
+        permissions = null;
       else
         switch (type) {
-          case 'roles':
-            roles = null;
-            break;
           case 'permissions':
             permissions = null;
             break;
@@ -108,9 +72,7 @@
     }
 
     return {
-      loadRoles: loadRoles,
       loadPermissions: loadPermissions,
-      getRoles: getRoles,
       getPermissions: getPermissions,
       destroy: destroy,
       cacheClear: cacheClear

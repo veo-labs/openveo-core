@@ -4,8 +4,6 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
-var GroupModel = process.require('app/server/models/GroupModel.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var storage = process.require('app/server/storage.js');
@@ -26,18 +24,16 @@ describe('Group permissions creation', function() {
 
   // Load roles page using super administrator account
   before(function() {
-
-    // Models
-    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
-    var groupModel = new GroupModel(new GroupProvider(storage.getDatabase()));
+    var roleProvider = new RoleProvider(storage.getDatabase());
+    var groupProvider = new GroupProvider(storage.getDatabase());
 
     // Helpers
-    roleHelper = new RoleHelper(roleModel);
-    groupHelper = new GroupHelper(groupModel);
+    roleHelper = new RoleHelper(roleProvider);
+    groupHelper = new GroupHelper(groupProvider);
 
     // Pages
-    rolePage = new RolePage(roleModel);
-    groupPage = new GroupPage(groupModel);
+    rolePage = new RolePage(roleProvider);
+    groupPage = new GroupPage(groupProvider);
 
     roleHelper.getEntities().then(function(roles) {
       defaultRoles = roles;

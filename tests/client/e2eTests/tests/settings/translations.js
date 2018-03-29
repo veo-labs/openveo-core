@@ -4,7 +4,6 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var openVeoApi = require('@openveo/api');
 var SettingPage = process.require('tests/client/e2eTests/pages/SettingPage.js');
-var SettingModel = process.require('app/server/models/SettingModel.js');
 var SettingProvider = process.require('app/server/providers/SettingProvider.js');
 var storage = process.require('app/server/storage.js');
 var SettingHelper = process.require('tests/client/e2eTests/helpers/SettingHelper.js');
@@ -74,8 +73,8 @@ describe('Settings page translations', function() {
 
   // Load page
   before(function() {
-    var settingModel = new SettingModel(new SettingProvider(storage.getDatabase()));
-    settingHelper = new SettingHelper(settingModel);
+    var settingProvider = new SettingProvider(storage.getDatabase());
+    settingHelper = new SettingHelper(settingProvider);
 
     page = new SettingPage();
     page.logAsAdmin();

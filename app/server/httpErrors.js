@@ -165,30 +165,6 @@ var HTTP_ERRORS = {
   },
 
   /**
-   * A server error occurring when updating a setting.
-   *
-   * @property UPDATE_SETTINGS_ERROR
-   * @type Object
-   * @final
-   */
-  UPDATE_SETTINGS_ERROR: {
-    code: 0x00c,
-    httpCode: 500
-  },
-
-  /**
-   * A server error occurring when adding a setting.
-   *
-   * @property ADD_SETTINGS_ERROR
-   * @type Object
-   * @final
-   */
-  ADD_SETTINGS_ERROR: {
-    code: 0x00d,
-    httpCode: 500
-  },
-
-  /**
    * A server error occurring when getting a setting.
    *
    * @property GET_SETTING_ERROR
@@ -298,30 +274,6 @@ var HTTP_ERRORS = {
   WS_UNAUTHORIZED: {
     code: 0x204,
     httpCode: 401
-  },
-
-  /**
-   * A server error occurring when connected user is not authorized to update a user.
-   *
-   * @property UPDATE_USER_FORBIDDEN
-   * @type Object
-   * @final
-   */
-  UPDATE_USER_FORBIDDEN: {
-    code: 0x205,
-    httpCode: 403
-  },
-
-  /**
-   * A server error occurring when connected user is not authorized to update a taxonomy.
-   *
-   * @property GET_TAXONOMY_FORBIDDEN
-   * @type Object
-   * @final
-   */
-  GET_TAXONOMY_FORBIDDEN: {
-    code: 0x206,
-    httpCode: 403
   },
 
   /**
@@ -467,42 +419,6 @@ var HTTP_ERRORS = {
    */
   GET_SETTINGS_WRONG_PARAMETERS: {
     code: 0x30a,
-    httpCode: 400
-  },
-
-  /**
-   * A server error occurring when updating a setting with missing parameters.
-   *
-   * @property UPDATE_SETTINGS_MISSING_PARAMETERS
-   * @type Object
-   * @final
-   */
-  UPDATE_SETTINGS_MISSING_PARAMETERS: {
-    code: 0x30b,
-    httpCode: 400
-  },
-
-  /**
-   * A server error occurring when adding a setting with missing parameters.
-   *
-   * @property ADD_SETTINGS_MISSING_PARAMETERS
-   * @type Object
-   * @final
-   */
-  ADD_SETTINGS_MISSING_PARAMETERS: {
-    code: 0x30c,
-    httpCode: 400
-  },
-
-  /**
-   * A server error occurring when adding setting with wrong parameters.
-   *
-   * @property ADD_SETTINGS_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   */
-  ADD_SETTINGS_WRONG_PARAMETERS: {
-    code: 0x30d,
     httpCode: 400
   },
 

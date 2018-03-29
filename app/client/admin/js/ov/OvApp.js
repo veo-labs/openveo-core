@@ -383,8 +383,8 @@
         title: 'CORE.USERS.PAGE_TITLE',
         access: 'core-access-users-page',
         resolve: {
-          roles: ['userService', function(userService) {
-            return userService.loadRoles();
+          roles: ['entityService', function(entityService) {
+            return entityService.getAllEntities('roles');
           }]
         }
       });
@@ -443,7 +443,7 @@
             return entityService.getEntity('settings', null, 'core-' + strategies.CAS);
           }],
           roles: ['entityService', function(entityService) {
-            return entityService.getEntities('roles', null);
+            return entityService.getAllEntities('roles');
           }]
         }
       });

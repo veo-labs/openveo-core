@@ -58,8 +58,8 @@ describe('entityLoader', function() {
       assert.propertyVal(routes, 'get /' + entityName + '/:id', controller + '.getEntityAction');
       assert.propertyVal(routes, 'get /' + entityName, controller + '.getEntitiesAction');
       assert.propertyVal(routes, 'post /' + entityName + '/:id', controller + '.updateEntityAction');
-      assert.propertyVal(routes, 'put /' + entityName, controller + '.addEntityAction');
-      assert.propertyVal(routes, 'delete /' + entityName + '/:id', controller + '.removeEntityAction');
+      assert.propertyVal(routes, 'put /' + entityName, controller + '.addEntitiesAction');
+      assert.propertyVal(routes, 'delete /' + entityName + '/:id', controller + '.removeEntitiesAction');
     });
 
     it('should return an empty object if no entity is specified', function() {

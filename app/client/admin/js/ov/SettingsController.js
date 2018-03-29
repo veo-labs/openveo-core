@@ -91,24 +91,26 @@
      */
     this.save = function() {
       var self = this;
-      var promises = [];
+      var settingsToAdd = [];
 
       if (this.hasLdap && this.formValues.ldapMatches) {
-        promises.push(entityService.updateEntity('settings', null, 'core-' + strategies.LDAP, {
+        settingsToAdd.push({
+          id: 'core-' + strategies.LDAP,
           value: this.formValues.ldapMatches
-        }));
+        });
       }
 
       if (this.hasCas && this.formValues.casMatches) {
-        promises.push(entityService.updateEntity('settings', null, 'core-' + strategies.CAS, {
+        settingsToAdd.push({
+          id: 'core-' + strategies.CAS,
           value: this.formValues.casMatches
-        }));
+        });
       }
 
-      if (promises.length) {
+      if (settingsToAdd.length) {
         this.isSaving = true;
 
-        $q.all(promises).then(function() {
+        entityService.addEntities('settings', null, settingsToAdd).then(function() {
           self.isSaving = false;
           $scope.$emit('setAlert', 'success', $filter('translate')('CORE.SETTINGS.SAVE_SUCCESS'), 4000);
         });

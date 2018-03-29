@@ -15,7 +15,7 @@
      * @return {Promise} A promise resolving when the group has been added
      */
     function add(entity) {
-      return entityService.addEntity(entityType, null, entity).then(function() {
+      return entityService.addEntities(entityType, null, [entity]).then(function() {
         userService.cacheClear('permissions');
       });
     }
@@ -39,7 +39,7 @@
      * @param {Function} reload The reload Function to force reloading the table
      */
     function remove(groups, reload) {
-      entityService.removeEntity(entityType, null, groups.join(','))
+      entityService.removeEntities(entityType, null, groups.join(','))
         .then(function() {
           userService.cacheClear('permissions');
           $scope.$emit('setAlert', 'success', $filter('translate')('CORE.GROUPS.REMOVE_SUCCESS'), 4000);

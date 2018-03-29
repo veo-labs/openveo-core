@@ -298,6 +298,10 @@
       "name": "core-applications-users",
       "scopes": [ "core-get-users", "core-add-users", "core-delete-users", "core-update-users" ]
     },
+    "coreApplicationsSettings": {
+      "name": "core-applications-settings",
+      "scopes": [ "core-get-settings", "core-add-settings", "core-delete-settings", "core-update-settings" ]
+    },
     "coreApplicationsGuest": {
       "name": "core-applications-guest",
       "scopes": []

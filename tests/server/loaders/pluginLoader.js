@@ -2,24 +2,39 @@
 
 var path = require('path');
 var assert = require('chai').assert;
+var mock = require('mock-require');
 var openVeoApi = require('@openveo/api');
-var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
-var storage = process.require('app/server/storage.js');
 
 // pluginLoader.js
 describe('pluginLoader', function() {
+  var storage;
+  var database;
+  var pluginLoader;
 
   // Mocks
   beforeEach(function() {
-    storage.setDatabase({
-      get: function(collection, criteria, projection, limit, callback) {
+    database = {
+      getOne: function(location, filter, fields, callback) {
         callback();
       }
-    });
+    };
+    storage = {
+      getDatabase: function() {
+        return database;
+      }
+    };
+
+    mock(path.join(process.root, 'app/server/storage.js'), storage);
   });
 
+  // Initializes tests
+  beforeEach(function() {
+    pluginLoader = mock.reRequire(path.join(process.root, 'app/server/loaders/pluginLoader.js'));
+  });
+
+  // Stop mocks
   afterEach(function() {
-    storage.setDatabase(null);
+    mock.stopAll();
   });
 
   // getPluginPaths method

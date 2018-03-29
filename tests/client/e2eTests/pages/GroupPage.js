@@ -9,8 +9,8 @@ var browserExt = e2e.browser;
 /**
  * Creates a new GroupPage representing the groups back end page.
  */
-function GroupPage(model) {
-  GroupPage.super_.call(this, model);
+function GroupPage(provider) {
+  GroupPage.super_.call(this, provider);
 
   // Page path
   this.path = 'be/groups-list';

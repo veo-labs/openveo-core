@@ -83,6 +83,7 @@ var users = require('@openveo/test').e2e.users;
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var storage = process.require('app/server/storage.js');
 var provider = process.require('tests/client/e2eTests/scripts/entitiesProvider.js');
+var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
 
 // Test database configuration
 var configDir = openVeoApi.fileSystem.getConfDir();
@@ -108,7 +109,7 @@ var ldapUsers = [];
 var casUsers = [];
 
 // Get a Database instance to the test database
-var db = openVeoApi.database.factory.get(databaseConf);
+var db = openVeoApi.storages.factory.get(databaseConf.type, databaseConf);
 
 async.series([
 
@@ -130,6 +131,15 @@ async.series([
         pluginPaths = pluginPaths.concat(paths);
 
       callback(error);
+    });
+  },
+
+  // Load core plugin
+  function(callback) {
+    pluginLoader.loadPluginMetadata(new CorePlugin(), function(error, plugin) {
+      if (error) return callback(error);
+      process.api.addPlugin(plugin);
+      callback();
     });
   },
 
@@ -155,7 +165,8 @@ async.series([
 
   // Import groups
   function(callback) {
-    provider.importGroups(groups, function(error, importedGroups) {
+    provider.importGroups(groups, function(error, total, importedGroups) {
+      if (error) throw error;
       groups = importedGroups;
       callback();
     });
@@ -163,7 +174,7 @@ async.series([
 
   // Import roles
   function(callback) {
-    provider.importRoles(roles, function(error, importedRoles) {
+    provider.importRoles(roles, function(error, total, importedRoles) {
       roles = importedRoles;
 
       // User roles in description files are referenced by role keys as described in description files.
@@ -193,7 +204,7 @@ async.series([
 
   // Import users
   function(callback) {
-    provider.importUsers(users, function(error, importedUsers) {
+    provider.importUsers(users, function(error, total, importedUsers) {
       users = importedUsers;
       callback();
     });
@@ -201,7 +212,7 @@ async.series([
 
   // Import applications
   function(callback) {
-    provider.importApplications(applications, function(error, importedApplications) {
+    provider.importApplications(applications, function(error, total, importedApplications) {
       applications = importedApplications;
       callback();
     });

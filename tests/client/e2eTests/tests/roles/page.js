@@ -4,7 +4,6 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var RolePage = process.require('tests/client/e2eTests/pages/RolePage.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var storage = process.require('app/server/storage.js');
 var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
@@ -19,9 +18,9 @@ describe('Role page', function() {
 
   // Load roles page using super administrator account
   before(function() {
-    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
-    roleHelper = new RoleHelper(roleModel);
-    page = new RolePage(roleModel);
+    var roleProvider = new RoleProvider(storage.getDatabase());
+    roleHelper = new RoleHelper(roleProvider);
+    page = new RolePage(roleProvider);
     tableAssert = new TableAssert(page, roleHelper);
     page.logAsAdmin();
     roleHelper.getEntities().then(function(roles) {

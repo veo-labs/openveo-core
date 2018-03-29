@@ -12,6 +12,7 @@ var confDir = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var exit = process.exit;
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 var storage = process.require('app/server/storage.js');
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 // Create a readline interface to interact with the user
 var rl = readline.createInterface({
@@ -495,7 +496,7 @@ function createServerConf(callback) {
  */
 function verifyDatabaseConf(callback) {
   var databaseConf = require(path.join(confDir, 'databaseConf.json'));
-  var db = openVeoApi.database.factory.get(databaseConf);
+  var db = openVeoApi.storages.factory.get(databaseConf.type, databaseConf);
 
   db.connect(function(error) {
     if (error) {
@@ -524,14 +525,18 @@ function createSuperAdmin(callback) {
     function(callback) {
 
       // Verify if the super admin does not exist
-      userProvider.getOne('0', null, function(error, user) {
-        if (user)
-          callback(new Error('A super admin user already exists\n'));
-        else if (error)
-          callback(error);
-        else
-          callback();
-      });
+      userProvider.getOne(
+        new ResourceFilter().equal('id', '0'),
+        null,
+        function(error, user) {
+          if (user)
+            callback(new Error('A super admin user already exists\n'));
+          else if (error)
+            callback(error);
+          else
+            callback();
+        }
+      );
     },
     function(callback) {
       rl.question('Enter the name of the OpenVeo super admin to create :\n', function(answer) {
@@ -559,7 +564,7 @@ function createSuperAdmin(callback) {
       process.stdout.write(error.message);
       callback();
     } else
-      userProvider.add(user, function(error) {
+      userProvider.add([user], function(error, total, addedUsers) {
         callback(error);
       });
   });

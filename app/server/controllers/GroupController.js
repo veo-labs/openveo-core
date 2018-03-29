@@ -6,10 +6,10 @@
 
 var util = require('util');
 var openVeoApi = require('@openveo/api');
-var GroupModel = process.require('app/server/models/GroupModel.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var errors = process.require('app/server/httpErrors.js');
 var EntityController = openVeoApi.controllers.EntityController;
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 /**
  * Defines an entity controller to handle requests relative to groups' entities.
@@ -28,23 +28,40 @@ util.inherits(GroupController, EntityController);
 /**
  * Gets a list of groups.
  *
+ * @example
+ *
+ *     // Response example
+ *     {
+ *       "entities" : [ ... ],
+ *       "pagination" : {
+ *         "limit": ..., // The limit number of groups by page
+ *         "page": ..., // The actual page
+ *         "pages": ..., // The total number of pages
+ *         "size": ... // The total number of groups
+ *     }
+ *
  * @method getEntitiesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} [request.query] Request's query parameters
- * @param {String} [request.query.query] Search query to search on both group's name and description
- * @param {Number} [request.query.page=1] The expected page in pagination system
- * @param {Number} [request.query.limit] The maximum number of expected results
- * @param {String} [request.query.sortBy=name] To sort by property name (either "name" or "description")
- * @param {String} [request.query.sortOrder=desc] The sort order (either "asc" or "desc")
+ * @param {String|Array} [request.query.include] The list of fields to include from returned groups
+ * @param {String|Array} [request.query.exclude] The list of fields to exclude from returned groups. Ignored if
+ * include is also specified.
+ * @param {String} [request.query.query] Search query to search on both group names and descriptions
+ * @param {Number} [request.query.page=0] The expected page in pagination system
+ * @param {Number} [request.query.limit=10] The maximum number of expected results
+ * @param {String} [request.query.sortBy="name"] The field to sort by (either "name" or "description")
+ * @param {String} [request.query.sortOrder="desc"] The sort order (either "asc" or "desc")
  * @param {Response} response ExpressJS HTTP Response
  * @param {Function} next Function to defer execution to the next registered middleware
  */
 GroupController.prototype.getEntitiesAction = function(request, response, next) {
   var params;
-  var model = this.getModel(request);
+  var provider = this.getProvider(request);
 
   try {
     params = openVeoApi.util.shallowValidateObject(request.query, {
+      include: {type: 'array<string>'},
+      exclude: {type: 'array<string>'},
       query: {type: 'string'},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gte: 0, default: 0},
@@ -57,31 +74,30 @@ GroupController.prototype.getEntitiesAction = function(request, response, next) 
 
   // Build sort
   var sort = {};
-  sort[params.sortBy] = params.sortOrder === 'asc' ? 1 : -1;
+  sort[params.sortBy] = params.sortOrder;
 
   // Build filter
-  var filter = {};
+  var filter = new ResourceFilter();
 
   // Add search query
-  if (params.query) {
-    filter.$text = {
-      $search: '"' + params.query + '"'
-    };
-  }
+  if (params.query) filter.search('"' + params.query + '"');
 
-  model.getPaginatedFilteredEntities(
+  provider.get(
     filter,
+    {
+      exclude: params.exclude,
+      include: params.include
+    },
     params.limit,
     params.page,
     sort,
-    null,
-    function(error, entities, pagination) {
+    function(error, groups, pagination) {
       if (error) {
         process.logger.error(error.message, {error: error, method: 'getEntitiesAction'});
         next(errors.GET_GROUPS_ERROR);
       } else {
         response.send({
-          entities: entities,
+          entities: groups,
           pagination: pagination
         });
       }
@@ -90,11 +106,11 @@ GroupController.prototype.getEntitiesAction = function(request, response, next) 
 };
 
 /**
- * Gets an instance of the entity model associated to the controller.
+ * Gets an instance of the provider associated to the controller.
  *
- * @method getModel
- * @return {EntityModel} The entity model
+ * @method getProvider
+ * @return {GroupProvider} The provider
  */
-GroupController.prototype.getModel = function() {
-  return new GroupModel(new GroupProvider(process.api.getCoreApi().getDatabase()));
+GroupController.prototype.getProvider = function() {
+  return new GroupProvider(process.api.getCoreApi().getDatabase());
 };

@@ -112,6 +112,9 @@ function setCoreListeners() {
   var coreApi = process.api.getCoreApi();
   var CORE_HOOKS = coreApi.getHooks();
   coreApi.registerAction(CORE_HOOKS.ROLES_DELETED, listener.onRolesDeleted);
+  coreApi.registerAction(CORE_HOOKS.GROUPS_ADDED, listener.onGroupsAdded);
+  coreApi.registerAction(CORE_HOOKS.GROUP_UPDATED, listener.onGroupUpdated);
+  coreApi.registerAction(CORE_HOOKS.GROUPS_DELETED, listener.onGroupsDeleted);
 }
 
 /**

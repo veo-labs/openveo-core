@@ -11,24 +11,25 @@
  * @static
  */
 
-var ClientModel = process.require('app/server/models/ClientModel.js');
+var openVeoApi = require('@openveo/api');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
-var clientModel;
+var clientProvider;
 var client = {};
 
 /**
- * Gets ClientModel instance.
+ * Gets client provider.
  *
- * @method getClientModel
+ * @method getClientProvider
  * @private
- * @return {ClientModel} The ClientModel instance
+ * @return {ClientProvider} The client provider
  */
-function getClientModel() {
-  if (!clientModel)
-    clientModel = new ClientModel(new ClientProvider(process.api.getCoreApi().getDatabase()));
+function getClientProvider() {
+  if (!clientProvider)
+    clientProvider = new ClientProvider(process.api.getCoreApi().getDatabase());
 
-  return clientModel;
+  return clientProvider;
 }
 
 /**
@@ -55,8 +56,8 @@ client.getId = function(oAuthClient) {
  *  - **Object** The client object or null if something went wrong
  */
 client.fetchById = function(id, callback) {
-  var model = getClientModel();
-  model.getOne(id, null, callback);
+  var provider = getClientProvider();
+  provider.getOne(new ResourceFilter().equal('id', id), null, callback);
 };
 
 /**

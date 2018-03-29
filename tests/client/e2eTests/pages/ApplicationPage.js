@@ -9,8 +9,8 @@ var browserExt = e2e.browser;
 /**
  * Creates a new ApplicationPage representing the applications back end page.
  */
-function ApplicationPage(model) {
-  ApplicationPage.super_.call(this, model);
+function ApplicationPage(provider) {
+  ApplicationPage.super_.call(this, provider);
 
   // Page path
   this.path = 'be/applications-list';

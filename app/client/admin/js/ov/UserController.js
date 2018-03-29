@@ -22,7 +22,7 @@
         passwordValidate: user.passwordValidate,
         roles: user.roles || []
       };
-      return entityService.addEntity(entityType, null, entity);
+      return entityService.addEntities(entityType, null, [entity]);
     }
 
     /**
@@ -32,7 +32,7 @@
      * @param {Function} reload The reload Function to force reloading the table
      */
     function removeRows(selected, reload) {
-      entityService.removeEntity(entityType, null, selected.join(','))
+      entityService.removeEntities(entityType, null, selected.join(','))
         .then(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('CORE.USERS.REMOVE_SUCCESS'), 4000);
           reload();

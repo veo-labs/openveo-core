@@ -15,17 +15,17 @@ describe('UserController', function() {
   var request;
   var response;
   var userController;
-  var model;
+  var provider;
 
   beforeEach(function() {
-    model = {};
+    provider = {};
     request = {params: {}, query: {}};
     response = {
       send: chai.spy(function() {})
     };
     userController = new UserController();
-    userController.getModel = function() {
-      return model;
+    userController.getProvider = function() {
+      return provider;
     };
   });
 
@@ -36,9 +36,9 @@ describe('UserController', function() {
       var expectedEntities = [{id: '42'}];
       var expectedPagination = {page: 42, total: 60};
 
-      model.getPaginatedFilteredEntities = function(filter, limit, page, sort, populate, callback) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
         assert.strictEqual(page, 0, 'Wrong default page');
-        assert.strictEqual(sort['name'], -1, 'Wrong default sort');
+        assert.strictEqual(sort['name'], 'desc', 'Wrong default sort');
         callback(null, expectedEntities, expectedPagination);
       };
 
@@ -56,8 +56,12 @@ describe('UserController', function() {
     it('should be able to search by query', function(done) {
       var expectedQuery = '42';
 
-      model.getPaginatedFilteredEntities = function(filter, limit, page, sort, populate, callback) {
-        assert.equal(filter.$text.$search, '"' + expectedQuery + '"', 'Wrong query');
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.equal(
+          filter.getComparisonOperation(openVeoApi.storages.ResourceFilter.OPERATORS.SEARCH).value,
+          '"' + expectedQuery + '"',
+          'Wrong query'
+        );
         callback();
       };
 
@@ -74,7 +78,7 @@ describe('UserController', function() {
     it('should be able to ask for a specific page', function(done) {
       var expectedPage = 42;
 
-      model.getPaginatedFilteredEntities = function(filter, limit, page, sort, populate, callback) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
         assert.strictEqual(page, expectedPage, 'Wrong page');
         callback();
       };
@@ -89,10 +93,89 @@ describe('UserController', function() {
       });
     });
 
+    it('should be able to include / exclude certain fields from results', function(done) {
+      var expectedInclude = ['field1', 'field2'];
+      var expectedExclude = ['field3', 'field4'];
+
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.includeMembers(fields.include, expectedInclude, 'Wrong include');
+        assert.includeMembers(fields.exclude, expectedExclude, 'Wrong exclude');
+        callback();
+      };
+
+      response.send = function(data) {
+        done();
+      };
+
+      request.query = {
+        include: expectedInclude,
+        exclude: expectedExclude
+      };
+      userController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected call to next middleware');
+      });
+    });
+
+    it('should remove "password" field if included', function(done) {
+      var expectedInclude = ['field1', 'field2', 'password'];
+
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.notInclude(fields.include, 'password', 'Unexpected "password" field');
+        callback();
+      };
+
+      response.send = function(data) {
+        done();
+      };
+
+      request.query = {
+        include: expectedInclude
+      };
+      userController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected call to next middleware');
+      });
+    });
+
+    it('should add "password" field to excluded fields', function(done) {
+      var expectedExclude = ['field1', 'field2'];
+
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.include(fields.exclude, 'password', 'Expected "password" field to be excluded');
+        callback();
+      };
+
+      response.send = function(data) {
+        done();
+      };
+
+      request.query = {
+        exclude: expectedExclude
+      };
+      userController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected call to next middleware');
+      });
+    });
+
+    it('should exclude "password" field', function(done) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.include(fields.exclude, 'password', 'Expected "password" field to be excluded');
+        callback();
+      };
+
+      response.send = function(data) {
+        done();
+      };
+
+      request.query = {};
+      userController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected call to next middleware');
+      });
+    });
+
     it('should be able to limit the number of results per page', function(done) {
       var expectedLimit = 42;
 
-      model.getPaginatedFilteredEntities = function(filter, limit, page, sort, populate, callback) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
         assert.strictEqual(limit, expectedLimit, 'Wrong limit');
         callback();
       };
@@ -110,8 +193,8 @@ describe('UserController', function() {
     it('should be able to sort results by name in ascending order', function(done) {
       var expectedSort = 'asc';
 
-      model.getPaginatedFilteredEntities = function(filter, limit, page, sort, populate, callback) {
-        assert.strictEqual(sort['name'], 1, 'Wrong sort order');
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.strictEqual(sort['name'], 'asc', 'Wrong sort order');
         callback();
       };
 
@@ -129,15 +212,19 @@ describe('UserController', function() {
       var expectedOrigin = openVeoApi.passport.STRATEGIES.CAS;
       var next = chai.spy(function() {});
 
-      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
-        assert.strictEqual(filter['origin'], expectedOrigin, 'Wrong origin');
+      provider.get = chai.spy(function(filter, fields, limit, page, sort, callback) {
+        assert.equal(
+          filter.getComparisonOperation(openVeoApi.storages.ResourceFilter.OPERATORS.EQUAL, 'origin').value,
+          expectedOrigin,
+          'Wrong origin'
+        );
         callback();
       });
 
       request.query = {origin: expectedOrigin};
       userController.getEntitiesAction(request, response, next);
 
-      model.getPaginatedFilteredEntities.should.have.been.called.exactly(1);
+      provider.get.should.have.been.called.exactly(1);
       response.send.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(0);
     });
@@ -186,7 +273,7 @@ describe('UserController', function() {
     });
 
     it('should call next middleware with an error if getting the list of entities failed', function(done) {
-      model.getPaginatedFilteredEntities = function(filter, limit, page, sort, populate, callback) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
         callback(new Error('message'));
       };
 
@@ -210,14 +297,13 @@ describe('UserController', function() {
         roles: ['role1']
       };
 
-      model.update = function(id, data, callback) {
+      provider.updateOne = function(filter, data, callback) {
         assert.deepEqual(data, expectedData, 'Wrong data');
-        callback();
+        callback(null, 1);
       };
 
       response.send = function(data) {
-        assert.isNull(data.error, 'Wrong error');
-        assert.strictEqual(data.status, 'ok', 'Wrong status');
+        assert.equal(data.total, 1, 'Wrong total');
         done();
       };
 
@@ -245,7 +331,7 @@ describe('UserController', function() {
     });
 
     it('should call next middleware with an error if something went wrong while updating', function(done) {
-      model.update = function(id, data, callback) {
+      provider.updateOne = function(filter, data, callback) {
         callback(new Error('Message'));
       };
 
@@ -257,18 +343,6 @@ describe('UserController', function() {
       });
     });
 
-    it('should call next middleware with an error if user does not have permission to update', function(done) {
-      model.update = function(id, data, callback) {
-        callback(new openVeoApi.errors.AccessError('Message'));
-      };
-
-      request.params.id = '42';
-      request.body = {};
-      userController.updateEntityAction(request, response, function(error) {
-        assert.strictEqual(error, errors.UPDATE_USER_FORBIDDEN, 'Wrong error');
-        done();
-      });
-    });
   });
 
 });

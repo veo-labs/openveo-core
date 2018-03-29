@@ -1,6 +1,7 @@
 'use strict';
 
 var util = require('util');
+var shortid = require('shortid');
 var e2e = require('@openveo/test').e2e;
 var Helper = e2e.helpers.Helper;
 
@@ -9,11 +10,26 @@ var Helper = e2e.helpers.Helper;
  *
  * Each function is inserting in protractor's control flow.
  *
- * @param {SettingModel} model The entity model that will be used by the Helper
+ * @param {SettingProvider} provider The entity provider that will be used by the Helper
  */
-function SettingHelper(model) {
-  SettingHelper.super_.call(this, model);
+function SettingHelper(provider) {
+  SettingHelper.super_.call(this, provider);
 }
 
 module.exports = SettingHelper;
 util.inherits(SettingHelper, Helper);
+
+/**
+ * Gets setting object example to use with web service put /settings.
+ *
+ * @method getAddExample
+ * @return {Object} The data to add
+ */
+SettingHelper.prototype.getAddExample = function() {
+  var id = shortid.generate();
+  return {
+    id: id,
+    value: 'value'
+  };
+};
+

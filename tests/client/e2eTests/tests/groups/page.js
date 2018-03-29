@@ -4,7 +4,6 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
-var GroupModel = process.require('app/server/models/GroupModel.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var storage = process.require('app/server/storage.js');
 var GroupHelper = process.require('tests/client/e2eTests/helpers/GroupHelper.js');
@@ -19,9 +18,9 @@ describe('Group page', function() {
 
   // Prepare page
   before(function() {
-    var groupModel = new GroupModel(new GroupProvider(storage.getDatabase()));
-    groupHelper = new GroupHelper(groupModel);
-    page = new GroupPage(groupModel);
+    var groupProvider = new GroupProvider(storage.getDatabase());
+    groupHelper = new GroupHelper(groupProvider);
+    page = new GroupPage(groupProvider);
     tableAssert = new TableAssert(page, groupHelper);
     page.logAsAdmin();
     groupHelper.getEntities().then(function(groups) {

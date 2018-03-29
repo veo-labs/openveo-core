@@ -11,13 +11,10 @@ var e2e = require('@openveo/test').e2e;
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var entityLoader = process.require('app/server/loaders/entityLoader.js');
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
-var ClientModel = process.require('app/server/models/ClientModel.js');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
-var UserModel = process.require('app/server/models/UserModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
 var storage = process.require('app/server/storage.js');
-var api = process.require('app/server/api.js');
 var screenshotPlugin = e2e.plugins.screenshotPlugin;
 var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverTestConf.json');
@@ -41,9 +38,6 @@ var corePlugin;
 
 // Load a console logger
 process.logger = openVeoApi.logger.add('openveo');
-
-// Exposes API
-process.api = api;
 
 // Load suites
 var suites = process.require('tests/client/e2eTests/build/suites.json');
@@ -410,7 +404,7 @@ exports.config = {
     e2e.browser.setSize(1920, 1080);
 
     // Get a Database instance to the test database
-    db = openVeoApi.database.factory.get(databaseConf);
+    db = openVeoApi.storages.factory.get(databaseConf.type, databaseConf);
 
     async.series([
 
@@ -578,8 +572,8 @@ exports.config = {
       function(callback) {
         process.stdout.write('Prepare > Load applications\n');
 
-        var clientModel = new ClientModel(new ClientProvider(storage.getDatabase()));
-        clientModel.get(null, function(error, entities) {
+        var clientProvider = new ClientProvider(storage.getDatabase());
+        clientProvider.getAll(null, null, {id: 'desc'}, function(error, entities) {
           if (error) return callback(error);
           process.stdout.write('Prepare > Applications loaded\n');
 
@@ -592,8 +586,8 @@ exports.config = {
       function(callback) {
         process.stdout.write('Prepare > Load users\n');
 
-        var userModel = new UserModel(new UserProvider(storage.getDatabase()));
-        userModel.get(null, function(error, entities) {
+        var userProvider = new UserProvider(storage.getDatabase());
+        userProvider.getAll(null, null, {id: 'desc'}, function(error, entities) {
           if (error) return callback(error);
           process.stdout.write('Prepare > Users loaded\n');
           users = entities;

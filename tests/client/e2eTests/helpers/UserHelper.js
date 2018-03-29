@@ -10,10 +10,10 @@ var Helper = e2e.helpers.Helper;
  *
  * Each function is inserting in protractor's control flow.
  *
- * @param {UserModel} model The entity model that will be used by the Helper
+ * @param {UserProvider} provider The entity provider that will be used by the Helper
  */
-function UserHelper(model) {
-  UserHelper.super_.call(this, model);
+function UserHelper(provider) {
+  UserHelper.super_.call(this, provider);
   this.textSearchProperties = ['name'];
   this.sortProperties = [{
     name: 'name',
@@ -69,15 +69,20 @@ UserHelper.prototype.addThirdPartyUser = function(user) {
     return self.flow.execute(function() {
       var deferred = protractor.promise.defer();
 
-      self.model.addThirdPartyUser({
-        name: user.name,
-        email: user.email,
-        roles: user.roles
-      }, user.origin, user.originId, user.originGroups, function(error, addedTotal, addedUser) {
+      self.provider.addThirdPartyUsers([
+        {
+          name: user.name,
+          email: user.email,
+          roles: user.roles,
+          origin: user.origin,
+          originId: user.originId,
+          originGroups: user.originGroups
+        }
+      ], function(error, total, addedUsers) {
         if (error)
           deferred.reject(error);
         else
-          deferred.fulfill(addedUser);
+          deferred.fulfill(addedUsers[0]);
       });
 
       return deferred.promise;

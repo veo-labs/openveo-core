@@ -6,11 +6,8 @@ var openVeoApi = require('@openveo/api');
 var ProfilePage = process.require('tests/client/e2eTests/pages/ProfilePage.js');
 var storage = process.require('app/server/storage.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
-var UserModel = process.require('app/server/models/UserModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
-var SettingModel = process.require('app/server/models/SettingModel.js');
 var SettingProvider = process.require('app/server/providers/SettingProvider.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
 var SettingHelper = process.require('tests/client/e2eTests/helpers/SettingHelper.js');
@@ -31,12 +28,12 @@ describe('Profile page', function() {
 
   // Prepare page and save actual entities
   before(function() {
-    var userModel = new UserModel(new UserProvider(storage.getDatabase()));
-    var settingModel = new SettingModel(new SettingProvider(storage.getDatabase()));
-    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
-    userHelper = new UserHelper(userModel);
-    settingHelper = new SettingHelper(settingModel);
-    roleHelper = new RoleHelper(roleModel);
+    var userProvider = new UserProvider(storage.getDatabase());
+    var settingProvider = new SettingProvider(storage.getDatabase());
+    var roleProvider = new RoleProvider(storage.getDatabase());
+    userHelper = new UserHelper(userProvider);
+    settingHelper = new SettingHelper(settingProvider);
+    roleHelper = new RoleHelper(roleProvider);
     page = new ProfilePage();
 
     page.logAs(datas.users.coreAdmin);
@@ -296,7 +293,6 @@ describe('Profile page', function() {
       // Create as many roles as CAS user groups
       roleHelper.addEntitiesAuto(expectedRolePrefix, casUserGroups.length).then(function(addedRoles) {
         roles = addedRoles;
-
         for (var i = 0; i < casUserGroups.length; i++) {
           matches.push({
             group: casUserGroups[i],

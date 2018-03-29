@@ -10,10 +10,10 @@ var Helper = e2e.helpers.Helper;
  *
  * Each function is inserting in protractor's control flow.
  *
- * @param {ClientModel} model The entity model that will be used by the Helper
+ * @param {ClientProvider} provider The entity provider that will be used by the Helper
  */
-function ApplicationHelper(model) {
-  ApplicationHelper.super_.call(this, model);
+function ApplicationHelper(provider) {
+  ApplicationHelper.super_.call(this, provider);
   this.textSearchProperties = ['name'];
   this.sortProperties = [{
     name: 'name',

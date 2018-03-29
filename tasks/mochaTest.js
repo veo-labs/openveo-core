@@ -12,7 +12,9 @@ module.exports = {
       'tests/server/core/*.js',
       'tests/server/controllers/*.js',
       'tests/server/loaders/*.js',
-      'tests/server/plugin/*.js'
+      'tests/server/plugin/*.js',
+      'tests/server/providers/*.js',
+      'tests/server/migrations/*.js'
     ]
   }
 

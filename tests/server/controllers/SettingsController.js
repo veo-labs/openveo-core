@@ -9,29 +9,189 @@ var assert = chai.assert;
 chai.should();
 chai.use(spies);
 
-// SettingsController.js
 describe('SettingsController', function() {
   var request;
   var response;
-  var model;
+  var provider;
+  var expectedSettings;
+  var expectedPagination;
   var settingsController;
 
   beforeEach(function() {
-    model = {};
-    request = {params: {}, query: {}};
+    expectedSettings = [];
+    provider = {
+      getOne: chai.spy(function(filter, fields, callback) {
+        callback(null, expectedSettings[0]);
+      }),
+      get: chai.spy(function(filter, fields, limit, page, sort, callback) {
+        callback(null, expectedSettings, expectedPagination);
+      })
+    };
+    request = {
+      query: {}
+    };
     response = {
       send: chai.spy(function() {})
     };
     settingsController = new SettingsController();
-    settingsController.getModel = function() {
-      return model;
+    settingsController.getProvider = function() {
+      return provider;
     };
   });
 
-  // getEntityAction method
+  describe('getEntitiesAction', function() {
+
+    it('should send the list of settings with pagination', function(done) {
+      expectedSettings = [{}];
+      expectedPagination = {};
+
+      response = {
+        send: function(result) {
+          assert.strictEqual(result.entities, expectedSettings, 'Expected a list of settings');
+          assert.strictEqual(result.pagination, expectedPagination, 'Expected pagination');
+          done();
+        }
+      };
+
+      settingsController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected error : ' + error.message);
+      });
+    });
+
+    it('should be able to set the limit number of settings by page', function(done) {
+      var expectedLimit = 42;
+
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.equal(limit, expectedLimit, 'Wrong limit');
+        done();
+      };
+
+      request.query.limit = expectedLimit;
+
+      settingsController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected error : ' + error.message);
+      });
+    });
+
+    it('should be able to set the expected page of settings', function(done) {
+      var expectedPage = 42;
+
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.equal(page, expectedPage, 'Wrong page');
+        done();
+      };
+
+      request.query.page = expectedPage;
+
+      settingsController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected error : ' + error.message);
+      });
+    });
+
+    it('should set default sort order to "desc"', function(done) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.equal(sort.id, 'desc', 'Wrong sort');
+        done();
+      };
+
+      settingsController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected error : ' + error.message);
+      });
+    });
+
+    it('should set default limit to 10 if not specified', function(done) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.equal(limit, 10, 'Wrong limit');
+        done();
+      };
+
+      settingsController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected error : ' + error.message);
+      });
+    });
+
+    it('should set default page to 0 if not specified', function(done) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.equal(page, 0, 'Wrong page');
+        done();
+      };
+
+      settingsController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected error : ' + error.message);
+      });
+    });
+
+    it('should send an HTTP wrong parameters if limit is lesser than equal 0', function(done) {
+      var wrongValues = [-42, 0];
+
+      response.send = function() {
+        assert.ok(false, 'Unexpected response');
+      };
+
+      wrongValues.forEach(function(wrongValue) {
+        request.query.limit = wrongValue;
+        settingsController.getEntitiesAction(request, response, function(error) {
+          assert.strictEqual(error, errors.GET_SETTINGS_WRONG_PARAMETERS);
+        });
+      });
+
+      done();
+    });
+
+    it('should send an HTTP wrong parameters if page is lesser than 0', function(done) {
+      var wrongValues = [-42];
+
+      response.send = function() {
+        assert.ok(false, 'Unexpected response');
+      };
+
+      wrongValues.forEach(function(wrongValue) {
+        request.query.page = wrongValue;
+        settingsController.getEntitiesAction(request, response, function(error) {
+          assert.strictEqual(error, errors.GET_SETTINGS_WRONG_PARAMETERS);
+        });
+      });
+
+      done();
+    });
+
+    it('should send an HTTP wrong parameters if sortOrder is different from "asc" or "desc"', function(done) {
+      var wrongValues = ['Something else'];
+
+      response.send = function() {
+        assert.ok(false, 'Unexpected response');
+      };
+
+      wrongValues.forEach(function(wrongValue) {
+        request.query.sortOrder = wrongValue;
+        settingsController.getEntitiesAction(request, response, function(error) {
+          assert.strictEqual(error, errors.GET_SETTINGS_WRONG_PARAMETERS);
+        });
+      });
+
+      done();
+    });
+
+    it('should send an HTTP server error if an error occured while fetching settings', function(done) {
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        callback(new Error('Something went wrong'));
+      };
+
+      response.send = function(entities) {
+        assert.ok(false, 'Unexpected response');
+      };
+
+      settingsController.getEntitiesAction(request, response, function(error) {
+        assert.equal(error, errors.GET_SETTINGS_ERROR, 'Wrong error');
+        done();
+      });
+    });
+
+  });
+
   describe('getEntityAction', function() {
 
-    it('should send the entity returned by the model', function() {
+    it('should send the entity returned by the provider', function() {
       var expectedEntity = {};
       var next = chai.spy(function() {});
       var response = {
@@ -40,29 +200,29 @@ describe('SettingsController', function() {
         })
       };
 
-      model.getOne = chai.spy(function(id, filter, callback) {
+      provider.getOne = chai.spy(function(filter, fields, callback) {
         callback(null, expectedEntity);
       });
 
       settingsController.getEntityAction({params: {id: 42}}, response, next);
 
-      model.getOne.should.have.been.called.exactly(1);
+      provider.getOne.should.have.been.called.exactly(1);
       response.send.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(0);
     });
 
-    it('should send an HTTP server error if model return an error', function() {
+    it('should send an HTTP server error if provider returns an error', function() {
       var next = chai.spy(function(error) {
         assert.strictEqual(error, errors.GET_SETTING_ERROR);
       });
 
-      model.getOne = chai.spy(function(id, filter, callback) {
+      provider.getOne = chai.spy(function(filter, fields, callback) {
         callback(new Error('Error'));
       });
 
       settingsController.getEntityAction({params: {id: 1}}, response, next);
 
-      model.getOne.should.have.been.called.exactly(1);
+      provider.getOne.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(1);
       response.send.should.have.been.called.exactly(0);
     });
@@ -72,21 +232,21 @@ describe('SettingsController', function() {
         assert.strictEqual(error, errors.GET_SETTING_MISSING_PARAMETERS);
       });
 
-      model.getOne = chai.spy(function(id, filter, callback) {
+      provider.getOne = chai.spy(function(filter, fields, callback) {
         callback();
       });
 
       settingsController.getEntityAction({params: {}}, response, next);
 
       next.should.have.been.called.exactly(1);
-      model.getOne.should.have.been.called.exactly(0);
+      provider.getOne.should.have.been.called.exactly(0);
       response.send.should.have.been.called.exactly(0);
     });
 
     it('should send null if entity is not found', function() {
       var next = chai.spy(function() {});
 
-      model.getOne = chai.spy(function(id, filter, callback) {
+      provider.getOne = chai.spy(function(filter, fields, callback) {
         callback();
       });
 
@@ -97,307 +257,10 @@ describe('SettingsController', function() {
       settingsController.getEntityAction({params: {id: 1}}, response, next);
 
       response.send.should.have.been.called.exactly(1);
-      model.getOne.should.have.been.called.exactly(1);
+      provider.getOne.should.have.been.called.exactly(1);
       next.should.have.been.called.exactly(0);
     });
 
-  });
-
-  // getEntitiesAction method
-  describe('getEntitiesAction', function() {
-
-    it('should send response with the paginated list of entities', function() {
-      var expectedEntities = [{id: '42'}];
-      var expectedPagination = {page: 42, total: 60};
-      var next = chai.spy(function() {});
-
-      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
-        assert.isUndefined(filter['id'], 0, 'Wrong default page');
-        assert.strictEqual(page, 0, 'Wrong page');
-        assert.isUndefined(limit, 0, 'Wrong limit');
-        callback(null, expectedEntities, expectedPagination);
-      });
-
-      response.send = chai.spy(function(data) {
-        assert.deepEqual(data.entities, expectedEntities, 'Wrong entities');
-        assert.strictEqual(data.pagination, expectedPagination, 'Wrong pagination');
-      });
-
-      settingsController.getEntitiesAction(request, response, next);
-
-      model.getPaginatedFilteredEntities.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(0);
-    });
-
-    it('should be able to ask for a specific page', function() {
-      var expectedPage = 42;
-      var next = chai.spy(function() {});
-
-      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
-        assert.strictEqual(page, expectedPage, 'Wrong page');
-        callback();
-      });
-
-      request.query = {page: expectedPage};
-      settingsController.getEntitiesAction(request, response, next);
-
-      model.getPaginatedFilteredEntities.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(0);
-    });
-
-    it('should be able to limit the number of results per page', function() {
-      var expectedLimit = 42;
-      var next = chai.spy(function() {});
-
-      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
-        assert.strictEqual(limit, expectedLimit, 'Wrong limit');
-        callback();
-      });
-
-      request.query = {limit: expectedLimit};
-      settingsController.getEntitiesAction(request, response, next);
-
-      model.getPaginatedFilteredEntities.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(0);
-    });
-
-    it('should be able to filter entities by ids', function() {
-      var expectedIds = ['42', '43'];
-      var next = chai.spy(function() {});
-
-      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
-        assert.sameMembers(filter['id'].$in, expectedIds, 'Wrong ids');
-        callback();
-      });
-
-      request.query = {ids: expectedIds};
-      settingsController.getEntitiesAction(request, response, next);
-
-      model.getPaginatedFilteredEntities.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(0);
-    });
-
-    it('should call next middleware with an error if limit parameter is under or equal to 0', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.GET_SETTINGS_WRONG_PARAMETERS, 'Wrong error');
-      });
-
-      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
-        callback();
-      });
-
-      request.query = {limit: 0};
-      settingsController.getEntitiesAction(request, response, next);
-
-      next.should.have.been.called.exactly(1);
-      model.getPaginatedFilteredEntities.should.have.been.called.exactly(0);
-      response.send.should.have.been.called.exactly(0);
-    });
-
-    it('should call next middleware with an error if page parameter is under 0', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.GET_SETTINGS_WRONG_PARAMETERS, 'Wrong error');
-      });
-
-      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
-        callback();
-      });
-
-      request.query = {page: -1};
-      settingsController.getEntitiesAction(request, response, next);
-
-      next.should.have.been.called.exactly(1);
-      model.getPaginatedFilteredEntities.should.have.been.called.exactly(0);
-      response.send.should.have.been.called.exactly(0);
-    });
-
-    it('should call next middleware with an error if getting the list of entities failed', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.GET_SETTINGS_ERROR, 'Wrong error');
-      });
-
-      model.getPaginatedFilteredEntities = chai.spy(function(filter, limit, page, sort, populate, callback) {
-        callback(new Error('message'));
-      });
-
-      settingsController.getEntitiesAction(request, response, next);
-
-      model.getPaginatedFilteredEntities.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(0);
-    });
-  });
-
-
-  // updateEntityAction method
-  describe('updateEntityAction', function() {
-
-    it('should send a status "ok" if entity has been updated', function() {
-      var next = chai.spy(function() {});
-      var expectedId = '42';
-      var expectedValue = 'value';
-
-      model.update = chai.spy(function(id, data, callback) {
-        assert.equal(id, expectedId, 'Wrong id');
-        assert.equal(data.value, expectedValue, 'Wrong value');
-        callback(null, 1);
-      });
-
-      response.send = chai.spy(function(res) {
-        assert.equal(res.status, 'ok');
-      });
-
-      settingsController.updateEntityAction({
-        params: {
-          id: expectedId
-        },
-        body: {
-          value: expectedValue
-        }
-      }, response, next);
-
-      model.update.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(0);
-    });
-
-    it('should send an HTTP server error if model return an error', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.UPDATE_SETTINGS_ERROR);
-      });
-
-      model.update = chai.spy(function(id, data, callback) {
-        callback(new Error('Error'));
-      });
-
-      settingsController.updateEntityAction({
-        params: {
-          id: 1
-        },
-        body: {
-          value: 'value'
-        }
-      }, response, next);
-
-      model.update.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(0);
-    });
-
-    it('should send an HTTP missing parameter error if id is not specified', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.UPDATE_SETTINGS_MISSING_PARAMETERS);
-      });
-
-      model.update = chai.spy(function(id, data, callback) {
-        callback();
-      });
-
-      settingsController.updateEntityAction({params: {}, body: {value: '42'}}, response, next);
-
-      next.should.have.been.called.exactly(1);
-      model.update.should.have.been.called.exactly(0);
-      response.send.should.have.been.called.exactly(0);
-    });
-
-    it('should send an HTTP missing parameter error if value is not specified', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.UPDATE_SETTINGS_MISSING_PARAMETERS);
-      });
-
-      model.update = chai.spy(function(id, data, callback) {
-        callback();
-      });
-
-      settingsController.updateEntityAction({params: {id: '42'}, body: {}}, response, next);
-
-      next.should.have.been.called.exactly(1);
-      model.update.should.have.been.called.exactly(0);
-      response.send.should.have.been.called.exactly(0);
-    });
-
-  });
-
-  // addEntityAction method
-  describe('addEntityAction', function() {
-
-    it('should send back the entity when added', function() {
-      var expectedId = '42';
-      var expectedValue = 'value';
-      var expectedEntity = {
-        id: expectedId,
-        value: expectedValue
-      };
-      var next = chai.spy(function() {});
-
-      model.add = chai.spy(function(data, callback) {
-        assert.equal(data.id, expectedId, 'Wrong id');
-        assert.equal(data.value, expectedValue, 'Wrong value');
-        callback(null, 1, expectedEntity);
-      });
-
-      response.send = chai.spy(function(entity) {
-        assert.strictEqual(entity.entity, expectedEntity, 'Wrong entity');
-      });
-
-      settingsController.addEntityAction({body: expectedEntity}, response, next);
-
-      model.add.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(0);
-    });
-
-    it('should send an HTTP server error if model return an error', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.ADD_SETTINGS_ERROR);
-      });
-
-      model.add = chai.spy(function(data, callback) {
-        callback(new Error('Error'));
-      });
-
-      settingsController.addEntityAction({body: {id: '42', value: 'value'}}, response, next);
-
-      model.add.should.have.been.called.exactly(1);
-      next.should.have.been.called.exactly(1);
-      response.send.should.have.been.called.exactly(0);
-    });
-
-    it('should send an HTTP missing parameter error if id is not specified', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.ADD_SETTINGS_MISSING_PARAMETERS);
-      });
-
-      model.add = chai.spy(function(data, callback) {
-        callback();
-      });
-
-      settingsController.addEntityAction({body: {value: 'value'}}, response, next);
-
-      next.should.have.been.called.exactly(1);
-      model.add.should.have.been.called.exactly(0);
-      response.send.should.have.been.called.exactly(0);
-    });
-
-    it('should send an HTTP missing parameter error if value is not a string', function() {
-      var next = chai.spy(function(error) {
-        assert.strictEqual(error, errors.ADD_SETTINGS_MISSING_PARAMETERS);
-      });
-
-      model.add = chai.spy(function(data, callback) {
-        callback();
-      });
-
-      settingsController.addEntityAction({body: {id: '42'}}, response, next);
-
-      next.should.have.been.called.exactly(1);
-      model.add.should.have.been.called.exactly(0);
-      response.send.should.have.been.called.exactly(0);
-    });
   });
 
 });

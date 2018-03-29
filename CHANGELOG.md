@@ -3,6 +3,50 @@
 ## BREAKING CHANGES
 
 - Image processing configuration has changed. To clarify and facilitate further development on image processing, configuration has changed. It is now possible to specify a cache directory by images folder, also quality can be specified by style. Please have a look at the [documentation](https://github.com/veo-labs/openveo-plugin-generator) to find out the new way of configuring image processing
+- Controller / Model / Provider / Database system has been revised into a Controller / Provider / Storage system with the following important consequences:
+  - Back office **entityService.addEntity** has been renamed into **entityService.addEntities** and is now capable of adding multiple entities
+  - Back office **entityService.removeEntity** has been renamed into **entityService.removeEntities**
+  - Back office **entityService.getAllEntities** has been renamed added to get all pages of entities (should be used wisely)
+  - Web service endpoint PUT /applications now expects an array of applications instead of a single application
+  - Web service endpoint PUT /applications now returns a property **entities** with the list of added applications and **total** the number of inserted applications
+  - Web service endpoint POST /applications/:id now returns property **total** with value **1** if everything went fine
+  - Web service endpoint DELETE /applications/:id now returns property **total** with the number of deleted applications
+  - Web service endpoint PUT /groups now expects an array of groups instead of a single group
+  - Web service endpoint PUT /groups now returns a property **entities** with the list of added groups and **total** the number of inserted groups
+  - Web service endpoint POST /groups/:id now returns property **total** with value **1** if everything went fine
+  - Web service endpoint DELETE /groups/:id now returns property **total** with the number of deleted groups
+  - Web service endpoint PUT /roles now expects an array of roles instead of a single role
+  - Web service endpoint PUT /roles now returns a property **entities** with the list of added roles and **total** the number of inserted roles
+  - Web service endpoint POST /roles/:id now returns property **total** with value **1** if everything went fine
+  - Web service endpoint DELETE /roles/:id now returns property **total** with the number of deleted roles
+  - Web service endpoint GET /settings is no longer capable of getting settings by ids, use /settings/:id instead
+  - Web service endpoint GET /settings now accepts **sortOrder** parameter to order settings by id (either **asc** or **desc**)
+  - Web service endpoint PUT /settings now expects an array of settings instead of a single setting
+  - Web service endpoint PUT /settings now returns a property **entities** with the list of added settings and **total** the number of inserted settings
+  - Web service endpoint POST /settings/:id now returns property **total** with value **1** if everything went fine
+  - Web service endpoint DELETE /settings/:id now returns property **total** with the number of deleted settings
+  - Web service endpoint PUT /taxonomies now expects an array of taxonomies instead of a single taxonomy
+  - Web service endpoint PUT /taxonomies now returns a property **entities** with the list of added taxonomies and **total** the number of inserted taxonomies
+  - Web service endpoint POST /taxonomies/:id now returns property **total** with value **1** if everything went fine
+  - Web service endpoint DELETE /taxonomies/:id now returns property **total** with the number of deleted taxonomies
+  - Web service endpoint PUT /users now expects an array of users instead of a single user
+  - Web service endpoint PUT /users now returns a property **entities** with the list of added users and **total** the number of inserted users
+  - Web service endpoint POST /users/:id now returns property **total** with value **1** if everything went fine
+  - Web service endpoint DELETE /users/:id now returns property **total** with the number of deleted users
+  - The following error codes have been removed: 12, 13, 517, 518, 779, 780 and 781
+  - Core API now longer exposes clientModel, groupModel, roleModel, taxonomyModel and userModel but clientProvider, groupProvider, roleProvider, taxonomyProvider and userProvider
+
+## NEW FEATURES
+
+- Web service endpoint GET /applications now accepts **include** and **exclude** parameters to filter returned applications fields
+- Web service endpoint GET /groups now accepts **include** and **exclude** parameters to filter returned groups fields
+- Web service endpoint GET /roles now accepts **include** and **exclude** parameters to filter returned roles fields
+- Web service endpoint GET /taxonomies now accepts **include** and **exclude** parameters to filter returned taxonomies fields
+- Web service endpoint GET /users now accepts **include** and **exclude** parameters to filter returned users fields
+- Hook **groups.added** is now executed when groups have been added
+- Hook **group.updated** is now executed when a group has been updated
+- Hook **groups.deleted** is now executed when groups have been deleted
+- Core API now exposes the **settingProvider**
 
 ## BUG FIXES
 

@@ -3,7 +3,6 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var GroupPage = process.require('tests/client/e2eTests/pages/GroupPage.js');
-var GroupModel = process.require('app/server/models/GroupModel.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var storage = process.require('app/server/storage.js');
 var GroupHelper = process.require('tests/client/e2eTests/helpers/GroupHelper.js');
@@ -98,7 +97,7 @@ describe('Group page translations', function() {
 
   // Prepare page
   before(function() {
-    groupHelper = new GroupHelper(new GroupModel(new GroupProvider(storage.getDatabase())));
+    groupHelper = new GroupHelper(new GroupProvider(storage.getDatabase()));
     page = new GroupPage();
     page.logAsAdmin();
     groupHelper.getEntities().then(function(groups) {

@@ -5,6 +5,8 @@
  */
 
 var util = require('util');
+var crypto = require('crypto');
+var shortid = require('shortid');
 var openVeoApi = require('@openveo/api');
 
 /**
@@ -13,7 +15,7 @@ var openVeoApi = require('@openveo/api');
  * @class ClientProvider
  * @extends EntityProvider
  * @constructor
- * @param {Database} database The database to interact with
+ * @param {Database} database The database storing the clients
  */
 function ClientProvider(database) {
   ClientProvider.super_.call(this, database, 'core_clients');
@@ -23,28 +25,60 @@ module.exports = ClientProvider;
 util.inherits(ClientProvider, openVeoApi.providers.EntityProvider);
 
 /**
- * Retrieves a client application by its id.
+ * Adds Web Service client applications.
  *
- * @method getOne
+ * When adding a client a secret is automatically generated.
+ *
+ * @method add
  * @async
- * @param {String} id The client id
- * @param {Object} [filter] A MongoDB filter
- * @param {Function} callback The function to call when it's done
+ * @param {Array} clients The list of clients to store with for each client:
+ *   - **String** name The client name
+ *   - **String** [id] The client id, generated if not specified
+ *   - **Array** [scopes] The client scopes
+ * @param {Function} [callback] The function to call when it's done
  *   - **Error** The error if an error occurred, null otherwise
- *   - **Object** The entity
+ *   - **Number** The total amount of clients inserted
+ *   - **Array** The list of added clients
  */
-ClientProvider.prototype.getOne = function(id, filter, callback) {
-  if (!filter) filter = {};
-  filter.id = id;
+ClientProvider.prototype.add = function(clients, callback) {
+  var clientsToAdd = [];
 
-  this.database.get(this.collection, filter,
-    {
-      _id: 0
-    },
-    1, function(error, data) {
-      callback(error, data && data[0]);
-    }
-  );
+  for (var i = 0; i < clients.length; i++) {
+    var client = clients[i];
+
+    if (!client.name)
+      return this.executeCallback(callback, new TypeError('Requires a name to create a Web Service client'));
+
+    clientsToAdd.push({
+      id: client.id || shortid.generate(),
+      name: client.name,
+      scopes: client.scopes || [],
+      secret: crypto.randomBytes(20).toString('hex')
+    });
+  }
+
+  ClientProvider.super_.prototype.add.call(this, clientsToAdd, callback);
+};
+
+/**
+ * Updates a client.
+ *
+ * @method updateOne
+ * @async
+ * @param {ResourceFilter} [filter] Rules to filter client to update
+ * @param {Object} data The modifications to perform
+ * @param {String} [data.name] The client name
+ * @param {Array} [data.scopes] The client scopes
+ * @param {Function} [callback] The function to call when it's done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** 1 if everything went fine
+ */
+ClientProvider.prototype.updateOne = function(filter, data, callback) {
+  var modifications = {};
+  if (data.name) modifications.name = data.name;
+  if (data.scopes) modifications.scopes = data.scopes;
+
+  ClientProvider.super_.prototype.updateOne.call(this, filter, modifications, callback);
 };
 
 /**
@@ -56,7 +90,7 @@ ClientProvider.prototype.getOne = function(id, filter, callback) {
  *  - **Error** An error if something went wrong, null otherwise
  */
 ClientProvider.prototype.createIndexes = function(callback) {
-  this.database.createIndexes(this.collection, [
+  this.storage.createIndexes(this.location, [
     {key: {name: 1}, name: 'byName'},
     {key: {name: 'text'}, weights: {name: 1}, name: 'querySearch'}
   ], function(error, result) {

@@ -5,10 +5,8 @@ var chaiAsPromised = require('chai-as-promised');
 var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
 var SettingPage = process.require('tests/client/e2eTests/pages/SettingPage.js');
-var RoleModel = process.require('app/server/models/RoleModel.js');
 var RoleProvider = process.require('app/server/providers/RoleProvider.js');
 var RoleHelper = process.require('tests/client/e2eTests/helpers/RoleHelper.js');
-var SettingModel = process.require('app/server/models/SettingModel.js');
 var SettingProvider = process.require('app/server/providers/SettingProvider.js');
 var SettingHelper = process.require('tests/client/e2eTests/helpers/SettingHelper.js');
 
@@ -25,10 +23,10 @@ describe('Setting page', function() {
 
   // Prepare page
   before(function() {
-    var roleModel = new RoleModel(new RoleProvider(storage.getDatabase()));
-    var settingModel = new SettingModel(new SettingProvider(storage.getDatabase()));
-    roleHelper = new RoleHelper(roleModel);
-    settingHelper = new SettingHelper(settingModel);
+    var roleProvider = new RoleProvider(storage.getDatabase());
+    var settingProvider = new SettingProvider(storage.getDatabase());
+    roleHelper = new RoleHelper(roleProvider);
+    settingHelper = new SettingHelper(settingProvider);
     page = new SettingPage();
 
     page.logAsAdmin();

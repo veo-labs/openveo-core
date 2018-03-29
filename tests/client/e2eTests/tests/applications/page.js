@@ -4,7 +4,6 @@ var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var e2e = require('@openveo/test').e2e;
 var ApplicationPage = process.require('tests/client/e2eTests/pages/ApplicationPage.js');
-var ClientModel = process.require('app/server/models/ClientModel.js');
 var ClientProvider = process.require('app/server/providers/ClientProvider.js');
 var storage = process.require('app/server/storage.js');
 var ApplicationHelper = process.require('tests/client/e2eTests/helpers/ApplicationHelper.js');
@@ -19,9 +18,9 @@ describe('Application page', function() {
 
   // Prepare page
   before(function() {
-    var clientModel = new ClientModel(new ClientProvider(storage.getDatabase()));
-    applicationHelper = new ApplicationHelper(clientModel);
-    page = new ApplicationPage(clientModel);
+    var clientProvider = new ClientProvider(storage.getDatabase());
+    applicationHelper = new ApplicationHelper(clientProvider);
+    page = new ApplicationPage(clientProvider);
     tableAssert = new TableAssert(page, applicationHelper);
     page.logAsAdmin();
     applicationHelper.getEntities().then(function(applications) {

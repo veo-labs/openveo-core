@@ -47,7 +47,51 @@ var CORE_HOOKS = {
    * @default 'roles.deleted'
    * @final
    */
-  ROLES_DELETED: 'roles.deleted'
+  ROLES_DELETED: 'roles.deleted',
+
+  /**
+   * One or several content groups have been added.
+   *
+   * With:
+   * - **Array** The list of added groups
+   * - **Function** The function to call when action is done
+   *
+   * @property GROUPS_ADDED
+   * @type String
+   * @default 'groups.added'
+   * @final
+   */
+  GROUPS_ADDED: 'groups.added',
+
+  /**
+   * A content group has been updated.
+   *
+   * With:
+   * - **Object** The hook data with:
+   *   - **String** id The id of updated group
+   *   - **Object** modifications The list of modifications applied
+   * - **Function** The function to call when action is done
+   *
+   * @property GROUP_UPDATED
+   * @type String
+   * @default 'group.updated'
+   * @final
+   */
+  GROUP_UPDATED: 'group.updated',
+
+  /**
+   * One or several content groups have been deleted.
+   *
+   * With:
+   * - **Array** The list of deleted groups
+   * - **Function** The function to call when action is done
+   *
+   * @property GROUPS_DELETED
+   * @type String
+   * @default 'groups.deleted'
+   * @final
+   */
+  GROUPS_DELETED: 'groups.deleted'
 
 };
 

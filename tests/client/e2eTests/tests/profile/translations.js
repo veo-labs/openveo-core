@@ -5,7 +5,6 @@ var chaiAsPromised = require('chai-as-promised');
 var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
 var ProfilePage = process.require('tests/client/e2eTests/pages/ProfilePage.js');
-var UserModel = process.require('app/server/models/UserModel.js');
 var UserProvider = process.require('app/server/providers/UserProvider.js');
 var UserHelper = process.require('tests/client/e2eTests/helpers/UserHelper.js');
 var datas = process.require('tests/client/e2eTests/resources/data.json');
@@ -102,8 +101,8 @@ describe('Profile page', function() {
 
     // Log with a local user and load the profile page
     before(function() {
-      var userModel = new UserModel(new UserProvider(storage.getDatabase()));
-      userHelper = new UserHelper(userModel);
+      var userProvider = new UserProvider(storage.getDatabase());
+      userHelper = new UserHelper(userProvider);
 
       page.logAs(datas.users.coreAdmin);
       page.load();

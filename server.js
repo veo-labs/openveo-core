@@ -8,7 +8,6 @@ var nopt = require('nopt');
 var openVeoApi = require('@openveo/api');
 var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
 var storage = process.require('app/server/storage.js');
-var api = process.require('app/server/api.js');
 var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerConf.json');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverConf.json');
@@ -39,9 +38,6 @@ try {
 } catch (error) {
   throw new Error('Invalid configuration file : ' + error.message);
 }
-
-// Exposes APIs
-process.api = api;
 
 var server;
 
@@ -100,7 +96,7 @@ async.series([
   function(callback) {
 
     // Get a Database instance
-    var db = openVeoApi.database.factory.get(databaseConf);
+    var db = openVeoApi.storages.factory.get(databaseConf.type, databaseConf);
 
     // Establish connection to the database
     db.connect(function(error) {

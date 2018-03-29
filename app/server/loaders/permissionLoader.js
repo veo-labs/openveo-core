@@ -17,7 +17,6 @@
 
 var path = require('path');
 var openVeoApi = require('@openveo/api');
-var GroupModel = process.require('app/server/models/GroupModel.js');
 var GroupProvider = process.require('app/server/providers/GroupProvider.js');
 var storage = process.require('app/server/storage.js');
 
@@ -383,7 +382,7 @@ module.exports.buildScopes = function(entities, plugins, callback) {
 module.exports.buildPermissions = function(entities, plugins, callback) {
   var self = this;
   var permissions = this.generateEntityPermissions(entities);
-  var groupModel = new GroupModel(new GroupProvider(storage.getDatabase()));
+  var groupProvider = new GroupProvider(storage.getDatabase());
 
   // Get plugin's permissions
   if (plugins) {
@@ -399,7 +398,7 @@ module.exports.buildPermissions = function(entities, plugins, callback) {
     });
   }
 
-  groupModel.generateGroupPermissions(function(error, groupsPermissions) {
+  groupProvider.generateGroupPermissions(function(error, groupsPermissions) {
     if (error)
       return callback(error);
 

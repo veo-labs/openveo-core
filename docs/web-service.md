@@ -128,14 +128,17 @@ Get taxonomies.
 
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-query | String | No | - | To search on taxonomies' name
-sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+query | String | No | - | To search on taxonomy names
+sortBy | String | No | name | The field to use to sort taxonomies. Only **name** is available right now
+sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
-limit | Number | No | - | To limit the number of taxonomies per page. If not specified get all taxonomies
+limit | Number | No | 10 | The limit the number of taxonomies per page
+include | Array | No | - | The list of fields to include from returned taxonomies
+exclude | Array | No | - | The list of fields to exclude from returned taxonomies. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
-200 | Got the list of taxonomies (even if the list is empty)
+200 | Got the list of taxonomies
 500 | An error occured on the server side
 400 | Wrong list of parameters
 401 | Authentication to the web service failed
@@ -149,7 +152,7 @@ HTTP Status Code | Details
       "name": "Taxonomy 1",
       "tree": [
         {
-          "id" : "1445433239636",
+          "id": "1445433239636",
           "items": [],
           "title": "Term 1"
         }
@@ -160,7 +163,7 @@ HTTP Status Code | Details
       "name": "Taxonomy 2",
       "tree": [
         {
-          "id" : "3239636144543",
+          "id": "3239636144543",
           "items": [],
           "title": "Term 1"
         }
@@ -178,9 +181,16 @@ HTTP Status Code | Details
 
 ---
 
-Get taxonomy.
+Get a taxonomy.
 
     GET WEB_SERVICE_URL/taxonomies/{taxonomy_id}
+
+With **{taxonomy_id}** the id of the taxonomy to retrieve.
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+include | Array | No | - | The list of fields to include from returned taxonomy
+exclude | Array | No | - | The list of fields to exclude from returned taxonomy. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
@@ -189,6 +199,7 @@ HTTP Status Code | Details
 400 | Missing the taxonomy id
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
+404 | Taxonomy not found
 
 ```json
 {
@@ -208,7 +219,7 @@ Get the list of terms of a taxonomy.
 
 HTTP Status Code | Details
 ---- | ----
-200 | Got the taxonomy's terms
+200 | Got the taxonomy terms
 500 | An error occured on the server side
 400 | Missing the taxonomy id
 401 | Authentication to the web service failed
@@ -218,11 +229,11 @@ HTTP Status Code | Details
 {
   "terms": [
     {
-      "id" : "1445433239636",
+      "id": "1445433239636",
       "title": "Term 1",
       "items": [
         {
-          "id" : "1445433239637",
+          "id": "1445433239637",
           "items": [],
           "title": "Sub term 1"
         }
@@ -230,7 +241,7 @@ HTTP Status Code | Details
     },
     {
       "title": "Term 2",
-      "id" : "1333443134453",
+      "id": "1333443134453",
       "items": []
     }
   ]
@@ -239,13 +250,20 @@ HTTP Status Code | Details
 
 ---
 
-Add a taxonomy.
+Add taxonomies.
 
     PUT WEB_SERVICE_URL/taxonomies
 
+Expects an Array of objects containing:
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | Yes | - | The taxonomy name
+tree | Array | No | - | The list of terms for the taxonomy
+
 HTTP Status Code | Details
 ---- | ----
-200 | The taxonomy has been added
+200 | The taxonomies have been added
 500 | An error occured on the server side
 400 | Missing body
 401 | Authentication to the web service failed
@@ -253,11 +271,15 @@ HTTP Status Code | Details
 
 ```json
 {
-  "entity": {
-    "name": "My taxonomy",
-    "id": "41U3sYipg",
-    "tree": []
-  }
+  "entities": [
+    {
+      "name": "My taxonomy",
+      "id": "41U3sYipg",
+      "tree": []
+    },
+    ...
+  ],
+  "total": 42
 }
 ```
 ---
@@ -265,6 +287,13 @@ HTTP Status Code | Details
 Update a taxonomy.
 
     POST WEB_SERVICE_URL/taxonomies/{taxonomy_id}
+
+With **{taxonomy_id}** the id of the taxonomy to update.
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | No | - | The taxonomy name
+tree | Array | No | - | The list of terms for this taxonomy
 
 HTTP Status Code | Details
 ---- | ----
@@ -276,29 +305,29 @@ HTTP Status Code | Details
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 1
 }
 ```
 
 ---
 
-Delete a taxonomy.
+Delete taxonomies.
 
     DELETE WEB_SERVICE_URL/taxonomies/{taxonomy_id}
 
+With **{taxonomy_id}** a comma separated list of taxonomy ids to delete.
+
 HTTP Status Code | Details
 ---- | ----
-200 | The taxonomy has been deleted
+200 | The taxonomies have been deleted
 500 | An error occured on the server side
-400 | Missing the taxonomy id
+400 | Missing the taxonomy ids
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 42
 }
 ```
 
@@ -310,15 +339,17 @@ Get groups.
 
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-query | String | No | - | To search on both groups' name and description
-sortBy | String | No | name | To sort groups by either **name** or **description**
-sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+query | String | No | - | To search on both group names and descriptions
+sortBy | String | No | name | The field to use to sort groups (either **name** or **description**)
+sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
-limit | Number | No | - | To limit the number of groups per page. If not specified get all groups
+limit | Number | No | 10 | The limit the number of groups per page
+include | Array | No | - | The list of fields to include from returned groups
+exclude | Array | No | - | The list of fields to exclude from returned groups. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
-200 | Got the list of groups (even if the list is empty)
+200 | Got the list of groups
 500 | An error occured on the server side
 400 | Wrong list of parameters
 401 | Authentication to the web service failed
@@ -349,13 +380,16 @@ HTTP Status Code | Details
 
 ---
 
-Get information about a group.
+Get a group.
 
     GET WEB_SERVICE_URL/groups/{group_id}
 
+With **{group_id}** the id of the group to retrieve.
+
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-group_id | String | Yes | - | The id of the group to fetch
+include | Array | No | - | The list of fields to include from returned group
+exclude | Array | No | - | The list of fields to exclude from returned group. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
@@ -364,6 +398,7 @@ HTTP Status Code | Details
 400 | Missing the id of the group
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
+404 | Group not found
 
 ```json
 {
@@ -377,13 +412,20 @@ HTTP Status Code | Details
 
 ---
 
-Add a group.
+Add groups.
 
     PUT WEB_SERVICE_URL/groups
 
+Expects an Array of objects containing:
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | Yes | - | The group name
+description | String | Yes | - | The group description
+
 HTTP Status Code | Details
 ---- | ----
-200 | The group has been added
+200 | The groups have been added
 500 | An error occured on the server side
 400 | Missing body
 401 | Authentication to the web service failed
@@ -391,11 +433,15 @@ HTTP Status Code | Details
 
 ```json
 {
-  "entity": {
-    "id": "41U3sYipg",
-    "name": "Group name",
-    "description": "Group description"
-  }
+  "entities": [
+    {
+      "id": "41U3sYipg",
+      "name": "Group name",
+      "description": "Group description"
+    },
+    ...
+  ],
+  "total": 42
 }
 ```
 
@@ -404,6 +450,13 @@ HTTP Status Code | Details
 Update a group.
 
     POST WEB_SERVICE_URL/groups/{group_id}
+
+With **{group_id}** the id of the group to update.
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | No | - | The group name
+description | String | No | - | The group description
 
 HTTP Status Code | Details
 ---- | ----
@@ -415,29 +468,29 @@ HTTP Status Code | Details
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 1
 }
 ```
 
 ---
 
-Delete a group.
+Delete groups.
 
     DELETE WEB_SERVICE_URL/groups/{group_id}
 
+With **{group_id}** a comma separated list of group ids to delete.
+
 HTTP Status Code | Details
 ---- | ----
-200 | The group has been deleted
+200 | The groups have been deleted
 500 | An error occured on the server side
-400 | Missing the group id
+400 | Missing the group ids
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 42
 }
 ```
 
@@ -449,14 +502,17 @@ Get roles.
 
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-query | String | No | - | To search on roles' name
-sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+query | String | No | - | To search on role names
+sortBy | String | No | name | The field to use to sort results, only **name** is available right now
+sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
-limit | Number | No | - | To limit the number of roles per page. If not specified get all roles
+limit | Number | No | 10 | The limit the number of roles per page
+include | Array | No | - | The list of fields to include from returned roles
+exclude | Array | No | - | The list of fields to exclude from returned roles. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
-200 | Got the list of roles (even if the list is empty)
+200 | Got the list of roles
 500 | An error occured on the server side
 400 | Wrong list of parameters
 401 | Authentication to the web service failed
@@ -482,13 +538,16 @@ HTTP Status Code | Details
 
 ---
 
-Get information about a role.
+Get a role.
 
     GET WEB_SERVICE_URL/roles/{role_id}
 
+With **{role_id}** the id of the role to retrieve.
+
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-role_id | String | Yes | - | The id of the role to fetch
+include | Array | No | - | The list of fields to include from returned role
+exclude | Array | No | - | The list of fields to exclude from returned role. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
@@ -497,6 +556,7 @@ HTTP Status Code | Details
 400 | Missing the id of the role
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
+404 | Role not found
 
 ```json
 {
@@ -510,13 +570,20 @@ HTTP Status Code | Details
 
 ---
 
-Add a role.
+Add roles.
 
     PUT WEB_SERVICE_URL/roles
 
+Expects an Array of objects containing:
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | Yes | - | The role name
+permissions | Array | Yes | - | The role permssions
+
 HTTP Status Code | Details
 ---- | ----
-200 | The role has been added
+200 | The roles have been added
 500 | An error occured on the server side
 400 | Missing body
 401 | Authentication to the web service failed
@@ -524,11 +591,15 @@ HTTP Status Code | Details
 
 ```json
 {
-  "entity": {
-    "id": "41U3sYipg",
-    "name": "Role name",
-    "permissions" : [...]
-  }
+  "entities": [
+    {
+      "id": "41U3sYipg",
+      "name": "Role name",
+      "permissions" : [...]
+    },
+    ...
+  ],
+  "total": 42
 }
 ```
 
@@ -537,6 +608,13 @@ HTTP Status Code | Details
 Update a role.
 
     POST WEB_SERVICE_URL/roles/{role_id}
+
+With **{role_id}** the id of the role to update.
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | No | - | The role name
+permissions | Array | No | - | The role permssions
 
 HTTP Status Code | Details
 ---- | ----
@@ -548,29 +626,29 @@ HTTP Status Code | Details
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 1
 }
 ```
 
 ---
 
-Delete a role.
+Delete roles.
 
     DELETE WEB_SERVICE_URL/roles/{role_id}
 
+With **{role_id}** a comma separated list of role ids to delete.
+
 HTTP Status Code | Details
 ---- | ----
-200 | The role has been deleted
+200 | The roles have been deleted
 500 | An error occured on the server side
-400 | Missing the role id
+400 | Missing the role ids
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 42
 }
 ```
 
@@ -582,14 +660,18 @@ Get users.
 
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-query | String | No | - | To search on users' name
-sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+query | String | No | - | To search on user names
+origin | String | No | all | The users origin (either **cas**, **ldap**, **local** or **all**)
+sortBy | String | No | name | The field to use to sort users. Only **name** is available right now
+sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
-limit | Number | No | - | To limit the number of users per page. If not specified get all users
+limit | Number | No | 10 | The limit the number of users per page
+include | Array | No | - | The list of fields to include from returned users
+exclude | Array | No | - | The list of fields to exclude from returned users. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
-200 | Got the list of users (even if the list is empty)
+200 | Got the list of users
 500 | An error occured on the server side
 400 | Wrong list of parameters
 401 | Authentication to the web service failed
@@ -601,8 +683,10 @@ HTTP Status Code | Details
     {
       "id": "42",
       "name": "User name",
-      "password": "38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d",
-      "email" : "user.mail@company.com"
+      "email": "user.mail@company.com",
+      "origin": "local",
+      "locked": false,
+      "roles": ["role1"]
     }
   ],
   "pagination": {
@@ -616,13 +700,16 @@ HTTP Status Code | Details
 
 ---
 
-Get information about a user.
+Get a user.
 
     GET WEB_SERVICE_URL/users/{user_id}
 
+With **{user_id}** the id of the user to retrieve.
+
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-user_id | String | Yes | - | The id of the user to fetch
+include | Array | No | - | The list of fields to include from returned user
+exclude | Array | No | - | The list of fields to exclude from returned user. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
@@ -631,6 +718,7 @@ HTTP Status Code | Details
 400 | Missing the id of the user
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
+404 | User not found
 
 ```json
 {
@@ -638,20 +726,34 @@ HTTP Status Code | Details
     "id": "{user_id}",
     "name": "User name",
     "password": "38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d",
-    "email" : "user.mail@company.com"
+    "email": "user.mail@company.com",
+    "origin": "local",
+    "locked": false,
+    "roles": ["role1"]
   }
 }
 ```
 
 ---
 
-Add a user.
+Add users.
 
     PUT WEB_SERVICE_URL/users
 
+Expects an Array of objects containing:
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | Yes | - | The user name
+email | String | Yes | - | The user email
+password | String | Yes | - | The user password
+passwordValidate | String | Yes | - | The user password validation
+roles | Array | No | - | To user roles
+locked | Boolean | No | - | To lock the user from edition
+
 HTTP Status Code | Details
 ---- | ----
-200 | The user has been added
+200 | The users have been added
 500 | An error occured on the server side
 400 | Missing body
 401 | Authentication to the web service failed
@@ -659,12 +761,19 @@ HTTP Status Code | Details
 
 ```json
 {
-  "entity": {
-    "id": "41U3sYipg",
-    "name": "User name",
-    "password": "38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d",
-    "email" : "user.mail@company.com"
-  }
+  "entities": [
+    {
+      "id": "41U3sYipg",
+      "name": "User name",
+      "password": "38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d",
+      "email": "user.mail@company.com",
+      "origin": "local",
+      "locked": false,
+      "roles": ["role1"]
+    },
+    ...
+  ],
+  "total": 42
 }
 ```
 
@@ -673,6 +782,16 @@ HTTP Status Code | Details
 Update a user.
 
     POST WEB_SERVICE_URL/users/{user_id}
+
+With **{user_id}** the id of the user to update.
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | No | - | The user name
+email | String | No | - | The user email
+password | String | No | - | The user password
+passwordValidate | String | No | - | The user password validation
+roles | Array | No | - | To user roles
 
 HTTP Status Code | Details
 ---- | ----
@@ -684,29 +803,29 @@ HTTP Status Code | Details
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 1
 }
 ```
 
 ---
 
-Delete a user.
+Delete users.
 
     DELETE WEB_SERVICE_URL/users/{user_id}
 
+With **{user_id}** a comma separated list of user ids to delete.
+
 HTTP Status Code | Details
 ---- | ----
-200 | The user has been deleted
+200 | The users have been deleted
 500 | An error occured on the server side
-400 | Missing the user id
+400 | Missing the user ids
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 42
 }
 ```
 
@@ -718,14 +837,17 @@ Get applications.
 
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-query | String | No | - | To search on applications' name
-sortOrder | String | No | desc | Sort order (either **asc** or **desc**)
+query | String | No | - | To search on application names
+sortBy | String | No | name | The field to use to sort applications. Only **name** is available right now
+sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
-limit | Number | No | - | To limit the number of applications per page. If not specified get all applications
+limit | Number | No | 10 | The limit the number of applications per page
+include | Array | No | - | The list of fields to include from returned applications
+exclude | Array | No | - | The list of fields to exclude from returned applications. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
-200 | Got the list of applications (even if the list is empty)
+200 | Got the list of applications
 500 | An error occured on the server side
 400 | Wrong list of parameters
 401 | Authentication to the web service failed
@@ -752,13 +874,16 @@ HTTP Status Code | Details
 
 ---
 
-Get information about an application.
+Get an application.
 
     GET WEB_SERVICE_URL/applications/{application_id}
 
+With **{application_id}** the id of the application to retrieve.
+
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-application_id | String | Yes | - | The id of the application to fetch
+include | Array | No | - | The list of fields to include from returned application
+exclude | Array | No | - | The list of fields to exclude from returned application. Ignored if include is also specified
 
 HTTP Status Code | Details
 ---- | ----
@@ -767,6 +892,7 @@ HTTP Status Code | Details
 400 | Missing the id of the application
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
+404 | Application not found
 
 ```json
 {
@@ -781,13 +907,20 @@ HTTP Status Code | Details
 
 ---
 
-Add an application.
+Add applications.
 
     PUT WEB_SERVICE_URL/applications
 
+Expects an Array of objects containing:
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | Yes | - | The application name
+scopes | Array | No | - | The application scopes
+
 HTTP Status Code | Details
 ---- | ----
-200 | The application has been added
+200 | The applications have been added
 500 | An error occured on the server side
 400 | Missing the body
 401 | Authentication to the web service failed
@@ -795,12 +928,16 @@ HTTP Status Code | Details
 
 ```json
 {
-  "entity": {
-    "id": "41U3sYipg",
-    "name": "Application name",
-    "scopes": [...],
-    "secret" : "179a905785d4258bba255ffb812a25f2225f7d4c"
-  }
+  "entities": [
+    {
+      "id": "41U3sYipg",
+      "name": "Application name",
+      "scopes": [...],
+      "secret": "179a905785d4258bba255ffb812a25f2225f7d4c"
+    },
+    ...
+  ],
+  "total": 42
 }
 ```
 
@@ -809,6 +946,13 @@ HTTP Status Code | Details
 Update an application.
 
     POST WEB_SERVICE_URL/applications/{application_id}
+
+With **{application_id}** the id of the application to update.
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+name | String | No | - | The application name
+scopes | Array | No | - | The application scopes
 
 HTTP Status Code | Details
 ---- | ----
@@ -820,29 +964,29 @@ HTTP Status Code | Details
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 1
 }
 ```
 
 ---
 
-Delete an application.
+Delete applications.
 
     DELETE WEB_SERVICE_URL/applications/{application_id}
 
+With **{application_id}** a comma separated list of application ids to delete.
+
 HTTP Status Code | Details
 ---- | ----
-200 | The application has been deleted
+200 | The applications have been deleted
 500 | An error occured on the server side
-400 | Missing the application id
+400 | Missing the application ids
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 42
 }
 ```
 
@@ -854,13 +998,13 @@ Get settings.
 
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
-ids | String/Array | No | - | To filter videos by ids
+sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
-limit | Number | No | - | To limit the number of applications per page. If not specified get all applications
+limit | Number | No | 10 | The limit the number of settings per page
 
 HTTP Status Code | Details
 ---- | ----
-200 | Got the list of settings (even if the list is empty)
+200 | Got the list of settings
 500 | An error occured on the server side
 400 | Wrong list of parameters
 401 | Authentication to the web service failed
@@ -885,13 +1029,11 @@ HTTP Status Code | Details
 
 ---
 
-Get information about a setting.
+Get a setting.
 
     GET WEB_SERVICE_URL/settings/{setting_id}
 
-Name | Type | Required | Default | Details
----- | ---- | ---- | ---- | ----
-setting_id | String | Yes | - | The id of the setting to fetch
+With **{setting_id}** the id of the setting to retrieve.
 
 HTTP Status Code | Details
 ---- | ----
@@ -912,24 +1054,37 @@ HTTP Status Code | Details
 
 ---
 
-Add a setting.
+Add settings.
+
+If a setting already exists it will be updated.
 
     PUT WEB_SERVICE_URL/settings
 
+Expects an Array of objects containing:
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+id | String | Yes | - | The setting id
+value | Mixed | Yes | - | The setting value
+
 HTTP Status Code | Details
 ---- | ----
-200 | The setting has been added
+200 | The settings have been added
 500 | An error occured on the server side
-400 | Missing setting id in body
+400 | Missing setting ids in body
 401 | Authentication to the web service failed
 403 | Authorization forbidden for this end point
 
 ```json
 {
-  "entity": {
-    "id": "my-setting",
-    "value": "Mixed value"
-  }
+  "entities": [
+    {
+      "id": "my-setting",
+      "value": "Mixed value"
+    },
+    ...
+  ],
+  "total": 42
 }
 ```
 
@@ -938,6 +1093,12 @@ HTTP Status Code | Details
 Update a setting.
 
     POST WEB_SERVICE_URL/settings/{setting_id}
+
+With **{setting_id}** the id of the setting to update.
+
+Name | Type | Required | Default | Details
+---- | ---- | ---- | ---- | ----
+value | Mixed | No | - | The setting value
 
 HTTP Status Code | Details
 ---- | ----
@@ -949,20 +1110,21 @@ HTTP Status Code | Details
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 1
 }
 ```
 
 ---
 
-Delete a setting.
+Delete settings.
 
     DELETE WEB_SERVICE_URL/settings/{setting_id}
 
+With **{setting_id}** a comma separated list of setting ids to delete.
+
 HTTP Status Code | Details
 ---- | ----
-200 | The setting has been deleted
+200 | The settings have been deleted
 500 | An error occured on the server side
 400 | Missing the setting id
 401 | Authentication to the web service failed
@@ -970,8 +1132,7 @@ HTTP Status Code | Details
 
 ```json
 {
-  "error": null,
-  "status": "ok"
+  "total": 42
 }
 ```
 

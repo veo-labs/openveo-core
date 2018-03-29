@@ -25,7 +25,7 @@
      * @param {Function} reload The reload Function to force reloading the table
      */
     function removeRows(selected, reload) {
-      entityService.removeEntity(entityType, null, selected.join(','))
+      entityService.removeEntities(entityType, null, selected.join(','))
         .then(function() {
           $scope.$emit('setAlert', 'success', $filter('translate')('CORE.APPLICATIONS.REMOVE_SUCCESS'), 4000);
           reload();
@@ -52,7 +52,7 @@
      * @return {Promise} Promise resolving when application has been added
      */
     function addApplication(application) {
-      return entityService.addEntity(entityType, null, application);
+      return entityService.addEntities(entityType, null, [application]);
     }
 
     $scope.scopes = scopes.data.scopes;

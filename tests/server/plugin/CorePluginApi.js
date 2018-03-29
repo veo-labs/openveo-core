@@ -20,7 +20,7 @@ describe('CorePluginApi', function() {
 
     util.inherits(TestPlugin, openVeoApi.plugin.Plugin);
 
-    storage.setDatabase(new openVeoApi.database.Database({}));
+    storage.setDatabase(new openVeoApi.storages.Database({}));
   });
 
   // Add core plugin

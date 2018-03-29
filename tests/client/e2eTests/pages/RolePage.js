@@ -9,8 +9,8 @@ var browserExt = e2e.browser;
 /**
  * Creates a new RolePage representing the roles back end page.
  */
-function RolePage(model) {
-  RolePage.super_.call(this, model);
+function RolePage(provider) {
+  RolePage.super_.call(this, provider);
 
   // Page path
   this.path = 'be/roles-list';
