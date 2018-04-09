@@ -311,7 +311,7 @@
       if ($scope.userInfo) {
 
         // Access granted to admin
-        if ($scope.userInfo.id == 0) return true;
+        if ($scope.userInfo.id === openVeoSettings.superAdminId) return true;
 
         if (typeof permissions === 'string')
           permissions = [permissions];
@@ -341,8 +341,8 @@
 
         // Access granted to super administrator and owner
         // Access is also granted for contents belonging to the anonymous user
-        if ($scope.userInfo.id === '0' ||
-            content.metadata.user === '1' ||
+        if ($scope.userInfo.id === openVeoSettings.superAdminId ||
+            content.metadata.user === openVeoSettings.anonymousId ||
             $scope.userInfo.id === content.metadata.user
         ) return true;
 
