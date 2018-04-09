@@ -15,6 +15,7 @@ var entityLoader = process.require('/app/server/loaders/entityLoader.js');
 var OAuthController = process.require('app/server/controllers/OAuthController.js');
 var ErrorController = process.require('app/server/controllers/ErrorController.js');
 var storage = process.require('app/server/storage.js');
+var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 
 var oAuthController = new OAuthController();
 var errorController = new ErrorController();
@@ -121,12 +122,22 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
  *  - **Error** An error if something went wrong
  */
 WebServiceServer.prototype.onPluginsLoaded = function(callback) {
+  var plugins = process.api.getPlugins();
+  var entities = storage.getEntities();
 
   // Handle not found and errors
   this.httpServer.all('*', errorController.notFoundAction);
   this.httpServer.use(errorController.errorAction);
 
-  callback();
+  // Build permissions
+  permissionLoader.buildPermissions(entities, plugins, function(error, permissions) {
+    if (error) return callback(error);
+
+    // Store application's permissions
+    storage.setPermissions(permissions);
+
+    callback();
+  });
 };
 
 /**

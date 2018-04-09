@@ -48,6 +48,7 @@
 - Hook **groups.deleted** is now executed when groups have been deleted
 - Core API now exposes the **settingProvider**
 - $scope.hasPermission has been added to the back office client to test if a user possesses a permission
+- Authenticated Web service requests have now an associated user which possesses all internal permissions
 
 ## BUG FIXES
 

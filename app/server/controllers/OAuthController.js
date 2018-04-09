@@ -45,6 +45,59 @@ function getScopeByUrl(url, httpMethod) {
 }
 
 /**
+ * Retrieves, recursively, the id of all permissions.
+ *
+ * @example
+ *     var permissions = [
+ *       {
+ *         label: 'Permissions group',
+ *         permissions: [
+ *           {
+ *             id: 'perm-1',
+ *             name: 'Name of the first permission',
+ *             description: 'Description of the first permission',
+ *             paths: [ 'get /path1' ]
+ *           }
+ *         ]
+ *       },
+ *       {
+ *         id: 'perm-2',
+ *         name: 'Name of the second permission',
+ *         description: 'Description of the second permission',
+ *         paths: [ 'get /path2' ]
+ *       }
+ *     ];
+ *     getPermissionIds(permissions); // ["perm-1", "perm-2"]
+ *
+ * @method getPermissionIds
+ * @private
+ * @static
+ * @param {Array} permissions The list of permissions to search in
+ * @return {Array} The list of permission ids
+ */
+function getPermissionIds(permissions) {
+  var permissionsList = [];
+  for (var i = 0; i < permissions.length; i++) {
+
+    if (permissions[i].id) {
+
+      // Single permission
+      permissionsList.push(permissions[i].id);
+
+    } else if (permissions[i].label) {
+
+      // Group of permissions
+      var permissionIds = getPermissionIds(permissions[i].permissions);
+
+      if (permissionIds && permissionIds.length > 0)
+        permissionsList = permissionsList.concat(permissionIds);
+    }
+  }
+
+  return permissionsList;
+}
+
+/**
  * Defines a controller to handle requests relative to Web Service authentication.
  *
  * @class OauthController
@@ -81,16 +134,32 @@ OauthController.prototype.validateScopesAction = function(request, response, nex
     // at scopes
     var scope = getScopeByUrl(request.url, request.method);
 
-    // Access granted
-    if (scope && request.oauth2.accessToken.scopes.indexOf(scope) > -1)
-      next();
+    if (scope && request.oauth2.accessToken.scopes.indexOf(scope) > -1) {
 
-    // Access refused
-    else {
+      // Access granted
+
+      // OpenVeo and plugins may define two kinds of permissions:
+      // - scope permissions for the Web Service
+      // - internal permissions
+      // OAuth authentication validates requests based on URLs using scope permissions but it doesn't validate the
+      // internal permissions. As Core and plugins may validate internal permissions based on authenticated user
+      // permissions, a user has to be created for an authenticated Web Service client. This user has full
+      // privileges on internal permissions.
+      request.user = {
+        id: request.oauth2.accessToken.clientId,
+        permissions: getPermissionIds(storage.getPermissions()),
+        type: 'oAuthClient'
+      };
+
+      next();
+    } else {
+
+      // Access refused
       process.logger.warn(
         'Access refused for client ' + request.oauth2.accessToken.clientId + ' for path ' + request.url +
         ' with method ' + request.method);
       next(errors.WS_FORBIDDEN);
+
     }
 
   } else {

@@ -24,25 +24,48 @@ describe('OAuthController', function() {
 
   afterEach(function() {
     storage.setWebServiceScopes(null);
+    storage.setPermissions(null);
   });
 
   // validateScopesAction method
   describe('validateScopesAction', function() {
 
     it('should call next middleware if route is in user\'s scopes (access granted)', function(done) {
-      var expectedId = '42';
+      var expectedUserId = '42';
+      var expectedScopeId = '43';
       var expectedMethod = 'get';
       var expectedPath = 'expected/path';
-      var expectedScopes = [{id: expectedId, paths: [expectedMethod + ' ' + expectedPath]}];
+      var expectedScopes = [{id: expectedScopeId, paths: [expectedMethod + ' ' + expectedPath]}];
+      var expectedPermissions = [
+        {
+          label: 'Group',
+          permissions: [
+            {
+              id: 'perm1'
+            }
+          ]
+        }, {
+          id: 'perm2'
+        }
+      ];
       storage.setWebServiceScopes(expectedScopes);
+      storage.setPermissions(expectedPermissions);
 
       request.oauth2.accessToken = {
-        scopes: [expectedId]
+        clientId: expectedUserId,
+        scopes: [expectedScopeId]
       };
       request.url = expectedPath;
       request.method = expectedMethod;
       oAuthController.validateScopesAction(request, response, function(error) {
         assert.isUndefined(error, 'Unexpected error');
+        assert.equal(request.user.id, expectedUserId, 'Wrong user id');
+        assert.equal(request.user.type, 'oAuthClient', 'Wrong user type');
+        assert.deepEqual(
+          request.user.permissions,
+          [expectedPermissions[0].permissions[0].id, expectedPermissions[1].id],
+          'Wrong user permissions'
+        );
         done();
       });
     });
