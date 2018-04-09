@@ -362,6 +362,19 @@
       return false;
     };
 
+    /**
+     * Checks that user possesses a permission.
+     *
+     * @param {String} permission The permission id
+     * @return {Boolean} true if user has the permission
+     */
+    $scope.hasPermission = function(permission) {
+      if ($scope.userInfo && $scope.userInfo.permissions && permission)
+        return $scope.userInfo.permissions.indexOf(permission) >= 0;
+
+      return false;
+    };
+
   }
 
   app.controller('MainController', MainController);

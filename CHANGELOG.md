@@ -47,6 +47,7 @@
 - Hook **group.updated** is now executed when a group has been updated
 - Hook **groups.deleted** is now executed when groups have been deleted
 - Core API now exposes the **settingProvider**
+- $scope.hasPermission has been added to the back office client to test if a user possesses a permission
 
 ## BUG FIXES
 
