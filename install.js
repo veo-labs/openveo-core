@@ -549,6 +549,7 @@ function createSuperAdmin(callback) {
       secureQuestion('Enter the password of the OpenVeo super admin to create :\n', function(answer) {
         if (!answer) return callback(new Error('Invalid password, aborting'));
         user.password = crypto.createHmac('sha256', conf.passwordHashKey).update(answer).digest('hex');
+        user.passwordValidate = user.password;
         callback();
       });
     },
