@@ -514,7 +514,6 @@ function verifyDatabaseConf(callback) {
 function createSuperAdmin(callback) {
   var UserProvider = process.require('app/server/providers/UserProvider.js');
   var userProvider = new UserProvider(storage.getDatabase());
-  var conf = require(path.join(confDir, 'conf.json'));
   var user = {
     id: '0',
     locked: true,
@@ -548,7 +547,7 @@ function createSuperAdmin(callback) {
     function(callback) {
       secureQuestion('Enter the password of the OpenVeo super admin to create :\n', function(answer) {
         if (!answer) return callback(new Error('Invalid password, aborting'));
-        user.password = crypto.createHmac('sha256', conf.passwordHashKey).update(answer).digest('hex');
+        user.password = answer;
         user.passwordValidate = user.password;
         callback();
       });
