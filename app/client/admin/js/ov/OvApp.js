@@ -195,7 +195,8 @@
       link: function(scope, element, attrs) {
         scope.show = function() {
           scope.isEmpty = false;
-          return scope.model[scope.options.key] && 'CORE.UI.TRUE' || 'CORE.UI.FALSE';
+          return scope.model[scope.options.key] &&
+            $filter('translate')('CORE.UI.TRUE') || $filter('translate')('CORE.UI.FALSE');
         };
       }
     });
