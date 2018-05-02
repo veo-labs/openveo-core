@@ -122,7 +122,16 @@
 
         // on success
         // save value in the fields as initial value
-        self.options.updateInitialValue();
+
+        try {
+          self.options.updateInitialValue();
+        } catch (error) {
+
+          // "updateInitialValue" may fail due to a bug in angularjs-formly:
+          // fields not visible due to "hideExpression" are not properly
+          // initialized making "updateInitialValue" crash
+
+        }
         self.model.saving = false;
         self.options.formState.showForm = false;
         tableReloadEventService.broadcast();
