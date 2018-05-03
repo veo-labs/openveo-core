@@ -1,14 +1,10 @@
 'use strict';
 
 /**
- * OpenVeo helper.
- *
  * @module ov.util
- * @main ov.util
  */
 
-(function(angular) {
-  var app = angular.module('ov.utilService', []);
+(function(app) {
 
   /**
    * Defines an Util service to expose helper function.
@@ -47,4 +43,4 @@
   app.factory('utilService', UtilService);
   UtilService.$inject = ['$filter'];
 
-})(angular);
+})(angular.module('ov.util'));

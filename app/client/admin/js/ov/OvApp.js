@@ -20,7 +20,7 @@
     'ov.entity',
     'ov.alert',
     'ov.tableForm',
-    'ov.utilService',
+    'ov.util',
     'ov.socket',
     'ui.bootstrap',
     'ui.tree',

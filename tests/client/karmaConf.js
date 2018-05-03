@@ -52,6 +52,7 @@ module.exports = function(config) {
       'tests/client/unitTests/init.js',
       'app/client/admin/js/authentication/AuthenticationApp.js',
       'app/client/admin/js/ov/OvApp.js',
+      'app/client/admin/js/util/UtilApp.js',
       'app/client/admin/views/*.html',
       'app/client/admin/js/**/*.js',
       'tests/client/unitTests/*.js'

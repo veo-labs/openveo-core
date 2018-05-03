@@ -154,7 +154,9 @@ module.exports = {
         '/alert/AlertApp.js',
         '/socket/SocketApp.js',
         '/tableForm/tableForm.js',
-        '/util/utilService.js'
+        '/util/UtilApp.js',
+        '/util/utilService.js',
+        '/util/UrlFactory.js'
       ],
       prod: [
         '/be/js/libOpenveo.js'
