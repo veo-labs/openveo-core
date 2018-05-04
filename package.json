@@ -83,7 +83,7 @@
     "mock-require": "3.0.1"
   },
   "scripts": {
-    "prepublish": "grunt prod",
+    "prepack": "grunt prod",
     "postinstall": "bower install && node install.js",
     "eslint": "grunt eslint",
     "mocha": "grunt mochaTest",
