@@ -35,6 +35,7 @@
   - Web service endpoint DELETE /users/:id now returns property **total** with the number of deleted users
   - The following error codes have been removed: 12, 13, 517, 518, 779, 780 and 781
   - Core API now longer exposes clientModel, groupModel, roleModel, taxonomyModel and userModel but clientProvider, groupProvider, roleProvider, taxonomyProvider and userProvider
+- Drop support for NodeJS &lt; 8.9.4 and NPM &lt; 5.6.0
 
 ## NEW FEATURES
 
