@@ -25,6 +25,7 @@
   </head>
 
   <body>
+
     <header ng-if="displayMainMenu"  class="header navbar navbar-default navbar-fixed-top" role="banner" ng-cloak>
 
       <!-- Top Navigation Bar -->
@@ -301,6 +302,16 @@
           <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
         </span>
       </div>
+    </script>
+
+    <!-- Formly "dateTimePicker" type template -->
+    <script type="text/ng-template" id="ov-core-formly-date-time-picker.html">
+      <ov-date-time-picker ng-model="model[options.key]"
+                           ng-required="to.required"
+                           ov-current-text="{{'CORE.DATEPICKER.TODAY' | translate}}"
+                           ov-clear-text="{{'CORE.DATEPICKER.CLEAR' | translate}}"
+                           ov-close-text="{{'CORE.DATEPICKER.CLOSE' | translate}}"
+      ></ov-date-time-picker>
     </script>
 
     <!-- Formly "tags" type template -->

@@ -86,6 +86,10 @@
       }
     });
     formlyConfig.setType({
+      name: 'dateTimePicker',
+      templateUrl: 'ov-core-formly-date-time-picker.html'
+    });
+    formlyConfig.setType({
       name: 'tags',
       templateUrl: 'ov-core-formly-tags.html',
       defaultOptions: {
@@ -154,6 +158,15 @@
       link: function(scope, element, attrs) {
         scope.show = function() {
           return $filter('date')(scope.model[scope.options.key], 'shortDate');
+        };
+      }
+    });
+    formlyConfig.setType({
+      name: 'editableDateTimePicker',
+      extends: 'dateTimePicker',
+      link: function(scope, element, attrs) {
+        scope.show = function() {
+          return $filter('date')(scope.model[scope.options.key], 'medium');
         };
       }
     });
@@ -281,6 +294,16 @@
     formlyConfig.setType({
       name: 'horizontalEditableDatepicker',
       extends: 'editableDatepicker',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalDateTimePicker',
+      extends: 'dateTimePicker',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalEditableDateTimePicker',
+      extends: 'editableDateTimePicker',
       wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
     });
     formlyConfig.setType({

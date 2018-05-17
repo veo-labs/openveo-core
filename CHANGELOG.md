@@ -3,6 +3,7 @@
 ## NEW FEATURES
 
 - Add a new AngularJS directive ov-date-time-picker which is a form element designed to specify both date and time. It uses Bootstrap date picker and time picker
+- Add several formly types relative to the new date time picker directive: dateTimePicker, editableDateTimePicker and horizontalDateTimePicker
 
 # 5.0.0 / 2018-05-04
 
