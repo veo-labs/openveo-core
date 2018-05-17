@@ -1,16 +1,22 @@
 {
 
   "env": {
-    
+
     // Add browser environment globals
     "browser": true
-    
+
   },
   "globals": {
-  
+
     // Add angular to environment globals but do not authorize to overwrite it
     angular: false
-    
+
+  },
+  "rules": {
+
+    // Do not require consistent this as AngularJS encourages to use "ctrl" for controllers
+    "consistent-this": 0
+
   }
-  
+
 }

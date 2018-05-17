@@ -179,6 +179,59 @@
       </div>
     </script>
 
+    <!-- "ov-date-time-picker" directive template -->
+    <script type="text/ng-template" id="ov-core-date-time-picker.html">
+      <div class="ov-date-time-picker">
+        <div class="input-group">
+          <input
+                 ng-model="$ctrl.date"
+                 ng-model-options="{allowInvalid: true}"
+                 ng-blur="$ctrl.setAsTouched();"
+                 uib-datepicker-popup="shortDate"
+                 is-open="$ctrl.calendarIsOpened"
+                 current-text="{{currentText}}"
+                 clear-text="{{clearText}}"
+                 close-text="{{closeText}}"
+                 class="form-control">
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="$ctrl.openDatePicker($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+          </span>
+          <div class="ov-time-picker">
+            <div
+                 uib-timepicker
+                 ng-model="$ctrl.time"
+                 ng-model-options="{allowInvalid: true}"
+                 ng-blur="$ctrl.setAsTouched();"
+                 show-spinners="false"
+                 show-meridian="false"
+                 template-url="ov-core-time-picker.html"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </script>
+
+    <!--
+        "ov-core-time-picker" template for ovDateTimePicker directive copied from angular-bootstrap (original is uib/template/timepicker/timepicker.html)
+        An issue comes with the Bootstrap time picker default template, the "has-error" class is automatically applied when hours field is empty and so without making field required.
+        Also to avoid duplicating the whole template, unused parts have been removed such as meridians, seconds and spinners.
+    -->
+    <script type="text/ng-template" id="ov-core-time-picker.html">
+      <table class="uib-timepicker">
+        <tbody>
+          <tr>
+            <td class="form-group uib-time hours">
+              <input type="text" style="width:50px;" placeholder="HH" ng-model="hours" ng-change="updateHours()" class="form-control text-center" ng-readonly="::readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementHours()" ng-blur="blur()">
+            </td>
+            <td class="uib-separator">:</td>
+            <td class="form-group uib-time minutes">
+              <input type="text" style="width:50px;" placeholder="MM" ng-model="minutes" ng-change="updateMinutes()" class="form-control text-center" ng-readonly="::readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementMinutes()" ng-blur="blur()">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </script>
+
     <!--
       Formly template wrappers
     -->

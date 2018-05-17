@@ -182,7 +182,9 @@ module.exports = {
         '/ov/TagsDirective.js',
         '/ov/MultiCheckBoxDirective.js',
         '/ov/MatchDirective.js',
-        '/ov/SettingsController.js'
+        '/ov/SettingsController.js',
+        '/ov/DateTimePickerDirective.js',
+        '/ov/DateTimePickerController.js'
       ],
       prod: [
         '/be/js/openveo.js'
