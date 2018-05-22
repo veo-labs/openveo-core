@@ -22,8 +22,9 @@
       if (!scopes) {
 
         // Get scopes from server
-        return $http.get(basePath + 'ws/scopes').success(function(scopesObj) {
-          scopes = scopesObj;
+        return $http.get(basePath + 'ws/scopes').then(function(response) {
+          scopes = response.data;
+          return $q.when(response);
         });
 
       }

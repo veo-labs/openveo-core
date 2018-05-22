@@ -152,16 +152,16 @@
         deferred.resolve(angular.copy(pluginCache[entityType][cacheId]));
       } else {
         var path = basePath + ((pluginName !== 'core') ? pluginName + '/' : '') + entityType;
-        $http.get(path, options).success(function(data) {
+        $http.get(path, options).then(function(response) {
           if (!pluginCache) pluginCache = entityCache[pluginName] = {};
           if (!pluginCache[entityType]) pluginCache[entityType] = {};
 
           pluginCache[entityType][cacheId] = angular.copy({
-            data: data
+            data: response.data
           });
 
           deferred.resolve({
-            data: data
+            data: response.data
           });
         });
       }

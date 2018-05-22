@@ -22,8 +22,9 @@
       if (!permissions) {
 
         // Get scopes from server
-        return $http.get(basePath + 'permissions').success(function(permissionsObj) {
-          permissions = permissionsObj;
+        return $http.get(basePath + 'permissions').then(function(response) {
+          permissions = response.data;
+          return $q.when(response);
         });
 
       }

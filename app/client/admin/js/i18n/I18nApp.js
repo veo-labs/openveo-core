@@ -45,10 +45,10 @@
         path += 'getDictionary/' + name + '/' + currentLanguage;
 
         // Get dictionary
-        return $http.get(path).success(function(translation) {
+        return $http.get(path).then(function(response) {
           translations[name] || (translations[name] = {});
-          translations[name][currentLanguage] = translation;
-        }).error(function() {
+          translations[name][currentLanguage] = response.data;
+        }).catch(function(error) {
           translations[name] || (translations[name] = {});
           translations[name][currentLanguage] = null;
         });

@@ -50,14 +50,17 @@
       if (!menu) {
 
         // Get menu from server
-        return $http.get(basePath + 'getMenu').success(function(menuObj) {
-          menu = menuObj;
+        return $http.get(basePath + 'getMenu').then(function(response) {
+          menu = response.data;
           setActiveMenuItem();
+          return $q.when(response);
         });
 
       }
 
-      return $q.when(menu);
+      return $q.when({
+        data: menu
+      });
     }
 
     /**
