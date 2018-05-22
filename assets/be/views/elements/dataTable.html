@@ -1,7 +1,7 @@
 <div class="datatable" ng-controller="DataTableController as dataTable">
   <div class="control-block">
     <div class="allactions btn-group " ng-class="{'displayAction':dataTable.isRowSelected, 'searchOpen':dataTable.filterBy.length<=2 || dataTable.showFilter}" ng-init="dataTable.rowSelected = false" ng-if="dataTable.showSelectAll && dataTable.rows.length!=0">
-      <div class="check-btn btn btn-default btn-sm "  uib-popover="{{'CORE.UI.SELECT_ALL' | translate}}" popover-trigger="mouseenter" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
+      <div class="check-btn btn btn-default btn-sm" uib-popover="{{'CORE.UI.SELECT_ALL' | translate}}" popover-trigger="'mouseenter'" ng-click="dataTable.selectAll=!dataTable.selectAll;dataTable.checkAll();$event.stopPropagation();">
         <input type="checkbox" ng-init='dataTable.selectAll=false' ng-model="dataTable.selectAll" ng-click="dataTable.checkAll();$event.stopPropagation();">
       </div>
       <div class="animate-action" uib-dropdown ng-if="dataTable.isRowSelected">

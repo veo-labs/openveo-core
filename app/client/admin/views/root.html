@@ -50,13 +50,13 @@
         <!-- /Sidebar Toggler -->
         <!-- Top Right Menu -->
         <ul class="nav navbar-nav navbar-right ">
-          <li popover-title="{{'CORE.MENU.PROFILES' | translate}}" uib-popover="{{userInfo.name}}" popover-trigger="mouseenter click" popover-placement="bottom">
+          <li popover-title="{{'CORE.MENU.PROFILES' | translate}}" uib-popover="{{userInfo.name}}" popover-trigger="'mouseenter click'" popover-placement="bottom">
             <a class="icon" href="profile" ng-click="navigate($event)" >
               <div class="glyphicon glyphicon-user"></div>
             </a>
           </li>
           <li class="dropdown language" uib-dropdown is-open="menuDropdownIsOpen">
-            <a popover-title="{{'CORE.MENU.LANGUAGE' | translate}}" uib-popover="{{language | translate}}" popover-trigger="mouseenter click" popover-placement="bottom"  class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" uib-dropdown-toggle role="button"  ng-disabled="disabled">
+            <a popover-title="{{'CORE.MENU.LANGUAGE' | translate}}" uib-popover="{{language | translate}}" popover-trigger="'mouseenter click'" popover-placement="bottom" class="icon dropdown-toggle" href="#" ng-click="closeResponsiveMenu();" uib-dropdown-toggle role="button" ng-disabled="disabled">
               <span class="glyphicon glyphicon-globe"></span>
             </a>
             <ul class="dropdown-menu" role="menu">
@@ -65,7 +65,7 @@
               </li>
             </ul>
           </li>
-          <li uib-popover="{{'CORE.MENU.LOGOUT' | translate}}" popover-trigger="mouseenter click" popover-placement="bottom">
+          <li uib-popover="{{'CORE.MENU.LOGOUT' | translate}}" popover-trigger="'mouseenter click'" popover-placement="bottom">
             <a class="icon" href="logout" ng-click="logout()">
               <div class="glyphicon glyphicon-log-out"></div>
             </a>
@@ -92,7 +92,12 @@
       <div id="page-content-wrapper" ng-class="{'login':!displayMainMenu}" ng-click="closeResponsiveMenu()">
         <div class="alert-container">
           <div class="container">
-              <uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="alert.close()"><span ng-bind-html="alert.msg"></span></uib-alert>
+              <div uib-alert
+                   ng-repeat="alert in alerts"
+                   ng-class="'alert-' + (alert.type || 'warning')"
+                   close="alert.close()">
+                <span ng-bind-html="alert.msg"></span>
+              </div>
           </div>
         </div>
         <div class="container">
@@ -222,11 +227,11 @@
         <tbody>
           <tr>
             <td class="form-group uib-time hours">
-              <input type="text" style="width:50px;" placeholder="HH" ng-model="hours" ng-change="updateHours()" class="form-control text-center" ng-readonly="::readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementHours()" ng-blur="blur()">
+              <input type="text" placeholder="HH" ng-model="hours" ng-change="updateHours()" class="form-control text-center" ng-readonly="::readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementHours()" ng-blur="blur()">
             </td>
             <td class="uib-separator">:</td>
             <td class="form-group uib-time minutes">
-              <input type="text" style="width:50px;" placeholder="MM" ng-model="minutes" ng-change="updateMinutes()" class="form-control text-center" ng-readonly="::readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementMinutes()" ng-blur="blur()">
+              <input type="text" placeholder="MM" ng-model="minutes" ng-change="updateMinutes()" class="form-control text-center" ng-readonly="::readonlyInput" maxlength="2" tabindex="{{::tabindex}}" ng-disabled="noIncrementMinutes()" ng-blur="blur()">
             </td>
           </tr>
         </tbody>

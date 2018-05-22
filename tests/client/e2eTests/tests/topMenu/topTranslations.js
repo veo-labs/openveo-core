@@ -44,11 +44,11 @@ describe('Top menu', function() {
 
         // Profile popover title
         page.setProfileLinkMouseOver();
-        assert.eventually.equal(page.popoverElement.getAttribute('title'), coreTranslations.MENU.PROFILES);
+        assert.eventually.equal(page.popoverElement.getAttribute('uib-title'), coreTranslations.MENU.PROFILES);
 
         // Language popover title and actual language name
         page.setLanguageLinkMouseOver();
-        assert.eventually.equal(page.popoverElement.getAttribute('title'), coreTranslations.MENU.LANGUAGE);
+        assert.eventually.equal(page.popoverElement.getAttribute('uib-title'), coreTranslations.MENU.LANGUAGE);
 
         // Move cursor over language link again (IE workaround)
         page.setLanguageLinkMouseOver();

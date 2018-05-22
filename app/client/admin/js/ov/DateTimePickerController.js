@@ -67,7 +67,7 @@
           $timeout(function() {
             var inputElements = $element[0].querySelectorAll('.ov-time-picker input');
             var datePickerElement = angular.element($element[0].querySelector('input[uib-datepicker-popup]'));
-            var timePickerElement = angular.element($element[0].querySelector('table[uib-timepicker]'));
+            var timePickerElement = angular.element($element[0].querySelector('div[uib-timepicker]'));
 
             for (var i = 0; i < inputElements.length; i++) {
               var inputElement = inputElements[i];

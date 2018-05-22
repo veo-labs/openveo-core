@@ -252,7 +252,8 @@
       count: 10,
       page: 1,
       sortBy: $scope.tableContainer.init ? $scope.tableContainer.init.sortBy : this.header[0]['key'],
-      sortOrder: $scope.tableContainer.init ? $scope.tableContainer.init.sortOrder : 'asc'
+      sortOrder: $scope.tableContainer.init ? $scope.tableContainer.init.sortOrder : 'asc',
+      filterBase: false
     };
 
     this.customTheme = {
@@ -283,6 +284,7 @@
     // callback to load Resource on filter, pagination or sort change
     this.getResource = function(params, paramsObj) {
       var param = {};
+
       if (canceller) {
 
         // Hack to differentiate cancel from server not repond on HttpInterceptor
@@ -294,7 +296,7 @@
       // Build query parameters
       var query = [];
       param['limit'] = paramsObj.count;
-      param['page'] = paramsObj.page - 1;
+      param['page'] = Math.max(paramsObj.page - 1, 0);
       param['sortBy'] = paramsObj.sortBy;
       param['sortOrder'] = paramsObj.sortOrder === 'dsc' ? 'desc' : 'asc';
 
