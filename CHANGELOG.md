@@ -8,6 +8,7 @@
 ## DEPENDENCIES
 
 - **angular-ui-tinymce** has been upgraded from 0.0.18 to **0.0.19**
+- **angular-formly** has been upgraded from 8.2.0 to **8.4.1**
 
 # 5.0.0 / 2018-05-04
 
