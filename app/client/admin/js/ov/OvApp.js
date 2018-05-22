@@ -29,7 +29,6 @@
     'formlyBootstrap',
     'ngJSONPath',
     'ngAnimate',
-    'checklist-model',
     'ui.tinymce',
     'ngFileUpload'
   ];

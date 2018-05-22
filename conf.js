@@ -137,7 +137,6 @@ module.exports = {
         '/lib/angular-ui-tree/dist/angular-ui-tree.min.js',
         '/lib/angular-formly/dist/formly.min.js',
         '/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
-        '/lib/checklist-model/checklist-model.js',
         '/lib/ng-jsonpath/dist/ng-jsonpath.min.js',
         '/lib/ng-tasty/ng-tasty-tpls.min.js',
         '/lib/fastclick/lib/fastclick.js',

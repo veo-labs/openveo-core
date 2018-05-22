@@ -42,7 +42,6 @@ module.exports = function(config) {
       'assets/lib/angular-ui-tree/dist/angular-ui-tree.js',
       'assets/lib/angular-formly/dist/formly.js',
       'assets/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.js',
-      'assets/lib/checklist-model/checklist-model.js',
       'assets/lib/ng-jsonpath/dist/ng-jsonpath.js',
       'assets/lib/ng-tasty/ng-tasty-tpls.js',
       'assets/lib/fastclick/lib/fastclick.js',
