@@ -165,7 +165,8 @@
       extends: 'dateTimePicker',
       link: function(scope, element, attrs) {
         scope.show = function() {
-          return $filter('date')(scope.model[scope.options.key], 'medium');
+          scope.isEmpty = scope.model[scope.options.key] ? false : true;
+          return $filter('date')(scope.model[scope.options.key], 'medium') || $filter('translate')('CORE.UI.EMPTY');
         };
       }
     });
