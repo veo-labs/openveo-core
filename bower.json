@@ -14,7 +14,7 @@
     "angular-formly-templates-bootstrap": "6.3.2",
     "api-check": "7.5.5",
     "angular-sanitize": "1.5.5",
-    "ng-tasty": "0.5.8",
+    "ng-tasty": "0.6.1",
     "angular-bootstrap": "1.1.2",
     "fastclick": "1.0.6",
     "socket.io-client": "1.7.2",
