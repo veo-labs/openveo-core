@@ -19,7 +19,7 @@ $sidebar-submenu-bg : #fff;
   @include single-transition(all, 0.5s, ease, 0.2s);
 
   #sidebar-wrapper {
-    background:  url("../images/bloc_veobox_header.png") no-repeat 45% 100% $sidebar-bg;
+    background-color: $sidebar-bg;
     height: 100%;
     left: 250px;
     margin-left: -250px;
@@ -29,7 +29,7 @@ $sidebar-submenu-bg : #fff;
     width: 0;
     z-index: 1000;
     overflow:hidden;
-    
+
   }
   .close-listener{
     z-index:10;
@@ -45,11 +45,7 @@ $sidebar-submenu-bg : #fff;
     width: 100%;
     height:100%;
     @include transition(background 0.5s ease 0.2s);
-    background:  url("../images/bloc_veobox_header_gray.png") no-repeat right bottom fixed #fff;
-    &.login{
-       background: url("../images/bloc_veobox_header_blue.png") no-repeat right center fixed #fff;
-    }
-   
+
     @include desktop-and-tablet(){
       position: relative;
     }
@@ -75,7 +71,7 @@ $sidebar-submenu-bg : #fff;
         margin-right: 0;
         position: relative;
       }
-    } 
+    }
   }
 
   .sidebar-nav {
@@ -124,7 +120,7 @@ $sidebar-submenu-bg : #fff;
         color: $sidebar-color;
         display: block;
         text-decoration: none;
-        
+
         &:hover {
           background: $sidebar-active-item none repeat scroll 0 0;
           color: #fff;
