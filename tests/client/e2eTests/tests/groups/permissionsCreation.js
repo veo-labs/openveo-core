@@ -35,6 +35,8 @@ describe('Group permissions creation', function() {
     rolePage = new RolePage(roleProvider);
     groupPage = new GroupPage(groupProvider);
 
+    groupPage.logAsAdmin();
+
     roleHelper.getEntities().then(function(roles) {
       defaultRoles = roles;
     });
