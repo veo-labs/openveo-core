@@ -8,6 +8,7 @@ describe('DateTimePickerDirective', function() {
   var $rootScope;
   var $filter;
   var $timeout;
+  var $document;
   var scope;
 
   // Load modules
@@ -17,11 +18,12 @@ describe('DateTimePickerDirective', function() {
   });
 
   // Dependencies injections
-  beforeEach(inject(function(_$compile_, _$rootScope_, _$filter_, _$timeout_) {
+  beforeEach(inject(function(_$compile_, _$rootScope_, _$filter_, _$timeout_, _$document_) {
     $rootScope = _$rootScope_;
     $compile = _$compile_;
     $filter = _$filter_;
     $timeout = _$timeout_;
+    $document = _$document_;
   }));
 
   // Initializes tests
@@ -41,7 +43,7 @@ describe('DateTimePickerDirective', function() {
     datePickerButton.triggerHandler({type: 'click'});
     scope.$apply();
 
-    assert.isNotEmpty(element[0].querySelector('.uib-datepicker-popup'), 'Expected date picker to be opened');
+    assert.isNotEmpty($document[0].querySelector('.uib-datepicker-popup'), 'Expected date picker to be opened');
   });
 
   it('should be able to configure button texts of the date picker', function() {
@@ -64,19 +66,19 @@ describe('DateTimePickerDirective', function() {
     scope.$apply();
 
     assert.equal(
-      angular.element(element[0].querySelector('.uib-datepicker-current')).text(),
+      angular.element($document[0].querySelector('.uib-datepicker-current')).text(),
       scope.expectedTodayText,
       'Wrong today button text'
     );
 
     assert.equal(
-      angular.element(element[0].querySelector('.uib-clear')).text(),
+      angular.element($document[0].querySelector('.uib-clear')).text(),
       scope.expectedClearText,
       'Wrong clear button text'
     );
 
     assert.equal(
-      angular.element(element[0].querySelector('.uib-close')).text(),
+      angular.element($document[0].querySelector('.uib-close')).text(),
       scope.expectedCloseText,
       'Wrong close button text'
     );
