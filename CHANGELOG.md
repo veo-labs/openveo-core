@@ -12,6 +12,7 @@
 - **bootstrap-sass** has been upgraded from 3.3.6 to **3.3.7**
 - **ng-tasty** has been upgraded from 0.5.8 to **0.6.1**
 - **angular-bootstrap** has been upgraded from 1.1.2 to **2.5.0**
+- **angular** has been upgraded from 1.5.5 to **1.5.11**
 - **checklist-model** has been removed
 
 # 5.0.0 / 2018-05-04
