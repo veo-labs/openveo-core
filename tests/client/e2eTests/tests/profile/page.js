@@ -152,7 +152,6 @@ describe('Profile page', function() {
         password: newPassword
       });
       page.load();
-      browser.sleep(10000);
       page.changePassword(oldPassword);
     });
 

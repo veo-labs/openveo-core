@@ -6,6 +6,10 @@
 - Add several formly types relative to the new date time picker directive: dateTimePicker, editableDateTimePicker and horizontalDateTimePicker
 - Watermarks have been removed from back office to make the interface lighter
 
+## BUG FIXES
+
+- Remove unexpected sleep in end to end test *Profile page should be able to change user password*
+
 ## DEPENDENCIES
 
 - **angular-ui-tinymce** has been upgraded from 0.0.18 to **0.0.19**
