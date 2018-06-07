@@ -173,7 +173,6 @@
     formlyConfig.setType({
       name: 'editableTags',
       extends: 'tags',
-      wrapper: ['editableTagsWrapper'],
       link: function(scope, element, attrs) {
         scope.show = function() {
           var tags = scope.model[scope.options.key];

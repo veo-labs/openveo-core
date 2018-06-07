@@ -9,6 +9,7 @@
 ## BUG FIXES
 
 - Remove unexpected sleep in end to end test *Profile page should be able to change user password*
+- Fix Formly editableTags type, Formly API check was failing making the use of editableTags impossible
 
 ## DEPENDENCIES
 
