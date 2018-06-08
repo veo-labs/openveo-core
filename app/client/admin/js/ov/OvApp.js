@@ -177,7 +177,24 @@
         scope.show = function() {
           var tags = scope.model[scope.options.key];
           scope.isEmpty = tags && tags.length ? false : true;
-          return tags && tags.join(', ') || $filter('translate')('CORE.UI.EMPTY');
+
+          if (scope.isEmpty) return $filter('translate')('CORE.UI.EMPTY');
+
+          var tagNames = [];
+          if (scope.to.availableOptions) {
+            tags.forEach(function(tag) {
+              for (var i = 0; i < scope.to.availableOptions.length; i++) {
+                var availableTag = scope.to.availableOptions[i];
+                if (tag === availableTag.value) {
+                  tagNames.push(availableTag.name);
+                  break;
+                }
+              }
+            });
+          } else
+            tagNames = tags;
+
+          return tagNames.join(', ');
         };
       }
     });
