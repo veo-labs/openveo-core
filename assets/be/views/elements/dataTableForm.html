@@ -6,8 +6,8 @@
         <button type="button" class="btn btn-default" ng-click="fec.editForm()" ng-show="!fec.options.formState.showForm" ng-bind="'CORE.UI.FORM_EDIT' | translate"></button>
         <!-- buttons to submit / cancel form -->
         <span ng-show="fec.options.formState.showForm">
-          <button type="submit" class="btn btn-primary" ng-disabled="fec.form.$invalid || fec.form.$waiting" ng-bind="'CORE.UI.FORM_SAVE' | translate" ng-click="fec.onSubmit()"></button>
-          <button type="button" class="btn btn-default" ng-disabled="fec.form.$waiting" ng-click="fec.cancelForm()" ng-bind="'CORE.UI.FORM_CANCEL' | translate"></button>
+          <button type="submit" class="btn btn-primary" ng-disabled="fec.form.$invalid || fec.form.$waiting || fec.model.saving" ng-bind="'CORE.UI.FORM_SAVE' | translate" ng-click="fec.onSubmit()"></button>
+          <button type="button" class="btn btn-default" ng-disabled="fec.form.$waiting || fec.model.saving" ng-click="fec.cancelForm()" ng-bind="'CORE.UI.FORM_CANCEL' | translate"></button>
         </span>
       </div>
     </formly-form>
