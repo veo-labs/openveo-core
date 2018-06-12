@@ -207,7 +207,13 @@ Filters default type is text (Only one filter of type text is allowed). Filter t
 },
 {
   key: 'date',
-  param: 'date', // Name of the corresponding parameter in server side getEntitiesAction without suffix "Start" or "End"
+
+  // Either "date", "dateStart" or "dateEnd" (required)
+  // "date" will search for records starting and ending at the given date
+  // "dateStart" will search for records starting at the given date
+  // "dateEnd" will search for records ending at the given date
+  // This will either send parameter "dateStart", "dateEnd" or both with request to the server
+  param: 'date',
   type: 'date',
   value: '',
   label : 'Label of the date search filter'

@@ -305,11 +305,20 @@
           switch (filter.type) {
             case 'date':
               var date = new Date(filter.value);
-              var datePlus = new Date(date);
-              datePlus.setDate(date.getDate() + 1);
 
-              param[filter.param + 'Start'] = date.getTime();
-              param[filter.param + 'End'] = datePlus.getTime();
+              if (filter.param === 'date') {
+                var datePlus = new Date(date);
+                datePlus.setDate(date.getDate() + 1);
+
+                param['dateStart'] = date.getTime();
+                param['dateEnd'] = datePlus.getTime();
+              } else if (filter.param === 'dateStart')
+                param['dateStart'] = date.getTime();
+              else if (filter.param === 'dateEnd') {
+                date.setDate(date.getDate() + 1);
+                date.setMilliseconds(date.getMilliseconds() - 1);
+                param['dateEnd'] = date.getTime();
+              }
               break;
             case 'select':
               var values = [filter.value];

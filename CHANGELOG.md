@@ -6,6 +6,7 @@
 - Add several formly types relative to the new date time picker directive: dateTimePicker, editableDateTimePicker and horizontalDateTimePicker
 - Watermarks have been removed from back office to make the interface lighter
 - Save and cancel buttons in table edition formulars are now disabled while saving
+- Definition of filters in tableContainer (property *filterBy*) accepts new values for the *param* property in case of a filter of type *date*. You can now set *param* property to *dateStart* to get only results starting at the given date. In the same way you can set *param* property to *dateEnd* to get only results ending at that given date
 
 ## BUG FIXES
 
