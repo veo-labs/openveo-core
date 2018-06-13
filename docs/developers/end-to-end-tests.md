@@ -71,6 +71,18 @@ When launching tests, OpenVeo HTTP server, socket server, CAS mock server and LD
 }
 ```
 
+You also need to specify the CDN URL to precise the new server port. To do so, you can add a new configuration file in user's directory under **~/.openveo/core** called **testConf.json**.
+
+**~/.openveo/core/testConf.json**
+
+```json
+{
+  "passwordHashKey": "Eu2MNdGjJD",
+  "cdn": {
+    "url": "http://127.0.0.0:3003"
+  }
+}
+
 Finally the logger has to be configured through **loggerTestConf.json**. Typically you may want to deactivate logger standard output.
 
 **~/.openveo/core/loggerTestConf.json**

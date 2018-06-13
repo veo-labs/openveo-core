@@ -9,6 +9,7 @@ var openVeoApi = require('@openveo/api');
 var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
 var storage = process.require('app/server/storage.js');
 var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
+var coreConfPath = path.join(configurationDirectoryPath, 'conf.json');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerConf.json');
 var serverConfPath = path.join(configurationDirectoryPath, 'serverConf.json');
 var databaseConfPath = path.join(configurationDirectoryPath, 'databaseConf.json');
@@ -21,6 +22,7 @@ var corePlugin;
 // Process arguments
 var knownProcessOptions = {
   ws: [Boolean],
+  conf: [String, null],
   serverConf: [String, null],
   databaseConf: [String, null],
   loggerConf: [String, null]
@@ -31,7 +33,7 @@ var processOptions = nopt(knownProcessOptions, null, process.argv);
 
 // Load configuration files
 try {
-  coreConf = require(path.join(configurationDirectoryPath, 'conf.json'));
+  coreConf = require(processOptions.conf || coreConfPath);
   loggerConf = require(processOptions.loggerConf || loggerConfPath);
   serverConf = require(processOptions.serverConf || serverConfPath);
   databaseConf = require(processOptions.databaseConf || databaseConfPath);

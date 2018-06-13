@@ -20,7 +20,7 @@ var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), '
 var serverConfPath = path.join(configurationDirectoryPath, 'serverTestConf.json');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerTestConf.json');
 var databaseConfPath = path.join(configurationDirectoryPath, 'databaseTestConf.json');
-var confPath = path.join(configurationDirectoryPath, 'conf.json');
+var confPath = path.join(configurationDirectoryPath, 'testConf.json');
 var databaseConf = require(databaseConfPath);
 var serverConf = require(serverConfPath);
 var coreConf = require(confPath);
@@ -217,6 +217,7 @@ exports.config = {
 
         var deferred = protractor.promise.defer();
         var options = [
+          '--conf', confPath,
           '--serverConf', withoutExternalAuth ? serverConfPathWithoutAuth : serverConfPath,
           '--loggerConf', loggerConfPath,
           '--databaseConf', databaseConfPath
