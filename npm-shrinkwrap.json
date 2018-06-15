@@ -1,6 +1,6 @@
 {
   "name": "@openveo/core",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "lockfileVersion": 1,
   "requires": true,
   "dependencies": {
@@ -39,15 +39,15 @@
       }
     },
     "@openveo/rest-nodejs-client": {
-      "version": "2.0.0",
-      "resolved": "https://registry.npmjs.org/@openveo/rest-nodejs-client/-/rest-nodejs-client-2.0.0.tgz",
-      "integrity": "sha1-Mo3N/T5Wzm/PVy5z/s0H4aJ7D60=",
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/@openveo/rest-nodejs-client/-/rest-nodejs-client-3.0.0.tgz",
+      "integrity": "sha512-M9aMLzve6ceszqMVTj6hk2So7hioCcGh1Oqlob1TfAG63nI0Qq5lf93xzQvqp3YGbkqO9RYPtaiMh4JJkdmcFQ==",
       "dev": true
     },
     "@openveo/test": {
-      "version": "6.0.0",
-      "resolved": "https://registry.npmjs.org/@openveo/test/-/test-6.0.0.tgz",
-      "integrity": "sha512-RdMSG7uvb5iWovWdUzSHrO0OYBfskDKlLPIrpujLVkkZPKVGo38dr1mTkTyzdUlet9bV8nMOEgkKwojlquZ9vg==",
+      "version": "7.0.0",
+      "resolved": "https://registry.npmjs.org/@openveo/test/-/test-7.0.0.tgz",
+      "integrity": "sha512-ShzdAwxgs6R4cNGBUUFNxfmuQeFgPoEWmBHdBkU1LIkv5k/GL8ZRWihLfXTk0VslrmVYNU8+xprNlrseYW3Shg==",
       "dev": true,
       "requires": {
         "@openveo/api": "5.1.0",

@@ -1,6 +1,6 @@
 {
   "name": "@openveo/core",
-  "version": "5.0.0",
+  "version": "5.1.0",
   "description": "OpenVeo core CMS",
   "keywords": [
     "openveo",
@@ -47,8 +47,8 @@
     "shortid": "2.2.6"
   },
   "devDependencies": {
-    "@openveo/rest-nodejs-client": "2.*",
-    "@openveo/test": "6.*",
+    "@openveo/rest-nodejs-client": "3.*",
+    "@openveo/test": "7.*",
     "chai": "4.0.2",
     "chai-spies": "0.7.1",
     "chai-as-promised": "7.1.1",
