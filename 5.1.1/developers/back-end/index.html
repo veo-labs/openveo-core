@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  
+  <title>Back end AngularJS - Openveo Core</title>
+  
+
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Back end AngularJS";
+    var mkdocs_page_input_path = "developers/back-end.md";
+    var mkdocs_page_url = "/developers/back-end/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script src="../../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Openveo Core</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="../..">INTRODUCTION</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>USERS</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../prerequisites/">Prerequisites</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../getting-started/">Getting started</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../web-service/">Web Service</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../advanced-configuration/">Advanced configuration</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../plugins/">Plugins</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../scalability/">Scalability</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../../production/">Production</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>DEVELOPERS</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../basics/">The basics</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../prerequisites/">Prerequisites</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../installation/">Installation</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Back end AngularJS</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#introduction">Introduction</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#structure">Structure</a></li>
+                
+                    <li><a class="toctree-l4" href="#main-module-ov">Main module (ov)</a></li>
+                
+                    <li><a class="toctree-l4" href="#alert-module-ovalert">Alert module (ov.alert)</a></li>
+                
+                    <li><a class="toctree-l4" href="#authentication-module-ovauthentication">Authentication module (ov.authentication)</a></li>
+                
+                    <li><a class="toctree-l4" href="#entity-module-oventity">Entity module (ov.entity)</a></li>
+                
+                    <li><a class="toctree-l4" href="#i18n-module-ovi18n">I18n module (ov.i18n)</a></li>
+                
+                    <li><a class="toctree-l4" href="#storage-module-ovstorage">Storage module (ov.storage)</a></li>
+                
+                    <li><a class="toctree-l4" href="#tableform-module-ovtableform">TableForm module (ov.tableForm)</a></li>
+                
+                    <li><a class="toctree-l4" href="#socket-module-ovsocket">Socket module (ov.socket)</a></li>
+                
+            
+            </ul>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../template-engine/">Template engine</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../plugins/">Plugins</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../api/">API</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../logger/">Logger</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../i18n/">I18N and I10N</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../compilation/">CSS / SASS / JS compilation</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../coding-standards/">Coding standards</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../unit-tests/">Unit tests</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="../end-to-end-tests/">End to end tests</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Openveo Core</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>DEVELOPERS &raquo;</li>
+        
+      
+    
+    <li>Back end AngularJS</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/veo-labs/openveo-core" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="introduction">Introduction</h1>
+<p>OpenVeo back end is an <a href="https://angularjs.org/">AngularJS</a> single page application served on <strong>/be</strong>.</p>
+<p>The back end relies on a couple of libraries:</p>
+<ul>
+<li><strong>angular-route</strong> to perform single page application routing</li>
+<li><strong>angular-animate</strong> for CSS animations</li>
+<li><strong>angular-cookies</strong> for cookie management</li>
+<li><strong>angular-i18n</strong> for AngularJS default translations</li>
+<li><strong>fastclick</strong> to remove click delays on browsers with touch UIs</li>
+<li><strong><a href="https://angular-ui.github.io/bootstrap/">angular-bootstrap</a></strong> for basic user interface components</li>
+<li><strong><a href="http://angular-formly.com/">angular-formly</a></strong> to build formulars from a JavaScript literal object</li>
+<li><strong><a href="http://angular-ui-tree.github.io/angular-ui-tree">angular-ui-tree</a></strong> to build an UI tree (not directly used by openveo-core)</li>
+<li><strong><a href="https://github.com/noherczeg/ng-jsonpath">ng-jsonpath</a></strong> to search on a JSON object (not directly used by openveo-core)</li>
+<li><strong><a href="http://zizzamia.com/ng-tasty/">ng-tasty</a></strong> to present entities in a dynamic paginated table</li>
+</ul>
+<h1 id="structure">Structure</h1>
+<h2 id="main-module-ov">Main module (<strong>ov</strong>)</h2>
+<p>The main AngularJS module of the back end is named <strong>ov</strong> and is applied to the HTML root element.</p>
+<pre><code class="html">&lt;html ng-app=&quot;ov&quot; ng-controller=&quot;MainController&quot; ng-strict-di&gt;
+
+  &lt;head&gt;
+    &lt;base href=&quot;/be/&quot;&gt;
+  &lt;/head&gt;
+
+  ...
+  &lt;div ng-view&gt;&lt;/div&gt;
+  ...
+&lt;/html&gt;
+</code></pre>
+
+<p>It has dependencies on all AngularJS libraries and all AngularJS modules described by OpenVeo plugins. It also defines all core routes:</p>
+<ul>
+<li><strong>/be/login</strong> to access the login page</li>
+<li><strong>/be</strong> to access the back end home page</li>
+<li><strong>/be/applications-list</strong> to access Web service applications page</li>
+<li><strong>/be/users-list</strong> to access users page</li>
+<li><strong>/be/profile</strong> to access user's profile page</li>
+<li><strong>/be/roles-list</strong> to access roles page</li>
+<li><strong>/be/openveo-settings</strong> to access settings page</li>
+</ul>
+<p><strong>Nb:</strong> Available services / filters defined in <strong>ov</strong> module are described in the <a href="../api/">API</a>.</p>
+<h2 id="alert-module-ovalert">Alert module (<strong>ov.alert</strong>)</h2>
+<p>Offers a service to control alerts for the whole application. Alerts are used to display a message to the user.</p>
+<p><strong>Nb:</strong> Available services defined in <strong>ov.alert</strong> module are described in the <a href="../api/">API</a>.</p>
+<h2 id="authentication-module-ovauthentication">Authentication module (<strong>ov.authentication</strong>)</h2>
+<p>Offers a service to authenticate / logout or manipulate authenticated user informations.</p>
+<p><strong>Nb:</strong> Available services / filters defined in <strong>ov.authentication</strong> module are described in the <a href="../api/">API</a>.</p>
+<h2 id="entity-module-oventity">Entity module (<strong>ov.entity</strong>)</h2>
+<p>Offers a service to manage OpenVeo entities (CRUD).</p>
+<p><strong>Nb:</strong> Available services defined in <strong>ov.entity</strong> module are described in the <a href="../api/">API</a>.</p>
+<h2 id="i18n-module-ovi18n">I18n module (<strong>ov.i18n</strong>)</h2>
+<p>Defines a service to control back end internationalization and a <strong>translate</strong> filter to help translate ids from a dictionary.</p>
+<p><strong>Nb:</strong> Available services / filters defined in <strong>ov.i18n</strong> module are described in the <a href="../api/">API</a>.</p>
+<h2 id="storage-module-ovstorage">Storage module (<strong>ov.storage</strong>)</h2>
+<p>Offers a service to manipulate the local storage.</p>
+<p><strong>Nb:</strong> Available services defined in <strong>ov.storage</strong> module are described in the <a href="../api/">API</a>.</p>
+<h2 id="tableform-module-ovtableform">TableForm module (<strong>ov.tableForm</strong>)</h2>
+<p>Offers a turnkey solution to build formulars and tasty tables.</p>
+<p>Formulars are the same as described in <a href="http://angular-formly.com/">angular-formly</a>.</p>
+<p>Datatables are a little different from the original <a href="http://zizzamia.com/ng-tasty/">ng-tasty</a> datable as actions can be assigned to a row and information about the row can be edited in place. Datatables needs an associated entity to work.</p>
+<h3 id="add-a-new-form">Add a new form</h3>
+<p>Formulars are massively based on <a href="http://angular-formly.com/">angular-formly</a>.
+To add a new formular, you have to place the generic formular partial in your HTML code and describe the expected form in your controller.</p>
+<p>Include formular partial in your HTML.</p>
+<pre><code class="html">&lt;ng-include src=&quot;'views/elements/form.html'&quot;&gt;&lt;/ng-include&gt;
+</code></pre>
+
+<p>Describes the formular in your controller.</p>
+<pre><code class="javascript">
+// List of books
+$scope.books = [{
+  &quot;isbn&quot;: &quot;50&quot;,
+  &quot;name&quot;: &quot;Journey to the Center of the Earth&quot;
+}];
+
+// Create a scope property &quot;addFormContainer&quot;
+$scope.addFormContainer = {};
+
+// Create a property &quot;model&quot; on &quot;addFormContainer&quot;, this is were formly will
+// stores form results
+// This is the model of the form
+$scope.addFormContainer.model = {};
+
+// Describe fields just like in formly documentation
+$scope.addFormContainer.fields = [
+  {
+    key: 'name',
+    type: 'horizontalInput',
+    templateOptions: {
+      label: 'Label of the name field',
+      required: true,
+      description: 'Description of the name field'
+    }
+  },
+  {
+    key: 'books',
+    type: 'horizontalMultiCheckbox',
+    templateOptions: {
+      label: 'Books',
+      required: false,
+      options: $scope.books,
+      valueProperty: 'isbn',
+      labelProperty: 'name',
+      description: 'List of books'
+    },
+    expressionProperties: {
+      'templateOptions.disabled': '!model.name' // disabled when book name is blank
+    }
+  }
+];
+
+// Add formular submit function
+$scope.addFormContainer.onSubmit = function(model) {
+
+  // Return Angularjs promises with its own success or error callback
+  // Code to save the formular
+  // Generic error or success callback are already chained and executed by the form container
+  // in order to display the right message to user and update the form
+  return promise;
+};
+</code></pre>
+
+<h3 id="add-a-new-datatable">Add a new datatable</h3>
+<p>Tables are massively based on <a href="http://zizzamia.com/ng-tasty/">ng-tasty</a>.
+To add a new datatable, you have to place the generic datatable partial in your HTML code and describe the datatable expected behavior in your controller.</p>
+<p>Include datatable partial in your HTML.</p>
+<pre><code class="html">&lt;ng-include src=&quot;'views/elements/dataTable.html'&quot;&gt;&lt;/ng-include&gt;
+</code></pre>
+
+<p>Describes the datatable in your controller.</p>
+<p>For the example, assume that you need to display a collection of <strong>book</strong> entity.</p>
+<pre><code class="JSON">{
+  &quot;isbn&quot;: &quot;50&quot;,
+  &quot;name&quot;: &quot;Journey to the Center of the Earth&quot;,
+  &quot;description&quot; : &quot;The story begins in May 1863, in the Lidenbrock house in Hamburg, Germany, with Professor Lidenbrock&quot;
+}
+</code></pre>
+
+<ul>
+<li>Initialize tableContainer Object:</li>
+</ul>
+<pre><code class="javascript">// Create tableContainer Object used by DataTable controller
+$scope.tableContainer = {};
+
+// Initialize the entity type to enable DataTable controller to retrieve the right entity
+$scope.tableContainer.entityType = 'book';
+</code></pre>
+
+<ul>
+<li>Initialize search filters</li>
+</ul>
+<pre><code class="javascript">$scope.tableContainer.filterBy = [
+  {
+    key: 'name',  // properties to filter on
+    value: '',    // initial value
+    label: 'Label of the name search filter'
+  }
+];
+</code></pre>
+
+<p>Filters default type is text (Only one filter of type text is allowed). Filter type can be set by adding <strong>type</strong> properties to filter object.</p>
+<pre><code class="javascript">{
+  key: 'author',
+  param: 'author', // Name of the corresponding parameter in server side getEntitiesAction
+  type: 'select',
+  options : selectOptions,
+  value: '',
+  label: 'Label of the author search filter',
+  filterWithChildren: true  // default:false; if true table filter will select with the selectId AND additionnal id set in the &quot;children&quot; key of the selected options
+},
+{
+  key: 'date',
+
+  // Either &quot;date&quot;, &quot;dateStart&quot; or &quot;dateEnd&quot; (required)
+  // &quot;date&quot; will search for records starting and ending at the given date
+  // &quot;dateStart&quot; will search for records starting at the given date
+  // &quot;dateEnd&quot; will search for records ending at the given date
+  // This will either send parameter &quot;dateStart&quot;, &quot;dateEnd&quot; or both with request to the server
+  param: 'date',
+  type: 'date',
+  value: '',
+  label : 'Label of the date search filter'
+}
+</code></pre>
+
+<p>Where <strong>selectOptions</strong> need to be describe in this format:</p>
+<pre><code class="JSON">[
+  {
+    &quot;value&quot;: 'id',
+    &quot;name&quot;: 'title',
+    &quot;children&quot; : 'id1,id2,id3'
+  },
+  ...
+]
+</code></pre>
+
+<ul>
+<li>Initialize DataTable headers</li>
+</ul>
+<pre><code class="javascript">// Each column need to display a property,
+// Automatically, a sort filter is enable on each column except 'Action' column
+$scope.tableContainer.header = [{
+  key: 'name',                      // property co display and sort in column
+  name: 'Label of the name column',
+  class: ['col-xs-12 col-sm-11']    // css class to add on header cell
+},
+{
+  key: 'action',
+  name: 'Label for action button' ,
+  class: [' hidden-xs col-sm-1'],
+}];
+</code></pre>
+
+<p>Header object 'action' is <strong>REQUIRED</strong> and not bind any sort filter.</p>
+<p>Headers default type is text. Filter type can be set by adding <strong>type</strong> properties to filter object.
+Default <strong>date</strong> (timestamp) and <strong>text</strong> value are enabled.
+But you can add any type if you make your own custom cell rendrer (see after)</p>
+<pre><code class="javascript">{
+  key: 'date',
+  name: 'Label of the date column',
+  type: 'date'
+},
+{
+  key: 'author',
+  name: 'Label of the author column',
+  type: 'author'
+}
+</code></pre>
+
+<ul>
+<li>Add a custom cell template renderer according to column key and row value</li>
+</ul>
+<pre><code class="javascript">// Usefull to add HTML value, or filtered value
+// if not defined, can print date and text
+// if defined, add custom cells renderer to date and text
+$scope.tableContainer.cellTheme = '/path/to/cells/template.html';
+</code></pre>
+
+<p>For example (assuming that <strong>entities</strong> is the header type to render, an <strong>row[entities.key]</strong>, the value to display)</p>
+<pre><code class="HTML">&lt;span ng-if=&quot;entities.type &amp;&amp; entities.type == 'type1' &amp;&amp; row[entities.key]&quot;&gt;{{row[entities.key] | filterType1}}&lt;/span&gt;
+&lt;span ng-if=&quot;entities.type &amp;&amp; entities.type == 'type2'&quot; ng-bind-html=&quot;row[entities.key] | filterType2&quot;&gt;&lt;/span&gt;
+</code></pre>
+
+<p><strong> <em>BE CAREFUL ABOUT PERFORMANCES WHEN USING YOUR OWN FILTERS</em> </strong></p>
+<ul>
+<li>Initialize action enable on each row</li>
+</ul>
+<pre><code class="javascript">$scope.tableContainer.actions = [{
+  label: 'Label of action',
+
+  // Enable a Popup confirmation before action execution, default: false if not defined
+  warningPopup: true,
+
+  // Condition to enable the action in the dropdown button action
+  condition: function(row) {
+    return $scope.rights.delete &amp;&amp; !row.locked &amp;&amp; !row.saving;
+  },
+
+  // Function to execute when the action is executed by button
+  callback: function(row, reload) {
+    // row is the book object on which the action is executed
+    action(row.id);
+    // call reload if dataTable need to be reloaded
+    reload();
+  },
+
+  // Function to execute when the action is executed by select checkbox action
+  // If not defined, this action can't be seen in checkbox actions
+  global: function(selected, reload) {
+    // selected is the list of selected entity id when global action is executed
+    // exemple: [12345,12346,12347,12348,12349]
+    actions(selected, reload);
+  }
+}];
+</code></pre>
+
+<ul>
+<li>Initialize initial sort</li>
+</ul>
+<pre><code class="javascript">$scope.tableContainer.init = {
+  sortBy: 'name',  // initial sort key, default: first header column key if not defined
+  sortOrder: 'dsc' // initial sort order, default: 'asc' if not defined
+};
+</code></pre>
+
+<ul>
+<li>Display checkbox global selection</li>
+</ul>
+<pre><code class="javascript">//default true if not defined;
+$scope.tableContainer.showSelectAll = true;
+</code></pre>
+
+<p>You can reload a display table manually from other controller by injecting the <strong>TableReloadEventService</strong> and calling</p>
+<pre><code class="javascript">tableReloadEventService.broadcast();
+</code></pre>
+
+<h3 id="datatable-dependency-edit-a-row">Datatable dependency: edit a row</h3>
+<p>DataTable is dependent of an edit form. This form specify what information user can access and/or modify.
+All properties described in the <strong><a href="#add-a-new-form">Add a new form</a></strong> section can be used to describe the form.
+Main differencies are that the form need to be initialized by the open row (the model is not exposed), and that form fields MUST be editable types.</p>
+<ul>
+<li>Initialize editFormContainer object</li>
+</ul>
+<pre><code class="javascript">// Create a scope property &quot;editFormContainer&quot;
+$scope.addFormContainer = {};
+
+// Create a property &quot;model&quot; on &quot;editFormContainer&quot;, this is were formly will
+// stores form results
+// This is the model of the form
+$scope.editFormContainer.model = {};
+
+// Initialize the entity type to retrieve before the row is updated
+// to always update the latest value in database.
+$scope.editFormContainer.entityType = 'book';
+
+// Add formular submit function
+$scope.editFormContainer.onSubmit = function(model) {
+    return promises;
+};
+
+// Define if a row can be toggled or not
+$scope.editFormContainer.conditionToggleDetail = function(row) {
+  return row.state !== 0;
+};
+// Define if a row can be edit or not
+$scope.editFormContainer.conditionEditDetail = function(row) {
+  return !row.locked;
+};
+</code></pre>
+
+<ul>
+<li>Set Fields</li>
+</ul>
+<pre><code class="javascript">// Describe fields just like in formly documentation with OpenVeo editable fields types
+$scope.editFormContainer.fields = {
+  // the key to be used in the model values
+  key: 'name',
+  type: 'horizontalEditableInput',
+  templateOptions: {
+    label: 'label for name input',
+    required: true
+  }
+};
+</code></pre>
+
+<ul>
+<li>Set Fields dynamically</li>
+</ul>
+<pre><code class="javascript">// Function call when the form is displayed
+// Usefull to add fields dynamically according to the open row,
+// or retrieve information relative to the row
+$scope.editFormContainer.init = function(row) {
+  if(row.state == SHOW.PROPERTY){
+    var newField = {
+      key: 'property',
+      type: 'horizontalEditableInput',
+      model: row.property,
+      templateOptions: {
+        label: 'Label of the new property field'
+      }
+    };
+    $scope.editFormContainer.fields.push(newField);
+  }
+}
+</code></pre>
+
+<h3 id="field-types">Field types</h3>
+<p>OpenVeo defines the following list of formly fields.</p>
+<table>
+<thead>
+<tr>
+<th>Field type</th>
+<th>Description</th>
+<th>Specific options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>tags</td>
+<td>Display an input text to add a list of tags</td>
+<td><strong>availableOptions</strong> to specify the list of possible tags with, for each tag, a property "name" and a property "value". If this option is specified it will not be possible to enter tags which are not in the list (default is []) ; <strong>placeholder</strong> to specify the input placeholder (default to "") ; <strong>onChange</strong> to specify a function which will be called each time a tag is added or removed (default to null)</td>
+</tr>
+<tr>
+<td>match</td>
+<td>Display an input text and a tags field to build 1 to many associations</td>
+<td><strong>multiple</strong> to specify if more than one association is possible (default to true) ; <strong>availableOptions</strong> to specify the list of possible tags for the tags field (default to []) ; <strong>inputPlaceholder</strong> to specify the value of the input field placeholder (default to "") ; <strong>tagsPlaceholder</strong> to specify the placeholder to use for the tags field (default to "") ; <strong>inputProperty</strong> to specify the property to use from the model to get the input field value of an association (default to "value") ; <strong>tagsProperty</strong> to specify the placeholder to use, from the model, to get the tags field values of an association (default to "values") ; <strong>addLabel</strong> to specify the text of the add button</td>
+</tr>
+<tr>
+<td>emptyrow</td>
+<td>Display a fake field with a static message</td>
+<td><strong>message</strong> to specify the message</td>
+</tr>
+<tr>
+<td>section</td>
+<td>Display an H3 title</td>
+<td><strong>title</strong> to specify the title</td>
+</tr>
+<tr>
+<td>ovMultiCheckBox</td>
+<td>Same as the "multiCheckbox" type defined by <a href="https://github.com/formly-js/angular-formly-templates-bootstrap">angular-formly-templates-bootstrap</a></td>
+<td><strong>options</strong> the list of checkboxes description objects with a property for the name of the checkbox and a property for the value of the checkbox ; <strong>valueProperty</strong> to define the property to use to get the checkbox value (default is "value") ; <strong>labelProperty</strong> to define the property to use to get the checkbox label (default is "name")</td>
+</tr>
+<tr>
+<td>ovFile</td>
+<td>Display a file input with a progress bar using <a href="https://github.com/danialfarid/ng-file-upload">ng-file-upload</a></td>
+<td><strong>acceptedTypes</strong> a comma separated list of accepted file types as described in <a href="https://github.com/danialfarid/ng-file-upload#full-reference">ng-file-upload documentation</a> ; <strong>onFileChange</strong> a function to call when file has changed (it uses <em>ngf-change</em>) ; <strong>progressBar</strong> a boolean to display or not the progress bar while uploading a file (default to false)</td>
+</tr>
+<tr>
+<td>simple</td>
+<td>Display the value of the model as is</td>
+<td>-</td>
+</tr>
+<tr>
+<td>horizontalInput</td>
+<td>Same as "input" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "input"</td>
+</tr>
+<tr>
+<td>horizontalSelect</td>
+<td>Same as "select" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "select"</td>
+</tr>
+<tr>
+<td>horizontalMultiCheckbox</td>
+<td>Same as "ovMultiCheckBox" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "ovMultiCheckBox"</td>
+</tr>
+<tr>
+<td>horizontalTags</td>
+<td>Same as "tags" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "tags"</td>
+</tr>
+<tr>
+<td>horizontalMatch</td>
+<td>Same as "match" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "match"</td>
+</tr>
+<tr>
+<td>horizontalFile</td>
+<td>Same as "ovFile" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "ovFile"</td>
+</tr>
+<tr>
+<td>horizontalCheckbox</td>
+<td>Same as "checkbox" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "checkbox"</td>
+</tr>
+</tbody>
+</table>
+<p>Nb: All field types defined in <a href="https://github.com/formly-js/angular-formly-templates-bootstrap">angular-formly-templates-bootstrap</a> are also available.</p>
+<h3 id="editable-field-types">Editable field types</h3>
+<p>An editable field type is capable of displaying the field or its literal representation depending on "showForm" property of formState object.
+If "showForm" is set to true, the field is displayed, if set to false, the literal representation of the field is displayed.</p>
+<p>OpenVeo defines the following list of editable formly fields.</p>
+<table>
+<thead>
+<tr>
+<th>Field type</th>
+<th>Description</th>
+<th>Specific options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>editableTags</td>
+<td>Make field type "tags" editable</td>
+<td>-</td>
+</tr>
+<tr>
+<td>editableInput</td>
+<td>Make field type "input" editable</td>
+<td>Same as "input"</td>
+</tr>
+<tr>
+<td>editableSelect</td>
+<td>Make field type "select" editable</td>
+<td>Same as "select"</td>
+</tr>
+<tr>
+<td>editableTags</td>
+<td>Make field type "tags" editable</td>
+<td>Same as "tags"</td>
+</tr>
+<tr>
+<td>editableCheckbox</td>
+<td>Make field type "checkbox" editable</td>
+<td>Same as "checkbox"</td>
+</tr>
+<tr>
+<td>ovEditableMultiCheckBox</td>
+<td>Make field type "ovMultiCheckBox" editable</td>
+<td>Same as "ovMultiCheckBox"</td>
+</tr>
+<tr>
+<td>horizontalEditableInput</td>
+<td>Same as "editableInput" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "editableInput"</td>
+</tr>
+<tr>
+<td>horizontalEditableSelect</td>
+<td>Same as "editableSelect" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "editableSelect"</td>
+</tr>
+<tr>
+<td>horizontalEditableMultiCheckbox</td>
+<td>Same as "ovEditableMultiCheckBox" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "ovEditableMultiCheckBox"</td>
+</tr>
+<tr>
+<td>horizontalEditableTags</td>
+<td>Same as "editableTags" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "editableTags"</td>
+</tr>
+<tr>
+<td>horizontalEditableCheckbox</td>
+<td>Same as "editableCheckbox" with horizontalBootstrapLabel and bootstrapHasError wrappers</td>
+<td>Same as "editableCheckbox"</td>
+</tr>
+</tbody>
+</table>
+<h3 id="field-wrappers">Field wrappers</h3>
+<p>OpenVeo defines the following list of editable formly wrappers.</p>
+<table>
+<thead>
+<tr>
+<th>Wrapper name</th>
+<th>Description</th>
+<th>Specific options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>collapse</td>
+<td>Collapse / Uncollapse a formly field</td>
+<td><strong>labelCollapse</strong> the label of the collapsible element</td>
+</tr>
+<tr>
+<td>horizontalBootstrapLabel</td>
+<td>Put a label in front of a field</td>
+<td><strong>label</strong> the label ; <strong>required</strong> a boolean to indicates if a "*" character must follow the label</td>
+</tr>
+<tr>
+<td>horizontalBootstrapLabelOnly</td>
+<td>Same as "horizontalBootstrapLabel" but without wrapping the field</td>
+<td>Same as "horizontalBootstrapLabel"</td>
+</tr>
+<tr>
+<td>editableWrapper</td>
+<td>Display the field or its literal representation depending on "showForm" property of formState object. This is the wrapper used by all editable fields</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>Nb: All wrappers defined in <a href="https://github.com/formly-js/angular-formly-templates-bootstrap">angular-formly-templates-bootstrap</a> are also available.</p>
+<h2 id="socket-module-ovsocket">Socket module (<strong>ov.socket</strong>)</h2>
+<p>Offers a factory <strong>SocketFactory</strong> to initialize a connection to the OpenVeo Socket Server.</p>
+<pre><code class="javascript">var socketClient = SocketFactory.initSocket('/myOpenVeoSocketNamespace');
+
+socketClient.on('my.socket.message', function() {
+  ...
+});
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../template-engine/" class="btn btn-neutral float-right" title="Template engine">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../installation/" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/veo-labs/openveo-core" class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../installation/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../template-engine/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+
+</body>
+</html>
