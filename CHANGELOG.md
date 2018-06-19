@@ -1,3 +1,9 @@
+# 5.1.1 / YYYY-MM-DD
+
+## BUG FIXES
+
+- Fix missing dependency *esprima* while installing
+
 # 5.1.0 / 2018-06-15
 
 ## NEW FEATURES
