@@ -26,6 +26,7 @@ var HTTP_ERRORS = {
    * @property UNKNOWN_ERROR
    * @type Object
    * @final
+   * @default 0
    */
   UNKNOWN_ERROR: {
     code: 0x000,
@@ -38,6 +39,7 @@ var HTTP_ERRORS = {
    * @property I18N_DICTIONARY_ERROR
    * @type Object
    * @final
+   * @default 1
    */
   I18N_DICTIONARY_ERROR: {
     code: 0x001,
@@ -50,6 +52,7 @@ var HTTP_ERRORS = {
    * @property GET_TAXONOMIES_ERROR
    * @type Object
    * @final
+   * @default 2
    */
   GET_TAXONOMIES_ERROR: {
     code: 0x002,
@@ -62,6 +65,7 @@ var HTTP_ERRORS = {
    * @property GET_GROUPS_ERROR
    * @type Object
    * @final
+   * @default 3
    */
   GET_GROUPS_ERROR: {
     code: 0x003,
@@ -74,6 +78,7 @@ var HTTP_ERRORS = {
    * @property BACK_END_AUTHENTICATION_ERROR
    * @type Object
    * @final
+   * @default 4
    */
   BACK_END_AUTHENTICATION_ERROR: {
     code: 0x004,
@@ -86,6 +91,7 @@ var HTTP_ERRORS = {
    * @property GET_APPLICATIONS_ERROR
    * @type Object
    * @final
+   * @default 5
    */
   GET_APPLICATIONS_ERROR: {
     code: 0x005,
@@ -98,6 +104,7 @@ var HTTP_ERRORS = {
    * @property GET_ROLES_ERROR
    * @type Object
    * @final
+   * @default 6
    */
   GET_ROLES_ERROR: {
     code: 0x006,
@@ -110,6 +117,7 @@ var HTTP_ERRORS = {
    * @property GET_USERS_ERROR
    * @type Object
    * @final
+   * @default 7
    */
   GET_USERS_ERROR: {
     code: 0x007,
@@ -122,6 +130,7 @@ var HTTP_ERRORS = {
    * @property UPDATE_USER_ERROR
    * @type Object
    * @final
+   * @default 8
    */
   UPDATE_USER_ERROR: {
     code: 0x008,
@@ -134,6 +143,7 @@ var HTTP_ERRORS = {
    * @property GET_TAXONOMY_ERROR
    * @type Object
    * @final
+   * @default 9
    */
   GET_TAXONOMY_ERROR: {
     code: 0x009,
@@ -146,6 +156,7 @@ var HTTP_ERRORS = {
    * @property BACK_END_EXTERNAL_AUTHENTICATION_ERROR
    * @type Object
    * @final
+   * @default 10
    */
   BACK_END_EXTERNAL_AUTHENTICATION_ERROR: {
     code: 0x00a,
@@ -158,6 +169,7 @@ var HTTP_ERRORS = {
    * @property GET_SETTINGS_ERROR
    * @type Object
    * @final
+   * @default 11
    */
   GET_SETTINGS_ERROR: {
     code: 0x00b,
@@ -170,6 +182,7 @@ var HTTP_ERRORS = {
    * @property GET_SETTING_ERROR
    * @type Object
    * @final
+   * @default 14
    */
   GET_SETTING_ERROR: {
     code: 0x00e,
@@ -184,6 +197,7 @@ var HTTP_ERRORS = {
    * @property PATH_NOT_FOUND
    * @type Object
    * @final
+   * @default 256
    */
   PATH_NOT_FOUND: {
     code: 0x100,
@@ -196,6 +210,7 @@ var HTTP_ERRORS = {
    * @property I18N_DICTIONARY_NOT_FOUND
    * @type Object
    * @final
+   * @default 257
    */
   I18N_DICTIONARY_NOT_FOUND: {
     code: 0x101,
@@ -208,6 +223,7 @@ var HTTP_ERRORS = {
    * @property GET_TAXONOMY_NOT_FOUND
    * @type Object
    * @final
+   * @default 258
    */
   GET_TAXONOMY_NOT_FOUND: {
     code: 0x102,
@@ -222,6 +238,7 @@ var HTTP_ERRORS = {
    * @property BACK_END_AUTHENTICATION_FAILED
    * @type Object
    * @final
+   * @default 512
    */
   BACK_END_AUTHENTICATION_FAILED: {
     code: 0x200,
@@ -234,6 +251,7 @@ var HTTP_ERRORS = {
    * @property BACK_END_UNAUTHORIZED
    * @type Object
    * @final
+   * @default 513
    */
   BACK_END_UNAUTHORIZED: {
     code: 0x201,
@@ -246,6 +264,7 @@ var HTTP_ERRORS = {
    * @property BACK_END_FORBIDDEN
    * @type Object
    * @final
+   * @default 514
    */
   BACK_END_FORBIDDEN: {
     code: 0x202,
@@ -258,6 +277,7 @@ var HTTP_ERRORS = {
    * @property WS_FORBIDDEN
    * @type Object
    * @final
+   * @default 515
    */
   WS_FORBIDDEN: {
     code: 0x203,
@@ -270,6 +290,7 @@ var HTTP_ERRORS = {
    * @property WS_UNAUTHORIZED
    * @type Object
    * @final
+   * @default 516
    */
   WS_UNAUTHORIZED: {
     code: 0x204,
@@ -282,6 +303,7 @@ var HTTP_ERRORS = {
    * @property BACK_END_EXTERNAL_AUTHENTICATION_FAILED
    * @type Object
    * @final
+   * @default 519
    */
   BACK_END_EXTERNAL_AUTHENTICATION_FAILED: {
     code: 0x207,
@@ -296,6 +318,7 @@ var HTTP_ERRORS = {
    * @property GET_USERS_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 768
    */
   GET_USERS_WRONG_PARAMETERS: {
     code: 0x300,
@@ -308,6 +331,7 @@ var HTTP_ERRORS = {
    * @property UPDATE_USER_MISSING_PARAMETERS
    * @type Object
    * @final
+   * @default 769
    */
   UPDATE_USER_MISSING_PARAMETERS: {
     code: 0x301,
@@ -320,6 +344,7 @@ var HTTP_ERRORS = {
    * @property UPDATE_USER_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 770
    */
   UPDATE_USER_WRONG_PARAMETERS: {
     code: 0x302,
@@ -332,6 +357,7 @@ var HTTP_ERRORS = {
    * @property GET_TAXONOMIES_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 771
    */
   GET_TAXONOMIES_WRONG_PARAMETERS: {
     code: 0x303,
@@ -344,6 +370,7 @@ var HTTP_ERRORS = {
    * @property GET_APPLICATIONS_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 772
    */
   GET_APPLICATIONS_WRONG_PARAMETERS: {
     code: 0x304,
@@ -356,6 +383,7 @@ var HTTP_ERRORS = {
    * @property GET_GROUPS_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 773
    */
   GET_GROUPS_WRONG_PARAMETERS: {
     code: 0x305,
@@ -368,6 +396,7 @@ var HTTP_ERRORS = {
    * @property GET_ROLES_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 774
    */
   GET_ROLES_WRONG_PARAMETERS: {
     code: 0x306,
@@ -380,6 +409,7 @@ var HTTP_ERRORS = {
    * @property GET_TAXONOMY_TERMS_MISSING_PARAMETERS
    * @type Object
    * @final
+   * @default 775
    */
   GET_TAXONOMY_TERMS_MISSING_PARAMETERS: {
     code: 0x307,
@@ -392,6 +422,7 @@ var HTTP_ERRORS = {
    * @property AUTHENTICATE_INTERNAL_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 776
    */
   AUTHENTICATE_INTERNAL_WRONG_PARAMETERS: {
     code: 0x308,
@@ -404,6 +435,7 @@ var HTTP_ERRORS = {
    * @property AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 777
    */
   AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS: {
     code: 0x309,
@@ -416,6 +448,7 @@ var HTTP_ERRORS = {
    * @property GET_SETTINGS_WRONG_PARAMETERS
    * @type Object
    * @final
+   * @default 778
    */
   GET_SETTINGS_WRONG_PARAMETERS: {
     code: 0x30a,
@@ -428,6 +461,7 @@ var HTTP_ERRORS = {
    * @property GET_SETTING_MISSING_PARAMETERS
    * @type Object
    * @final
+   * @default 782
    */
   GET_SETTING_MISSING_PARAMETERS: {
     code: 0x30e,
