@@ -63,6 +63,7 @@ ErrorController.prototype.errorAction = function(error, request, response, next)
   process.logger.error('Error', {
     code: error.code,
     module: error.module,
+    message: error.message,
     method: request.method,
     path: request.url,
     headers: request.headers
