@@ -46,6 +46,34 @@ describe('path', function() {
         {
           path: '/test',
           rule: '/test'
+        },
+        {
+          path: '/test/with/param/and/action',
+          rule: '/test/with/:the-param-placeholder/and/action'
+        },
+        {
+          path: '/test/with/param',
+          rule: '/test/with/:the-param-placeholder'
+        },
+        {
+          path: '/test/with/param/and/wildcard',
+          rule: '/test/with/:the-param-placeholder/*'
+        },
+        {
+          path: '/param',
+          rule: '/:the-param-placeholder'
+        },
+        {
+          path: '/test/with/param1/and/param2',
+          rule: '/test/with/:the-param1-placeholder/and/:the-param2-placeholder'
+        },
+        {
+          path: '/test/with/param1/param2',
+          rule: '/test/with/:the-param1-placeholder/:the-param2-placeholder'
+        },
+        {
+          path: '/test/with/param?and=get-parameter',
+          rule: '/test/with/:the-param1-placeholder'
         }
       ];
       var invalidTests = [
@@ -76,6 +104,22 @@ describe('path', function() {
         {
           path: 'get /test',
           rule: 'unkown /test'
+        },
+        {
+          path: '/test/with/param/and/wildcard/without/slash',
+          rule: '/test/with/:the-param-placeholder*'
+        },
+        {
+          path: '/test/with/missing/param',
+          rule: '/test/with/:the-param-placeholder/missing/param'
+        },
+        {
+          path: '/test/with/empty/param//and/action',
+          rule: '/test/with/empty/param/:the-param-placeholder/and/action'
+        },
+        {
+          path: '/test/with/empty/param/',
+          rule: '/test/with/empty/param/:the-param-placeholder'
         }
       ];
 

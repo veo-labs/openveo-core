@@ -55,7 +55,12 @@ module.exports.validate = function(path, rule) {
     // Got a rule
     if (ruleChunks && ruleChunks[2]) {
       var pattern;
-      var rulePattern = ruleChunks[2].replace(/\//g, '\\/').replace(/\*/g, '.*');
+
+      // Transform rule to be used as regular expression pattern
+      // Firstly replace all * characters by .*
+      // Secondly replace all parameters (e.g. :id) by [^/]+
+      // Thirdly escape all slashes
+      var rulePattern = ruleChunks[2].replace(/\*/g, '.*').replace(/:[^\/]*/g, '[^/]+').replace(/\//g, '\\/');
 
       // Got HTTP method in rule
       if (ruleChunks[1])

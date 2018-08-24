@@ -1,3 +1,9 @@
+# 5.2.0 / YYYY-MM-DD
+
+## NEW FEATURES
+
+- Plugins can now use parameters within permission / scope rules in conf.js file. As an example paths like "get /plugin/path/my-param-value/action" will match the rule "get /plugin/path/:param/action"
+
 # 5.1.1 / 2018-06-19
 
 ## BUG FIXES
