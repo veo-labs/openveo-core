@@ -49,7 +49,7 @@
   "devDependencies": {
     "@openveo/rest-nodejs-client": "3.*",
     "@openveo/test": "7.*",
-    "cas-server-mock": "1.*",
+    "cas-server-mock": "2.*",
     "chai": "4.0.2",
     "chai-as-promised": "7.1.1",
     "chai-spies": "0.7.1",
