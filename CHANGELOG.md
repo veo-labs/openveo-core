@@ -11,6 +11,7 @@
 ## DEPENDENCIES
 
 - **@openveo/api** has been upgraded from 5.1.1 to **6.0.0**
+- **@openveo/rest-nodejs-client** has been upgraded from 3.0.0 to **3.1.0**
 
 # 5.1.1 / 2018-06-19
 
