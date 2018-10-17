@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" class="yui-overrride">
+<head>
+    <meta charset="utf-8">
+    <title>app/client/admin/js/ov/MultiCheckBoxDirective.js - OpenVeo AngularJS back end</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            <h1 class="blue-main-title">OpenVeo AngularJS back end</h1>
+        </div>
+        <div class="yui3-u-1-4 version project-version">
+            API Docs for: 6.0.0
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/alertService.html">alertService</a></li>
+                                <li><a href="../classes/applicationService.html">applicationService</a></li>
+                                <li><a href="../classes/authenticationService.html">authenticationService</a></li>
+                                <li><a href="../classes/entityService.html">entityService</a></li>
+                                <li><a href="../classes/i18nService.html">i18nService</a></li>
+                                <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovDateTimePicker.html">ovDateTimePicker</a></li>
+                                <li><a href="../classes/OvDateTimePickerController.html">OvDateTimePickerController</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
+                                <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
+                                <li><a href="../classes/ovTags.html">ovTags</a></li>
+                                <li><a href="../classes/OvUrlFactory.html">OvUrlFactory</a></li>
+                                <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
+                                <li><a href="../classes/storageProvider.html">storageProvider</a></li>
+                                <li><a href="../classes/translateFilter.html">translateFilter</a></li>
+                                <li><a href="../classes/truncateFilter.html">truncateFilter</a></li>
+                                <li><a href="../classes/userService.html">userService</a></li>
+                                <li><a href="../classes/utilService.html">utilService</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/ov.html">ov</a></li>
+                                <li><a href="../modules/ov.alert.html">ov.alert</a></li>
+                                <li><a href="../modules/ov.authentication.html">ov.authentication</a></li>
+                                <li><a href="../modules/ov.entity.html">ov.entity</a></li>
+                                <li><a href="../modules/ov.i18n.html">ov.i18n</a></li>
+                                <li><a href="../modules/ov.socket.html">ov.socket</a></li>
+                                <li><a href="../modules/ov.storage.html">ov.storage</a></li>
+                                <li><a href="../modules/ov.util.html">ov.util</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app/client/admin/js/ov/MultiCheckBoxDirective.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x27;use strict&#x27;;
+
+(function(app) {
+
+  /**
+   * Creates a new Angular directive as an HTML element ov-multi-check-box to be able to create a list of checkboxes
+   * with a single model.
+   *
+   * @example
+   *
+   *     // The checkboxes to select (the model)
+   *     $scope.listOfValues = [&#x27;value1&#x27;];
+   *
+   *     // The list of checkboxes with a name and a value for each checkbox
+   *     $scope.listOfOptions = [{
+   *       name: &#x27;name1&#x27;
+   *       id: &#x27;value1&#x27;
+   *     },
+   *     {
+   *       name: &#x27;name2&#x27;
+   *       id: &#x27;value2&#x27;
+   *     }];
+   *
+   *     // The property to use as a label in listOfOptions object (&quot;name&quot; by default)
+   *     $scope.labelProperty = &#x27;name&#x27;;
+   *
+   *     // The property to use as a value in listOfOptions object (&quot;value&quot; by default)
+   *     $scope.valueProperty = &#x27;id&#x27;;
+   *
+   *     // A boolean to activate / deactivate the group of checkboxes
+   *     $scope.disabled = false;
+   *
+   *     &lt;ov-multi-check-box
+   *       ng-model=&quot;listOfValues&quot;
+   *       options=&quot;listOfOptions&quot;
+   *       label-property=&quot;labelProperty&quot;
+   *       value-property=&quot;valueProperty&quot;
+   *       disabled=&quot;disabled&quot;
+   *       ng-model-options=&quot;{ allowInvalid: true }&quot;&gt;
+   *     &lt;/ov-multi-check-box&gt;
+   *
+   * @module ov
+   * @class ovMultiCheckBox
+   */
+  function ovMultiCheckBox() {
+    return {
+      restrict: &#x27;E&#x27;,
+      templateUrl: &#x27;ov-core-mutli-check-box.html&#x27;,
+      require: [&#x27;?ngModel&#x27;],
+      replace: true,
+      scope: {
+        options: &#x27;=&#x27;,
+        labelProperty: &#x27;=?&#x27;,
+        valueProperty: &#x27;=?&#x27;,
+        disabled: &#x27;=?&#x27;
+      },
+      link: function(scope, el, attrs, controllers) {
+        var ngModelCtrl = controllers[0];
+        var lastView, lastViewRef = NaN;
+        scope.labelProperty = scope.labelProperty || &#x27;name&#x27;;
+        scope.valueProperty = scope.valueProperty || &#x27;value&#x27;;
+
+        /**
+         * Finds the index of the given value in the list of checkboxes.
+         *
+         * @param {Number} value The value of the checkbox
+         * @return {Number} The index of the checkbox in the list of checkboxes (-1 if not found)
+         */
+        function getValueIndex(value) {
+          for (var i = 0; i &lt; scope.options.length; i++) {
+            if (scope.options[i][scope.valueProperty] === value)
+              return i;
+          }
+          return -1;
+        }
+
+        /**
+         * Renders the list of checkboxes using the model.
+         *
+         * It overrides AngularJS $render.
+         */
+        ngModelCtrl.$render = function() {
+          var defaults = angular.copy(ngModelCtrl.$viewValue) || [];
+          scope.values = [];
+
+          // Build checkboxes model values
+          for (var i = 0; i &lt; defaults.length; i++) {
+            var index = getValueIndex(defaults[i]);
+
+            if (index &gt;= 0)
+              scope.values[index] = true;
+          }
+        };
+
+        /**
+         * Updates model when a checkbox is modified.
+         */
+        scope.onChange = function() {
+          var values = [];
+
+          // Get checked checkboxes
+          for (var i = 0; i &lt; scope.values.length; i++) {
+            if (scope.values[i])
+              values.push(scope.options[i][scope.valueProperty]);
+          }
+
+          ngModelCtrl.$setViewValue(values);
+        };
+
+        /**
+         * Listens to model modifications coming from outside the directive.
+         *
+         * If model is modified from outside the directive, the view needs to be updated.
+         */
+        scope.$watch(function() {
+          if (lastViewRef === ngModelCtrl.$viewValue &amp;&amp; !angular.equals(lastView, ngModelCtrl.$viewValue)) {
+            lastView = angular.copy(ngModelCtrl.$viewValue);
+            ngModelCtrl.$render();
+          }
+          lastViewRef = ngModelCtrl.$viewValue;
+        });
+
+        /**
+         * Tests if the model is empty.
+         *
+         * It overrides AngularJS $isEmpty.
+         *
+         * @param {Array} values The list of checkboxes
+         * @return {Boolean} true if there is no checked checkboxes, false otherwise
+         */
+        ngModelCtrl.$isEmpty = function(values) {
+          return !values || values.length === 0;
+        };
+
+      }
+    };
+  }
+
+  app.directive(&#x27;ovMultiCheckBox&#x27;, ovMultiCheckBox);
+
+})(angular.module(&#x27;ov&#x27;));
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
