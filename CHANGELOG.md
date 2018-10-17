@@ -1,8 +1,16 @@
-# 5.2.0 / YYYY-MM-DD
+# 6.0.0 / YYYY-MM-DD
+
+## BREAKING CHANGES
+
+- @openveo/api has been upgraded to a major version. Refer to @openveo/api CHANGELOG to see if there are consequences on your plugins
 
 ## NEW FEATURES
 
 - Plugins can now use parameters within permission / scope rules in conf.js file. As an example paths like "get /plugin/path/my-param-value/action" will match the rule "get /plugin/path/:param/action"
+
+## DEPENDENCIES
+
+- **@openveo/api** has been upgraded from 5.1.1 to **6.0.0**
 
 # 5.1.1 / 2018-06-19
 

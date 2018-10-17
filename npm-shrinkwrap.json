@@ -5,9 +5,9 @@
   "requires": true,
   "dependencies": {
     "@openveo/api": {
-      "version": "5.1.1",
-      "resolved": "https://registry.npmjs.org/@openveo/api/-/api-5.1.1.tgz",
-      "integrity": "sha512-qHAYUM8t/eXG5SbnfBkgExHO9kU+sESG33tn2ts6zCLbbAhfS+tOBdI6iIAZP9yhCjZVnmC9ZFWlI87+IcEaJw==",
+      "version": "6.0.0",
+      "resolved": "https://registry.npmjs.org/@openveo/api/-/api-6.0.0.tgz",
+      "integrity": "sha512-yxLktVQKn1dJnF2+MX9SV4dH2Y2+ubeM8pjzvrLUNucxotOdjVLUgBPR26yfwUjIMN9KbEvKJM1lIX8ipGyOmw==",
       "requires": {
         "async": "2.1.4",
         "connect-mongo": "1.3.2",
@@ -51,7 +51,6 @@
       "integrity": "sha512-ShzdAwxgs6R4cNGBUUFNxfmuQeFgPoEWmBHdBkU1LIkv5k/GL8ZRWihLfXTk0VslrmVYNU8+xprNlrseYW3Shg==",
       "dev": true,
       "requires": {
-        "@openveo/api": "5.1.1",
         "async": "2.1.4",
         "chai": "4.0.2",
         "chai-as-promised": "7.1.1",
