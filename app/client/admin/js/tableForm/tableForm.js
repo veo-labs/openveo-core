@@ -294,7 +294,6 @@
       canceller = $q.defer();
 
       // Build query parameters
-      var query = [];
       param['limit'] = paramsObj.count;
       param['page'] = Math.max(paramsObj.page - 1, 0);
       param['sortBy'] = paramsObj.sortBy;
@@ -302,47 +301,9 @@
 
       self.filterBy.forEach(function(filter) {
         if (filter.value && filter.value != '') {
-          switch (filter.type) {
-            case 'date':
-              var date = new Date(filter.value);
-
-              if (filter.param === 'date') {
-                var datePlus = new Date(date);
-                datePlus.setDate(date.getDate() + 1);
-
-                param['dateStart'] = date.getTime();
-                param['dateEnd'] = datePlus.getTime();
-              } else if (filter.param === 'dateStart')
-                param['dateStart'] = date.getTime();
-              else if (filter.param === 'dateEnd') {
-                date.setDate(date.getDate() + 1);
-                date.setMilliseconds(date.getMilliseconds() - 1);
-                param['dateEnd'] = date.getTime();
-              }
-              break;
-            case 'select':
-              var values = [filter.value];
-              if (filter.filterWithChildren) {
-                for (var i = 0; i < filter.options.length; i++) {
-                  if (filter.options[i].value === filter.value) {
-                    if (filter.options[i].children !== '')
-                      values = values.concat(filter.options[i].children.split(','));
-                    break;
-                  }
-                }
-              }
-
-              param[filter.param] = values;
-              break;
-            default:
-              query.push(filter.value);
-              break;
-          }
+          param[filter.key] = filter.getValue ? filter.getValue(filter.value) : filter.value;
         }
       });
-
-      if (query.length)
-        param['query'] = query.join(' ');
 
       // call entities that match params
       return entityService.getEntities(self.entityType, pluginName, param, canceller.promise).then(function(response) {

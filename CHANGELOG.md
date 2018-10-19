@@ -1,3 +1,9 @@
+# 7.0.0 / YYYY-MM-DD
+
+## BREAKING CHANGES
+
+- The client tableContainer API has changed. "filterBy" property is now more consistent between the different types, "key" is the web service parameter and "getValue" property will give you the possibility to change the value before calling the web service. "param" and "filterWithChildren" properties don't exist anymore, you can achieve the same behaviour using the new "getValue" property. Note that filters of type "text" are no longer merged. Plugins will have to remove their "param" property, modify their "key" property and add a "getValue" property if they were using "param" property with values "date", "dateStart" or "startEnd", or if they were using the property "fillWithChildren". See documentation for more details
+
 # 6.0.0 / 2018-10-17
 
 ## BREAKING CHANGES

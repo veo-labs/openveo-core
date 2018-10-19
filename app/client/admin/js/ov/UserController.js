@@ -87,7 +87,6 @@
     $scope.rights.edit = $scope.checkAccess('core-update-' + entityType);
     $scope.rights.delete = $scope.checkAccess('core-delete-' + entityType);
 
-
     /*
      *
      * DATATABLE
@@ -103,7 +102,6 @@
       {
         key: 'origin',
         type: 'select',
-        param: 'origin',
         value: null,
         label: $filter('translate')('CORE.USERS.ORIGIN_FILTER'),
         options: buildOriginFilterOptions()

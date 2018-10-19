@@ -188,79 +188,68 @@ $scope.tableContainer.entityType = 'book';
 ```javascript
 $scope.tableContainer.filterBy = [
   {
-    key: 'name',  // properties to filter on
-    value: '',    // initial value
-    label: 'Label of the name search filter'
+    key: 'name', // the name of the web service parameter
+    value: '', // the initial value
+    label: 'Label of the name search filter' // the field label
   }
 ];
 ```
-Filters default type is text (Only one filter of type text is allowed). Filter type can be set by adding **type** properties to filter object.
+Filters default type is text. Filter type can be set by specifying the **type** property of the field.
 ```javascript
 {
-  key: 'author',
-  param: 'author', // Name of the corresponding parameter in server side getEntitiesAction
-  type: 'select',
-  options : selectOptions,
-  value: '',
-  label: 'Label of the author search filter',
-  filterWithChildren: true  // default:false; if true table filter will select with the selectId AND additionnal id set in the "children" key of the selected options
+  key: 'query', // the name of the corresponding web service parameter
+  type: 'text', // the type of field to use, here field will be represented using a simple text field
+  value: '', // the initial value
+  label: 'Label of the author search filter' // the field label
 },
 {
-  key: 'date',
-
-  // Either "date", "dateStart" or "dateEnd" (required)
-  // "date" will search for records starting and ending at the given date
-  // "dateStart" will search for records starting at the given date
-  // "dateEnd" will search for records ending at the given date
-  // This will either send parameter "dateStart", "dateEnd" or both with request to the server
-  param: 'date',
-  type: 'date',
-  value: '',
-  label : 'Label of the date search filter'
+  key: 'author', // the name of the corresponding web service parameter
+  type: 'select', // the type of field to use, here field will be represented using a combobox
+  options : selectOptions, // as field is of type "select", "options" specify select options with, for each option, a property "name" and a property "value"
+  value: '', // the initial value
+  label: 'Label of the author search filter' // the field label
+},
+{
+  key: 'date', // the name of the corresponding web service parameter
+  type: 'date', // the type of field to use, here field will be represented using a date picker
+  value: '', // the initial value
+  label : 'Label of the date search filter' // the field label
 }
-```
-Where **selectOptions** need to be describe in this format:
-```JSON
-[
-  {
-    "value": 'id',
-    "name": 'title',
-    "children" : 'id1,id2,id3'
-  },
-  ...
-]
 ```
 
 - Initialize DataTable headers
 ```javascript
-// Each column need to display a property,
 // Automatically, a sort filter is enable on each column except 'Action' column
 $scope.tableContainer.header = [{
-  key: 'name',                      // property co display and sort in column
-  name: 'Label of the name column',
-  class: ['col-xs-12 col-sm-11']    // css class to add on header cell
+  key: 'name', // the value to use as the web service sortBy parameter value
+  name: 'Label of the name column', // the name of the column
+  class: ['col-xs-12 col-sm-11'] // the CSS classes to add on header cell
 },
 {
-  key: 'action',
-  name: 'Label for action button' ,
-  class: [' hidden-xs col-sm-1'],
+  key: 'action', // specify a special column named "action" which can't be sorted
+  name: 'Label for action button', // the name of the action column
+  class: [' hidden-xs col-sm-1'] // the CSS classes to add on header cell
 }];
 ```
-Header object 'action' is **REQUIRED** and not bind any sort filter.
 
-Headers default type is text. Filter type can be set by adding **type** properties to filter object.
-Default **date** (timestamp) and **text** value are enabled.
-But you can add any type if you make your own custom cell rendrer (see after)
+Headers default type is text. Header type can be set by specifying **type** property on the header.
+Default types are **date** (timestamp) and **text**.
+But you can add any type if you make your own custom cell renderer (see after).
 ```javascript
 {
-  key: 'date',
-  name: 'Label of the date column',
-  type: 'date'
+  key: 'date', // the value to use as the web service sortBy parameter value
+  name: 'Label of the date column', // the name of the column
+  type: 'date' // the header type
 },
 {
-  key: 'author',
-  name: 'Label of the author column',
-  type: 'author'
+  key: 'author', // the value to use as the web service sortBy parameter value
+  name: 'Label of the author column', // the name of the column
+  type: 'text' // the header type
+},
+{
+  key: 'custom', // the value to use as the web service sortBy parameter value
+  name: 'Label of the custom column', // the name of the column
+  type: 'myCustomType' // the header type
 }
 ```
 - Add a custom cell template renderer according to column key and row value
@@ -270,12 +259,11 @@ But you can add any type if you make your own custom cell rendrer (see after)
 // if defined, add custom cells renderer to date and text
 $scope.tableContainer.cellTheme = '/path/to/cells/template.html';
 ```
-For example (assuming that **entities** is the header type to render, an **row[entities.key]**, the value to display)
+For example (assuming that **entities** is the header type to render, and **row[entities.key]**, the value to display)
 ```HTML
 <span ng-if="entities.type && entities.type == 'type1' && row[entities.key]">{{row[entities.key] | filterType1}}</span>
 <span ng-if="entities.type && entities.type == 'type2'" ng-bind-html="row[entities.key] | filterType2"></span>
 ```
-** *BE CAREFUL ABOUT PERFORMANCES WHEN USING YOUR OWN FILTERS* **
 
 - Initialize action enable on each row
 ```javascript
