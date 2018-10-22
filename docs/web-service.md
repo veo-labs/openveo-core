@@ -129,6 +129,7 @@ Get taxonomies.
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on taxonomy names
+useSmartSearch | Number | No | 1 | **1** to use a more advanced search mechanism, **0** to use a simple search based on a regular expression
 sortBy | String | No | name | The field to use to sort taxonomies. Only **name** is available right now
 sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
@@ -340,6 +341,7 @@ Get groups.
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on both group names and descriptions
+useSmartSearch | Number | No | 1 | **1** to use a more advanced search mechanism, **0** to use a simple search based on a regular expression
 sortBy | String | No | name | The field to use to sort groups (either **name** or **description**)
 sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
@@ -503,6 +505,7 @@ Get roles.
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on role names
+useSmartSearch | Number | No | 1 | **1** to use a more advanced search mechanism, **0** to use a simple search based on a regular expression
 sortBy | String | No | name | The field to use to sort results, only **name** is available right now
 sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page
@@ -661,6 +664,7 @@ Get users.
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on user names
+useSmartSearch | Number | No | 1 | **1** to use a more advanced search mechanism, **0** to use a simple search based on a regular expression
 origin | String | No | all | The users origin (either **cas**, **ldap**, **local** or **all**)
 sortBy | String | No | name | The field to use to sort users. Only **name** is available right now
 sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
@@ -838,6 +842,7 @@ Get applications.
 Name | Type | Required | Default | Details
 ---- | ---- | ---- | ---- | ----
 query | String | No | - | To search on application names
+useSmartSearch | Number | No | 1 | **1** to use a more advanced search mechanism, **0** to use a simple search based on a regular expression
 sortBy | String | No | name | The field to use to sort applications. Only **name** is available right now
 sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page

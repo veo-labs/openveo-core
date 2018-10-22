@@ -47,6 +47,8 @@ util.inherits(UserController, EntityController);
  * @param {String|Array} [request.query.exclude] The list of fields to exclude from returned users. Ignored if
  * include is also specified.
  * @param {String} [request.query.query] Search query to search in user names
+ * @param {Number} [request.query.useSmartSearch=1] 1 to use a more advanced search mechanism, 0 to use a simple search
+ * based on a regular expression
  * @param {Number} [request.query.page=0] The expected page in pagination system
  * @param {Number} [request.query.limit=10] The maximum number of expected results
  * @param {String} [request.query.sortBy="name"] The field to sort by (only "name" is available right now)
@@ -63,6 +65,7 @@ UserController.prototype.getEntitiesAction = function(request, response, next) {
       include: {type: 'array<string>'},
       exclude: {type: 'array<string>'},
       query: {type: 'string'},
+      useSmartSearch: {type: 'number', in: [0, 1], default: 1},
       limit: {type: 'number', gt: 0},
       page: {type: 'number', gte: 0, default: 0},
       sortBy: {type: 'string', in: ['name'], default: 'name'},
@@ -81,7 +84,12 @@ UserController.prototype.getEntitiesAction = function(request, response, next) {
   var filter = new ResourceFilter();
 
   // Add search query
-  if (params.query) filter.search('"' + params.query + '"');
+  if (params.query) {
+    if (params.useSmartSearch)
+      filter.search('"' + params.query + '"');
+    else
+      filter.regex('name', new RegExp(openVeoApi.util.escapeTextForRegExp(params.query), 'i'));
+  }
 
   // Add origin filter
   if (params.origin !== 'all') filter.equal('origin', params.origin);

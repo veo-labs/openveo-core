@@ -75,6 +75,28 @@ describe('UserController', function() {
       });
     });
 
+    it('should be able to deactivate the smart search', function(done) {
+      var expectedQuery = '42';
+
+      provider.get = function(filter, fields, limit, page, sort, callback) {
+        assert.equal(
+          filter.getComparisonOperation(openVeoApi.storages.ResourceFilter.OPERATORS.REGEX, 'name').value,
+          '/' + expectedQuery + '/i',
+          'Wrong operation on "name"'
+        );
+        callback();
+      };
+
+      response.send = function(data) {
+        done();
+      };
+
+      request.query = {query: expectedQuery, useSmartSearch: 0};
+      userController.getEntitiesAction(request, response, function(error) {
+        assert.ok(false, 'Unexpected call to next middleware');
+      });
+    });
+
     it('should be able to ask for a specific page', function(done) {
       var expectedPage = 42;
 

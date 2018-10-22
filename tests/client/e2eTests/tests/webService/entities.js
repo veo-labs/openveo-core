@@ -316,6 +316,63 @@ describe('Web service', function() {
           });
         });
 
+        it('should be able to search ' + entity.name + ' without smart search', function(done) {
+          if (!helper.textSearchProperties.length) return done();
+
+          var textSearchPropertyPrefix = 'TestSearch';
+          var textSearchPropertySuffix = 'Smart';
+          var entitiesToAdd = [helper.getAddExample()];
+
+          /**
+           * Tests search with and without the smart search.
+           *
+           * @param {String} searchProperty The search property of the entity
+           * @return {Promise} Promise resolving when test is done
+           */
+          function testSmartSearch(searchProperty) {
+            var searchQuery = encodeURIComponent(
+              textSearchPropertyPrefix + searchProperty + textSearchPropertySuffix.slice(0, 2)
+            );
+            return client.get(entity.webServicePath + '?useSmartSearch=0&query=' + searchQuery).then(function(results) {
+              var entities = results.entities;
+              check(function() {
+                assert.equal(entities.length, 1, 'Unexpected number of entities');
+                assert.equal(entities[0].id, entitiesToAdd[0].id, 'Wrong entity');
+              }, done, true);
+              return client.get(entity.webServicePath + '?query=' + searchQuery);
+            }).then(function(results) {
+              var entities = results.entities;
+              check(function() {
+                assert.equal(entities.length, 0, 'Unexpected entities');
+              }, done, true);
+            }).catch(function(error) {
+              check(function() {
+                assert.ok(false, error.message);
+              }, done);
+            });
+          }
+
+          helper.textSearchProperties.forEach(function(searchProperty) {
+            entitiesToAdd[0][searchProperty] = textSearchPropertyPrefix + searchProperty + textSearchPropertySuffix;
+          });
+
+          helper.addEntities(entitiesToAdd).then(function(addedEntities) {
+            var promises = [];
+
+            helper.textSearchProperties.forEach(function(searchProperty) {
+              promises.push(testSmartSearch(searchProperty));
+            });
+
+            Promise.all(promises).then(function(results) {
+              done();
+            }).catch(function(error) {
+              check(function() {
+                assert.ok(false, 'Unexpected error: ' + error.message);
+              }, done);
+            });
+          });
+        });
+
         // Sort
         describe('sort', function() {
           var addedEntities;
