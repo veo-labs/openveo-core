@@ -176,24 +176,33 @@
      *
      * @param {String} entityType Type of entity
      * @param {String} [pluginName="core"] Plugin name the entity belongs to
+     * @param {Object} param Request parameters
+     * @param {String|Array} [param.include] The list of fields to include from returned entities
+     * @param {String|Array} [param.exclude] The list of fields to exclude from returned entities. Ignored if
+     * include is also specified.
+     * @param {String} [param.query] Search query to search on entities searchable fields
+     * @param {String} [param.sortBy] The field to sort by
+     * @param {String} [param.sortOrder="desc"] The sort order (either "asc" or "desc")
      * @return {HttpPromise} The HTTP promise
      * @method getAllEntities
      */
-    function getAllEntities(entityType, pluginName) {
+    function getAllEntities(entityType, pluginName, param) {
       var page = 0;
       var allEntities = [];
       var deferred = $q.defer();
+      param = param || {};
 
       /**
        * Gets the next page of entities.
        */
       function getNextPages() {
+        param.page = page;
+        param.limit = undefined;
+
         getEntities(
           entityType,
           pluginName,
-          {
-            page: page
-          },
+          param,
           null
         ).then(function(response) {
           allEntities = allEntities.concat(response.data.entities);
