@@ -128,7 +128,7 @@
      * @param {String} [param.query] Search query to search on entities searchable fields
      * @param {Number} [param.page=0] The expected page in pagination system
      * @param {Number} [param.limit=10] The maximum number of expected results
-     * @param {String} [param.sortBy] To field to sort by
+     * @param {String} [param.sortBy] The field to sort by
      * @param {String} [param.sortOrder="desc"] The sort order (either "asc" or "desc")
      * @param {Promise} [canceller] The HTTP promise to cancel request if needed, reject the promise to cancel the
      * request
