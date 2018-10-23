@@ -183,7 +183,8 @@ module.exports = {
         '/ov/MatchDirective.js',
         '/ov/SettingsController.js',
         '/ov/DateTimePickerDirective.js',
-        '/ov/DateTimePickerController.js'
+        '/ov/DateTimePickerController.js',
+        '/ov/AutoCompleteDirective.js'
       ],
       prod: [
         '/be/js/openveo.js'

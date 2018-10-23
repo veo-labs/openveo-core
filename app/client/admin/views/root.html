@@ -239,6 +239,27 @@
       </table>
     </script>
 
+    <!-- "ov-auto-complete" directive template -->
+    <script type="text/ng-template" id="ov-core-auto-complete.html">
+      <div class="ov-field-auto-complete">
+        <input type="text"
+               autocomplete="off"
+               autocorrect="off"
+               autocapitalize="off"
+               spellcheck="false"
+               ng-model="element.name"
+               ng-model-options="{allowInvalid: true}"
+               ng-change="validateValue()"
+               placeholder="{{placeholder}}"
+               class="form-control">
+        <ul ng-if="suggestions.length">
+          <li ng-repeat="suggestion in suggestions" ng-click="validateSuggestion(suggestion);">
+            <div ng-bind="suggestion.name" title="{{suggestion.name}}"></div>
+          </li>
+        </ul>
+      </div>
+    </script>
+
     <!--
       Formly template wrappers
     -->

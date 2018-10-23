@@ -9,6 +9,7 @@
 
 - The EntityService.getAllEntities function now accepts parameters
 - Web service endpoints GET /applications, GET /roles, GET /taxonomies, GET /groups and GET /users, now accept a "useSmartSearch" parameter which modifies the way search is made. If "useSmartSearch" is activated (this is the default), search will be made using the search mechanism of the storage. If "useSmartSearch" is deactivated it will search using a simple regular expression
+- Add ov-auto-complete AngularJS directive to build a text field with auto-completion
 
 # 6.0.0 / 2018-10-17
 

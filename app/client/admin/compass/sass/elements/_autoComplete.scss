@@ -1,0 +1,34 @@
+/* Style for auto-complete form element with an input an a list of suggestions */
+.ov-field-auto-complete {
+  position: relative;
+
+  /* Suggestions */
+  ul {
+    position: absolute;
+    z-index: 2;
+    top: 34px;
+    width: 100%;
+    padding: 0;
+    margin: 0 0 10px 0;
+    background-color: #ffffff;
+    border: 1px solid #e3e3e3;
+
+    li {
+      width: 100%;
+      padding: 5px 10px;
+      list-style: none;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #129bc5;
+        color: #ffffff;
+      }
+
+      div {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+}
