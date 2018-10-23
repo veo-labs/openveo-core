@@ -195,6 +195,12 @@
         color:$brand-primary;
       }
     }
+
+    @media (min-width: $screen-sm-min) {
+      &.multiline-filters .secondary-filters {
+        margin-top: 20px;
+      }
+    }
   }
 
   .allactions {
