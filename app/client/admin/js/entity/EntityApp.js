@@ -130,7 +130,7 @@
      * @param {Number} [param.limit=10] The maximum number of expected results
      * @param {String} [param.sortBy] The field to sort by
      * @param {String} [param.sortOrder="desc"] The sort order (either "asc" or "desc")
-     * @param {Promise} [canceller] The HTTP promise to cancel request if needed, reject the promise to cancel the
+     * @param {Promise} [canceller] The HTTP promise to cancel request if needed, resolve the promise to cancel the
      * request
      * @return {HttpPromise} The HTTP promise
      * @method getEntities
@@ -183,10 +183,12 @@
      * @param {String} [param.query] Search query to search on entities searchable fields
      * @param {String} [param.sortBy] The field to sort by
      * @param {String} [param.sortOrder="desc"] The sort order (either "asc" or "desc")
+     * @param {Promise} [canceller] The HTTP promise to cancel request if needed, resolve the promise to cancel the
+     * request
      * @return {HttpPromise} The HTTP promise
      * @method getAllEntities
      */
-    function getAllEntities(entityType, pluginName, param) {
+    function getAllEntities(entityType, pluginName, param, canceller) {
       var page = 0;
       var allEntities = [];
       var deferred = $q.defer();
@@ -203,7 +205,7 @@
           entityType,
           pluginName,
           param,
-          null
+          canceller
         ).then(function(response) {
           allEntities = allEntities.concat(response.data.entities);
 
