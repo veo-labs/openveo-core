@@ -411,6 +411,15 @@
       <div class="ov-formly-simple" ng-bind="model[options.key]" ng-class="{'ov-formly-simple-edit': formState.showForm}"></div>
     </script>
 
+    <!-- Formly "autoComplete" type template -->
+    <script type="text/ng-template" id="ov-core-formly-auto-complete.html">
+      <ov-auto-complete ng-model="model[options.key]"
+               ng-model-options="{ allowInvalid: true }"
+               ng-change="to.onChange && to.onChange()"
+               ov-get-suggestions="to.getSuggestions"
+               ov-placeholder="to.placeholder"></ov-auto-complete>
+    </script>
+
     [[#librariesScripts]]
     <script type="text/javascript" src="[[.]]"></script>
     [[/librariesScripts]]

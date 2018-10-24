@@ -116,6 +116,15 @@
       templateUrl: 'ov-core-section.html'
     });
     formlyConfig.setType({
+      name: 'autoComplete',
+      templateUrl: 'ov-core-formly-auto-complete.html',
+      defaultOptions: {
+        validation: {
+          show: true
+        }
+      }
+    });
+    formlyConfig.setType({
       extends: 'input',
       name: 'editableInput',
       link: function(scope, element, attrs) {
@@ -244,6 +253,16 @@
       }
     });
     formlyConfig.setType({
+      name: 'editableAutoComplete',
+      extends: 'autoComplete',
+      link: function(scope, element, attrs) {
+        scope.show = function() {
+          scope.isEmpty = scope.model[scope.options.key] ? false : true;
+          return scope.model[scope.options.key] || $filter('translate')('CORE.UI.EMPTY');
+        };
+      }
+    });
+    formlyConfig.setType({
       name: 'ovFile',
       templateUrl: 'ov-file.html',
       link: function(scope) {
@@ -365,6 +384,16 @@
     formlyConfig.setType({
       name: 'horizontalEditableCheckbox',
       extends: 'editableCheckbox',
+      wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalAutoComplete',
+      extends: 'autoComplete',
+      wrapper: ['horizontalBootstrapLabel', 'bootstrapHasError']
+    });
+    formlyConfig.setType({
+      name: 'horizontalEditableAutoComplete',
+      extends: 'editableAutoComplete',
       wrapper: ['editableWrapper', 'horizontalBootstrapLabel', 'bootstrapHasError']
     });
 
