@@ -27,7 +27,6 @@
     $scope.language = i18nService.getLanguageName(i18nService.getLanguage());
     $scope.indexOpen = -1;
     $scope.menuDropdownIsOpen = false;
-    $scope.newAnimation = '';
 
     /**
      * Logs out the user.
@@ -258,12 +257,6 @@
           return false;
         }
 
-        if (event.targetScope.newAnimation == 'LR')
-          event.currentScope.newAnimation = 'RL';
-        else if (event.targetScope.newAnimation == 'RL')
-          event.currentScope.newAnimation = 'LR';
-        else
-          event.currentScope.newAnimation = '';
       } else if ($location.path() === '/login' && userInfo) {
         event.preventDefault();
         $location.path('/');
@@ -287,7 +280,7 @@
 
       // Change page title
       $scope.title = $route.current && $route.current.title || '';
-      $scope.newAnimation = $rootScope.newAnimation;
+
     });
 
     // Listen to the route change error event
