@@ -14,6 +14,7 @@
 - Add new CSS classes on table filters to distinguish filters displayed in the first line from the following filters
 - Add "autoComplete" filter type to the tableContainer API. "filterBy" property can now accept a filter of type "autoComplete" to display a text field with suggestions
 - Add "autoComplete", "editableAutoComplete", "horizontalAutoComplete" and "horizontalEditableAutoComplete" formly types based on ov-auto-complete AngularJS directive
+- Transitions between pages in the administration interface have been removed
 
 ## DEPENDENCIES
 
