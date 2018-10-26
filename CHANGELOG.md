@@ -36,6 +36,8 @@
 - **mocha** has been upgraded from 3.2.0 to **5.2.0**
 - **mock-require** has been upgraded from 3.0.1 to **3.0.2**
 - **nodemon** has been upgraded from 1.11.0 to **1.18.4**
+- **@openveo/api** has been upgraded from 6.0.0 to **6.1.0**
+- **@openveo/test** has been upgraded from 7.0.0 to **7.1.0**
 
 # 6.0.0 / 2018-10-17
 

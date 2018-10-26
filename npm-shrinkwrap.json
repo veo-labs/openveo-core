@@ -56,9 +56,9 @@
       }
     },
     "@openveo/api": {
-      "version": "6.0.0",
-      "resolved": "https://registry.npmjs.org/@openveo/api/-/api-6.0.0.tgz",
-      "integrity": "sha512-yxLktVQKn1dJnF2+MX9SV4dH2Y2+ubeM8pjzvrLUNucxotOdjVLUgBPR26yfwUjIMN9KbEvKJM1lIX8ipGyOmw==",
+      "version": "6.1.0",
+      "resolved": "https://registry.npmjs.org/@openveo/api/-/api-6.1.0.tgz",
+      "integrity": "sha512-d4mzwOubYjZ0gxwQNQ3IYks2HI0PWsPbzitiQhVa0D42W1v0jJf3QX7NBPH4b/41v7l6A/bwv7wabcKOA0sr8A==",
       "requires": {
         "async": "2.1.4",
         "connect-mongo": "1.3.2",
@@ -100,65 +100,59 @@
       }
     },
     "@openveo/test": {
-      "version": "7.0.0",
-      "resolved": "https://registry.npmjs.org/@openveo/test/-/test-7.0.0.tgz",
-      "integrity": "sha512-ShzdAwxgs6R4cNGBUUFNxfmuQeFgPoEWmBHdBkU1LIkv5k/GL8ZRWihLfXTk0VslrmVYNU8+xprNlrseYW3Shg==",
+      "version": "7.1.0",
+      "resolved": "https://registry.npmjs.org/@openveo/test/-/test-7.1.0.tgz",
+      "integrity": "sha512-znxaaPK2sSvv5Ey4qINb2s6D5Penn5ciypC8Pnfll3PqlvH7hL8CDODJcmp/mAsF51iy7Qf3iAdpir6dCbv9aA==",
       "dev": true,
       "requires": {
-        "@openveo/api": "5.*",
-        "async": "2.1.4",
-        "chai": "4.0.2",
+        "@openveo/api": "6.*",
+        "async": "2.6.1",
+        "chai": "4.2.0",
         "chai-as-promised": "7.1.1",
-        "htmlparser2": "3.9.2"
+        "htmlparser2": "3.10.0"
       },
       "dependencies": {
-        "@openveo/api": {
-          "version": "5.1.1",
-          "resolved": "https://registry.npmjs.org/@openveo/api/-/api-5.1.1.tgz",
-          "integrity": "sha512-qHAYUM8t/eXG5SbnfBkgExHO9kU+sESG33tn2ts6zCLbbAhfS+tOBdI6iIAZP9yhCjZVnmC9ZFWlI87+IcEaJw==",
+        "async": {
+          "version": "2.6.1",
+          "resolved": "https://registry.npmjs.org/async/-/async-2.6.1.tgz",
+          "integrity": "sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==",
           "dev": true,
           "requires": {
-            "async": "2.1.4",
-            "connect-mongo": "1.3.2",
-            "esprima": "4.0.0",
-            "express-session": "1.14.2",
-            "gm": "1.23.0",
-            "imagemagick": "0.1.3",
-            "mongodb": "2.2.16",
-            "multer": "1.3.0",
-            "passport": "0.4.0",
-            "passport-ldapauth": "2.0.0",
-            "passport-local": "1.0.0",
-            "passport-strategy": "1.0.0",
-            "shortid": "2.2.6",
-            "socket.io": "1.7.2",
-            "tar-fs": "1.15.0",
-            "winston": "2.3.0",
-            "xml2js": "0.4.17"
+            "lodash": "^4.17.10"
           }
         },
-        "chai": {
-          "version": "4.0.2",
-          "resolved": "https://registry.npmjs.org/chai/-/chai-4.0.2.tgz",
-          "integrity": "sha1-L3MnxN5vOF3XeHmZ4qsCaXoyuDs=",
+        "htmlparser2": {
+          "version": "3.10.0",
+          "resolved": "https://registry.npmjs.org/htmlparser2/-/htmlparser2-3.10.0.tgz",
+          "integrity": "sha512-J1nEUGv+MkXS0weHNWVKJJ+UrLfePxRWpN3C9bEi9fLxL2+ggW94DQvgYVXsaT30PGwYRIZKNZXuyMhp3Di4bQ==",
           "dev": true,
           "requires": {
-            "assertion-error": "^1.0.1",
-            "check-error": "^1.0.1",
-            "deep-eql": "^2.0.1",
-            "get-func-name": "^2.0.0",
-            "pathval": "^1.0.0",
-            "type-detect": "^4.0.0"
+            "domelementtype": "^1.3.0",
+            "domhandler": "^2.3.0",
+            "domutils": "^1.5.1",
+            "entities": "^1.1.1",
+            "inherits": "^2.0.1",
+            "readable-stream": "^3.0.6"
           }
         },
-        "passport": {
-          "version": "0.4.0",
-          "resolved": "https://registry.npmjs.org/passport/-/passport-0.4.0.tgz",
-          "integrity": "sha1-xQlWkTR71a07XhgCOMORTRbwWBE=",
+        "readable-stream": {
+          "version": "3.0.6",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-3.0.6.tgz",
+          "integrity": "sha512-9E1oLoOWfhSXHGv6QlwXJim7uNzd9EVlWK+21tCU9Ju/kR0/p2AZYPz4qSchgO8PlLIH4FpZYfzwS+rEksZjIg==",
           "dev": true,
           "requires": {
-            "passport-strategy": "1.x.x",
-            "pause": "0.0.1"
+            "inherits": "^2.0.3",
+            "string_decoder": "^1.1.1",
+            "util-deprecate": "^1.0.1"
+          }
+        },
+        "string_decoder": {
+          "version": "1.1.1",
+          "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.1.1.tgz",
+          "integrity": "sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==",
+          "dev": true,
+          "requires": {
+            "safe-buffer": "~5.1.0"
           }
         }
       }
@@ -1832,23 +1826,6 @@
       "resolved": "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.0.tgz",
       "integrity": "sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=",
       "dev": true
-    },
-    "deep-eql": {
-      "version": "2.0.2",
-      "resolved": "https://registry.npmjs.org/deep-eql/-/deep-eql-2.0.2.tgz",
-      "integrity": "sha1-sbrAblbwp2d3aG1Qyf63XC7XZ5o=",
-      "dev": true,
-      "requires": {
-        "type-detect": "^3.0.0"
-      },
-      "dependencies": {
-        "type-detect": {
-          "version": "3.0.0",
-          "resolved": "https://registry.npmjs.org/type-detect/-/type-detect-3.0.0.tgz",
-          "integrity": "sha1-RtDMhVOrt7E6NSsNbeov1Y8tm1U=",
-          "dev": true
-        }
-      }
     },
     "deep-equal": {
       "version": "1.0.1",
@@ -4593,20 +4570,6 @@
       "resolved": "https://registry.npmjs.org/hosted-git-info/-/hosted-git-info-2.7.1.tgz",
       "integrity": "sha512-7T/BxH19zbcCTa8XkMlbK5lTo1WtgkFi3GvdWEyNuc4Vex7/9Dqbnpsf4JMydcfj9HCg4zUWFTL3Za6lapg5/w==",
       "dev": true
-    },
-    "htmlparser2": {
-      "version": "3.9.2",
-      "resolved": "http://registry.npmjs.org/htmlparser2/-/htmlparser2-3.9.2.tgz",
-      "integrity": "sha1-G9+HrMoPP55T+k/M6w9LTLsAszg=",
-      "dev": true,
-      "requires": {
-        "domelementtype": "^1.3.0",
-        "domhandler": "^2.3.0",
-        "domutils": "^1.5.1",
-        "entities": "^1.1.1",
-        "inherits": "^2.0.1",
-        "readable-stream": "^2.0.2"
-      }
     },
     "http-errors": {
       "version": "1.5.1",
