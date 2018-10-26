@@ -8,18 +8,19 @@
    * by the main controller.
    */
   function MainController($rootScope,
-     $scope,
-     $location,
-     $route,
-     authenticationService,
-     menuService,
-     applicationService,
-     userService,
-     i18nService,
-     alertService,
-     entityService,
-     $window,
-     $q) {
+    $scope,
+    $location,
+    $route,
+    authenticationService,
+    menuService,
+    applicationService,
+    userService,
+    i18nService,
+    alertService,
+    entityService,
+    $window,
+    $q
+  ) {
 
     $scope.displayMainMenu = false;
     $scope.isResponsiveMenuClosed = true;

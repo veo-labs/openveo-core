@@ -149,8 +149,8 @@
 
           // Without options
           if ((!scope.availableOptions) &&
-              (tag && scope.tags.indexOf(tag) === -1)
-             ) {
+            (tag && scope.tags.indexOf(tag) === -1)
+          ) {
             scope.editableTagsInput = '';
             scope.tags.push(tag);
             ngModelCtrl.$setViewValue(getValues());

@@ -233,16 +233,16 @@ describe('Web service', function() {
           var newEntityValues = helper.getUpdateExample();
 
           helper.addEntities(entitiesToAdd).then(function(addedEntities) {
-            clientWithoutPermission.post(entity.webServicePath + '/' + addedEntities[0].id,
-            newEntityValues).then(function(results) {
-              check(function() {
-                assert.ok(false, 'Applications without permission should not be able to update groups');
-              }, done);
-            }).catch(function(error) {
-              check(function() {
-                assert.isDefined(error.httpCode, 403, 'Expected end point to be protected');
-              }, done);
-            });
+            clientWithoutPermission.post(entity.webServicePath + '/' + addedEntities[0].id, newEntityValues)
+              .then(function(results) {
+                check(function() {
+                  assert.ok(false, 'Applications without permission should not be able to update groups');
+                }, done);
+              }).catch(function(error) {
+                check(function() {
+                  assert.isDefined(error.httpCode, 403, 'Expected end point to be protected');
+                }, done);
+              });
           });
         });
 

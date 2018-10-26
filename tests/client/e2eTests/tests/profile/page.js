@@ -314,8 +314,10 @@ describe('Profile page', function() {
         assert.eventually.equal(page.userNameInfoElement.getText(), expectedName);
         assert.eventually.equal(page.userEmailInfoElement.getText(), expectedEmail);
         assert.eventually.equal(page.userRolesInfoElement.getText(), expectedRoles.join(', '));
-        assert.eventually.equal(page.getUserOrigin(openVeoApi.passport.STRATEGIES.CAS),
-                                page.translations.CORE.PROFILES.ORIGIN_CAS);
+        assert.eventually.equal(
+          page.getUserOrigin(openVeoApi.passport.STRATEGIES.CAS),
+          page.translations.CORE.PROFILES.ORIGIN_CAS
+        );
       });
     });
 
@@ -378,8 +380,10 @@ describe('Profile page', function() {
         assert.eventually.equal(page.userNameInfoElement.getText(), expectedName);
         assert.eventually.equal(page.userEmailInfoElement.getText(), expectedEmail);
         assert.eventually.equal(page.userRolesInfoElement.getText(), expectedRoles.join(', '));
-        assert.eventually.equal(page.getUserOrigin(openVeoApi.passport.STRATEGIES.LDAP),
-                                page.translations.CORE.PROFILES.ORIGIN_LDAPAUTH);
+        assert.eventually.equal(
+          page.getUserOrigin(openVeoApi.passport.STRATEGIES.LDAP),
+          page.translations.CORE.PROFILES.ORIGIN_LDAPAUTH
+        );
       });
     });
 

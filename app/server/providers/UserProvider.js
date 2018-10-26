@@ -46,9 +46,9 @@ UserProvider.prototype.getUserByCredentials = function(email, password, callback
 
   this.getOne(
     new ResourceFilter()
-    .equal('origin', openVeoApi.passport.STRATEGIES.LOCAL)
-    .equal('email', email)
-    .equal('password', password),
+      .equal('origin', openVeoApi.passport.STRATEGIES.LOCAL)
+      .equal('email', email)
+      .equal('password', password),
     {
       exclude: ['password']
     },
@@ -69,8 +69,8 @@ UserProvider.prototype.getUserByCredentials = function(email, password, callback
 UserProvider.prototype.getUserByEmail = function(email, callback) {
   this.getOne(
     new ResourceFilter()
-    .equal('origin', openVeoApi.passport.STRATEGIES.LOCAL)
-    .equal('email', email),
+      .equal('origin', openVeoApi.passport.STRATEGIES.LOCAL)
+      .equal('email', email),
     {
       exclude: ['password']
     },
@@ -121,8 +121,8 @@ UserProvider.prototype.add = function(users, callback) {
   // Find users
   this.getAll(
     new ResourceFilter()
-    .equal('origin', openVeoApi.passport.STRATEGIES.LOCAL)
-    .in('email', userEmails),
+      .equal('origin', openVeoApi.passport.STRATEGIES.LOCAL)
+      .in('email', userEmails),
     {
       include: ['email']
     },

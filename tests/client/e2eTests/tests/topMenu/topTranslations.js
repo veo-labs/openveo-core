@@ -52,8 +52,10 @@ describe('Top menu', function() {
 
         // Move cursor over language link again (IE workaround)
         page.setLanguageLinkMouseOver();
-        assert.eventually.equal(page.popoverElement.getAttribute('content'),
-                               coreTranslations.LANGUAGE[page.language.translationCode]);
+        assert.eventually.equal(
+          page.popoverElement.getAttribute('content'),
+          coreTranslations.LANGUAGE[page.language.translationCode]
+        );
 
         // Logout popover title
         page.setLogoutLinkMouseOver();

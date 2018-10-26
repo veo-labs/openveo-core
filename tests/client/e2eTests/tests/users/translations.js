@@ -53,8 +53,10 @@ describe('User page translations', function() {
         assert.eventually.equal(passwordField.getLabel(), coreTranslations.USERS.FORM_ADD_PASSWORD);
         assert.eventually.equal(passwordField.getDescription(), coreTranslations.USERS.FORM_ADD_PASSWORD_DESC);
         assert.eventually.equal(passwordValidateField.getLabel(), coreTranslations.USERS.FORM_ADD_PASSWORD_VALIDATE);
-        assert.eventually.equal(passwordValidateField.getDescription(),
-                               coreTranslations.USERS.FORM_ADD_PASSWORD_VALIDATE_DESC);
+        assert.eventually.equal(
+          passwordValidateField.getDescription(),
+          coreTranslations.USERS.FORM_ADD_PASSWORD_VALIDATE_DESC
+        );
         assert.eventually.equal(rolesField.getLabel(), coreTranslations.USERS.FORM_ADD_ROLE);
         assert.eventually.equal(rolesField.getDescription(), coreTranslations.USERS.FORM_ADD_ROLE_DESC);
         assert.eventually.equal(page.addButtonElement.getText(), coreTranslations.UI.FORM_ADD);

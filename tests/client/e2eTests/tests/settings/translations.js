@@ -43,24 +43,40 @@ describe('Settings page translations', function() {
         assert.eventually.ok(page.isSectionPresent(coreTranslations.SETTINGS.LDAP.TITLE));
 
         // CAS groups association field
-        assert.eventually.equal(casGroupsAssociationField.getLabel(),
-                                coreTranslations.SETTINGS.CAS.GROUP_ASSOC_LABEL);
-        assert.eventually.equal(casGroupsAssociationField.getDescription(),
-                                coreTranslations.SETTINGS.CAS.GROUP_ASSOC_DESC);
-        assert.eventually.equal(casGroupsAssociationField.getInputPlaceholder(),
-                                coreTranslations.SETTINGS.CAS.GROUP_ASSOC_INPUT);
-        assert.eventually.equal(casGroupsAssociationField.getTagsPlaceholder(),
-                                coreTranslations.SETTINGS.CAS.GROUP_ASSOC_TAGS);
+        assert.eventually.equal(
+          casGroupsAssociationField.getLabel(),
+          coreTranslations.SETTINGS.CAS.GROUP_ASSOC_LABEL
+        );
+        assert.eventually.equal(
+          casGroupsAssociationField.getDescription(),
+          coreTranslations.SETTINGS.CAS.GROUP_ASSOC_DESC
+        );
+        assert.eventually.equal(
+          casGroupsAssociationField.getInputPlaceholder(),
+          coreTranslations.SETTINGS.CAS.GROUP_ASSOC_INPUT
+        );
+        assert.eventually.equal(
+          casGroupsAssociationField.getTagsPlaceholder(),
+          coreTranslations.SETTINGS.CAS.GROUP_ASSOC_TAGS
+        );
 
         // LDAP groups association field
-        assert.eventually.equal(ldapGroupsAssociationField.getLabel(),
-                                coreTranslations.SETTINGS.LDAP.GROUP_ASSOC_LABEL);
-        assert.eventually.equal(ldapGroupsAssociationField.getDescription(),
-                                coreTranslations.SETTINGS.LDAP.GROUP_ASSOC_DESC);
-        assert.eventually.equal(ldapGroupsAssociationField.getInputPlaceholder(),
-                                coreTranslations.SETTINGS.LDAP.GROUP_ASSOC_INPUT);
-        assert.eventually.equal(ldapGroupsAssociationField.getTagsPlaceholder(),
-                                coreTranslations.SETTINGS.LDAP.GROUP_ASSOC_TAGS);
+        assert.eventually.equal(
+          ldapGroupsAssociationField.getLabel(),
+          coreTranslations.SETTINGS.LDAP.GROUP_ASSOC_LABEL
+        );
+        assert.eventually.equal(
+          ldapGroupsAssociationField.getDescription(),
+          coreTranslations.SETTINGS.LDAP.GROUP_ASSOC_DESC
+        );
+        assert.eventually.equal(
+          ldapGroupsAssociationField.getInputPlaceholder(),
+          coreTranslations.SETTINGS.LDAP.GROUP_ASSOC_INPUT
+        );
+        assert.eventually.equal(
+          ldapGroupsAssociationField.getTagsPlaceholder(),
+          coreTranslations.SETTINGS.LDAP.GROUP_ASSOC_TAGS
+        );
 
         return browser.waitForAngular();
       }).then(function() {

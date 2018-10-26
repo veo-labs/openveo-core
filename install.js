@@ -265,11 +265,13 @@ function createConf(callback) {
       });
     },
     function(callback) {
-      rl.question('Enter a secret key used to encrypt users passwords (default: ' + conf.passwordHashKey + ') :\n',
-      function(answer) {
-        if (answer) conf.passwordHashKey = answer;
-        callback();
-      });
+      rl.question(
+        'Enter a secret key used to encrypt users passwords (default: ' + conf.passwordHashKey + ') :\n',
+        function(answer) {
+          if (answer) conf.passwordHashKey = answer;
+          callback();
+        }
+      );
     },
     function(callback) {
       rl.question('Enter OpenVeo CDN url (e.g. http://cdn.openveo.com) :\n', function(answer) {

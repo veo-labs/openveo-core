@@ -75,8 +75,10 @@ describe('Profile page', function() {
           // Password form translations
           assert.eventually.equal(page.passwordTitleElement.getText(), coreTranslations.PROFILES.ATTR_MODIFY_PASSWORD);
           assert.eventually.equal(page.passwordLabelElement.getText(), coreTranslations.PROFILES.ATTR_PASSWORD);
-          assert.eventually.equal(page.confirmPasswordLabelElement.getText(),
-                                  coreTranslations.PROFILES.ATTR_CONFIRM_PASSWORD);
+          assert.eventually.equal(
+            page.confirmPasswordLabelElement.getText(),
+            coreTranslations.PROFILES.ATTR_CONFIRM_PASSWORD
+          );
           assert.eventually.equal(page.submitPasswordElement.getText(), coreTranslations.UI.FORM_SAVE);
           assert.eventually.equal(page.cancelPasswordElement.getText(), coreTranslations.UI.FORM_CANCEL);
 
@@ -149,8 +151,10 @@ describe('Profile page', function() {
 
           // Values
           assert.eventually.equal(page.userRolesInfoElement.getText(), coreTranslations.PROFILES.NO_ROLES);
-          assert.eventually.equal(page.getUserOrigin(strategyId),
-                                  coreTranslations.PROFILES['ORIGIN_' + strategyIdUpperCase]);
+          assert.eventually.equal(
+            page.getUserOrigin(strategyId),
+            coreTranslations.PROFILES['ORIGIN_' + strategyIdUpperCase]
+          );
 
           return browser.waitForAngular();
         }).then(function() {

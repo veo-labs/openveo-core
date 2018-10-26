@@ -69,7 +69,7 @@ ErrorController.prototype.errorAction = function(error, request, response, next)
     headers: request.headers
   });
 
-   // Send response with HTML content
+  // Send response with HTML content
   if (request.accepts('html') && (error.httpCode == '401' || error.httpCode == '403')) {
     response.status(error.httpCode);
     defaultController.defaultAction(request, response, next);

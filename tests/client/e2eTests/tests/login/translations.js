@@ -40,10 +40,14 @@ describe('Login page translations', function() {
         page.submit();
 
         // Verify translations
-        assert.eventually.equal(page.userInputElement.getAttribute('placeholder'),
-                                coreTranslations.LOGIN.LOGIN_DESCRIPTION);
-        assert.eventually.equal(page.passwordInputElement.getAttribute('placeholder'),
-                                coreTranslations.LOGIN.PASSWORD_DESCRIPTION);
+        assert.eventually.equal(
+          page.userInputElement.getAttribute('placeholder'),
+          coreTranslations.LOGIN.LOGIN_DESCRIPTION
+        );
+        assert.eventually.equal(
+          page.passwordInputElement.getAttribute('placeholder'),
+          coreTranslations.LOGIN.PASSWORD_DESCRIPTION
+        );
         assert.eventually.equal(page.getTitle(), coreTranslations.LOGIN.PAGE_TITLE);
         assert.eventually.equal(page.userLabelElement.getText(), coreTranslations.LOGIN.LOGIN);
         assert.eventually.equal(page.passwordLabelElement.getText(), coreTranslations.LOGIN.PASSWORD);

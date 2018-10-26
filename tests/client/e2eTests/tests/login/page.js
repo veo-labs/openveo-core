@@ -157,8 +157,10 @@ describe('Login page', function() {
 
     it('should display the CAS button and the separator', function() {
       assert.eventually.ok(page.casButtonElement.isPresent());
-      assert.eventually.equal(page.casButtonElement.getAttribute('href'),
-                              process.protractorConf.baseUrl + 'be/authenticate/cas');
+      assert.eventually.equal(
+        page.casButtonElement.getAttribute('href'),
+        process.protractorConf.baseUrl + 'be/authenticate/cas'
+      );
       assert.eventually.ok(page.separatorElement.isPresent());
     });
 
@@ -193,8 +195,8 @@ describe('Login page', function() {
 
         userHelper.getEntities(
           new ResourceFilter()
-          .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
-          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
+            .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
+            .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
         ).then(function(entities) {
           var entity = entities[0];
 
@@ -202,8 +204,10 @@ describe('Login page', function() {
           assert.equal(entity.name, openVeoApi.util.evaluateDeepObjectProperties(userNameAttribute, casUser));
           assert.equal(entity.email, openVeoApi.util.evaluateDeepObjectProperties(userEmailAttribute, casUser));
           assert.equal(entity.originId, openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser));
-          assert.sameMembers(entity.originGroups,
-                             openVeoApi.util.evaluateDeepObjectProperties(userGroupAttribute, casUser));
+          assert.sameMembers(
+            entity.originGroups,
+            openVeoApi.util.evaluateDeepObjectProperties(userGroupAttribute, casUser)
+          );
           assert.sameMembers(entity.roles, expectedRoleIds);
         });
       });
@@ -226,8 +230,8 @@ describe('Login page', function() {
 
       userHelper.getEntities(
         new ResourceFilter()
-        .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
-        .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
+          .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
+          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
       ).then(function(entities) {
         assert.equal(entities.length, 1, 'Wrong number of CAS users');
       });
@@ -265,8 +269,8 @@ describe('Login page', function() {
 
         userHelper.getEntities(
           new ResourceFilter()
-          .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
-          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
+            .equal('origin', openVeoApi.passport.STRATEGIES.CAS)
+            .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, casUser))
         ).then(function(entities) {
           var entity = entities[0];
 
@@ -329,8 +333,8 @@ describe('Login page', function() {
 
         userHelper.getEntities(
           new ResourceFilter()
-          .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
-          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
+            .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
+            .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
         ).then(function(entities) {
           var entity = entities[0];
 
@@ -361,8 +365,8 @@ describe('Login page', function() {
 
       userHelper.getEntities(
         new ResourceFilter()
-        .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
-        .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
+          .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
+          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
       ).then(function(entities) {
         assert.equal(entities.length, 1, 'Wrong number of LDAP users');
       });
@@ -400,8 +404,8 @@ describe('Login page', function() {
 
         userHelper.getEntities(
           new ResourceFilter()
-          .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
-          .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
+            .equal('origin', openVeoApi.passport.STRATEGIES.LDAP)
+            .equal('originId', openVeoApi.util.evaluateDeepObjectProperties(userIdAttribute, ldapUser))
         ).then(function(entities) {
           var entity = entities[0];
 

@@ -230,10 +230,10 @@ module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, cal
     // Update user if information from third party provider have changed (name, email, group)
     function(callback) {
       if (user.name !== thirdPartyUserName ||
-          user.email !== thirdPartyUserEmail ||
-          !openVeoApi.util.areSameArrays(user.originGroups, originGroups) ||
-          !openVeoApi.util.areSameArrays(user.roles, roles)
-         ) {
+        user.email !== thirdPartyUserEmail ||
+        !openVeoApi.util.areSameArrays(user.originGroups, originGroups) ||
+        !openVeoApi.util.areSameArrays(user.roles, roles)
+      ) {
 
         user.name = thirdPartyUserName;
         user.email = thirdPartyUserEmail;

@@ -227,9 +227,11 @@ describe('Setting page', function() {
 
       roleHelper.addEntitiesAuto(expectedRolePrefix, 1).then(function(addedRoles) {
         page.refresh();
-        page.setMatchFieldValueUsingAutoCompletion(page.translations.CORE.SETTINGS.CAS.GROUP_ASSOC_LABEL,
-                                                   expectedMatches,
-                                                   availableOptions);
+        page.setMatchFieldValueUsingAutoCompletion(
+          page.translations.CORE.SETTINGS.CAS.GROUP_ASSOC_LABEL,
+          expectedMatches,
+          availableOptions
+        );
         page.saveSettings();
         page.refresh();
 
@@ -365,9 +367,11 @@ describe('Setting page', function() {
 
       roleHelper.addEntitiesAuto(expectedRolePrefix, 1).then(function(addedRoles) {
         page.refresh();
-        page.setMatchFieldValueUsingAutoCompletion(page.translations.CORE.SETTINGS.LDAP.GROUP_ASSOC_LABEL,
-                                                   expectedMatches,
-                                                   availableOptions);
+        page.setMatchFieldValueUsingAutoCompletion(
+          page.translations.CORE.SETTINGS.LDAP.GROUP_ASSOC_LABEL,
+          expectedMatches,
+          availableOptions
+        );
         page.saveSettings();
         page.refresh();
 

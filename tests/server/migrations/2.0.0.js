@@ -103,19 +103,19 @@ describe('Migration 2.0.0', function() {
       });
 
       it('should execute callback with an error if renaming collection "' + operation.name + '" failed',
-         function(done) {
-           var expectedError = new Error('Something went wrong');
+        function(done) {
+          var expectedError = new Error('Something went wrong');
 
-           database.renameCollection = function(name, newName, callback) {
-             if (name === operation.name && newName === operation.newName) return callback(expectedError);
-             callback();
-           };
+          database.renameCollection = function(name, newName, callback) {
+            if (name === operation.name && newName === operation.newName) return callback(expectedError);
+            callback();
+          };
 
-           migration.update(function(error) {
-             assert.strictEqual(error, expectedError, 'Wrong error');
-             done();
-           });
-         }
+          migration.update(function(error) {
+            assert.strictEqual(error, expectedError, 'Wrong error');
+            done();
+          });
+        }
       );
 
       it('should not execute callback with an error if collection "clients" does not exist', function(done) {

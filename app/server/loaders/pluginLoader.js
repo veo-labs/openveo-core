@@ -302,7 +302,7 @@ module.exports.loadPlugin = function(pluginPath, callback) {
   var plugin = null;
   var pluginComposition = [];
   var regResults;
-  var reg = /(?:node_modules[\/|\\](?:(?:@openveo[\/|\\]([^\/\\]*))|(?:openveo-([^\/\\]*))))/g;
+  var reg = /(?:node_modules[/|\\](?:(?:@openveo[/|\\]([^/\\]*))|(?:openveo-([^/\\]*))))/g;
 
   // Extract the plugin(s) name(s) from the plugin path
   // e.g :
