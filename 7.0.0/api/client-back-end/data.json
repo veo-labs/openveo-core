@@ -1,0 +1,3157 @@
+{
+    "project": {
+        "name": "OpenVeo AngularJS back end",
+        "description": "AngularJS OpenVeo back end documentation",
+        "version": "7.0.0"
+    },
+    "files": {
+        "app/client/admin/js/alert/AlertApp.js": {
+            "name": "app/client/admin/js/alert/AlertApp.js",
+            "modules": {
+                "ov.alert": 1
+            },
+            "classes": {
+                "alertService": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/authentication/AuthenticationApp.js": {
+            "name": "app/client/admin/js/authentication/AuthenticationApp.js",
+            "modules": {
+                "ov.authentication": 1
+            },
+            "classes": {
+                "authenticationService": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/entity/EntityApp.js": {
+            "name": "app/client/admin/js/entity/EntityApp.js",
+            "modules": {
+                "ov.entity": 1
+            },
+            "classes": {
+                "entityService": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/i18n/I18nApp.js": {
+            "name": "app/client/admin/js/i18n/I18nApp.js",
+            "modules": {
+                "ov.i18n": 1
+            },
+            "classes": {
+                "i18nService": 1,
+                "translateFilter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/ApplicationController.js": {
+            "name": "app/client/admin/js/ov/ApplicationController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/ApplicationService.js": {
+            "name": "app/client/admin/js/ov/ApplicationService.js",
+            "modules": {},
+            "classes": {
+                "applicationService": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/AutoCompleteDirective.js": {
+            "name": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "modules": {},
+            "classes": {
+                "ovAutoComplete": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/DateTimePickerController.js": {
+            "name": "app/client/admin/js/ov/DateTimePickerController.js",
+            "modules": {},
+            "classes": {
+                "OvDateTimePickerController": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/DateTimePickerDirective.js": {
+            "name": "app/client/admin/js/ov/DateTimePickerDirective.js",
+            "modules": {},
+            "classes": {
+                "ovDateTimePicker": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/ErrorInterceptor.js": {
+            "name": "app/client/admin/js/ov/ErrorInterceptor.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/GroupController.js": {
+            "name": "app/client/admin/js/ov/GroupController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/HomeController.js": {
+            "name": "app/client/admin/js/ov/HomeController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/LoginController.js": {
+            "name": "app/client/admin/js/ov/LoginController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/MainController.js": {
+            "name": "app/client/admin/js/ov/MainController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/MatchDirective.js": {
+            "name": "app/client/admin/js/ov/MatchDirective.js",
+            "modules": {},
+            "classes": {
+                "ovMatch": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/MenuService.js": {
+            "name": "app/client/admin/js/ov/MenuService.js",
+            "modules": {},
+            "classes": {
+                "menuService": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/MultiCheckBoxDirective.js": {
+            "name": "app/client/admin/js/ov/MultiCheckBoxDirective.js",
+            "modules": {},
+            "classes": {
+                "ovMultiCheckBox": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/OvApp.js": {
+            "name": "app/client/admin/js/ov/OvApp.js",
+            "modules": {
+                "ov": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/ProfileController.js": {
+            "name": "app/client/admin/js/ov/ProfileController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/RoleController.js": {
+            "name": "app/client/admin/js/ov/RoleController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/SettingsController.js": {
+            "name": "app/client/admin/js/ov/SettingsController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/TagsDirective.js": {
+            "name": "app/client/admin/js/ov/TagsDirective.js",
+            "modules": {},
+            "classes": {
+                "ovTags": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/TruncateFilter.js": {
+            "name": "app/client/admin/js/ov/TruncateFilter.js",
+            "modules": {},
+            "classes": {
+                "truncateFilter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/UserController.js": {
+            "name": "app/client/admin/js/ov/UserController.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/ov/UserService.js": {
+            "name": "app/client/admin/js/ov/UserService.js",
+            "modules": {},
+            "classes": {
+                "userService": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/socket/SocketApp.js": {
+            "name": "app/client/admin/js/socket/SocketApp.js",
+            "modules": {
+                "ov.socket": 1
+            },
+            "classes": {
+                "SocketFactory": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/storage/StorageApp.js": {
+            "name": "app/client/admin/js/storage/StorageApp.js",
+            "modules": {
+                "ov.storage": 1
+            },
+            "classes": {
+                "storageProvider": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/tableForm/tableForm.js": {
+            "name": "app/client/admin/js/tableForm/tableForm.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/util/UrlFactory.js": {
+            "name": "app/client/admin/js/util/UrlFactory.js",
+            "modules": {},
+            "classes": {
+                "OvUrlFactory": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/util/UtilApp.js": {
+            "name": "app/client/admin/js/util/UtilApp.js",
+            "modules": {
+                "ov.util": 1
+            },
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "app/client/admin/js/util/utilService.js": {
+            "name": "app/client/admin/js/util/utilService.js",
+            "modules": {},
+            "classes": {
+                "utilService": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "ov.alert": {
+            "name": "ov.alert",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "alertService": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "app/client/admin/js/alert/AlertApp.js",
+            "line": 13,
+            "description": "Controls alerts for the whole application.",
+            "itemtype": "main"
+        },
+        "ov.authentication": {
+            "name": "ov.authentication",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "authenticationService": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "app/client/admin/js/authentication/AuthenticationApp.js",
+            "line": 13,
+            "description": "Service to authenticate / logout or manipulate authenticated user informations.",
+            "itemtype": "main"
+        },
+        "ov.entity": {
+            "name": "ov.entity",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "entityService": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 13,
+            "description": "Manage OpenVeo entities described in conf.js.",
+            "itemtype": "main"
+        },
+        "ov.i18n": {
+            "name": "ov.i18n",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "i18nService": 1,
+                "translateFilter": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 288,
+            "description": "Control back end internationalization.",
+            "itemtype": "main"
+        },
+        "ov": {
+            "name": "ov",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "applicationService": 1,
+                "ovAutoComplete": 1,
+                "OvDateTimePickerController": 1,
+                "ovDateTimePicker": 1,
+                "ovMatch": 1,
+                "menuService": 1,
+                "ovMultiCheckBox": 1,
+                "ovTags": 1,
+                "truncateFilter": 1,
+                "userService": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "app/client/admin/js/ov/UserService.js",
+            "line": 5,
+            "description": "Main OpenVeo module.\n\nLoads all AngularJS dependencies and plugins modules. It also initializes formly and define routes exposed\nby OpenVeo core.",
+            "example": [
+                "\n    var placeholder = 'Placeholder';\n    var getSuggestions = function() {\n      return $q.when([\n        {\n          name: 'First suggestion',\n          value: 1\n        },\n        {\n          name: 'Second suggestion',\n          value: 2\n        }\n      ]);\n    };\n    var model = {\n      value: 42,\n      name: 'Element name'\n    };\n    <ov-auto-complete ng-model=\"model\"\n                      ov-placeholder=\"placeholder\"\n                      ov-get-suggestions=\"getSuggestions\">\n    </ov-auto-complete>"
+            ],
+            "itemtype": "main"
+        },
+        "ov.socket": {
+            "name": "ov.socket",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "SocketFactory": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "app/client/admin/js/socket/SocketApp.js",
+            "line": 13,
+            "description": "Defines the ov.socket module to build a socket.io client.",
+            "itemtype": "main"
+        },
+        "ov.storage": {
+            "name": "ov.storage",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "storageProvider": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "app/client/admin/js/storage/StorageApp.js",
+            "line": 13,
+            "description": "Helper module to manipulate local storage.",
+            "itemtype": "main"
+        },
+        "ov.util": {
+            "name": "ov.util",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "OvUrlFactory": 1,
+                "utilService": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "main",
+            "file": "app/client/admin/js/util/utilService.js",
+            "line": 9,
+            "description": "Defines the ov.util module containing helpers.",
+            "itemtype": "main"
+        }
+    },
+    "classes": {
+        "alertService": {
+            "name": "alertService",
+            "shortname": "alertService",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.alert",
+            "namespace": "",
+            "file": "app/client/admin/js/alert/AlertApp.js",
+            "line": 13,
+            "description": "Defines a generic alert management system to display one or several messages."
+        },
+        "authenticationService": {
+            "name": "authenticationService",
+            "shortname": "authenticationService",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.authentication",
+            "namespace": "",
+            "file": "app/client/admin/js/authentication/AuthenticationApp.js",
+            "line": 13,
+            "description": "Defines an authentication service to deal with user authentication.\nExposes methods to deal with user information and to sign in or logout."
+        },
+        "entityService": {
+            "name": "entityService",
+            "shortname": "entityService",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.entity",
+            "namespace": "",
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 13,
+            "description": "Defines an entity service to create / update or remove an entity."
+        },
+        "i18nService": {
+            "name": "i18nService",
+            "shortname": "i18nService",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.i18n",
+            "namespace": "",
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 13,
+            "description": "Defines an internationalization service to manage string translations."
+        },
+        "translateFilter": {
+            "name": "translateFilter",
+            "shortname": "translateFilter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.i18n",
+            "namespace": "",
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 288,
+            "description": "Defines a filter to translate an id, contained inside a dictionary,\ninto the appropriated text."
+        },
+        "applicationService": {
+            "name": "applicationService",
+            "shortname": "applicationService",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/ApplicationService.js",
+            "line": 5,
+            "description": "Defines service to manage the web service applications."
+        },
+        "ovAutoComplete": {
+            "name": "ovAutoComplete",
+            "shortname": "ovAutoComplete",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "line": 5,
+            "description": "Creates a new AngularJS directive as an HTML element ov-auto-complete to be able to create a text field with\nsuggestions.\n\nAuto complete form element is composed of a simple input element and a list of suggestions which can be fetched\nasynchronously.\n\nAttributes are:\n  - ng-model The model value (This must be an assignable variable evaluated as an Object) with a property \"name\"\n    and a property \"value\"\n  - ov-placeholder The input placeholder text (This must be an assignable variable evaluated as a String)\n  - ov-get-suggestions The function to get the list of suggestions (This must be an assignable variable evaluated\n    as a Function). This function must return an AngularJS Promise resolving with a list of suggestions with,\n    for each suggestion, a property \"name\" and a property \"value\"",
+            "example": [
+                "\n    var placeholder = 'Placeholder';\n    var getSuggestions = function() {\n      return $q.when([\n        {\n          name: 'First suggestion',\n          value: 1\n        },\n        {\n          name: 'Second suggestion',\n          value: 2\n        }\n      ]);\n    };\n    var model = {\n      value: 42,\n      name: 'Element name'\n    };\n    <ov-auto-complete ng-model=\"model\"\n                      ov-placeholder=\"placeholder\"\n                      ov-get-suggestions=\"getSuggestions\">\n    </ov-auto-complete>"
+            ]
+        },
+        "OvDateTimePickerController": {
+            "name": "OvDateTimePickerController",
+            "shortname": "OvDateTimePickerController",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 5,
+            "description": "Manages ovDateTimePicker directive.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "$element",
+                    "description": "The HTML element holding the component",
+                    "type": "Object"
+                },
+                {
+                    "name": "$timeout",
+                    "description": "AngularJS $timeout service",
+                    "type": "Object"
+                },
+                {
+                    "name": "$scope",
+                    "description": "Directive isolated scope",
+                    "type": "Object"
+                }
+            ]
+        },
+        "ovDateTimePicker": {
+            "name": "ovDateTimePicker",
+            "shortname": "ovDateTimePicker",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/DateTimePickerDirective.js",
+            "line": 5,
+            "description": "Creates a new AngularJS directive as an HTML element ov-date-time-picker to be able to create a date / time form\nelement.\n\nDate / time form element is composed of an AngularJS Bootstrap UI datepicker and an AngularJS Bootstrap UI\ntimepicker.\n\nAttributes are:\n  - [String] **ov-current-text**: The text to display for the current day button\n  - [String] **ov-clear-text**: The text to display for the clear button\n  - [String] **ov-close-text**: The text to display for the close button",
+            "example": [
+                "\n    var dateTime = new Date('2018-05-15 15:48:42');\n    <ov-date-time-picker ng-model=\"dateTime\"\n                         ov-current-text=\"Today\"\n                         ov-clear-text=\"Clear\"\n                         ov-close-text=\"Close\"\n    ></ov-date-time-picker>"
+            ]
+        },
+        "ovMatch": {
+            "name": "ovMatch",
+            "shortname": "ovMatch",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/MatchDirective.js",
+            "line": 5,
+            "description": "Creates a new Angular directive as an HTML element ov-match to be able to associate  a value with\na list of values.\n\nMatch form element is composed of an input element and an ov-tags element.\n\nAttributes are:\n  - ov-available-options to define possible values for the ov-tags element (This must be an assignable\n    variable evaluated as an array)\n    e.g.\n    [\n      {\n        name: 'First name',\n        value: 'firstValue'\n      }\n      {\n        name: 'Second name',\n        value: 'secondValue'\n      }\n    ];\n  - ov-multiple to authorize multiple association (This must be an assignable variable evaluated as a boolean)\n  - ov-add-label to set the add button label (This must be an assignable variable evaluated as a string)\n  - ov-input-placeholder to set the input placeholder (This must be an assignable variable evaluated as a string)\n  - ov-tags-placeholder to set the ov-tags placeholder (This must be an assignable variable evaluated as a string)\n  - ov-input-property to set the name of the property used to store the input value (This must be an assignable\n    variable evaluated as a string)\n  - ov-tags-property to set the name of the property used to store the ov-tags values (This must be an assignable\n    variable evaluated as a string)",
+            "example": [
+                "\n    // Associates \"value\" with \"associatedValue1\", \"associatedValue2\"\n    var matches = [\n      {\n        value: 'value',\n        values: ['associatedValue1', 'associatedValue2'],\n      }\n    ];\n\n    // Available options which can be entered in ov-tags element\n    var availableOptions = [\n      {\n        name: 'Associated value 1',\n        value: 'associatedValue1'\n      },\n      {\n        name: 'Associated value 2',\n        value: 'associatedValue2'\n      },\n      {\n        name: 'Associated value 3',\n        value: 'associatedValue3'\n      }\n    ];\n\n    var inputPlaceholder = 'Input placeholder';\n    var tagsPlaceholder = 'Tags placeholder';\n    var inputProperty = 'firstElement';\n    var tagsProperty = 'secondElement';\n    var addLabel = 'Add a new association';\n\n    <ov-match ng-model=\"matches\"\n              ng-model-options=\"{allowInvalid: true}\"\n              ov-multiple=\"{{true}}\"\n              ov-available-options=\"availableOptions\"\n              ov-input-placeholder=\"inputPlaceholder\"\n              ov-tags-placeholder=\"tagsPlaceholder\"\n              ov-input-property=\"inputProperty\"\n              ov-tags-property=\"tagsProperty\"\n              ov-add-label=\"addLabel\">\n    </ov-match>"
+            ]
+        },
+        "menuService": {
+            "name": "menuService",
+            "shortname": "menuService",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/MenuService.js",
+            "line": 5,
+            "description": "Defines a menu service to manage the menu of the application."
+        },
+        "ovMultiCheckBox": {
+            "name": "ovMultiCheckBox",
+            "shortname": "ovMultiCheckBox",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/MultiCheckBoxDirective.js",
+            "line": 5,
+            "description": "Creates a new Angular directive as an HTML element ov-multi-check-box to be able to create a list of checkboxes\nwith a single model.",
+            "example": [
+                "\n\n    // The checkboxes to select (the model)\n    $scope.listOfValues = ['value1'];\n\n    // The list of checkboxes with a name and a value for each checkbox\n    $scope.listOfOptions = [{\n      name: 'name1'\n      id: 'value1'\n    },\n    {\n      name: 'name2'\n      id: 'value2'\n    }];\n\n    // The property to use as a label in listOfOptions object (\"name\" by default)\n    $scope.labelProperty = 'name';\n\n    // The property to use as a value in listOfOptions object (\"value\" by default)\n    $scope.valueProperty = 'id';\n\n    // A boolean to activate / deactivate the group of checkboxes\n    $scope.disabled = false;\n\n    <ov-multi-check-box\n      ng-model=\"listOfValues\"\n      options=\"listOfOptions\"\n      label-property=\"labelProperty\"\n      value-property=\"valueProperty\"\n      disabled=\"disabled\"\n      ng-model-options=\"{ allowInvalid: true }\">\n    </ov-multi-check-box>"
+            ]
+        },
+        "ovTags": {
+            "name": "ovTags",
+            "shortname": "ovTags",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 5,
+            "description": "Creates a new Angular directive as an HTML element ov-tags to be able to create a tags form element.\n\nTags form element is composed of an input element to add tags followed by the list of added tags.\n\nAttributes are:\n  - ov-available-options to define possible values. If set, only values inside ov-available-options can\n    be added and auto-completion is activated. (This must be an assignable variable evaluated as an array)\n    e.g.\n    [\n      {\n        name: 'First name',\n        value: 'firstValue'\n      }\n      {\n        name: 'Second name',\n        value: 'secondValue'\n      }\n    ];\n  - ov-placeholder to set the input placeholder",
+            "example": [
+                "\n    var placeholder = 'Enter tags';\n    var listOfTags = ['tag1', 'tag2'];\n    var availableOptions = [\n      {\n        name: 'Tag 1',\n        value: 'tag1'\n      },\n      {\n        name: 'Tag 2',\n        value: 'tag2'\n      },\n      {\n        name: 'Tag 3',\n        value: 'tag3'\n      }\n    ];\n    <ov-tags ng-model=\"listOfTags\"\n             ng-model-options=\"{ allowInvalid: true }\"\n             ov-available-options=\"availableOptions\"\n             ov-placeholder=\"placeholder\">\n    </ov-tags>"
+            ]
+        },
+        "truncateFilter": {
+            "name": "truncateFilter",
+            "shortname": "truncateFilter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/TruncateFilter.js",
+            "line": 5,
+            "description": "Truncates a text to 35 characters and add '...' at the end of the truncated string."
+        },
+        "userService": {
+            "name": "userService",
+            "shortname": "userService",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov",
+            "namespace": "",
+            "file": "app/client/admin/js/ov/UserService.js",
+            "line": 5,
+            "description": "Defines service to manage roles and permissions."
+        },
+        "SocketFactory": {
+            "name": "SocketFactory",
+            "shortname": "SocketFactory",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.socket",
+            "namespace": "",
+            "file": "app/client/admin/js/socket/SocketApp.js",
+            "line": 13,
+            "description": "Defines a SocketFactory holding a socket.io client singleton."
+        },
+        "storageProvider": {
+            "name": "storageProvider",
+            "shortname": "storageProvider",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.storage",
+            "namespace": "",
+            "file": "app/client/admin/js/storage/StorageApp.js",
+            "line": 13,
+            "description": "Defines a storage provider to help store information.\nFor now sessionStorage and localStorage are supported."
+        },
+        "OvUrlFactory": {
+            "name": "OvUrlFactory",
+            "shortname": "OvUrlFactory",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.util",
+            "namespace": "",
+            "file": "app/client/admin/js/util/UrlFactory.js",
+            "line": 9,
+            "description": "Offers helpers to manipulate URLs as Internet Explorer does not implement URL."
+        },
+        "utilService": {
+            "name": "utilService",
+            "shortname": "utilService",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "ov.util",
+            "namespace": "",
+            "file": "app/client/admin/js/util/utilService.js",
+            "line": 9,
+            "description": "Defines an Util service to expose helper function."
+        }
+    },
+    "elements": {},
+    "classitems": [
+        {
+            "file": "app/client/admin/js/alert/AlertApp.js",
+            "line": 21,
+            "description": "Closes an alert by its position in alerts array.",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "Position in array",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The list of remaining alerts",
+                "type": "Array"
+            },
+            "class": "alertService",
+            "module": "ov.alert"
+        },
+        {
+            "file": "app/client/admin/js/alert/AlertApp.js",
+            "line": 31,
+            "description": "Closes an alert.",
+            "params": [
+                {
+                    "name": "alert",
+                    "description": "Alert to close",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The list of remaining alerts",
+                "type": "Array"
+            },
+            "class": "alertService",
+            "module": "ov.alert"
+        },
+        {
+            "file": "app/client/admin/js/alert/AlertApp.js",
+            "line": 43,
+            "description": "Displays an alert.",
+            "example": [
+                "\n    // Info alert displayed for 4 seconds\n    AlertService.add('info', 'Message of the alert', 4000);\n\n    // Error alert displayed permanently\n    AlertService.add('danger', 'Message of the alert');"
+            ],
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The alert type (success, danger, warning or info)",
+                    "type": "String"
+                },
+                {
+                    "name": "msg",
+                    "description": "The alert message",
+                    "type": "String"
+                },
+                {
+                    "name": "timeout",
+                    "description": "The timeout (in ms) before closing the alert, if not specified the alert\nwill be permanent",
+                    "type": "Number",
+                    "optional": true
+                }
+            ],
+            "itemtype": "method",
+            "name": "add",
+            "class": "alertService",
+            "module": "ov.alert"
+        },
+        {
+            "file": "app/client/admin/js/alert/AlertApp.js",
+            "line": 77,
+            "description": "Closes all opened alerts.",
+            "example": [
+                "\n    // Close all alerts\n    AlertService.closeAll();"
+            ],
+            "itemtype": "method",
+            "name": "closeAll",
+            "class": "alertService",
+            "module": "ov.alert"
+        },
+        {
+            "file": "app/client/admin/js/authentication/AuthenticationApp.js",
+            "line": 23,
+            "description": "Initializes user information from openVeoSettings global.",
+            "class": "authenticationService",
+            "module": "ov.authentication"
+        },
+        {
+            "file": "app/client/admin/js/authentication/AuthenticationApp.js",
+            "line": 30,
+            "description": "Signs in using the given credentials.",
+            "params": [
+                {
+                    "name": "login",
+                    "description": "The login",
+                    "type": "String"
+                },
+                {
+                    "name": "password",
+                    "description": "The password",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The authentication promise",
+                "type": "Promise"
+            },
+            "itemtype": "method",
+            "name": "login",
+            "class": "authenticationService",
+            "module": "ov.authentication"
+        },
+        {
+            "file": "app/client/admin/js/authentication/AuthenticationApp.js",
+            "line": 45,
+            "description": "Logs out user.",
+            "return": {
+                "description": "The logout promise",
+                "type": "Promise"
+            },
+            "itemtype": "method",
+            "name": "logout",
+            "class": "authenticationService",
+            "module": "ov.authentication"
+        },
+        {
+            "file": "app/client/admin/js/authentication/AuthenticationApp.js",
+            "line": 55,
+            "description": "Gets user information.",
+            "return": {
+                "description": "The user description object",
+                "type": "Object"
+            },
+            "itemtype": "method",
+            "name": "getUserInfo",
+            "class": "authenticationService",
+            "module": "ov.authentication"
+        },
+        {
+            "file": "app/client/admin/js/authentication/AuthenticationApp.js",
+            "line": 65,
+            "description": "Sets user information.",
+            "params": [
+                {
+                    "name": "info",
+                    "description": "The user description object or null to remove all user information\nuser information",
+                    "type": "Object",
+                    "optional": true
+                }
+            ],
+            "itemtype": "method",
+            "name": "setUserInfo",
+            "class": "authenticationService",
+            "module": "ov.authentication"
+        },
+        {
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 22,
+            "description": "Deletes cache of the given entity type.",
+            "params": [
+                {
+                    "name": "entityType",
+                    "description": "The entity type or null to remove all cache",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "pluginName",
+                    "description": "Plugin name the entity belongs to, null for core",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "itemtype": "method",
+            "name": "deleteCache",
+            "class": "entityService",
+            "module": "ov.entity"
+        },
+        {
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 44,
+            "description": "Adds new entities.",
+            "params": [
+                {
+                    "name": "entityType",
+                    "description": "The type of the entities",
+                    "type": "String"
+                },
+                {
+                    "name": "pluginName",
+                    "description": "Plugin name the entities belong to",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"core\""
+                },
+                {
+                    "name": "data",
+                    "description": "The list of entities",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "The HTTP promise",
+                "type": "HttpPromise"
+            },
+            "itemtype": "method",
+            "name": "addEntities",
+            "class": "entityService",
+            "module": "ov.entity"
+        },
+        {
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 59,
+            "description": "Updates an entity.",
+            "params": [
+                {
+                    "name": "entityType",
+                    "description": "Type of entity",
+                    "type": "String"
+                },
+                {
+                    "name": "pluginName",
+                    "description": "Plugin name the entity belongs to, null for core",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "id",
+                    "description": "The id of the entity to update",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "Data description object of the entity",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The HTTP promise",
+                "type": "Promise"
+            },
+            "itemtype": "method",
+            "name": "updateEntity",
+            "class": "entityService",
+            "module": "ov.entity"
+        },
+        {
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 75,
+            "description": "Removes entities.",
+            "params": [
+                {
+                    "name": "entityType",
+                    "description": "Type of the entities",
+                    "type": "String"
+                },
+                {
+                    "name": "pluginName",
+                    "description": "Plugin name the entity belongs to",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"core\""
+                },
+                {
+                    "name": "ids",
+                    "description": "The comma separated list of entity ids to remove",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The HTTP promise",
+                "type": "HttpPromise"
+            },
+            "itemtype": "method",
+            "name": "removeEntities",
+            "class": "entityService",
+            "module": "ov.entity"
+        },
+        {
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 90,
+            "description": "Fetch an entity by Id.",
+            "params": [
+                {
+                    "name": "entityType",
+                    "description": "Type of entity",
+                    "type": "String"
+                },
+                {
+                    "name": "pluginName",
+                    "description": "Plugin name the entity belongs to, null for core",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "id",
+                    "description": "The Id of the entity to fetch",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The HTTP promise",
+                "type": "Promise"
+            },
+            "itemtype": "method",
+            "name": "getEntity",
+            "class": "entityService",
+            "module": "ov.entity"
+        },
+        {
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 104,
+            "description": "Gets entities.",
+            "example": [
+                "\n\n    // Get the first page of Web Service applications containing string \"Search string\" sorted by name with 10\n    // applications per page. Field \"name\" won't be returned.\n\n    var params = {\n      query: 'Search string',\n      limit: 10,\n      page: 0,\n      sortBy: 'name',\n      sortOrder: 'desc',\n      exclude: ['name']\n    };\n    getEntities('applications', 'core', params);"
+            ],
+            "params": [
+                {
+                    "name": "entityType",
+                    "description": "Type of entity",
+                    "type": "String"
+                },
+                {
+                    "name": "pluginName",
+                    "description": "Plugin name the entity belongs to, null for core",
+                    "type": "String",
+                    "optional": true
+                },
+                {
+                    "name": "param",
+                    "description": "Request parameters",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "include",
+                            "description": "The list of fields to include from returned entities",
+                            "type": "String|Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "exclude",
+                            "description": "The list of fields to exclude from returned entities. Ignored if\ninclude is also specified.",
+                            "type": "String|Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "query",
+                            "description": "Search query to search on entities searchable fields",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "page",
+                            "description": "The expected page in pagination system",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "0"
+                        },
+                        {
+                            "name": "limit",
+                            "description": "The maximum number of expected results",
+                            "type": "Number",
+                            "optional": true,
+                            "optdefault": "10"
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "The field to sort by",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "The sort order (either \"asc\" or \"desc\")",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"desc\""
+                        }
+                    ]
+                },
+                {
+                    "name": "canceller",
+                    "description": "The HTTP promise to cancel request if needed, resolve the promise to cancel the\nrequest",
+                    "type": "Promise",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The HTTP promise",
+                "type": "HttpPromise"
+            },
+            "itemtype": "method",
+            "name": "getEntities",
+            "class": "entityService",
+            "module": "ov.entity"
+        },
+        {
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 171,
+            "description": "Gets all entities of a specific type.\n\nThis should be used wisely as it may launch several requests to get all entities which could lead\nto real performance issues. Use it when you are sure about the total number of entities.",
+            "params": [
+                {
+                    "name": "entityType",
+                    "description": "Type of entity",
+                    "type": "String"
+                },
+                {
+                    "name": "pluginName",
+                    "description": "Plugin name the entity belongs to",
+                    "type": "String",
+                    "optional": true,
+                    "optdefault": "\"core\""
+                },
+                {
+                    "name": "param",
+                    "description": "Request parameters",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "include",
+                            "description": "The list of fields to include from returned entities",
+                            "type": "String|Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "exclude",
+                            "description": "The list of fields to exclude from returned entities. Ignored if\ninclude is also specified.",
+                            "type": "String|Array",
+                            "optional": true
+                        },
+                        {
+                            "name": "query",
+                            "description": "Search query to search on entities searchable fields",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "sortBy",
+                            "description": "The field to sort by",
+                            "type": "String",
+                            "optional": true
+                        },
+                        {
+                            "name": "sortOrder",
+                            "description": "The sort order (either \"asc\" or \"desc\")",
+                            "type": "String",
+                            "optional": true,
+                            "optdefault": "\"desc\""
+                        }
+                    ]
+                },
+                {
+                    "name": "canceller",
+                    "description": "The HTTP promise to cancel request if needed, resolve the promise to cancel the\nrequest",
+                    "type": "Promise",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The HTTP promise",
+                "type": "HttpPromise"
+            },
+            "itemtype": "method",
+            "name": "getAllEntities",
+            "class": "entityService",
+            "module": "ov.entity"
+        },
+        {
+            "file": "app/client/admin/js/entity/EntityApp.js",
+            "line": 197,
+            "description": "Gets the next page of entities.",
+            "class": "entityService",
+            "module": "ov.entity"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 23,
+            "description": "Adds a new dictionary, to the translation table, for the current\nlanguage.\nA dictionary is referenced by its name and contains a JSON\nrepresentation of all its translations.\nIf dictionary does not exist yet, get it from the server.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The name of the dictionary to retrieve from\nserver",
+                    "type": "String"
+                },
+                {
+                    "name": "admin",
+                    "description": "true to retrieve a dictionary for the back\noffice part (which requires authentication), false to get a\ndictionary without access restriction",
+                    "type": "Boolean",
+                    "optional": true
+                }
+            ],
+            "return": {
+                "description": "The promise to retrieve the dictionary",
+                "type": "Promise"
+            },
+            "itemtype": "method",
+            "name": "addDictionary",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 58,
+            "description": "Removes a dictionary from cache.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The dictionary name",
+                    "type": "String"
+                }
+            ],
+            "itemtype": "method",
+            "name": "removeDictionary",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 68,
+            "description": "Gets a dictionary with all its languages or just for the specific language.",
+            "params": [
+                {
+                    "name": "name",
+                    "description": "The dictionary name",
+                    "type": "String"
+                },
+                {
+                    "name": "language",
+                    "description": "An optional language to retrieve",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The translations contained in the dictionary",
+                "type": "Object"
+            },
+            "itemtype": "method",
+            "name": "getDictionary",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 83,
+            "description": "Gets current language.",
+            "return": {
+                "description": "The current language country code (e.g en-US)",
+                "type": "String"
+            },
+            "itemtype": "method",
+            "name": "getLanguage",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 93,
+            "description": "Gets supported languages.",
+            "return": {
+                "description": "The list of supported languages",
+                "type": "Array"
+            },
+            "itemtype": "method",
+            "name": "getLanguages",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 103,
+            "description": "Tests if a language is supported.",
+            "params": [
+                {
+                    "name": "language",
+                    "description": "The language code to test",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "true if supported, false otherwise",
+                "type": "Boolean"
+            },
+            "itemtype": "method",
+            "name": "isLanguageSupported",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 119,
+            "description": "Sets current language to active and the other one to inactive.",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 127,
+            "description": "Sets current language.",
+            "params": [
+                {
+                    "name": "language",
+                    "description": "The current language country code (e.g en-CA)",
+                    "type": "String"
+                }
+            ],
+            "itemtype": "method",
+            "name": "setLanguage",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 141,
+            "description": "Gets full name of a language by its code.",
+            "params": [
+                {
+                    "name": "language",
+                    "description": "The language code",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The language full name",
+                "type": "String"
+            },
+            "itemtype": "method",
+            "name": "getLanguageName",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 157,
+            "description": "Looks for a translation inside a translations object.",
+            "example": [
+                "\n    getTranslationFromDictionary('CORE.HOME.LOGIN', {\n       'CORE': {\n         'HOME': {\n            'LOGIN': 'The translation to look for'\n          }\n        }\n    });"
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "description": "The id to retrieve (e.g. CORE.HOME.LOGIN)",
+                    "type": "String"
+                },
+                {
+                    "name": "dictionary",
+                    "description": "Translations where to look for",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The translated text corresponding to the given id\nin the translations or the unchanged id if no translation found",
+                "type": "String"
+            },
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 189,
+            "description": "Translates the given id using current language.",
+            "params": [
+                {
+                    "name": "id",
+                    "description": "The id of the translation",
+                    "type": "String"
+                },
+                {
+                    "name": "dictionary",
+                    "description": "The name of a particular dictionary if several dictionaries are loaded",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "itemtype": "method",
+            "name": "translate",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 236,
+            "description": "Destroys I18nService cached data.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 245,
+            "description": "Initializes supported languages.",
+            "class": "i18nService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/i18n/I18nApp.js",
+            "line": 296,
+            "description": "Translates an id, contained inside a dictionary, into the appropriated text.\n\n**translate** filter helps translate a dictionary id.\n\nIf id is not found in the specified dictionary for the actual language, it will search in the english version\nof the dictionary.<br/>\nIf id is not found in the dictionary, the id is not translated and will be printed as is.<br/>\n\nIf the dictionary is not specified, it will look for the id in all loaded dictionaries.<br/>\nFor each dictionary analyzed, if the id does not exist in the actual language it will try in the english\nversion of the dictionary.<br/>\nAfter all, if id is not found in any versions of the list of dictionaries, the id is not translated and will\nbe printed as is.",
+            "example": [
+                "\n    // Let's pretend that with have a dictionary named \"login\" with the following structure :\n    // {\n    //   \"LOGIN\" : {\n    //     \"PAGE_TITLE\" : \"Openveo - Sign In\",\n    //     \"DESCRIPTION\" : \"Login page description for {{name}}\",\n    //     \"LOGIN\" : \"User\",\n    //   }\n    // }\n\n    // Search for id LOGIN.DESCRIPTION in dictionary \"login\" : \"Login page description\"\n\n    // In HTML\n    // <label ng-bind=\"'LOGIN.DESCRIPTION' | translate:login:{Object}\"></label>\n\n    // In JavaScript\n    $filter('translate')('LOGIN.DESCRIPTION', 'login', {name: \"John\"});"
+            ],
+            "params": [
+                {
+                    "name": "id",
+                    "description": "The id of the translation",
+                    "type": "String"
+                },
+                {
+                    "name": "dictionaryName",
+                    "description": "An optional dictionary to prevent looking in all dictionaries",
+                    "type": "String"
+                },
+                {
+                    "name": "interpolateParams",
+                    "description": "Translation parameters",
+                    "type": "Object"
+                }
+            ],
+            "itemtype": "method",
+            "name": "translate",
+            "class": "translateFilter",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/ov/ApplicationController.js",
+            "line": 5,
+            "description": "Defines the user controller for the user page.",
+            "class": "applicationService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/ov/ApplicationController.js",
+            "line": 11,
+            "description": "Translates name and description of each scope.",
+            "class": "applicationService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/ov/ApplicationController.js",
+            "line": 21,
+            "description": "Removes a list of applications.",
+            "params": [
+                {
+                    "name": "selected",
+                    "description": "The list of application ids to remove",
+                    "type": "Array"
+                },
+                {
+                    "name": "reload",
+                    "description": "The reload Function to force reloading the table",
+                    "type": "Function"
+                }
+            ],
+            "class": "applicationService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/ov/ApplicationController.js",
+            "line": 35,
+            "description": "Saves application.",
+            "params": [
+                {
+                    "name": "application",
+                    "description": "The application to save",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Promise resolving when application has been saved",
+                "type": "Promise"
+            },
+            "class": "applicationService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/ov/ApplicationController.js",
+            "line": 48,
+            "description": "Adds an application.",
+            "params": [
+                {
+                    "name": "application",
+                    "description": "The application to add",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "Promise resolving when application has been added",
+                "type": "Promise"
+            },
+            "class": "applicationService",
+            "module": "ov.i18n"
+        },
+        {
+            "file": "app/client/admin/js/ov/ApplicationService.js",
+            "line": 15,
+            "description": "Loads the list of scopes available for client applications.",
+            "return": {
+                "description": "The Http promise",
+                "type": "Promise"
+            },
+            "itemtype": "method",
+            "name": "loadScopes",
+            "class": "applicationService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ApplicationService.js",
+            "line": 37,
+            "description": "Gets the available list of scopes for client applications.",
+            "params": [
+                {
+                    "name": "The",
+                    "description": "scopes",
+                    "type": "Array"
+                }
+            ],
+            "itemtype": "method",
+            "name": "getScopes",
+            "class": "applicationService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ApplicationService.js",
+            "line": 47,
+            "description": "Destroys applicationService cached datas.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "applicationService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "line": 61,
+            "description": "Updates and validates directive attributes.",
+            "class": "ovAutoComplete",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "line": 70,
+            "description": "Updates model with actual value.",
+            "itemtype": "method",
+            "name": "updateModel",
+            "class": "ovAutoComplete",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "line": 87,
+            "description": "Renders the input value using the model.\n\nIt overrides AngularJS $render.",
+            "class": "ovAutoComplete",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "line": 97,
+            "description": "Validates the input value and displays suggestions.",
+            "itemtype": "method",
+            "name": "validateValue",
+            "class": "ovAutoComplete",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "line": 146,
+            "description": "Validates the suggestion and clear the list of suggestions.",
+            "itemtype": "method",
+            "name": "validateSuggestion",
+            "params": [
+                {
+                    "name": "suggestion",
+                    "description": "The suggestion",
+                    "type": "Object",
+                    "props": [
+                        {
+                            "name": "name",
+                            "description": "The suggestion name",
+                            "type": "String"
+                        },
+                        {
+                            "name": "value",
+                            "description": "The suggestion value",
+                            "type": "String"
+                        }
+                    ]
+                }
+            ],
+            "class": "ovAutoComplete",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "line": 161,
+            "description": "Updates suggestions.",
+            "params": [
+                {
+                    "name": "suggestions",
+                    "description": "The list of suggestions with, for each suggestion, a property \"name\" and a\nproperty \"value\"",
+                    "type": "Array"
+                }
+            ],
+            "class": "ovAutoComplete",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/AutoCompleteDirective.js",
+            "line": 186,
+            "description": "Tests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The model value",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "true if value is empty, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovAutoComplete",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 22,
+            "description": "Indicates if the calendar is opened or not.",
+            "itemtype": "property",
+            "name": "calendarIsOpened",
+            "type": "Boolean",
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 33,
+            "description": "The date.",
+            "itemtype": "property",
+            "name": "date",
+            "type": "Date",
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 44,
+            "description": "The time.",
+            "itemtype": "property",
+            "name": "time",
+            "type": "Date",
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 55,
+            "description": "Sets blur listeners on AngularJS Bootstrap time picker inputs.\n\nDate time picker component should be set as touched focus leaves one of the time picker inputs.",
+            "itemtype": "method",
+            "name": "$postLink",
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 85,
+            "description": "Opens the date picker.",
+            "itemtype": "method",
+            "name": "openDatePicker",
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 96,
+            "description": "Sets the model using both date and time.",
+            "itemtype": "method",
+            "name": "updateModelValue",
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 119,
+            "description": "Sets form element as touched.",
+            "itemtype": "method",
+            "name": "setAsTouched",
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 132,
+            "description": "Renders the value using the model.\n\nThe directive stores two dates: one for the date and one for the time. The model is a single date with both\ndate and time.\n\nIt overrides AngularJS $render.",
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 145,
+            "description": "Tests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The date",
+                    "type": "Date"
+                }
+            ],
+            "return": {
+                "description": "true if no date, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/DateTimePickerController.js",
+            "line": 157,
+            "description": "Tests if Bootstrap date picker and time picker are valid.",
+            "return": {
+                "description": "true if both date picker and time picker are valid, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "OvDateTimePickerController",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ErrorInterceptor.js",
+            "line": 5,
+            "description": "Builds the error message for the given error.",
+            "params": [
+                {
+                    "name": "error",
+                    "description": "The promise error as returned by the interceptor",
+                    "type": "Object"
+                },
+                {
+                    "name": "$filter",
+                    "description": "Angular filter",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "The translated error message",
+                "type": "String"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ErrorInterceptor.js",
+            "line": 38,
+            "description": "Defines an HTTP interceptor to handle all application errors.\n\nNot authorized errors (401) logs out the user while the other HTTP errors set an error message\nusing an alert.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/GroupController.js",
+            "line": 5,
+            "description": "Defines the group controller for the group page.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/GroupController.js",
+            "line": 11,
+            "description": "Adds a group.",
+            "params": [
+                {
+                    "name": "group",
+                    "description": "Group description object",
+                    "type": "Object"
+                }
+            ],
+            "return": {
+                "description": "A promise resolving when the group has been added",
+                "type": "Promise"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/GroupController.js",
+            "line": 23,
+            "description": "Saves a group.",
+            "params": [
+                {
+                    "name": "group",
+                    "description": "Group description obect",
+                    "type": "Object"
+                },
+                {
+                    "name": "A",
+                    "description": "promise resolving when the group has been saved",
+                    "type": "Promise"
+                }
+            ],
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/GroupController.js",
+            "line": 35,
+            "description": "Removes a group.",
+            "params": [
+                {
+                    "name": "groups",
+                    "description": "The list of group ids to remove",
+                    "type": "Array"
+                },
+                {
+                    "name": "reload",
+                    "description": "The reload Function to force reloading the table",
+                    "type": "Function"
+                }
+            ],
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/HomeController.js",
+            "line": 5,
+            "description": "Defines the back office controller for the home page.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/HomeController.js",
+            "line": 27,
+            "description": "Defines a controller for modal instance.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/LoginController.js",
+            "line": 5,
+            "description": "Defines the login controller for the login page.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/LoginController.js",
+            "line": 17,
+            "description": "Sets language.",
+            "params": [
+                {
+                    "name": "language",
+                    "description": "The language code (e.g fr_FR)",
+                    "type": "String"
+                }
+            ],
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/LoginController.js",
+            "line": 27,
+            "description": "Signs in using the login form information (userLogin and password).\nIf user successfully signed in, redirect to the back office\nhome page. Otherwise, set the form as on error.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 5,
+            "description": "Defines the main controller parent of all controllers in the\napplication. All actions not handled in partials are handled\nby the main controller.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 32,
+            "description": "Logs out the user.\n\nRemove user information, remove all admin informations\nand broadcast a loggedOut event to children controllers.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 52,
+            "description": "Replaces placeholders by corresponding values in the given string.\nFunction copied from AngularJS ngRoute.",
+            "params": [
+                {
+                    "name": "string",
+                    "description": "A string containing placeholders",
+                    "type": "String"
+                },
+                {
+                    "name": "params",
+                    "description": "An array of parameters",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "interpolation of the redirect path with the parameters",
+                "type": "String"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 76,
+            "description": "Replaces placeholders by corresponding values in the given string.",
+            "params": [
+                {
+                    "name": "string",
+                    "description": "A string containing placeholders",
+                    "type": "String"
+                },
+                {
+                    "name": "params",
+                    "description": "An array of parameters",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The compiled string",
+                "type": "String"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 92,
+            "description": "Gets permissions from groups for the given operation.",
+            "params": [
+                {
+                    "name": "groupIds",
+                    "description": "A list of group ids",
+                    "type": "Array"
+                },
+                {
+                    "name": "operation",
+                    "description": "\"get\", \"update\" or \"delete\"",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The list of permissions",
+                "type": "Array"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 132,
+            "description": "Changes the language to the given one.\n\nThis will reload the page due to the main menu which can't be\nreloaded.",
+            "params": [
+                {
+                    "name": "language",
+                    "description": "The new language code (e.g. fr_FR)",
+                    "type": "String"
+                }
+            ],
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 154,
+            "description": "Logs out the actual user.\n\nIf authentication was made on an external service such as CAS, user is redirected to\nthe external service page.\nIf authentication was made using an internal service such as LDAP (or local),\nlogout is performed without reloading the page.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 298,
+            "description": "Checks that authenticated user has a permission.",
+            "params": [
+                {
+                    "name": "permissions",
+                    "description": "One or several permissions",
+                    "type": "Array|String"
+                }
+            ],
+            "return": {
+                "description": "true if user has one of the permissions, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 326,
+            "description": "Checks that user has permission to access a content.",
+            "params": [
+                {
+                    "name": "content",
+                    "description": "The content entity to try to access",
+                    "type": "Object"
+                },
+                {
+                    "name": "operation",
+                    "description": "The operation that will be performed on the content",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "true if user has sufficient permission to perform the operation on the content",
+                "type": "Boolean"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MainController.js",
+            "line": 359,
+            "description": "Checks that user possesses a permission.",
+            "params": [
+                {
+                    "name": "permission",
+                    "description": "The permission id",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "true if user has the permission",
+                "type": "Boolean"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MatchDirective.js",
+            "line": 97,
+            "description": "Updates and validates directive attributes.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MatchDirective.js",
+            "line": 123,
+            "description": "Renders the list of matches using the model.\n\nIt overrides AngularJS $render.",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MatchDirective.js",
+            "line": 132,
+            "description": "Adds a new match.",
+            "itemtype": "method",
+            "name": "addMatch",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MatchDirective.js",
+            "line": 142,
+            "description": "Removes a match.",
+            "itemtype": "method",
+            "name": "removeMatch",
+            "params": [
+                {
+                    "name": "index",
+                    "description": "The index of the match to remove in the list of matches",
+                    "type": "Number"
+                }
+            ],
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MatchDirective.js",
+            "line": 153,
+            "description": "Updates model with actual value.",
+            "itemtype": "method",
+            "name": "updateModel",
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MatchDirective.js",
+            "line": 163,
+            "description": "Tests if the model is empty.\n\nIt overrides AngularJS $isEmpty.\nThe input and the ov-tags elements must be filled otherwise ov-match is considered empty.",
+            "params": [
+                {
+                    "name": "values",
+                    "description": "The list of matches",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "true if there is no matches, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovMatch",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MenuService.js",
+            "line": 15,
+            "description": "Sets menu items corresponding to the actual path to active and the other menu items to inactive.",
+            "itemtype": "method",
+            "name": "setActiveMenuItem",
+            "class": "menuService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MenuService.js",
+            "line": 43,
+            "description": "Loads the menu from server.",
+            "return": {
+                "description": "The Http promise",
+                "type": "Promise"
+            },
+            "itemtype": "method",
+            "name": "loadMenu",
+            "class": "menuService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MenuService.js",
+            "line": 66,
+            "description": "Gets the menu.",
+            "return": {
+                "description": "The menu",
+                "type": "Object"
+            },
+            "itemtype": "method",
+            "name": "getMenu",
+            "class": "menuService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MenuService.js",
+            "line": 76,
+            "description": "Destroys MenuService cached data.",
+            "itemtype": "method",
+            "name": "destroyMenu",
+            "class": "menuService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MultiCheckBoxDirective.js",
+            "line": 63,
+            "description": "Finds the index of the given value in the list of checkboxes.",
+            "params": [
+                {
+                    "name": "value",
+                    "description": "The value of the checkbox",
+                    "type": "Number"
+                }
+            ],
+            "return": {
+                "description": "The index of the checkbox in the list of checkboxes (-1 if not found)",
+                "type": "Number"
+            },
+            "class": "ovMultiCheckBox",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MultiCheckBoxDirective.js",
+            "line": 77,
+            "description": "Renders the list of checkboxes using the model.\n\nIt overrides AngularJS $render.",
+            "class": "ovMultiCheckBox",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MultiCheckBoxDirective.js",
+            "line": 95,
+            "description": "Updates model when a checkbox is modified.",
+            "class": "ovMultiCheckBox",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MultiCheckBoxDirective.js",
+            "line": 110,
+            "description": "Listens to model modifications coming from outside the directive.\n\nIf model is modified from outside the directive, the view needs to be updated.",
+            "class": "ovMultiCheckBox",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/MultiCheckBoxDirective.js",
+            "line": 123,
+            "description": "Tests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
+            "params": [
+                {
+                    "name": "values",
+                    "description": "The list of checkboxes",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "true if there is no checked checkboxes, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovMultiCheckBox",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/OvApp.js",
+            "line": 402,
+            "description": "Configures application main routes and set location mode to HTML5.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ProfileController.js",
+            "line": 5,
+            "description": "Defines the profile controller for the profile page.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ProfileController.js",
+            "line": 11,
+            "description": "Gets the list of role's names.",
+            "return": {
+                "description": "A comma separated list of role names",
+                "type": "String"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ProfileController.js",
+            "line": 39,
+            "description": "Saves user information.",
+            "params": [
+                {
+                    "name": "userInfo",
+                    "description": "The user information",
+                    "type": "Object"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ProfileController.js",
+            "line": 108,
+            "description": "Updates user password.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ProfileController.js",
+            "line": 127,
+            "description": "Resets password edition form.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ProfileController.js",
+            "line": 136,
+            "description": "Validates password edition form.\n\nPassword edition form is considered valid if password and password confirmation are the same.\nIt sets isInvalid property with the same value as the one returned.",
+            "return": {
+                "description": "true if valid, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/ProfileController.js",
+            "line": 149,
+            "description": "Checks if password is editable.\n\nSome users can't edit their password, for example:\nA lock user, the super administrator or a user coming from a third party provider such as LDAP.",
+            "return": {
+                "description": "true if editable, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/RoleController.js",
+            "line": 5,
+            "description": "Defines the role controller for the role page.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/RoleController.js",
+            "line": 11,
+            "description": "Translates label, name and description keys of each permission.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/RoleController.js",
+            "line": 24,
+            "description": "Gets the list of permissions inside a group.",
+            "params": [
+                {
+                    "name": "model",
+                    "description": "Roles model",
+                    "type": "Object"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/RoleController.js",
+            "line": 43,
+            "description": "Saves a role.",
+            "params": [
+                {
+                    "name": "role",
+                    "description": "Role data",
+                    "type": "Object"
+                },
+                {
+                    "name": "successCb",
+                    "description": "Function to call in case of success",
+                    "type": "Function"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/RoleController.js",
+            "line": 56,
+            "description": "Adds a role.",
+            "params": [
+                {
+                    "name": "role",
+                    "description": "Role information",
+                    "type": "Object"
+                },
+                {
+                    "name": "successCb",
+                    "description": "Function to call in case of success",
+                    "type": "Function"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/RoleController.js",
+            "line": 69,
+            "description": "Prepares permissions for HTMLCheckboxElement(s).",
+            "params": [
+                {
+                    "name": "perms",
+                    "description": "The list of permission groups",
+                    "type": "Array"
+                },
+                {
+                    "name": "rolePermissions",
+                    "description": "The list of permission ids",
+                    "type": "Array"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/RoleController.js",
+            "line": 89,
+            "description": "Removes a list of roles.",
+            "params": [
+                {
+                    "name": "selected",
+                    "description": "The list of role ids to remove",
+                    "type": "Array"
+                },
+                {
+                    "name": "reload",
+                    "description": "The reload Function to force reloading the table",
+                    "type": "Function"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/SettingsController.js",
+            "line": 5,
+            "description": "Defines the settings controller for the settings page.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/SettingsController.js",
+            "line": 20,
+            "description": "Builds role options for matchers.",
+            "return": {
+                "description": "The list of role options with names and values",
+                "type": "Array"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/SettingsController.js",
+            "line": 89,
+            "description": "Saves settings.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 67,
+            "description": "Updates and validates directive attributes.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 78,
+            "description": "Gets tag values.\n\nThe directive stores either the list of values or the list of options depending\non ovAvailableOptions attribute. Model should receive only the list of values.\n\nWhen directive does not have ovAvailableOptions, scope.tags stores values.\nWhen directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).",
+            "return": {
+                "description": "The list of values",
+                "type": "Array"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 110,
+            "description": "Renders the list of values using the model.\n\nThe directive stores either the list of values or the list of options depending\non ovAvailableOptions attribute. Model should receive only the list of values.\n\nWhen directive does not have ovAvailableOptions, scope.tags stores values.\nWhen directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).\n\nIt overrides AngularJS $render.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 143,
+            "description": "Add a new tag.",
+            "params": [
+                {
+                    "name": "tag",
+                    "description": "Either the name of the option if ovAvailableOptions is specified or the value if not",
+                    "type": "String"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 189,
+            "description": "Handles keys.\n\nAdd a new tag when user press \"enter\".",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "The keyboard event",
+                    "type": "Event"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 212,
+            "description": "Removes a tag when user click on the delete icon.",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "The click event",
+                    "type": "Event"
+                },
+                {
+                    "name": "index",
+                    "description": "The index of the tag to remove in the list of tags",
+                    "type": "Number"
+                }
+            ],
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 234,
+            "description": "Displays auto-complete depending on the given input value.",
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/TagsDirective.js",
+            "line": 254,
+            "description": "Tests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
+            "params": [
+                {
+                    "name": "values",
+                    "description": "The list of tags",
+                    "type": "Array"
+                }
+            ],
+            "return": {
+                "description": "true if there is no tags, false otherwise",
+                "type": "Boolean"
+            },
+            "class": "ovTags",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserController.js",
+            "line": 5,
+            "description": "Defines the user controller for the user page.",
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserController.js",
+            "line": 12,
+            "description": "Adds a user.",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "The user data",
+                    "type": "Object"
+                }
+            ],
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserController.js",
+            "line": 28,
+            "description": "Removes a list of users.",
+            "params": [
+                {
+                    "name": "selected",
+                    "description": "The list of user ids to remove",
+                    "type": "Array"
+                },
+                {
+                    "name": "reload",
+                    "description": "The reload Function to force reloading the table",
+                    "type": "Function"
+                }
+            ],
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserController.js",
+            "line": 42,
+            "description": "Saves user.",
+            "params": [
+                {
+                    "name": "user",
+                    "description": "The user data",
+                    "type": "Object"
+                }
+            ],
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserController.js",
+            "line": 55,
+            "description": "Builds options for origin filter.",
+            "return": {
+                "description": "Select options",
+                "type": "Array"
+            },
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserController.js",
+            "line": 191,
+            "description": "Initializes edit form for a given user.",
+            "params": [
+                {
+                    "name": "row",
+                    "description": "The user being edited",
+                    "type": "Object"
+                }
+            ],
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserService.js",
+            "line": 15,
+            "description": "Loads the list of permissions from server.",
+            "return": {
+                "description": "The Http promise",
+                "type": "Promise"
+            },
+            "itemtype": "method",
+            "name": "loadPermissions",
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserService.js",
+            "line": 37,
+            "description": "Gets permissions.",
+            "return": {
+                "description": "The permissions",
+                "type": "Array"
+            },
+            "itemtype": "method",
+            "name": "getRoles",
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserService.js",
+            "line": 47,
+            "description": "Destroys UserService cached data.",
+            "itemtype": "method",
+            "name": "destroy",
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/ov/UserService.js",
+            "line": 56,
+            "description": "Clears a user service cache.",
+            "params": [
+                {
+                    "name": "type",
+                    "description": "The cache element to clear or null to remove all caches",
+                    "type": "String",
+                    "optional": true
+                }
+            ],
+            "itemtype": "method",
+            "name": "cacheClear",
+            "class": "userService",
+            "module": "ov"
+        },
+        {
+            "file": "app/client/admin/js/socket/SocketApp.js",
+            "line": 22,
+            "description": "Initializes a socket.io connection with the server if not already initialized.",
+            "itemtype": "method",
+            "name": "initSocket",
+            "params": [
+                {
+                    "name": "namespace",
+                    "description": "socket.io namespace name to connect to",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The socket.io client",
+                "type": "Client"
+            },
+            "class": "SocketFactory",
+            "module": "ov.socket"
+        },
+        {
+            "file": "app/client/admin/js/storage/StorageApp.js",
+            "line": 32,
+            "description": "Gets information from storage using the given key.",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "The key of the element to retrieve",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The stored value for the given key",
+                "type": "Object"
+            },
+            "itemtype": "method",
+            "name": "getFromStorage",
+            "class": "storageProvider",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/storage/StorageApp.js",
+            "line": 43,
+            "description": "Adds information to the storage.",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "The key of the element to add",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "The value of the element to add",
+                    "type": "String"
+                }
+            ],
+            "itemtype": "method",
+            "name": "addToStorage",
+            "class": "storageProvider",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/storage/StorageApp.js",
+            "line": 54,
+            "description": "Removes a key from the storage.",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "The key of the element to remove",
+                    "type": "String"
+                }
+            ],
+            "itemtype": "method",
+            "name": "removeFromStorage",
+            "class": "storageProvider",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/tableForm/tableForm.js",
+            "line": 7,
+            "description": "Defines a service reload Table.",
+            "class": "OvUrlFactory",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/tableForm/tableForm.js",
+            "line": 20,
+            "description": "Defines a DatePicker controller.",
+            "class": "OvUrlFactory",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/tableForm/tableForm.js",
+            "line": 52,
+            "description": "Defines a FormEditController.",
+            "class": "OvUrlFactory",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/tableForm/tableForm.js",
+            "line": 183,
+            "description": "Defines a FormAddController.",
+            "class": "OvUrlFactory",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/tableForm/tableForm.js",
+            "line": 216,
+            "description": "Defines a DataTableController.",
+            "class": "OvUrlFactory",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/tableForm/tableForm.js",
+            "line": 364,
+            "description": "Checks / unchecks a table row.",
+            "itemtype": "method",
+            "name": "check",
+            "class": "OvUrlFactory",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/tableForm/tableForm.js",
+            "line": 443,
+            "description": "Defines a modal instance for all modals related to the table form.",
+            "class": "OvUrlFactory",
+            "module": "ov.storage"
+        },
+        {
+            "file": "app/client/admin/js/util/UrlFactory.js",
+            "line": 16,
+            "description": "Sets a query parameter of an URL.",
+            "itemtype": "method",
+            "name": "setUrlParameter",
+            "params": [
+                {
+                    "name": "url",
+                    "description": "The URL to modify",
+                    "type": "String"
+                },
+                {
+                    "name": "parameter",
+                    "description": "The name of the parameter to add",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "The value of the parameter to add",
+                    "type": "String"
+                }
+            ],
+            "return": {
+                "description": "The new computed URL",
+                "type": "String"
+            },
+            "class": "OvUrlFactory",
+            "module": "ov.util"
+        },
+        {
+            "file": "app/client/admin/js/util/utilService.js",
+            "line": 16,
+            "description": "Builds groups select options.",
+            "return": {
+                "description": "The list of options",
+                "type": "Array"
+            },
+            "class": "utilService",
+            "module": "ov.util"
+        }
+    ],
+    "warnings": [
+        {
+            "message": "Missing item type\nCloses an alert by its position in alerts array.",
+            "line": " app/client/admin/js/alert/AlertApp.js:21"
+        },
+        {
+            "message": "Missing item type\nCloses an alert.",
+            "line": " app/client/admin/js/alert/AlertApp.js:31"
+        },
+        {
+            "message": "Missing item type\nInitializes user information from openVeoSettings global.",
+            "line": " app/client/admin/js/authentication/AuthenticationApp.js:23"
+        },
+        {
+            "message": "Missing item type\nGets the next page of entities.",
+            "line": " app/client/admin/js/entity/EntityApp.js:197"
+        },
+        {
+            "message": "Missing item type\nSets current language to active and the other one to inactive.",
+            "line": " app/client/admin/js/i18n/I18nApp.js:119"
+        },
+        {
+            "message": "Missing item type\nLooks for a translation inside a translations object.",
+            "line": " app/client/admin/js/i18n/I18nApp.js:157"
+        },
+        {
+            "message": "Missing item type\nInitializes supported languages.",
+            "line": " app/client/admin/js/i18n/I18nApp.js:245"
+        },
+        {
+            "message": "Missing item type\nDefines the user controller for the user page.",
+            "line": " app/client/admin/js/ov/ApplicationController.js:5"
+        },
+        {
+            "message": "Missing item type\nTranslates name and description of each scope.",
+            "line": " app/client/admin/js/ov/ApplicationController.js:11"
+        },
+        {
+            "message": "Missing item type\nRemoves a list of applications.",
+            "line": " app/client/admin/js/ov/ApplicationController.js:21"
+        },
+        {
+            "message": "Missing item type\nSaves application.",
+            "line": " app/client/admin/js/ov/ApplicationController.js:35"
+        },
+        {
+            "message": "Missing item type\nAdds an application.",
+            "line": " app/client/admin/js/ov/ApplicationController.js:48"
+        },
+        {
+            "message": "Missing item type\nUpdates and validates directive attributes.",
+            "line": " app/client/admin/js/ov/AutoCompleteDirective.js:61"
+        },
+        {
+            "message": "Missing item type\nRenders the input value using the model.\n\nIt overrides AngularJS $render.",
+            "line": " app/client/admin/js/ov/AutoCompleteDirective.js:87"
+        },
+        {
+            "message": "Missing item type\nUpdates suggestions.",
+            "line": " app/client/admin/js/ov/AutoCompleteDirective.js:161"
+        },
+        {
+            "message": "Missing item type\nTests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
+            "line": " app/client/admin/js/ov/AutoCompleteDirective.js:186"
+        },
+        {
+            "message": "Missing item type\nRenders the value using the model.\n\nThe directive stores two dates: one for the date and one for the time. The model is a single date with both\ndate and time.\n\nIt overrides AngularJS $render.",
+            "line": " app/client/admin/js/ov/DateTimePickerController.js:132"
+        },
+        {
+            "message": "Missing item type\nTests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
+            "line": " app/client/admin/js/ov/DateTimePickerController.js:145"
+        },
+        {
+            "message": "Missing item type\nTests if Bootstrap date picker and time picker are valid.",
+            "line": " app/client/admin/js/ov/DateTimePickerController.js:157"
+        },
+        {
+            "message": "Missing item type\nBuilds the error message for the given error.",
+            "line": " app/client/admin/js/ov/ErrorInterceptor.js:5"
+        },
+        {
+            "message": "Missing item type\nDefines an HTTP interceptor to handle all application errors.\n\nNot authorized errors (401) logs out the user while the other HTTP errors set an error message\nusing an alert.",
+            "line": " app/client/admin/js/ov/ErrorInterceptor.js:38"
+        },
+        {
+            "message": "Missing item type\nDefines the group controller for the group page.",
+            "line": " app/client/admin/js/ov/GroupController.js:5"
+        },
+        {
+            "message": "Missing item type\nAdds a group.",
+            "line": " app/client/admin/js/ov/GroupController.js:11"
+        },
+        {
+            "message": "Missing item type\nSaves a group.",
+            "line": " app/client/admin/js/ov/GroupController.js:23"
+        },
+        {
+            "message": "Missing item type\nRemoves a group.",
+            "line": " app/client/admin/js/ov/GroupController.js:35"
+        },
+        {
+            "message": "Missing item type\nDefines the back office controller for the home page.",
+            "line": " app/client/admin/js/ov/HomeController.js:5"
+        },
+        {
+            "message": "Missing item type\nDefines a controller for modal instance.",
+            "line": " app/client/admin/js/ov/HomeController.js:27"
+        },
+        {
+            "message": "Missing item type\nDefines the login controller for the login page.",
+            "line": " app/client/admin/js/ov/LoginController.js:5"
+        },
+        {
+            "message": "Missing item type\nSets language.",
+            "line": " app/client/admin/js/ov/LoginController.js:17"
+        },
+        {
+            "message": "Missing item type\nSigns in using the login form information (userLogin and password).\nIf user successfully signed in, redirect to the back office\nhome page. Otherwise, set the form as on error.",
+            "line": " app/client/admin/js/ov/LoginController.js:27"
+        },
+        {
+            "message": "Missing item type\nDefines the main controller parent of all controllers in the\napplication. All actions not handled in partials are handled\nby the main controller.",
+            "line": " app/client/admin/js/ov/MainController.js:5"
+        },
+        {
+            "message": "Missing item type\nLogs out the user.\n\nRemove user information, remove all admin informations\nand broadcast a loggedOut event to children controllers.",
+            "line": " app/client/admin/js/ov/MainController.js:32"
+        },
+        {
+            "message": "Missing item type\nReplaces placeholders by corresponding values in the given string.\nFunction copied from AngularJS ngRoute.",
+            "line": " app/client/admin/js/ov/MainController.js:52"
+        },
+        {
+            "message": "Missing item type\nReplaces placeholders by corresponding values in the given string.",
+            "line": " app/client/admin/js/ov/MainController.js:76"
+        },
+        {
+            "message": "Missing item type\nGets permissions from groups for the given operation.",
+            "line": " app/client/admin/js/ov/MainController.js:92"
+        },
+        {
+            "message": "Missing item type\nChanges the language to the given one.\n\nThis will reload the page due to the main menu which can't be\nreloaded.",
+            "line": " app/client/admin/js/ov/MainController.js:132"
+        },
+        {
+            "message": "Missing item type\nLogs out the actual user.\n\nIf authentication was made on an external service such as CAS, user is redirected to\nthe external service page.\nIf authentication was made using an internal service such as LDAP (or local),\nlogout is performed without reloading the page.",
+            "line": " app/client/admin/js/ov/MainController.js:154"
+        },
+        {
+            "message": "Missing item type\nChecks that authenticated user has a permission.",
+            "line": " app/client/admin/js/ov/MainController.js:298"
+        },
+        {
+            "message": "Missing item type\nChecks that user has permission to access a content.",
+            "line": " app/client/admin/js/ov/MainController.js:326"
+        },
+        {
+            "message": "Missing item type\nChecks that user possesses a permission.",
+            "line": " app/client/admin/js/ov/MainController.js:359"
+        },
+        {
+            "message": "Missing item type\nUpdates and validates directive attributes.",
+            "line": " app/client/admin/js/ov/MatchDirective.js:97"
+        },
+        {
+            "message": "Missing item type\nRenders the list of matches using the model.\n\nIt overrides AngularJS $render.",
+            "line": " app/client/admin/js/ov/MatchDirective.js:123"
+        },
+        {
+            "message": "Missing item type\nTests if the model is empty.\n\nIt overrides AngularJS $isEmpty.\nThe input and the ov-tags elements must be filled otherwise ov-match is considered empty.",
+            "line": " app/client/admin/js/ov/MatchDirective.js:163"
+        },
+        {
+            "message": "Missing item type\nFinds the index of the given value in the list of checkboxes.",
+            "line": " app/client/admin/js/ov/MultiCheckBoxDirective.js:63"
+        },
+        {
+            "message": "Missing item type\nRenders the list of checkboxes using the model.\n\nIt overrides AngularJS $render.",
+            "line": " app/client/admin/js/ov/MultiCheckBoxDirective.js:77"
+        },
+        {
+            "message": "Missing item type\nUpdates model when a checkbox is modified.",
+            "line": " app/client/admin/js/ov/MultiCheckBoxDirective.js:95"
+        },
+        {
+            "message": "Missing item type\nListens to model modifications coming from outside the directive.\n\nIf model is modified from outside the directive, the view needs to be updated.",
+            "line": " app/client/admin/js/ov/MultiCheckBoxDirective.js:110"
+        },
+        {
+            "message": "Missing item type\nTests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
+            "line": " app/client/admin/js/ov/MultiCheckBoxDirective.js:123"
+        },
+        {
+            "message": "Missing item type\nConfigures application main routes and set location mode to HTML5.",
+            "line": " app/client/admin/js/ov/OvApp.js:402"
+        },
+        {
+            "message": "Missing item type\nDefines the profile controller for the profile page.",
+            "line": " app/client/admin/js/ov/ProfileController.js:5"
+        },
+        {
+            "message": "Missing item type\nGets the list of role's names.",
+            "line": " app/client/admin/js/ov/ProfileController.js:11"
+        },
+        {
+            "message": "Missing item type\nSaves user information.",
+            "line": " app/client/admin/js/ov/ProfileController.js:39"
+        },
+        {
+            "message": "Missing item type\nUpdates user password.",
+            "line": " app/client/admin/js/ov/ProfileController.js:108"
+        },
+        {
+            "message": "Missing item type\nResets password edition form.",
+            "line": " app/client/admin/js/ov/ProfileController.js:127"
+        },
+        {
+            "message": "Missing item type\nValidates password edition form.\n\nPassword edition form is considered valid if password and password confirmation are the same.\nIt sets isInvalid property with the same value as the one returned.",
+            "line": " app/client/admin/js/ov/ProfileController.js:136"
+        },
+        {
+            "message": "Missing item type\nChecks if password is editable.\n\nSome users can't edit their password, for example:\nA lock user, the super administrator or a user coming from a third party provider such as LDAP.",
+            "line": " app/client/admin/js/ov/ProfileController.js:149"
+        },
+        {
+            "message": "Missing item type\nDefines the role controller for the role page.",
+            "line": " app/client/admin/js/ov/RoleController.js:5"
+        },
+        {
+            "message": "Missing item type\nTranslates label, name and description keys of each permission.",
+            "line": " app/client/admin/js/ov/RoleController.js:11"
+        },
+        {
+            "message": "Missing item type\nGets the list of permissions inside a group.",
+            "line": " app/client/admin/js/ov/RoleController.js:24"
+        },
+        {
+            "message": "Missing item type\nSaves a role.",
+            "line": " app/client/admin/js/ov/RoleController.js:43"
+        },
+        {
+            "message": "Missing item type\nAdds a role.",
+            "line": " app/client/admin/js/ov/RoleController.js:56"
+        },
+        {
+            "message": "Missing item type\nPrepares permissions for HTMLCheckboxElement(s).",
+            "line": " app/client/admin/js/ov/RoleController.js:69"
+        },
+        {
+            "message": "Missing item type\nRemoves a list of roles.",
+            "line": " app/client/admin/js/ov/RoleController.js:89"
+        },
+        {
+            "message": "Missing item type\nDefines the settings controller for the settings page.",
+            "line": " app/client/admin/js/ov/SettingsController.js:5"
+        },
+        {
+            "message": "Missing item type\nBuilds role options for matchers.",
+            "line": " app/client/admin/js/ov/SettingsController.js:20"
+        },
+        {
+            "message": "Missing item type\nSaves settings.",
+            "line": " app/client/admin/js/ov/SettingsController.js:89"
+        },
+        {
+            "message": "Missing item type\nUpdates and validates directive attributes.",
+            "line": " app/client/admin/js/ov/TagsDirective.js:67"
+        },
+        {
+            "message": "Missing item type\nGets tag values.\n\nThe directive stores either the list of values or the list of options depending\non ovAvailableOptions attribute. Model should receive only the list of values.\n\nWhen directive does not have ovAvailableOptions, scope.tags stores values.\nWhen directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).",
+            "line": " app/client/admin/js/ov/TagsDirective.js:78"
+        },
+        {
+            "message": "Missing item type\nRenders the list of values using the model.\n\nThe directive stores either the list of values or the list of options depending\non ovAvailableOptions attribute. Model should receive only the list of values.\n\nWhen directive does not have ovAvailableOptions, scope.tags stores values.\nWhen directive has ovAvailableOptions, scope.tags contains options (objects with name and value properties).\n\nIt overrides AngularJS $render.",
+            "line": " app/client/admin/js/ov/TagsDirective.js:110"
+        },
+        {
+            "message": "Missing item type\nAdd a new tag.",
+            "line": " app/client/admin/js/ov/TagsDirective.js:143"
+        },
+        {
+            "message": "Missing item type\nHandles keys.\n\nAdd a new tag when user press \"enter\".",
+            "line": " app/client/admin/js/ov/TagsDirective.js:189"
+        },
+        {
+            "message": "Missing item type\nRemoves a tag when user click on the delete icon.",
+            "line": " app/client/admin/js/ov/TagsDirective.js:212"
+        },
+        {
+            "message": "Missing item type\nDisplays auto-complete depending on the given input value.",
+            "line": " app/client/admin/js/ov/TagsDirective.js:234"
+        },
+        {
+            "message": "Missing item type\nTests if the model is empty.\n\nIt overrides AngularJS $isEmpty.",
+            "line": " app/client/admin/js/ov/TagsDirective.js:254"
+        },
+        {
+            "message": "Missing item type\nDefines the user controller for the user page.",
+            "line": " app/client/admin/js/ov/UserController.js:5"
+        },
+        {
+            "message": "Missing item type\nAdds a user.",
+            "line": " app/client/admin/js/ov/UserController.js:12"
+        },
+        {
+            "message": "Missing item type\nRemoves a list of users.",
+            "line": " app/client/admin/js/ov/UserController.js:28"
+        },
+        {
+            "message": "Missing item type\nSaves user.",
+            "line": " app/client/admin/js/ov/UserController.js:42"
+        },
+        {
+            "message": "Missing item type\nBuilds options for origin filter.",
+            "line": " app/client/admin/js/ov/UserController.js:55"
+        },
+        {
+            "message": "Missing item type\nInitializes edit form for a given user.",
+            "line": " app/client/admin/js/ov/UserController.js:191"
+        },
+        {
+            "message": "Missing item type\nDefines a service reload Table.",
+            "line": " app/client/admin/js/tableForm/tableForm.js:7"
+        },
+        {
+            "message": "Missing item type\nDefines a DatePicker controller.",
+            "line": " app/client/admin/js/tableForm/tableForm.js:20"
+        },
+        {
+            "message": "Missing item type\nDefines a FormEditController.",
+            "line": " app/client/admin/js/tableForm/tableForm.js:52"
+        },
+        {
+            "message": "Missing item type\nDefines a FormAddController.",
+            "line": " app/client/admin/js/tableForm/tableForm.js:183"
+        },
+        {
+            "message": "Missing item type\nDefines a DataTableController.",
+            "line": " app/client/admin/js/tableForm/tableForm.js:216"
+        },
+        {
+            "message": "Missing item type\nDefines a modal instance for all modals related to the table form.",
+            "line": " app/client/admin/js/tableForm/tableForm.js:443"
+        },
+        {
+            "message": "Missing item type\nBuilds groups select options.",
+            "line": " app/client/admin/js/util/utilService.js:16"
+        }
+    ]
+}
