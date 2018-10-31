@@ -9,6 +9,10 @@
 
 - OpenVeo Core does not use Bower anymore, it now uses NPM for both client and server dependencies
 
+## BUG FIXES
+
+- Fix translations of dates and date pickers when default browser language has a region (e.g. en-US), the english translation was used instead of the browser language
+
 ## DEPENDENCIES
 
 - **ng-jsonpath** has been removed
