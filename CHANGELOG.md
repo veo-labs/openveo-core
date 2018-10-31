@@ -1,3 +1,18 @@
+# 8.0.0 / YYYY-MM-DD
+
+## BREAKING CHANGES
+
+- AngularJS ng-jsonpath library has been removed
+- Configuration to load client side libraries of plugins, in back office, has changed, properties "backOffice.scriptLibFiles.base" and "backOffice.scriptFiles.base" have been replaced by property "libraries". See the documentation of "conf.js" file in project openveo-plugin-generator
+
+## NEW FEATURES
+
+- OpenVeo Core does not use Bower anymore, it now uses NPM for both client and server dependencies
+
+## DEPENDENCIES
+
+- **ng-jsonpath** has been removed
+
 # 7.0.0 / 2018-10-26
 
 ## BREAKING CHANGES

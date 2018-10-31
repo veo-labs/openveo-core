@@ -4,6 +4,7 @@
  * @module core-controllers
  */
 
+var path = require('path');
 var util = require('util');
 var openVeoApi = require('@openveo/api');
 var storage = process.require('app/server/storage.js');
@@ -72,16 +73,24 @@ DefaultController.prototype.defaultAction = function(request, response) {
         angularJsModules.push('"' + pluginName + '"');
       }
 
-      // Plugin has JavaScript libraries files to load
-      if (plugin['scriptLibFiles'] && util.isArray(plugin['scriptLibFiles']['base']))
-        response.locals.librariesScripts = response.locals.librariesScripts.concat(plugin['scriptLibFiles']['base']);
+      // Plugin has libraries files to load
+      if (plugin['libraries']) {
+        plugin['libraries'].forEach(function(library) {
+          if (library.files) {
+            library.files.forEach(function(file) {
+              var filePath = path.join(plugin.mountPath, library.mountPath, file);
+              if (/.css$/.test(file)) response.locals.css.push(filePath);
+              else if (/.js$/.test(file)) response.locals.librariesScripts.push(filePath);
+            });
+          }
+        });
+      }
+
       if (plugin['scriptLibFiles'] && util.isArray(plugin['scriptLibFiles'][env]))
         response.locals.librariesScripts = response.locals.librariesScripts.concat(plugin['scriptLibFiles'][env]);
 
       // Plugin has JavaScript files to load
       // Load files before main plugin JavaScript files
-      if (plugin['scriptFiles'] && util.isArray(plugin['scriptFiles']['base']))
-        response.locals.scripts = plugin['scriptFiles']['base'].concat(response.locals.scripts);
       if (plugin['scriptFiles'] && util.isArray(plugin['scriptFiles'][env]))
         response.locals.scripts = plugin['scriptFiles'][env].concat(response.locals.scripts);
 

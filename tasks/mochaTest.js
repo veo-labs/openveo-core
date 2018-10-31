@@ -14,7 +14,8 @@ module.exports = {
       'tests/server/loaders/*.js',
       'tests/server/plugin/*.js',
       'tests/server/providers/*.js',
-      'tests/server/migrations/*.js'
+      'tests/server/migrations/*.js',
+      'tests/server/servers/*.js'
     ]
   }
 

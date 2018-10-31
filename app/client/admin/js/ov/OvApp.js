@@ -27,7 +27,6 @@
     'ngTasty',
     'formly',
     'formlyBootstrap',
-    'ngJSONPath',
     'ngAnimate',
     'ui.tinymce',
     'ngFileUpload'
@@ -523,6 +522,10 @@
       // Remove the 300ms delay on touch device
       /* global FastClick */
       FastClick.attach(document.body);
+
+      // Configure tinyMCE
+      tinyMCE.baseURL = '/tinymce';
+
     }]);
 
   // Replace "classic" spaces with non-breaking-spaces

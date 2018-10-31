@@ -118,7 +118,7 @@ describe('pluginLoader', function() {
           assert.isDefined(loadedPlugin.privateRouter, 'Expected a private router');
           assert.equal(loadedPlugin.name, 'official-plugin-example');
           assert.equal(loadedPlugin.mountPath, '/official-plugin-example');
-          assert.isDefined(loadedPlugin.assets, 'Expected assets');
+          assert.isDefined(loadedPlugin.libraries, 'Expected libraries');
           assert.isDefined(loadedPlugin.i18nDirectory, 'Expected an i18n directory');
           assert.isDefined(loadedPlugin.routes, 'Expected public routes');
           assert.isDefined(loadedPlugin.privateRoutes, 'Expected private routes');

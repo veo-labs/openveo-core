@@ -126,25 +126,6 @@ module.exports = {
       }
     ],
     scriptLibFiles: {
-      base: [
-        '/lib/api-check/dist/api-check.min.js',
-        '/lib/angular/angular.min.js',
-        '/lib/angular-animate/angular-animate.min.js',
-        '/lib/angular-route/angular-route.min.js',
-        '/lib/angular-cookies/angular-cookies.min.js',
-        '/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
-        '/lib/angular-sanitize/angular-sanitize.min.js',
-        '/lib/angular-ui-tree/dist/angular-ui-tree.min.js',
-        '/lib/angular-formly/dist/formly.min.js',
-        '/lib/angular-formly-templates-bootstrap/dist/angular-formly-templates-bootstrap.min.js',
-        '/lib/ng-jsonpath/dist/ng-jsonpath.min.js',
-        '/lib/ng-tasty/ng-tasty-tpls.min.js',
-        '/lib/fastclick/lib/fastclick.js',
-        '/lib/socket.io-client/dist/socket.io.min.js',
-        '/lib/tinymce/tinymce.min.js',
-        '/lib/angular-ui-tinymce/dist/tinymce.min.js',
-        '/lib/ng-file-upload/ng-file-upload.min.js'
-      ],
       dev: [
         '/authentication/AuthenticationApp.js',
         '/storage/StorageApp.js',
@@ -192,13 +173,102 @@ module.exports = {
     },
     cssFiles: [
       '/be/css/bootstrap.css',
-      '/lib/angular/angular-csp.css',
-      '/lib/angular-bootstrap/ui-bootstrap-csp.css',
-      '/lib/angular-ui-tree/dist/angular-ui-tree.min.css',
       '/be/css/style.css'
     ]
   },
   viewsFolders: [
     'app/client/admin/views'
+  ],
+  libraries: [
+    {
+      name: 'angular',
+      mountPath: 'angular',
+      files: ['angular.min.js', 'angular-csp.css']
+    },
+    {
+      name: 'angular-animate',
+      mountPath: 'angular-animate',
+      files: ['angular-animate.min.js']
+    },
+    {
+      name: 'angular-cookies',
+      mountPath: 'angular-cookies',
+      files: ['angular-cookies.min.js']
+    },
+    {
+      name: 'angular-i18n',
+      mountPath: 'angular-i18n',
+      files: []
+    },
+    {
+      name: 'angular-route',
+      mountPath: 'angular-route',
+      files: ['angular-route.min.js']
+    },
+    {
+      name: 'angular-sanitize',
+      mountPath: 'angular-sanitize',
+      files: ['angular-sanitize.min.js']
+    },
+    {
+      name: 'angular-ui-bootstrap',
+      mountPath: 'angular-bootstrap',
+      files: ['dist/ui-bootstrap-tpls.js', 'dist/ui-bootstrap-csp.css']
+    },
+    {
+      name: 'angular-ui-tinymce',
+      mountPath: 'angular-ui-tinymce',
+      files: ['dist/tinymce.min.js']
+    },
+    {
+      name: 'angular-ui-tree',
+      mountPath: 'angular-ui-tree',
+      files: ['dist/angular-ui-tree.min.js', 'dist/angular-ui-tree.min.css']
+    },
+    {
+      name: 'api-check',
+      mountPath: 'api-check',
+      files: ['dist/api-check.min.js']
+    },
+    {
+      name: 'angular-formly',
+      mountPath: 'angular-formly',
+      files: ['dist/formly.min.js']
+    },
+    {
+      name: 'angular-formly-templates-bootstrap',
+      mountPath: 'angular-formly-templates-bootstrap',
+      files: ['dist/angular-formly-templates-bootstrap.min.js']
+    },
+    {
+      name: 'bootstrap-sass',
+      mountPath: 'bootstrap-sass',
+      files: []
+    },
+    {
+      name: 'fastclick',
+      mountPath: 'fastclick',
+      files: ['lib/fastclick.js']
+    },
+    {
+      name: 'ng-file-upload',
+      mountPath: 'ng-file-upload',
+      files: ['dist/ng-file-upload.min.js']
+    },
+    {
+      name: 'ng-tasty',
+      mountPath: 'ng-tasty',
+      files: ['ng-tasty-tpls.min.js']
+    },
+    {
+      name: 'socket.io-client',
+      mountPath: 'socket.io-client',
+      files: ['dist/socket.io.min.js']
+    },
+    {
+      name: 'tinymce',
+      mountPath: 'tinymce',
+      files: ['tinymce.min.js']
+    }
   ]
 };

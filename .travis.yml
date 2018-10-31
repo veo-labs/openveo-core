@@ -22,7 +22,6 @@ before_install:
   - rvm install ruby-latest
   - npm install -g grunt-cli
   - npm install -g flightplan
-  - npm install -g bower
   - gem install sass
   - gem install compass
   - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv EA312927
@@ -34,7 +33,6 @@ before_install:
 install:
   - npm install flightplan
   - npm install --ignore-scripts
-  - bower install
   - grunt prod
 before_script:
   - "export DISPLAY=:99.0"

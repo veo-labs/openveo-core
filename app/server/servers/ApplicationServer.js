@@ -269,6 +269,32 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
 
   }
 
+  // If plugin has libraries, libraries files will be delivered by a static server
+  if (plugin.libraries) {
+    plugin.libraries.forEach(function(library) {
+      try {
+        process.logger.info(
+          'Mount library "' + library.name + '" on ' + path.join(plugin.mountPath, library.mountPath)
+        );
+
+        var libraryPath = path.dirname(
+          require.resolve(
+            path.join(library.name, 'package.json'),
+            {
+              paths: [plugin.path]
+            }
+          )
+        );
+        self.httpServer.use(
+          path.join(plugin.mountPath, library.mountPath),
+          express.static(libraryPath, staticServerOptions)
+        );
+      } catch (error) {
+        process.logger.error('Unable to mount library "' + library.name + '" with message: ' + error.message);
+      }
+    });
+  }
+
   // Build plugin public routes
   if (plugin.router && plugin.routes && plugin.mountPath)
     routeLoader.applyRoutes(routeLoader.decodeRoutes(plugin.path, plugin.routes), plugin.router);

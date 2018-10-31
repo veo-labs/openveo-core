@@ -468,6 +468,10 @@ module.exports.loadPluginMetadata = function(plugin, callback) {
               if (pluginConf['entities'])
                 plugin.entities = pluginConf['entities'];
 
+              // Got libraries
+              if (pluginConf['libraries'])
+                plugin.libraries = pluginConf['libraries'];
+
               // Got back end conf
               if (backEndConf) {
 

@@ -11,8 +11,8 @@ module.exports = {
   beAssets: ['assets/be'],
   beCSSAssets: ['<%= project.beAssets %>/css'],
   beJSAssets: ['<%= project.beAssets %>/js'],
-  font: ['<%= project.root %>/assets/lib/bootstrap-sass/assets/fonts/'],
-  fontHttpPath: '/lib/bootstrap-sass/assets/fonts/',
+  font: ['<%= project.root %>/node_modules/bootstrap-sass/assets/fonts/'],
+  fontHttpPath: '/bootstrap-sass/assets/fonts/',
   uglify: ['build/uglify'],
   tests: ['<%= project.root %>/tests']
 };

@@ -12,7 +12,6 @@ The back end relies on a couple of libraries:
 - **[angular-bootstrap](https://angular-ui.github.io/bootstrap/)** for basic user interface components
 - **[angular-formly](http://angular-formly.com/)** to build formulars from a JavaScript literal object
 - **[angular-ui-tree](http://angular-ui-tree.github.io/angular-ui-tree)** to build an UI tree (not directly used by openveo-core)
-- **[ng-jsonpath](https://github.com/noherczeg/ng-jsonpath)** to search on a JSON object (not directly used by openveo-core)
 - **[ng-tasty](http://zizzamia.com/ng-tasty/)** to present entities in a dynamic paginated table
 
 # Structure

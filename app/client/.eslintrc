@@ -8,8 +8,9 @@
   },
   "globals": {
 
-    // Add angular to environment globals but do not authorize to overwrite it
-    angular: false
+    // Add angular and tinyMCE to environment globals but do not authorize to overwrite it
+    angular: false,
+    tinyMCE: false
 
   },
   "rules": {
