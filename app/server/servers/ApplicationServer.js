@@ -254,8 +254,7 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   var self = this;
   process.logger.info('Start loading plugin ' + plugin.name);
 
-
-  // If plugin has an assets directory, it will be loaded as a static server
+  // If plugin has an assets directory, its content will be delivered by a static server
   if (plugin.assets && plugin.mountPath) {
     process.logger.info('Mount ' + plugin.assets + ' on ' + plugin.mountPath);
     this.httpServer.use(plugin.mountPath, express.static(plugin.assets, staticServerOptions));
