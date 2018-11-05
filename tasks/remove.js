@@ -1,11 +1,11 @@
 'use strict';
 
-// For more information about Grunt remove, have a look at https://www.npmjs.com/package/grunt-remove
+// For more information about Grunt remove, have a look at @openveo/api
 module.exports = {
 
   // Remove documentation
   doc: {
-    dirList: ['site']
+    src: ['site']
   }
 
 };

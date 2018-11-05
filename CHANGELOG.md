@@ -12,6 +12,7 @@
 ## BUG FIXES
 
 - Fix translations of dates and date pickers when default browser language has a region (e.g. en-US), the english translation was used instead of the browser language
+- Fix "grunt remove:doc" which hasn't worked since version 4.0.0
 
 ## DEPENDENCIES
 
