@@ -127,48 +127,48 @@ module.exports = {
     ],
     scriptLibFiles: {
       dev: [
-        '/authentication/AuthenticationApp.js',
-        '/storage/StorageApp.js',
-        '/i18n/I18nApp.js',
-        '/entity/EntityApp.js',
-        '/alert/AlertApp.js',
-        '/socket/SocketApp.js',
-        '/tableForm/tableForm.js',
-        '/util/UtilApp.js',
-        '/util/utilService.js',
-        '/util/UrlFactory.js'
+        'authentication/AuthenticationApp.js',
+        'storage/StorageApp.js',
+        'i18n/I18nApp.js',
+        'entity/EntityApp.js',
+        'alert/AlertApp.js',
+        'socket/SocketApp.js',
+        'tableForm/tableForm.js',
+        'util/UtilApp.js',
+        'util/utilService.js',
+        'util/UrlFactory.js'
       ],
       prod: [
-        '/be/js/libOpenveo.js'
+        'be/js/libOpenveo.js'
       ]
     },
     scriptFiles: {
       dev: [
-        '/angular-temporary-fix-ie.js',
-        '/ov/OvApp.js',
-        '/ov/ErrorInterceptor.js',
-        '/ov/MainController.js',
-        '/ov/LoginController.js',
-        '/ov/HomeController.js',
-        '/ov/ApplicationController.js',
-        '/ov/RoleController.js',
-        '/ov/UserController.js',
-        '/ov/GroupController.js',
-        '/ov/ProfileController.js',
-        '/ov/MenuService.js',
-        '/ov/UserService.js',
-        '/ov/ApplicationService.js',
-        '/ov/TruncateFilter.js',
-        '/ov/TagsDirective.js',
-        '/ov/MultiCheckBoxDirective.js',
-        '/ov/MatchDirective.js',
-        '/ov/SettingsController.js',
-        '/ov/DateTimePickerDirective.js',
-        '/ov/DateTimePickerController.js',
-        '/ov/AutoCompleteDirective.js'
+        'angular-temporary-fix-ie.js',
+        'ov/OvApp.js',
+        'ov/ErrorInterceptor.js',
+        'ov/MainController.js',
+        'ov/LoginController.js',
+        'ov/HomeController.js',
+        'ov/ApplicationController.js',
+        'ov/RoleController.js',
+        'ov/UserController.js',
+        'ov/GroupController.js',
+        'ov/ProfileController.js',
+        'ov/MenuService.js',
+        'ov/UserService.js',
+        'ov/ApplicationService.js',
+        'ov/TruncateFilter.js',
+        'ov/TagsDirective.js',
+        'ov/MultiCheckBoxDirective.js',
+        'ov/MatchDirective.js',
+        'ov/SettingsController.js',
+        'ov/DateTimePickerDirective.js',
+        'ov/DateTimePickerController.js',
+        'ov/AutoCompleteDirective.js'
       ],
       prod: [
-        '/be/js/openveo.js'
+        'be/js/openveo.js'
       ]
     },
     cssFiles: [

@@ -4,6 +4,7 @@
 
 - AngularJS ng-jsonpath library has been removed
 - Configuration to load client side libraries of plugins, in back office, has changed, properties "backOffice.scriptLibFiles.base" and "backOffice.scriptFiles.base" have been replaced by property "libraries". See the documentation of "conf.js" file in project openveo-plugin-generator
+- Back office JavaScript / CSS files autoloaded from conf.js file are now automatically prefixed by the plugin mount path. It means that plugin mount path has to be removed from conf.js file
 
 ## NEW FEATURES
 

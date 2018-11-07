@@ -178,11 +178,25 @@ describe('DefaultController', function() {
 
           assert.includeMembers(
             parameters.librariesScripts,
-            expectedPlugin.scriptLibFiles.dev,
+            expectedPlugin.scriptLibFiles.dev.map(function(filePath) {
+              return path.join(expectedPlugin.name, filePath);
+            }),
             'Wrong plugin library files'
           );
-          assert.includeMembers(parameters.scripts, expectedPlugin.scriptFiles.dev, 'Wrong plugin JavaScript files');
-          assert.includeMembers(parameters.css, expectedPlugin.cssFiles, 'Wrong plugin CSS files');
+          assert.includeMembers(
+            parameters.scripts,
+            expectedPlugin.scriptFiles.dev.map(function(filePath) {
+              return path.join(expectedPlugin.name, filePath);
+            }),
+            'Wrong plugin JavaScript files'
+          );
+          assert.includeMembers(
+            parameters.css,
+            expectedPlugin.cssFiles.map(function(filePath) {
+              return path.join(expectedPlugin.name, filePath);
+            }),
+            'Wrong plugin CSS files'
+          );
         });
 
         done();
