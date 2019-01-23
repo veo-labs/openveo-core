@@ -1,3 +1,9 @@
+# 7.1.0 / YYYY-MM-DD
+
+## NEW FEATURES
+
+- Replace OpenVeo logotype by the new one
+
 # 7.0.0 / 2018-10-26
 
 ## BREAKING CHANGES
