@@ -1,4 +1,4 @@
-# 7.1.0 / YYYY-MM-DD
+# 7.1.0 / 2019-01-23
 
 ## NEW FEATURES
 
