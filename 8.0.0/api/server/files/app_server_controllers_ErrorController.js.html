@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" class="yui-overrride">
+<head>
+    <meta charset="utf-8">
+    <title>app/server/controllers/ErrorController.js - OpenVeo Core server</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            <h1 class="blue-main-title">OpenVeo Core server</h1>
+        </div>
+        <div class="yui3-u-1-4 version project-version">
+            API Docs for: 8.0.0
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/accessToken.html">accessToken</a></li>
+                                <li><a href="../classes/api.html">api</a></li>
+                                <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
+                                <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
+                                <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
+                                <li><a href="../classes/client.html">client</a></li>
+                                <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
+                                <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
+                                <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
+                                <li><a href="../classes/DefaultController.html">DefaultController</a></li>
+                                <li><a href="../classes/entityLoader.html">entityLoader</a></li>
+                                <li><a href="../classes/ErrorController.html">ErrorController</a></li>
+                                <li><a href="../classes/GroupController.html">GroupController</a></li>
+                                <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
+                                <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
+                                <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
+                                <li><a href="../classes/MenuController.html">MenuController</a></li>
+                                <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
+                                <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
+                                <li><a href="../classes/namespaceLoader.html">namespaceLoader</a></li>
+                                <li><a href="../classes/OauthController.html">OauthController</a></li>
+                                <li><a href="../classes/path.html">path</a></li>
+                                <li><a href="../classes/permissionLoader.html">permissionLoader</a></li>
+                                <li><a href="../classes/pluginLoader.html">pluginLoader</a></li>
+                                <li><a href="../classes/RoleController.html">RoleController</a></li>
+                                <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
+                                <li><a href="../classes/routeLoader.html">routeLoader</a></li>
+                                <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
+                                <li><a href="../classes/storage.html">storage</a></li>
+                                <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
+                                <li><a href="../classes/TaxonomyProvider.html">TaxonomyProvider</a></li>
+                                <li><a href="../classes/TokenProvider.html">TokenProvider</a></li>
+                                <li><a href="../classes/UserController.html">UserController</a></li>
+                                <li><a href="../classes/UserProvider.html">UserProvider</a></li>
+                                <li><a href="../classes/WebServiceServer.html">WebServiceServer</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/core-controllers.html">core-controllers</a></li>
+                                <li><a href="../modules/core-loaders.html">core-loaders</a></li>
+                                <li><a href="../modules/core-migration.html">core-migration</a></li>
+                                <li><a href="../modules/core-oauth.html">core-oauth</a></li>
+                                <li><a href="../modules/core-plugin.html">core-plugin</a></li>
+                                <li><a href="../modules/core-providers.html">core-providers</a></li>
+                                <li><a href="../modules/core-servers.html">core-servers</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app/server/controllers/ErrorController.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x27;use strict&#x27;;
+
+/**
+ * @module core-controllers
+ */
+
+var util = require(&#x27;util&#x27;);
+var openVeoApi = require(&#x27;@openveo/api&#x27;);
+var errors = process.require(&#x27;app/server/httpErrors.js&#x27;);
+var DefaultController = process.require(&#x27;app/server/controllers/DefaultController.js&#x27;);
+var Controller = openVeoApi.controllers.Controller;
+var defaultController = new DefaultController();
+
+/**
+ * Defines a controller to handle errors.
+ *
+ * @class ErrorController
+ * @extends Controller
+ * @constructor
+ */
+function ErrorController() {
+  ErrorController.super_.call(this);
+}
+
+module.exports = ErrorController;
+util.inherits(ErrorController, Controller);
+
+/**
+ * Handles requests which does not correspond to anything.
+ *
+ * @method notFoundAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
+ */
+ErrorController.prototype.notFoundAction = function(request, response, next) {
+  next(errors.PATH_NOT_FOUND);
+};
+
+/**
+ * Handles all errors.
+ *
+ * @method errorAction
+ * @param {Object} error An error object
+ * @param {Number} error.httCode The code HTTP to return for this error
+ * @param {Number} error.message The message with the error
+ * @param {Number} [error.code=UNKNOWN_ERROR] The error code
+ * @param {Number} [error.module=core] The name of the plugin the error belongs to
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Request} request.method Request&#x27;s HTTP method
+ * @param {Request} request.url Request&#x27;s url
+ * @param {Request} request.headers Request&#x27;s headers
+ * @param {Response} response ExpressJS HTTP Response
+ * @param {Function} next Function to defer execution to the next registered middleware
+ */
+ErrorController.prototype.errorAction = function(error, request, response, next) {
+  if (!error || !error.code)
+    error = errors.UNKNOWN_ERROR;
+
+  if (!error.module)
+    error.module = &#x27;core&#x27;;
+
+  process.logger.error(&#x27;Error&#x27;, {
+    code: error.code,
+    module: error.module,
+    message: error.message,
+    method: request.method,
+    path: request.url,
+    headers: request.headers
+  });
+
+  // Send response with HTML content
+  if (request.accepts(&#x27;html&#x27;) &amp;&amp; (error.httpCode == &#x27;401&#x27; || error.httpCode == &#x27;403&#x27;)) {
+    response.status(error.httpCode);
+    defaultController.defaultAction(request, response, next);
+    return;
+  }
+
+  // Send response with JSON content or HTML but not 401 or 403 errorCode
+  response.status(error.httpCode);
+  response.send({
+    error: {
+      code: error.code,
+      module: error.module,
+      message: error.message
+    }
+  });
+};
+
+/**
+ * Handles forgotten requests.
+ *
+ * Depending on request Accept HTTP header, either an HTML content,
+ * a JSON content or a text content will be returned with a 404 code.
+ *
+ * @method notFoundPageAction
+ * @param {Request} request ExpressJS HTTP Request
+ * @param {Request} request.method Request&#x27;s HTTP method
+ * @param {Request} request.url Request&#x27;s url
+ * @param {Request} request.headers Request&#x27;s headers
+ * @param {Response} response ExpressJS HTTP Response
+ */
+ErrorController.prototype.notFoundPageAction = function(request, response) {
+  process.logger.warn(&#x27;404 Not Found&#x27;, {
+    method: request.method,
+    path: request.url,
+    headers: request.headers
+  });
+
+  response.status(404);
+
+  // HTML content
+  if (request.accepts(&#x27;html&#x27;)) {
+    response.render(&#x27;404&#x27;, {
+      url: request.url
+    });
+    return;
+  }
+
+  // JSON content
+  if (request.accepts(&#x27;json&#x27;)) {
+    response.send({
+      error: &#x27;Not found&#x27;,
+      url: request.url
+    });
+    return;
+  }
+
+  // Text content
+  response.type(&#x27;txt&#x27;).send(request.url + &#x27; not found&#x27;);
+};
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
