@@ -28,17 +28,17 @@ OpenVeo is tested on the following operating systems:
 
 OpenVeo is tested on the following browsers:
 
-- Google Chrome 54
-- Mozilla Firefox 47
-- Opera 42
-- Internet Explorer Edge
+- Google Chrome
+- Mozilla Firefox
+- Opera
+- Edge
 
 ![Ubuntu](images/operating-systems/ubuntu.gif)
 
 ![Firefox](images/browsers/firefox.gif)
 ![Google Chrome](images/browsers/chrome.gif)
 ![Opera](images/browsers/opera.gif)
-![Internet Explorer](images/browsers/ie.gif)
+![Edge](images/browsers/edge.gif)
 
 ## Screenshots
 
