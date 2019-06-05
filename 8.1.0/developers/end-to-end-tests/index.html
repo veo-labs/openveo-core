@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>End to end tests - Openveo Core</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "End to end tests";
+    var mkdocs_page_input_path = "developers/end-to-end-tests.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Openveo Core</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">INTRODUCTION</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">USERS</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../../prerequisites/">Prerequisites</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../getting-started/">Getting started</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../web-service/">Web Service</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../advanced-configuration/">Advanced configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../plugins/">Plugins</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../scalability/">Scalability</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../../production/">Production</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">DEVELOPERS</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../basics/">The basics</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../prerequisites/">Prerequisites</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../installation/">Installation</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../back-end/">Back end AngularJS</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../template-engine/">Template engine</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../plugins/">Plugins</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../api/">API</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../logger/">Logger</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../i18n/">I18N and I10N</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../compilation/">CSS / SASS / JS compilation</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../coding-standards/">Coding standards</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../unit-tests/">Unit tests</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">End to end tests</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#introduction">Introduction</a></li>
+    
+
+    <li class="toctree-l3"><a href="#install-selenium-web-driver-and-chrome-driver">Install selenium web driver and chrome driver</a></li>
+    
+
+    <li class="toctree-l3"><a href="#configure-tests">Configure tests</a></li>
+    
+
+    <li class="toctree-l3"><a href="#writing-tests">Writing tests</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#boot-steps">Boot steps</a></li>
+        
+            <li><a class="toctree-l4" href="#add-users-roles-groups-and-application-before-tests">Add users, roles, groups and application before tests</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#debug">Debug</a></li>
+    
+
+    <li class="toctree-l3"><a href="#launch-end-to-end-tests">Launch end to end tests</a></li>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Openveo Core</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>DEVELOPERS &raquo;</li>
+        
+      
+    
+    <li>End to end tests</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/veo-labs/openveo-core/edit/master/docs/developers/end-to-end-tests.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="introduction">Introduction</h1>
+<p>End to end tests are performed using <a href="http://www.protractortest.org/">Protractor</a>.</p>
+<p>Each plugin (including OpenVeo core) defines a list of test suites in <strong>tests/client/protractorSuites.json</strong>.</p>
+<h1 id="install-selenium-web-driver-and-chrome-driver">Install selenium web driver and chrome driver</h1>
+<pre><code>node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update
+</code></pre>
+<p>NB: Note that protractor module could be in node_modules/protractor</p>
+<h1 id="configure-tests">Configure tests</h1>
+<p>You need to specify a new database which will be used during tests. To do so, you can add a new configuration file in user's directory under <strong>~/.openveo/core</strong> called <strong>databaseTestConf.json</strong>.</p>
+<p><strong>~/.openveo/core/databaseTestConf.json</strong></p>
+<pre><code class="json">{
+  &quot;type&quot;: &quot;mongodb&quot;,
+  &quot;host&quot;: &quot;localhost&quot;,
+  &quot;port&quot;: 27017,
+  &quot;database&quot;: &quot;openveo-test&quot;,
+  &quot;username&quot;: &quot;openveo&quot;,
+  &quot;password&quot;: &quot;openveo&quot;
+}
+</code></pre>
+
+<p><strong>WARNING</strong> : Each time you launch end to end tests, all information will be removed from this database ! DO NOT use the same database as the one described in <strong>databaseConf.json</strong></p>
+<p>When launching tests, OpenVeo HTTP server, socket server, CAS mock server and LDAP mock server are automatically spawned and must be configured through <strong>serverTestConf.json</strong>. Typically you may want to change servers ports.</p>
+<p><strong>~/.openveo/core/serverTestConf.json</strong></p>
+<pre><code class="json">{
+  &quot;app&quot;: {
+    &quot;httpPort&quot;: 3003,
+    &quot;socketPort&quot;: 3004,
+    &quot;browserSocketPort&quot;: 3004,
+    &quot;sessionSecret&quot;: &quot;2bXELdIqoT9Tbv5i1RfcXGEIE+GQS+XYbwVn0qEx&quot;,
+    &quot;auth&quot;: {
+      &quot;cas&quot;: {
+        &quot;version&quot;: &quot;3&quot;,
+        &quot;service&quot;: &quot;http://127.0.0.1:3003/be/authenticate/cas&quot;,
+        &quot;url&quot;: &quot;http://127.0.0.1:3005&quot;,
+        &quot;userIdAttribute&quot;: &quot;name&quot;,
+        &quot;userNameAttribute&quot;: &quot;attributes.name&quot;,
+        &quot;userEmailAttribute&quot;: &quot;attributes.mail&quot;,
+        &quot;userGroupAttribute&quot;: &quot;attributes.groups&quot;
+      },
+      &quot;ldapauth&quot;: {
+        &quot;searchFilter&quot;: &quot;(&amp;(objectclass=person)(cn={{username}}))&quot;,
+        &quot;url&quot;: &quot;ldap://127.0.0.1:3006&quot;,
+        &quot;bindAttribute&quot;: &quot;dn&quot;,
+        &quot;bindDn&quot;: &quot;cn=openveo,dc=test&quot;,
+        &quot;bindPassword&quot;: &quot;test&quot;,
+        &quot;searchBase&quot;: &quot;dc=test&quot;,
+        &quot;searchScope&quot;: &quot;sub&quot;,
+        &quot;userGroupAttribute&quot;: &quot;groups&quot;,
+        &quot;userIdAttribute&quot;: &quot;dn&quot;,
+        &quot;userNameAttribute&quot;: &quot;cn&quot;,
+        &quot;userEmailAttribute&quot;: &quot;mail&quot;
+      }
+    }
+  },
+  &quot;ws&quot;: {
+    &quot;port&quot;: 3007
+  }
+}
+</code></pre>
+
+<p>You also need to specify the CDN URL to precise the new server port. To do so, you can add a new configuration file in user's directory under <strong>~/.openveo/core</strong> called <strong>testConf.json</strong>.</p>
+<p><strong>~/.openveo/core/testConf.json</strong></p>
+<pre><code class="json">{
+  &quot;passwordHashKey&quot;: &quot;Eu2MNdGjJD&quot;,
+  &quot;cdn&quot;: {
+    &quot;url&quot;: &quot;http://127.0.0.0:3003&quot;
+  }
+}
+
+Finally the logger has to be configured through **loggerTestConf.json**. Typically you may want to deactivate logger standard output.
+
+**~/.openveo/core/loggerTestConf.json**
+
+```json
+{
+  &quot;app&quot;: {
+    &quot;level&quot;: &quot;info&quot;,
+    &quot;maxFileSize&quot;: 1048576,
+    &quot;maxFiles&quot;: 2,
+    &quot;fileName&quot;: &quot;/tmp/openveo/logs/openveoTest.log&quot;,
+    &quot;console&quot;: false
+  },
+  &quot;ws&quot;: {
+    &quot;level&quot;: &quot;info&quot;,
+    &quot;maxFileSize&quot;: 1048576,
+    &quot;maxFiles&quot;: 2,
+    &quot;fileName&quot;: &quot;/tmp/openveo/logs/openveoTest-ws.log&quot;,
+    &quot;console&quot;: false
+  }
+}
+</code></pre>
+
+<p><strong>console: false</strong> will deactivate standard output.</p>
+<h1 id="writing-tests">Writing tests</h1>
+<h2 id="boot-steps">Boot steps</h2>
+<p>When launching end to end tests, several things happen before the first test is launched:</p>
+<ol>
+<li>Database defined in <strong>~/.openveo/core/databaseTestConf.json</strong> is dropped</li>
+<li>Users, roles, groups and applications described in <strong>tests/client/e2eTests/database/data.json</strong>, from core and plugins, are inserted into database</li>
+<li>CAS users and LDAP users described in <strong>tests/client/e2eTests/database/data.json</strong>, from core and plugins, are inserted respectively into <strong>tests/client/e2eTests/build/casUsers.json</strong> and <strong>tests/client/e2eTests/build/ldapUsers.json</strong></li>
+<li>Tests suites files, in <strong>tests/client/e2eTests/protractorSuites.json</strong> from core and plugins, are merged into one single file (<strong>tests/client/e2eTests/suites/suites.json</strong>)</li>
+<li>A CAS server mock is launched</li>
+<li>An LDAP server mock is launched</li>
+<li>An OpenVeo HTTP server is launched</li>
+<li>An OpenVeo socket server is launched</li>
+<li>An OpenVeo Web Service server is launched</li>
+<li>A database connection is made to be able to use models in tests</li>
+<li>All plugins are loaded</li>
+</ol>
+<h2 id="add-users-roles-groups-and-application-before-tests">Add users, roles, groups and application before tests</h2>
+<p>Users, roles, groups and applications can be added before tests are launched using <strong>tests/client/e2eTests/resources/data.json</strong> configuration file.</p>
+<p>Structure is as follow:</p>
+<pre><code class="json">{
+  &quot;groups&quot;: {
+    ...
+  },
+  &quot;roles&quot;: {
+    ...
+  },
+  &quot;users&quot;: {
+    ...
+  },
+  &quot;casUsers&quot;: [
+    ...
+  ],
+  &quot;ldapUsers&quot;: [
+    ...
+  ],
+  &quot;applications&quot;: {
+    ...
+  }
+}
+</code></pre>
+
+<h3 id="create-a-group">Create a group</h3>
+<pre><code class="json">{
+  &quot;groups&quot;: {
+    &quot;coreGroupId&quot;: { // Id of the group to use when creating roles
+      &quot;name&quot;: &quot;Core group name&quot;, // The name of the group
+      &quot;description&quot;: &quot;Core group description&quot; // The description of the group
+    }
+  }
+}
+</code></pre>
+
+<h3 id="create-a-role">Create a role</h3>
+<pre><code class="json">{
+  &quot;roles&quot;: {
+    &quot;coreAdmin&quot;: { // Id of the role to use when creating users
+      &quot;name&quot;: &quot;core-admin&quot;, // The name of the role
+      &quot;permissions&quot;: [ // The list of permissions ids as described in conf.js file
+        &quot;add-application&quot;,
+        &quot;update-application&quot;,
+        &quot;delete-application&quot;,
+        &quot;add-taxonomy&quot;,
+        &quot;update-taxonomy&quot;,
+        &quot;delete-taxonomy&quot;,
+        &quot;add-user&quot;,
+        &quot;update-user&quot;,
+        &quot;delete-user&quot;,
+        &quot;add-role&quot;,
+        &quot;update-role&quot;,
+        &quot;delete-role&quot;,
+        &quot;access-applications-page&quot;,
+        &quot;access-users-page&quot;,
+        &quot;access-roles-page&quot;,
+        &quot;get-group-coreGroupId&quot;, // Permission &quot;get&quot; on the group &quot;coreGroupId&quot;
+        &quot;update-group-coreGroupId&quot;, // Permission &quot;update&quot; on the group &quot;coreGroupId&quot;
+        &quot;delete-group-coreGroupId&quot; // Permission &quot;delete&quot; on the group &quot;coreGroupId&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+
+<h3 id="create-a-user">Create a user</h3>
+<pre><code class="json">{
+  &quot;users&quot;: {
+    &quot;coreAdmin&quot;: { // Id of the user (not used)
+      &quot;name&quot;: &quot;core-admin&quot;, // The name of the user
+      &quot;email&quot;: &quot;core-admin@veo-labs.com&quot;, User's email
+      &quot;password&quot;: &quot;core-admin&quot;, // User's password
+      &quot;roles&quot;: [ &quot;coreAdmin&quot; ] // User's list of roles (role ids are the one described in the same file)
+    }
+  }
+}
+</code></pre>
+
+<h3 id="create-a-cas-user">Create a CAS user</h3>
+<pre><code class="json">{
+  &quot;casUsers&quot;: [
+    {
+      &quot;name&quot;: &quot;my-user&quot;, // The id of the CAS user
+      &quot;attributes&quot;: { // CAS user attributes
+        &quot;name&quot;: &quot;my-user&quot;, // The attribute holding the name of the CAS user
+        &quot;mail&quot;: &quot;my-usert@openveo.com&quot;, // The attribute holding the email of the CAS user
+        &quot;groups&quot;: [&quot;my-user1&quot;, &quot;my-user2&quot;]  // The attribute holding the groups of the CAS user
+      }
+    }
+  ]
+}
+</code></pre>
+
+<h3 id="create-an-ldap-user">Create an LDAP user</h3>
+<pre><code class="json">{
+  &quot;ldapUsers&quot;: [
+    {
+      &quot;dn&quot;: &quot;cn=my-user,dc=test&quot;, // User's id on LDAP
+      &quot;cn&quot;: &quot;my-user&quot;, // User's name
+      &quot;groups&quot;: &quot;my-user-group1,my-user-group2&quot;, // A comma separated list of groups
+      &quot;mail&quot;: &quot;my-user@openveo.com&quot; // User's email
+    }
+  ]
+}
+</code></pre>
+
+<h3 id="create-an-application">Create an application</h3>
+<pre><code class="json">{
+  &quot;applications&quot;: {
+    &quot;coreApplicationsGuest&quot;: { // Id of the application (not used)
+      &quot;name&quot;: &quot;core-applications-guest&quot;, // Name of the application
+      &quot;scopes&quot;: [ &quot;publish-videos&quot; ] // List of scope ids for the application
+    }
+  }
+}
+</code></pre>
+
+<h3 id="create-test">Create test</h3>
+<p>Create your test file in <strong>tests/client/e2eTests/</strong> then update the list of suites, if necessary, in  <strong>tests/client/e2eTests/suites/suites.json</strong>.</p>
+<h1 id="debug">Debug</h1>
+<p>If a test fails, a screenshot of the browser at the instant is taken and available in <strong>build/screenshots</strong> of the core.</p>
+<h1 id="launch-end-to-end-tests">Launch end to end tests</h1>
+<pre><code># Launch all end to end tests on chrome
+grunt test-e2e --capabilities="{\"browserName\": \"chrome\"}" --directConnect=true
+
+# Launch all end to end tests on firefox
+grunt test-e2e --capabilities="{\"browserName\": \"firefox\"}" --directConnect=true
+
+# Launch only coreHome suite on chrome
+grunt test-e2e --capabilities="{\"browserName\": \"chrome\"}" --directConnect=true --suite="coreHome"
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../unit-tests/" class="btn btn-neutral" title="Unit tests"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/veo-labs/openveo-core/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../unit-tests/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>

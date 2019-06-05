@@ -1,0 +1,2736 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Web Service - Openveo Core</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Web Service";
+    var mkdocs_page_input_path = "web-service.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Openveo Core</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">INTRODUCTION</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">USERS</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../prerequisites/">Prerequisites</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../getting-started/">Getting started</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Web Service</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#introduction">Introduction</a></li>
+    
+
+    <li class="toctree-l3"><a href="#configure-the-web-service">Configure the Web Service</a></li>
+    
+
+    <li class="toctree-l3"><a href="#configure-the-web-service-logger">Configure the Web Service logger</a></li>
+    
+
+    <li class="toctree-l3"><a href="#launch-the-web-service">Launch the Web Service</a></li>
+    
+
+    <li class="toctree-l3"><a href="#authenticate-to-the-web-service">Authenticate to the Web Service</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#get-a-client-id-and-client-secret">Get a client id and client secret</a></li>
+        
+            <li><a class="toctree-l4" href="#get-an-access-token">Get an access token</a></li>
+        
+            <li><a class="toctree-l4" href="#authenticate-a-request">Authenticate a request</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#endpoints">Endpoints</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#taxonomies">Taxonomies</a></li>
+        
+            <li><a class="toctree-l4" href="#groups">Groups</a></li>
+        
+            <li><a class="toctree-l4" href="#roles">Roles</a></li>
+        
+            <li><a class="toctree-l4" href="#users">Users</a></li>
+        
+            <li><a class="toctree-l4" href="#applications">Applications</a></li>
+        
+            <li><a class="toctree-l4" href="#settings">Settings</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#client-libraries">Client libraries</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#php-client">PHP client</a></li>
+        
+            <li><a class="toctree-l4" href="#nodejs-client">NodeJS client</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../advanced-configuration/">Advanced configuration</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../plugins/">Plugins</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../scalability/">Scalability</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../production/">Production</a>
+                </li>
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">DEVELOPERS</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../developers/basics/">The basics</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/prerequisites/">Prerequisites</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/installation/">Installation</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/back-end/">Back end AngularJS</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/template-engine/">Template engine</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/plugins/">Plugins</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/api/">API</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/logger/">Logger</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/i18n/">I18N and I10N</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/compilation/">CSS / SASS / JS compilation</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/coding-standards/">Coding standards</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/unit-tests/">Unit tests</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../developers/end-to-end-tests/">End to end tests</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Openveo Core</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>USERS &raquo;</li>
+        
+      
+    
+    <li>Web Service</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        <a href="https://github.com/veo-labs/openveo-core/edit/master/docs/web-service.md"
+          class="icon icon-github"> Edit on GitHub</a>
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="introduction">Introduction</h1>
+<p>OpenVeo offers a Web Service which must be started as a different process and needs some extra configuration.</p>
+<h1 id="configure-the-web-service">Configure the Web Service</h1>
+<p>Open <strong>~openveo/core/serverConf.json</strong></p>
+<pre><code class="json">{
+  &quot;ws&quot; : {
+    &quot;port&quot; : PORT // Replace PORT by the HTTP server port to use (e.g. 3002)
+  }
+}
+</code></pre>
+
+<h1 id="configure-the-web-service-logger">Configure the Web Service logger</h1>
+<p>Open <strong>~openveo/core/loggerConf.json</strong></p>
+<pre><code class="json">{
+  &quot;ws&quot; : {
+    &quot;fileName&quot; : &quot;/var/log/openveo/openveo-ws.log&quot;, // Path to web service log file
+    &quot;level&quot; : &quot;info&quot;, // Log level
+    &quot;maxFileSize&quot; : 104857600, // Maximum log file size (in Bytes)
+    &quot;maxFiles&quot; : 2 // Maximum number of files archived
+  }
+}
+</code></pre>
+
+<h1 id="launch-the-web-service">Launch the Web Service</h1>
+<p>If you want to interact with OpenVeo through the Web Service, you need to start it.
+To start the OpenVeo Web Service, just use the <strong>-ws</strong> option:</p>
+<pre><code>node server.js -ws
+</code></pre>
+<h1 id="authenticate-to-the-web-service">Authenticate to the Web Service</h1>
+<p>The Web Service uses <a href="http://oauth.net/2/">OAuth2</a> for authentication.</p>
+<h2 id="get-a-client-id-and-client-secret">Get a client id and client secret</h2>
+<p>You can create a new application with a client id and a client secret through the back end (<code>http://localhost:PORT/be/applications-list</code>).</p>
+<h2 id="get-an-access-token">Get an access token</h2>
+<p>To make Web Service requests you will need an Access token. To get an Access token, you must make an HTTP POST request on <strong>/token</strong>.</p>
+<p>Expected headers :</p>
+<ul>
+<li><strong>'Authorization: Basic CREDENTIALS'</strong> (Replace CREDENTIALS by "CLIENT_ID:CLIENT_SECRET" encoded in base 64)</li>
+</ul>
+<p>Expected POST parameters :</p>
+<ul>
+<li><strong>'grant_type' =&gt; 'client_credentials'</strong></li>
+</ul>
+<p>You will receive an Access token to authenticate each Web Service requests.</p>
+<h3 id="php-example">PHP example</h3>
+<pre><code class="php">$curlCookieJar = tempnam(sys_get_temp_dir(), &quot;cookies_&quot;);
+
+// Initialize a curl session
+$curlHandle = curl_init();
+
+// Default curl options for all future requests
+curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($curlHandle, CURLOPT_COOKIESESSION, false);
+curl_setopt($curlHandle, CURLOPT_COOKIEJAR, $curlCookieJar);
+curl_setopt($curlHandle, CURLOPT_COOKIEFILE, $curlCookieJar);
+curl_setopt($curlHandle, CURLOPT_HEADER, false);
+curl_setopt($curlHandle, CURLOPT_CONNECTTIMEOUT, 1);
+curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+
+// Retrieve an oauth token
+// Use HTTP POST method
+curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, 'POST');
+
+// Replace {OPENVEO_URL} by the openveo server url
+curl_setopt($curlHandle, CURLOPT_URL, '{OPENVEO_URL}/token');
+
+// Replace {CLIENT_ID} and {CLIENT_SECRET} by your credentials
+curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
+  'Authorization: Basic ' . base64_encode('{CLIENT_ID}:{CLIENT_SECRET}'),
+  'Content-Type: application/json'
+));
+
+// Set oauth grant type to client_credentials
+curl_setopt($curlHandle, CURLOPT_POSTFIELDS, json_encode(array(
+    'grant_type' =&gt; 'client_credentials'
+  )
+));
+
+$resultWithToken = json_decode(curl_exec($curlHandle));
+</code></pre>
+
+<h2 id="authenticate-a-request">Authenticate a request</h2>
+<p>All requests to the Web Service must be authenticated using the HTTP header:</p>
+<ul>
+<li><strong>'Authorization: Bearer TOKEN'</strong> (Replace TOKEN by your access token)</li>
+</ul>
+<h3 id="php-example_1">PHP example</h3>
+<pre><code class="php">// Get the list of videos
+curl_setopt($curlHandle, CURLOPT_CUSTOMREQUEST, 'GET');
+curl_setopt($curlHandle, CURLOPT_URL, '{OPENVEO_URL}/taxonomies');
+curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array(
+  'Authorization: Bearer ' . $resultWithToken-&gt;access_token
+));
+
+// Got the list of videos
+$videos = json_decode(curl_exec($curlHandle));
+</code></pre>
+
+<h1 id="endpoints">Endpoints</h1>
+<h2 id="taxonomies">Taxonomies</h2>
+<p>Get taxonomies.</p>
+<pre><code>GET WEB_SERVICE_URL/taxonomies
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>query</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>To search on taxonomy names</td>
+</tr>
+<tr>
+<td>useSmartSearch</td>
+<td>Number</td>
+<td>No</td>
+<td>1</td>
+<td><strong>1</strong> to use a more advanced search mechanism, <strong>0</strong> to use a simple search based on a regular expression</td>
+</tr>
+<tr>
+<td>sortBy</td>
+<td>String</td>
+<td>No</td>
+<td>name</td>
+<td>The field to use to sort taxonomies. Only <strong>name</strong> is available right now</td>
+</tr>
+<tr>
+<td>sortOrder</td>
+<td>String</td>
+<td>No</td>
+<td>desc</td>
+<td>The sort order (either <strong>asc</strong> or <strong>desc</strong>)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>Number</td>
+<td>No</td>
+<td>0</td>
+<td>The expected page</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>No</td>
+<td>10</td>
+<td>The limit the number of taxonomies per page</td>
+</tr>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned taxonomies</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned taxonomies. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the list of taxonomies</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Wrong list of parameters</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;1443533344313&quot;,
+      &quot;name&quot;: &quot;Taxonomy 1&quot;,
+      &quot;tree&quot;: [
+        {
+          &quot;id&quot;: &quot;1445433239636&quot;,
+          &quot;items&quot;: [],
+          &quot;title&quot;: &quot;Term 1&quot;
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: &quot;1333443134453&quot;,
+      &quot;name&quot;: &quot;Taxonomy 2&quot;,
+      &quot;tree&quot;: [
+        {
+          &quot;id&quot;: &quot;3239636144543&quot;,
+          &quot;items&quot;: [],
+          &quot;title&quot;: &quot;Term 1&quot;
+        }
+      ]
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;limit&quot;: 1,
+    &quot;page&quot;: 1,
+    &quot;pages&quot;: 2,
+    &quot;size&quot;: 2
+  }
+}
+</code></pre>
+
+<hr />
+<p>Get a taxonomy.</p>
+<pre><code>GET WEB_SERVICE_URL/taxonomies/{taxonomy_id}
+</code></pre>
+<p>With <strong>{taxonomy_id}</strong> the id of the taxonomy to retrieve.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned taxonomy</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned taxonomy. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the taxonomy</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the taxonomy id</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Taxonomy not found</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entity&quot;: {
+    &quot;name&quot;: &quot;My taxonomy&quot;,
+    &quot;id&quot;: &quot;{taxonomy_id}&quot;,
+    &quot;tree&quot;: []
+  }
+}
+</code></pre>
+
+<hr />
+<p>Get the list of terms of a taxonomy.</p>
+<pre><code>GET WEB_SERVICE_URL/taxonomies/{taxonomy_id}/terms
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the taxonomy terms</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the taxonomy id</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;terms&quot;: [
+    {
+      &quot;id&quot;: &quot;1445433239636&quot;,
+      &quot;title&quot;: &quot;Term 1&quot;,
+      &quot;items&quot;: [
+        {
+          &quot;id&quot;: &quot;1445433239637&quot;,
+          &quot;items&quot;: [],
+          &quot;title&quot;: &quot;Sub term 1&quot;
+        }
+      ]
+    },
+    {
+      &quot;title&quot;: &quot;Term 2&quot;,
+      &quot;id&quot;: &quot;1333443134453&quot;,
+      &quot;items&quot;: []
+    }
+  ]
+}
+</code></pre>
+
+<hr />
+<p>Add taxonomies.</p>
+<pre><code>PUT WEB_SERVICE_URL/taxonomies
+</code></pre>
+<p>Expects an Array of objects containing:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The taxonomy name</td>
+</tr>
+<tr>
+<td>tree</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of terms for the taxonomy</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The taxonomies have been added</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;name&quot;: &quot;My taxonomy&quot;,
+      &quot;id&quot;: &quot;41U3sYipg&quot;,
+      &quot;tree&quot;: []
+    },
+    ...
+  ],
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<hr />
+<p>Update a taxonomy.</p>
+<pre><code>POST WEB_SERVICE_URL/taxonomies/{taxonomy_id}
+</code></pre>
+<p>With <strong>{taxonomy_id}</strong> the id of the taxonomy to update.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The taxonomy name</td>
+</tr>
+<tr>
+<td>tree</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of terms for this taxonomy</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The taxonomy has been updated</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the taxonomy id or body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 1
+}
+</code></pre>
+
+<hr />
+<p>Delete taxonomies.</p>
+<pre><code>DELETE WEB_SERVICE_URL/taxonomies/{taxonomy_id}
+</code></pre>
+<p>With <strong>{taxonomy_id}</strong> a comma separated list of taxonomy ids to delete.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The taxonomies have been deleted</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the taxonomy ids</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<h2 id="groups">Groups</h2>
+<p>Get groups.</p>
+<pre><code>GET WEB_SERVICE_URL/groups
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>query</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>To search on both group names and descriptions</td>
+</tr>
+<tr>
+<td>useSmartSearch</td>
+<td>Number</td>
+<td>No</td>
+<td>1</td>
+<td><strong>1</strong> to use a more advanced search mechanism, <strong>0</strong> to use a simple search based on a regular expression</td>
+</tr>
+<tr>
+<td>sortBy</td>
+<td>String</td>
+<td>No</td>
+<td>name</td>
+<td>The field to use to sort groups (either <strong>name</strong> or <strong>description</strong>)</td>
+</tr>
+<tr>
+<td>sortOrder</td>
+<td>String</td>
+<td>No</td>
+<td>desc</td>
+<td>The sort order (either <strong>asc</strong> or <strong>desc</strong>)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>Number</td>
+<td>No</td>
+<td>0</td>
+<td>The expected page</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>No</td>
+<td>10</td>
+<td>The limit the number of groups per page</td>
+</tr>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned groups</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned groups. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the list of groups</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Wrong list of parameters</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;Nk0fPIulZ&quot;,
+      &quot;name&quot;: &quot;Group name&quot;,
+      &quot;description&quot;: &quot;Group description&quot;
+    },
+    {
+      &quot;id&quot;: &quot;VJfQDIul-&quot;,
+      &quot;name&quot;: &quot;Group name&quot;,
+      &quot;description&quot;: &quot;Group description&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;limit&quot;: 1,
+    &quot;page&quot;: 1,
+    &quot;pages&quot;: 2,
+    &quot;size&quot;: 2
+  }
+}
+</code></pre>
+
+<hr />
+<p>Get a group.</p>
+<pre><code>GET WEB_SERVICE_URL/groups/{group_id}
+</code></pre>
+<p>With <strong>{group_id}</strong> the id of the group to retrieve.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned group</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned group. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the group</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the id of the group</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Group not found</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entity&quot;: {
+    &quot;id&quot;: &quot;{group_id}&quot;,
+    &quot;name&quot;: &quot;Group name&quot;,
+    &quot;description&quot;: &quot;Group description&quot;
+  }
+}
+</code></pre>
+
+<hr />
+<p>Add groups.</p>
+<pre><code>PUT WEB_SERVICE_URL/groups
+</code></pre>
+<p>Expects an Array of objects containing:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The group name</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The group description</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The groups have been added</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;41U3sYipg&quot;,
+      &quot;name&quot;: &quot;Group name&quot;,
+      &quot;description&quot;: &quot;Group description&quot;
+    },
+    ...
+  ],
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<hr />
+<p>Update a group.</p>
+<pre><code>POST WEB_SERVICE_URL/groups/{group_id}
+</code></pre>
+<p>With <strong>{group_id}</strong> the id of the group to update.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The group name</td>
+</tr>
+<tr>
+<td>description</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The group description</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The group has been updated</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the group id or the body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 1
+}
+</code></pre>
+
+<hr />
+<p>Delete groups.</p>
+<pre><code>DELETE WEB_SERVICE_URL/groups/{group_id}
+</code></pre>
+<p>With <strong>{group_id}</strong> a comma separated list of group ids to delete.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The groups have been deleted</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the group ids</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<h2 id="roles">Roles</h2>
+<p>Get roles.</p>
+<pre><code>GET WEB_SERVICE_URL/roles
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>query</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>To search on role names</td>
+</tr>
+<tr>
+<td>useSmartSearch</td>
+<td>Number</td>
+<td>No</td>
+<td>1</td>
+<td><strong>1</strong> to use a more advanced search mechanism, <strong>0</strong> to use a simple search based on a regular expression</td>
+</tr>
+<tr>
+<td>sortBy</td>
+<td>String</td>
+<td>No</td>
+<td>name</td>
+<td>The field to use to sort results, only <strong>name</strong> is available right now</td>
+</tr>
+<tr>
+<td>sortOrder</td>
+<td>String</td>
+<td>No</td>
+<td>desc</td>
+<td>The sort order (either <strong>asc</strong> or <strong>desc</strong>)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>Number</td>
+<td>No</td>
+<td>0</td>
+<td>The expected page</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>No</td>
+<td>10</td>
+<td>The limit the number of roles per page</td>
+</tr>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned roles</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned roles. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the list of roles</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Wrong list of parameters</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;4J5KIL_lb&quot;,
+      &quot;name&quot;: &quot;Role name&quot;,
+      &quot;permissions&quot; : [...]
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;limit&quot;: 1,
+    &quot;page&quot;: 1,
+    &quot;pages&quot;: 2,
+    &quot;size&quot;: 2
+  }
+}
+</code></pre>
+
+<hr />
+<p>Get a role.</p>
+<pre><code>GET WEB_SERVICE_URL/roles/{role_id}
+</code></pre>
+<p>With <strong>{role_id}</strong> the id of the role to retrieve.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned role</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned role. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the role</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the id of the role</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Role not found</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entity&quot;: {
+    &quot;id&quot;: &quot;{role_id}&quot;,
+    &quot;name&quot;: &quot;Role name&quot;,
+    &quot;permissions&quot; : [...]
+  }
+}
+</code></pre>
+
+<hr />
+<p>Add roles.</p>
+<pre><code>PUT WEB_SERVICE_URL/roles
+</code></pre>
+<p>Expects an Array of objects containing:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The role name</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td>Array</td>
+<td>Yes</td>
+<td>-</td>
+<td>The role permssions</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The roles have been added</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;41U3sYipg&quot;,
+      &quot;name&quot;: &quot;Role name&quot;,
+      &quot;permissions&quot; : [...]
+    },
+    ...
+  ],
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<hr />
+<p>Update a role.</p>
+<pre><code>POST WEB_SERVICE_URL/roles/{role_id}
+</code></pre>
+<p>With <strong>{role_id}</strong> the id of the role to update.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The role name</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The role permssions</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The role has been updated</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the role id or the body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 1
+}
+</code></pre>
+
+<hr />
+<p>Delete roles.</p>
+<pre><code>DELETE WEB_SERVICE_URL/roles/{role_id}
+</code></pre>
+<p>With <strong>{role_id}</strong> a comma separated list of role ids to delete.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The roles have been deleted</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the role ids</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<h2 id="users">Users</h2>
+<p>Get users.</p>
+<pre><code>GET WEB_SERVICE_URL/users
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>query</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>To search on user names</td>
+</tr>
+<tr>
+<td>useSmartSearch</td>
+<td>Number</td>
+<td>No</td>
+<td>1</td>
+<td><strong>1</strong> to use a more advanced search mechanism, <strong>0</strong> to use a simple search based on a regular expression</td>
+</tr>
+<tr>
+<td>origin</td>
+<td>String</td>
+<td>No</td>
+<td>all</td>
+<td>The users origin (either <strong>cas</strong>, <strong>ldap</strong>, <strong>local</strong> or <strong>all</strong>)</td>
+</tr>
+<tr>
+<td>sortBy</td>
+<td>String</td>
+<td>No</td>
+<td>name</td>
+<td>The field to use to sort users. Only <strong>name</strong> is available right now</td>
+</tr>
+<tr>
+<td>sortOrder</td>
+<td>String</td>
+<td>No</td>
+<td>desc</td>
+<td>The sort order (either <strong>asc</strong> or <strong>desc</strong>)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>Number</td>
+<td>No</td>
+<td>0</td>
+<td>The expected page</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>No</td>
+<td>10</td>
+<td>The limit the number of users per page</td>
+</tr>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned users</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned users. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the list of users</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Wrong list of parameters</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;42&quot;,
+      &quot;name&quot;: &quot;User name&quot;,
+      &quot;email&quot;: &quot;user.mail@company.com&quot;,
+      &quot;origin&quot;: &quot;local&quot;,
+      &quot;locked&quot;: false,
+      &quot;roles&quot;: [&quot;role1&quot;]
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;limit&quot;: 1,
+    &quot;page&quot;: 1,
+    &quot;pages&quot;: 2,
+    &quot;size&quot;: 2
+  }
+}
+</code></pre>
+
+<hr />
+<p>Get a user.</p>
+<pre><code>GET WEB_SERVICE_URL/users/{user_id}
+</code></pre>
+<p>With <strong>{user_id}</strong> the id of the user to retrieve.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned user</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned user. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the user</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the id of the user</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+<tr>
+<td>404</td>
+<td>User not found</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entity&quot;: {
+    &quot;id&quot;: &quot;{user_id}&quot;,
+    &quot;name&quot;: &quot;User name&quot;,
+    &quot;password&quot;: &quot;38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d&quot;,
+    &quot;email&quot;: &quot;user.mail@company.com&quot;,
+    &quot;origin&quot;: &quot;local&quot;,
+    &quot;locked&quot;: false,
+    &quot;roles&quot;: [&quot;role1&quot;]
+  }
+}
+</code></pre>
+
+<hr />
+<p>Add users.</p>
+<pre><code>PUT WEB_SERVICE_URL/users
+</code></pre>
+<p>Expects an Array of objects containing:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The user name</td>
+</tr>
+<tr>
+<td>email</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The user email</td>
+</tr>
+<tr>
+<td>password</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The user password</td>
+</tr>
+<tr>
+<td>passwordValidate</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The user password validation</td>
+</tr>
+<tr>
+<td>roles</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>To user roles</td>
+</tr>
+<tr>
+<td>locked</td>
+<td>Boolean</td>
+<td>No</td>
+<td>-</td>
+<td>To lock the user from edition</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The users have been added</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;41U3sYipg&quot;,
+      &quot;name&quot;: &quot;User name&quot;,
+      &quot;password&quot;: &quot;38d03dd58cd1bb6b4fdc59c3d03601461118c166b48baf787b96d5589ff0758d&quot;,
+      &quot;email&quot;: &quot;user.mail@company.com&quot;,
+      &quot;origin&quot;: &quot;local&quot;,
+      &quot;locked&quot;: false,
+      &quot;roles&quot;: [&quot;role1&quot;]
+    },
+    ...
+  ],
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<hr />
+<p>Update a user.</p>
+<pre><code>POST WEB_SERVICE_URL/users/{user_id}
+</code></pre>
+<p>With <strong>{user_id}</strong> the id of the user to update.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The user name</td>
+</tr>
+<tr>
+<td>email</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The user email</td>
+</tr>
+<tr>
+<td>password</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The user password</td>
+</tr>
+<tr>
+<td>passwordValidate</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The user password validation</td>
+</tr>
+<tr>
+<td>roles</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>To user roles</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The user has been updated</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the user id or the body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 1
+}
+</code></pre>
+
+<hr />
+<p>Delete users.</p>
+<pre><code>DELETE WEB_SERVICE_URL/users/{user_id}
+</code></pre>
+<p>With <strong>{user_id}</strong> a comma separated list of user ids to delete.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The users have been deleted</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the user ids</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<h2 id="applications">Applications</h2>
+<p>Get applications.</p>
+<pre><code>GET WEB_SERVICE_URL/applications
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>query</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>To search on application names</td>
+</tr>
+<tr>
+<td>useSmartSearch</td>
+<td>Number</td>
+<td>No</td>
+<td>1</td>
+<td><strong>1</strong> to use a more advanced search mechanism, <strong>0</strong> to use a simple search based on a regular expression</td>
+</tr>
+<tr>
+<td>sortBy</td>
+<td>String</td>
+<td>No</td>
+<td>name</td>
+<td>The field to use to sort applications. Only <strong>name</strong> is available right now</td>
+</tr>
+<tr>
+<td>sortOrder</td>
+<td>String</td>
+<td>No</td>
+<td>desc</td>
+<td>The sort order (either <strong>asc</strong> or <strong>desc</strong>)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>Number</td>
+<td>No</td>
+<td>0</td>
+<td>The expected page</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>No</td>
+<td>10</td>
+<td>The limit the number of applications per page</td>
+</tr>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned applications</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned applications. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the list of applications</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Wrong list of parameters</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;4J6CUL_gZ&quot;,
+      &quot;name&quot;: &quot;Application name&quot;,
+      &quot;scopes&quot;: [...],
+      &quot;secret&quot; : &quot;179a905785d4258bba255ffb812a25f2225f7d4c&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;limit&quot;: 1,
+    &quot;page&quot;: 1,
+    &quot;pages&quot;: 2,
+    &quot;size&quot;: 2
+  }
+}
+</code></pre>
+
+<hr />
+<p>Get an application.</p>
+<pre><code>GET WEB_SERVICE_URL/applications/{application_id}
+</code></pre>
+<p>With <strong>{application_id}</strong> the id of the application to retrieve.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to include from returned application</td>
+</tr>
+<tr>
+<td>exclude</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The list of fields to exclude from returned application. Ignored if include is also specified</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the application</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the id of the application</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Application not found</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entity&quot;: {
+    &quot;id&quot;: &quot;{application_id}&quot;,
+    &quot;name&quot;: &quot;Application name&quot;,
+    &quot;scopes&quot;: [...],
+    &quot;secret&quot; : &quot;179a905785d4258bba255ffb812a25f2225f7d4c&quot;
+  }
+}
+</code></pre>
+
+<hr />
+<p>Add applications.</p>
+<pre><code>PUT WEB_SERVICE_URL/applications
+</code></pre>
+<p>Expects an Array of objects containing:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The application name</td>
+</tr>
+<tr>
+<td>scopes</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The application scopes</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The applications have been added</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;41U3sYipg&quot;,
+      &quot;name&quot;: &quot;Application name&quot;,
+      &quot;scopes&quot;: [...],
+      &quot;secret&quot;: &quot;179a905785d4258bba255ffb812a25f2225f7d4c&quot;
+    },
+    ...
+  ],
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<hr />
+<p>Update an application.</p>
+<pre><code>POST WEB_SERVICE_URL/applications/{application_id}
+</code></pre>
+<p>With <strong>{application_id}</strong> the id of the application to update.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>String</td>
+<td>No</td>
+<td>-</td>
+<td>The application name</td>
+</tr>
+<tr>
+<td>scopes</td>
+<td>Array</td>
+<td>No</td>
+<td>-</td>
+<td>The application scopes</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The application has been updated</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the application id or the body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 1
+}
+</code></pre>
+
+<hr />
+<p>Delete applications.</p>
+<pre><code>DELETE WEB_SERVICE_URL/applications/{application_id}
+</code></pre>
+<p>With <strong>{application_id}</strong> a comma separated list of application ids to delete.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The applications have been deleted</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the application ids</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<h2 id="settings">Settings</h2>
+<p>Get settings.</p>
+<pre><code>GET WEB_SERVICE_URL/settings
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sortOrder</td>
+<td>String</td>
+<td>No</td>
+<td>desc</td>
+<td>The sort order (either <strong>asc</strong> or <strong>desc</strong>)</td>
+</tr>
+<tr>
+<td>page</td>
+<td>Number</td>
+<td>No</td>
+<td>0</td>
+<td>The expected page</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>Number</td>
+<td>No</td>
+<td>10</td>
+<td>The limit the number of settings per page</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the list of settings</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Wrong list of parameters</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;my-setting&quot;,
+      &quot;value&quot;: &quot;Mixed value&quot;
+    }
+  ],
+  &quot;pagination&quot;: {
+    &quot;limit&quot;: 1,
+    &quot;page&quot;: 1,
+    &quot;pages&quot;: 2,
+    &quot;size&quot;: 2
+  }
+}
+</code></pre>
+
+<hr />
+<p>Get a setting.</p>
+<pre><code>GET WEB_SERVICE_URL/settings/{setting_id}
+</code></pre>
+<p>With <strong>{setting_id}</strong> the id of the setting to retrieve.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>Got the setting</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the id of the setting</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entity&quot;: {
+    &quot;id&quot;: &quot;my-setting&quot;,
+    &quot;value&quot;: &quot;Mixed value&quot;
+  }
+}
+</code></pre>
+
+<hr />
+<p>Add settings.</p>
+<p>If a setting already exists it will be updated.</p>
+<pre><code>PUT WEB_SERVICE_URL/settings
+</code></pre>
+<p>Expects an Array of objects containing:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td>String</td>
+<td>Yes</td>
+<td>-</td>
+<td>The setting id</td>
+</tr>
+<tr>
+<td>value</td>
+<td>Mixed</td>
+<td>Yes</td>
+<td>-</td>
+<td>The setting value</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The settings have been added</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing setting ids in body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;entities&quot;: [
+    {
+      &quot;id&quot;: &quot;my-setting&quot;,
+      &quot;value&quot;: &quot;Mixed value&quot;
+    },
+    ...
+  ],
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<hr />
+<p>Update a setting.</p>
+<pre><code>POST WEB_SERVICE_URL/settings/{setting_id}
+</code></pre>
+<p>With <strong>{setting_id}</strong> the id of the setting to update.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>value</td>
+<td>Mixed</td>
+<td>No</td>
+<td>-</td>
+<td>The setting value</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The setting has been updated</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the setting id or the body</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 1
+}
+</code></pre>
+
+<hr />
+<p>Delete settings.</p>
+<pre><code>DELETE WEB_SERVICE_URL/settings/{setting_id}
+</code></pre>
+<p>With <strong>{setting_id}</strong> a comma separated list of setting ids to delete.</p>
+<table>
+<thead>
+<tr>
+<th>HTTP Status Code</th>
+<th>Details</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>200</td>
+<td>The settings have been deleted</td>
+</tr>
+<tr>
+<td>500</td>
+<td>An error occured on the server side</td>
+</tr>
+<tr>
+<td>400</td>
+<td>Missing the setting id</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Authentication to the web service failed</td>
+</tr>
+<tr>
+<td>403</td>
+<td>Authorization forbidden for this end point</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="json">{
+  &quot;total&quot;: 42
+}
+</code></pre>
+
+<h1 id="client-libraries">Client libraries</h1>
+<h2 id="php-client">PHP client</h2>
+<p>A <a href="https://github.com/veo-labs/openveo-rest-php-client">PHP client</a> is also available on Github to help interface with OpenVeo Web Service.</p>
+<h2 id="nodejs-client">NodeJS client</h2>
+<p>A <a href="https://github.com/veo-labs/openveo-rest-nodejs-client">NodeJS client</a> is also available on Github to help interface with OpenVeo Web Service.</p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../advanced-configuration/" class="btn btn-neutral float-right" title="Advanced configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../getting-started/" class="btn btn-neutral" title="Getting started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a href="https://github.com/veo-labs/openveo-core/" class="fa fa-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href="../getting-started/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../advanced-configuration/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
