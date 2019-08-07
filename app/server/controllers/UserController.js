@@ -49,6 +49,7 @@ util.inherits(UserController, EntityController);
  * @param {String} [request.query.query] Search query to search in user names
  * @param {Number} [request.query.useSmartSearch=1] 1 to use a more advanced search mechanism, 0 to use a simple search
  * based on a regular expression
+ * @param {String} [request.query.origin=all] The users origin (either cas, ldap, local or all)
  * @param {Number} [request.query.page=0] The expected page in pagination system
  * @param {Number} [request.query.limit=10] The maximum number of expected results
  * @param {String} [request.query.sortBy="name"] The field to sort by (only "name" is available right now)
