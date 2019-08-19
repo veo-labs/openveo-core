@@ -50,6 +50,7 @@ util.inherits(UserController, EntityController);
  * @param {Number} [request.query.useSmartSearch=1] 1 to use a more advanced search mechanism, 0 to use a simple search
  * based on a regular expression
  * @param {String} [request.query.origin=all] The users origin (either cas, ldap, local or all)
+ * @param {String|Array} [request.query.email] To filter users by email
  * @param {Number} [request.query.page=0] The expected page in pagination system
  * @param {Number} [request.query.limit=10] The maximum number of expected results
  * @param {String} [request.query.sortBy="name"] The field to sort by (only "name" is available right now)
@@ -71,7 +72,8 @@ UserController.prototype.getEntitiesAction = function(request, response, next) {
       page: {type: 'number', gte: 0, default: 0},
       sortBy: {type: 'string', in: ['name'], default: 'name'},
       sortOrder: {type: 'string', in: ['asc', 'desc'], default: 'desc'},
-      origin: {type: 'string', in: Object.values(openVeoApi.passport.STRATEGIES).concat(['all']), default: 'all'}
+      origin: {type: 'string', in: Object.values(openVeoApi.passport.STRATEGIES).concat(['all']), default: 'all'},
+      email: {type: 'array<string>'}
     });
   } catch (error) {
     return next(errors.GET_USERS_WRONG_PARAMETERS);
@@ -94,6 +96,9 @@ UserController.prototype.getEntitiesAction = function(request, response, next) {
 
   // Add origin filter
   if (params.origin !== 'all') filter.equal('origin', params.origin);
+
+  // Add email filter
+  if (params.email && params.email.length) filter.in('email', params.email);
 
   // Remove "password" field from included fields
   if (params.include) {

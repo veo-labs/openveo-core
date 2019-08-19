@@ -666,6 +666,7 @@ Name | Type | Required | Default | Details
 query | String | No | - | To search on user names
 useSmartSearch | Number | No | 1 | **1** to use a more advanced search mechanism, **0** to use a simple search based on a regular expression
 origin | String | No | all | The users origin (either **cas**, **ldap**, **local** or **all**)
+email | String/Array | No | - | To filter users by email
 sortBy | String | No | name | The field to use to sort users. Only **name** is available right now
 sortOrder | String | No | desc | The sort order (either **asc** or **desc**)
 page | Number | No | 0 | The expected page

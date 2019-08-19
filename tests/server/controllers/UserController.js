@@ -251,6 +251,27 @@ describe('UserController', function() {
       next.should.have.been.called.exactly(0);
     });
 
+    it('should be able to filter by email', function() {
+      var expectedEmails = ['email@veo-labs.com'];
+      var next = chai.spy(function() {});
+
+      provider.get = chai.spy(function(filter, fields, limit, page, sort, callback) {
+        assert.deepEqual(
+          filter.getComparisonOperation(openVeoApi.storages.ResourceFilter.OPERATORS.IN, 'email').value,
+          expectedEmails,
+          'Wrong emails'
+        );
+        callback();
+      });
+
+      request.query = {email: expectedEmails};
+      userController.getEntitiesAction(request, response, next);
+
+      provider.get.should.have.been.called.exactly(1);
+      response.send.should.have.been.called.exactly(1);
+      next.should.have.been.called.exactly(0);
+    });
+
     it('should call next middleware with an error if limit parameter is under or equal to 0', function(done) {
       request.query = {limit: 0};
       userController.getEntitiesAction(request, response, function(error) {

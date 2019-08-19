@@ -1,3 +1,9 @@
+# 8.2.0 / YYYY-MM-DD
+
+## NEW FEATURES
+
+- Web service endpoint GET /users now accept a "email" parameter to filter users by email. One or several emails can be specified.
+
 # 8.1.0 / 2019-06-05
 
 ## DEPENDENCIES
