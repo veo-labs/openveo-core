@@ -1,4 +1,4 @@
-# 8.2.0 / YYYY-MM-DD
+# 8.2.0 / 2019-08-23
 
 ## NEW FEATURES
 
