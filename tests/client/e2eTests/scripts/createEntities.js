@@ -55,7 +55,18 @@ pluginLoader.getPluginPaths(process.root, function(error, pluginPaths) {
     }
     openVeoApi.fileSystem.mkdir(path.dirname(aggregatedEntitiesFilePath), function(error) {
       if (!error)
-        fs.writeFile(aggregatedEntitiesFilePath, JSON.stringify({entities: entities}), {encoding: 'utf8'});
+        fs.writeFile(
+          aggregatedEntitiesFilePath,
+          JSON.stringify({entities: entities}),
+          {encoding: 'utf8'},
+          function(writeError) {
+            if (writeError)
+              process.stdout.write('Couln\'t create aggregated entities file with message: ' +
+                                   writeError.message + '\n');
+            else
+              process.stdout.write('Aggregated suite file created at ' + aggregatedEntitiesFilePath + '\n');
+          }
+        );
     });
   }
 });

@@ -1,3 +1,9 @@
+# 9.0.0 / YYYY-MM-DD
+
+## BREAKING CHANGES
+
+- Drop support for NodeJS &lt; 12.4.0 and NPM &lt; 6.9.0
+
 # 8.2.0 / 2019-08-23
 
 ## NEW FEATURES

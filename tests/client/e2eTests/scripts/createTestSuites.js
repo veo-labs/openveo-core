@@ -59,7 +59,12 @@ pluginLoader.getPluginPaths(process.root, function(error, pluginPaths) {
     }
     openVeoApi.fileSystem.mkdir(path.dirname(aggregatedSuiteFilePath), function(error) {
       if (!error)
-        fs.writeFile(aggregatedSuiteFilePath, JSON.stringify(suites), {encoding: 'utf8'});
+        fs.writeFile(aggregatedSuiteFilePath, JSON.stringify(suites), {encoding: 'utf8'}, function(writeError) {
+          if (writeError)
+            process.stdout.write('Couln\'t create aggregated suite file with message: ' + writeError.message + '\n');
+          else
+            process.stdout.write('Aggregated suite file created at ' + aggregatedSuiteFilePath + '\n');
+        });
     });
   }
 });
