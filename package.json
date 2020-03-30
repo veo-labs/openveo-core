@@ -86,7 +86,7 @@
     "grunt-karma": "3.0.0",
     "grunt-mkdocs": "1.0.0",
     "grunt-mocha-test": "0.13.3",
-    "grunt-protractor-runner": "5.0.0",
+    "grunt-protractor-runner": "^5.0.0",
     "karma": "3.1.1",
     "karma-chai": "0.1.0",
     "karma-chrome-launcher": "2.2.0",

@@ -4,6 +4,10 @@
 
 - Drop support for NodeJS &lt; 12.4.0 and NPM &lt; 6.9.0
 
+## DEPENDENCIES
+
+- **grunt-protractor-runner** sub dependencies have been upgraded, it includes protractor from 5.4.1 to **5.4.3** and webdriver-manager from 12.1.0 to **12.1.7**
+
 # 8.2.0 / 2019-08-23
 
 ## NEW FEATURES
