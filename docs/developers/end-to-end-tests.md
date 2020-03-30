@@ -8,6 +8,10 @@ Each plugin (including OpenVeo core) defines a list of test suites in **tests/cl
 
     node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update
 
+If the version of Google Chrome is too recent for the Chrome Driver installed with Protractor you can enter a specific version of the Chrome Driver using:
+
+    node_modules/grunt-protractor-runner/node_modules/protractor/bin/webdriver-manager update --versions.chrome=80.0.3987.149
+
 NB: Note that protractor module could be in node_modules/protractor
 
 # Configure tests
