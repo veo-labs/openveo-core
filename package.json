@@ -51,7 +51,7 @@
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
-    "fastclick": "1.0.6",
+    "fastclick": "^1.0.6",
     "mustache": "2.3.0",
     "ng-file-upload": "12.2.13",
     "ng-tasty": "0.6.1",
