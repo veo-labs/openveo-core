@@ -75,7 +75,7 @@
     "flightplan": "0.6.19",
     "grunt": "^1.1.0",
     "grunt-cli": "^1.3.2",
-    "grunt-contrib-compass": "1.1.1",
+    "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-concat": "1.0.1",
     "grunt-contrib-uglify": "4.0.0",
     "grunt-contrib-watch": "1.1.0",

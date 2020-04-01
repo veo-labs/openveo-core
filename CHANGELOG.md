@@ -24,6 +24,7 @@
 - **chai** sub dependencies have been upgraded
 - **grunt** has been upgraded from 1.0.3 to **1.1.0**
 - **grunt-cli** has been upgraded from 1.3.0 to **1.3.2**
+- **grunt-contrib-compass** sub dependencies have been upgraded
 
 # 8.2.0 / 2019-08-23
 
