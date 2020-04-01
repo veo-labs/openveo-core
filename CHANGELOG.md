@@ -13,6 +13,7 @@
 - **cookie-parser** has been upgraded from 1.4.3 to **1.4.5**
 - **express** has been upgraded from 4.14.0 to **4.17.1**
 - **express-session** has been upgraded from 1.14.2 to **1.17.0**
+- **mustache** has been upgraded from 2.3.0 to **4.0.1**
 
 # 8.2.0 / 2019-08-23
 

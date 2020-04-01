@@ -52,7 +52,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.0",
     "fastclick": "^1.0.6",
-    "mustache": "2.3.0",
+    "mustache": "^4.0.1",
     "ng-file-upload": "12.2.13",
     "ng-tasty": "0.6.1",
     "nopt": "4.0.1",
