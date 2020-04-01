@@ -22,6 +22,8 @@
 - **socket.io-client** has been upgraded from 1.7.2 to **2.3.0**
 - **tinymce** has been upgraded from 4.5.4 to **5.2.1**
 - **chai** sub dependencies have been upgraded
+- **grunt** has been upgraded from 1.0.3 to **1.1.0**
+- **grunt-cli** has been upgraded from 1.3.0 to **1.3.2**
 
 # 8.2.0 / 2019-08-23
 
