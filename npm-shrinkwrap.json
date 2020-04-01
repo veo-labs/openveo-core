@@ -2077,13 +2077,12 @@
       "dev": true
     },
     "error": {
-      "version": "7.0.2",
-      "resolved": "https://registry.npmjs.org/error/-/error-7.0.2.tgz",
-      "integrity": "sha1-pfdf/02ZJhJt2sDqXcOOaJFTywI=",
+      "version": "7.2.1",
+      "resolved": "https://registry.npmjs.org/error/-/error-7.2.1.tgz",
+      "integrity": "sha512-fo9HBvWnx3NGUKMvMwB/CBCMMrfEJgbDTVDEkPygA3Bdd3lM1OyCd+rbQ8BwnpF6GdVeOLDNmyL4N5Bg80ZvdA==",
       "dev": true,
       "requires": {
-        "string-template": "~0.2.1",
-        "xtend": "~4.0.0"
+        "string-template": "~0.2.1"
       }
     },
     "error-ex": {
@@ -3946,20 +3945,20 @@
       }
     },
     "globule": {
-      "version": "1.2.1",
-      "resolved": "https://registry.npmjs.org/globule/-/globule-1.2.1.tgz",
-      "integrity": "sha512-g7QtgWF4uYSL5/dn71WxubOrS7JVGCnFPEnoeChJmBnyR9Mw8nGoEwOgJL/RC2Te0WhbsEUCejfH8SZNJ+adYQ==",
+      "version": "1.3.1",
+      "resolved": "https://registry.npmjs.org/globule/-/globule-1.3.1.tgz",
+      "integrity": "sha512-OVyWOHgw29yosRHCHo7NncwR1hW5ew0W/UrvtwvjefVJeQ26q4/8r8FmPsSF1hJ93IgWkyv16pCTz6WblMzm/g==",
       "dev": true,
       "requires": {
         "glob": "~7.1.1",
-        "lodash": "~4.17.10",
+        "lodash": "~4.17.12",
         "minimatch": "~3.0.2"
       },
       "dependencies": {
         "glob": {
-          "version": "7.1.3",
-          "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.3.tgz",
-          "integrity": "sha512-vcfuiIxogLV4DlGBHIUOwI0IbrJ8HWPc4MU7HzviGeNho/UJDfi6B5p3sHeWIQ0KGIU0Jpxi5ZHxemQfLkkAwQ==",
+          "version": "7.1.6",
+          "resolved": "https://registry.npmjs.org/glob/-/glob-7.1.6.tgz",
+          "integrity": "sha512-LwaxwyZ72Lk7vZINtNNrywX0ZuLyStrdDtabefZKAY5ZGJhVtgdznluResxNmPitE0SAO+O26sWTHeKSI2wMBA==",
           "dev": true,
           "requires": {
             "fs.realpath": "^1.0.0",
@@ -3969,6 +3968,12 @@
             "once": "^1.3.0",
             "path-is-absolute": "^1.0.0"
           }
+        },
+        "lodash": {
+          "version": "4.17.15",
+          "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz",
+          "integrity": "sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==",
+          "dev": true
         }
       }
     },
@@ -4248,12 +4253,20 @@
       },
       "dependencies": {
         "async": {
-          "version": "2.6.1",
-          "resolved": "https://registry.npmjs.org/async/-/async-2.6.1.tgz",
-          "integrity": "sha512-fNEiL2+AZt6AlAw/29Cr0UDe4sRAHCpEHh54WMz+Bb7QfNcFw4h3loofyJpLeQs4Yx7yuqu/2dLgM5hKOs6HlQ==",
+          "version": "2.6.3",
+          "resolved": "https://registry.npmjs.org/async/-/async-2.6.3.tgz",
+          "integrity": "sha512-zflvls11DCy+dQWzTW2dzuilv8Z5X/pjfmZOWba6TNIVDm+2UDaJmXSOXlasHKfNBs8oo3M0aT50fDEWfKZjXg==",
           "dev": true,
           "requires": {
-            "lodash": "^4.17.10"
+            "lodash": "^4.17.14"
+          },
+          "dependencies": {
+            "lodash": {
+              "version": "4.17.15",
+              "resolved": "https://registry.npmjs.org/lodash/-/lodash-4.17.15.tgz",
+              "integrity": "sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==",
+              "dev": true
+            }
           }
         }
       }
@@ -4665,9 +4678,9 @@
       }
     },
     "http-parser-js": {
-      "version": "0.5.0",
-      "resolved": "https://registry.npmjs.org/http-parser-js/-/http-parser-js-0.5.0.tgz",
-      "integrity": "sha512-cZdEF7r4gfRIq7ezX9J0T+kQmJNOub71dWbgAXVHDct80TKP4MCETtZQ31xyv38UwgzkWPYF/Xc0ge55dW9Z9w==",
+      "version": "0.4.10",
+      "resolved": "https://registry.npmjs.org/http-parser-js/-/http-parser-js-0.4.10.tgz",
+      "integrity": "sha1-ksnBN0w1CF912zWexWzCV8u5P6Q=",
       "dev": true
     },
     "http-proxy": {
@@ -5995,9 +6008,9 @@
       }
     },
     "livereload-js": {
-      "version": "2.3.0",
-      "resolved": "https://registry.npmjs.org/livereload-js/-/livereload-js-2.3.0.tgz",
-      "integrity": "sha512-j1R0/FeGa64Y+NmqfZhyoVRzcFlOZ8sNlKzHjh4VvLULFACZhn68XrX5DFg2FhMvSMJmROuFxRSa560ECWKBMg==",
+      "version": "2.4.0",
+      "resolved": "https://registry.npmjs.org/livereload-js/-/livereload-js-2.4.0.tgz",
+      "integrity": "sha512-XPQH8Z2GDP/Hwz2PCDrh2mth4yFejwA1OZ/81Ti3LgKyhDcEjsSsqFWZojHG0va/duGd+WyosY7eXLDoOyqcPw==",
       "dev": true
     },
     "load-json-file": {
@@ -9349,21 +9362,15 @@
           }
         },
         "ms": {
-          "version": "2.1.1",
-          "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.1.tgz",
-          "integrity": "sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==",
+          "version": "2.1.2",
+          "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz",
+          "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==",
           "dev": true
         },
         "object-assign": {
           "version": "4.1.1",
           "resolved": "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz",
           "integrity": "sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=",
-          "dev": true
-        },
-        "qs": {
-          "version": "6.5.2",
-          "resolved": "https://registry.npmjs.org/qs/-/qs-6.5.2.tgz",
-          "integrity": "sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==",
           "dev": true
         }
       }
@@ -9885,12 +9892,13 @@
       }
     },
     "websocket-driver": {
-      "version": "0.7.0",
-      "resolved": "https://registry.npmjs.org/websocket-driver/-/websocket-driver-0.7.0.tgz",
-      "integrity": "sha1-DK+dLXVdk67gSdS90NP+LMoqJOs=",
+      "version": "0.7.3",
+      "resolved": "https://registry.npmjs.org/websocket-driver/-/websocket-driver-0.7.3.tgz",
+      "integrity": "sha512-bpxWlvbbB459Mlipc5GBzzZwhoZgGEZLuqPaR0INBGnPAY1vdBX6hPnoFXiw+3yWxDuHyQjO2oXTMyS8A5haFg==",
       "dev": true,
       "requires": {
-        "http-parser-js": ">=0.4.0",
+        "http-parser-js": ">=0.4.0 <0.4.11",
+        "safe-buffer": ">=5.1.0",
         "websocket-extensions": ">=0.1.1"
       }
     },
