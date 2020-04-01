@@ -82,7 +82,7 @@
     "grunt-contrib-yuidoc": "^1.0.0",
     "grunt-eslint": "^22.0.0",
     "grunt-exec": "^3.0.0",
-    "grunt-gh-pages": "3.1.0",
+    "grunt-gh-pages": "^3.1.0",
     "grunt-karma": "3.0.0",
     "grunt-mkdocs": "1.0.0",
     "grunt-mocha-test": "0.13.3",
