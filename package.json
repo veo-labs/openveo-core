@@ -44,7 +44,7 @@
     "angular-ui-tinymce": "0.0.19",
     "angular-ui-tree": "2.14.0",
     "api-check": "^7.5.5",
-    "async": "2.1.4",
+    "async": "^3.2.0",
     "body-parser": "1.15.2",
     "bootstrap-sass": "3.3.7",
     "consolidate": "0.14.5",
