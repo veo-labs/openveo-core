@@ -5836,6 +5836,16 @@
             "vasync": "^1.6.4",
             "verror": "^1.8.1"
           }
+        },
+        "nopt": {
+          "version": "4.0.1",
+          "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.1.tgz",
+          "integrity": "sha1-0NRoWv1UFRk8jHUFYC0NF81kR00=",
+          "dev": true,
+          "requires": {
+            "abbrev": "1",
+            "osenv": "^0.1.4"
+          }
         }
       }
     },
@@ -6745,9 +6755,9 @@
       }
     },
     "nopt": {
-      "version": "4.0.1",
-      "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.1.tgz",
-      "integrity": "sha1-0NRoWv1UFRk8jHUFYC0NF81kR00=",
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
+      "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
       "requires": {
         "abbrev": "1",
         "osenv": "^0.1.4"
