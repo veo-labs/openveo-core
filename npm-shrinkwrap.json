@@ -4547,9 +4547,9 @@
       }
     },
     "grunt-mkdocs": {
-      "version": "1.0.0",
-      "resolved": "https://registry.npmjs.org/grunt-mkdocs/-/grunt-mkdocs-1.0.0.tgz",
-      "integrity": "sha512-91NsYnNjyxTrBv5EZwOgTrBGAheppR1FifXVNZDVd4GdShi9rRXvj+w1Yav5Eh7nhchygnece2xt9pCMD2/x2w==",
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/grunt-mkdocs/-/grunt-mkdocs-1.0.1.tgz",
+      "integrity": "sha512-yh0gw5gDM95UIMxv/ki/SjzAu0CCPdWDj3ju1sWYTz2dfs+ylWknORKJIrJtEkdmjd7x0T4XPqpAktsR3JC5EQ==",
       "dev": true
     },
     "grunt-mocha-test": {
