@@ -11,6 +11,7 @@
 - **body-parser** has been upgraded from 1.15.2 to **1.19.0**
 - **consolidate** has been upgraded from 0.14.5 to **0.15.1**
 - **cookie-parser** has been upgraded from 1.4.3 to **1.4.5**
+- **express** has been upgraded from 4.14.0 to **4.17.1**
 
 # 8.2.0 / 2019-08-23
 
