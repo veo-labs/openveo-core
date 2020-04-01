@@ -19,6 +19,7 @@
 - **semver** has been upgraded from 5.3.0 to **7.1.3**
 - **serve-favicon** has been upgraded from 2.3.2 to **2.5.0**
 - **shortid** has been upgraded from 2.2.6 to **2.2.15**
+- **socket.io-client** has been upgraded from 1.7.2 to **2.3.0**
 
 # 8.2.0 / 2019-08-23
 

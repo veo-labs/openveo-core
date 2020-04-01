@@ -263,7 +263,7 @@ module.exports = {
     {
       name: 'socket.io-client',
       mountPath: 'socket.io-client',
-      files: ['dist/socket.io.min.js']
+      files: ['dist/socket.io.slim.js']
     },
     {
       name: 'tinymce',
