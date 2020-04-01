@@ -17,6 +17,7 @@
 - **nopt** has been upgraded from 4.0.1 to **4.0.3**
 - **passport** has been upgraded from 0.3.2 to **0.4.1**
 - **semver** has been upgraded from 5.3.0 to **7.1.3**
+- **serve-favicon** has been upgraded from 2.3.2 to **2.5.0**
 
 # 8.2.0 / 2019-08-23
 
