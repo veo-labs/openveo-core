@@ -70,7 +70,7 @@
     "angular-mocks": "1.5.11",
     "cas-server-mock": "2.*",
     "chai": "^4.2.0",
-    "chai-as-promised": "7.1.1",
+    "chai-as-promised": "^7.1.1",
     "chai-spies": "1.0.0",
     "flightplan": "0.6.19",
     "grunt": "1.0.3",
