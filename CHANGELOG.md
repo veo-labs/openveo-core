@@ -33,6 +33,7 @@
 - **grunt-karma** has been upgraded from 3.0.0 to **3.0.2**
 - **grunt-mkdocs** has been upgraded from 1.0.0 to **1.0.1**
 - **karma** has been upgraded from 3.1.1 to **4.4.1**
+- **karma-chrome-launcher** has been upgraded from 2.2.0 to **3.1.0**
 
 # 8.2.0 / 2019-08-23
 
