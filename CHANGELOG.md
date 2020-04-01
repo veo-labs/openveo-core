@@ -8,6 +8,7 @@
 
 - **grunt-protractor-runner** sub dependencies have been upgraded, it includes protractor from 5.4.1 to **5.4.3** and webdriver-manager from 12.1.0 to **12.1.7**
 - **async** has been upgraded from 2.1.4 to **3.2.0**
+- **body-parser** has been upgraded from 1.15.2 to **1.19.0**
 
 # 8.2.0 / 2019-08-23
 
