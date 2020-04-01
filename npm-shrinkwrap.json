@@ -9354,9 +9354,9 @@
       }
     },
     "tinymce": {
-      "version": "4.5.4",
-      "resolved": "https://registry.npmjs.org/tinymce/-/tinymce-4.5.4.tgz",
-      "integrity": "sha1-mqRy9ExzshD75zHt3P3515Kfrg8="
+      "version": "5.2.1",
+      "resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.2.1.tgz",
+      "integrity": "sha512-X/riqIrSOyB/pF6J993ICuDbSU/dL89XfhSdmroojbdBIT73wZF2dMPTfwtL5Hn0G5vBLefMDqLwESVuiPLEPg=="
     },
     "tmp": {
       "version": "0.0.28",

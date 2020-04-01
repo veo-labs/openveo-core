@@ -62,7 +62,7 @@
     "serve-favicon": "^2.5.0",
     "shortid": "^2.2.15",
     "socket.io-client": "^2.3.0",
-    "tinymce": "4.5.4"
+    "tinymce": "^5.2.1"
   },
   "devDependencies": {
     "@openveo/rest-nodejs-client": "3.*",

@@ -20,6 +20,7 @@
 - **serve-favicon** has been upgraded from 2.3.2 to **2.5.0**
 - **shortid** has been upgraded from 2.2.6 to **2.2.15**
 - **socket.io-client** has been upgraded from 1.7.2 to **2.3.0**
+- **tinymce** has been upgraded from 4.5.4 to **5.2.1**
 
 # 8.2.0 / 2019-08-23
 
