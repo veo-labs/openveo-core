@@ -5650,46 +5650,6 @@
         "asn1": "0.2.3",
         "ldapjs": "1.0.1",
         "nopt": "4.0.1"
-      },
-      "dependencies": {
-        "dtrace-provider": {
-          "version": "0.7.1",
-          "resolved": "https://registry.npmjs.org/dtrace-provider/-/dtrace-provider-0.7.1.tgz",
-          "integrity": "sha1-wGswjy8Q1dWDiuycVx5dWI3HHQQ=",
-          "dev": true,
-          "optional": true,
-          "requires": {
-            "nan": "^2.3.3"
-          }
-        },
-        "ldapjs": {
-          "version": "1.0.1",
-          "resolved": "https://registry.npmjs.org/ldapjs/-/ldapjs-1.0.1.tgz",
-          "integrity": "sha1-NSuBKudLCo6WVJpLiWBg7uG5pUY=",
-          "dev": true,
-          "requires": {
-            "asn1": "0.2.3",
-            "assert-plus": "^1.0.0",
-            "backoff": "^2.5.0",
-            "bunyan": "^1.8.3",
-            "dashdash": "^1.14.0",
-            "dtrace-provider": "^0.7.0",
-            "ldap-filter": "0.2.2",
-            "once": "^1.4.0",
-            "vasync": "^1.6.4",
-            "verror": "^1.8.1"
-          }
-        },
-        "nopt": {
-          "version": "4.0.1",
-          "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.1.tgz",
-          "integrity": "sha1-0NRoWv1UFRk8jHUFYC0NF81kR00=",
-          "dev": true,
-          "requires": {
-            "abbrev": "1",
-            "osenv": "^0.1.4"
-          }
-        }
       }
     },
     "ldapauth-fork": {
@@ -6394,9 +6354,9 @@
       }
     },
     "mustache": {
-      "version": "4.0.1",
-      "resolved": "https://registry.npmjs.org/mustache/-/mustache-4.0.1.tgz",
-      "integrity": "sha512-yL5VE97+OXn4+Er3THSmTdCFCtx5hHWzrolvH+JObZnUYwuaG7XV+Ch4fR2cIrcYI0tFHxS7iyFYl14bW8y2sA=="
+      "version": "3.2.1",
+      "resolved": "https://registry.npmjs.org/mustache/-/mustache-3.2.1.tgz",
+      "integrity": "sha512-RERvMFdLpaFfSRIEe632yDm5nsd0SDKn8hGmcUwswnyiE5mtdZLDybtHAz6hjJhawokF0hXvGLtx9mrQfm6FkA=="
     },
     "mute-stream": {
       "version": "0.0.7",
