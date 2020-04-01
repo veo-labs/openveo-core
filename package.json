@@ -98,7 +98,7 @@
     "mock-require": "^3.0.3",
     "nodemon": "^2.0.2",
     "pre-commit": "^1.2.2",
-    "yuidoc-theme-blue": "0.1.9"
+    "yuidoc-theme-blue": "^0.1.9"
   },
   "scripts": {
     "prepack": "grunt prod",
