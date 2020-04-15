@@ -11,6 +11,7 @@ var openVeoApi = require('@openveo/api');
 var confDir = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var exit = process.exit;
 var storage = process.require('app/server/storage.js');
+var supportedContentLanguages = process.require('supportedContentLanguages.json');
 var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 // Create a readline interface to interact with the user
@@ -249,6 +250,7 @@ function askForLdapAuthConf(callback) {
 function createConf(callback) {
   var confFile = path.join(confDir, 'conf.json');
   var conf = {
+    contentLanguage: 'en',
     passwordHashKey: getRandomHash(10),
     cdn: {
       url: ''
@@ -262,6 +264,21 @@ function createConf(callback) {
           callback(new Error(confFile + ' already exists\n'));
         else
           callback();
+      });
+    },
+    function(callback) {
+      var question = 'Choose the language for the content of your OpenVeo (default: ' + conf.contentLanguage + ') :\n';
+
+      for (var i = 0; i < supportedContentLanguages.length; i++) {
+        question += i + '. ' + supportedContentLanguages[i] + '\n';
+      }
+      rl.question(question, function(answer) {
+        answer = Number(answer);
+
+        if (answer && answer > 0 && answer < supportedContentLanguages.length)
+          conf.contentLanguage = supportedContentLanguages[answer];
+
+        callback();
       });
     },
     function(callback) {

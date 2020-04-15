@@ -21,6 +21,7 @@ describe('CorePluginApi', function() {
     util.inherits(TestPlugin, openVeoApi.plugin.Plugin);
 
     storage.setDatabase(new openVeoApi.storages.Database({}));
+    storage.setConfiguration({});
   });
 
   // Add core plugin
@@ -42,6 +43,7 @@ describe('CorePluginApi', function() {
   afterEach(function() {
     process.api.removePlugins();
     storage.setDatabase(null);
+    storage.setConfiguration(null);
   });
 
   // getTranslations method
@@ -96,6 +98,21 @@ describe('CorePluginApi', function() {
         assert.equal(translations.EXAMPLE2.COMMON, 'Common');
         done();
       });
+    });
+
+  });
+
+  describe('getContentLanguage', function() {
+
+    it('should return the content language as defined in configuration', function() {
+      var expectedContentLanguage = 'fr';
+      storage.setConfiguration({contentLanguage: expectedContentLanguage});
+
+      assert.equal(coreApi.getContentLanguage(), expectedContentLanguage);
+    });
+
+    it('should return "en" if content language is not defined in configuration', function() {
+      assert.equal(coreApi.getContentLanguage(), 'en');
     });
 
   });

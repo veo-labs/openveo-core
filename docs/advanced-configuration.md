@@ -15,6 +15,7 @@ Open **~/.openveo/core/conf.json**
 
 ```json
 {
+  "contentLanguage" : "fr", // The language of the content that will be created in OpenVeo, see supportedContentLanguages.json file for the full list of languages
   "passwordHashKey" : "KEY", // Replace KEY by a secret key used to encrypt users passwords
   "cdn" : {
     "url": "CDN_URL" // Replace CDN_URL by the url of the OpenVeo CDN (actually the OpenVeo server url)

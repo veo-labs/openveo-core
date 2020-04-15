@@ -177,16 +177,39 @@ GroupProvider.prototype.remove = function(filter, callback) {
  *
  * @method createIndexes
  * @async
- * @param {Function} callback Function to call when it's done with :
+ * @param {Function} callback Function to call when it's done with:
  *  - **Error** An error if something went wrong, null otherwise
  */
 GroupProvider.prototype.createIndexes = function(callback) {
+  var language = process.api.getCoreApi().getContentLanguage();
+
   this.storage.createIndexes(this.location, [
     {key: {name: 1}, name: 'byName'},
-    {key: {name: 'text', description: 'text'}, weights: {name: 2}, name: 'querySearch'}
+
+    // eslint-disable-next-line camelcase
+    {key: {name: 'text', description: 'text'}, weights: {name: 2}, default_language: language, name: 'querySearch'}
+
   ], function(error, result) {
     if (result && result.note)
       process.logger.debug('Create groups indexes : ' + result.note);
+
+    callback(error);
+  });
+};
+
+/**
+ * Drops an index from database collection.
+ *
+ * @method dropIndex
+ * @async
+ * @param {String} indexName The name of the index to drop
+ * @param {Function} callback Function to call when it's done with:
+ *  - **Error** An error if something went wrong, null otherwise
+ */
+GroupProvider.prototype.dropIndex = function(indexName, callback) {
+  this.storage.dropIndex(this.location, indexName, function(error, result) {
+    if (result && result.ok)
+      process.logger.debug('Index "' + indexName + '" dropped');
 
     callback(error);
   });

@@ -277,6 +277,16 @@ CorePluginApi.prototype.getCdnUrl = function() {
 };
 
 /**
+ * Gets the language of the OpenVeo content.
+ *
+ * @method getContentLanguage
+ * @return {String} The content language code, see supportedContentLanguages.json file for the full list of languages
+ */
+CorePluginApi.prototype.getContentLanguage = function() {
+  return storage.getConfiguration().contentLanguage || 'en';
+};
+
+/**
  * Gets core hooks.
  *
  * @method getHooks

@@ -8,6 +8,7 @@ var nopt = require('nopt');
 var openVeoApi = require('@openveo/api');
 var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
 var storage = process.require('app/server/storage.js');
+var supportedContentLanguages = process.require('supportedContentLanguages.json');
 var configurationDirectoryPath = path.join(openVeoApi.fileSystem.getConfDir(), 'core');
 var coreConfPath = path.join(configurationDirectoryPath, 'conf.json');
 var loggerConfPath = path.join(configurationDirectoryPath, 'loggerConf.json');
@@ -65,7 +66,8 @@ storage.setConfiguration({
   superAdminId: '0',
   anonymousId: '1',
   cdn: coreConf.cdn,
-  auth: serverConf.app.auth
+  auth: serverConf.app.auth,
+  contentLanguage: supportedContentLanguages.indexOf(coreConf.contentLanguage) !== -1 ? coreConf.contentLanguage : 'en'
 });
 
 /**
