@@ -8,6 +8,10 @@
 
 - Improve textual search on entities by setting the language of the search engine which can make use of this information to sharpen its results. **When upgrading from a previous version you should set the contentLanguage property in the conf.json file before starting OpenVeo**
 
+## BUG FIXES
+
+- Add new line after installation errors when creating the super administrator
+
 ## DEPENDENCIES
 
 - **grunt-protractor-runner** sub dependencies have been upgraded, it includes protractor from 5.4.1 to **5.4.3** and webdriver-manager from 12.1.0 to **12.1.7**
