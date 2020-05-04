@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@openveo/api": "^7.0.0",
-    "angular": "1.5.11",
+    "angular": "1.7.9",
     "angular-animate": "1.5.11",
     "angular-cookies": "1.5.11",
     "angular-formly": "8.4.1",
