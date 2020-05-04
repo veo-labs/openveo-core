@@ -1,6 +1,6 @@
 {
   "name": "@openveo/core",
-  "version": "8.2.0",
+  "version": "9.0.0",
   "description": "OpenVeo core CMS",
   "keywords": [
     "openveo",
@@ -31,7 +31,7 @@
     "url": "https://github.com/veo-labs/openveo-core.git"
   },
   "dependencies": {
-    "@openveo/api": "6.*",
+    "@openveo/api": "^7.0.0",
     "angular": "1.5.11",
     "angular-animate": "1.5.11",
     "angular-cookies": "1.5.11",
@@ -65,10 +65,10 @@
     "tinymce": "^5.2.1"
   },
   "devDependencies": {
-    "@openveo/rest-nodejs-client": "3.*",
-    "@openveo/test": "7.*",
+    "@openveo/rest-nodejs-client": "^4.0.0",
+    "@openveo/test": "^8.0.0",
     "angular-mocks": "1.5.11",
-    "cas-server-mock": "2.*",
+    "cas-server-mock": "^3.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
     "chai-spies": "^1.0.0",
@@ -93,7 +93,7 @@
     "karma-firefox-launcher": "^1.3.0",
     "karma-mocha": "^1.3.0",
     "karma-ng-html2js-preprocessor": "^1.0.0",
-    "ldap-server-mock": "2.*",
+    "ldap-server-mock": "^3.0.0",
     "mocha": "^7.1.1",
     "mock-require": "^3.0.3",
     "nodemon": "^2.0.2",
