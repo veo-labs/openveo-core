@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en" class="yui-overrride">
+<head>
+    <meta charset="utf-8">
+    <title>app/server/providers/UserProvider.js - OpenVeo Core server</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            <h1 class="blue-main-title">OpenVeo Core server</h1>
+        </div>
+        <div class="yui3-u-1-4 version project-version">
+            API Docs for: 9.0.1
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/accessToken.html">accessToken</a></li>
+                                <li><a href="../classes/api.html">api</a></li>
+                                <li><a href="../classes/ApplicationController.html">ApplicationController</a></li>
+                                <li><a href="../classes/ApplicationServer.html">ApplicationServer</a></li>
+                                <li><a href="../classes/authenticationController.html">authenticationController</a></li>
+                                <li><a href="../classes/authenticator.html">authenticator</a></li>
+                                <li><a href="../classes/client.html">client</a></li>
+                                <li><a href="../classes/ClientProvider.html">ClientProvider</a></li>
+                                <li><a href="../classes/CORE_HOOKS.html">CORE_HOOKS</a></li>
+                                <li><a href="../classes/CorePlugin.html">CorePlugin</a></li>
+                                <li><a href="../classes/CorePluginApi.html">CorePluginApi</a></li>
+                                <li><a href="../classes/DefaultController.html">DefaultController</a></li>
+                                <li><a href="../classes/entityLoader.html">entityLoader</a></li>
+                                <li><a href="../classes/ErrorController.html">ErrorController</a></li>
+                                <li><a href="../classes/GroupController.html">GroupController</a></li>
+                                <li><a href="../classes/GroupProvider.html">GroupProvider</a></li>
+                                <li><a href="../classes/HTTP_ERRORS.html">HTTP_ERRORS</a></li>
+                                <li><a href="../classes/I18nController.html">I18nController</a></li>
+                                <li><a href="../classes/listener.html">listener</a></li>
+                                <li><a href="../classes/MenuController.html">MenuController</a></li>
+                                <li><a href="../classes/migrationLoader.html">migrationLoader</a></li>
+                                <li><a href="../classes/migrationProcess.html">migrationProcess</a></li>
+                                <li><a href="../classes/namespaceLoader.html">namespaceLoader</a></li>
+                                <li><a href="../classes/OauthController.html">OauthController</a></li>
+                                <li><a href="../classes/path.html">path</a></li>
+                                <li><a href="../classes/permissionLoader.html">permissionLoader</a></li>
+                                <li><a href="../classes/pluginLoader.html">pluginLoader</a></li>
+                                <li><a href="../classes/RoleController.html">RoleController</a></li>
+                                <li><a href="../classes/RoleProvider.html">RoleProvider</a></li>
+                                <li><a href="../classes/routeLoader.html">routeLoader</a></li>
+                                <li><a href="../classes/Server.html">Server</a></li>
+                                <li><a href="../classes/SettingProvider.html">SettingProvider</a></li>
+                                <li><a href="../classes/SettingsController.html">SettingsController</a></li>
+                                <li><a href="../classes/storage.html">storage</a></li>
+                                <li><a href="../classes/TaxonomyController.html">TaxonomyController</a></li>
+                                <li><a href="../classes/TaxonomyProvider.html">TaxonomyProvider</a></li>
+                                <li><a href="../classes/TokenProvider.html">TokenProvider</a></li>
+                                <li><a href="../classes/UserController.html">UserController</a></li>
+                                <li><a href="../classes/UserProvider.html">UserProvider</a></li>
+                                <li><a href="../classes/WebServiceServer.html">WebServiceServer</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/core.html">core</a></li>
+                                <li><a href="../modules/core-controllers.html">core-controllers</a></li>
+                                <li><a href="../modules/core-loaders.html">core-loaders</a></li>
+                                <li><a href="../modules/core-migration.html">core-migration</a></li>
+                                <li><a href="../modules/core-oauth.html">core-oauth</a></li>
+                                <li><a href="../modules/core-plugin.html">core-plugin</a></li>
+                                <li><a href="../modules/core-providers.html">core-providers</a></li>
+                                <li><a href="../modules/core-servers.html">core-servers</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app/server/providers/UserProvider.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x27;use strict&#x27;;
+
+/**
+ * @module core-providers
+ */
+
+var util = require(&#x27;util&#x27;);
+var path = require(&#x27;path&#x27;);
+var crypto = require(&#x27;crypto&#x27;);
+var shortid = require(&#x27;shortid&#x27;);
+var async = require(&#x27;async&#x27;);
+var openVeoApi = require(&#x27;@openveo/api&#x27;);
+var configDir = openVeoApi.fileSystem.getConfDir();
+var conf = require(path.join(configDir, &#x27;core/conf.json&#x27;));
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
+var NotFoundError = openVeoApi.errors.NotFoundError;
+
+/**
+ * Defines a UserProvider to get and save back end users.
+ *
+ * @class UserProvider
+ * @extends EntityProvider
+ * @constructor
+ * @param {Database} database The database to interact with
+ */
+function UserProvider(database) {
+  UserProvider.super_.call(this, database, &#x27;core_users&#x27;);
+}
+
+module.exports = UserProvider;
+util.inherits(UserProvider, openVeoApi.providers.EntityProvider);
+
+/**
+ * Gets an internal user by its credentials.
+ *
+ * @method getUserByCredentials
+ * @async
+ * @param {String} email The user email
+ * @param {String} password The user clear text password
+ * @param {Function} callback Function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Object** The user
+ */
+UserProvider.prototype.getUserByCredentials = function(email, password, callback) {
+  password = crypto.createHmac(&#x27;sha256&#x27;, conf.passwordHashKey).update(password).digest(&#x27;hex&#x27;);
+
+  this.getOne(
+    new ResourceFilter()
+      .equal(&#x27;origin&#x27;, openVeoApi.passport.STRATEGIES.LOCAL)
+      .equal(&#x27;email&#x27;, email)
+      .equal(&#x27;password&#x27;, password),
+    {
+      exclude: [&#x27;password&#x27;]
+    },
+    callback
+  );
+};
+
+/**
+ * Gets an internal user by its email.
+ *
+ * @method getUserByEmail
+ * @async
+ * @param {String} email The email of the user
+ * @param {Function} callback Function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Object** The user
+ */
+UserProvider.prototype.getUserByEmail = function(email, callback) {
+  this.getOne(
+    new ResourceFilter()
+      .equal(&#x27;origin&#x27;, openVeoApi.passport.STRATEGIES.LOCAL)
+      .equal(&#x27;email&#x27;, email),
+    {
+      exclude: [&#x27;password&#x27;]
+    },
+    callback
+  );
+};
+
+/**
+ * Adds users.
+ *
+ * @method add
+ * @async
+ * @param {Array} users The list of users to store with for each user:
+ *   - **String** name The user name
+ *   - **String** email The user email
+ *   - **String** password The user password
+ *   - **String** passwordValidate The user password validation
+ *   - **String** [id] The user id, generated if not specified
+ *   - **Array** [roles] The user role ids
+ *   - **Boolean** [locked=false] true to lock the user from edition, false otherwise
+ * @param {Function} [callback] The function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of users inserted
+ *   - **Array** The list of added users
+ */
+UserProvider.prototype.add = function(users, callback) {
+  var self = this;
+  var usersToAdd = [];
+  var userEmails = [];
+
+  for (var i = 0; i &lt; users.length; i++) {
+    var user = users[i];
+
+    if (!user.name || !user.email || !user.password)
+      return this.executeCallback(callback, new TypeError(&#x27;Requires name, email and password to add a user&#x27;));
+
+    // Validate password
+    if (user.password !== user.passwordValidate)
+      return this.executeCallback(callback, new Error(&#x27;Passwords do not match&#x27;));
+
+    // Validate email
+    if (!openVeoApi.util.isEmailValid(user.email))
+      return this.executeCallback(callback, new TypeError(&#x27;Invalid email address: &#x27; + user.email));
+
+    userEmails.push(user.email);
+  }
+
+  // Find users
+  this.getAll(
+    new ResourceFilter()
+      .equal(&#x27;origin&#x27;, openVeoApi.passport.STRATEGIES.LOCAL)
+      .in(&#x27;email&#x27;, userEmails),
+    {
+      include: [&#x27;email&#x27;]
+    },
+    {
+      id: &#x27;desc&#x27;
+    },
+    function(getAllError, fetchedUsers) {
+      if (getAllError) return self.executeCallback(callback, getAllError);
+
+      for (var i = 0; i &lt; users.length; i++) {
+        var user = users[i];
+
+        // Validate email
+        for (var j = 0; j &lt; fetchedUsers.length; j++) {
+          if (user.email === fetchedUsers[j].email)
+            return self.executeCallback(callback, new Error(&#x27;Email &quot;&#x27; + user.email + &#x27;&quot; not available&#x27;));
+        }
+
+        // Encrypt password
+        var password = crypto.createHmac(&#x27;sha256&#x27;, conf.passwordHashKey).update(user.password).digest(&#x27;hex&#x27;);
+
+        usersToAdd.push({
+          id: user.id || shortid.generate(),
+          name: user.name,
+          email: user.email,
+          password: password,
+          locked: user.locked || false,
+          origin: openVeoApi.passport.STRATEGIES.LOCAL,
+          roles: user.roles || []
+        });
+      }
+
+      UserProvider.super_.prototype.add.call(self, usersToAdd, function(addError, total, addedUsers) {
+        if (addError) return self.executeCallback(callback, addError);
+
+        if (callback) {
+          addedUsers.forEach(function(addedUser) {
+            delete addedUser[&#x27;password&#x27;];
+          });
+
+          callback(null, total, addedUsers);
+        }
+      });
+    }
+  );
+};
+
+/**
+ * Updates an internal user.
+ *
+ * @method updateOne
+ * @async
+ * @param {ResourceFilter} [filter] Rules to filter the user to update
+ * @param {Object} data The modifications to perform
+ * @param {String} [data.name] The user name
+ * @param {String} [data.email] The user email
+ * @param {String} [data.password] The user password. Also requires passwordValidate
+ * @param {String} [data.passwordValidate] The user password validation. Also requires password
+ * @param {Array} [data.roles] The user role ids
+ * @param {Boolean} [data.locked] true to lock the user from edition, false otherwise
+ * @param {Function} [callback] The function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** 1 if everything went fine
+ */
+UserProvider.prototype.updateOne = function(filter, data, callback) {
+  var self = this;
+  var modifications = {};
+  var total;
+  var user;
+
+  if (!filter) filter = new ResourceFilter();
+  filter.equal(&#x27;origin&#x27;, openVeoApi.passport.STRATEGIES.LOCAL);
+
+  // Validate password
+  if (data.password) {
+
+    if (data.password !== data.passwordValidate)
+      return this.executeCallback(callback, new Error(&#x27;Passwords does not match&#x27;));
+    else {
+
+      // Encrypt password
+      var password = crypto.createHmac(&#x27;sha256&#x27;, conf.passwordHashKey).update(data.password).digest(&#x27;hex&#x27;);
+      modifications.password = password;
+
+    }
+  }
+
+  // Validate email
+  if (data.email &amp;&amp; !openVeoApi.util.isEmailValid(data.email))
+    return this.executeCallback(callback, new TypeError(&#x27;Invalid email address&#x27;));
+
+  // Validate roles
+  if (data.roles) modifications.roles = data.roles;
+
+  // Validate name
+  if (data.name) modifications.name = data.name;
+
+  // Validate locked
+  if (typeof data.locked !== &#x27;undefined&#x27;) modifications.locked = Boolean(data.locked);
+
+  async.series([
+
+    // Get user corresponding to given filter
+    function(callback) {
+      self.getOne(
+        filter,
+        {
+          include: [&#x27;id&#x27;]
+        },
+        function(error, fetchedUser) {
+          if (error) return callback(error);
+          if (!fetchedUser) return callback(new NotFoundError(JSON.stringify(filter)));
+
+          user = fetchedUser;
+          callback();
+        }
+      );
+    },
+
+    // Verify if the email address is not already used
+    function(callback) {
+      if (!data.email) return callback();
+      self.getUserByEmail(data.email, function(error, fetchedUser) {
+        if (error) return callback(error);
+        if (fetchedUser &amp;&amp; fetchedUser.id !== user.id) return callback(new Error(&#x27;Email not available&#x27;));
+
+        modifications.email = data.email;
+        callback();
+      });
+    },
+
+    // Update user
+    function(callback) {
+      UserProvider.super_.prototype.updateOne.call(
+        self,
+        new ResourceFilter().equal(&#x27;id&#x27;, user.id).equal(&#x27;origin&#x27;, openVeoApi.passport.STRATEGIES.LOCAL),
+        modifications,
+        function(error, totalItems) {
+          if (error) return callback(error);
+          total = totalItems;
+          callback();
+        }
+      );
+    }
+
+  ], function(error) {
+    self.executeCallback(callback, error, total);
+  });
+};
+
+/**
+ * Removes users.
+ *
+ * This will execute core hook &quot;USERS_DELETED&quot; after removing users with:
+ * - **Array** The ids of deleted users
+ *
+ * @method remove
+ * @async
+ * @param {ResourceFilter} [filter] Rules to filter users to remove
+ * @param {Function} [callback] The function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The number of removed users
+ */
+UserProvider.prototype.remove = function(filter, callback) {
+  var self = this;
+
+  // Find users
+  this.getAll(
+    filter,
+    {
+      include: [&#x27;id&#x27;]
+    },
+    {
+      id: &#x27;desc&#x27;
+    },
+    function(getAllError, users) {
+      if (getAllError) return self.executeCallback(callback, getAllError);
+      if (!users || !users.length) return self.executeCallback(callback);
+
+      // Remove users
+      UserProvider.super_.prototype.remove.call(self, filter, function(removeError, total) {
+        if (removeError) return self.executeCallback(callback, removeError);
+
+        // Execute hook
+        var api = process.api.getCoreApi();
+        api.executeHook(
+          api.getHooks().USERS_DELETED,
+          users.map(function(user) {
+            return user.id;
+          }),
+          function(hookError) {
+            self.executeCallback(callback, hookError, total);
+          }
+        );
+      });
+    }
+  );
+};
+
+/**
+ * Adds external users.
+ *
+ * External users are automatically locked when added.
+ *
+ * @method addThirdPartyUsers
+ * @async
+ * @param {Array} users The list of users to add with for each user:
+ *   - **String** name The user name
+ *   - **String** email The user email
+ *   - **String** origin Id of the third party provider system
+ *   - **String** originId The user id in third party provider system
+ *   - **String** [id] The user id, generated if not specified
+ *   - **Array** [originGroups] The user groups in third party provider system
+ *   - **Array** [roles] The user role ids
+ * @param {Function} [callback] The function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** The total amount of users inserted
+ *   - **Array** The inserted users
+ */
+UserProvider.prototype.addThirdPartyUsers = function(users, callback) {
+  var usersToAdd = [];
+
+  for (var i = 0; i &lt; users.length; i++) {
+    var user = users[i];
+
+    if (!user.origin || !user.name || !user.email || !user.originId) {
+      return this.executeCallback(
+        callback,
+        new TypeError(&#x27;Requires name, email, origin and origin id to add a third party user&#x27;)
+      );
+    }
+
+    if (user.origin === openVeoApi.passport.STRATEGIES.LOCAL)
+      return this.executeCallback(callback, new Error(&#x27;Third party user origin can\&#x27;t be local&#x27;));
+
+    usersToAdd.push({
+      id: user.id || shortid.generate(),
+      name: user.name,
+      email: user.email,
+      origin: user.origin,
+      originId: user.originId,
+      originGroups: user.originGroups || [],
+      roles: user.roles || [],
+      locked: true
+    });
+  }
+
+  UserProvider.super_.prototype.add.call(this, usersToAdd, callback);
+};
+
+/**
+ * Updates an external user.
+ *
+ * @method updateThirdPartyUser
+ * @async
+ * @param {ResourceFilter} [filter] Rules to filter users to update
+ * @param {Object} data The modifications to perform
+ * @param {String} [data.name] The user name
+ * @param {String} [data.email] The user email
+ * @param {Array} [data.originGroups] The user groups in third party provider system
+ * @param {Array} [data.roles] The user role ids
+ * @param {Boolean} [data.locked] true to lock the user from edition, false otherwise
+ * @param {String} origin The user origin (see openVeoApi.passport.STRATEGIES)
+ * @param {Function} callback The function to call when it&#x27;s done
+ *   - **Error** The error if an error occurred, null otherwise
+ *   - **Number** 1 if everything went fine
+ */
+UserProvider.prototype.updateThirdPartyUser = function(filter, data, origin, callback) {
+  var modifications = {};
+
+  if (origin === openVeoApi.passport.STRATEGIES.LOCAL)
+    return this.executeCallback(callback, new Error(&#x27;Can\&#x27;t update a local user with &quot;updateThirdPartyUser&quot;&#x27;));
+
+  if (!filter) filter = new ResourceFilter();
+  filter.equal(&#x27;origin&#x27;, origin);
+
+  if (data.name) modifications.name = data.name;
+  if (data.email) modifications.email = data.email;
+  if (data.originGroups) modifications.originGroups = data.originGroups;
+  if (data.roles) modifications.roles = data.roles;
+  if (typeof data.locked !== &#x27;undefined&#x27;) modifications.locked = Boolean(data.locked);
+
+  this.storage.updateOne(this.location, filter, modifications, function(error, total) {
+    this.executeCallback(callback, error, total);
+  }.bind(this));
+};
+
+/**
+ * Creates users indexes.
+ *
+ * @method createIndexes
+ * @async
+ * @param {Function} callback Function to call when it&#x27;s done with:
+ *  - **Error** An error if something went wrong, null otherwise
+ */
+UserProvider.prototype.createIndexes = function(callback) {
+  var language = process.api.getCoreApi().getContentLanguage();
+
+  this.storage.createIndexes(this.location, [
+    {key: {name: 1}, name: &#x27;byName&#x27;},
+
+    // eslint-disable-next-line camelcase
+    {key: {name: &#x27;text&#x27;}, weights: {name: 1}, default_language: language, name: &#x27;querySearch&#x27;}
+
+  ], function(error, result) {
+    if (result &amp;&amp; result.note)
+      process.logger.debug(&#x27;Create users indexes : &#x27; + result.note);
+
+    callback(error);
+  });
+};
+
+/**
+ * Drops an index from database collection.
+ *
+ * @method dropIndex
+ * @async
+ * @param {String} indexName The name of the index to drop
+ * @param {Function} callback Function to call when it&#x27;s done with:
+ *  - **Error** An error if something went wrong, null otherwise
+ */
+UserProvider.prototype.dropIndex = function(indexName, callback) {
+  this.storage.dropIndex(this.location, indexName, function(error, result) {
+    if (result &amp;&amp; result.ok)
+      process.logger.debug(&#x27;Index &quot;&#x27; + indexName + &#x27;&quot; dropped&#x27;);
+
+    callback(error);
+  });
+};
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
