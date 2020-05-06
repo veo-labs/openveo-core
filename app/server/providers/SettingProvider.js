@@ -86,7 +86,7 @@ SettingProvider.prototype.add = function(settings, callback) {
           }
         }
 
-        if (exists) break;
+        if (exists) continue;
 
         // Setting does not exist yet
         // Add it to the list of settings to insert

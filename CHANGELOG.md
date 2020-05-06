@@ -1,3 +1,9 @@
+# 9.0.1 / YYYY-MM-DD
+
+## BUG FIXES
+
+- Fix settings configuration page when OpenVeo is linked to a CAS AND an LDAP server. The CAS configuration wasn't saved when clicking on "save" button, only the LDAP configuration was
+
 # 9.0.0 / 2020-05-04
 
 ## BREAKING CHANGES
