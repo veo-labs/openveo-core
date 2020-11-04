@@ -98,6 +98,7 @@ $sidebar-submenu-bg : #fff;
         overflow: hidden;
         max-height:0;
         position:relative;
+        list-style: outside none none;
         li{
            text-indent: 40px;
            > a{

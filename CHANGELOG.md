@@ -1,3 +1,9 @@
+# 9.0.2 / YYYY-MM-DD
+
+## BUG FIXES
+
+- Remove list bullets on sidebar menu
+
 # 9.0.1 / 2020-05-06
 
 ## BUG FIXES
