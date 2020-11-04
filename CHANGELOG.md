@@ -4,6 +4,7 @@
 
 - Remove list bullets on sidebar menu
 - Fix CAS button focus on login page
+- Temporarily fix login to the administration interface when OpenVeo has been installed using MongoDB replicasets
 
 # 9.0.1 / 2020-05-06
 

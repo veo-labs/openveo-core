@@ -221,8 +221,9 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   this.sessionMiddleware = session({
     secret: this.configuration.sessionSecret,
     saveUninitialized: true,
-    resave: true,
-    store: this.sessionStore
+    resave: false,
+    store: this.sessionStore,
+    unset: 'destroy'
   });
   this.httpServer.use(this.sessionMiddleware);
 

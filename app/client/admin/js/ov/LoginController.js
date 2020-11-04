@@ -5,7 +5,7 @@
   /**
    * Defines the login controller for the login page.
    */
-  function LoginController($scope, $location, $window, authenticationService, i18nService) {
+  function LoginController($scope, $location, $window, authenticationService, i18nService, $timeout) {
     var strategies = openVeoSettings.authenticationStrategies;
     $scope.verticalAlign = true;
     $scope.onError = false;
@@ -34,7 +34,11 @@
       authenticationService.login($scope.userLogin, $scope.password).then(function(result) {
         $scope.isPending = false;
         authenticationService.setUserInfo(result.data);
-        $location.path('/');
+
+        // This is a hack to let enough time to the database to replicate the session to secondary hosts
+        $timeout(function() {
+          $location.path('/');
+        }, 100);
       }, function() {
         $scope.isPending = false;
         $scope.onError = true;
@@ -45,6 +49,6 @@
   }
 
   app.controller('LoginController', LoginController);
-  LoginController.$inject = ['$scope', '$location', '$window', 'authenticationService', 'i18nService'];
+  LoginController.$inject = ['$scope', '$location', '$window', 'authenticationService', 'i18nService', '$timeout'];
 
 })(angular.module('ov'));
