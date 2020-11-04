@@ -224,7 +224,7 @@ h1 {
     @include adjust-font-size-to( $h1-font-size );
   }
   @else {
-    font-size: if($rhythm-unit == "px", $h1-font-size, ($h1-font-size / $base-font-size)#{$rhythm-unit});
+    font-size: "if($rhythm-unit == "px", $h1-font-size, ($h1-font-size / $base-font-size)#{$rhythm-unit})";
   }
 
   /* Set 1 unit of vertical rhythm on the top and bottom margins. */
