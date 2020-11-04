@@ -3,6 +3,7 @@
 ## BUG FIXES
 
 - Remove list bullets on sidebar menu
+- Fix CAS button focus on login page
 
 # 9.0.1 / 2020-05-06
 
