@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en" class="yui-overrride">
+<head>
+    <meta charset="utf-8">
+    <title>app/client/admin/js/entity/EntityApp.js - OpenVeo AngularJS back end</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700' rel='stylesheet' type='text/css'>
+    <link rel="shortcut icon" type="image/png" href="../assets/favicon.png">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+            <h1 class="blue-main-title">OpenVeo AngularJS back end</h1>
+        </div>
+        <div class="yui3-u-1-4 version project-version">
+            API Docs for: 9.0.2
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/alertService.html">alertService</a></li>
+                                <li><a href="../classes/applicationService.html">applicationService</a></li>
+                                <li><a href="../classes/authenticationService.html">authenticationService</a></li>
+                                <li><a href="../classes/entityService.html">entityService</a></li>
+                                <li><a href="../classes/i18nService.html">i18nService</a></li>
+                                <li><a href="../classes/menuService.html">menuService</a></li>
+                                <li><a href="../classes/ovAutoComplete.html">ovAutoComplete</a></li>
+                                <li><a href="../classes/ovDateTimePicker.html">ovDateTimePicker</a></li>
+                                <li><a href="../classes/OvDateTimePickerController.html">OvDateTimePickerController</a></li>
+                                <li><a href="../classes/ovMatch.html">ovMatch</a></li>
+                                <li><a href="../classes/ovMultiCheckBox.html">ovMultiCheckBox</a></li>
+                                <li><a href="../classes/ovTags.html">ovTags</a></li>
+                                <li><a href="../classes/OvUrlFactory.html">OvUrlFactory</a></li>
+                                <li><a href="../classes/SocketFactory.html">SocketFactory</a></li>
+                                <li><a href="../classes/storageProvider.html">storageProvider</a></li>
+                                <li><a href="../classes/translateFilter.html">translateFilter</a></li>
+                                <li><a href="../classes/truncateFilter.html">truncateFilter</a></li>
+                                <li><a href="../classes/userService.html">userService</a></li>
+                                <li><a href="../classes/utilService.html">utilService</a></li>
+                            </ul>
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/ov.html">ov</a></li>
+                                <li><a href="../modules/ov.alert.html">ov.alert</a></li>
+                                <li><a href="../modules/ov.authentication.html">ov.authentication</a></li>
+                                <li><a href="../modules/ov.entity.html">ov.entity</a></li>
+                                <li><a href="../modules/ov.i18n.html">ov.i18n</a></li>
+                                <li><a href="../modules/ov.socket.html">ov.socket</a></li>
+                                <li><a href="../modules/ov.storage.html">ov.storage</a></li>
+                                <li><a href="../modules/ov.util.html">ov.util</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: app/client/admin/js/entity/EntityApp.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+&#x27;use strict&#x27;;
+
+/**
+ * Manage OpenVeo entities described in conf.js.
+ *
+ * @module ov.entity
+ * @main ov.entity
+ */
+
+(function(angular) {
+  var app = angular.module(&#x27;ov.entity&#x27;, []);
+
+  /**
+   * Defines an entity service to create / update or remove an entity.
+   *
+   * @class entityService
+   */
+  function EntityService($http, $q) {
+    var basePath = &#x27;/be/&#x27;;
+    var entityCache = {};
+
+    /**
+     * Deletes cache of the given entity type.
+     *
+     * @param {String} [entityType] The entity type or null to remove all cache
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
+     * @method deleteCache
+     */
+    function deleteCache(entityType, pluginName) {
+      if (!entityType &amp;&amp; !pluginName) {
+        entityCache = [];
+        return;
+      }
+
+      if (!pluginName) pluginName = &#x27;core&#x27;;
+
+      if (entityType) {
+        if (entityCache[pluginName] &amp;&amp; entityCache[pluginName][entityType])
+          delete entityCache[pluginName][entityType];
+      } else
+        entityCache[pluginName] = {};
+    }
+
+    /**
+     * Adds new entities.
+     *
+     * @param {String} entityType The type of the entities
+     * @param {String} [pluginName=&quot;core&quot;] Plugin name the entities belong to
+     * @param {Array} data The list of entities
+     * @return {HttpPromise} The HTTP promise
+     * @method addEntities
+     */
+    function addEntities(entityType, pluginName, data) {
+      var pluginPath = (!pluginName) ? &#x27;&#x27; : pluginName + &#x27;/&#x27;;
+      deleteCache(entityType, pluginName);
+      return $http.put(basePath + pluginPath + entityType, data);
+    }
+
+    /**
+     * Updates an entity.
+     *
+     * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
+     * @param {String} id The id of the entity to update
+     * @param {String} data Data description object of the entity
+     * @return {Promise} The HTTP promise
+     * @method updateEntity
+     */
+    function updateEntity(entityType, pluginName, id, data) {
+      var pluginPath = (!pluginName) ? &#x27;&#x27; : pluginName + &#x27;/&#x27;;
+      deleteCache(entityType, pluginName);
+      return $http.post(basePath + pluginPath + entityType + &#x27;/&#x27; + id, data);
+    }
+
+    /**
+     * Removes entities.
+     *
+     * @param {String} entityType Type of the entities
+     * @param {String} [pluginName=&quot;core&quot;] Plugin name the entity belongs to
+     * @param {String} ids The comma separated list of entity ids to remove
+     * @return {HttpPromise} The HTTP promise
+     * @method removeEntities
+     */
+    function removeEntities(entityType, pluginName, ids) {
+      var pluginPath = (!pluginName) ? &#x27;&#x27; : pluginName + &#x27;/&#x27;;
+      deleteCache(entityType, pluginName);
+      return $http.delete(basePath + pluginPath + entityType + &#x27;/&#x27; + ids);
+    }
+
+    /**
+     * Fetch an entity by Id.
+     *
+     * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
+     * @param {String} id The Id of the entity to fetch
+     * @return {Promise} The HTTP promise
+     * @method getEntity
+     */
+    function getEntity(entityType, pluginName, id) {
+      var pluginPath = (!pluginName) ? &#x27;&#x27; : pluginName + &#x27;/&#x27;;
+      return $http.get(basePath + pluginPath + entityType + &#x27;/&#x27; + id);
+    }
+
+    /**
+     * Gets entities.
+     *
+     * @example
+     *
+     *     // Get the first page of Web Service applications containing string &quot;Search string&quot; sorted by name with 10
+     *     // applications per page. Field &quot;name&quot; won&#x27;t be returned.
+     *
+     *     var params = {
+     *       query: &#x27;Search string&#x27;,
+     *       limit: 10,
+     *       page: 0,
+     *       sortBy: &#x27;name&#x27;,
+     *       sortOrder: &#x27;desc&#x27;,
+     *       exclude: [&#x27;name&#x27;]
+     *     };
+     *     getEntities(&#x27;applications&#x27;, &#x27;core&#x27;, params);
+     *
+     * @param {String} entityType Type of entity
+     * @param {String} [pluginName] Plugin name the entity belongs to, null for core
+     * @param {Object} param Request parameters
+     * @param {String|Array} [param.include] The list of fields to include from returned entities
+     * @param {String|Array} [param.exclude] The list of fields to exclude from returned entities. Ignored if
+     * include is also specified.
+     * @param {String} [param.query] Search query to search on entities searchable fields
+     * @param {Number} [param.page=0] The expected page in pagination system
+     * @param {Number} [param.limit=10] The maximum number of expected results
+     * @param {String} [param.sortBy] The field to sort by
+     * @param {String} [param.sortOrder=&quot;desc&quot;] The sort order (either &quot;asc&quot; or &quot;desc&quot;)
+     * @param {Promise} [canceller] The HTTP promise to cancel request if needed, resolve the promise to cancel the
+     * request
+     * @return {HttpPromise} The HTTP promise
+     * @method getEntities
+     */
+    function getEntities(entityType, pluginName, param, canceller) {
+      var deferred = $q.defer();
+      var options = {};
+      if (canceller) {
+        options = {timeout: canceller};
+      }
+      if (!pluginName) pluginName = &#x27;core&#x27;;
+      var pluginCache = entityCache[pluginName];
+
+      var cacheId = JSON.stringify(param);
+      options.params = param;
+
+      // Return the data if we already have it
+      if (pluginCache &amp;&amp; pluginCache[entityType] &amp;&amp; pluginCache[entityType][cacheId]) {
+        deferred.resolve(angular.copy(pluginCache[entityType][cacheId]));
+      } else {
+        var path = basePath + ((pluginName !== &#x27;core&#x27;) ? pluginName + &#x27;/&#x27; : &#x27;&#x27;) + entityType;
+        $http.get(path, options).then(function(response) {
+          if (!pluginCache) pluginCache = entityCache[pluginName] = {};
+          if (!pluginCache[entityType]) pluginCache[entityType] = {};
+
+          pluginCache[entityType][cacheId] = angular.copy({
+            data: response.data
+          });
+
+          deferred.resolve({
+            data: response.data
+          });
+        });
+      }
+      return deferred.promise;
+    }
+
+    /**
+     * Gets all entities of a specific type.
+     *
+     * This should be used wisely as it may launch several requests to get all entities which could lead
+     * to real performance issues. Use it when you are sure about the total number of entities.
+     *
+     * @param {String} entityType Type of entity
+     * @param {String} [pluginName=&quot;core&quot;] Plugin name the entity belongs to
+     * @param {Object} param Request parameters
+     * @param {String|Array} [param.include] The list of fields to include from returned entities
+     * @param {String|Array} [param.exclude] The list of fields to exclude from returned entities. Ignored if
+     * include is also specified.
+     * @param {String} [param.query] Search query to search on entities searchable fields
+     * @param {String} [param.sortBy] The field to sort by
+     * @param {String} [param.sortOrder=&quot;desc&quot;] The sort order (either &quot;asc&quot; or &quot;desc&quot;)
+     * @param {Promise} [canceller] The HTTP promise to cancel request if needed, resolve the promise to cancel the
+     * request
+     * @return {HttpPromise} The HTTP promise
+     * @method getAllEntities
+     */
+    function getAllEntities(entityType, pluginName, param, canceller) {
+      var page = 0;
+      var allEntities = [];
+      var deferred = $q.defer();
+      param = param || {};
+
+      /**
+       * Gets the next page of entities.
+       */
+      function getNextPages() {
+        param.page = page;
+        param.limit = undefined;
+
+        getEntities(
+          entityType,
+          pluginName,
+          param,
+          canceller
+        ).then(function(response) {
+          allEntities = allEntities.concat(response.data.entities);
+
+          if (page &lt; response.data.pagination.pages - 1) {
+
+            // There is an other page
+            // Get next page
+            page++;
+            getNextPages();
+
+          } else {
+
+            // No more page
+            // End it
+            deferred.resolve({
+              data: {
+                entities: allEntities
+              }
+            });
+          }
+        });
+      }
+
+      getNextPages();
+      return deferred.promise;
+    }
+
+    return {
+      addEntities: addEntities,
+      updateEntity: updateEntity,
+      removeEntities: removeEntities,
+      getEntity: getEntity,
+      getEntities: getEntities,
+      getAllEntities: getAllEntities,
+      deleteCache: deleteCache
+    };
+
+  }
+
+  app.factory(&#x27;entityService&#x27;, EntityService);
+  EntityService.$inject = [&#x27;$http&#x27;, &#x27;$q&#x27;];
+
+})(angular);
+
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>
