@@ -6,11 +6,11 @@ OpenVeo back end is written using AngularJS and SASS / Compass. SASS files need 
 
 You can compile the back end SASS files using the following command:
 
-    grunt compass:dist
+    npm run build:scss
 
 Or you can watch SASS files changes using the following command:
 
-    grunt
+    npm run watch
 
 You'll find compiled CSS files in **assets/be/css**.
 
@@ -18,6 +18,6 @@ You'll find compiled CSS files in **assets/be/css**.
 
 You'll probably want to compile AngularJS files, in production, for better performance. You can do it using:
 
-    grunt prod
+    npm run build
 
 You'll find compiled JavaScript files in **assets/be/js**.

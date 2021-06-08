@@ -100,17 +100,22 @@
     "yuidoc-theme-blue": "^0.1.9"
   },
   "scripts": {
-    "prepack": "grunt prod",
+    "build": "npx grunt prod",
+    "build:scss": "npx grunt compass:dist",
+    "e2e": "npx grunt test-e2e",
+    "lint": "npx grunt eslint",
     "postinstall": "node install.js",
-    "eslint": "grunt eslint",
-    "mocha": "grunt mochaTest",
-    "karma": "grunt karma",
-    "postpublish": "grunt deploy-doc"
+    "postpublish": "npx grunt deploy-doc",
+    "prepack": "npm run build",
+    "test": "npm run test:client && npm run test:server",
+    "test:client": "npx grunt karma",
+    "test:server": "npx grunt mochaTest",
+    "upgrade-web-driver": "npx webdriver-manager update",
+    "watch": "npx grunt"
   },
   "precommit": [
-    "eslint",
-    "mocha",
-    "karma"
+    "lint",
+    "test"
   ],
   "engines": {
     "node": ">=16.3.0",
