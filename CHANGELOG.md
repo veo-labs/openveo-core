@@ -1,3 +1,9 @@
+# 10.0.0 / YYYY-MM-DD
+
+## BREAKING CHANGES
+
+- Functional tests are no longer run on Travis
+
 # 9.0.2 / 2020-11-05
 
 ## BUG FIXES
