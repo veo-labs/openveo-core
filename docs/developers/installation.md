@@ -6,7 +6,7 @@
 # Install project's dependencies
 
     cd /WORKSPACE_PATH/openveo-core
-    npm install
+    npm ci
 
 # Create NPM links for openveo-api and openveo-test
 

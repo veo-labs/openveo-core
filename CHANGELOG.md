@@ -4,6 +4,7 @@
 
 - Functional tests are no longer run on Travis
 - OpenVeo is no longer tested on Opera and Edge
+- No longer tested on NodeJS &lt; 16.3.0 and NPM &lt; 7.15.1
 
 # 9.0.2 / 2020-11-05
 

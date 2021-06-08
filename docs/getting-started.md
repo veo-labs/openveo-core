@@ -10,7 +10,7 @@ Actually OpenVeo can be downloaded directly from [github](https://github.com/veo
 
 From OpenVeo root directory:
 
-    npm install --production
+    npm ci --production
 
 **Nb :** You will be prompted for some configuration. Don't worry if you made an error, you can edit configuration anytime using [advanced configuration](advanced-configuration.md).
 
