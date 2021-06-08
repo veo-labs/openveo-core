@@ -5,7 +5,7 @@ site_dir: site/version
 markdown_extensions:
   - fenced_code
   - tables
-pages:
+nav:
 - 'INTRODUCTION': 'index.md'
 - 'USERS':
   - 'Prerequisites': 'prerequisites.md'
