@@ -3,6 +3,7 @@
 ## BREAKING CHANGES
 
 - Functional tests are no longer run on Travis
+- OpenVeo is no longer tested on Opera and Edge
 
 # 9.0.2 / 2020-11-05
 
