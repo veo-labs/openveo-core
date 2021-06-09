@@ -75,7 +75,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build-back-office-client', [
     'compass:admin',
     'uglify:admin',
-    'concat:lib',
-    'concat:js'
+    'concat:admin-lib',
+    'concat:admin-js'
   ]);
 };

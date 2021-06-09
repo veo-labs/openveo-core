@@ -14,7 +14,7 @@ module.exports = {
   options: {
     separator: ';'
   },
-  lib: {
+  'admin-lib': {
     src: (function() {
       var files = [];
       libFile.forEach(function(filePath) {
@@ -24,7 +24,7 @@ module.exports = {
     }()),
     dest: '<%= project.beJSAssets %>/libOpenveo.js'
   },
-  js: {
+  'admin-js': {
     src: (function() {
       var files = [];
       jsFile.forEach(function(filePath) {
