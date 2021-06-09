@@ -102,6 +102,7 @@
   "scripts": {
     "build": "npx grunt prod",
     "build:scss": "npx grunt compass:dist",
+    "doc": "npx grunt doc",
     "e2e": "npx grunt test-e2e",
     "lint": "npx grunt eslint",
     "postinstall": "node install.js",
