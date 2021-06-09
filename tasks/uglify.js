@@ -1,7 +1,9 @@
 'use strict';
 
 module.exports = {
-  prod: {
+
+  // Obfuscate JavaScript files of the back office client
+  admin: {
     files: [
       {
         expand: true, // Enable dynamic expansion.
@@ -21,4 +23,5 @@ module.exports = {
       }
     ]
   }
+
 };
