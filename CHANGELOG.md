@@ -7,6 +7,10 @@
 - No longer tested on NodeJS &lt; 16.3.0 and NPM &lt; 7.15.1
 - No longer tested on Ubuntu 16.04 (tested on Ubuntu 18.04)
 
+## NEW FEATURES
+
+- End to end tests are now run in headless Chrome
+
 # 9.0.2 / 2020-11-05
 
 ## BUG FIXES

@@ -53,6 +53,17 @@ exports.config = {
     bail: false
   },
   suites: suites,
+  capabilities: {
+    browserName: 'chrome',
+    chromeOptions: {
+      args: [
+        'headless',
+        'no-sandbox',
+        '--window-size=1080,720',
+        'disable-infobars'
+      ]
+    }
+  },
   baseUrl: 'http://127.0.0.1:' + serverConf.app.httpPort + '/',
   webServiceUrl: 'http://127.0.0.1:' + serverConf.ws.port + '/',
   casConf: casConf,
