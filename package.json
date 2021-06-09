@@ -100,7 +100,7 @@
     "yuidoc-theme-blue": "^0.1.9"
   },
   "scripts": {
-    "build": "npx grunt prod",
+    "build": "npx grunt build-back-office-client",
     "build:scss": "npx grunt compass:dist",
     "doc": "npx grunt doc",
     "e2e": "npx grunt test-e2e",

@@ -65,16 +65,17 @@ module.exports = function(grunt) {
     'protractor'
   ]);
 
-  // Minify and concat back end AngularJS Javascript files
-  grunt.registerTask('concatcore', ['uglify:prod', 'concat:lib', 'concat:js']);
-
   // Generate documentation
   grunt.registerTask('doc', ['remove:doc', 'mkdocs', 'yuidoc', 'rename:doc']);
-
-  // Prepare project for production
-  grunt.registerTask('prod', ['compass:dist', 'concatcore']);
 
   // Deploy documentation to github pages
   grunt.registerTask('deploy-doc', ['doc', 'gh-pages:doc']);
 
+  // Build the back office
+  grunt.registerTask('build-back-office-client', [
+    'compass:dist',
+    'uglify:prod',
+    'concat:lib',
+    'concat:js'
+  ]);
 };
