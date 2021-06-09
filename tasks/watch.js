@@ -1,8 +1,17 @@
 'use strict';
 
 module.exports = {
-  compass: {
-    files: '**/*.scss',
-    tasks: ['compass:dev']
+
+  // Automatically rebuild back office when a file is modified
+  admin: {
+    files: [
+      '<%= project.be %>/**/*',
+      '<%= project.beViews %>/**/*',
+      '<%= project.root %>/conf.js'
+    ],
+    tasks: [
+      'build-back-office-client'
+    ]
   }
+
 };

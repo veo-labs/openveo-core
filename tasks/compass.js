@@ -1,21 +1,12 @@
 'use strict';
 
 module.exports = {
-  dev: {
+
+  // Build the back office stylesheet
+  // Use grunt compass:admin --with-source-maps to add source maps generation
+  admin: {
     options: {
-      sourcemap: true,
-      sassDir: '<%= project.beSASS %>',
-      cssDir: '<%= project.beCSSAssets %>',
-      fontsDir: '<%= project.font %>',
-      httpFontsPath: '<%= project.fontHttpPath %>',
-      environment: 'development',
-      force: true,
-      raw: '::Sass::Script::Number.precision = 10\n'
-    }
-  },
-  dist: {
-    options: {
-      sourcemap: false,
+      sourcemap: process.withSourceMaps,
       sassDir: '<%= project.beSASS %>',
       cssDir: '<%= project.beCSSAssets %>',
       fontsDir: '<%= project.font %>',
@@ -26,4 +17,5 @@ module.exports = {
       raw: '::Sass::Script::Number.precision = 10\n'
     }
   }
+
 };

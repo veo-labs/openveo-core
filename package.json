@@ -112,7 +112,7 @@
     "test:client": "npx grunt karma",
     "test:server": "npx grunt mochaTest",
     "upgrade-web-driver": "npx webdriver-manager update",
-    "watch": "npx grunt"
+    "watch": "npx grunt watch"
   },
   "precommit": [
     "lint",
