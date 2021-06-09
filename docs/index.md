@@ -24,7 +24,7 @@ OpenVeo supports the following SSO (Single Sign On) providers:
 
 OpenVeo is tested on the following operating systems:
 
-- Ubuntu 16.04
+- Ubuntu 18.04
 
 OpenVeo is tested on the following browsers:
 
