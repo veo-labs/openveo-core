@@ -3,8 +3,8 @@
 module.exports = {
 
   // Build the back office stylesheet
-  // Use grunt compass:admin --with-source-maps to add source maps generation
-  admin: {
+  // Use grunt compass:back-office --with-source-maps to add source maps generation
+  'back-office': {
     options: {
       sourcemap: process.withSourceMaps,
       sassDir: '<%= project.beSASS %>',

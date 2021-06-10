@@ -3,7 +3,7 @@
 module.exports = {
 
   // Obfuscate JavaScript files of the back office client
-  admin: {
+  'back-office': {
     files: [
       {
         expand: true, // Enable dynamic expansion.

@@ -3,7 +3,7 @@
 module.exports = {
 
   // Back office client documentation
-  admin: {
+  'back-office': {
     name: 'OpenVeo AngularJS back end',
     description: 'AngularJS OpenVeo back end documentation',
     version: '<%= pkg.version %>',
