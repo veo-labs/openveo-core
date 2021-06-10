@@ -25,7 +25,7 @@ nav:
   - 'API': 'developers/api.md'
   - 'Logger': 'developers/logger.md'
   - 'I18N and I10N': 'developers/i18n.md'
-  - 'CSS / SASS / JS compilation': 'developers/compilation.md'
+  - 'Compilation': 'developers/compilation.md'
   - 'Coding standards': 'developers/coding-standards.md'
   - 'Unit tests': 'developers/unit-tests.md'
   - 'End to end tests': 'developers/end-to-end-tests.md'
