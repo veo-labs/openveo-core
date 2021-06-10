@@ -23,9 +23,15 @@ module.exports = {
     autoWatch: false,
 
     // List of browsers to execute tests on
-    browsers: [
-      'Chrome'
-    ],
+    browsers: ['ChromeHeadlessCI'],
+
+    // Configure custom ChromHeadlessCI as an extension of ChromeHeadlessCI without sandbox
+    customLaunchers: {
+      ChromeHeadlessCI: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox']
+      }
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
