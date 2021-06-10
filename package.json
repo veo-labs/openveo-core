@@ -106,7 +106,7 @@
     "e2e": "npx grunt test-e2e",
     "lint": "npx grunt eslint",
     "postinstall": "node install.js",
-    "postpublish": "npx grunt deploy-doc",
+    "postpublish": "npm run doc && npx grunt gh-pages:doc",
     "prepack": "npm run build",
     "test": "npm run test:client && npm run test:server",
     "test:client": "npx grunt karma",
