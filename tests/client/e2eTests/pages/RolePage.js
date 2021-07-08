@@ -70,7 +70,7 @@ function selectRolePermission(elementFinder, descriptor, select) {
     group.all(by.css('.panel-body label')).each(function(label, index) {
 
       // Test if permission is checked
-      label.element(by.css('input')).getAttribute('checked').then(function(isChecked) {
+      browserExt.getProperty(label.element(by.css('input')), 'checked').then(function(isChecked) {
 
         // Get permission name
         label.getText().then(function(text) {
