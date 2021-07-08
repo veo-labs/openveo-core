@@ -47,6 +47,7 @@ var casUsers = require(casDatabasePath);
 var ldapUsers = require(ldapDatabasePath);
 
 exports.config = {
+  directConnect: true,
   framework: 'mocha',
   mochaOpts: {
     timeout: 200000,
