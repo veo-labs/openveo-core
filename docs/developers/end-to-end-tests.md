@@ -273,10 +273,7 @@ If a test fails, a screenshot of the browser at the instant is taken and availab
 # Launch end to end tests
 
     # Launch all end to end tests on chrome
-    npm run e2e -- --capabilities="{\"browserName\": \"chrome\"}" --directConnect=true
-
-    # Launch all end to end tests on firefox
-    npm run e2e -- --capabilities="{\"browserName\": \"firefox\"}" --directConnect=true
+    npm run e2e
 
     # Launch only coreHome suite on chrome
-    npm run e2e -- --capabilities="{\"browserName\": \"chrome\"}" --directConnect=true --suite="coreHome"
+    npm run e2e -- --suite="coreHome"
