@@ -270,10 +270,12 @@ CorePluginApi.prototype.getTranslations = function(dictionary, code, callback) {
  * Gets OpenVeo CDN url ending with a slash.
  *
  * @method getCdnUrl
+ * @param {Boolean} [trimSlash=false] true to trim the ending slash
  * @return {String} The CDN url
  */
-CorePluginApi.prototype.getCdnUrl = function() {
-  return url.format(url.parse(storage.getConfiguration().cdn.url));
+CorePluginApi.prototype.getCdnUrl = function(trimSlash) {
+  var cdnUrl = url.format(url.parse(storage.getConfiguration().cdn.url));
+  return trimSlash ? cdnUrl.substring(0, cdnUrl.length - 1) : cdnUrl;
 };
 
 /**
