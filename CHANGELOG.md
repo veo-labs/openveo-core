@@ -10,6 +10,7 @@
 ## BUG FIXES
 
 - Fix CAS button clickable areea on login page
+- Remove error notification with error code 776 when entering wrong login / password on authentication page
 
 # 9.0.2 / 2020-11-05
 

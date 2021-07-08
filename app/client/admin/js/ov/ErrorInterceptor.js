@@ -49,8 +49,15 @@
         if (rejection.status === 401)
           $rootScope.$broadcast('forceLogout');
 
-        // Canceled or network error
-        else if (rejection.status == -1) {
+        else if (
+          rejection.status === 400 &&
+          rejection.data &&
+          rejection.data.error &&
+          rejection.data.error.code === 776
+        ) {
+          return $q.reject(rejection);
+        } else if (rejection.status == -1) {
+          // Canceled or network error
 
           // Set alert only on network error, not on cancel
           if (!rejection.config || !rejection.config.timeout || !rejection.config.timeout.status)
