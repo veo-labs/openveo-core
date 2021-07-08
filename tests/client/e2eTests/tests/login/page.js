@@ -159,7 +159,7 @@ describe('Login page', function() {
       assert.eventually.ok(page.casButtonElement.isPresent());
       assert.eventually.equal(
         page.casButtonElement.getAttribute('href'),
-        process.protractorConf.baseUrl + 'be/authenticate/cas'
+        'authenticate/cas'
       );
       assert.eventually.ok(page.separatorElement.isPresent());
     });
