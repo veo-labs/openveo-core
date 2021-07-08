@@ -152,7 +152,7 @@ LoginPage.prototype.getLogin = function() {
  * @return {Promise} Promise resolving when the field has been filled
  */
 LoginPage.prototype.setLogin = function(login) {
-  return this.userInputElement.sendKeys(login);
+  return this.getLoginField().setValue(login);
 };
 
 /**
@@ -180,7 +180,7 @@ LoginPage.prototype.getPassword = function() {
  * @return {Promise} Promise resolving when the field has been filled
  */
 LoginPage.prototype.setPassword = function(password) {
-  return this.passwordInputElement.sendKeys(password);
+  return this.getPasswordField().setValue(password);
 };
 
 /**
@@ -190,13 +190,4 @@ LoginPage.prototype.setPassword = function(password) {
  */
 LoginPage.prototype.isPasswordOnError = function() {
   return this.getPasswordField().isOnError();
-};
-
-/**
- * Unfocuses fields by focusing the body.
- *
- * @return {Promise} Promise resolving when the focus is made on the body
- */
-LoginPage.prototype.unfocus = function() {
-  return element(by.css('body')).click();
 };

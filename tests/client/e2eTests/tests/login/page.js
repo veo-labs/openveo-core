@@ -101,7 +101,6 @@ describe('Login page', function() {
     page.submit();
     page.setLogin('email');
     page.setPassword('password');
-    page.unfocus();
     assert.eventually.notOk(page.isLoginOnError());
     assert.eventually.notOk(page.isPasswordOnError());
   });
