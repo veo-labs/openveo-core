@@ -20,6 +20,9 @@
   }
 
   .ov-cas-button {
+    height: 32px;
+    vertical-align: middle;
+    line-height: 32px;
     padding: 0;
     text-align: left;
     background: none;
@@ -33,19 +36,20 @@
     }
 
     a {
-      display: table;
+      display: inline-block;
+      width: 100%;
+      height: 32px;
+      outline: none;
       text-decoration: none;
       color: #ffffff;
     }
 
     span {
-      display: table-cell;
-      vertical-align: middle;
+      display: inline-block;
+      vertical-align: top;
     }
 
     .ov-cas-logo {
-      width: 36px;
-
       img {
         padding: 0;
         margin: 5px;
