@@ -108,6 +108,15 @@ function ApplicationServer(configuration) {
     socketServer: {value: new SocketServer()},
 
     /**
+     * The list of HTTP origins allowed to connect to the socket server.
+     * The OpenVeo CDN URL will be automatically added to the list of allowed origins.
+     *
+     * @property socketServerAllowedOrigins
+     * @type Array
+     */
+    socketServerAllowedOrigins: {value: []},
+
+    /**
      * Database session storage.
      *
      * @property sessionStore
@@ -452,6 +461,24 @@ ApplicationServer.prototype.onPluginsLoaded = function(callback) {
   // Handle errors
   this.httpServer.use(errorController.errorAction);
 
+  // Set socket server allowed origins
+  // First add the OpenVeo CDN URL as allowed origin then the origins defined in configuration
+  this.socketServerAllowedOrigins.push(process.api.getCoreApi().getCdnUrl(true));
+  if (this.configuration.socketAllowedOrigins) {
+    for (var i = 0; i < this.configuration.socketAllowedOrigins.length; i++) {
+      var allowedOrigin = this.configuration.socketAllowedOrigins[i];
+
+      if (allowedOrigin.indexOf('reg:') === 0) {
+
+        // Origin is a regular expression
+        allowedOrigin = new RegExp(allowedOrigin.replace('reg:', ''));
+
+      }
+
+      this.socketServerAllowedOrigins.push(allowedOrigin);
+    }
+  }
+
   // Build permissions
   permissionLoader.buildPermissions(entities, plugins, function(error, permissions) {
     if (error)
@@ -487,7 +514,7 @@ ApplicationServer.prototype.startServer = function(callback) {
 
     // Start socket server
     function(callback) {
-      self.socketServer.listen(self.configuration.socketPort, function() {
+      self.socketServer.listen(self.configuration.socketPort, self.socketServerAllowedOrigins, function() {
         process.logger.info('Socket server listening on port ' + self.configuration.socketPort);
         callback();
       });

@@ -28,7 +28,7 @@
      */
     function initSocket(namespace) {
       if (!socket)
-        socket = io.connect($location.protocol() + '://' + $location.host() + ':' + openVeoSettings.socketServerPort + namespace);
+        socket = io($location.protocol() + '://' + $location.host() + ':' + openVeoSettings.socketServerPort + namespace);
 
       return socket;
     }

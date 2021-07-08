@@ -5,6 +5,7 @@
 - OpenVeo is no longer tested on Opera and Edge
 - No longer tested on NodeJS &lt; 16.3.0 and NPM &lt; 7.15.1
 - No longer tested on Ubuntu 16.04 (tested on Ubuntu 18.04)
+- If you have a custom Socket.io client connected to the OpenVeo Socket server you may experienced Cross Origins Resource Sharing errors when trying to connect to the server because the server now accepts only the clients with origins specified by property "socketAllowedOrigins" in serverConf.json file (see documentation for more details). Also Socket.io clients in version 2 are still supported but are strongly encouraged to upgrade to version 4.
 
 ## BUG FIXES
 

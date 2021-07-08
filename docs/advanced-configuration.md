@@ -70,6 +70,10 @@ Open **~/.openveo/core/serverConf.json**
   "app" : {
     "httpPort" : HTTP_PORT, // Replace HTTP_PORT by the HTTP server port to use (e.g. 3000)
     "socketPort" : SOCKET_PORT, // Replace SOCKET_PORT by the socket server port to use (e.g. 3001)
+    "socketAllowedOrigins" : [ // The list of clients origins the socket server should allowed
+      "https://socket-client.host" // It could be the precise origin of the client
+      "reg:.*\\.host$" // Or it could be a regular expression prefixed by reg:
+    ],
     "browserSocketPort" : SOCKET_PORT, // Replace SOCKET_PORT by the port of the socket server to connect to from the browser (e.g. 3001)
     "sessionSecret" : "SECRET", // Replace SECRET by a secret used to secure HTTP sessions
     "auth": {
