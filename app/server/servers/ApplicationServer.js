@@ -226,7 +226,7 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   this.sessionStore = db.getStore('core_sessions');
 
   // Update Session store with opened database connection
-  // Allowed server to restart without loosing any session
+  // Allow server to restart without loosing any session
   this.sessionMiddleware = session({
     secret: this.configuration.sessionSecret,
     saveUninitialized: true,
