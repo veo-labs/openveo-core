@@ -15,6 +15,7 @@
 ## DEPENDENCIES
 
 - **consolidate** has been upgraded from 0.15.1 to **0.16.0**
+- **express-session** has been upgraded from 1.17.0 to **1.17.2**
 
 # 9.0.2 / 2020-11-05
 
