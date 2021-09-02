@@ -34,7 +34,7 @@
         "mustache": "^4.2.0",
         "ng-file-upload": "^12.2.13",
         "ng-tasty": "0.6.1",
-        "nopt": "^4.0.3",
+        "nopt": "^5.0.0",
         "oauth20-provider": "^0.6.0",
         "passport": "^0.4.1",
         "semver": "^7.1.3",
@@ -1626,6 +1626,19 @@
       },
       "engines": {
         "npm": ">=1.4.0"
+      }
+    },
+    "node_modules/cas-server-mock/node_modules/nopt": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
+      "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
+      "dev": true,
+      "dependencies": {
+        "abbrev": "1",
+        "osenv": "^0.1.4"
+      },
+      "bin": {
+        "nopt": "bin/nopt.js"
       }
     },
     "node_modules/caseless": {
@@ -4674,6 +4687,19 @@
         "node": ">=4"
       }
     },
+    "node_modules/grunt-cli/node_modules/nopt": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
+      "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
+      "dev": true,
+      "dependencies": {
+        "abbrev": "1",
+        "osenv": "^0.1.4"
+      },
+      "bin": {
+        "nopt": "bin/nopt.js"
+      }
+    },
     "node_modules/grunt-cli/node_modules/v8flags": {
       "version": "3.1.3",
       "resolved": "https://registry.npmjs.org/v8flags/-/v8flags-3.1.3.tgz",
@@ -6848,6 +6874,19 @@
         "npm": ">=6.9.0"
       }
     },
+    "node_modules/ldap-server-mock/node_modules/nopt": {
+      "version": "4.0.3",
+      "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
+      "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
+      "dev": true,
+      "dependencies": {
+        "abbrev": "1",
+        "osenv": "^0.1.4"
+      },
+      "bin": {
+        "nopt": "bin/nopt.js"
+      }
+    },
     "node_modules/ldapauth-fork": {
       "version": "4.3.3",
       "resolved": "https://registry.npmjs.org/ldapauth-fork/-/ldapauth-fork-4.3.3.tgz",
@@ -7921,15 +7960,17 @@
       }
     },
     "node_modules/nopt": {
-      "version": "4.0.3",
-      "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
-      "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/nopt/-/nopt-5.0.0.tgz",
+      "integrity": "sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==",
       "dependencies": {
-        "abbrev": "1",
-        "osenv": "^0.1.4"
+        "abbrev": "1"
       },
       "bin": {
         "nopt": "bin/nopt.js"
+      },
+      "engines": {
+        "node": ">=6"
       }
     },
     "node_modules/normalize-package-data": {
@@ -8234,6 +8275,7 @@
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/os-homedir/-/os-homedir-1.0.2.tgz",
       "integrity": "sha1-/7xJiDNuDoM94MFox+8VISGqf7M=",
+      "dev": true,
       "engines": {
         "node": ">=0.10.0"
       }
@@ -8251,6 +8293,7 @@
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/os-tmpdir/-/os-tmpdir-1.0.2.tgz",
       "integrity": "sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=",
+      "dev": true,
       "engines": {
         "node": ">=0.10.0"
       }
@@ -8259,6 +8302,7 @@
       "version": "0.1.5",
       "resolved": "https://registry.npmjs.org/osenv/-/osenv-0.1.5.tgz",
       "integrity": "sha512-0CWcCECdMVc2Rw3U5w9ZjqX6ga6ubk1xDVKxtBQPK7wis/0F2r9T6k4ydGYhecl7YUBxBVxhL5oisPsNxAPe2g==",
+      "dev": true,
       "dependencies": {
         "os-homedir": "^1.0.0",
         "os-tmpdir": "^1.0.0"
@@ -13379,6 +13423,16 @@
           "resolved": "https://registry.npmjs.org/mustache/-/mustache-3.2.1.tgz",
           "integrity": "sha512-RERvMFdLpaFfSRIEe632yDm5nsd0SDKn8hGmcUwswnyiE5mtdZLDybtHAz6hjJhawokF0hXvGLtx9mrQfm6FkA==",
           "dev": true
+        },
+        "nopt": {
+          "version": "4.0.3",
+          "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
+          "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
+          "dev": true,
+          "requires": {
+            "abbrev": "1",
+            "osenv": "^0.1.4"
+          }
         }
       }
     },
@@ -16010,6 +16064,16 @@
         "v8flags": "~3.1.1"
       },
       "dependencies": {
+        "nopt": {
+          "version": "4.0.3",
+          "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
+          "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
+          "dev": true,
+          "requires": {
+            "abbrev": "1",
+            "osenv": "^0.1.4"
+          }
+        },
         "v8flags": {
           "version": "3.1.3",
           "resolved": "https://registry.npmjs.org/v8flags/-/v8flags-3.1.3.tgz",
@@ -17733,6 +17797,18 @@
       "requires": {
         "ldapjs": "^1.0.2",
         "nopt": "^4.0.3"
+      },
+      "dependencies": {
+        "nopt": {
+          "version": "4.0.3",
+          "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
+          "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
+          "dev": true,
+          "requires": {
+            "abbrev": "1",
+            "osenv": "^0.1.4"
+          }
+        }
       }
     },
     "ldapauth-fork": {
@@ -18615,12 +18691,11 @@
       }
     },
     "nopt": {
-      "version": "4.0.3",
-      "resolved": "https://registry.npmjs.org/nopt/-/nopt-4.0.3.tgz",
-      "integrity": "sha512-CvaGwVMztSMJLOeXPrez7fyfObdZqNUK1cPAEzLHrTybIua9pMdmmPR5YwtfNftIOMv3DPUhFaxsZMNTQO20Kg==",
+      "version": "5.0.0",
+      "resolved": "https://registry.npmjs.org/nopt/-/nopt-5.0.0.tgz",
+      "integrity": "sha512-Tbj67rffqceeLpcRXrT7vKAN8CwfPeIBgM7E6iBkmKLV7bEMwpGgYLGv0jACUsECaa/vuxP0IjEont6umdMgtQ==",
       "requires": {
-        "abbrev": "1",
-        "osenv": "^0.1.4"
+        "abbrev": "1"
       }
     },
     "normalize-package-data": {
@@ -18864,7 +18939,8 @@
     "os-homedir": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/os-homedir/-/os-homedir-1.0.2.tgz",
-      "integrity": "sha1-/7xJiDNuDoM94MFox+8VISGqf7M="
+      "integrity": "sha1-/7xJiDNuDoM94MFox+8VISGqf7M=",
+      "dev": true
     },
     "os-shim": {
       "version": "0.1.3",
@@ -18875,12 +18951,14 @@
     "os-tmpdir": {
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/os-tmpdir/-/os-tmpdir-1.0.2.tgz",
-      "integrity": "sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ="
+      "integrity": "sha1-u+Z0BseaqFxc/sdm/lc0VV36EnQ=",
+      "dev": true
     },
     "osenv": {
       "version": "0.1.5",
       "resolved": "https://registry.npmjs.org/osenv/-/osenv-0.1.5.tgz",
       "integrity": "sha512-0CWcCECdMVc2Rw3U5w9ZjqX6ga6ubk1xDVKxtBQPK7wis/0F2r9T6k4ydGYhecl7YUBxBVxhL5oisPsNxAPe2g==",
+      "dev": true,
       "requires": {
         "os-homedir": "^1.0.0",
         "os-tmpdir": "^1.0.0"
