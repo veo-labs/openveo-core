@@ -18,6 +18,7 @@
 - **express-session** has been upgraded from 1.17.0 to **1.17.2**
 - **mustache** has been upgraded from 3.2.1 to **4.2.0**
 - **nopt** has been upgraded from 4.0.3 to **5.0.0**
+- **semver** has been upgraded from 7.1.3 to **7.3.5**
 
 # 9.0.2 / 2020-11-05
 
