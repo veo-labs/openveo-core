@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var e2e = require('@openveo/test').e2e;
 var Helper = e2e.helpers.Helper;
 
@@ -35,7 +35,7 @@ util.inherits(ApplicationHelper, Helper);
  */
 ApplicationHelper.prototype.getAddExample = function() {
   return {
-    id: shortid.generate(),
+    id: nanoid(),
     name: 'Application example',
     scopes: ['scope1', 'scope2']
   };

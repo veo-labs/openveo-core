@@ -6,7 +6,7 @@
 
 var util = require('util');
 var crypto = require('crypto');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var openVeoApi = require('@openveo/api');
 
 /**
@@ -50,7 +50,7 @@ ClientProvider.prototype.add = function(clients, callback) {
       return this.executeCallback(callback, new TypeError('Requires a name to create a Web Service client'));
 
     clientsToAdd.push({
-      id: client.id || shortid.generate(),
+      id: client.id || nanoid(),
       name: client.name,
       scopes: client.scopes || [],
       secret: crypto.randomBytes(20).toString('hex')

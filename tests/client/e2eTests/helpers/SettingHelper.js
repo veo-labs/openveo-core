@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var e2e = require('@openveo/test').e2e;
 var Helper = e2e.helpers.Helper;
 
@@ -26,7 +26,7 @@ util.inherits(SettingHelper, Helper);
  * @return {Object} The data to add
  */
 SettingHelper.prototype.getAddExample = function() {
-  var id = shortid.generate();
+  var id = nanoid();
   return {
     id: id,
     value: 'value'

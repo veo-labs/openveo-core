@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var e2e = require('@openveo/test').e2e;
 var permissionLoader = process.require('app/server/loaders/permissionLoader.js');
 var Helper = e2e.helpers.Helper;
@@ -59,7 +59,7 @@ RoleHelper.prototype.addEntitiesAuto = function(name, total, offset) {
  */
 RoleHelper.prototype.getAddExample = function() {
   return {
-    id: shortid.generate(),
+    id: nanoid(),
     name: 'Role example',
     permissions: ['perm1', 'perm2']
   };

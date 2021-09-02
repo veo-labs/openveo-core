@@ -5,7 +5,7 @@
  */
 
 var util = require('util');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var openVeoApi = require('@openveo/api');
 var ResourceFilter = openVeoApi.storages.ResourceFilter;
 var NotFoundError = openVeoApi.errors.NotFoundError;
@@ -101,7 +101,7 @@ TaxonomyProvider.prototype.add = function(taxonomies, callback) {
       return this.executeCallback(callback, new TypeError('Requires a name to create a taxonomy'));
 
     taxonomiesToAdd.push({
-      id: taxonomy.id || shortid.generate(),
+      id: taxonomy.id || nanoid(),
       name: taxonomy.name,
       tree: taxonomy.tree || []
     });

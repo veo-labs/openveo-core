@@ -4,7 +4,7 @@
  * @module core-providers
  */
 
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var util = require('util');
 var openVeoApi = require('@openveo/api');
 
@@ -47,7 +47,7 @@ RoleProvider.prototype.add = function(roles, callback) {
       return this.executeCallback(callback, new TypeError('Requires name and permissions to add a role'));
 
     rolesToAdd.push({
-      id: role.id || shortid.generate(),
+      id: role.id || nanoid(),
       name: role.name,
       permissions: role.permissions
     });

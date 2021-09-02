@@ -7,7 +7,7 @@
 var util = require('util');
 var path = require('path');
 var crypto = require('crypto');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var async = require('async');
 var openVeoApi = require('@openveo/api');
 var configDir = openVeoApi.fileSystem.getConfDir();
@@ -145,7 +145,7 @@ UserProvider.prototype.add = function(users, callback) {
         var password = crypto.createHmac('sha256', conf.passwordHashKey).update(user.password).digest('hex');
 
         usersToAdd.push({
-          id: user.id || shortid.generate(),
+          id: user.id || nanoid(),
           name: user.name,
           email: user.email,
           password: password,
@@ -359,7 +359,7 @@ UserProvider.prototype.addThirdPartyUsers = function(users, callback) {
       return this.executeCallback(callback, new Error('Third party user origin can\'t be local'));
 
     usersToAdd.push({
-      id: user.id || shortid.generate(),
+      id: user.id || nanoid(),
       name: user.name,
       email: user.email,
       origin: user.origin,

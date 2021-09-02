@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var e2e = require('@openveo/test').e2e;
 var Helper = e2e.helpers.Helper;
 
@@ -100,7 +100,7 @@ UserHelper.prototype.addThirdPartyUser = function(user) {
  * @return {Object} The data to add
  */
 UserHelper.prototype.getAddExample = function() {
-  var id = shortid.generate();
+  var id = nanoid();
   return {
     id: id,
     name: 'User example',

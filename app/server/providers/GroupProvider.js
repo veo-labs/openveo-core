@@ -5,7 +5,7 @@
  */
 
 var util = require('util');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var openVeoApi = require('@openveo/api');
 var NotFoundError = openVeoApi.errors.NotFoundError;
 
@@ -52,7 +52,7 @@ GroupProvider.prototype.add = function(groups, callback) {
       return this.executeCallback(callback, new TypeError('Both name and description are required to create a group'));
 
     groupsToAdd.push({
-      id: group.id || shortid.generate(),
+      id: group.id || nanoid(),
       name: group.name,
       description: group.description
     });

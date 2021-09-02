@@ -53,6 +53,7 @@
     "express-session": "^1.17.2",
     "fastclick": "^1.0.6",
     "mustache": "^4.2.0",
+    "nanoid": "^3.1.23",
     "ng-file-upload": "^12.2.13",
     "ng-tasty": "0.6.1",
     "nopt": "^5.0.0",
@@ -60,7 +61,6 @@
     "passport": "^0.4.1",
     "semver": "^7.3.5",
     "serve-favicon": "^2.5.0",
-    "shortid": "^2.2.15",
     "socket.io-client": "^2.3.0",
     "tinymce": "^5.2.1"
   },

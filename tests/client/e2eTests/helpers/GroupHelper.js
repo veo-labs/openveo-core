@@ -1,7 +1,7 @@
 'use strict';
 
 var util = require('util');
-var shortid = require('shortid');
+var nanoid = require('nanoid').nanoid;
 var e2e = require('@openveo/test').e2e;
 var Helper = e2e.helpers.Helper;
 
@@ -66,7 +66,7 @@ GroupHelper.prototype.addEntitiesAuto = function(name, total, offset) {
  */
 GroupHelper.prototype.getAddExample = function() {
   return {
-    id: shortid.generate(),
+    id: nanoid(),
     name: 'Group example',
     description: 'Group example description'
   };
