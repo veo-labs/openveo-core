@@ -31,7 +31,7 @@
         "express": "^4.17.1",
         "express-session": "^1.17.2",
         "fastclick": "^1.0.6",
-        "mustache": "^3.2.1",
+        "mustache": "^4.2.0",
         "ng-file-upload": "^12.2.13",
         "ng-tasty": "0.6.1",
         "nopt": "^4.0.3",
@@ -1614,6 +1614,18 @@
       },
       "engines": {
         "node": ">= 0.10.0"
+      }
+    },
+    "node_modules/cas-server-mock/node_modules/mustache": {
+      "version": "3.2.1",
+      "resolved": "https://registry.npmjs.org/mustache/-/mustache-3.2.1.tgz",
+      "integrity": "sha512-RERvMFdLpaFfSRIEe632yDm5nsd0SDKn8hGmcUwswnyiE5mtdZLDybtHAz6hjJhawokF0hXvGLtx9mrQfm6FkA==",
+      "dev": true,
+      "bin": {
+        "mustache": "bin/mustache"
+      },
+      "engines": {
+        "npm": ">=1.4.0"
       }
     },
     "node_modules/caseless": {
@@ -7720,14 +7732,11 @@
       }
     },
     "node_modules/mustache": {
-      "version": "3.2.1",
-      "resolved": "https://registry.npmjs.org/mustache/-/mustache-3.2.1.tgz",
-      "integrity": "sha512-RERvMFdLpaFfSRIEe632yDm5nsd0SDKn8hGmcUwswnyiE5mtdZLDybtHAz6hjJhawokF0hXvGLtx9mrQfm6FkA==",
+      "version": "4.2.0",
+      "resolved": "https://registry.npmjs.org/mustache/-/mustache-4.2.0.tgz",
+      "integrity": "sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ==",
       "bin": {
         "mustache": "bin/mustache"
-      },
-      "engines": {
-        "npm": ">=1.4.0"
       }
     },
     "node_modules/mv": {
@@ -13364,6 +13373,12 @@
           "requires": {
             "bluebird": "^3.1.1"
           }
+        },
+        "mustache": {
+          "version": "3.2.1",
+          "resolved": "https://registry.npmjs.org/mustache/-/mustache-3.2.1.tgz",
+          "integrity": "sha512-RERvMFdLpaFfSRIEe632yDm5nsd0SDKn8hGmcUwswnyiE5mtdZLDybtHAz6hjJhawokF0hXvGLtx9mrQfm6FkA==",
+          "dev": true
         }
       }
     },
@@ -18441,9 +18456,9 @@
       }
     },
     "mustache": {
-      "version": "3.2.1",
-      "resolved": "https://registry.npmjs.org/mustache/-/mustache-3.2.1.tgz",
-      "integrity": "sha512-RERvMFdLpaFfSRIEe632yDm5nsd0SDKn8hGmcUwswnyiE5mtdZLDybtHAz6hjJhawokF0hXvGLtx9mrQfm6FkA=="
+      "version": "4.2.0",
+      "resolved": "https://registry.npmjs.org/mustache/-/mustache-4.2.0.tgz",
+      "integrity": "sha512-71ippSywq5Yb7/tVYyGbkBggbU8H3u5Rz56fH60jGFgr8uHwxs+aSKeqmluIVzM0m0kB7xQjKS6qPfd0b2ZoqQ=="
     },
     "mv": {
       "version": "2.1.1",
