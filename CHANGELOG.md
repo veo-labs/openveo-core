@@ -12,6 +12,10 @@
 - Fix CAS button clickable areea on login page
 - Remove error notification with error code 776 when entering wrong login / password on authentication page
 
+## DEPENDENCIES
+
+- **consolidate** has been upgraded from 0.15.1 to **0.16.0**
+
 # 9.0.2 / 2020-11-05
 
 ## BUG FIXES
