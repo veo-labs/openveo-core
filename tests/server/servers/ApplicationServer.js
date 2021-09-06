@@ -109,8 +109,8 @@ describe('ApplicationServer', function() {
       var expectedPlugin = {
         libraries: [
           {
-            name: 'chai',
-            mountPath: 'chai-mount-path',
+            name: '@openveo/api',
+            mountPath: 'openveo-api-mount-path',
             files: []
           }
         ],

@@ -14,6 +14,7 @@
 
 ## DEPENDENCIES
 
+- **chai** has been upgraded from 4.2.0 to **4.3.4**
 - **consolidate** has been upgraded from 0.15.1 to **0.16.0**
 - **express-session** has been upgraded from 1.17.0 to **1.17.2**
 - **mustache** has been upgraded from 3.2.1 to **4.2.0**
