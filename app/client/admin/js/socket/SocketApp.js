@@ -27,8 +27,11 @@
      * @return {Client} The socket.io client
      */
     function initSocket(namespace) {
-      if (!socket)
-        socket = io($location.protocol() + '://' + $location.host() + ':' + openVeoSettings.socketServerPort + namespace);
+      if (!socket) {
+        socket = io($location.protocol() + '://' + $location.host() + ':' + openVeoSettings.socketServerPort + namespace, {
+          withCredentials: true
+        });
+      }
 
       return socket;
     }

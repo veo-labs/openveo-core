@@ -82,7 +82,7 @@ describe('namespaceLoader', function() {
       TestSocketController.prototype.disconnectAction.should.have.been.called.exactly(1);
     });
 
-    it('should execute action corresponding to "error" message when receiving it', function() {
+    it('should execute action corresponding to "error" message when receiving "connect_error"', function() {
       var namespaceCallback;
       var expectedNamespace = {
         on: function(message, callback) {
@@ -91,7 +91,7 @@ describe('namespaceLoader', function() {
       };
 
       expectedSocket.on = function(message, callback) {
-        if (message === 'error')
+        if (message === 'connect_error')
           callback();
       };
 

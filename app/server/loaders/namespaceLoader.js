@@ -66,7 +66,7 @@ module.exports.addHandlers = function(namespace, messagesDescriptors, pluginPath
     });
 
     // Handle event when an error occurred between client and socket server
-    socket.on('error', function(error, callback) {
+    socket.on('connect_error', function(error, callback) {
       process.logger.silly('Socket client error', socketInfo);
 
       // Call action associated to "error" message
