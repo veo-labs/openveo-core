@@ -22,6 +22,7 @@
 - **karma-ng-html2js-preprocessor** has been removed
 - **mocha** has been upgraded from 7.1.1 to **9.1.0**
 - **mustache** has been upgraded from 3.2.1 to **4.2.0**
+- **nodemon** has been removed
 - **nopt** has been upgraded from 4.0.3 to **5.0.0**
 - **semver** has been upgraded from 7.1.3 to **7.3.5**
 - **shortid** has been replaced by nanoid

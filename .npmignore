@@ -46,9 +46,6 @@ nbproject
 /tasks
 /.grunt
 
-# Nodemon
-/nodemon.json
-
 # Git
 .gitignore
 .gitattributes
