@@ -18,6 +18,7 @@
 - **consolidate** has been upgraded from 0.15.1 to **0.16.0**
 - **express-session** has been upgraded from 1.17.0 to **1.17.2**
 - **karma** has been upgraded from 4.4.1 to **6.3.4**
+- **karma-mocha** has been upgraded from 1.3.0 to **2.0.1**
 - **mustache** has been upgraded from 3.2.1 to **4.2.0**
 - **nopt** has been upgraded from 4.0.3 to **5.0.0**
 - **semver** has been upgraded from 7.1.3 to **7.3.5**
