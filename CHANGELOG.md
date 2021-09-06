@@ -21,6 +21,7 @@
 - **semver** has been upgraded from 7.1.3 to **7.3.5**
 - **shortid** has been replaced by nanoid
 - **socket.io-client** has been upgraded from 2.3.0 to **4.1.2**
+- **tinymce** has been upgraded from 5.2.1 to **5.9.1**
 
 # 9.0.2 / 2020-11-05
 

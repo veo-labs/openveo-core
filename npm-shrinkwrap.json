@@ -41,7 +41,7 @@
         "semver": "^7.3.5",
         "serve-favicon": "^2.5.0",
         "socket.io-client": "^4.1.2",
-        "tinymce": "^5.2.1"
+        "tinymce": "^5.9.1"
       },
       "devDependencies": {
         "@openveo/rest-nodejs-client": "^4.0.0",
@@ -10606,9 +10606,9 @@
       "dev": true
     },
     "node_modules/tinymce": {
-      "version": "5.2.1",
-      "resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.2.1.tgz",
-      "integrity": "sha512-X/riqIrSOyB/pF6J993ICuDbSU/dL89XfhSdmroojbdBIT73wZF2dMPTfwtL5Hn0G5vBLefMDqLwESVuiPLEPg=="
+      "version": "5.9.1",
+      "resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.9.1.tgz",
+      "integrity": "sha512-GaG15OhQB1zR2L63fywhEAViTxkAlhX5JbA+48+O0zCo1FwDuQ8iUVi/FzaOX9Uo7ULp+Y2gu4r3P4ZNueDVPQ=="
     },
     "node_modules/tmp": {
       "version": "0.0.28",
@@ -20585,9 +20585,9 @@
       }
     },
     "tinymce": {
-      "version": "5.2.1",
-      "resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.2.1.tgz",
-      "integrity": "sha512-X/riqIrSOyB/pF6J993ICuDbSU/dL89XfhSdmroojbdBIT73wZF2dMPTfwtL5Hn0G5vBLefMDqLwESVuiPLEPg=="
+      "version": "5.9.1",
+      "resolved": "https://registry.npmjs.org/tinymce/-/tinymce-5.9.1.tgz",
+      "integrity": "sha512-GaG15OhQB1zR2L63fywhEAViTxkAlhX5JbA+48+O0zCo1FwDuQ8iUVi/FzaOX9Uo7ULp+Y2gu4r3P4ZNueDVPQ=="
     },
     "tmp": {
       "version": "0.0.28",

@@ -62,7 +62,7 @@
     "semver": "^7.3.5",
     "serve-favicon": "^2.5.0",
     "socket.io-client": "^4.1.2",
-    "tinymce": "^5.2.1"
+    "tinymce": "^5.9.1"
   },
   "devDependencies": {
     "@openveo/rest-nodejs-client": "^4.0.0",
