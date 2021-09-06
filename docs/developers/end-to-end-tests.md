@@ -6,11 +6,11 @@ Each plugin (including OpenVeo core) defines a list of test suites in **tests/cl
 
 # Install selenium web driver and chrome driver
 
-    npm run upgrade-web-driver
+    npm run web-driver:upgrade
 
 If the version of Google Chrome is too recent for the Chrome Driver installed with Protractor you can enter a specific version of the Chrome Driver using:
 
-    npm run upgrade-web-driver -- --versions.chrome=80.0.3987.149
+    npm run web-driver:upgrade -- --versions.chrome=80.0.3987.149
 
 # Configure tests
 
