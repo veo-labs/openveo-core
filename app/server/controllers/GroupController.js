@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/GroupController
  */
 
 var util = require('util');
@@ -16,7 +16,6 @@ var ResourceFilter = openVeoApi.storages.ResourceFilter;
  *
  * @class GroupController
  * @extends EntityController
- * @constructor
  */
 function GroupController() {
   GroupController.super_.call(this);
@@ -29,22 +28,20 @@ util.inherits(GroupController, EntityController);
  * Gets a list of groups.
  *
  * @example
+ * // Response example
+ * {
+ *   "entities" : [ ... ],
+ *   "pagination" : {
+ *     "limit": ..., // The limit number of groups by page
+ *     "page": ..., // The actual page
+ *     "pages": ..., // The total number of pages
+ *     "size": ... // The total number of groups
+ * }
  *
- *     // Response example
- *     {
- *       "entities" : [ ... ],
- *       "pagination" : {
- *         "limit": ..., // The limit number of groups by page
- *         "page": ..., // The actual page
- *         "pages": ..., // The total number of pages
- *         "size": ... // The total number of groups
- *     }
- *
- * @method getEntitiesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} [request.query] Request's query parameters
- * @param {String|Array} [request.query.include] The list of fields to include from returned groups
- * @param {String|Array} [request.query.exclude] The list of fields to exclude from returned groups. Ignored if
+ * @param {(String|Array)} [request.query.include] The list of fields to include from returned groups
+ * @param {(String|Array)} [request.query.exclude] The list of fields to exclude from returned groups. Ignored if
  * include is also specified.
  * @param {String} [request.query.query] Search query to search on both group names and descriptions
  * @param {Number} [request.query.useSmartSearch=1] 1 to use a more advanced search mechanism, 0 to use a simple search
@@ -121,8 +118,7 @@ GroupController.prototype.getEntitiesAction = function(request, response, next) 
 /**
  * Gets an instance of the provider associated to the controller.
  *
- * @method getProvider
- * @return {GroupProvider} The provider
+ * @return {module:core/providers/GroupProvider~GroupProvider} The provider
  */
 GroupController.prototype.getProvider = function() {
   return new GroupProvider(process.api.getCoreApi().getDatabase());

@@ -18,30 +18,31 @@
    *     for each suggestion, a property "name" and a property "value"
    *
    * @example
-   *     var placeholder = 'Placeholder';
-   *     var getSuggestions = function() {
-   *       return $q.when([
-   *         {
-   *           name: 'First suggestion',
-   *           value: 1
-   *         },
-   *         {
-   *           name: 'Second suggestion',
-   *           value: 2
-   *         }
-   *       ]);
-   *     };
-   *     var model = {
-   *       value: 42,
-   *       name: 'Element name'
-   *     };
-   *     <ov-auto-complete ng-model="model"
-   *                       ov-placeholder="placeholder"
-   *                       ov-get-suggestions="getSuggestions">
-   *     </ov-auto-complete>
+   * var placeholder = 'Placeholder';
+   * var getSuggestions = function() {
+   *   return $q.when([
+   *     {
+   *       name: 'First suggestion',
+   *       value: 1
+   *     },
+   *     {
+   *       name: 'Second suggestion',
+   *       value: 2
+   *     }
+   *   ]);
+   * };
+   * var model = {
+   *   value: 42,
+   *   name: 'Element name'
+   * };
+   * <ov-auto-complete ng-model="model"
+   *                   ov-placeholder="placeholder"
+   *                   ov-get-suggestions="getSuggestions">
+   * </ov-auto-complete>
    *
-   * @module ov
    * @class ovAutoComplete
+   * @memberof module:ov
+   * @inner
    */
   function ovAutoComplete() {
     return {
@@ -69,8 +70,6 @@
 
         /**
          * Updates model with actual value.
-         *
-         * @method updateModel
          */
         function updateModel() {
           if (scope.element.name && scope.element.value) {
@@ -96,8 +95,6 @@
 
         /**
          * Validates the input value and displays suggestions.
-         *
-         * @method validateValue
          */
         scope.validateValue = function() {
           if (!scope.element.name) {
@@ -146,7 +143,6 @@
         /**
          * Validates the suggestion and clear the list of suggestions.
          *
-         * @method validateSuggestion
          * @param {Object} suggestion The suggestion
          * @param {String} suggestion.name The suggestion name
          * @param {String} suggestion.value The suggestion value

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-providers
+ * @module core/providers/UserProvider
  */
 
 var util = require('util');
@@ -20,7 +20,6 @@ var NotFoundError = openVeoApi.errors.NotFoundError;
  *
  * @class UserProvider
  * @extends EntityProvider
- * @constructor
  * @param {Database} database The database to interact with
  */
 function UserProvider(database) {
@@ -33,13 +32,10 @@ util.inherits(UserProvider, openVeoApi.providers.EntityProvider);
 /**
  * Gets an internal user by its credentials.
  *
- * @method getUserByCredentials
- * @async
  * @param {String} email The user email
  * @param {String} password The user clear text password
- * @param {Function} callback Function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Object** The user
+ * @param {module:core/providers/UserProvider~UserProvider~getUserByCredentialsCallback} callback Function to call when
+ * it's done
  */
 UserProvider.prototype.getUserByCredentials = function(email, password, callback) {
   password = crypto.createHmac('sha256', conf.passwordHashKey).update(password).digest('hex');
@@ -59,12 +55,9 @@ UserProvider.prototype.getUserByCredentials = function(email, password, callback
 /**
  * Gets an internal user by its email.
  *
- * @method getUserByEmail
- * @async
  * @param {String} email The email of the user
- * @param {Function} callback Function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Object** The user
+ * @param {module:core/providers/UserProvider~UserProvider~getUserByEmailCallback} callback Function to call when it's
+ * done
  */
 UserProvider.prototype.getUserByEmail = function(email, callback) {
   this.getOne(
@@ -81,20 +74,15 @@ UserProvider.prototype.getUserByEmail = function(email, callback) {
 /**
  * Adds users.
  *
- * @method add
- * @async
  * @param {Array} users The list of users to store with for each user:
- *   - **String** name The user name
- *   - **String** email The user email
- *   - **String** password The user password
- *   - **String** passwordValidate The user password validation
- *   - **String** [id] The user id, generated if not specified
- *   - **Array** [roles] The user role ids
- *   - **Boolean** [locked=false] true to lock the user from edition, false otherwise
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The total amount of users inserted
- *   - **Array** The list of added users
+ * @param {String} users[].name The user name
+ * @param {String} users[].email The user email
+ * @param {String} users[].password The user password
+ * @param {String} users[].passwordValidate The user password validation
+ * @param {String} [users[].id] The user id, generated if not specified
+ * @param {Array} [users[].roles] The user role ids
+ * @param {Boolean} [users[].locked=false] true to lock the user from edition, false otherwise
+ * @param {module:core/providers/UserProvider~UserProvider~addCallback} [callback] The function to call when it's done
  */
 UserProvider.prototype.add = function(users, callback) {
   var self = this;
@@ -173,8 +161,6 @@ UserProvider.prototype.add = function(users, callback) {
 /**
  * Updates an internal user.
  *
- * @method updateOne
- * @async
  * @param {ResourceFilter} [filter] Rules to filter the user to update
  * @param {Object} data The modifications to perform
  * @param {String} [data.name] The user name
@@ -183,9 +169,8 @@ UserProvider.prototype.add = function(users, callback) {
  * @param {String} [data.passwordValidate] The user password validation. Also requires password
  * @param {Array} [data.roles] The user role ids
  * @param {Boolean} [data.locked] true to lock the user from edition, false otherwise
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** 1 if everything went fine
+ * @param {module:core/providers/UserProvider~UserProvider~updateOneCallback} [callback] The function to call when it's
+ * done
  */
 UserProvider.prototype.updateOne = function(filter, data, callback) {
   var self = this;
@@ -279,12 +264,9 @@ UserProvider.prototype.updateOne = function(filter, data, callback) {
  * This will execute core hook "USERS_DELETED" after removing users with:
  * - **Array** The ids of deleted users
  *
- * @method remove
- * @async
  * @param {ResourceFilter} [filter] Rules to filter users to remove
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The number of removed users
+ * @param {module:core/providers/UserProvider~UserProvider~removeCallback} [callback] The function to call when it's
+ * done
  */
 UserProvider.prototype.remove = function(filter, callback) {
   var self = this;
@@ -327,20 +309,16 @@ UserProvider.prototype.remove = function(filter, callback) {
  *
  * External users are automatically locked when added.
  *
- * @method addThirdPartyUsers
- * @async
  * @param {Array} users The list of users to add with for each user:
- *   - **String** name The user name
- *   - **String** email The user email
- *   - **String** origin Id of the third party provider system
- *   - **String** originId The user id in third party provider system
- *   - **String** [id] The user id, generated if not specified
- *   - **Array** [originGroups] The user groups in third party provider system
- *   - **Array** [roles] The user role ids
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The total amount of users inserted
- *   - **Array** The inserted users
+ * @param {String} users[].name The user name
+ * @param {String} users[].email The user email
+ * @param {String} users[].origin Id of the third party provider system
+ * @param {String} users[].originId The user id in third party provider system
+ * @param {String} [users[].id] The user id, generated if not specified
+ * @param {Array} [users[].originGroups] The user groups in third party provider system
+ * @param {Array} [users[].roles] The user role ids
+ * @param {module:core/providers/UserProvider~UserProvider~addThirdPartyUsersCallback} [callback] The function to call
+ * when it's done
  */
 UserProvider.prototype.addThirdPartyUsers = function(users, callback) {
   var usersToAdd = [];
@@ -376,8 +354,6 @@ UserProvider.prototype.addThirdPartyUsers = function(users, callback) {
 /**
  * Updates an external user.
  *
- * @method updateThirdPartyUser
- * @async
  * @param {ResourceFilter} [filter] Rules to filter users to update
  * @param {Object} data The modifications to perform
  * @param {String} [data.name] The user name
@@ -386,9 +362,8 @@ UserProvider.prototype.addThirdPartyUsers = function(users, callback) {
  * @param {Array} [data.roles] The user role ids
  * @param {Boolean} [data.locked] true to lock the user from edition, false otherwise
  * @param {String} origin The user origin (see openVeoApi.passport.STRATEGIES)
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** 1 if everything went fine
+ * @param {module:core/providers/UserProvider~UserProvider~updateThirdPartyUserCallback} callback The function to call
+ * when it's done
  */
 UserProvider.prototype.updateThirdPartyUser = function(filter, data, origin, callback) {
   var modifications = {};
@@ -413,10 +388,7 @@ UserProvider.prototype.updateThirdPartyUser = function(filter, data, origin, cal
 /**
  * Creates users indexes.
  *
- * @method createIndexes
- * @async
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 UserProvider.prototype.createIndexes = function(callback) {
   var language = process.api.getCoreApi().getContentLanguage();
@@ -438,11 +410,8 @@ UserProvider.prototype.createIndexes = function(callback) {
 /**
  * Drops an index from database collection.
  *
- * @method dropIndex
- * @async
  * @param {String} indexName The name of the index to drop
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 UserProvider.prototype.dropIndex = function(indexName, callback) {
   this.storage.dropIndex(this.location, indexName, function(error, result) {
@@ -452,3 +421,47 @@ UserProvider.prototype.dropIndex = function(indexName, callback) {
     callback(error);
   });
 };
+
+/**
+ * @callback module:core/providers/UserProvider~UserProvider~getUserByCredentialsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The user
+ */
+
+/**
+ * @callback module:core/providers/UserProvider~UserProvider~getUserByEmailCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The user
+ */
+
+/**
+ * @callback module:core/providers/UserProvider~UserProvider~addCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The total amount of users insertedThe user
+ * @param {(Array|Undefined)} users The list of added users
+ */
+
+/**
+ * @callback module:core/providers/UserProvider~UserProvider~updateOneCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total 1 if everything went fine
+ */
+
+/**
+ * @callback module:core/providers/UserProvider~UserProvider~removeCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The number of removed users
+ */
+
+/**
+ * @callback module:core/providers/UserProvider~UserProvider~addThirdPartyUsersCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The total amount of users inserted
+ * @param {(Array|Undefined)} users The inserted users
+ */
+
+/**
+ * @callback module:core/providers/UserProvider~UserProvider~updateThirdPartyUserCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total 1 if everything went fine
+ */

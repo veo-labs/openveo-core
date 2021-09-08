@@ -3,8 +3,7 @@
 /**
  * Controls alerts for the whole application.
  *
- * @module ov.alert
- * @main ov.alert
+ * @module ov/alert
  */
 
 (function(angular) {
@@ -13,7 +12,10 @@
   /**
    * Defines a generic alert management system to display one or several messages.
    *
-   * @class alertService
+   * @example
+   * MyAngularObject.$inject = ['alertService'];
+   *
+   * @class AlertService
    */
   function AlertService($rootScope, $timeout) {
     $rootScope.alerts = [];
@@ -38,23 +40,24 @@
       return closeAlertIdx($rootScope.alerts.indexOf(alert));
     }
 
+    /** @lends module:ov/alert~AlertService */
     var alertService = {
 
       /**
        * Displays an alert.
        *
        * @example
-       *     // Info alert displayed for 4 seconds
-       *     AlertService.add('info', 'Message of the alert', 4000);
+       * // Info alert displayed for 4 seconds
+       * AlertService.add('info', 'Message of the alert', 4000);
        *
-       *     // Error alert displayed permanently
-       *     AlertService.add('danger', 'Message of the alert');
+       * // Error alert displayed permanently
+       * AlertService.add('danger', 'Message of the alert');
        *
+       * @instance
        * @param {String} type The alert type (success, danger, warning or info)
        * @param {String} msg The alert message
        * @param {Number} [timeout] The timeout (in ms) before closing the alert, if not specified the alert
        * will be permanent
-       * @method add
        */
       add: function(type, msg, timeout) {
         var alert = {
@@ -78,10 +81,10 @@
        * Closes all opened alerts.
        *
        * @example
-       *     // Close all alerts
-       *     AlertService.closeAll();
+       * // Close all alerts
+       * AlertService.closeAll();
        *
-       * @method closeAll
+       * @instance
        */
       closeAll: function() {
         $rootScope.alerts = [];

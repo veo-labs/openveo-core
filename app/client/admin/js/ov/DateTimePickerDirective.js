@@ -15,15 +15,16 @@
    *   - [String] **ov-close-text**: The text to display for the close button
    *
    * @example
-   *     var dateTime = new Date('2018-05-15 15:48:42');
-   *     <ov-date-time-picker ng-model="dateTime"
-   *                          ov-current-text="Today"
-   *                          ov-clear-text="Clear"
-   *                          ov-close-text="Close"
-   *     ></ov-date-time-picker>
+   * var dateTime = new Date('2018-05-15 15:48:42');
+   * <ov-date-time-picker ng-model="dateTime"
+   *                      ov-current-text="Today"
+   *                      ov-clear-text="Clear"
+   *                      ov-close-text="Close"
+   * ></ov-date-time-picker>
    *
-   * @module ov
    * @class ovDateTimePicker
+   * @memberof module:ov
+   * @inner
    */
   function ovDateTimePicker() {
     return {

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-plugin
+ * @module core/plugin/CorePlugin
  */
 
 var util = require('util');
@@ -27,76 +27,81 @@ var listener = process.require('app/server/plugin/listener.js');
  *
  * @class CorePlugin
  * @extends Plugin
- * @constructor
  */
 function CorePlugin() {
   CorePlugin.super_.call(this);
 
-  Object.defineProperties(this, {
+  Object.defineProperties(this,
 
-    /**
-     * Core plugin name.
-     *
-     * @property name
-     * @type String
-     */
-    name: {value: 'core', writable: true, enumerable: true},
+    /** @lends module:core/plugin/CorePlugin~CorePlugin */
+    {
 
-    /**
-     * Core plugin path.
-     *
-     * @property path
-     * @type String
-     * @final
-     */
-    path: {value: process.root},
+      /**
+       * Core plugin name.
+       *
+       * @type {String}
+       * @default core
+       * @instance
+       */
+      name: {value: 'core', writable: true, enumerable: true},
 
-    /**
-     * Core plugin mount path.
-     *
-     * @property mountPath
-     * @type String
-     * @final
-     */
-    mountPath: {value: '/'},
+      /**
+       * Core plugin path.
+       *
+       * @type {String}
+       * @readonly
+       * @instance
+       */
+      path: {value: process.root},
 
-    /**
-     * Core APIs.
-     *
-     * @property api
-     * @type PluginApi
-     * @final
-     */
-    api: {value: new CorePluginApi()},
+      /**
+       * Core plugin mount path.
+       *
+       * @type {String}
+       * @readonly
+       * @default /
+       * @instance
+       */
+      mountPath: {value: '/'},
 
-    /**
-     * Core public router.
-     *
-     * @property router
-     * @type Router
-     * @final
-     */
-    router: {value: express.Router()},
+      /**
+       * Core APIs.
+       *
+       * @type {PluginApi}
+       * @readonly
+       * @instance
+       */
+      api: {value: new CorePluginApi()},
 
-    /**
-     * Core private router.
-     *
-     * @property router
-     * @type Router
-     * @final
-     */
-    privateRouter: {value: express.Router()},
+      /**
+       * Core public router.
+       *
+       * @type {Router}
+       * @readonly
+       * @instance
+       */
+      router: {value: express.Router()},
 
-    /**
-     * Core web service router.
-     *
-     * @property router
-     * @type Router
-     * @final
-     */
-    webServiceRouter: {value: express.Router()}
+      /**
+       * Core private router.
+       *
+       * @type {Router}
+       * @readonly
+       * @instance
+       */
+      privateRouter: {value: express.Router()},
 
-  });
+      /**
+       * Core web service router.
+       *
+       * @type {Router}
+       * @readonly
+       * @instance
+       */
+      webServiceRouter: {value: express.Router()}
+
+    }
+  );
 }
 
 module.exports = CorePlugin;
@@ -105,8 +110,8 @@ util.inherits(CorePlugin, openVeoApi.plugin.Plugin);
 /**
  * Sets listeners on core hooks.
  *
- * @method setCoreListeners
  * @private
+ * @memberof module:core/plugin/CorePlugin~CorePlugin
  */
 function setCoreListeners() {
   var coreApi = process.api.getCoreApi();
@@ -122,10 +127,7 @@ function setCoreListeners() {
  *
  * This is automatically called by core application after plugin is loaded.
  *
- * @method init
- * @async
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 CorePlugin.prototype.init = function(callback) {
   var database = storage.getDatabase();

@@ -1,34 +1,27 @@
 'use strict';
 
 /**
- * @module core
+ * API manipulates the list of loaded plugins and exposes their APIs.
+ *
+ * @module core/api
  */
 
 var openVeoApi = require('@openveo/api');
 
 /**
- * API manipulates the list of loaded plugins and exposes their APIs.
- *
- * @class api
- * @static
- */
-
-/**
  * The list of loaded plugins.
  *
- * @property plugins
- * @type Array
+ * @type {Array}
  * @private
+ * @ignore
  */
 var plugins = [];
 
 /**
  * Gets a plugin by its name.
  *
- * @method getPlugin
- * @static
  * @param {String} name The plugin's name
- * @return {Plugin} The plugin
+ * @return {Object} The plugin
  */
 module.exports.getPlugin = function(name) {
   if (name) {
@@ -44,8 +37,6 @@ module.exports.getPlugin = function(name) {
 /**
  * Gets the list of loaded plugins.
  *
- * @method getPlugins
- * @static
  * @return {Array} The list of loaded plugins
  */
 module.exports.getPlugins = function() {
@@ -55,8 +46,7 @@ module.exports.getPlugins = function() {
 /**
  * Adds a plugin to the list of plugins.
  *
- * @method addPlugin
- * @param {Plugin} plugin The plugin to add
+ * @param {Object} plugin The plugin to add
  * @throws {TypeError} If plugin is not a valid plugin
  */
 module.exports.addPlugin = function(plugin) {
@@ -72,10 +62,8 @@ module.exports.addPlugin = function(plugin) {
 /**
  * Gets API of a plugin.
  *
- * @method getApi
- * @static
  * @param {String} name The plugin's name
- * @return {PluginApi} The plugin's API
+ * @return {Object} The plugin's API
  */
 module.exports.getApi = function(name) {
   var plugin = this.getPlugin(name);
@@ -85,9 +73,7 @@ module.exports.getApi = function(name) {
 /**
  * Gets core plugin's API.
  *
- * @method getCoreApi
- * @static
- * @return {PluginApi} The core plugin's API
+ * @return {Object} The core plugin's API
  */
 module.exports.getCoreApi = function() {
   var plugin = this.getPlugin('core');

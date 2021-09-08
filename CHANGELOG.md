@@ -7,6 +7,10 @@
 - No longer tested on Ubuntu 16.04 (tested on Ubuntu 18.04)
 - If you have a custom Socket.io client connected to the OpenVeo Socket server you may experienced Cross Origins Resource Sharing errors when trying to connect to the server because the server now accepts only the clients with origins specified by property "socketAllowedOrigins" in serverConf.json file (see documentation for more details). Also Socket.io clients in version 2 are still supported but are strongly encouraged to upgrade to version 4.
 
+## NEW FEATURES
+
+- Improve code documentation by replacing Yuidoc by JSDoc
+
 ## BUG FIXES
 
 - Fix CAS button clickable areea on login page
@@ -28,6 +32,7 @@
 - **shortid** has been replaced by nanoid
 - **socket.io-client** has been upgraded from 2.3.0 to **4.1.2**
 - **tinymce** has been upgraded from 5.2.1 to **5.9.1**
+- **yuidoc** has been replaced by **JSDoc**
 
 # 9.0.2 / 2020-11-05
 

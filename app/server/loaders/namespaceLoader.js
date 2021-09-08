@@ -1,14 +1,9 @@
 'use strict';
 
 /**
- * @module core-loaders
- */
-
-/**
  * Provides functions to load namespaces from core and plugins configuration.
  *
- * @class namespaceLoader
- * @static
+ * @module core/loaders/namespaceLoader
  */
 
 var path = require('path');
@@ -19,10 +14,10 @@ var openVeoApi = require('@openveo/api');
  *
  * It is used to instantiate each controller only once.
  *
- * @property controllers
- * @type Object
+ * @type {Object}
  * @private
  * @static
+ * @ignore
  */
 var controllers = {};
 
@@ -30,16 +25,14 @@ var controllers = {};
  * Attaches handlers to namespace.
  *
  * @example
- *     var namespaceLoader = process.require('app/server/loaders/namespaceLoader.js');
- *     var messagesDescriptors = {
- *       test1: 'app/server/controllers/TestSocketController.test1Action',
- *       test2: 'app/server/controllers/TestSocketController.test2Action'
- *     };
+ * var namespaceLoader = process.require('app/server/loaders/namespaceLoader.js');
+ * var messagesDescriptors = {
+ *   test1: 'app/server/controllers/TestSocketController.test1Action',
+ *   test2: 'app/server/controllers/TestSocketController.test2Action'
+ * };
  *
- *     namespaceLoader.addHandlers(namespace, messagesDescriptors, '/home/openveo/node_modules/openveo-plugin');
+ * namespaceLoader.addHandlers(namespace, messagesDescriptors, '/home/openveo/node_modules/openveo-plugin');
  *
- * @method addHandlers
- * @static
  * @param {SocketNamespace} namespace The socket namespace
  * @param {Object} messagesDescriptors A list of socket namespace messages with associated controller / action
  * @param {String} pluginPath The root path of the plugin associated to the namespace used to find controllers

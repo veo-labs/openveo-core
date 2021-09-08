@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/UserController
  */
 
 var util = require('util');
@@ -16,7 +16,6 @@ var ResourceFilter = openVeoApi.storages.ResourceFilter;
  *
  * @class UserController
  * @extends EntityController
- * @constructor
  */
 function UserController() {
   UserController.super_.call(this);
@@ -29,28 +28,26 @@ util.inherits(UserController, EntityController);
  * Gets a list of users.
  *
  * @example
+ * // Response example
+ * {
+ *   "entities" : [ ... ],
+ *   "pagination" : {
+ *     "limit": ..., // The limit number of users by page
+ *     "page": ..., // The actual page
+ *     "pages": ..., // The total number of pages
+ *     "size": ... // The total number of users
+ * }
  *
- *     // Response example
- *     {
- *       "entities" : [ ... ],
- *       "pagination" : {
- *         "limit": ..., // The limit number of users by page
- *         "page": ..., // The actual page
- *         "pages": ..., // The total number of pages
- *         "size": ... // The total number of users
- *     }
- *
- * @method getEntitiesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} [request.query] Request's query parameters
- * @param {String|Array} [request.query.include] The list of fields to include from returned users
- * @param {String|Array} [request.query.exclude] The list of fields to exclude from returned users. Ignored if
+ * @param {(String|Array)} [request.query.include] The list of fields to include from returned users
+ * @param {(String|Array)} [request.query.exclude] The list of fields to exclude from returned users. Ignored if
  * include is also specified.
  * @param {String} [request.query.query] Search query to search in user names
  * @param {Number} [request.query.useSmartSearch=1] 1 to use a more advanced search mechanism, 0 to use a simple search
  * based on a regular expression
  * @param {String} [request.query.origin=all] The users origin (either cas, ldap, local or all)
- * @param {String|Array} [request.query.email] To filter users by email
+ * @param {(String|Array)} [request.query.email] To filter users by email
  * @param {Number} [request.query.page=0] The expected page in pagination system
  * @param {Number} [request.query.limit=10] The maximum number of expected results
  * @param {String} [request.query.sortBy="name"] The field to sort by (only "name" is available right now)
@@ -139,13 +136,11 @@ UserController.prototype.getEntitiesAction = function(request, response, next) {
  * Updates a user.
  *
  * @example
+ * // Response example
+ * {
+ *   "total": 1
+ * }
  *
- *     // Response example
- *     {
- *       "total": 1
- *     }
- *
- * @method updateEntityAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.params Request's parameters
  * @param {String} request.params.id Id of the user to update
@@ -202,8 +197,7 @@ UserController.prototype.updateEntityAction = function(request, response, next) 
 /**
  * Gets an instance of the provider associated to the controller.
  *
- * @method getProvider
- * @return {UserProvider} The provider
+ * @return {module:core/providers/UserProvider~UserProvider} The provider
  */
 UserController.prototype.getProvider = function() {
   return new UserProvider(process.api.getCoreApi().getDatabase());

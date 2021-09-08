@@ -1,21 +1,21 @@
 'use strict';
 
-/**
- * @module ov.util
- */
-
 (function(app) {
 
   /**
    * Defines an Util service to expose helper function.
    *
-   * @class utilService
+   * @class UtilService
+   * @memberof module:ov/util
+   * @inner
    */
   function UtilService($filter) {
 
     /**
      * Builds groups select options.
      *
+     * @memberof module:ov/util~UtilService
+     * @instance
      * @return {Array} The list of options
      */
     function buildSelectOptions(entities) {

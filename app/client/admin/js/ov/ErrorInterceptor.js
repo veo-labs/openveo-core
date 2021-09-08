@@ -40,6 +40,10 @@
    *
    * Not authorized errors (401) logs out the user while the other HTTP errors set an error message
    * using an alert.
+   *
+   * @class ErrorInterceptor
+   * @memberof module:ov
+   * @inner
    */
   function ErrorInterceptor($rootScope, $filter, $q) {
     return {

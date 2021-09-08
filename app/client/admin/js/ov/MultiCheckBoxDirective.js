@@ -7,40 +7,40 @@
    * with a single model.
    *
    * @example
+   * // The checkboxes to select (the model)
+   * $scope.listOfValues = ['value1'];
    *
-   *     // The checkboxes to select (the model)
-   *     $scope.listOfValues = ['value1'];
+   * // The list of checkboxes with a name and a value for each checkbox
+   * $scope.listOfOptions = [{
+   *   name: 'name1'
+   *   id: 'value1'
+   * },
+   * {
+   *   name: 'name2'
+   *   id: 'value2'
+   * }];
    *
-   *     // The list of checkboxes with a name and a value for each checkbox
-   *     $scope.listOfOptions = [{
-   *       name: 'name1'
-   *       id: 'value1'
-   *     },
-   *     {
-   *       name: 'name2'
-   *       id: 'value2'
-   *     }];
+   * // The property to use as a label in listOfOptions object ("name" by default)
+   * $scope.labelProperty = 'name';
    *
-   *     // The property to use as a label in listOfOptions object ("name" by default)
-   *     $scope.labelProperty = 'name';
+   * // The property to use as a value in listOfOptions object ("value" by default)
+   * $scope.valueProperty = 'id';
    *
-   *     // The property to use as a value in listOfOptions object ("value" by default)
-   *     $scope.valueProperty = 'id';
+   * // A boolean to activate / deactivate the group of checkboxes
+   * $scope.disabled = false;
    *
-   *     // A boolean to activate / deactivate the group of checkboxes
-   *     $scope.disabled = false;
+   * <ov-multi-check-box
+   *   ng-model="listOfValues"
+   *   options="listOfOptions"
+   *   label-property="labelProperty"
+   *   value-property="valueProperty"
+   *   disabled="disabled"
+   *   ng-model-options="{ allowInvalid: true }">
+   * </ov-multi-check-box>
    *
-   *     <ov-multi-check-box
-   *       ng-model="listOfValues"
-   *       options="listOfOptions"
-   *       label-property="labelProperty"
-   *       value-property="valueProperty"
-   *       disabled="disabled"
-   *       ng-model-options="{ allowInvalid: true }">
-   *     </ov-multi-check-box>
-   *
-   * @module ov
    * @class ovMultiCheckBox
+   * @memberof module:ov
+   * @inner
    */
   function ovMultiCheckBox() {
     return {

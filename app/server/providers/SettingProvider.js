@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-providers
+ * @module core/providers/SettingProvider
  */
 
 var util = require('util');
@@ -14,7 +14,6 @@ var ResourceFilter = openVeoApi.storages.ResourceFilter;
  *
  * @class SettingProvider
  * @extends EntityProvider
- * @constructor
  * @param {Database} database The database to interact with
  */
 function SettingProvider(database) {
@@ -29,15 +28,11 @@ util.inherits(SettingProvider, openVeoApi.providers.EntityProvider);
  *
  * If a setting already exists, an update is performed.
  *
- * @method add
- * @async
  * @param {Array} settings The list of settings to store with for each setting:
- *   - **String** id The setting key
- *   - **Mixed** value The setting value
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The total amount of settings inserted / updated
- *   - **Array** The list of added / updated settings
+ * @param {String} settings[].id The setting key
+ * @param {Mixed} settings[].value The setting value
+ * @param {module:core/providers/SettingProvider~SettingProvider~addCallback} [callback] The function to call when
+ * it's done
  */
 SettingProvider.prototype.add = function(settings, callback) {
   var self = this;
@@ -129,14 +124,11 @@ SettingProvider.prototype.add = function(settings, callback) {
 /**
  * Updates a setting.
  *
- * @method updateOne
- * @async
  * @param {ResourceFilter} [filter] Rules to filter the setting to update
  * @param {Object} data The modifications to perform
  * @param {Mixed} data.value The setting value
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** 1 if everything went fine
+ * @param {module:core/providers/SettingProvider~SettingProvider~updateOneCallback} [callback] The function to call
+ * when it's done
  */
 SettingProvider.prototype.updateOne = function(filter, data, callback) {
   var modifications = {};
@@ -148,10 +140,7 @@ SettingProvider.prototype.updateOne = function(filter, data, callback) {
 /**
  * Creates users indexes.
  *
- * @method createIndexes
- * @async
- * @param {Function} callback Function to call when it's done with :
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 SettingProvider.prototype.createIndexes = function(callback) {
   this.storage.createIndexes(this.location, [
@@ -163,3 +152,16 @@ SettingProvider.prototype.createIndexes = function(callback) {
     callback(error);
   });
 };
+
+/**
+ * @callback module:core/providers/SettingProvider~SettingProvider~addCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The total amount of settings inserted / updated
+ * @param {(Array|Undefined)} settings The list of added / updated settings
+ */
+
+/**
+ * @callback module:core/providers/SettingProvider~SettingProvider~updateOneCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total 1 if everything went fine
+ */

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-providers
+ * @module core/providers/GroupProvider
  */
 
 var util = require('util');
@@ -14,7 +14,6 @@ var NotFoundError = openVeoApi.errors.NotFoundError;
  *
  * @class GroupProvider
  * @extends EntityProvider
- * @constructor
  * @param {Database} database The database to interact with
  */
 function GroupProvider(database) {
@@ -30,16 +29,11 @@ util.inherits(GroupProvider, openVeoApi.providers.EntityProvider);
  * This will execute core hook "GROUPS_ADDED" after adding groups with:
  * - **Array** The list of added groups
  *
- * @method add
- * @async
  * @param {Array} groups The list of groups to store with for each group:
- *   - **String** [id] The group id, generated if not specified
- *   - **String** name The group name
- *   - **String** description The group description
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The total amount of groups inserted
- *   - **Array** The list of added groups
+ * {String} [groups[].id] The group id, generated if not specified
+ * {String} groups[].name The group name
+ * {String} groups[].description The group description
+ * @param {module:core/providers/GroupProvider~GroupProvider~addCallback} [callback] The function to call when it's done
  */
 GroupProvider.prototype.add = function(groups, callback) {
   var self = this;
@@ -76,15 +70,12 @@ GroupProvider.prototype.add = function(groups, callback) {
  *   - **String** id The id of updated group
  *   - **Object** modifications The list of modifications applied
  *
- * @method updateOne
- * @async
  * @param {ResourceFilter} [filter] Rules to filter the group to update
  * @param {Object} data The modifications to perform
  * @param {String} [data.name] The group name
  * @param {String} [data.description] The group description
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** 1 if everything went fine
+ * @param {module:core/providers/GroupProvider~GroupProvider~updateOneCallback} [callback] The function to call when
+ * it's done
  */
 GroupProvider.prototype.updateOne = function(filter, data, callback) {
   var self = this;
@@ -129,12 +120,9 @@ GroupProvider.prototype.updateOne = function(filter, data, callback) {
  * This will execute core hook "GROUPS_DELETED" after deleting groups with:
  * - **Array** ids The list of deleted group ids
  *
- * @method remove
- * @async
  * @param {ResourceFilter} [filter] Rules to filter groups to remove
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The number of removed groups
+ * @param {module:core/providers/GroupProvider~GroupProvider~removeCallback} [callback] The function to call when it's
+ * done
  */
 GroupProvider.prototype.remove = function(filter, callback) {
   var self = this;
@@ -175,10 +163,7 @@ GroupProvider.prototype.remove = function(filter, callback) {
 /**
  * Creates groups indexes.
  *
- * @method createIndexes
- * @async
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 GroupProvider.prototype.createIndexes = function(callback) {
   var language = process.api.getCoreApi().getContentLanguage();
@@ -200,11 +185,8 @@ GroupProvider.prototype.createIndexes = function(callback) {
 /**
  * Drops an index from database collection.
  *
- * @method dropIndex
- * @async
  * @param {String} indexName The name of the index to drop
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 GroupProvider.prototype.dropIndex = function(indexName, callback) {
   this.storage.dropIndex(this.location, indexName, function(error, result) {
@@ -218,7 +200,6 @@ GroupProvider.prototype.dropIndex = function(indexName, callback) {
 /**
  * Creates permissions for a group.
  *
- * @method createGroupPermissions
  * @param {String} id The group id
  * @param {String} name The group name
  * @return {Object} The group permissions
@@ -256,37 +237,32 @@ GroupProvider.prototype.createGroupPermissions = function(id, name) {
  * "{GROUP}_{OPERATION}_DESCRIPTION".
  *
  * @example
- *        // Example of generated groups
- *        // [
- *        //   {
- *        //     label: 'My group name',
- *        //     permissions: [
- *        //       {
- *        //         id : 'get-group-groupID',
- *        //         name : 'CORE.PERMISSIONS.GROUP_GET_NAME',
- *        //         description : 'CORE.PERMISSIONS.GROUP_GET_DESCRIPTION'
- *        //       },
- *        //       {
- *        //         id : 'update-group-groupID',
- *        //         name : 'CORE.PERMISSIONS.GROUP_UPDATE_NAME',
- *        //         description : 'CORE.PERMISSIONS.GROUP_UPDATE_DESCRIPTION'
- *        //       },
- *        //       {
- *        //         id : 'delete-group-groupID',
- *        //         name : 'CORE.PERMISSIONS.GROUP_DELETE_NAME',
- *        //         description : 'CORE.PERMISSIONS.GROUP_DELETE_DESCRIPTION'
- *        //       }
- *        //     ]
- *        //   }
- *        // ]
+ * // Example of generated groups
+ * // [
+ * //   {
+ * //     label: 'My group name',
+ * //     permissions: [
+ * //       {
+ * //         id : 'get-group-groupID',
+ * //         name : 'CORE.PERMISSIONS.GROUP_GET_NAME',
+ * //         description : 'CORE.PERMISSIONS.GROUP_GET_DESCRIPTION'
+ * //       },
+ * //       {
+ * //         id : 'update-group-groupID',
+ * //         name : 'CORE.PERMISSIONS.GROUP_UPDATE_NAME',
+ * //         description : 'CORE.PERMISSIONS.GROUP_UPDATE_DESCRIPTION'
+ * //       },
+ * //       {
+ * //         id : 'delete-group-groupID',
+ * //         name : 'CORE.PERMISSIONS.GROUP_DELETE_NAME',
+ * //         description : 'CORE.PERMISSIONS.GROUP_DELETE_DESCRIPTION'
+ * //       }
+ * //     ]
+ * //   }
+ * // ]
  *
- *     });
- *
- * @method generateGroupPermissions
- * @async
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
- *  - **Array** The list of group permissions
+ * @param {module:core/providers/GroupProvider~GroupProvider~generateGroupPermissionsCallback} callback Function to
+ * call when it's done
  */
 GroupProvider.prototype.generateGroupPermissions = function(callback) {
   var self = this;
@@ -312,3 +288,28 @@ GroupProvider.prototype.generateGroupPermissions = function(callback) {
     }
   );
 };
+
+/**
+ * @callback module:core/providers/GroupProvider~GroupProvider~addCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The total amount of groups inserted
+ * @param {(Array|Undefined)} groups The list of added groups
+ */
+
+/**
+ * @callback module:core/providers/GroupProvider~GroupProvider~updateOneCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total 1 if everything went fine
+ */
+
+/**
+ * @callback module:core/providers/GroupProvider~GroupProvider~removeCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The number of removed groups
+ */
+
+/**
+ * @callback module:core/providers/GroupProvider~GroupProvider~generateGroupPermissionsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Array|Undefined)} permissions The list of group permissions
+ */

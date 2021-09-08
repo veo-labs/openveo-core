@@ -1,22 +1,21 @@
 'use strict';
 
-/**
- * @module ov.util
- */
-
 (function(app) {
 
   /**
    * Offers helpers to manipulate URLs as Internet Explorer does not implement URL.
    *
    * @class OvUrlFactory
+   * @memberof module:ov/util
+   * @inner
    */
   function OvUrlFactory() {
 
     /**
      * Sets a query parameter of an URL.
      *
-     * @method setUrlParameter
+     * @memberof module:ov/util~OvUrlFactory
+     * @instance
      * @param {String} url The URL to modify
      * @param {String} parameter The name of the parameter to add
      * @param {String} value The value of the parameter to add

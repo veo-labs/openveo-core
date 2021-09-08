@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-servers
+ * @module core/servers/Server
  */
 
 var express = require('express');
@@ -15,27 +15,32 @@ var express = require('express');
  * @param {Object} configuration Service configuration
  */
 function Server(configuration) {
-  Object.defineProperties(this, {
+  Object.defineProperties(this,
 
-    /**
-     * Server configuration object.
-     *
-     * @property configuration
-     * @type Object
-     * @final
-     */
-    configuration: {value: configuration},
+    /** @lends module:core/servers/Server~Server */
+    {
 
-    /**
-     * Express application.
-     *
-     * @property httpServer
-     * @type Application
-     * @final
-     */
-    httpServer: {value: express()}
+      /**
+       * Server configuration object.
+       *
+       * @type {Object}
+       * @instance
+       * @readonly
+       */
+      configuration: {value: configuration},
 
-  });
+      /**
+       * Express application.
+       *
+       * @type {Object}
+       * @instance
+       * @readonly
+       */
+      httpServer: {value: express()}
+
+    }
+
+  );
 
   // Remove x-powered-by http header
   this.httpServer.set('x-powered-by', false);
@@ -47,11 +52,8 @@ function Server(configuration) {
  *
  * It assures that the database is loaded and can be accessed.
  *
- * @method onDatabaseAvailable
- * @async
  * @param {Database} db The application database
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
+ * @param {callback} callback Function to call when its done
  */
 Server.prototype.onDatabaseAvailable = function(db, callback) {
   callback();
@@ -63,15 +65,12 @@ Server.prototype.onDatabaseAvailable = function(db, callback) {
  * It assures that the given plugin is fully loaded.
  *
  * @example
- *     MyServer.prototype.onPluginLoaded(plugin){
- *       console.log(plugin);
- *     };
+ * MyServer.prototype.onPluginLoaded(plugin){
+ *   console.log(plugin);
+ * };
  *
- * @method onPluginLoaded
- * @async
  * @param {Object} plugin The openveo plugin
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
+ * @param {callback} callback Function to call when its done
  */
 Server.prototype.onPluginLoaded = function(plugin, callback) {
 };
@@ -81,10 +80,7 @@ Server.prototype.onPluginLoaded = function(plugin, callback) {
  *
  * It assures that all plugins are fully loaded.
  *
- * @method onPluginsLoaded
- * @method async
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
+ * @param {callback} callback Function to call when its done
  */
 Server.prototype.onPluginsLoaded = function(callback) {
 };
@@ -92,10 +88,7 @@ Server.prototype.onPluginsLoaded = function(callback) {
 /**
  * Starts the server.
  *
- * @method startServer
- * @async
- * @param {Function} callback Function to call when it's done with :
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 Server.prototype.startServer = function(callback) {
   throw new Error('startServer method not implemented for this server');

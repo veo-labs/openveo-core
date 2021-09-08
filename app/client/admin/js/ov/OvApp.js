@@ -7,7 +7,6 @@
  * by OpenVeo core.
  *
  * @module ov
- * @main ov
  */
 
 (function(angular) {

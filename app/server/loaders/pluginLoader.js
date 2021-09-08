@@ -1,14 +1,9 @@
 'use strict';
 
 /**
- * @module core-loaders
- */
-
-/**
  * Provides functions to load openveo plugins.
  *
- * @class pluginLoader
- * @static
+ * @module core/loaders/pluginLoader
  */
 
 var fs = require('fs');
@@ -25,16 +20,14 @@ var ResourceFilter = openVeoApi.storages.ResourceFilter;
  * top level one.
  *
  * @example
- *     var pluginsPaths = [
- *       '/openveo/node_modules/@openveo/plugin1',
- *       '/openveo/node_modules/@openveo/plugin2/node_modules/@openveo/plugin1'
- *     ];
- *     console.log(filterPluginsPaths(pluginsPaths));
- *     // [ '/openveo/node_modules/@openveo/plugin1' ]
+ * var pluginsPaths = [
+ *   '/openveo/node_modules/@openveo/plugin1',
+ *   '/openveo/node_modules/@openveo/plugin2/node_modules/@openveo/plugin1'
+ * ];
+ * console.log(filterPluginsPaths(pluginsPaths));
+ * // [ '/openveo/node_modules/@openveo/plugin1' ]
  *
- * @method filterPluginsPaths
  * @private
- * @static
  * @param {Array} pluginsPaths The list of plugins paths to analyze
  * @return {Array} The filtered list of plugins paths
  */
@@ -83,20 +76,16 @@ function filterPluginsPaths(pluginsPaths) {
  * and contributers' plugins which must be prefixed by **openveo-**.
  *
  * @example
- *     getPluginPaths('/openveo', function(error, pluginsPaths){
- *       console.log(pluginsPaths);
- *       // [
- *       //   '/openveo/node_modules/@openveo/plugin',
- *       //   '/openveo/node_modules/openveo-contrib-plugin'
- *       // ]
- *     };
+ * getPluginPaths('/openveo', function(error, pluginsPaths){
+ *   console.log(pluginsPaths);
+ *   // [
+ *   //   '/openveo/node_modules/@openveo/plugin',
+ *   //   '/openveo/node_modules/openveo-contrib-plugin'
+ *   // ]
+ * };
  *
- * @method getPluginPaths
- * @static
  * @param {String} startingPath Root path of an NPM module from where looking for plugins
- * @param {Function} callback A callback with two arguments :
- *    - **Error** An Error object or null
- *    - **Array** The list of plugins paths
+ * @param {module:core/loaders/pluginLoader~getPluginsPathsCallback} callback A function to call when its done
  * @throws {TypeError} An error if starting path is not a valid string
  */
 module.exports.getPluginPaths = function(startingPath, callback) {
@@ -209,20 +198,15 @@ module.exports.getPluginPaths = function(startingPath, callback) {
  * will be kept.
  *
  * @example
- *     var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
+ * var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
  *
- *     // Load all potential openveo plugins from directory /home/openveo/openveo
- *     pluginLoader.loadPlugins('/home/openveo/openveo', function(error, plugins){
- *       console.log(plugins);
- *     };
+ * // Load all potential openveo plugins from directory /home/openveo/openveo
+ * pluginLoader.loadPlugins('/home/openveo/openveo', function(error, plugins){
+ *   console.log(plugins);
+ * };
  *
- * @method loadPlugins
- * @static
- * @async
  * @param {String} startingPath Root path of an NPM module from where looking for plugins
- * @param {Function} callback A callback with two arguments :
- *    - **Error** An Error object or null
- *    - **Array** A list of Plugin objects
+ * @param {module:core/loaders/pluginLoader~loadPluginsCallback} callback A function to call when its done
  * @throws {TypeError} An error if starting path is not a valid string
  */
 module.exports.loadPlugins = function(startingPath, callback) {
@@ -282,20 +266,15 @@ module.exports.loadPlugins = function(startingPath, callback) {
  * Loads a single plugin by its path.
  *
  * @example
- *     var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
+ * var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
  *
- *     // Load a plugin
- *     pluginLoader.loadPlugin('/node_modules/@openveo/publish', function(error, loadedPlugin){
- *       console.log(loadedPlugin);
- *     }
+ * // Load a plugin
+ * pluginLoader.loadPlugin('/node_modules/@openveo/publish', function(error, loadedPlugin){
+ *   console.log(loadedPlugin);
+ * }
  *
- * @method loadPlugin
- * @static
- * @async
  * @param {String} pluginPath Absolute path to the plugin directory
- * @param {Function} callback A callback with two arguments :
- *    - **Error** An Error object or null
- *    - **Plugin** The loaded plugin or null
+ * @param {module:core/loaders/pluginLoader~loadPluginCallback} callback A function to call when its done
  * @throws {TypeError} An error if plugin path or starting path is not a valid string
  */
 module.exports.loadPlugin = function(pluginPath, callback) {
@@ -370,12 +349,8 @@ module.exports.loadPlugin = function(pluginPath, callback) {
 /**
  * Loads plugin's configuration.
  *
- * @method loadPluginMetadata
- * @static
- * @async
  * @param {Plugin} plugin The plugin
- * @param {Function} callback A callback with :
- *    - **Error** An Error if something went wrong
+ * @param {callback} callback A function to call when its done
  */
 module.exports.loadPluginMetadata = function(plugin, callback) {
   async.parallel(
@@ -548,3 +523,21 @@ module.exports.loadPluginMetadata = function(plugin, callback) {
     }
   );
 };
+
+/**
+ * @callback module:core/loaders/pluginLoader~getPluginsPathsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Array|Undefined)} paths The list plugins paths
+ */
+
+/**
+ * @callback module:core/loaders/pluginLoader~loadPluginsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Plugin[]|Undefined)} plugins The list of plugins
+ */
+
+/**
+ * @callback module:core/loaders/pluginLoader~loadPluginCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Plugin|Undefined)} plugin The loaded plugin
+ */

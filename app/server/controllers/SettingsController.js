@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/SettingsController
  */
 
 var util = require('util');
@@ -16,7 +16,6 @@ var ResourceFilter = openVeoApi.storages.ResourceFilter;
  *
  * @class SettingsController
  * @extends EntityController
- * @constructor
  */
 function SettingsController() {
   SettingsController.super_.call(this);
@@ -29,19 +28,16 @@ util.inherits(SettingsController, EntityController);
  * Gets settings.
  *
  * @example
+ * // Response example
+ * {
+ *   "entities" : [ ... ],
+ *   "pagination" : {
+ *     "limit": ..., // The limit number of settings by page
+ *     "page": ..., // The actual page
+ *     "pages": ..., // The total number of pages
+ *     "size": ... // The total number of settings
+ * }
  *
- *     // Response example
- *     {
- *       "entities" : [ ... ],
- *       "pagination" : {
- *         "limit": ..., // The limit number of settings by page
- *         "page": ..., // The actual page
- *         "pages": ..., // The total number of pages
- *         "size": ... // The total number of settings
- *     }
- *
- * @method getEntitiesAction
- * @async
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} [request.query] Request query
  * @param {Number} [request.query.limit] A limit number of settings to retrieve per page (default to 10)
@@ -95,14 +91,11 @@ SettingsController.prototype.getEntitiesAction = function(request, response, nex
  * If setting is not found it is sent with value null.
  *
  * @example
+ * // Response example
+ * {
+ *   "entity" : { ... }
+ * }
  *
- *     // Response example
- *     {
- *       "entity" : { ... }
- *     }
- *
- * @method getEntityAction
- * @async
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.params Request's parameters
  * @param {String} request.params.id The setting id to retrieve
@@ -139,8 +132,7 @@ SettingsController.prototype.getEntityAction = function(request, response, next)
 /**
  * Gets an instance of the provider associated to the controller.
  *
- * @method getProvider
- * @return {SettingsProvider} The provider
+ * @return {module:core/providers/SettingProvider~SettingProvider} The provider
  */
 SettingsController.prototype.getProvider = function() {
   return new SettingProvider(process.api.getCoreApi().getDatabase());

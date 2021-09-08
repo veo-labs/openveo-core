@@ -1,15 +1,10 @@
 'use strict';
 
 /**
- * @module core-loaders
- */
-
-/**
  * Provides functions to load routes from core and plugins
  * configuration.
  *
- * @class routeLoader
- * @static
+ * @module core/loaders/routeLoader
  */
 
 var path = require('path');
@@ -23,28 +18,26 @@ var controllers = {};
  * for each one, the method, the path and the action to call.
  *
  * @example
- *     var routeLoader = process.require('app/server/loaders/routeLoader.js');
- *     var routes = {
- *       'get /test' : 'app/server/controllers/TestController.getTestAction',
- *       'post /test' : 'app/server/controllers/TestController.postTestAction'
- *     };
+ * var routeLoader = process.require('app/server/loaders/routeLoader.js');
+ * var routes = {
+ *   'get /test' : 'app/server/controllers/TestController.getTestAction',
+ *   'post /test' : 'app/server/controllers/TestController.postTestAction'
+ * };
  *
- *     console.log(routeLoader.decodeRoutes('/', routes));
- *     // [
- *     //   {
- *     //     method: 'get',
- *     //     path: '/test',
- *     //     action: Function
- *     //   },
- *     //   {
- *     //     method: 'post',
- *     //     path: 'test',
- *     //     action: Function
- *     //   }
- *     // ]
+ * console.log(routeLoader.decodeRoutes('/', routes));
+ * // [
+ * //   {
+ * //     method: 'get',
+ * //     path: '/test',
+ * //     action: Function
+ * //   },
+ * //   {
+ * //     method: 'post',
+ * //     path: 'test',
+ * //     action: Function
+ * //   }
+ * // ]
  *
- * @method decodeRoutes
- * @static
  * @param {String} pluginPath The root path of the plugin associated to the routes
  * @param {Object} routes An object of routes
  * @return {Array} The decoded list of routes
@@ -139,19 +132,17 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
  * Applies a list of routes to a router.
  *
  * @example
- *     var router = express.Router();
- *     var routeLoader = process.require('app/server/loaders/routeLoader.js');
- *     var routes = [
- *       {
- *         method: 'get',
- *         path: '/logout',
- *         action: [Function]
- *       }
- *     ];
- *     routeLoader.applyRoutes(routes, router);
+ * var router = express.Router();
+ * var routeLoader = process.require('app/server/loaders/routeLoader.js');
+ * var routes = [
+ *   {
+ *     method: 'get',
+ *     path: '/logout',
+ *     action: [Function]
+ *   }
+ * ];
+ * routeLoader.applyRoutes(routes, router);
  *
- * @method applyRoutes
- * @static
  * @param {Array} routes The list of routes to apply
  * @param {Object} router An express router to attach the routes to
  */

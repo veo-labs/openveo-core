@@ -43,7 +43,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-contrib-yuidoc');
   grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-mkdocs');
   grunt.loadNpmTasks('grunt-gh-pages');
@@ -66,7 +65,7 @@ module.exports = function(grunt) {
   ]);
 
   // Generate documentation
-  grunt.registerTask('doc', ['remove:doc', 'mkdocs', 'yuidoc', 'rename:doc']);
+  grunt.registerTask('doc', ['mkdocs', 'rename:doc']);
 
   // Build the back office
   grunt.registerTask('build-back-office-client', [

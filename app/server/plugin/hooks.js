@@ -1,24 +1,22 @@
 'use strict';
 
 /**
- * @module core-plugin
+ * @module core/plugin/hooks
  */
 
 /**
  * Defines the list of hooks sent by core.
  *
  * @example
- *     var coreApi = process.api.getCoreApi();
- *     var CORE_HOOKS = process.api.getCoreApi().getHooks();
- *     coreApi.registerAction(CORE_HOOKS.USERS_DELETED, function(ids, callback) {
- *       console.log(ids);
- *       callback();
- *     );
+ * var coreApi = process.api.getCoreApi();
+ * var CORE_HOOKS = process.api.getCoreApi().getHooks();
+ * coreApi.registerAction(CORE_HOOKS.USERS_DELETED, function(ids, callback) {
+ *   console.log(ids);
+ *   callback();
+ * );
  *
- * @class CORE_HOOKS
- * @static
+ * @namespace
  */
-
 var CORE_HOOKS = {
 
   /**
@@ -28,10 +26,10 @@ var CORE_HOOKS = {
    * - **Array** The list of deleted user ids
    * - **Function** The function to call when action is done
    *
-   * @property USERS_DELETED
-   * @type String
-   * @default 'users.deleted'
-   * @final
+   * @const
+   * @type {String}
+   * @default
+   * @inner
    */
   USERS_DELETED: 'users.deleted',
 
@@ -42,10 +40,10 @@ var CORE_HOOKS = {
    * - **Array** The list of deleted role ids
    * - **Function** The function to call when action is done
    *
-   * @property ROLES_DELETED
-   * @type String
-   * @default 'roles.deleted'
-   * @final
+   * @const
+   * @type {String}
+   * @default
+   * @inner
    */
   ROLES_DELETED: 'roles.deleted',
 
@@ -56,10 +54,10 @@ var CORE_HOOKS = {
    * - **Array** The list of added groups
    * - **Function** The function to call when action is done
    *
-   * @property GROUPS_ADDED
-   * @type String
-   * @default 'groups.added'
-   * @final
+   * @const
+   * @type {String}
+   * @default
+   * @inner
    */
   GROUPS_ADDED: 'groups.added',
 
@@ -72,10 +70,10 @@ var CORE_HOOKS = {
    *   - **Object** modifications The list of modifications applied
    * - **Function** The function to call when action is done
    *
-   * @property GROUP_UPDATED
-   * @type String
-   * @default 'group.updated'
-   * @final
+   * @const
+   * @type {String}
+   * @default
+   * @inner
    */
   GROUP_UPDATED: 'group.updated',
 
@@ -86,10 +84,10 @@ var CORE_HOOKS = {
    * - **Array** The list of deleted groups
    * - **Function** The function to call when action is done
    *
-   * @property GROUPS_DELETED
-   * @type String
-   * @default 'groups.deleted'
-   * @final
+   * @const
+   * @type {String}
+   * @default
+   * @inner
    */
   GROUPS_DELETED: 'groups.deleted'
 

@@ -11,7 +11,8 @@ module.exports = {
       'tasks/**/*.js',
       'tests/**/*.js',
       'app/**/*.js',
-      'migrations/**/*.js'
+      'migrations/**/*.js',
+      'scripts/**/*.js'
     ]
   }
 

@@ -1,7 +1,12 @@
 'use strict';
 
 /**
- * @module core
+ * The authenticator helps manipulate users authenticated by passport strategies.
+ *
+ * Users returned by passport are not necessary OpenVeo users. It could be users from a third party authentication
+ * server. The authenticator helps making sure that the authenticated user is a ready to use OpenVeo user.
+ *
+ * @module core/authenticator
  */
 
 var async = require('async');
@@ -13,25 +18,12 @@ var storage = process.require('app/server/storage.js');
 var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 /**
- * The authenticator helps manipulate users authenticated by passport strategies.
- *
- * Users returned by passport are not necessary OpenVeo users. It could be users from a third party authentication
- * server. The authenticator helps making sure that the authenticated user is a ready to use OpenVeo user.
- *
- * @class authenticator
- * @static
- */
-
-/**
  * Populates user with detailed roles and permissions.
  *
- * @method populateUser
- * @async
+ * @private
  * @param {Object} user The user to populate
  * @param {Array} [user.roles] The list of role ids
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Object** The populated user
+ * @param {module:core/authenticator~populateUserCallback} callback The function to call when it's done
  */
 function populateUser(user, callback) {
   if (!user.roles || !user.roles.length) return callback(null, user);
@@ -61,13 +53,8 @@ function populateUser(user, callback) {
 /**
  * Serializes only essential user information required to retrieve it later.
  *
- * @method serializeUser
- * @async
- * @static
  * @param {Object} user The user to serialize
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **String** The serialized user information
+ * @param {module:core/authenticator~serializeUserCallback} callback The function to call when it's done
  */
 module.exports.serializeUser = function(user, callback) {
   if (!user || !user.id)
@@ -79,13 +66,8 @@ module.exports.serializeUser = function(user, callback) {
 /**
  * Fetches a user with its permissions from serialized data.
  *
- * @method deserializeUser
- * @async
- * @static
  * @param {String} data Serialized data as serialized by serializeUser(): the id of the user
- * @param {Function} callback The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Object** The user with its permissions
+ * @param {module:core/authenticator~deserializeUserCallback} callback The function to call when it's done
  */
 module.exports.deserializeUser = function(data, callback) {
   var userProvider = new UserProvider(storage.getDatabase());
@@ -107,14 +89,9 @@ module.exports.deserializeUser = function(data, callback) {
 /**
  * Verifies a user as returned by the passport local strategy.
  *
- * @method verifyUserByCredentials
- * @async
- * @static
  * @param {String} email User email
  * @param {String} password User password
- * @param {Function} callback Function to call when its done
- *  - **Error** An error if something went wrong, null otherwise
- *  - **Object** The user with its permissions
+ * @param {module:core/authenticator~verifyUserByCredentialsCallback} callback Function to call when its done
  */
 module.exports.verifyUserByCredentials = function(email, password, callback) {
   var userProvider = new UserProvider(storage.getDatabase());
@@ -134,14 +111,9 @@ module.exports.verifyUserByCredentials = function(email, password, callback) {
  * OpenVeo trusts users from third party providers, if the user does not exist in OpenVeo
  * it is created with minimum information.
  *
- * @method verifyUserAuthentication
- * @async
- * @static
  * @param {Object} thirdPartyUser The user from the third party provider
  * @param {String} strategy The id of the strategy
- * @param {Function} callback Function to call when its done
- *  - **Error** An error if something went wrong, null otherwise
- *  - **Object** The user with its permissions
+ * @param {module:core/authenticator~verifyUserAuthenticationCallback} callback Function to call when its done
  */
 module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, callback) {
   var user;
@@ -265,3 +237,33 @@ module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, cal
   });
 
 };
+
+/**
+ * @callback module:core/authenticator~populateUserCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The populated user
+ */
+
+/**
+ * @callback module:core/authenticator~serializeUserCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(String|Undefined)} information The serialized user information
+ */
+
+/**
+ * @callback module:core/authenticator~deserializeUserCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The user with its permissions
+ */
+
+/**
+ * @callback module:core/authenticator~verifyUserByCredentialsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The user with its permissions
+ */
+
+/**
+ * @callback module:core/authenticator~verifyUserAuthenticationCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The user with its permissions
+ */

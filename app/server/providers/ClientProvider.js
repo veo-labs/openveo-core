@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-providers
+ * @module core/providers/ClientProvider
  */
 
 var util = require('util');
@@ -14,7 +14,6 @@ var openVeoApi = require('@openveo/api');
  *
  * @class ClientProvider
  * @extends EntityProvider
- * @constructor
  * @param {Database} database The database storing the clients
  */
 function ClientProvider(database) {
@@ -29,16 +28,12 @@ util.inherits(ClientProvider, openVeoApi.providers.EntityProvider);
  *
  * When adding a client a secret is automatically generated.
  *
- * @method add
- * @async
  * @param {Array} clients The list of clients to store with for each client:
- *   - **String** name The client name
- *   - **String** [id] The client id, generated if not specified
- *   - **Array** [scopes] The client scopes
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The total amount of clients inserted
- *   - **Array** The list of added clients
+ * @param {String} clients[].name The client name
+ * @param {String} [clients[].id] The client id, generated if not specified
+ * @param {Array} [clients[].scopes] The client scopes
+ * @param {module:core/providers/ClientProvider~ClientProvider~addCallback} [callback] The function to call when it's
+ * done
  */
 ClientProvider.prototype.add = function(clients, callback) {
   var clientsToAdd = [];
@@ -63,15 +58,12 @@ ClientProvider.prototype.add = function(clients, callback) {
 /**
  * Updates a client.
  *
- * @method updateOne
- * @async
  * @param {ResourceFilter} [filter] Rules to filter client to update
  * @param {Object} data The modifications to perform
  * @param {String} [data.name] The client name
  * @param {Array} [data.scopes] The client scopes
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** 1 if everything went fine
+ * @param {module:core/providers/ClientProvider~ClientProvider~updateOneCallback} [callback] The function to call when
+ * it's done
  */
 ClientProvider.prototype.updateOne = function(filter, data, callback) {
   var modifications = {};
@@ -84,10 +76,7 @@ ClientProvider.prototype.updateOne = function(filter, data, callback) {
 /**
  * Creates clients indexes.
  *
- * @method createIndexes
- * @async
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 ClientProvider.prototype.createIndexes = function(callback) {
   var language = process.api.getCoreApi().getContentLanguage();
@@ -109,11 +98,8 @@ ClientProvider.prototype.createIndexes = function(callback) {
 /**
  * Drops an index from database collection.
  *
- * @method dropIndex
- * @async
  * @param {String} indexName The name of the index to drop
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 ClientProvider.prototype.dropIndex = function(indexName, callback) {
   this.storage.dropIndex(this.location, indexName, function(error, result) {
@@ -123,3 +109,16 @@ ClientProvider.prototype.dropIndex = function(indexName, callback) {
     callback(error);
   });
 };
+
+/**
+ * @callback module:core/providers/ClientProvider~ClientProvider~addCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The total amount of clients inserted
+ * @param {(Array|Undefined)} clients The list of added clients
+ */
+
+/**
+ * @callback module:core/providers/ClientProvider~ClientProvider~updateOneCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total 1 if everything went fine
+ */

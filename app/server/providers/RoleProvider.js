@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-providers
+ * @module core/providers/RoleProvider
  */
 
 var nanoid = require('nanoid').nanoid;
@@ -13,7 +13,6 @@ var openVeoApi = require('@openveo/api');
  *
  * @class RoleProvider
  * @extends EntityProvider
- * @constructor
  * @param {Database} database The database to interact with
  */
 function RoleProvider(database) {
@@ -26,16 +25,11 @@ util.inherits(RoleProvider, openVeoApi.providers.EntityProvider);
 /**
  * Adds roles.
  *
- * @method add
- * @async
  * @param {Array} roles The list of roles to store with for each role:
- *   - **String** name The role name
- *   - **Array** permissions The role permissions
- *   - **String** [id] The role id, generated if not specified
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The total amount of roles inserted
- *   - **Array** The list of added roles
+ * @param {String} roles[].name The role name
+ * @param {Array} roles[].permissions The role permissions
+ * @param {String} [roles[].id] The role id, generated if not specified
+ * @param {module:core/providers/RoleProvider~RoleProvider~addCallback} [callback] The function to call when it's done
  */
 RoleProvider.prototype.add = function(roles, callback) {
   var rolesToAdd = [];
@@ -62,12 +56,9 @@ RoleProvider.prototype.add = function(roles, callback) {
  * This will execute core hook "ROLES_DELETED" after deleting roles with:
  * - **Array** ids The list of deleted role ids
  *
- * @method remove
- * @async
  * @param {ResourceFilter} [filter] Rules to filter roles to remove
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The number of removed roles
+ * @param {module:core/providers/RoleProvider~RoleProvider~removeCallback} [callback] The function to call when it's
+ * done
  */
 RoleProvider.prototype.remove = function(filter, callback) {
   var self = this;
@@ -108,15 +99,12 @@ RoleProvider.prototype.remove = function(filter, callback) {
 /**
  * Updates a role.
  *
- * @method updateOne
- * @async
  * @param {ResourceFilter} [filter] Rules to filter the role to update
  * @param {Object} data The modifications to perform
  * @param {String} [data.name] The role name
  * @param {Array} [data.permissions] The role permissions
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** 1 if everything went fine
+ * @param {module:core/providers/RoleProvider~RoleProvider~updateOneCallback} [callback] The function to call when it's
+ * done
  */
 RoleProvider.prototype.updateOne = function(filter, data, callback) {
   var modifications = {};
@@ -129,10 +117,7 @@ RoleProvider.prototype.updateOne = function(filter, data, callback) {
 /**
  * Creates roles indexes.
  *
- * @method createIndexes
- * @async
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 RoleProvider.prototype.createIndexes = function(callback) {
   var language = process.api.getCoreApi().getContentLanguage();
@@ -154,11 +139,8 @@ RoleProvider.prototype.createIndexes = function(callback) {
 /**
  * Drops an index from database collection.
  *
- * @method dropIndex
- * @async
  * @param {String} indexName The name of the index to drop
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 RoleProvider.prototype.dropIndex = function(indexName, callback) {
   this.storage.dropIndex(this.location, indexName, function(error, result) {
@@ -168,3 +150,22 @@ RoleProvider.prototype.dropIndex = function(indexName, callback) {
     callback(error);
   });
 };
+
+/**
+ * @callback module:core/providers/RoleProvider~RoleProvider~addCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The total amount of roles inserted
+ * @param {(Array|Undefined)} roles The list of added roles
+ */
+
+/**
+ * @callback module:core/providers/RoleProvider~RoleProvider~removeCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The number of removed roles
+ */
+
+/**
+ * @callback module:core/providers/RoleProvider~RoleProvider~updateOneCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total 1 if everything went fine
+ */

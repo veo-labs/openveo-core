@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/AuthenticationController
  */
 
 var util = require('util');
@@ -16,25 +16,24 @@ var Controller = openVeoApi.controllers.Controller;
  * Retrieves, recursively, the permission corresponding to the couple url / http method.
  *
  * @example
- *     var permissions = [
+ * var permissions = [
+ *   {
+ *     label: 'Permissions group',
+ *     permissions: [
  *       {
- *         label: 'Permissions group',
- *         permissions: [
- *           {
- *             id: 'perm-1',
- *             name: 'Name of the permission',
- *             description: 'Description of the permission',
- *             paths: [ 'get /publishVideo' ]
- *           }
- *         ]
+ *         id: 'perm-1',
+ *         name: 'Name of the permission',
+ *         description: 'Description of the permission',
+ *         paths: [ 'get /publishVideo' ]
  *       }
- *     ];
- *     getPermissionByUrl(permissions, '/publishVideo', 'GET'); // "perm-1"
- *     getPermissionByUrl(permissions, '/video', 'GET'); // null
+ *     ]
+ *   }
+ * ];
+ * getPermissionByUrl(permissions, '/publishVideo', 'GET'); // "perm-1"
+ * getPermissionByUrl(permissions, '/video', 'GET'); // null
  *
- * @method getPermissionByUrl
  * @private
- * @static
+ * @memberof module:core/controllers/AuthenticationController~AuthenticationController
  * @param {Array} permissions The list of permissions
  * @param {String} url An url
  * @param {String} httpMethod The http method (POST, GET, PUT, DELETE)
@@ -74,8 +73,8 @@ function getPermissionByUrl(permissions, url, httpMethod) {
  *
  * All users must have access to its profile.
  *
- * @method isUserProfileUrl
  * @private
+ * @memberof module:core/controllers/AuthenticationController~AuthenticationController
  * @param {Object} request The express request object handled by the server
  * @param {Object} request.user The connected user
  * @param {String} request.user.id The connected user id
@@ -92,9 +91,8 @@ function isUserProfileUrl(request) {
 /**
  * Defines a controller to handlerequests relative to back end authentication.
  *
- * @class authenticationController
+ * @class AuthenticationController
  * @extends Controller
- * @constructor
  */
 function AuthenticationController() {
   AuthenticationController.super_.call(this);
@@ -106,9 +104,6 @@ util.inherits(AuthenticationController, Controller);
 /**
  * Handles user authentication using internal providers (which do not require a redirection to a third party site).
  *
- * @method authenticateInternalAction
- * @static
- * @async
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.body Request's body
  * @param {String} request.body.login The login
@@ -164,9 +159,6 @@ AuthenticationController.prototype.authenticateInternalAction = function(request
 /**
  * Handles user authentication using external providers (which require a redirection on third party site).
  *
- * @method authenticateExternalAction
- * @static
- * @async
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.params Request's parameters
  * @param {String} request.params.type The authentication provider to use
@@ -214,7 +206,6 @@ AuthenticationController.prototype.authenticateExternalAction = function(request
  *
  * An HTTP code 200 is returned to the client with no content.
  *
- * @method logoutAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Response} response ExpressJS HTTP Response
  * @param {Function} next Function to defer execution to the next registered middleware
@@ -250,7 +241,6 @@ AuthenticationController.prototype.logoutAction = function(request, response, ne
  * If not send back an HTTP code 401 with appropriate page.
  * It just get to the next route action if permission is granted.
  *
- * @method restrictAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {String} request.url Request's url
  * @param {String} request.method Request's method
@@ -297,7 +287,6 @@ AuthenticationController.prototype.restrictAction = function(request, response, 
 /**
  * Gets the tree of groups / permissions and return it as a JSON object.
  *
- * @method getPermissionsAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Response} response ExpressJS HTTP Response
  * @param {Function} next Function to defer execution to the next registered middleware

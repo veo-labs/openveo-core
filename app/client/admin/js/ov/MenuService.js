@@ -5,8 +5,12 @@
   /**
    * Defines a menu service to manage the menu of the application.
    *
-   * @module ov
-   * @class menuService
+   * @example
+   * MyAngularObject.$inject = ['menuService'];
+   *
+   * @class MenuService
+   * @memberof module:ov
+   * @inner
    */
   function MenuService($http, $q, $location) {
     var basePath = '/be/';
@@ -15,7 +19,8 @@
     /**
      * Sets menu items corresponding to the actual path to active and the other menu items to inactive.
      *
-     * @method setActiveMenuItem
+     * @memberof module:ov~MenuService
+     * @instance
      */
     function setActiveMenuItem() {
       if (menu) {
@@ -43,8 +48,10 @@
     /**
      * Loads the menu from server.
      *
+     * @memberof module:ov~MenuService
+     * @instance
+     * @async
      * @return {Promise} The Http promise
-     * @method loadMenu
      */
     function loadMenu() {
       if (!menu) {
@@ -66,8 +73,9 @@
     /**
      * Gets the menu.
      *
+     * @memberof module:ov~MenuService
+     * @instance
      * @return {Object} The menu
-     * @method getMenu
      */
     function getMenu() {
       return menu;
@@ -76,7 +84,8 @@
     /**
      * Destroys MenuService cached data.
      *
-     * @method destroyMenu
+     * @memberof module:ov~MenuService
+     * @instance
      */
     function destroyMenu() {
       menu = null;

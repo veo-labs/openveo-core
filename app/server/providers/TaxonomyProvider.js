@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-providers
+ * @module core/providers/TaxonomyProvider
  */
 
 var util = require('util');
@@ -15,7 +15,6 @@ var NotFoundError = openVeoApi.errors.NotFoundError;
  *
  * @class TaxonomyProvider
  * @extends EntityProvider
- * @constructor
  * @param {Database} database The database to interact with
  */
 function TaxonomyProvider(database) {
@@ -28,12 +27,9 @@ util.inherits(TaxonomyProvider, openVeoApi.providers.EntityProvider);
 /**
  * Gets the list of terms of a taxonomy.
  *
- * @method getTaxonomyTerms
- * @async
  * @param {String} name The taxonomy name
- * @param {Function} callback Function to call when it's done
- *  - **Error** An error if something went wrong
- *  - **Array** The taxonomy terms
+ * @param {module:core/providers/TaxonomyProvider~TaxonomyProvider~getTaxonomyTermsCallback} callback Function to call
+ * when it's done
  */
 TaxonomyProvider.prototype.getTaxonomyTerms = function(name, callback) {
   this.getOne(
@@ -53,18 +49,15 @@ TaxonomyProvider.prototype.getTaxonomyTerms = function(name, callback) {
 /**
  * Updates a taxonomy.
  *
- * @method updateOne
- * @async
  * @param {ResourceFilter} [filter] Rules to filter the taxonomy to update
  * @param {Object} data The modifications to perform
  * @param {String} [data.name] The taxonomy name
  * @param {Array} [data.tree] The list of terms in the taxonomy with for each term:
- *   - **String** id Term id
- *   - **String** title Term title
- *   - **Array** items Term sub terms
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** 1 if everything went fine
+ * @param {String} data.tree[].id Term id
+ * @param {String} data.tree[].title Term title
+ * @param {Array} data.tree[].items Term sub terms
+ * @param {module:core/providers/TaxonomyProvider~TaxonomyProvider~updateOneCallback} [callback] The function to call
+ * when it's done
  */
 TaxonomyProvider.prototype.updateOne = function(filter, data, callback) {
   var modifications = {};
@@ -77,19 +70,15 @@ TaxonomyProvider.prototype.updateOne = function(filter, data, callback) {
 /**
  * Adds taxonomies.
  *
- * @method add
- * @async
  * @param {Array} taxonomies The list of taxonomies to store with for each taxonomy:
- *   - **String** name The taxonomy name
- *   - **Array** tree The list of terms in the taxonomy with for each term:
- *     - **String** id Term id
- *     - **String** title Term title
- *     - **Array** items Term sub terms
- *   - **String** id The taxonomy id, generated if not specified
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The total amount of taxonomies inserted
- *   - **Array** The list of added taxonomies
+ * @param {String} taxonomies[].name The taxonomy name
+ * @param {String} taxonomies[].id The taxonomy id, generated if not specified
+ * @param {Array} taxonomies[].tree The list of terms in the taxonomy with for each term:
+ * @param {String} taxonomies[].tree[].id Term id
+ * @param {String} taxonomies[].tree[].title Term title
+ * @param {Array} taxonomies[].tree[].items Term sub terms
+ * @param {module:core/providers/TaxonomyProvider~TaxonomyProvider~addCallback} [callback] The function to call when
+ * it's done
  */
 TaxonomyProvider.prototype.add = function(taxonomies, callback) {
   var taxonomiesToAdd = [];
@@ -113,10 +102,7 @@ TaxonomyProvider.prototype.add = function(taxonomies, callback) {
 /**
  * Creates taxonomies indexes.
  *
- * @method createIndexes
- * @async
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 TaxonomyProvider.prototype.createIndexes = function(callback) {
   var language = process.api.getCoreApi().getContentLanguage();
@@ -138,11 +124,8 @@ TaxonomyProvider.prototype.createIndexes = function(callback) {
 /**
  * Drops an index from database collection.
  *
- * @method dropIndex
- * @async
  * @param {String} indexName The name of the index to drop
- * @param {Function} callback Function to call when it's done with:
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 TaxonomyProvider.prototype.dropIndex = function(indexName, callback) {
   this.storage.dropIndex(this.location, indexName, function(error, result) {
@@ -152,3 +135,22 @@ TaxonomyProvider.prototype.dropIndex = function(indexName, callback) {
     callback(error);
   });
 };
+
+/**
+ * @callback module:core/providers/TaxonomyProvider~TaxonomyProvider~getTaxonomyTermsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Array|Undefined)} terms The taxonomy terms
+ */
+
+/**
+ * @callback module:core/providers/TaxonomyProvider~TaxonomyProvider~updateOneCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total 1 if everything went fine
+ */
+
+/**
+ * @callback module:core/providers/TaxonomyProvider~TaxonomyProvider~addCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The total amount of taxonomies inserted
+ * @param {(Array|Undefined)} taxonomies The list of added taxonomies
+ */

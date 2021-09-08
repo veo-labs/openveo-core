@@ -1,14 +1,9 @@
 'use strict';
 
 /**
- * @module core-loaders
- */
-
-/**
  * Provides functions to load migration script.
  *
- * @class migrationLoader
- * @static
+ * @module core/loaders/migrationLoader
  */
 
 var fs = require('fs');

@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/I18nController
  */
 
 var util = require('util');
@@ -14,7 +14,6 @@ var Controller = openVeoApi.controllers.Controller;
  *
  * @class I18nController
  * @extends Controller
- * @constructor
  */
 function I18nController() {
   I18nController.super_.call(this);
@@ -27,15 +26,14 @@ util.inherits(I18nController, Controller);
  * Gets a public dictionary of translations by its name.
  *
  * @example
- *     {
- *       ENGLISH: 'Anglais',
- *       FRENCH: 'Français',
- *       ...
- *     }
+ * {
+ *   ENGLISH: 'Anglais',
+ *   FRENCH: 'Français',
+ *   ...
+ * }
  *
  * If no dictionary is found, a JSON 404 Not Found response is send back.
  *
- * @method getDictionaryAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.params Request's parameters
  * @param {String} request.params.dictionary The name of the dictionary
@@ -64,7 +62,6 @@ I18nController.prototype.getDictionaryAction = function(request, response, next)
  * If no dictionary is found, a JSON 404 Not Found response is send back
  * to the client.
  *
- * @method getAdminDictionaryAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.params Request's parameters
  * @param {String} request.params.dictionary The name of the dictionary

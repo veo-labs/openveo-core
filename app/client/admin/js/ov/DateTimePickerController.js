@@ -5,8 +5,6 @@
   /**
    * Manages ovDateTimePicker directive.
    *
-   * @class OvDateTimePickerController
-   * @constructor
    * @param {Object} $element The HTML element holding the component
    * @param {Object} $timeout AngularJS $timeout service
    * @param {Object} $scope Directive isolated scope
@@ -17,117 +15,129 @@
     var datePickerNgModelCtrl;
     var timePickerNgModelCtrl;
 
-    Object.defineProperties(ctrl, {
+    Object.defineProperties(ctrl,
 
-      /**
-       * Indicates if the calendar is opened or not.
-       *
-       * @property calendarIsOpened
-       * @type Boolean
-       */
-      calendarIsOpened: {
-        value: false,
-        writable: true
-      },
+      /** @lends module:ov~ovDateTimePicker */
+      {
 
-      /**
-       * The date.
-       *
-       * @property date
-       * @type Date
-       */
-      date: {
-        value: null,
-        writable: true
-      },
+        /**
+         * Indicates if the calendar is opened or not.
+         *
+         * @type {Boolean}
+         * @default false
+         * @instance
+         */
+        calendarIsOpened: {
+          value: false,
+          writable: true
+        },
 
-      /**
-       * The time.
-       *
-       * @property time
-       * @type Date
-       */
-      time: {
-        value: null,
-        writable: true
-      },
+        /**
+         * The date.
+         *
+         * @type {Date}
+         * @default null
+         * @instance
+         */
+        date: {
+          value: null,
+          writable: true
+        },
 
-      /**
-       * Sets blur listeners on AngularJS Bootstrap time picker inputs.
-       *
-       * Date time picker component should be set as touched focus leaves one of the time picker inputs.
-       *
-       * @method $postLink
-       */
-      $postLink: {
-        value: function() {
+        /**
+         * The time.
+         *
+         * @type {Date}
+         * @default null
+         * @instance
+         */
+        time: {
+          value: null,
+          writable: true
+        },
 
-          // Wait for the end of the digest loop to be able to access time picker template elements.
-          // Time picker template is loaded from templates cache
-          $timeout(function() {
-            var inputElements = $element[0].querySelectorAll('.ov-time-picker input');
-            var datePickerElement = angular.element($element[0].querySelector('input[uib-datepicker-popup]'));
-            var timePickerElement = angular.element($element[0].querySelector('div[uib-timepicker]'));
+        /**
+         * Sets blur listeners on AngularJS Bootstrap time picker inputs.
+         *
+         * Date time picker component should be set as touched focus leaves one of the time picker inputs.
+         *
+         * @ignore
+         */
+        $postLink: {
+          value: function() {
 
-            for (var i = 0; i < inputElements.length; i++) {
-              var inputElement = inputElements[i];
-              angular.element(inputElement).on('blur', ctrl.setAsTouched.bind(ctrl));
-            }
+            // Wait for the end of the digest loop to be able to access time picker template elements.
+            // Time picker template is loaded from templates cache
+            $timeout(function() {
+              var inputElements = $element[0].querySelectorAll('.ov-time-picker input');
+              var datePickerElement = angular.element($element[0].querySelector('input[uib-datepicker-popup]'));
+              var timePickerElement = angular.element($element[0].querySelector('div[uib-timepicker]'));
 
-            // Retrieve date picker and time picker ngModel controllers
-            datePickerNgModelCtrl = datePickerElement.controller('ngModel');
-            timePickerNgModelCtrl = timePickerElement.controller('ngModel');
-          });
+              for (var i = 0; i < inputElements.length; i++) {
+                var inputElement = inputElements[i];
+                angular.element(inputElement).on('blur', ctrl.setAsTouched.bind(ctrl));
+              }
 
-        }
-      },
+              // Retrieve date picker and time picker ngModel controllers
+              datePickerNgModelCtrl = datePickerElement.controller('ngModel');
+              timePickerNgModelCtrl = timePickerElement.controller('ngModel');
+            });
 
-      /**
-       * Opens the date picker.
-       *
-       * @method openDatePicker
-       */
-      openDatePicker: {
-        value: function() {
-          ctrl.calendarIsOpened = true;
-        }
-      },
+          }
+        },
 
-      /**
-       * Sets the model using both date and time.
-       *
-       * @method updateModelValue
-       */
-      updateModelValue: {
-        value: function() {
-          if (!datePickerNgModelCtrl || !timePickerNgModelCtrl) return;
-          ngModelCtrl.$setValidity('dateTime', (datePickerNgModelCtrl.$valid && timePickerNgModelCtrl.$valid));
+        /**
+         * Opens the date picker.
+         *
+         * @method
+         * @memberof module:ov~ovDateTimePicker
+         * @instance
+         */
+        openDatePicker: {
+          value: function() {
+            ctrl.calendarIsOpened = true;
+          }
+        },
 
-          if (datePickerNgModelCtrl.$invalid || timePickerNgModelCtrl.$invalid) return;
+        /**
+         * Sets the model using both date and time.
+         *
+         * @method
+         * @memberof module:ov~ovDateTimePicker
+         * @instance
+         */
+        updateModelValue: {
+          value: function() {
+            if (!datePickerNgModelCtrl || !timePickerNgModelCtrl) return;
+            ngModelCtrl.$setValidity('dateTime', (datePickerNgModelCtrl.$valid && timePickerNgModelCtrl.$valid));
 
-          if (!ctrl.date) return ngModelCtrl.$validate();
+            if (datePickerNgModelCtrl.$invalid || timePickerNgModelCtrl.$invalid) return;
 
-          var date = angular.copy(ctrl.date);
-          date.setHours(ctrl.time ? ctrl.time.getHours() : 0);
-          date.setMinutes(ctrl.time ? ctrl.time.getMinutes() : 0);
-          date.setSeconds(0);
-          ngModelCtrl.$setViewValue(date);
-          ngModelCtrl.$validate();
-        }
-      },
+            if (!ctrl.date) return ngModelCtrl.$validate();
 
-      /**
-       * Sets form element as touched.
-       *
-       * @method setAsTouched
-       */
-      setAsTouched: {
-        value: function() {
-          ngModelCtrl.$setTouched();
+            var date = angular.copy(ctrl.date);
+            date.setHours(ctrl.time ? ctrl.time.getHours() : 0);
+            date.setMinutes(ctrl.time ? ctrl.time.getMinutes() : 0);
+            date.setSeconds(0);
+            ngModelCtrl.$setViewValue(date);
+            ngModelCtrl.$validate();
+          }
+        },
+
+        /**
+         * Sets form element as touched.
+         *
+         * @method
+         * @memberof module:ov~ovDateTimePicker
+         * @instance
+         */
+        setAsTouched: {
+          value: function() {
+            ngModelCtrl.$setTouched();
+          }
         }
       }
-
-    });
+    );
 
     /**
      * Renders the value using the model.

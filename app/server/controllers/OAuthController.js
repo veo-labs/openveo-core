@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/OAuthController
  */
 
 var util = require('util');
@@ -14,9 +14,8 @@ var Controller = openVeoApi.controllers.Controller;
 /**
  * Retrieves, from list of scopes, the scope corresponding to the couple url / http method.
  *
- * @method getScopeByUrl
+ * @memberof module:core/controllers/OAuthController~OAuthController
  * @private
- * @static
  * @param {String} url An url
  * @param {String} httpMethod The http method (POST, GET, PUT, DELETE)
  * @return {String} The scope id if found, null otherwise
@@ -48,30 +47,29 @@ function getScopeByUrl(url, httpMethod) {
  * Retrieves, recursively, the id of all permissions.
  *
  * @example
- *     var permissions = [
+ * var permissions = [
+ *   {
+ *     label: 'Permissions group',
+ *     permissions: [
  *       {
- *         label: 'Permissions group',
- *         permissions: [
- *           {
- *             id: 'perm-1',
- *             name: 'Name of the first permission',
- *             description: 'Description of the first permission',
- *             paths: [ 'get /path1' ]
- *           }
- *         ]
- *       },
- *       {
- *         id: 'perm-2',
- *         name: 'Name of the second permission',
- *         description: 'Description of the second permission',
- *         paths: [ 'get /path2' ]
+ *         id: 'perm-1',
+ *         name: 'Name of the first permission',
+ *         description: 'Description of the first permission',
+ *         paths: [ 'get /path1' ]
  *       }
- *     ];
- *     getPermissionIds(permissions); // ["perm-1", "perm-2"]
+ *     ]
+ *   },
+ *   {
+ *     id: 'perm-2',
+ *     name: 'Name of the second permission',
+ *     description: 'Description of the second permission',
+ *     paths: [ 'get /path2' ]
+ *   }
+ * ];
+ * getPermissionIds(permissions); // ["perm-1", "perm-2"]
  *
- * @method getPermissionIds
+ * @memberof module:core/controllers/OAuthController~OAuthController
  * @private
- * @static
  * @param {Array} permissions The list of permissions to search in
  * @return {Array} The list of permission ids
  */
@@ -102,7 +100,6 @@ function getPermissionIds(permissions) {
  *
  * @class OauthController
  * @extends Controller
- * @constructor
  */
 function OauthController() {
   OauthController.super_.call(this);
@@ -116,7 +113,6 @@ util.inherits(OauthController, Controller);
  *
  * Revoke access to the service if client does not have permission.
  *
- * @method validateScopesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.oauth2 Request's OAuth information
  * @param {Object} request.oauth2.accessToken The connected client's token

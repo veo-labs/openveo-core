@@ -3,8 +3,7 @@
 /**
  * Control back end internationalization.
  *
- * @module ov.i18n
- * @main ov.i18n
+ * @module ov/i18n
  */
 
 (function(angular) {
@@ -13,7 +12,10 @@
   /**
    * Defines an internationalization service to manage string translations.
    *
-   * @class i18nService
+   * @example
+   * MyAngularObject.$inject = ['i18nService'];
+   *
+   * @class I18nService
    */
   function I18nService($http, $cookies) {
     var currentLanguage = $cookies.get('language') || navigator.language || navigator.browserLanguage;
@@ -27,13 +29,15 @@
      * representation of all its translations.
      * If dictionary does not exist yet, get it from the server.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
+     * @async
      * @param {String} name The name of the dictionary to retrieve from
      * server
      * @param {Boolean} [admin] true to retrieve a dictionary for the back
      * office part (which requires authentication), false to get a
      * dictionary without access restriction
      * @return {Promise} The promise to retrieve the dictionary
-     * @method addDictionary
      */
     function addDictionary(name, admin) {
 
@@ -58,8 +62,9 @@
     /**
      * Removes a dictionary from cache.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @param {String} name The dictionary name
-     * @method removeDictionary
      */
     function removeDictionary(name) {
       translations[name] && (delete translations[name]);
@@ -68,10 +73,11 @@
     /**
      * Gets a dictionary with all its languages or just for the specific language.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @param {String} name The dictionary name
      * @param {String} language An optional language to retrieve
      * @return {Object} The translations contained in the dictionary
-     * @method getDictionary
      */
     function getDictionary(name, language) {
       if (language && translations[name])
@@ -83,8 +89,9 @@
     /**
      * Gets current language.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @return {String} The current language country code (e.g en-US)
-     * @method getLanguage
      */
     function getLanguage() {
       return currentLanguage;
@@ -93,8 +100,9 @@
     /**
      * Gets supported languages.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @return {Array} The list of supported languages
-     * @method getLanguages
      */
     function getLanguages() {
       return supportedLanguages;
@@ -103,9 +111,10 @@
     /**
      * Tests if a language is supported.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @param {String} language The language code to test
      * @return {Boolean} true if supported, false otherwise
-     * @method isLanguageSupported
      */
     function isLanguageSupported(language) {
       for (var i = 0; i < supportedLanguages.length; i++) {
@@ -118,6 +127,9 @@
 
     /**
      * Sets current language to active and the other one to inactive.
+     *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      */
     function setActiveLanguage() {
       for (var i = 0; i < supportedLanguages.length; i++)
@@ -127,8 +139,9 @@
     /**
      * Sets current language.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @param {String} language The current language country code (e.g en-CA)
-     * @method setLanguage
      */
     function setLanguage(language) {
       if (isLanguageSupported(language)) {
@@ -141,9 +154,10 @@
     /**
      * Gets full name of a language by its code.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @param {String} language The language code
      * @return {String} The language full name
-     * @method getLanguageName
      */
     function getLanguageName(language) {
       for (var i = 0; i < supportedLanguages.length; i++) {
@@ -158,14 +172,16 @@
      * Looks for a translation inside a translations object.
      *
      * @example
-     *     getTranslationFromDictionary('CORE.HOME.LOGIN', {
-     *        'CORE': {
-     *          'HOME': {
-     *             'LOGIN': 'The translation to look for'
-     *           }
-     *         }
-     *     });
+     * getTranslationFromDictionary('CORE.HOME.LOGIN', {
+     *    'CORE': {
+     *      'HOME': {
+     *         'LOGIN': 'The translation to look for'
+     *       }
+     *     }
+     * });
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @param {String} id The id to retrieve (e.g. CORE.HOME.LOGIN)
      * @param {Object} dictionary Translations where to look for
      * @return {String} The translated text corresponding to the given id
@@ -189,9 +205,10 @@
     /**
      * Translates the given id using current language.
      *
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      * @param {String} id The id of the translation
      * @param {String} [dictionary] The name of a particular dictionary if several dictionaries are loaded
-     * @method translate
      */
     function translate(id, dictionary) {
 
@@ -236,7 +253,8 @@
     /**
      * Destroys I18nService cached data.
      *
-     * @method destroy
+     * @memberof module:ov/i18n~I18nService
+     * @instance
      */
     function destroy() {
       translations = {};
@@ -289,7 +307,9 @@
    * Defines a filter to translate an id, contained inside a dictionary,
    * into the appropriated text.
    *
-   * @class translateFilter
+   * @class TranslateFilter
+   * @memberof module:ov/i18n
+   * @inner
    */
   function TranslateFilter(i18nService, $parse, $interpolate) {
 
@@ -300,36 +320,37 @@
      *
      * If id is not found in the specified dictionary for the actual language, it will search in the english version
      * of the dictionary.<br/>
-     * If id is not found in the dictionary, the id is not translated and will be printed as is.<br/>
+     * If id is not found in the dictionary, the id is not translated and will be printed as is.
      *
-     * If the dictionary is not specified, it will look for the id in all loaded dictionaries.<br/>
+     * If the dictionary is not specified, it will look for the id in all loaded dictionaries.
      * For each dictionary analyzed, if the id does not exist in the actual language it will try in the english
-     * version of the dictionary.<br/>
+     * version of the dictionary.
      * After all, if id is not found in any versions of the list of dictionaries, the id is not translated and will
      * be printed as is.
      *
      * @example
-     *     // Let's pretend that with have a dictionary named "login" with the following structure :
-     *     // {
-     *     //   "LOGIN" : {
-     *     //     "PAGE_TITLE" : "Openveo - Sign In",
-     *     //     "DESCRIPTION" : "Login page description for {{name}}",
-     *     //     "LOGIN" : "User",
-     *     //   }
-     *     // }
+     * // Let's pretend that with have a dictionary named "login" with the following structure :
+     * // {
+     * //   "LOGIN" : {
+     * //     "PAGE_TITLE" : "Openveo - Sign In",
+     * //     "DESCRIPTION" : "Login page description for {{name}}",
+     * //     "LOGIN" : "User",
+     * //   }
+     * // }
      *
-     *     // Search for id LOGIN.DESCRIPTION in dictionary "login" : "Login page description"
+     * // Search for id LOGIN.DESCRIPTION in dictionary "login" : "Login page description"
      *
-     *     // In HTML
-     *     // <label ng-bind="'LOGIN.DESCRIPTION' | translate:login:{Object}"></label>
+     * // In HTML
+     * // <label ng-bind="'LOGIN.DESCRIPTION' | translate:login:{Object}"></label>
      *
-     *     // In JavaScript
-     *     $filter('translate')('LOGIN.DESCRIPTION', 'login', {name: "John"});
+     * // In JavaScript
+     * $filter('translate')('LOGIN.DESCRIPTION', 'login', {name: "John"});
      *
+     * @method translate
+     * @memberof module:ov/i18n~TranslateFilter
      * @param {String} id The id of the translation
      * @param {String} dictionaryName An optional dictionary to prevent looking in all dictionaries
      * @param {Object} interpolateParams Translation parameters
-     * @method translate
      */
     return function(id, dictionaryName, interpolateParams) {
       var translateValue = i18nService.translate(id, dictionaryName),

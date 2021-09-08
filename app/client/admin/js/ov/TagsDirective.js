@@ -24,30 +24,31 @@
    *   - ov-placeholder to set the input placeholder
    *
    * @example
-   *     var placeholder = 'Enter tags';
-   *     var listOfTags = ['tag1', 'tag2'];
-   *     var availableOptions = [
-   *       {
-   *         name: 'Tag 1',
-   *         value: 'tag1'
-   *       },
-   *       {
-   *         name: 'Tag 2',
-   *         value: 'tag2'
-   *       },
-   *       {
-   *         name: 'Tag 3',
-   *         value: 'tag3'
-   *       }
-   *     ];
-   *     <ov-tags ng-model="listOfTags"
-   *              ng-model-options="{ allowInvalid: true }"
-   *              ov-available-options="availableOptions"
-   *              ov-placeholder="placeholder">
-   *     </ov-tags>
+   * var placeholder = 'Enter tags';
+   * var listOfTags = ['tag1', 'tag2'];
+   * var availableOptions = [
+   *   {
+   *     name: 'Tag 1',
+   *     value: 'tag1'
+   *   },
+   *   {
+   *     name: 'Tag 2',
+   *     value: 'tag2'
+   *   },
+   *   {
+   *     name: 'Tag 3',
+   *     value: 'tag3'
+   *   }
+   * ];
+   * <ov-tags ng-model="listOfTags"
+   *          ng-model-options="{ allowInvalid: true }"
+   *          ov-available-options="availableOptions"
+   *          ov-placeholder="placeholder">
+   * </ov-tags>
    *
-   * @module ov
    * @class ovTags
+   * @memberof module:ov
+   * @inner
    */
   function ovTags() {
     return {

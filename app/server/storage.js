@@ -1,14 +1,9 @@
 'use strict';
 
 /**
- * @module core
- */
-
-/**
  * Storage is a global context for the core.
  *
- * @class storage
- * @static
+ * @module core/storage
  */
 
 // Stores a bunch of information
@@ -23,8 +18,6 @@ var configuration;
 /**
  * Gets the computed back end menu with all links.
  *
- * @method getMenu
- * @static
  * @return {Array} The list of back end links
  */
 module.exports.getMenu = function() {
@@ -34,8 +27,6 @@ module.exports.getMenu = function() {
 /**
  * Sets the back end menu list of links.
  *
- * @method setMenu
- * @static
  * @param {Array} newMenu The list of back end menu links
  */
 module.exports.setMenu = function(newMenu) {
@@ -45,8 +36,6 @@ module.exports.setMenu = function(newMenu) {
 /**
  * Gets the current database instance.
  *
- * @method getDatabase
- * @static
  * @return {Database} A Database object
  */
 module.exports.getDatabase = function() {
@@ -56,9 +45,7 @@ module.exports.getDatabase = function() {
 /**
  * Sets a new database instance as the current database.
  *
- * @method setDatabase
- * @static
- * @param {Database} newDatabase The new database of the application
+ * @param {Object} newDatabase The new database of the application
  */
 module.exports.setDatabase = function(newDatabase) {
   database = newDatabase;
@@ -67,8 +54,6 @@ module.exports.setDatabase = function(newDatabase) {
 /**
  * Sets the web service list of scopes.
  *
- * @method setWebServiceScopes
- * @static
  * @param {Object} newScopes The new list of scopes for the web service
  */
 module.exports.setWebServiceScopes = function(newScopes) {
@@ -78,8 +63,6 @@ module.exports.setWebServiceScopes = function(newScopes) {
 /**
  * Gets the list of web service scopes defined by plugins.
  *
- * @method getWebServiceScopes
- * @static
  * @return {Object} scopes
  */
 module.exports.getWebServiceScopes = function() {
@@ -89,8 +72,6 @@ module.exports.getWebServiceScopes = function() {
 /**
  * Sets the list of permissions.
  *
- * @method setPermissions
- * @static
  * @param {Object} permissions The new list of permissions
  */
 module.exports.setPermissions = function(newPermissions) {
@@ -100,8 +81,6 @@ module.exports.setPermissions = function(newPermissions) {
 /**
  * Gets the list of permissions defined by plugins.
  *
- * @method getPermissions
- * @static
  * @return {Object} permissions
  */
 module.exports.getPermissions = function() {
@@ -111,8 +90,6 @@ module.exports.getPermissions = function() {
 /**
  * Sets the list of entities.
  *
- * @method setEntities
- * @static
  * @param {Object} newEntities The list of entities
  */
 module.exports.setEntities = function(newEntities) {
@@ -122,8 +99,6 @@ module.exports.setEntities = function(newEntities) {
 /**
  * Gets the list of entities defined by plugins.
  *
- * @method getEntities
- * @static
  * @return {Object} entities
  */
 module.exports.getEntities = function() {
@@ -133,8 +108,6 @@ module.exports.getEntities = function() {
 /**
  * Sets the application server configuration.
  *
- * @method setServerConfiguration
- * @static
  * @param {Object} configuration The server configuration
  */
 module.exports.setServerConfiguration = function(configuration) {
@@ -144,8 +117,6 @@ module.exports.setServerConfiguration = function(configuration) {
 /**
  * Gets the application server configuration.
  *
- * @method getServerConfiguration
- * @static
  * @return {Object} The server configuration
  */
 module.exports.getServerConfiguration = function() {
@@ -155,8 +126,6 @@ module.exports.getServerConfiguration = function() {
 /**
  * Gets OpenVeo configuration.
  *
- * @method getConfiguration
- * @static
  * @return {Object} The OpenVeo configuration
  */
 module.exports.getConfiguration = function() {
@@ -166,8 +135,6 @@ module.exports.getConfiguration = function() {
 /**
  * Sets the OpenVeo configuration.
  *
- * @method setConfiguration
- * @static
  * @param {Object} conf The OpenVeo configuration
  */
 module.exports.setConfiguration = function(conf) {

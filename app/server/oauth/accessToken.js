@@ -1,14 +1,9 @@
 'use strict';
 
 /**
- * @module core-oauth
- */
-
-/**
  * Provides functions to interface oauth tokens and openveo Web Service.
  *
- * @class accessToken
- * @static
+ * @module core/oauth/accessToken
  */
 
 var openVeoApi = require('@openveo/api');
@@ -22,9 +17,8 @@ var accessToken = {};
 /**
  * Gets token provider.
  *
- * @method getTokenProvider
  * @private
- * @return {TokenProvider} The token provider
+ * @return {module:core/providers/TokenProvider~TokenProvider} The token provider
  */
 function getTokenProvider() {
   if (!tokenProvider)
@@ -40,14 +34,11 @@ function getTokenProvider() {
  *
  * @method create
  * @static
- * @async
  * @param {String} userId User identifier associated to the OAuth client
  * @param {String} clientId OAuth client id
  * @param {Object} scopes The list of scopes
  * @param {Number} ttl Token time to live (in seconds)
- * @param {Function} callback with:
- *  - **Object** An error if something went wrong or null if everything is fine
- *  - **String** The access token
+ * @param {module:core/oauth/accessToken~createCallback} callback A function to call when its done
  */
 accessToken.create = function(userId, clientId, scopes, ttl, callback) {
   var provider = getTokenProvider();
@@ -79,11 +70,8 @@ accessToken.create = function(userId, clientId, scopes, ttl, callback) {
  *
  * @method fetchByToken
  * @static
- * @async
  * @param {String} token Client's access token
- * @param {Function} callback with :
- *  - **Object** An error if something went wrong or null if everything is fine
- *  - **Object** The access token
+ * @param {module:core/oauth/accessToken~fetchByTokenCallback} callback A function to call when its done
  */
 accessToken.fetchByToken = function(token, callback) {
   var provider = getTokenProvider();
@@ -105,10 +93,22 @@ accessToken.checkTTL = function(token) {
 /**
  * Default token Time To Live value (1 hour).
  *
- * @property ttl
- * @type Number
- * @default 3600
+ * @type {Number}
+ * @default
+ * @static
  */
 accessToken.ttl = 3600;
 
 module.exports = accessToken;
+
+/**
+ * @callback module:core/oauth/accessToken~createCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(String|Undefined)} token The access token
+ */
+
+/**
+ * @callback module:core/oauth/accessToken~fetchByTokenCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(String|Undefined)} token The access token
+ */

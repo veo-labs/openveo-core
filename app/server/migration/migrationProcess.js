@@ -1,15 +1,9 @@
 'use strict';
 
 /**
- * @module core-migration
- */
-
-/**
  * Provides functions to execute migration script.
  *
- * @main core-migration
- * @class migrationProcess
- * @static
+ * @module core/migration/migrationProcess
  */
 
 var semver = require('semver');
@@ -21,14 +15,10 @@ var ResourceFilter = openVeoApi.storages.ResourceFilter;
 /**
  * Saves in core_system table the last migration successfull done.
  *
- * @method saveMigrationVersion
- * @private
- * @static
  * @param {String} name Name of module (core, publish...)
  * @param {String} version Version of the script successfully executed
  * @param {Object} db DB instance to update value
- * @param {Function} callback callback A callback with 1 arguments :
- *    - **Error** An Error object or null
+ * @param {callback} callback A function to call when its done
  */
 function saveMigrationVersion(name, version, db, callback) {
 
@@ -68,14 +58,14 @@ function saveMigrationVersion(name, version, db, callback) {
 /**
  * Creates async series according to migration script order.
  *
- * @method createMigrationSeries
+ * @example
+ * {
+ *   1.1.0 : 'path/to/migration/1.1.0.js',
+ *   1.2.0 : 'path/to/migration/1.2.0.js'
+ * }
+ *
  * @private
- * @static
  * @param {Object} module Script collection to execute
- *  exemple: {
- *    1.1.0 : 'path/to/migration/1.1.0.js',
- *    1.2.0 : 'path/to/migration/1.2.0.js'
- *  }
  * @param {String} name Name of module (core, publish...)
  * @return {Array} Array of synchronous function to execute
  */
@@ -103,21 +93,20 @@ function createMigrationSeries(module, name) {
 /**
  * Executes a collection of migration script.
  *
- * @method executeMigrationScript
+ * @example
+ * {
+ *   core:{
+ *     1.1.0: 'path/to/migration/1.1.0.js',
+ *     2.0.0: 'path/to/migration/2.0.0.js'
+ *   },
+ *   publish:{
+ *     1.2.0: 'path/to/migration/1.2.0.js',
+ *     1.3.0: 'path/to/migration/1.3.0.js',
+ *   }
+ * }
+ *
  * @param {Object} migrations migrations object to execute
- *  exemple:
- *  {
- *    core:{
- *      1.1.0: 'path/to/migration/1.1.0.js',
- *      2.0.0: 'path/to/migration/2.0.0.js'
- *    },
- *    publish:{
- *      1.2.0: 'path/to/migration/1.2.0.js',
- *      1.3.0: 'path/to/migration/1.3.0.js',
- *    }
- *  }
- * @param {Function} callback A callback with 1 arguments :
- *    - **Error** An Error object or null
+ * @param {callback} callback A function to call when its done
  */
 module.exports.executeMigrationScript = function(migrations, callback) {
   var series = [];

@@ -3,8 +3,7 @@
 /**
  * Manage OpenVeo entities described in conf.js.
  *
- * @module ov.entity
- * @main ov.entity
+ * @module ov/entity
  */
 
 (function(angular) {
@@ -13,7 +12,10 @@
   /**
    * Defines an entity service to create / update or remove an entity.
    *
-   * @class entityService
+   * @example
+   * MyAngularObject.$inject = ['entityService'];
+   *
+   * @class EntityService
    */
   function EntityService($http, $q) {
     var basePath = '/be/';
@@ -22,9 +24,10 @@
     /**
      * Deletes cache of the given entity type.
      *
+     * @memberof module:ov/entity~EntityService
+     * @instance
      * @param {String} [entityType] The entity type or null to remove all cache
      * @param {String} [pluginName] Plugin name the entity belongs to, null for core
-     * @method deleteCache
      */
     function deleteCache(entityType, pluginName) {
       if (!entityType && !pluginName) {
@@ -44,11 +47,13 @@
     /**
      * Adds new entities.
      *
+     * @memberof module:ov/entity~EntityService
+     * @instance
+     * @async
      * @param {String} entityType The type of the entities
      * @param {String} [pluginName="core"] Plugin name the entities belong to
      * @param {Array} data The list of entities
-     * @return {HttpPromise} The HTTP promise
-     * @method addEntities
+     * @return {Promise} The HTTP promise
      */
     function addEntities(entityType, pluginName, data) {
       var pluginPath = (!pluginName) ? '' : pluginName + '/';
@@ -59,12 +64,14 @@
     /**
      * Updates an entity.
      *
+     * @memberof module:ov/entity~EntityService
+     * @instance
+     * @async
      * @param {String} entityType Type of entity
      * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @param {String} id The id of the entity to update
      * @param {String} data Data description object of the entity
      * @return {Promise} The HTTP promise
-     * @method updateEntity
      */
     function updateEntity(entityType, pluginName, id, data) {
       var pluginPath = (!pluginName) ? '' : pluginName + '/';
@@ -75,11 +82,13 @@
     /**
      * Removes entities.
      *
+     * @memberof module:ov/entity~EntityService
+     * @instance
+     * @async
      * @param {String} entityType Type of the entities
      * @param {String} [pluginName="core"] Plugin name the entity belongs to
      * @param {String} ids The comma separated list of entity ids to remove
-     * @return {HttpPromise} The HTTP promise
-     * @method removeEntities
+     * @return {Promise} The HTTP promise
      */
     function removeEntities(entityType, pluginName, ids) {
       var pluginPath = (!pluginName) ? '' : pluginName + '/';
@@ -90,11 +99,13 @@
     /**
      * Fetch an entity by Id.
      *
+     * @memberof module:ov/entity~EntityService
+     * @instance
+     * @async
      * @param {String} entityType Type of entity
      * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @param {String} id The Id of the entity to fetch
      * @return {Promise} The HTTP promise
-     * @method getEntity
      */
     function getEntity(entityType, pluginName, id) {
       var pluginPath = (!pluginName) ? '' : pluginName + '/';
@@ -105,25 +116,27 @@
      * Gets entities.
      *
      * @example
+     * // Get the first page of Web Service applications containing string "Search string" sorted by name with 10
+     * // applications per page. Field "name" won't be returned.
      *
-     *     // Get the first page of Web Service applications containing string "Search string" sorted by name with 10
-     *     // applications per page. Field "name" won't be returned.
+     * var params = {
+     *   query: 'Search string',
+     *   limit: 10,
+     *   page: 0,
+     *   sortBy: 'name',
+     *   sortOrder: 'desc',
+     *   exclude: ['name']
+     * };
+     * getEntities('applications', 'core', params);
      *
-     *     var params = {
-     *       query: 'Search string',
-     *       limit: 10,
-     *       page: 0,
-     *       sortBy: 'name',
-     *       sortOrder: 'desc',
-     *       exclude: ['name']
-     *     };
-     *     getEntities('applications', 'core', params);
-     *
+     * @memberof module:ov/entity~EntityService
+     * @instance
+     * @async
      * @param {String} entityType Type of entity
      * @param {String} [pluginName] Plugin name the entity belongs to, null for core
      * @param {Object} param Request parameters
-     * @param {String|Array} [param.include] The list of fields to include from returned entities
-     * @param {String|Array} [param.exclude] The list of fields to exclude from returned entities. Ignored if
+     * @param {(String|Array)} [param.include] The list of fields to include from returned entities
+     * @param {(String|Array)} [param.exclude] The list of fields to exclude from returned entities. Ignored if
      * include is also specified.
      * @param {String} [param.query] Search query to search on entities searchable fields
      * @param {Number} [param.page=0] The expected page in pagination system
@@ -132,8 +145,7 @@
      * @param {String} [param.sortOrder="desc"] The sort order (either "asc" or "desc")
      * @param {Promise} [canceller] The HTTP promise to cancel request if needed, resolve the promise to cancel the
      * request
-     * @return {HttpPromise} The HTTP promise
-     * @method getEntities
+     * @return {Promise} The HTTP promise
      */
     function getEntities(entityType, pluginName, param, canceller) {
       var deferred = $q.defer();
@@ -174,19 +186,21 @@
      * This should be used wisely as it may launch several requests to get all entities which could lead
      * to real performance issues. Use it when you are sure about the total number of entities.
      *
+     * @memberof module:ov/entity~EntityService
+     * @instance
+     * @async
      * @param {String} entityType Type of entity
      * @param {String} [pluginName="core"] Plugin name the entity belongs to
      * @param {Object} param Request parameters
-     * @param {String|Array} [param.include] The list of fields to include from returned entities
-     * @param {String|Array} [param.exclude] The list of fields to exclude from returned entities. Ignored if
+     * @param {(String|Array)} [param.include] The list of fields to include from returned entities
+     * @param {(String|Array)} [param.exclude] The list of fields to exclude from returned entities. Ignored if
      * include is also specified.
      * @param {String} [param.query] Search query to search on entities searchable fields
      * @param {String} [param.sortBy] The field to sort by
      * @param {String} [param.sortOrder="desc"] The sort order (either "asc" or "desc")
      * @param {Promise} [canceller] The HTTP promise to cancel request if needed, resolve the promise to cancel the
      * request
-     * @return {HttpPromise} The HTTP promise
-     * @method getAllEntities
+     * @return {Promise} The HTTP promise
      */
     function getAllEntities(entityType, pluginName, param, canceller) {
       var page = 0;

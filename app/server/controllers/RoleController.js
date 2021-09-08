@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/RoleController
  */
 
 var util = require('util');
@@ -16,7 +16,6 @@ var ResourceFilter = openVeoApi.storages.ResourceFilter;
  *
  * @class RoleController
  * @extends EntityController
- * @constructor
  */
 function RoleController() {
   RoleController.super_.call(this);
@@ -29,22 +28,20 @@ util.inherits(RoleController, EntityController);
  * Gets a list of roles.
  *
  * @example
+ * // Response example
+ * {
+ *   "entities" : [ ... ],
+ *   "pagination" : {
+ *     "limit": ..., // The limit number of roles by page
+ *     "page": ..., // The actual page
+ *     "pages": ..., // The total number of pages
+ *     "size": ... // The total number of roles
+ * }
  *
- *     // Response example
- *     {
- *       "entities" : [ ... ],
- *       "pagination" : {
- *         "limit": ..., // The limit number of roles by page
- *         "page": ..., // The actual page
- *         "pages": ..., // The total number of pages
- *         "size": ... // The total number of roles
- *     }
- *
- * @method getEntitiesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} [request.query] Request's query parameters
- * @param {String|Array} [request.query.include] The list of fields to include from returned roles
- * @param {String|Array} [request.query.exclude] The list of fields to exclude from returned roles. Ignored if
+ * @param {(String|Array)} [request.query.include] The list of fields to include from returned roles
+ * @param {(String|Array)} [request.query.exclude] The list of fields to exclude from returned roles. Ignored if
  * include is also specified.
  * @param {String} [request.query.query] Search query to search on role names
  * @param {Number} [request.query.useSmartSearch=1] 1 to use a more advanced search mechanism, 0 to use a simple search
@@ -116,8 +113,7 @@ RoleController.prototype.getEntitiesAction = function(request, response, next) {
 /**
  * Gets an instance of the provider associated to the controller.
  *
- * @method getProvider
- * @return {RoleProvider} The provider
+ * @return {module:core/providers/RoleProvider~RoleProvider} The provider
  */
 RoleController.prototype.getProvider = function() {
   return new RoleProvider(process.api.getCoreApi().getDatabase());

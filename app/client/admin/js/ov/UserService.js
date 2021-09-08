@@ -5,8 +5,12 @@
   /**
    * Defines service to manage roles and permissions.
    *
-   * @module ov
+   * @example
+   * MyAngularObject.$inject = ['userService'];
+   *
    * @class userService
+   * @memberof module:ov
+   * @inner
    */
   function UserService($http, $q) {
     var basePath = '/be/';
@@ -15,8 +19,10 @@
     /**
      * Loads the list of permissions from server.
      *
+     * @memberof module:ov~userService
+     * @instance
+     * @async
      * @return {Promise} The Http promise
-     * @method loadPermissions
      */
     function loadPermissions() {
       if (!permissions) {
@@ -37,8 +43,9 @@
     /**
      * Gets permissions.
      *
+     * @memberof module:ov~userService
+     * @instance
      * @return {Array} The permissions
-     * @method getRoles
      */
     function getPermissions() {
       return permissions;
@@ -47,7 +54,8 @@
     /**
      * Destroys UserService cached data.
      *
-     * @method destroy
+     * @memberof module:ov~userService
+     * @instance
      */
     function destroy() {
       permissions = null;
@@ -56,8 +64,9 @@
     /**
      * Clears a user service cache.
      *
+     * @memberof module:ov~userService
+     * @instance
      * @param {String} [type] The cache element to clear or null to remove all caches
-     * @method cacheClear
      */
     function cacheClear(type) {
       if (!type)

@@ -1,7 +1,9 @@
 'use strict';
 
 /**
- * @module core-plugin
+ * Sets event listeners on core.
+ *
+ * @module core/plugin/listener
  */
 
 var async = require('async');
@@ -12,23 +14,12 @@ var storage = process.require('app/server/storage.js');
 var ResourceFilter = openVeoApi.storages.ResourceFilter;
 
 /**
- * Sets event listeners on core.
- *
- * @class listener
- * @static
- */
-
-/**
  * Handles hook when roles have been deleted.
  *
  * Deleted roles have to be removed from users.
  *
- * @method onRolesDeleted
- * @static
- * @async
  * @param {Array} ids The list of deleted role ids
- * @param {Function} callback Function to call when it's done
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 module.exports.onRolesDeleted = function(ids, callback) {
   var users;
@@ -100,11 +91,8 @@ module.exports.onRolesDeleted = function(ids, callback) {
  * Each time a new group is added, 3 new permissions are created (create, update and delete) and organized in a
  * group of permissions.
  *
- * @method onGroupsAdded
- * @static
- * @async
  * @param {Array} groups The list of added groups
- * @param {Function} callback Function to call when it's done
+ * @param {callback} callback Function to call when it's done
  */
 module.exports.onGroupsAdded = function(groups, callback) {
   if (groups) {
@@ -131,13 +119,10 @@ module.exports.onGroupsAdded = function(groups, callback) {
  *
  * Each time a group is modified, the list of permissions is updated.
  *
- * @method onGroupUpdated
- * @static
- * @async
  * @param {Object} data Hook data
  * @param {String} data.id The id of updated group
  * @param {Object} data.modifications The list of modifications applied
- * @param {Function} callback Function to call when it's done
+ * @param {callback} callback Function to call when it's done
  */
 module.exports.onGroupUpdated = function(data, callback) {
   if (data.id && data.modifications) {
@@ -157,11 +142,8 @@ module.exports.onGroupUpdated = function(data, callback) {
  *
  * Each time a group is removed, the list of permissions is updated.
  *
- * @method onGroupsDeleted
- * @static
- * @async
  * @param {Array} ids The list of deleted group ids
- * @param {Function} callback Function to call when it's done
+ * @param {callback} callback Function to call when it's done
  */
 module.exports.onGroupsDeleted = function(ids, callback) {
   var permissions = storage.getPermissions();

@@ -5,8 +5,12 @@
   /**
    * Defines service to manage the web service applications.
    *
-   * @module ov
-   * @class applicationService
+   * @example
+   * MyAngularObject.$inject = ['applicationService'];
+   *
+   * @class ApplicationService
+   * @memberof module:ov
+   * @inner
    */
   function ApplicationService($http, $q) {
     var basePath = '/be/';
@@ -15,8 +19,10 @@
     /**
      * Loads the list of scopes available for client applications.
      *
+     * @memberof module:ov~ApplicationService
+     * @instance
+     * @async
      * @return {Promise} The Http promise
-     * @method loadScopes
      */
     function loadScopes() {
       if (!scopes) {
@@ -37,8 +43,9 @@
     /**
      * Gets the available list of scopes for client applications.
      *
+     * @memberof module:ov~ApplicationService
+     * @instance
      * @param {Array} The scopes
-     * @method getScopes
      */
     function getScopes() {
       return scopes;
@@ -47,7 +54,8 @@
     /**
      * Destroys applicationService cached datas.
      *
-     * @method destroy
+     * @memberof module:ov~ApplicationService
+     * @instance
      */
     function destroy() {
       scopes = null;

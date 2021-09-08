@@ -3,8 +3,7 @@
 /**
  * Defines the ov.socket module to build a socket.io client.
  *
- * @module ov.socket
- * @main ov.socket
+ * @module ov/socket
  */
 /* global io */
 (function(angular) {
@@ -13,7 +12,6 @@
   /**
    * Defines a SocketFactory holding a socket.io client singleton.
    *
-   * @module ov.socket
    * @class SocketFactory
    */
   function SocketFactory($location) {
@@ -22,7 +20,8 @@
     /**
      * Initializes a socket.io connection with the server if not already initialized.
      *
-     * @method initSocket
+     * @memberof module:ov/socket~SocketFactory
+     * @instance
      * @param {String} namespace socket.io namespace name to connect to
      * @return {Client} The socket.io client
      */

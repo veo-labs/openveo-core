@@ -1,14 +1,9 @@
 'use strict';
 
 /**
- * @module core-oauth
- */
-
-/**
  * Provides functions to interface oauth clients and openveo Web Service.
  *
- * @class client
- * @static
+ * @module core/oauth/client
  */
 
 var openVeoApi = require('@openveo/api');
@@ -21,9 +16,8 @@ var client = {};
 /**
  * Gets client provider.
  *
- * @method getClientProvider
  * @private
- * @return {ClientProvider} The client provider
+ * @return {module:core/providers/ClientProvider~ClientProvider} The client provider
  */
 function getClientProvider() {
   if (!clientProvider)
@@ -51,9 +45,7 @@ client.getId = function(oAuthClient) {
  * @method fetchById
  * @static
  * @param {String} id The client id
- * @param {Function} callback with :
- *  - **Object** An error is something went wrong or null if everything is fine
- *  - **Object** The client object or null if something went wrong
+ * @param {module:core/oauth/client~fetchByIdCallback} callback A function to call when its done
  */
 client.fetchById = function(id, callback) {
   var provider = getClientProvider();
@@ -68,9 +60,7 @@ client.fetchById = function(id, callback) {
  * @param {Object} oAuthClient An OAuth client
  * @param {String} oAuthClient.secret The client's secret
  * @param {String} secret OAuth client's secret to verify
- * @param {Function} callback with :
- *  - **Error** An error is something went wrong or null if everything is fine
- *  - **Boolean** true if the client's secret is verified
+ * @param {module:core/oauth/client~checkSecretCallback} callback A function to call when its done
  */
 client.checkSecret = function(oAuthClient, secret, callback) {
   callback(null, (oAuthClient.secret === secret));
@@ -106,3 +96,15 @@ client.checkScope = function(oAuthClient) {
 };
 
 module.exports = client;
+
+/**
+ * @callback module:core/oauth/client~fetchByIdCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} client The client
+ */
+
+/**
+ * @callback module:core/oauth/client~checkSecretCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Boolean|Undefined)} result true if the client's secret is verified
+ */

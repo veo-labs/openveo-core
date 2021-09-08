@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-providers
+ * @module core/providers/TokenProvider
  */
 
 var util = require('util');
@@ -12,7 +12,6 @@ var openVeoApi = require('@openveo/api');
  * Defines a TokenProvider to get and save Web Service tokens.
  *
  * @class TokenProvider
- * @constructor
  * @param {Database} database The database to interact with
  */
 function TokenProvider(database) {
@@ -25,16 +24,11 @@ util.inherits(TokenProvider, openVeoApi.providers.EntityProvider);
 /**
  * Adds tokens.
  *
- * @method add
- * @async
  * @param {Array} tokens The list of tokens to store with for each token:
- *   - **String** clientId The client id the token belongs to
- *   - **Number** ttl The time to live in milliseconds of the token
- *   - **Array** [scopes] A list of scopes with granted access for this token
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** The total amount of tokens inserted
- *   - **Array** The list of added tokens
+ * @param {String} tokens[].clientId The client id the token belongs to
+ * @param {Number} tokens[].ttl The time to live in milliseconds of the token
+ * @param {Array} [tokens[].scopes] A list of scopes with granted access for this token
+ * @param {module:core/providers/TokenProvider~TokenProvider~addCallback} [callback] The function to call when it's done
  */
 TokenProvider.prototype.add = function(tokens, callback) {
   var tokensToAdd = [];
@@ -59,14 +53,11 @@ TokenProvider.prototype.add = function(tokens, callback) {
 /**
  * Updates a token.
  *
- * @method updateOne
- * @async
  * @param {ResourceFilter} [filter] Rules to filter the token to update
  * @param {Object} data The modifications to perform
  * @param {Number} [data.ttl] The time to live in milliseconds of the token
- * @param {Function} [callback] The function to call when it's done
- *   - **Error** The error if an error occurred, null otherwise
- *   - **Number** 1 if everything went fine
+ * @param {module:core/providers/TokenProvider~TokenProvider~updateOneCallback} [callback] The function to call when
+ * it's done
  */
 TokenProvider.prototype.updateOne = function(filter, data, callback) {
   var modifications = {};
@@ -78,10 +69,7 @@ TokenProvider.prototype.updateOne = function(filter, data, callback) {
 /**
  * Creates tokens indexes.
  *
- * @method createIndexes
- * @async
- * @param {Function} callback Function to call when it's done with :
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 TokenProvider.prototype.createIndexes = function(callback) {
   this.storage.createIndexes(this.location, [
@@ -94,3 +82,16 @@ TokenProvider.prototype.createIndexes = function(callback) {
     callback(error);
   });
 };
+
+/**
+ * @callback module:core/providers/TokenProvider~TokenProvider~addCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total The total amount of tokens inserted
+ * @param {(Array|Undefined)} tokens The list of added tokens
+ */
+
+/**
+ * @callback module:core/providers/TokenProvider~TokenProvider~updateOneCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Number|Undefined)} total 1 if everything went fine
+ */

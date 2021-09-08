@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/DefaultController
  */
 
 var path = require('path');
@@ -17,7 +17,6 @@ var env = (process.env.NODE_ENV == 'production') ? 'prod' : 'dev';
  *
  * @class DefaultController
  * @extends Controller
- * @constructor
  */
 function DefaultController() {
   DefaultController.super_.call(this);
@@ -35,7 +34,6 @@ util.inherits(DefaultController, Controller);
  * are used to retrieve the list of files to load within the template.
  * JavaScript libraries, JavaScript files and CSS files.
  *
- * @method defaultAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Response} response ExpressJS HTTP Response
  * @param {Function} next Function to defer execution to the next registered middleware

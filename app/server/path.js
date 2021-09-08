@@ -1,39 +1,32 @@
 'use strict';
 
 /**
- * @module core
- */
-
-/**
  * Provides functions to manipulate HTTP paths handled by the server.
  *
- * @class path
- * @static
+ * @module core/path
  */
 
 /**
  * Validates a path regarding a rule.
  *
  * @example
- *     var path = process.require("app/server/path.js");
- *     path.validate("get /test", "get /test"); // true
- *     path.validate("get /test", "/test"); // true
- *     path.validate("get /test", "/*"); // true
- *     path.validate("get /test", "*"); // true
- *     path.validate("post /test", "post /test"); // true
- *     path.validate("put /test", "put /test"); // true
- *     path.validate("delete /test", "delete /test"); // true
- *     path.validate("/test", "/test"); // true
- *     path.validate("get /test", ""); // false
- *     path.validate("get /test", "/"); // false
- *     path.validate("get /test", "/other"); // false
- *     path.validate("get /test", "post /test"); // false
- *     path.validate("get /test", "post"); // false
- *     path.validate("get /test", "get"); // false
- *     path.validate("get /test", "unknwon /test"); // false
+ * var path = process.require("app/server/path.js");
+ * path.validate("get /test", "get /test"); // true
+ * path.validate("get /test", "/test"); // true
+ * path.validate("get /test", "/*"); // true
+ * path.validate("get /test", "*"); // true
+ * path.validate("post /test", "post /test"); // true
+ * path.validate("put /test", "put /test"); // true
+ * path.validate("delete /test", "delete /test"); // true
+ * path.validate("/test", "/test"); // true
+ * path.validate("get /test", ""); // false
+ * path.validate("get /test", "/"); // false
+ * path.validate("get /test", "/other"); // false
+ * path.validate("get /test", "post /test"); // false
+ * path.validate("get /test", "post"); // false
+ * path.validate("get /test", "get"); // false
+ * path.validate("get /test", "unknwon /test"); // false
  *
- * @method validate
- * @static
  * @param {String} path The path to validate
  * @param String rule The rule to validate path
  * @return {Boolean} true if the rule validates the path, false

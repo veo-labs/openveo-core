@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-servers
+ * @module core/servers/ApplicationServer
  */
 
 var path = require('path');
@@ -52,7 +52,7 @@ var staticServerOptions = {
  * Defines an HTTP server for the openveo application, which serves front and back end pages.
  *
  * @class ApplicationServer
- * @extends Server
+ * @extends module:core/servers/Server~Server
  * @constructor
  * @param {Object} configuration Service configuration
  * @param {String} configuration.sessionSecret Hash to encrypt sessions
@@ -62,77 +62,85 @@ var staticServerOptions = {
 function ApplicationServer(configuration) {
   ApplicationServer.super_.call(this, configuration);
 
-  Object.defineProperties(this, {
+  Object.defineProperties(this,
 
-    /**
-     * List of path holding template engine views.
-     *
-     * @property viewsFolders
-     * @type Array
-     */
-    viewsFolders: {value: [], writable: true},
+    /** @lends module:core/servers/ApplicationServer~ApplicationServer */
+    {
 
-    /**
-     * Image styles for image processing.
-     *
-     * @property imagesStyle
-     * @type Object
-     * @final
-     */
-    imagesStyle: {value: {}},
+      /**
+       * List of path holding template engine views.
+       *
+       * @type {Array}
+       * @default []
+       * @instance
+       */
+      viewsFolders: {value: [], writable: true},
 
-    /**
-     * Back end menu description object.
-     *
-     * @property menu
-     * @type Array
-     */
-    menu: {value: [], writable: true},
+      /**
+       * Image styles for image processing.
+       *
+       * @type {Object}
+       * @instance
+       * @readonly
+       */
+      imagesStyle: {value: {}},
 
-    /**
-     * Migrations scripts to execute.
-     *
-     * @property migrations
-     * @type Object
-     * @final
-     */
-    migrations: {value: {}},
+      /**
+       * Back end menu description object.
+       *
+       * @type {Array}
+       * @default []
+       * @instance
+       */
+      menu: {value: [], writable: true},
 
-    /**
-     * Socket server.
-     *
-     * @property socketServer
-     * @type SocketServer
-     * @final
-     */
-    socketServer: {value: new SocketServer()},
+      /**
+       * Migrations scripts to execute.
+       *
+       * @type {Object}
+       * @instance
+       * @readonly
+       */
+      migrations: {value: {}},
 
-    /**
-     * The list of HTTP origins allowed to connect to the socket server.
-     * The OpenVeo CDN URL will be automatically added to the list of allowed origins.
-     *
-     * @property socketServerAllowedOrigins
-     * @type Array
-     */
-    socketServerAllowedOrigins: {value: []},
+      /**
+       * Socket server.
+       *
+       * @type {SocketServer}
+       * @instance
+       * @readonly
+       */
+      socketServer: {value: new SocketServer()},
 
-    /**
-     * Database session storage.
-     *
-     * @property sessionStore
-     * @type Object
-     */
-    sessionStore: {value: null, writable: true},
+      /**
+       * The list of HTTP origins allowed to connect to the socket server.
+       * The OpenVeo CDN URL will be automatically added to the list of allowed origins.
+       *
+       * @type {Array}
+       * @instance
+       * @readonly
+       */
+      socketServerAllowedOrigins: {value: []},
 
-    /**
-     * Express session middleware.
-     *
-     * @property sessionMiddleware
-     * @type Object
-     */
-    sessionMiddleware: {value: null, writable: true}
+      /**
+       * Database session storage.
+       *
+       * @type {Object}
+       * @instance
+       */
+      sessionStore: {value: null, writable: true},
 
-  });
+      /**
+       * Express session middleware.
+       *
+       * @type {Object}
+       * @instance
+       */
+      sessionMiddleware: {value: null, writable: true}
+
+    }
+
+  );
 
   // Apply favicon
   this.httpServer.use(favicon(process.root + '/assets/favicon.ico'));
@@ -157,6 +165,8 @@ util.inherits(ApplicationServer, Server);
  *
  * @method initializePassport
  * @private
+ * @memberof module:core/servers/ApplicationServer~ApplicationServer
+ * @this module:core/servers/ApplicationServer~ApplicationServer
  */
 function initializePassport() {
   var self = this;
@@ -216,11 +226,8 @@ function initializePassport() {
 /**
  * Prepares the express application.
  *
- * @method onDatabaseAvailable
- * @async
  * @param {Database} db The application database
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
+ * @param {callback} callback Function to call when its done
  */
 ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
   this.sessionStore = db.getStore('core_sessions');
@@ -254,11 +261,8 @@ ApplicationServer.prototype.onDatabaseAvailable = function(db, callback) {
  * Mounts plugin's assets directories, public router, private router, menu
  * views folders and permissions.
  *
- * @method onPluginLoaded
- * @async
  * @param {Object} plugin The openveo plugin
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
+ * @param {callback} callback Function to call when its done
  */
 ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
   var self = this;
@@ -440,10 +444,7 @@ ApplicationServer.prototype.onPluginLoaded = function(plugin, callback) {
  * Default route must load the main view due to AngularJS single
  * application.
  *
- * @method onPluginsLoaded
- * @method async
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
+ * @param {callback} callback Function to call when its done
  */
 ApplicationServer.prototype.onPluginsLoaded = function(callback) {
   var plugins = process.api.getPlugins();
@@ -494,10 +495,7 @@ ApplicationServer.prototype.onPluginsLoaded = function(callback) {
 /**
  * Starts the HTTP and socket servers.
  *
- * @method startServer
- * @async
- * @param {Function} callback Function to call when it's done with :
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 ApplicationServer.prototype.startServer = function(callback) {
   var self = this;

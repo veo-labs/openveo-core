@@ -1,18 +1,13 @@
 'use strict';
 
 /**
- * @module core-loaders
- */
-
-/**
  * Provides functions to interpret permissions definition from core and plugins.
  *
  * Permissions comes from 2 different things :
  *  - Core and plugin's configuration files
  *  - Groups of users which are entities
  *
- * @class permissionLoader
- * @static
+ * @module core/loaders/permissionLoader
  */
 
 var path = require('path');
@@ -25,8 +20,6 @@ var storage = process.require('app/server/storage.js');
  *
  * If a permission is not prefixed by the name of the plugin, the prefix is automatically added.
  *
- * @method prefixPermissions
- * @private
  * @param {String} pluginName Plugin's name
  * @param {Object} permissions Plugin's permissions
  */
@@ -52,78 +45,76 @@ function prefixPermissions(pluginName, permissions) {
  * Content entities won't generate any permissions.
  *
  * @example
- *     var permissionLoader= process.require('app/server/loaders/permissionLoader.js');
- *     var entities = {
- *       {
- *         core: {
- *           mountPath: '/',
- *           path: '/home/openveo/',
- *           entities: {
- *             applications: 'app/server/controllers/ApplicationController'
- *           }
- *         },
- *         publish: {
- *           mountPath: '/publish',
- *           path: '/home/openveo/node_modules/@openveo/publish/',
- *           entities: {
- *             videos: 'app/server/controllers/VideoController'
- *           }
- *         }
+ * var permissionLoader= process.require('app/server/loaders/permissionLoader.js');
+ * var entities = {
+ *   {
+ *     core: {
+ *       mountPath: '/',
+ *       path: '/home/openveo/',
+ *       entities: {
+ *         applications: 'app/server/controllers/ApplicationController'
  *       }
- *     };
+ *     },
+ *     publish: {
+ *       mountPath: '/publish',
+ *       path: '/home/openveo/node_modules/@openveo/publish/',
+ *       entities: {
+ *         videos: 'app/server/controllers/VideoController'
+ *       }
+ *     }
+ *   }
+ * };
  *
- *     console.log(permissionLoader.generateEntityPermissions(entities));
- *     // [
- *     //   {
- *     //     label: 'CORE.PERMISSIONS.GROUP_APPLICATIONS',
- *     //     permissions: [
- *     //       {
- *     //         id : 'core-add-applications',
- *     //         name : 'CORE.PERMISSIONS.ADD_APPLICATIONS_NAME',
- *     //         description : 'CORE.PERMISSIONS.ADD_APPLICATIONS_DESCRIPTION',
- *     //         paths : [ 'put /applications*' ]
- *     //       },
- *     //       {
- *     //         id : 'core-update-applications',
- *     //         name : 'CORE.PERMISSIONS.UPDATE_APPLICATIONS_NAME',
- *     //         description : 'CORE.PERMISSIONS.UPDATE_APPLICATIONS_DESCRIPTION',
- *     //         paths : [ 'post /applications*' ]
- *     //       },
- *     //       {
- *     //         id : 'core-delete-applications',
- *     //         name : 'CORE.PERMISSIONS.DELETE_APPLICATIONS_NAME',
- *     //         description : 'CORE.PERMISSIONS.DELETE_APPLICATIONS_DESCRIPTION',
- *     //         paths : [ 'delete /applications*' ]
- *     //       }
- *     //     ]
- *     //   },
- *     //   {
- *     //     label: 'PUBLISH.PERMISSIONS.GROUP_VIDEOS',
- *     //     permissions: [
- *     //       {
- *     //         id : 'publish-add-videos',
- *     //         name : 'PUBLISH.PERMISSIONS.ADD_VIDEOS_NAME',
- *     //         description : 'PUBLISH.PERMISSIONS.ADD_VIDEOS_DESCRIPTION',
- *     //         paths : [ 'put /publish/videos*' ]
- *     //       },
- *     //       {
- *     //         id : 'publish-update-videos',
- *     //         name : 'PUBLISH.PERMISSIONS.UPDATE_VIDEOS_NAME',
- *     //         description : 'PUBLISH.PERMISSIONS.UPDATE_VIDEOS_DESCRIPTION',
- *     //         paths : [ 'post /publish/videos*' ]
- *     //       },
- *     //       {
- *     //         id : 'publish-delete-videos',
- *     //         name : 'PUBLISH.PERMISSIONS.DELETE_VIDEOS_NAME',
- *     //         description : 'PUBLISH.PERMISSIONS.DELETE_VIDEOS_DESCRIPTION',
- *     //         paths : [ 'delete /publish/videos*' ]
- *     //       }
- *     //     ]
- *     //   }
- *     // ]
+ * console.log(permissionLoader.generateEntityPermissions(entities));
+ * // [
+ * //   {
+ * //     label: 'CORE.PERMISSIONS.GROUP_APPLICATIONS',
+ * //     permissions: [
+ * //       {
+ * //         id : 'core-add-applications',
+ * //         name : 'CORE.PERMISSIONS.ADD_APPLICATIONS_NAME',
+ * //         description : 'CORE.PERMISSIONS.ADD_APPLICATIONS_DESCRIPTION',
+ * //         paths : [ 'put /applications*' ]
+ * //       },
+ * //       {
+ * //         id : 'core-update-applications',
+ * //         name : 'CORE.PERMISSIONS.UPDATE_APPLICATIONS_NAME',
+ * //         description : 'CORE.PERMISSIONS.UPDATE_APPLICATIONS_DESCRIPTION',
+ * //         paths : [ 'post /applications*' ]
+ * //       },
+ * //       {
+ * //         id : 'core-delete-applications',
+ * //         name : 'CORE.PERMISSIONS.DELETE_APPLICATIONS_NAME',
+ * //         description : 'CORE.PERMISSIONS.DELETE_APPLICATIONS_DESCRIPTION',
+ * //         paths : [ 'delete /applications*' ]
+ * //       }
+ * //     ]
+ * //   },
+ * //   {
+ * //     label: 'PUBLISH.PERMISSIONS.GROUP_VIDEOS',
+ * //     permissions: [
+ * //       {
+ * //         id : 'publish-add-videos',
+ * //         name : 'PUBLISH.PERMISSIONS.ADD_VIDEOS_NAME',
+ * //         description : 'PUBLISH.PERMISSIONS.ADD_VIDEOS_DESCRIPTION',
+ * //         paths : [ 'put /publish/videos*' ]
+ * //       },
+ * //       {
+ * //         id : 'publish-update-videos',
+ * //         name : 'PUBLISH.PERMISSIONS.UPDATE_VIDEOS_NAME',
+ * //         description : 'PUBLISH.PERMISSIONS.UPDATE_VIDEOS_DESCRIPTION',
+ * //         paths : [ 'post /publish/videos*' ]
+ * //       },
+ * //       {
+ * //         id : 'publish-delete-videos',
+ * //         name : 'PUBLISH.PERMISSIONS.DELETE_VIDEOS_NAME',
+ * //         description : 'PUBLISH.PERMISSIONS.DELETE_VIDEOS_DESCRIPTION',
+ * //         paths : [ 'delete /publish/videos*' ]
+ * //       }
+ * //     ]
+ * //   }
+ * // ]
  *
- * @method generateEntityPermissions
- * @static
  * @param {Object} pluginsEntities The list of entities ordered by plugins
  * @return {Object} Permissions for all entities
  */
@@ -178,56 +169,54 @@ module.exports.generateEntityPermissions = function(pluginsEntities) {
  * Builds entities' scopes.
  *
  * @example
- *     // List of entities by plugin
- *     {
- *       publish: {
- *         mountPath: '/publish',
- *         path: '/home/openveo/node_modules/@openveo/publish',
- *         entities: {
- *           videos: 'app/server/controllers/VideoController'
- *         }
- *       }
+ * // List of entities by plugin
+ * {
+ *   publish: {
+ *     mountPath: '/publish',
+ *     path: '/home/openveo/node_modules/@openveo/publish',
+ *     entities: {
+ *       videos: 'app/server/controllers/VideoController'
  *     }
+ *   }
+ * }
  *
  * @example
- *     // Result
- *     [
- *       {
- *         id: 'publish-get-videos',
- *         name: 'PUBLISH.WS_SCOPES.GET_VIDEOS_NAME',
- *         description: 'PUBLISH.WS_SCOPES.GET_VIDEOS_DESCRIPTON',
- *         paths: [
- *           'get /publish/videos*'
- *         ]
- *       },
- *       {
- *         id: 'publish-add-videos',
- *         name: 'PUBLISH.WS_SCOPES.ADD_VIDEOS_NAME',
- *         description: 'PUBLISH.WS_SCOPES.ADD_VIDEOS_DESCRIPTON',
- *         paths: [
- *           'put /publish/videos*'
- *         ]
- *       },
- *       {
- *         id: 'publish-update-videos',
- *         name: 'PUBLISH.WS_SCOPES.UPDATE_VIDEOS_NAME',
- *         description: 'PUBLISH.WS_SCOPES.UPDATE_VIDEOS_DESCRIPTON',
- *         paths: [
- *           'post /publish/videos*'
- *         ]
- *       },
- *       {
- *         id: 'publish-delete-videos',
- *         name: 'PUBLISH.WS_SCOPES.DELETE_VIDEOS_NAME',
- *         description: 'PUBLISH.WS_SCOPES.DELETE_VIDEOS_DESCRIPTON',
- *         paths: [
- *           'delete /publish/videos*'
- *         ]
- *       }
+ * // Result
+ * [
+ *   {
+ *     id: 'publish-get-videos',
+ *     name: 'PUBLISH.WS_SCOPES.GET_VIDEOS_NAME',
+ *     description: 'PUBLISH.WS_SCOPES.GET_VIDEOS_DESCRIPTON',
+ *     paths: [
+ *       'get /publish/videos*'
  *     ]
+ *   },
+ *   {
+ *     id: 'publish-add-videos',
+ *     name: 'PUBLISH.WS_SCOPES.ADD_VIDEOS_NAME',
+ *     description: 'PUBLISH.WS_SCOPES.ADD_VIDEOS_DESCRIPTON',
+ *     paths: [
+ *       'put /publish/videos*'
+ *     ]
+ *   },
+ *   {
+ *     id: 'publish-update-videos',
+ *     name: 'PUBLISH.WS_SCOPES.UPDATE_VIDEOS_NAME',
+ *     description: 'PUBLISH.WS_SCOPES.UPDATE_VIDEOS_DESCRIPTON',
+ *     paths: [
+ *       'post /publish/videos*'
+ *     ]
+ *   },
+ *   {
+ *     id: 'publish-delete-videos',
+ *     name: 'PUBLISH.WS_SCOPES.DELETE_VIDEOS_NAME',
+ *     description: 'PUBLISH.WS_SCOPES.DELETE_VIDEOS_DESCRIPTON',
+ *     paths: [
+ *       'delete /publish/videos*'
+ *     ]
+ *   }
+ * ]
  *
- * @method generateEntityScopes
- * @static
  * @param {Object} pluginsEntities The list of entities
  * @return {Array} The list of web service scopes for all entities exposed by all plugins
  */
@@ -273,30 +262,28 @@ module.exports.generateEntityScopes = function(pluginsEntities) {
  * Reorganizes orphaned top permissions into a generic group.
  *
  * @example
- *     var permissionLoader= process.require('app/server/loaders/permissionLoader.js');
- *     var permissions = [
- *       {
- *         'id' : 'orphaned-permission',
- *         'name' : 'ORPHANED_PERM_NAME',
- *         'description' : 'ORPHANED_PERM_DESCRIPTION'
- *       }
- *     ];
- *     console.log(permissionLoader.groupOrphanedPermissions(permissions));
- *     // [
- *     //   {
- *     //     label: 'CORE.PERMISSIONS.GROUP_OTHERS',
- *     //     permissions: [
- *     //       {
- *     //         'id' : 'orphaned-permission',
- *     //         'name' : 'ORPHANED_PERM_NAME',
- *     //         'description' : 'ORPHANED_PERM_DESCRIPTION'
- *     //       }
- *     //     ]
- *     //   }
- *     // ]
+ * var permissionLoader= process.require('app/server/loaders/permissionLoader.js');
+ * var permissions = [
+ *   {
+ *     'id' : 'orphaned-permission',
+ *     'name' : 'ORPHANED_PERM_NAME',
+ *     'description' : 'ORPHANED_PERM_DESCRIPTION'
+ *   }
+ * ];
+ * console.log(permissionLoader.groupOrphanedPermissions(permissions));
+ * // [
+ * //   {
+ * //     label: 'CORE.PERMISSIONS.GROUP_OTHERS',
+ * //     permissions: [
+ * //       {
+ * //         'id' : 'orphaned-permission',
+ * //         'name' : 'ORPHANED_PERM_NAME',
+ * //         'description' : 'ORPHANED_PERM_DESCRIPTION'
+ * //       }
+ * //     ]
+ * //   }
+ * // ]
  *
- * @method groupOrphanedPermissions
- * @static
  * @param {Object} permissions The list of permissions with group
  * permissions and eventually orphaned permission not attached to any group
  * @return {Object} The same list of permissions except that orphaned
@@ -342,8 +329,6 @@ module.exports.groupOrphanedPermissions = function(permissions) {
 /**
  * Builds the list of scopes.
  *
- * @method buildScopes
- * @static
  * @param {Object} entities Entities to build scopes from
  * @param {Array} plugins The list of plugins
  * @return {Array} The list of generated scopes
@@ -370,14 +355,9 @@ module.exports.buildScopes = function(entities, plugins, callback) {
  *
  * Orphaned permissions are grouped in a generic group of permissions.
  *
- * @method buildPermissions
- * @static
- * @async
  * @param {Object} entities Entities to build permissions from
  * @param {Array} plugins The list of plugins
- * @param {Function} callback Function to call when its done with :
- *  - **Error** An error if something went wrong
- *  - **Array** The list of generated persmissions
+ * @param {module:core/loaders/permissionLoader~buildPermissionsCallback} callback Function to call when its done
  */
 module.exports.buildPermissions = function(entities, plugins, callback) {
   var self = this;
@@ -408,3 +388,9 @@ module.exports.buildPermissions = function(entities, plugins, callback) {
     callback(null, permissions);
   });
 };
+
+/**
+ * @callback module:core/loaders/permissionLoader~buildPermissionsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Array|Undefined)} permissions The list of generated permissions
+ */

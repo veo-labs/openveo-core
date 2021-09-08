@@ -363,8 +363,6 @@
 
     /**
      * Checks / unchecks a table row.
-     *
-     * @method check
      */
     this.check = function() {
       var allChecked = true;

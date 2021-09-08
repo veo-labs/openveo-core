@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-plugin
+ * @module core/plugin/CorePluginApi
  */
 
 var util = require('util');
@@ -24,63 +24,72 @@ var CORE_HOOKS = process.require('app/server/plugin/hooks.js');
  *
  * @class CorePluginApi
  * @extends PluginApi
- * @constructor
  */
 function CorePluginApi() {
   CorePluginApi.super_.call(this);
   var database = storage.getDatabase();
 
-  Object.defineProperties(this, {
+  Object.defineProperties(this,
 
-    /**
-     * An instance of ClientProvider.
-     *
-     * @property clientProvider
-     * @type ClientProvider
-     */
-    clientProvider: {value: new ClientProvider(database)},
+    /** @lends module:core/plugin/CorePluginApi~CorePluginApi */
+    {
 
-    /**
-     * An instance of GroupProvider.
-     *
-     * @property groupProvider
-     * @type GroupProvider
-     */
-    groupProvider: {value: new GroupProvider(database)},
+      /**
+       * An instance of ClientProvider.
+       *
+       * @type {module:core/providers/ClientProvider~ClientProvider}
+       * @readonly
+       * @instance
+       */
+      clientProvider: {value: new ClientProvider(database)},
 
-    /**
-     * An instance of RoleProvider.
-     *
-     * @property roleProvider
-     * @type RoleProvider
-     */
-    roleProvider: {value: new RoleProvider(database)},
+      /**
+       * An instance of GroupProvider.
+       *
+       * @type {module:core/providers/GroupProvider~GroupProvider}
+       * @readonly
+       * @instance
+       */
+      groupProvider: {value: new GroupProvider(database)},
 
-    /**
-     * An instance of TaxonomyProvider.
-     *
-     * @property taxonomyProvider
-     * @type TaxonomyProvider
-     */
-    taxonomyProvider: {value: new TaxonomyProvider(database)},
+      /**
+       * An instance of RoleProvider.
+       *
+       * @type {module:core/providers/RoleProvider~RoleProvider}
+       * @readonly
+       * @instance
+       */
+      roleProvider: {value: new RoleProvider(database)},
 
-    /**
-     * An instance of UserProvider.
-     *
-     * @property userProvider
-     * @type UserProvider
-     */
-    userProvider: {value: new UserProvider(database)},
+      /**
+       * An instance of TaxonomyProvider.
+       *
+       * @type {module:core/providers/TaxonomyProvider~TaxonomyProvider}
+       * @readonly
+       * @instance
+       */
+      taxonomyProvider: {value: new TaxonomyProvider(database)},
 
-    /**
-     * An instance of SettingProvider.
-     *
-     * @property settingProvider
-     * @type SettingProvider
-     */
-    settingProvider: {value: new SettingProvider(database)}
+      /**
+       * An instance of UserProvider.
+       *
+       * @type {module:core/providers/UserProvider~UserProvider}
+       * @readonly
+       * @instance
+       */
+      userProvider: {value: new UserProvider(database)},
 
-  });
+      /**
+       * An instance of SettingProvider.
+       *
+       * @type {module:core/providers/SettingProvider~SettingProvider}
+       * @readonly
+       * @instance
+       */
+      settingProvider: {value: new SettingProvider(database)}
+
+    }
+  );
 }
 
 module.exports = CorePluginApi;
@@ -89,7 +98,6 @@ util.inherits(CorePluginApi, openVeoApi.plugin.PluginApi);
 /**
  * Gets the current database instance.
  *
- * @method getDatabase
  * @return {Database} The application's database
  */
 CorePluginApi.prototype.getDatabase = function() {
@@ -99,7 +107,6 @@ CorePluginApi.prototype.getDatabase = function() {
 /**
  * Gets the id of the super administrator.
  *
- * @method getSuperAdminId
  * @return {String} The super administrator id
  */
 CorePluginApi.prototype.getSuperAdminId = function() {
@@ -109,7 +116,6 @@ CorePluginApi.prototype.getSuperAdminId = function() {
 /**
  * Gets the id of the anonymous user.
  *
- * @method getAnonymousUserId
  * @return {String} The anonymous user id
  */
 CorePluginApi.prototype.getAnonymousUserId = function() {
@@ -119,7 +125,6 @@ CorePluginApi.prototype.getAnonymousUserId = function() {
 /**
  * Gets the list of entities defined by plugins.
  *
- * @method getEntities
  * @return {Object} The list of entities by entity name
  */
 CorePluginApi.prototype.getEntities = function() {
@@ -129,7 +134,6 @@ CorePluginApi.prototype.getEntities = function() {
 /**
  * Gets the list of permissions defined by plugins.
  *
- * @method getPermissions
  * @return {Object} The list of permissions
  */
 CorePluginApi.prototype.getPermissions = function() {
@@ -139,7 +143,6 @@ CorePluginApi.prototype.getPermissions = function() {
 /**
  * Gets the list of Web Service scopes defined by plugins.
  *
- * @method getWebServiceScopes
  * @return {Object} The list of Web Service scopes
  */
 CorePluginApi.prototype.getWebServiceScopes = function() {
@@ -149,7 +152,6 @@ CorePluginApi.prototype.getWebServiceScopes = function() {
 /**
  * Gets information about the application server.
  *
- * @method getServerConfiguration
  * @return {Object} The server configuration
  */
 CorePluginApi.prototype.getServerConfiguration = function() {
@@ -168,23 +170,20 @@ CorePluginApi.prototype.getServerConfiguration = function() {
  * dictionaries are merged.
  *
  * @example
- *     process.api.getCoreApi().getTranslations('login', 'fr-FR', function(error, translations) {
- *       console.log(translations);
- *     });
+ * process.api.getCoreApi().getTranslations('login', 'fr-FR', function(error, translations) {
+ *   console.log(translations);
+ * });
  *
  * @example
- *     process.api.getCoreApi().getTranslations('back-office', 'en', function(error, translations) {
- *       console.log(translations);
- *     });
+ * process.api.getCoreApi().getTranslations('back-office', 'en', function(error, translations) {
+ *   console.log(translations);
+ * });
  *
- * @method getTranslations
- * @async
  * @param {String} dictionary The name of the dictionary, this is the name of the dictionary file without
  * extension
  * @param {String} code The language country code (e.g. en-US)
- * @param {Function} callback Function to call when its done
- *  - **Error** An error if something went wrong
- *  - **Object** A JavaScript object containing all translations
+ * @param {module:core/plugin/CorePluginApi~CorePluginApi~getTranslationsCallback} callback Function to call when its
+ * done
  */
 CorePluginApi.prototype.getTranslations = function(dictionary, code, callback) {
   var translations = null;
@@ -269,7 +268,6 @@ CorePluginApi.prototype.getTranslations = function(dictionary, code, callback) {
 /**
  * Gets OpenVeo CDN url ending with a slash.
  *
- * @method getCdnUrl
  * @param {Boolean} [trimSlash=false] true to trim the ending slash
  * @return {String} The CDN url
  */
@@ -281,7 +279,6 @@ CorePluginApi.prototype.getCdnUrl = function(trimSlash) {
 /**
  * Gets the language of the OpenVeo content.
  *
- * @method getContentLanguage
  * @return {String} The content language code, see supportedContentLanguages.json file for the full list of languages
  */
 CorePluginApi.prototype.getContentLanguage = function() {
@@ -291,7 +288,6 @@ CorePluginApi.prototype.getContentLanguage = function() {
 /**
  * Gets core hooks.
  *
- * @method getHooks
  * @return {Object} The core hooks
  */
 CorePluginApi.prototype.getHooks = function() {
@@ -303,8 +299,7 @@ CorePluginApi.prototype.getHooks = function() {
  *
  * @param string imagePath    Relative image path
  * @param string pluginName   Plugin name
- * @param {Function} callback Function to call when its done
- * @method clearImageCache
+ * @param {callback} callback Function to call when its done
  */
 CorePluginApi.prototype.clearImageCache = function(imagePath, pluginName, callback) {
   var plugin = process.api.getPlugin(pluginName);
@@ -331,3 +326,9 @@ CorePluginApi.prototype.clearImageCache = function(imagePath, pluginName, callba
 
   callback();
 };
+
+/**
+ * @callback module:core/plugin/CorePluginApi~CorePluginApi~getTranslationsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} translations All translations
+ */

@@ -1,0 +1,10 @@
+{
+
+  "env": {
+
+    // Enable ECMAScript 6 features
+    "es2017": true
+
+  }
+
+}

@@ -32,49 +32,50 @@
    *     variable evaluated as a string)
    *
    * @example
-   *     // Associates "value" with "associatedValue1", "associatedValue2"
-   *     var matches = [
-   *       {
-   *         value: 'value',
-   *         values: ['associatedValue1', 'associatedValue2'],
-   *       }
-   *     ];
+   * // Associates "value" with "associatedValue1", "associatedValue2"
+   * var matches = [
+   *   {
+   *     value: 'value',
+   *     values: ['associatedValue1', 'associatedValue2'],
+   *   }
+   * ];
    *
-   *     // Available options which can be entered in ov-tags element
-   *     var availableOptions = [
-   *       {
-   *         name: 'Associated value 1',
-   *         value: 'associatedValue1'
-   *       },
-   *       {
-   *         name: 'Associated value 2',
-   *         value: 'associatedValue2'
-   *       },
-   *       {
-   *         name: 'Associated value 3',
-   *         value: 'associatedValue3'
-   *       }
-   *     ];
+   * // Available options which can be entered in ov-tags element
+   * var availableOptions = [
+   *   {
+   *     name: 'Associated value 1',
+   *     value: 'associatedValue1'
+   *   },
+   *   {
+   *     name: 'Associated value 2',
+   *     value: 'associatedValue2'
+   *   },
+   *   {
+   *     name: 'Associated value 3',
+   *     value: 'associatedValue3'
+   *   }
+   * ];
    *
-   *     var inputPlaceholder = 'Input placeholder';
-   *     var tagsPlaceholder = 'Tags placeholder';
-   *     var inputProperty = 'firstElement';
-   *     var tagsProperty = 'secondElement';
-   *     var addLabel = 'Add a new association';
+   * var inputPlaceholder = 'Input placeholder';
+   * var tagsPlaceholder = 'Tags placeholder';
+   * var inputProperty = 'firstElement';
+   * var tagsProperty = 'secondElement';
+   * var addLabel = 'Add a new association';
    *
-   *     <ov-match ng-model="matches"
-   *               ng-model-options="{allowInvalid: true}"
-   *               ov-multiple="{{true}}"
-   *               ov-available-options="availableOptions"
-   *               ov-input-placeholder="inputPlaceholder"
-   *               ov-tags-placeholder="tagsPlaceholder"
-   *               ov-input-property="inputProperty"
-   *               ov-tags-property="tagsProperty"
-   *               ov-add-label="addLabel">
-   *     </ov-match>
+   * <ov-match ng-model="matches"
+   *           ng-model-options="{allowInvalid: true}"
+   *           ov-multiple="{{true}}"
+   *           ov-available-options="availableOptions"
+   *           ov-input-placeholder="inputPlaceholder"
+   *           ov-tags-placeholder="tagsPlaceholder"
+   *           ov-input-property="inputProperty"
+   *           ov-tags-property="tagsProperty"
+   *           ov-add-label="addLabel">
+   * </ov-match>
    *
-   * @module ov
    * @class ovMatch
+   * @memberof module:ov
+   * @inner
    */
   function ovMatch() {
     return {
@@ -131,8 +132,6 @@
 
         /**
          * Adds a new match.
-         *
-         * @method addMatch
          */
         scope.addMatch = function() {
           scope.matches.push({});
@@ -142,7 +141,6 @@
         /**
          * Removes a match.
          *
-         * @method removeMatch
          * @param {Number} index The index of the match to remove in the list of matches
          */
         scope.removeMatch = function(index) {
@@ -152,8 +150,6 @@
 
         /**
          * Updates model with actual value.
-         *
-         * @method updateModel
          */
         scope.updateModel = function() {
           ngModelCtrl.$setViewValue(angular.copy(scope.matches));

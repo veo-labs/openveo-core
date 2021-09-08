@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core
+ * @module core/httpErrors
  */
 
 /**
@@ -10,11 +10,10 @@
  * HTTP errors are sent by {{#crossLinkModule "controllers"}}{{/crossLinkModule}}.
  *
  * @example
- *     var httpErrors = process.require('app/server/httpErrors.js');
- *     console.log(httpErrors.UNKNOWN_ERROR);
+ * var httpErrors = process.require('app/server/httpErrors.js');
+ * console.log(httpErrors.UNKNOWN_ERROR);
  *
- * @class HTTP_ERRORS
- * @static
+ * @namespace
  */
 var HTTP_ERRORS = {
 
@@ -23,10 +22,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when no error were specified.
    *
-   * @property UNKNOWN_ERROR
-   * @type Object
-   * @final
-   * @default 0
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   UNKNOWN_ERROR: {
     code: 0x000,
@@ -36,10 +35,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting a dictionary of translations.
    *
-   * @property I18N_DICTIONARY_ERROR
-   * @type Object
-   * @final
-   * @default 1
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   I18N_DICTIONARY_ERROR: {
     code: 0x001,
@@ -49,10 +48,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting the list of taxonomies.
    *
-   * @property GET_TAXONOMIES_ERROR
-   * @type Object
-   * @final
-   * @default 2
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_TAXONOMIES_ERROR: {
     code: 0x002,
@@ -62,10 +61,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting the list of groups.
    *
-   * @property GET_GROUPS_ERROR
-   * @type Object
-   * @final
-   * @default 3
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_GROUPS_ERROR: {
     code: 0x003,
@@ -75,10 +74,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when authenticating the user to the back end.
    *
-   * @property BACK_END_AUTHENTICATION_ERROR
-   * @type Object
-   * @final
-   * @default 4
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   BACK_END_AUTHENTICATION_ERROR: {
     code: 0x004,
@@ -88,10 +87,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting the list of applications.
    *
-   * @property GET_APPLICATIONS_ERROR
-   * @type Object
-   * @final
-   * @default 5
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_APPLICATIONS_ERROR: {
     code: 0x005,
@@ -101,10 +100,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting the list of roles.
    *
-   * @property GET_ROLES_ERROR
-   * @type Object
-   * @final
-   * @default 6
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_ROLES_ERROR: {
     code: 0x006,
@@ -114,10 +113,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting the list of users.
    *
-   * @property GET_USERS_ERROR
-   * @type Object
-   * @final
-   * @default 7
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_USERS_ERROR: {
     code: 0x007,
@@ -127,10 +126,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when updating information about a user.
    *
-   * @property UPDATE_USER_ERROR
-   * @type Object
-   * @final
-   * @default 8
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   UPDATE_USER_ERROR: {
     code: 0x008,
@@ -140,10 +139,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting the list of terms of a taxonomy.
    *
-   * @property GET_TAXONOMY_ERROR
-   * @type Object
-   * @final
-   * @default 9
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_TAXONOMY_ERROR: {
     code: 0x009,
@@ -153,10 +152,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when authenticating using an external provider (which require redirection).
    *
-   * @property BACK_END_EXTERNAL_AUTHENTICATION_ERROR
-   * @type Object
-   * @final
-   * @default 10
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   BACK_END_EXTERNAL_AUTHENTICATION_ERROR: {
     code: 0x00a,
@@ -166,10 +165,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting the list of settings.
    *
-   * @property GET_SETTINGS_ERROR
-   * @type Object
-   * @final
-   * @default 11
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_SETTINGS_ERROR: {
     code: 0x00b,
@@ -179,10 +178,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting a setting.
    *
-   * @property GET_SETTING_ERROR
-   * @type Object
-   * @final
-   * @default 14
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_SETTING_ERROR: {
     code: 0x00e,
@@ -194,10 +193,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when requested path does not exist.
    *
-   * @property PATH_NOT_FOUND
-   * @type Object
-   * @final
-   * @default 256
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   PATH_NOT_FOUND: {
     code: 0x100,
@@ -207,10 +206,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when requested dictionary does not exist.
    *
-   * @property I18N_DICTIONARY_NOT_FOUND
-   * @type Object
-   * @final
-   * @default 257
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   I18N_DICTIONARY_NOT_FOUND: {
     code: 0x101,
@@ -220,10 +219,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when requested taxonomy does not exist.
    *
-   * @property GET_TAXONOMY_NOT_FOUND
-   * @type Object
-   * @final
-   * @default 258
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_TAXONOMY_NOT_FOUND: {
     code: 0x102,
@@ -235,10 +234,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when user authentication to the back end failed.
    *
-   * @property BACK_END_AUTHENTICATION_FAILED
-   * @type Object
-   * @final
-   * @default 512
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   BACK_END_AUTHENTICATION_FAILED: {
     code: 0x200,
@@ -248,10 +247,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when a back end authentication is needed to perform the action.
    *
-   * @property BACK_END_UNAUTHORIZED
-   * @type Object
-   * @final
-   * @default 513
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   BACK_END_UNAUTHORIZED: {
     code: 0x201,
@@ -261,10 +260,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when user connected to the back end is not authorized to perform an action.
    *
-   * @property BACK_END_FORBIDDEN
-   * @type Object
-   * @final
-   * @default 514
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   BACK_END_FORBIDDEN: {
     code: 0x202,
@@ -274,10 +273,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when user connected to the Web Service is not authorized to perform an action.
    *
-   * @property WS_FORBIDDEN
-   * @type Object
-   * @final
-   * @default 515
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   WS_FORBIDDEN: {
     code: 0x203,
@@ -287,10 +286,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when a Web Service authentication is needed to perform an action.
    *
-   * @property WS_UNAUTHORIZED
-   * @type Object
-   * @final
-   * @default 516
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   WS_UNAUTHORIZED: {
     code: 0x204,
@@ -300,10 +299,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when user authentication to the back end failed using an external provider.
    *
-   * @property BACK_END_EXTERNAL_AUTHENTICATION_FAILED
-   * @type Object
-   * @final
-   * @default 519
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   BACK_END_EXTERNAL_AUTHENTICATION_FAILED: {
     code: 0x207,
@@ -315,10 +314,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting users with wrong parameters.
    *
-   * @property GET_USERS_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 768
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_USERS_WRONG_PARAMETERS: {
     code: 0x300,
@@ -328,10 +327,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when updating a user with missing parameters.
    *
-   * @property UPDATE_USER_MISSING_PARAMETERS
-   * @type Object
-   * @final
-   * @default 769
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   UPDATE_USER_MISSING_PARAMETERS: {
     code: 0x301,
@@ -341,10 +340,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when updating a user with wrong parameters.
    *
-   * @property UPDATE_USER_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 770
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   UPDATE_USER_WRONG_PARAMETERS: {
     code: 0x302,
@@ -354,10 +353,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting taxonomies with wrong parameters.
    *
-   * @property GET_TAXONOMIES_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 771
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_TAXONOMIES_WRONG_PARAMETERS: {
     code: 0x303,
@@ -367,10 +366,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting applications with wrong parameters.
    *
-   * @property GET_APPLICATIONS_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 772
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_APPLICATIONS_WRONG_PARAMETERS: {
     code: 0x304,
@@ -380,10 +379,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting groups with wrong parameters.
    *
-   * @property GET_GROUPS_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 773
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_GROUPS_WRONG_PARAMETERS: {
     code: 0x305,
@@ -393,10 +392,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting roles with wrong parameters.
    *
-   * @property GET_ROLES_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 774
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_ROLES_WRONG_PARAMETERS: {
     code: 0x306,
@@ -406,10 +405,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting taxonomy terms with missing parameters.
    *
-   * @property GET_TAXONOMY_TERMS_MISSING_PARAMETERS
-   * @type Object
-   * @final
-   * @default 775
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_TAXONOMY_TERMS_MISSING_PARAMETERS: {
     code: 0x307,
@@ -419,10 +418,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when authenticating to an internal provider using wrong parameters.
    *
-   * @property AUTHENTICATE_INTERNAL_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 776
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   AUTHENTICATE_INTERNAL_WRONG_PARAMETERS: {
     code: 0x308,
@@ -432,10 +431,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when authenticating to an external provider using wrong parameters.
    *
-   * @property AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 777
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS: {
     code: 0x309,
@@ -445,10 +444,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting settings with wrong parameters.
    *
-   * @property GET_SETTINGS_WRONG_PARAMETERS
-   * @type Object
-   * @final
-   * @default 778
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_SETTINGS_WRONG_PARAMETERS: {
     code: 0x30a,
@@ -458,10 +457,10 @@ var HTTP_ERRORS = {
   /**
    * A server error occurring when getting a setting with missing parameters.
    *
-   * @property GET_SETTING_MISSING_PARAMETERS
-   * @type Object
-   * @final
-   * @default 782
+   * @const
+   * @type {Object}
+   * @default
+   * @inner
    */
   GET_SETTING_MISSING_PARAMETERS: {
     code: 0x30e,

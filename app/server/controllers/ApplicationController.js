@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/ApplicationController
  */
 
 var util = require('util');
@@ -29,7 +29,6 @@ util.inherits(ApplicationController, EntityController);
 /**
  * Gets the list of scopes and return it as a JSON object.
  *
- * @method getScopesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Response} response ExpressJS HTTP Response
  */
@@ -53,22 +52,20 @@ ApplicationController.prototype.getScopesAction = function(request, response) {
  * Gets applications.
  *
  * @example
+ * // Response example
+ * {
+ *   "entities" : [ ... ],
+ *   "pagination" : {
+ *     "limit": ..., // The limit number of applications by page
+ *     "page": ..., // The actual page
+ *     "pages": ..., // The total number of pages
+ *     "size": ... // The total number of applications
+ * }
  *
- *     // Response example
- *     {
- *       "entities" : [ ... ],
- *       "pagination" : {
- *         "limit": ..., // The limit number of applications by page
- *         "page": ..., // The actual page
- *         "pages": ..., // The total number of pages
- *         "size": ... // The total number of applications
- *     }
- *
- * @method getEntitiesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} [request.query] Request's query parameters
- * @param {String|Array} [request.query.include] The list of fields to include from returned applications
- * @param {String|Array} [request.query.exclude] The list of fields to exclude from returned applications. Ignored if
+ * @param {(String|Array)} [request.query.include] The list of fields to include from returned applications
+ * @param {(String|Array)} [request.query.exclude] The list of fields to exclude from returned applications. Ignored if
  * include is also specified.
  * @param {String} [request.query.query] Search query to search on application name
  * @param {Number} [request.query.useSmartSearch=1] 1 to use a more advanced search mechanism, 0 to use a simple search
@@ -140,8 +137,7 @@ ApplicationController.prototype.getEntitiesAction = function(request, response, 
 /**
  * Gets an instance of the provider associated to the controller.
  *
- * @method getProvider
- * @return {ClientProvider} The provider
+ * @return {module:core/providers/ClientProvider~ClientProvider} The provider
  */
 ApplicationController.prototype.getProvider = function() {
   return new ClientProvider(process.api.getCoreApi().getDatabase());

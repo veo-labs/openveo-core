@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/TaxonomyController
  */
 
 var util = require('util');
@@ -16,7 +16,6 @@ var ResourceFilter = openVeoApi.storages.ResourceFilter;
  *
  * @class TaxonomyController
  * @extends EntityController
- * @constructor
  */
 function TaxonomyController() {
   TaxonomyController.super_.call(this);
@@ -29,22 +28,20 @@ util.inherits(TaxonomyController, EntityController);
  * Gets a list of taxonomies.
  *
  * @example
+ * // Response example
+ * {
+ *   "entities" : [ ... ],
+ *   "pagination" : {
+ *     "limit": ..., // The limit number of taxonomies by page
+ *     "page": ..., // The actual page
+ *     "pages": ..., // The total number of pages
+ *     "size": ... // The total number of taxonomies
+ * }
  *
- *     // Response example
- *     {
- *       "entities" : [ ... ],
- *       "pagination" : {
- *         "limit": ..., // The limit number of taxonomies by page
- *         "page": ..., // The actual page
- *         "pages": ..., // The total number of pages
- *         "size": ... // The total number of taxonomies
- *     }
- *
- * @method getEntitiesAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} [request.query] Request's query parameters
- * @param {String|Array} [request.query.include] The list of fields to include from returned taxonomies
- * @param {String|Array} [request.query.exclude] The list of fields to exclude from returned taxonomies. Ignored if
+ * @param {(String|Array)} [request.query.include] The list of fields to include from returned taxonomies
+ * @param {(String|Array)} [request.query.exclude] The list of fields to exclude from returned taxonomies. Ignored if
  * include is also specified.
  * @param {String} [request.query.query] Search query to search on taxonomy name
  * @param {Number} [request.query.useSmartSearch=1] 1 to use a more advanced search mechanism, 0 to use a simple search
@@ -117,13 +114,11 @@ TaxonomyController.prototype.getEntitiesAction = function(request, response, nex
  * Gets the list of terms of a taxonomy.
  *
  * @example
+ * // Response example
+ * {
+ *   "terms" : [ ... ]
+ * }
  *
- *     // Response example
- *     {
- *       "terms" : [ ... ]
- *     }
- *
- * @method getTaxonomyTermsAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.params Request's parameters
  * @param {String} request.params.id The id of the taxonomy to get terms from
@@ -163,8 +158,7 @@ TaxonomyController.prototype.getTaxonomyTermsAction = function(request, response
 /**
  * Gets an instance of the provider associated to the controller.
  *
- * @method getProvider
- * @return {TaxonomyProvider} The provider
+ * @return {module:core/providers/TaxonomyProvider~TaxonomyProvider} The provider
  */
 TaxonomyController.prototype.getProvider = function() {
   return new TaxonomyProvider(process.api.getCoreApi().getDatabase());

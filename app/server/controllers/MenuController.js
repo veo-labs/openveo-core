@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/MenuController
  */
 
 var util = require('util');
@@ -12,9 +12,8 @@ var Controller = openVeoApi.controllers.Controller;
 /**
  * Checks if user has the given permission.
  *
- * @method isAuthorized
+ * @memberof module:core/controllers/MenuController~MenuController
  * @private
- * @static
  * @param {Object} user The user to test
  * @param {Array} user.permissions The user's permissions
  * @param {String} permission The permission id to check
@@ -31,9 +30,8 @@ function isAuthorized(user, permission) {
  * Filters the given menu depending on user permissions and requested
  * menu items permissions.
  *
- * @method filterMenuByPermissions
+ * @memberof module:core/controllers/MenuController~MenuController
  * @private
- * @static
  * @param {Array} menu The menu to filter
  * @param {Object} user The authenticated user
  */
@@ -99,7 +97,6 @@ function filterMenuByPermissions(menu, user) {
  *
  * @class MenuController
  * @extends Controller
- * @constructor
  */
 function MenuController() {
   MenuController.super_.call(this);
@@ -114,7 +111,6 @@ util.inherits(MenuController, Controller);
  * If menu is empty a 404 Not Found is sent.
  * Menu is filtered regarding user permissions.
  *
- * @method getMenuAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Object} request.user The connected user
  * @param {String} request.user.id The connected user id

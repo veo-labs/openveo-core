@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @module core-controllers
+ * @module core/controllers/ErrorController
  */
 
 var util = require('util');
@@ -16,7 +16,6 @@ var defaultController = new DefaultController();
  *
  * @class ErrorController
  * @extends Controller
- * @constructor
  */
 function ErrorController() {
   ErrorController.super_.call(this);
@@ -28,7 +27,6 @@ util.inherits(ErrorController, Controller);
 /**
  * Handles requests which does not correspond to anything.
  *
- * @method notFoundAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Response} response ExpressJS HTTP Response
  * @param {Function} next Function to defer execution to the next registered middleware
@@ -40,7 +38,6 @@ ErrorController.prototype.notFoundAction = function(request, response, next) {
 /**
  * Handles all errors.
  *
- * @method errorAction
  * @param {Object} error An error object
  * @param {Number} error.httCode The code HTTP to return for this error
  * @param {Number} error.message The message with the error
@@ -93,7 +90,6 @@ ErrorController.prototype.errorAction = function(error, request, response, next)
  * Depending on request Accept HTTP header, either an HTML content,
  * a JSON content or a text content will be returned with a 404 code.
  *
- * @method notFoundPageAction
  * @param {Request} request ExpressJS HTTP Request
  * @param {Request} request.method Request's HTTP method
  * @param {Request} request.url Request's url

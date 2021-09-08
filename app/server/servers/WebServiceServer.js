@@ -2,7 +2,7 @@
 'use strict';
 
 /**
- * @module core-servers
+ * @module core/servers/WebServiceServer
  */
 
 var util = require('util');
@@ -32,18 +32,23 @@ var errorController = new ErrorController();
 function WebServiceServer(configuration) {
   WebServiceServer.super_.call(this, configuration);
 
-  Object.defineProperties(this, {
+  Object.defineProperties(this,
 
-    /**
-     * migrations Script description object.
-     *
-     * @property migrations
-     * @type Object
-     * @final
-     */
-    migrations: {value: {}}
+    /** @lends module:core/servers/WebServiceServer~WebServiceServer */
+    {
 
-  });
+      /**
+       * migrations Script description object.
+       *
+       * @type {Object}
+       * @instance
+       * @readonly
+       */
+      migrations: {value: {}}
+
+    }
+
+  );
 
   // Log each request
   this.httpServer.use(openVeoApi.middlewares.logRequestMiddleware);
@@ -76,11 +81,8 @@ util.inherits(WebServiceServer, Server);
 /**
  * Loads plugin.
  *
- * @method onPluginLoaded
- * @async
  * @param {Object} plugin The openveo plugin
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
+ * @param {callback} callback Function to call when its done
  */
 WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
   process.logger.info('Start loading plugin ' + plugin.name);
@@ -116,10 +118,7 @@ WebServiceServer.prototype.onPluginLoaded = function(plugin, callback) {
  * Sets errors routes when all plugins are loaded to handle not found
  * endpoints and errors.
  *
- * @method onPluginsLoaded
- * @method async
- * @param {Function} callback Function to call when its done with:
- *  - **Error** An error if something went wrong
+ * @param {callback} callback Function to call when its done with:
  */
 WebServiceServer.prototype.onPluginsLoaded = function(callback) {
   var plugins = process.api.getPlugins();
@@ -143,10 +142,7 @@ WebServiceServer.prototype.onPluginsLoaded = function(callback) {
 /**
  * Starts the HTTP server.
  *
- * @method startServer
- * @async
- * @param {Function} callback Function to call when it's done with :
- *  - **Error** An error if something went wrong, null otherwise
+ * @param {callback} callback Function to call when it's done
  */
 WebServiceServer.prototype.startServer = function(callback) {
 

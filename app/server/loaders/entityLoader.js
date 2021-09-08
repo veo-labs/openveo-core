@@ -1,40 +1,33 @@
 'use strict';
 
 /**
- * @module core-loaders
- */
-
-/**
  * Provides functions to interpret entities definition from plugin's configuration.
  *
- * @class entityLoader
- * @static
+ * @module core/loaders/entityLoader
  */
 
 /**
  * Builds entities for plugins.
  *
  * @example
- *     // Results
- *     {
- *       core: {
- *         mountPath: '/',
- *         path: '/home/openveo/',
- *         entities: {
- *           applications: 'app/server/controllers/ApplicationController'
- *         }
- *       },
- *       publish: {
- *         mountPath: '/publish',
- *         path: '/home/openveo/node_modules/@openveo/publish',
- *         entities: {
- *           videos: 'app/server/controllers/VideoController'
- *         }
- *       }
+ * // Results
+ * {
+ *   core: {
+ *     mountPath: '/',
+ *     path: '/home/openveo/',
+ *     entities: {
+ *       applications: 'app/server/controllers/ApplicationController'
  *     }
+ *   },
+ *   publish: {
+ *     mountPath: '/publish',
+ *     path: '/home/openveo/node_modules/@openveo/publish',
+ *     entities: {
+ *       videos: 'app/server/controllers/VideoController'
+ *     }
+ *   }
+ * }
  *
- * @method buildEntities
- * @static
  * @param {Array} plugins The list of plugins
  * @return {Object} The list of entities, for plugins, ordered by plugin name
  * @throws {TypeError} A TypeError if plugins is not an array
@@ -62,23 +55,21 @@ module.exports.buildEntities = function(plugins) {
  * Builds CRUD routes for entities.
  *
  * @example
- *     // List of entities as described in configuration file
- *     {
- *       'applications': '/home/openveo/app/server/controllers/ApplicationController'
- *     }
+ * // List of entities as described in configuration file
+ * {
+ *   'applications': '/home/openveo/app/server/controllers/ApplicationController'
+ * }
  *
- * @example
- *     // Results
- *     {
- *       'get /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.getEntityAction',
- *       'get /applications': '/home/openveo/app/server/controllers/ApplicationController.getEntitiesAction',
- *       'post /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.updateEntityAction',
- *       'put /applications': '/home/openveo/app/server/controllers/ApplicationController.addEntitiesAction',
- *       'delete /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.removeEntitiesAction'
- *     }
+ * mple
+ * // Results
+ * {
+ *   'get /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.getEntityAction',
+ *   'get /applications': '/home/openveo/app/server/controllers/ApplicationController.getEntitiesAction',
+ *   'post /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.updateEntityAction',
+ *   'put /applications': '/home/openveo/app/server/controllers/ApplicationController.addEntitiesAction',
+ *   'delete /applications/:id': '/home/openveo/app/server/controllers/ApplicationController.removeEntitiesAction'
+ * }
  *
- * @method buildEntitiesRoutes
- * @static
  * @param {Object} entities The list of entities
  * @return {Object} The list of routes for all entities
  */
