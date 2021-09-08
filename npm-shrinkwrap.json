@@ -61,7 +61,6 @@
         "grunt-exec": "^3.0.0",
         "grunt-gh-pages": "^3.1.0",
         "grunt-karma": "^3.0.2",
-        "grunt-mkdocs": "^1.0.1",
         "grunt-mocha-test": "^0.13.3",
         "grunt-protractor-runner": "^5.0.0",
         "jsdoc": "^3.6.7",
@@ -4375,15 +4374,6 @@
       "resolved": "http://registry.npmjs.org/async/-/async-1.5.2.tgz",
       "integrity": "sha1-7GphrlZIDAw8skHJVhjiCJL5Zyo=",
       "dev": true
-    },
-    "node_modules/grunt-mkdocs": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/grunt-mkdocs/-/grunt-mkdocs-1.0.1.tgz",
-      "integrity": "sha512-yh0gw5gDM95UIMxv/ki/SjzAu0CCPdWDj3ju1sWYTz2dfs+ylWknORKJIrJtEkdmjd7x0T4XPqpAktsR3JC5EQ==",
-      "dev": true,
-      "engines": {
-        "node": ">=6"
-      }
     },
     "node_modules/grunt-mocha-test": {
       "version": "0.13.3",
@@ -14150,12 +14140,6 @@
           "dev": true
         }
       }
-    },
-    "grunt-mkdocs": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/grunt-mkdocs/-/grunt-mkdocs-1.0.1.tgz",
-      "integrity": "sha512-yh0gw5gDM95UIMxv/ki/SjzAu0CCPdWDj3ju1sWYTz2dfs+ylWknORKJIrJtEkdmjd7x0T4XPqpAktsR3JC5EQ==",
-      "dev": true
     },
     "grunt-mocha-test": {
       "version": "0.13.3",

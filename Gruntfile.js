@@ -3,7 +3,6 @@
 /* eslint no-sync: 0 */
 require('./processRequire.js');
 var fs = require('fs');
-var openVeoApi = require('@openveo/api');
 
 /**
  * Loads a bunch of grunt configuration files from the given directory.
@@ -44,13 +43,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-eslint');
-  grunt.loadNpmTasks('grunt-mkdocs');
   grunt.loadNpmTasks('grunt-gh-pages');
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-exec');
-
-  grunt.registerMultiTask('rename', openVeoApi.grunt.renameTask(grunt));
-  grunt.registerMultiTask('remove', openVeoApi.grunt.removeTask(grunt));
 
   // Launch end to end tests
   // e.g. grunt test-e2e --capabilities="{\"browserName\": \"chrome\"}" --directConnect=true
@@ -63,9 +58,6 @@ module.exports = function(grunt) {
     'exec:createEntities',
     'protractor'
   ]);
-
-  // Generate documentation
-  grunt.registerTask('doc', ['mkdocs', 'rename:doc']);
 
   // Build the back office
   grunt.registerTask('build-back-office-client', [

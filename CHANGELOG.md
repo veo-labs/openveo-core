@@ -21,6 +21,7 @@
 - **chai** has been upgraded from 4.2.0 to **4.3.4**
 - **consolidate** has been upgraded from 0.15.1 to **0.16.0**
 - **express-session** has been upgraded from 1.17.0 to **1.17.2**
+- **grunt-mkdocs** has been removed
 - **karma** has been upgraded from 4.4.1 to **6.3.4**
 - **karma-mocha** has been upgraded from 1.3.0 to **2.0.1**
 - **karma-ng-html2js-preprocessor** has been removed
