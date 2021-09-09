@@ -356,7 +356,7 @@ exports.config = {
           return protractor.promise.fulfilled();
 
         var deferred = protractor.promise.defer();
-        var casUrl = url.parse(casConf.url);
+        var casUrl = new url.URL(casConf.url);
         var options = [
           '--port', casUrl.port,
           '--database', casDatabasePath
@@ -445,7 +445,7 @@ exports.config = {
 
         openVeoApi.fileSystem.mkdir(path.dirname(ldapDatabasePath), function(error) {
           if (error) return callback(error);
-          var ldapUrl = url.parse(ldapConf.url);
+          var ldapUrl = new url.URL(ldapConf.url);
 
           fs.writeFile(ldapConfPath, JSON.stringify({
             port: ldapUrl.port,

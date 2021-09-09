@@ -1,0 +1,7 @@
+{
+
+  "rules": {
+    "node/shebang": 0
+  }
+
+}

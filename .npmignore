@@ -51,4 +51,4 @@ nbproject
 .gitattributes
 
 # Eslint
-.eslintrc
+.eslintrc.json

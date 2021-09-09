@@ -10,7 +10,6 @@
  */
 
 var fs = require('fs');
-var util = require('util');
 var path = require('path');
 var openVeoApi = require('@openveo/api');
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
@@ -32,7 +31,7 @@ function setSuitesAbsolutePath(suites, basePath) {
   for (var suiteName in suites) {
     var suite = suites[suiteName];
 
-    if (util.isArray(suite)) {
+    if (Array.isArray(suite)) {
       for (var i = 0; i < suite.length; i++) {
         suite[i] = path.join(basePath, suite[i]);
       }

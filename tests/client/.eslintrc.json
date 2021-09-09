@@ -15,12 +15,12 @@
   "globals": {
 
     // Add angular to environment globals but do not authorize to overwrite it
-    angular: false,
-    inject: false,
+    "angular": false,
+    "inject": false,
 
     // Add chai to environment globals but do not authorize to overwrite it
-    chai: false,
-    assert: false,
+    "chai": false,
+    "assert": false,
 
     // Add protractor environment globals
     "element": true,

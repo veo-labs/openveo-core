@@ -1,6 +1,6 @@
 'use strict';
 
-/* eslint no-sync: 0 */
+/* eslint node/no-sync: 0 */
 require('./processRequire.js');
 var fs = require('fs');
 
@@ -42,7 +42,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-karma');
-  grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-gh-pages');
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-exec');

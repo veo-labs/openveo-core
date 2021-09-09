@@ -272,7 +272,7 @@ CorePluginApi.prototype.getTranslations = function(dictionary, code, callback) {
  * @return {String} The CDN url
  */
 CorePluginApi.prototype.getCdnUrl = function(trimSlash) {
-  var cdnUrl = url.format(url.parse(storage.getConfiguration().cdn.url));
+  var cdnUrl = new url.URL(storage.getConfiguration().cdn.url).href;
   return trimSlash ? cdnUrl.substring(0, cdnUrl.length - 1) : cdnUrl;
 };
 

@@ -8,7 +8,6 @@
  */
 
 var path = require('path');
-var util = require('util');
 var openVeoApi = require('@openveo/api');
 
 var controllers = {};
@@ -58,7 +57,7 @@ module.exports.decodeRoutes = function(pluginPath, routes) {
 
       // If the action associated to the path is an array
       // keep it this way
-      if (util.isArray(routes[match]))
+      if (Array.isArray(routes[match]))
         actions = routes[match];
 
       // If not an array, make it an array

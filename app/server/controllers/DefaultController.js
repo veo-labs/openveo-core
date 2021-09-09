@@ -85,7 +85,7 @@ DefaultController.prototype.defaultAction = function(request, response) {
       }
 
       // Plugin has JavaScript files to load before the other files
-      if (plugin['scriptLibFiles'] && util.isArray(plugin['scriptLibFiles'][env])) {
+      if (plugin['scriptLibFiles'] && Array.isArray(plugin['scriptLibFiles'][env])) {
         response.locals.librariesScripts = response.locals.librariesScripts.concat(
           plugin['scriptLibFiles'][env].map(function(filePath) {
             return path.join(plugin.mountPath, filePath);
@@ -95,14 +95,14 @@ DefaultController.prototype.defaultAction = function(request, response) {
 
       // Plugin has JavaScript files to load
       // Load files before main plugin JavaScript files
-      if (plugin['scriptFiles'] && util.isArray(plugin['scriptFiles'][env])) {
+      if (plugin['scriptFiles'] && Array.isArray(plugin['scriptFiles'][env])) {
         response.locals.scripts = plugin['scriptFiles'][env].map(function(filePath) {
           return path.join(plugin.mountPath, filePath);
         }).concat(response.locals.scripts);
       }
 
       // Plugin has CSS files to load
-      if (plugin['cssFiles'] && util.isArray(plugin['cssFiles'])) {
+      if (plugin['cssFiles'] && Array.isArray(plugin['cssFiles'])) {
         response.locals.css = response.locals.css.concat(plugin['cssFiles'].map(function(filePath) {
           return path.join(plugin.mountPath, filePath);
         }));
