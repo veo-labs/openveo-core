@@ -61,7 +61,6 @@
         "grunt-contrib-watch": "^1.1.0",
         "grunt-exec": "^3.0.0",
         "grunt-gh-pages": "^3.1.0",
-        "grunt-karma": "^3.0.2",
         "grunt-mocha-test": "^0.13.3",
         "grunt-protractor-runner": "^5.0.0",
         "jsdoc": "^3.6.7",
@@ -4425,15 +4424,6 @@
       "dev": true,
       "engines": {
         "node": ">=0.4.0"
-      }
-    },
-    "node_modules/grunt-karma": {
-      "version": "3.0.2",
-      "resolved": "https://registry.npmjs.org/grunt-karma/-/grunt-karma-3.0.2.tgz",
-      "integrity": "sha512-imNhQO1bR1O7X6/3F5vO0o7mKy4xdkpSd40QVfxGO70cBAFcOqjv2Zu5QzsfEsSrppuu3N0vIQPbfBRjeGdpWg==",
-      "dev": true,
-      "dependencies": {
-        "lodash": "^4.17.10"
       }
     },
     "node_modules/grunt-known-options": {
@@ -14157,15 +14147,6 @@
           "integrity": "sha1-9HRejK7V4N0u8hu14tIpoy6Ak8A=",
           "dev": true
         }
-      }
-    },
-    "grunt-karma": {
-      "version": "3.0.2",
-      "resolved": "https://registry.npmjs.org/grunt-karma/-/grunt-karma-3.0.2.tgz",
-      "integrity": "sha512-imNhQO1bR1O7X6/3F5vO0o7mKy4xdkpSd40QVfxGO70cBAFcOqjv2Zu5QzsfEsSrppuu3N0vIQPbfBRjeGdpWg==",
-      "dev": true,
-      "requires": {
-        "lodash": "^4.17.10"
       }
     },
     "grunt-known-options": {
