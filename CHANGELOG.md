@@ -25,6 +25,7 @@
 - **grunt-eslint** has been removed
 - **grunt-karma** has been removed
 - **grunt-mkdocs** has been removed
+- **grunt-mocha-test** has been removed
 - **karma** has been upgraded from 4.4.1 to **6.3.4**
 - **karma-mocha** has been upgraded from 1.3.0 to **2.0.1**
 - **karma-ng-html2js-preprocessor** has been removed
