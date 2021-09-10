@@ -20,4 +20,8 @@ You'll probably want to compile AngularJS files, in production, for better perfo
 
     npm run build
 
+Or you can watch JavaScript files changes using the following command:
+
+    npm run watch
+
 You'll find compiled JavaScript files in **assets/be/js**.
