@@ -108,7 +108,7 @@
     "test": "npm run test:client && npm run test:server",
     "test:client": "npx karma start ./tests/client/karmaConf.js",
     "test:server": "npx mocha --config tests/server/.mocharc.json",
-    "watch": "npx ovWatch -d ./app/client/admin -d ./assets/be/views -c build",
+    "watch": "npm run build ; npx ovWatch -d ./app/client/admin -d ./assets/be/views -c build",
     "web-driver:upgrade": "npx webdriver-manager update"
   },
   "precommit": [
