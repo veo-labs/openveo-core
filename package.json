@@ -76,7 +76,6 @@
     "eslint-plugin-node": "^11.1.0",
     "grunt": "^1.1.0",
     "grunt-cli": "^1.3.2",
-    "grunt-contrib-compass": "^1.1.1",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-uglify": "^4.0.1",
     "grunt-exec": "^3.0.0",
@@ -93,8 +92,10 @@
     "pre-commit": "^1.2.2"
   },
   "scripts": {
-    "build": "npx grunt build-back-office-client",
-    "build:scss": "npx grunt compass:back-office",
+    "build": "npm run build:scss ; npx grunt build-back-office-client",
+    "build:development": "npm run build:scss-development ; npx grunt build-back-office-client",
+    "build:scss": "compass compile -c ./compass.rb -e production -s compressed --force --no-sourcemap",
+    "build:scss-development": "compass compile -c ./compass.rb --force",
     "doc": "npm doc:openveo ; npm run doc:back-office ; npm run doc:server",
     "doc:back-office": "npx jsdoc -c jsdoc-back-office.js -d \"./site/$(echo $npm_package_version)/api/client-back-end\" -p -r",
     "doc:clean": "./scripts/remove ./site",
