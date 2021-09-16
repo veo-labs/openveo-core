@@ -28,6 +28,7 @@ nbproject
 
 # Sass
 /.sass-cache
+/assets/be/css/*.map
 
 # Unit tests
 /tests
