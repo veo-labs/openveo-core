@@ -94,7 +94,7 @@
   },
   "scripts": {
     "build": "npx grunt build-back-office-client",
-    "build:scss": "npx grunt compass:dist",
+    "build:scss": "npx grunt compass:back-office",
     "doc": "npm doc:openveo ; npm run doc:back-office ; npm run doc:server",
     "doc:back-office": "npx jsdoc -c jsdoc-back-office.js -d \"./site/$(echo $npm_package_version)/api/client-back-end\" -p -r",
     "doc:clean": "./scripts/remove ./site",
