@@ -36,8 +36,6 @@ module.exports = function(grunt) {
   grunt.initConfig(config);
   grunt.config.merge(loadConfig('./tasks'));
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-gh-pages');
   grunt.loadNpmTasks('grunt-protractor-runner');
   grunt.loadNpmTasks('grunt-exec');
@@ -54,10 +52,4 @@ module.exports = function(grunt) {
     'protractor'
   ]);
 
-  // Build the back office
-  grunt.registerTask('build-back-office-client', [
-    'uglify:back-office',
-    'concat:back-office-lib',
-    'concat:back-office-js'
-  ]);
 };
