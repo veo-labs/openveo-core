@@ -27,6 +27,7 @@
 - **grunt-contrib-uglify** has been removed
 - **grunt-contrib-watch** has been removed
 - **grunt-eslint** has been removed
+- **grunt-gh-pages** has been removed
 - **grunt-karma** has been removed
 - **grunt-mkdocs** has been removed
 - **grunt-mocha-test** has been removed
