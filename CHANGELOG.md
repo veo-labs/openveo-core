@@ -22,6 +22,8 @@
 - **consolidate** has been upgraded from 0.15.1 to **0.16.0**
 - **eslint** has been upgraded from 22.0.0 to **23.0.0**
 - **express-session** has been upgraded from 1.17.0 to **1.17.2**
+- **grunt** has been removed
+- **grunt-cli** has been removed
 - **grunt-contrib-compass** has been removed
 - **grunt-contrib-concat** has been removed
 - **grunt-contrib-uglify** has been removed
