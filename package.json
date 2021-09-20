@@ -93,7 +93,7 @@
     "build:scss-development": "compass compile -c ./compass.rb --force",
     "doc": "npm doc:openveo ; npm run doc:back-office ; npm run doc:server",
     "doc:back-office": "npx jsdoc -c jsdoc-back-office.js -d \"./site/$(echo $npm_package_version)/api/client-back-end\" -p -r",
-    "doc:clean": "./scripts/remove ./site",
+    "doc:clean": "npx ovRemove ./site",
     "doc:deploy": "npx ovDeployGithubPages \"site/$(echo $npm_package_version)\"",
     "doc:openveo": "mkdocs build -c -d \"./site/$(echo $npm_package_version)\"",
     "doc:server": "npx jsdoc -c jsdoc-server.js -d \"./site/$(echo $npm_package_version)/api/server\" -p -r",
