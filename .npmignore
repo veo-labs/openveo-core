@@ -29,6 +29,7 @@ nbproject
 # Sass
 /.sass-cache
 /assets/be/css/*.map
+/compass.rb
 
 # Unit tests
 /tests
@@ -41,6 +42,8 @@ nbproject
 /docs
 /mkdocs.yml
 /site
+/DOC-*.md
+/jsdoc*.js
 
 # Git
 .gitignore
