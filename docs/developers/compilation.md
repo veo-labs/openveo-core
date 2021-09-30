@@ -2,26 +2,20 @@
 
 OpenVeo back end is written using AngularJS and SASS / Compass. SASS files need to be compiled to generate the CSS and JavaScript files can be minified and aggregated for better performance.
 
-# Compiling SASS files
+# Compiling for development
 
-You can compile the back end SASS files using the following command:
+You can compile OpenVeo for development using:
 
-    npm run build:scss
+    npm run build:development
 
-Or you can watch SASS files changes using the following command:
+You compile automatically when a file has changed using:
 
     npm run watch
 
-You'll find compiled CSS files in **assets/be/css**.
+# Compiling for production
 
-# Compiling JavaScript files
-
-You'll probably want to compile AngularJS files, in production, for better performance. You can do it using:
+You can compile OpenVeo for production using:
 
     npm run build
 
-Or you can watch JavaScript files changes using the following command:
-
-    npm run watch
-
-You'll find compiled JavaScript files in **assets/be/js**.
+You'll find compiled CSS files in **assets/be/css** and compiled JavaScript files in **assets/be/js**.
