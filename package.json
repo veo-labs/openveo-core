@@ -87,10 +87,9 @@
     "uglify-js": "^3.14.2"
   },
   "scripts": {
-    "build": "./scripts/build.js production",
+    "build": "npm run build:clean && ./scripts/build.js production",
+    "build:clean": "npx ovRemove ./build && npx ovRemove ./assets/be/css/* && npx ovRemove ./assets/be/js/libOpenveo.js && npx ovRemove ./assets/be/js/*",
     "build:development": "./scripts/build.js",
-    "build:scss": "compass compile -c ./compass.rb -e production -s compressed --force --no-sourcemap",
-    "build:scss-development": "compass compile -c ./compass.rb --force",
     "doc": "npm run doc:openveo ; npm run doc:back-office ; npm run doc:server",
     "doc:back-office": "npx jsdoc -c jsdoc-back-office.js -d \"./site/$(echo $npm_package_version)/api/client-back-end\" -p -r",
     "doc:clean": "npx ovRemove ./site",
