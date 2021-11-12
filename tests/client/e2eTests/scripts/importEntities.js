@@ -79,13 +79,14 @@ var path = require('path');
 var fs = require('fs');
 var openVeoApi = require('@openveo/api');
 var async = require('async');
-var users = require('@openveo/test').e2e.users;
+var openVeoTest = require('@openveo/test');
 var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
 var storage = process.require('app/server/storage.js');
 var provider = process.require('tests/client/e2eTests/scripts/entitiesProvider.js');
 var CorePlugin = process.require('app/server/plugin/CorePlugin.js');
 
 // Test database configuration
+var buildPath = path.join(process.root, 'tests/client/e2eTests/build');
 var configDir = openVeoApi.fileSystem.getConfDir();
 var databaseConf = require(path.join(configDir, 'core/databaseTestConf.json'));
 
@@ -93,20 +94,26 @@ var databaseConf = require(path.join(configDir, 'core/databaseTestConf.json'));
 var descriptionFilePath = '/tests/client/e2eTests/resources/data.json';
 
 // Path of the file to generate which will contain the list of CAS users
-var casDatabaseFilePath = path.join(process.root, 'tests/client/e2eTests/build/casUsers.json');
+var casDatabaseFilePath = path.join(buildPath, 'casUsers.json');
 
 // Path of the file to generate which will contain the list of LDAP users
-var ldapDatabaseFilePath = path.join(process.root, 'tests/client/e2eTests/build/ldapUsers.json');
+var ldapDatabaseFilePath = path.join(buildPath, 'ldapUsers.json');
+
+// Path of the file to generate which will contain the aggregated datas of all plugins description files
+var aggregatedDatasFilePath = path.join(buildPath, 'data.json');
 
 // Plugin paths (core act as a plugin)
 var pluginPaths = [process.root];
 
-// Imported groups, roles and applications
-var groups = {};
-var roles = {};
-var applications = {};
+var data = {
+  applications: {},
+  groups: {},
+  roles: {},
+  users: openVeoTest.e2e.users
+};
 var ldapUsers = [];
 var casUsers = [];
+var roles;
 
 // Get a Database instance to the test database
 var db = openVeoApi.storages.factory.get(databaseConf.type, databaseConf);
@@ -148,10 +155,10 @@ async.series([
     pluginPaths.forEach(function(pluginPath) {
       try {
         var datas = require(path.join(pluginPath, descriptionFilePath));
-        openVeoApi.util.merge(groups, datas.groups);
-        openVeoApi.util.merge(roles, datas.roles);
-        openVeoApi.util.merge(users, datas.users);
-        openVeoApi.util.merge(applications, datas.applications);
+        openVeoApi.util.merge(data.groups, datas.groups);
+        openVeoApi.util.merge(data.roles, datas.roles);
+        openVeoApi.util.merge(data.users, datas.users);
+        openVeoApi.util.merge(data.applications, datas.applications);
 
         if (datas.ldapUsers) ldapUsers = ldapUsers.concat(datas.ldapUsers);
         if (datas.casUsers) casUsers = casUsers.concat(datas.casUsers);
@@ -165,73 +172,65 @@ async.series([
 
   // Import groups
   function(callback) {
-    provider.importGroups(groups, function(error, total, importedGroups) {
-      if (error) throw error;
-      groups = importedGroups;
-      callback();
-    });
+    provider.importGroups(data.groups, callback);
   },
 
   // Import roles
   function(callback) {
-    provider.importRoles(roles, function(error, total, importedRoles) {
+    provider.importRoles(data.roles, function(error, total, importedRoles) {
       roles = importedRoles;
-
-      // User roles in description files are referenced by role keys as described in description files.
-      // Replace role keys by the corresponding ids (roles are now created and have ids)
-      var count = 1;
-      for (var userKey in users) {
-        var user = users[userKey];
-
-        if (!user.id)
-          user.id = String(count++);
-
-        if (user.roles) {
-          var userRoles = [];
-
-          for (var i = 0; i < user.roles.length; i++)
-            userRoles.push(roles[user.roles[i]].id);
-
-          if (userRoles.length)
-            user.roles = userRoles;
-        }
-
-      }
-
       callback();
     });
   },
 
   // Import users
   function(callback) {
-    provider.importUsers(users, function(error, total, importedUsers) {
-      users = importedUsers;
-      callback();
-    });
+    var users = [];
+    var count = 1;
+
+    for (var dataUserId in data.users) {
+      var user = data.users[dataUserId];
+
+      users.push({
+        id: user.id || String(count++),
+        name: user.name,
+        email: user.email,
+        locked: user.locked || false,
+        password: user.password,
+        roles: (user.roles || []).map(function(dataUserRoleName) {
+          return roles[dataUserRoleName].id;
+        })
+      });
+    }
+
+    if (!users.length) return callback();
+
+    provider.importUsers(users, callback);
   },
 
   // Import applications
   function(callback) {
-    provider.importApplications(applications, function(error, total, importedApplications) {
-      applications = importedApplications;
-      callback();
-    });
+    provider.importApplications(data.applications, callback);
+  },
+
+  // Create resource directory
+  function(callback) {
+    openVeoApi.fileSystem.mkdir(buildPath, callback);
+  },
+
+  // Create resource file containing aggregated datas
+  function(callback) {
+    fs.writeFile(aggregatedDatasFilePath, JSON.stringify(data), {encoding: 'utf8'}, callback);
   },
 
   // Create resource file containing CAS users
   function(callback) {
-    openVeoApi.fileSystem.mkdir(path.dirname(casDatabaseFilePath), function(error) {
-      if (error) return callback(error);
-      fs.writeFile(casDatabaseFilePath, JSON.stringify(casUsers), {encoding: 'utf8'}, callback);
-    });
+    fs.writeFile(casDatabaseFilePath, JSON.stringify(casUsers), {encoding: 'utf8'}, callback);
   },
 
   // Create resource file containing LDAP users
   function(callback) {
-    openVeoApi.fileSystem.mkdir(path.dirname(ldapDatabaseFilePath), function(error) {
-      if (error) return callback(error);
-      fs.writeFile(ldapDatabaseFilePath, JSON.stringify(ldapUsers), {encoding: 'utf8'}, callback);
-    });
+    fs.writeFile(ldapDatabaseFilePath, JSON.stringify(ldapUsers), {encoding: 'utf8'}, callback);
   }
 
 ], function(error) {

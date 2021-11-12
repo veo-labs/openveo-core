@@ -3,7 +3,7 @@
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var MenuPage = process.require('tests/client/e2eTests/pages/MenuPage.js');
-var datas = process.require('tests/client/e2eTests/resources/data.json');
+var data = process.require('tests/client/e2eTests/build/data.json');
 
 // Load assertion library
 var assert = chai.assert;
@@ -18,19 +18,21 @@ chai.use(chaiAsPromised);
  * @return {Object} A user with or without the specified permission
  */
 function getUserByPermission(permission, without) {
-  for (var id in datas.users) {
+  for (var id in data.users) {
     var found = without;
 
-    for (var i = 0; i < datas.users[id].roles.length; i++) {
-      var roleId = datas.users[id].roles[i];
+    if (!data.users[id].roles) continue;
 
-      if (without && datas.roles[roleId].permissions.indexOf(permission) >= 0) {
+    for (var i = 0; i < data.users[id].roles.length; i++) {
+      var roleId = data.users[id].roles[i];
+
+      if (without && data.roles[roleId].permissions.indexOf(permission) >= 0) {
 
         // Found a role but didn't expect one
         // Go to next user
         found = false;
 
-      } else if (!without && datas.roles[roleId].permissions.indexOf(permission) >= 0) {
+      } else if (!without && data.roles[roleId].permissions.indexOf(permission) >= 0) {
 
         // Found a user with the permission
         found = true;
@@ -41,7 +43,7 @@ function getUserByPermission(permission, without) {
     }
 
     if (found)
-      return datas.users[id];
+      return data.users[id];
   }
 
   return null;
@@ -53,7 +55,7 @@ describe('Left menu', function() {
   // Prepare page
   before(function() {
     page = new MenuPage();
-    page.logAs(datas.users.coreGuest);
+    page.logAs(data.users.coreGuest);
     page.load();
   });
 
