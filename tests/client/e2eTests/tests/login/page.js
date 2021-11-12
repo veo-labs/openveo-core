@@ -1,5 +1,7 @@
 'use strict';
 
+var url = require('url');
+
 var chai = require('chai');
 var chaiAsPromised = require('chai-as-promised');
 var openVeoApi = require('@openveo/api');
@@ -156,10 +158,15 @@ describe('Login page', function() {
 
     it('should display the CAS button and the separator', function() {
       assert.eventually.ok(page.casButtonElement.isPresent());
-      assert.eventually.equal(
-        page.casButtonElement.getAttribute('href'),
-        'authenticate/cas'
-      );
+
+      page.casButtonElement.getAttribute('href').then(function(href) {
+        var hrefUrl = new url.URL(href);
+
+        assert.equal(
+          hrefUrl.pathname,
+          '/be/authenticate/cas'
+        );
+      });
       assert.eventually.ok(page.separatorElement.isPresent());
     });
 
