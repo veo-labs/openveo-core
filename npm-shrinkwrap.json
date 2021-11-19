@@ -25,7 +25,7 @@
         "api-check": "^7.5.5",
         "async": "^3.2.0",
         "body-parser": "^1.19.0",
-        "bootstrap-sass": "3.3.7",
+        "bootstrap-sass": "3.4.1",
         "consolidate": "^0.16.0",
         "cookie-parser": "^1.4.5",
         "express": "^4.17.1",
@@ -942,9 +942,9 @@
       "integrity": "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g="
     },
     "node_modules/bootstrap-sass": {
-      "version": "3.3.7",
-      "resolved": "https://registry.npmjs.org/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz",
-      "integrity": "sha1-ZZbHq0D2Y3OTMjqwvIDQZPxjBJg="
+      "version": "3.4.1",
+      "resolved": "https://registry.npmjs.org/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz",
+      "integrity": "sha512-p5rxsK/IyEDQm2CwiHxxUi0MZZtvVFbhWmyMOt4lLkA4bujDA1TGoKT0i1FKIWiugAdP+kK8T5KMDFIKQCLYIA=="
     },
     "node_modules/brace-expansion": {
       "version": "1.1.11",
@@ -5746,7 +5746,7 @@
     },
     "node_modules/rimraf": {
       "version": "2.4.5",
-      "resolved": "http://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz",
+      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz",
       "integrity": "sha1-7nEM5dk6j9uFb7Xqj/Di11k0sto=",
       "dev": true,
       "dependencies": {
@@ -7927,9 +7927,9 @@
       }
     },
     "bootstrap-sass": {
-      "version": "3.3.7",
-      "resolved": "https://registry.npmjs.org/bootstrap-sass/-/bootstrap-sass-3.3.7.tgz",
-      "integrity": "sha1-ZZbHq0D2Y3OTMjqwvIDQZPxjBJg="
+      "version": "3.4.1",
+      "resolved": "https://registry.npmjs.org/bootstrap-sass/-/bootstrap-sass-3.4.1.tgz",
+      "integrity": "sha512-p5rxsK/IyEDQm2CwiHxxUi0MZZtvVFbhWmyMOt4lLkA4bujDA1TGoKT0i1FKIWiugAdP+kK8T5KMDFIKQCLYIA=="
     },
     "brace-expansion": {
       "version": "1.1.11",
@@ -11671,7 +11671,7 @@
     },
     "rimraf": {
       "version": "2.4.5",
-      "resolved": "http://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz",
+      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz",
       "integrity": "sha1-7nEM5dk6j9uFb7Xqj/Di11k0sto=",
       "dev": true,
       "requires": {
