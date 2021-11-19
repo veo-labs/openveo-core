@@ -1,4 +1,4 @@
-# 10.0.0 / YYYY-MM-DD
+# 10.0.0 / 2021-11-19
 
 ## BREAKING CHANGES
 
@@ -18,6 +18,10 @@
 
 ## DEPENDENCIES
 
+- **@openveo/api** has been upgraded from 7.0.0 to **8.0.2**
+- **@openveo/rest-nodejs-client** has been upgraded from 4.0.0 to **5.0.1**
+- **@openveo/test** has been upgraded from 8.0.0 to **9.0.1**
+- **cas-server-mock** has been upgraded from 3.0.0 to **4.0.0**
 - **chai** has been upgraded from 4.2.0 to **4.3.4**
 - **consolidate** has been upgraded from 0.15.1 to **0.16.0**
 - **eslint** has been upgraded from 22.0.0 to **23.0.0**
@@ -36,6 +40,7 @@
 - **karma** has been upgraded from 4.4.1 to **6.3.4**
 - **karma-mocha** has been upgraded from 1.3.0 to **2.0.1**
 - **karma-ng-html2js-preprocessor** has been removed
+- **ldap-server-mock** has been upgraded from 3.0.0 to **4.0.0**
 - **mocha** has been upgraded from 7.1.1 to **9.1.0**
 - **mustache** has been upgraded from 3.2.1 to **4.2.0**
 - **nodemon** has been removed
