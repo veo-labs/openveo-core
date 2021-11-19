@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ov/AutoCompleteDirective.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ov/AutoCompleteDirective.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+(function(app) {
+
+  /**
+   * Creates a new AngularJS directive as an HTML element ov-auto-complete to be able to create a text field with
+   * suggestions.
+   *
+   * Auto complete form element is composed of a simple input element and a list of suggestions which can be fetched
+   * asynchronously.
+   *
+   * Attributes are:
+   *   - ng-model The model value (This must be an assignable variable evaluated as an Object) with a property "name"
+   *     and a property "value"
+   *   - ov-placeholder The input placeholder text (This must be an assignable variable evaluated as a String)
+   *   - ov-get-suggestions The function to get the list of suggestions (This must be an assignable variable evaluated
+   *     as a Function). This function must return an AngularJS Promise resolving with a list of suggestions with,
+   *     for each suggestion, a property "name" and a property "value"
+   *
+   * @example
+   * var placeholder = 'Placeholder';
+   * var getSuggestions = function() {
+   *   return $q.when([
+   *     {
+   *       name: 'First suggestion',
+   *       value: 1
+   *     },
+   *     {
+   *       name: 'Second suggestion',
+   *       value: 2
+   *     }
+   *   ]);
+   * };
+   * var model = {
+   *   value: 42,
+   *   name: 'Element name'
+   * };
+   * &lt;ov-auto-complete ng-model="model"
+   *                   ov-placeholder="placeholder"
+   *                   ov-get-suggestions="getSuggestions">
+   * &lt;/ov-auto-complete>
+   *
+   * @class ovAutoComplete
+   * @memberof module:ov
+   * @inner
+   */
+  function ovAutoComplete() {
+    return {
+      restrict: 'E',
+      templateUrl: 'ov-core-auto-complete.html',
+      require: ['?ngModel'],
+      replace: true,
+      scope: {
+        ovPlaceholder: '=?',
+        ovGetSuggestions: '='
+      },
+      link: function(scope, el, attrs, controllers) {
+        var ngModelCtrl = controllers[0];
+        scope.element = {};
+        scope.suggestions = [];
+
+        /**
+         * Updates and validates directive attributes.
+         */
+        function updateAttributes() {
+          scope.ovPlaceholder =
+          scope.placeholder = (typeof scope.ovPlaceholder === 'undefined') ? '' : scope.ovPlaceholder;
+          scope.getSuggestions = scope.ovGetSuggestions;
+        }
+
+        /**
+         * Updates model with actual value.
+         */
+        function updateModel() {
+          if (scope.element.name &amp;&amp; scope.element.value) {
+            ngModelCtrl.$setViewValue({
+              value: scope.element.value,
+              name: scope.element.name
+            });
+          } else
+            ngModelCtrl.$setViewValue(null);
+
+          ngModelCtrl.$validate();
+        }
+
+        /**
+         * Renders the input value using the model.
+         *
+         * It overrides AngularJS $render.
+         */
+        ngModelCtrl.$render = function() {
+          scope.element.name = ngModelCtrl.$viewValue &amp;&amp; ngModelCtrl.$viewValue.name;
+          scope.element.value = ngModelCtrl.$viewValue &amp;&amp; ngModelCtrl.$viewValue.value;
+        };
+
+        /**
+         * Validates the input value and displays suggestions.
+         */
+        scope.validateValue = function() {
+          if (!scope.element.name) {
+
+            // Input is empty
+            // Clear suggestions and update the model
+            scope.updateSuggestions([]);
+            return updateModel();
+
+          }
+
+          // Get suggestions for the input value
+          scope.getSuggestions(scope.element.name).then(function(suggestions) {
+
+            if (suggestions.length) {
+
+              // Suggestions have been found for the input value
+              // Find out if current input value match a suggestion
+              for (var i = 0; i &lt; suggestions.length; i++) {
+                if (suggestions[i].name.toLowerCase() === scope.element.name.toLowerCase()) {
+
+                  // Found a suggestion corresponding to the input value
+                  // Validate suggestion
+                  scope.validateSuggestion(suggestions[i]);
+                  break;
+
+                }
+              }
+
+              // Update the list of suggestions
+              scope.updateSuggestions(suggestions);
+
+            } else {
+
+              // Input value does not correspond to any suggestion
+              // Clear suggestions and update the model
+              scope.updateSuggestions([]);
+              scope.element.value = null;
+              updateModel();
+
+            }
+
+          });
+        };
+
+        /**
+         * Validates the suggestion and clear the list of suggestions.
+         *
+         * @param {Object} suggestion The suggestion
+         * @param {String} suggestion.name The suggestion name
+         * @param {String} suggestion.value The suggestion value
+         */
+        scope.validateSuggestion = function(suggestion) {
+          scope.element.name = suggestion.name;
+          scope.element.value = suggestion.value;
+          scope.updateSuggestions([]);
+          updateModel();
+        };
+
+        /**
+         * Updates suggestions.
+         *
+         * @param {Array} suggestions The list of suggestions with, for each suggestion, a property "name" and a
+         * property "value"
+         */
+        scope.updateSuggestions = function(suggestions) {
+
+          // Clear actual list of suggestions
+          scope.suggestions.splice(0, scope.suggestions.length);
+
+          suggestions.forEach(function(suggestion) {
+            if (suggestion.name.toLowerCase() !== scope.element.name.toLowerCase()) {
+
+              // Suggestion is not the one in the input
+              // Suggest it
+              scope.suggestions.push({
+                name: suggestion.name,
+                value: suggestion.value
+              });
+
+            }
+          });
+        };
+
+        /**
+         * Tests if the model is empty.
+         *
+         * It overrides AngularJS $isEmpty.
+         *
+         * @param {String} value The model value
+         * @return {Boolean} true if value is empty, false otherwise
+         */
+        ngModelCtrl.$isEmpty = function(value) {
+          return !value;
+        };
+
+        // Watch for attributes changes
+        scope.$watch('ovPlaceholder', updateAttributes);
+        scope.$watch('ovGetSuggestions', updateAttributes);
+
+        updateAttributes();
+      }
+    };
+  }
+
+  app.directive('ovAutoComplete', ovAutoComplete);
+
+})(angular.module('ov'));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ov.html">ov</a></li><li><a href="module-ov_alert.html">ov/alert</a></li><li><a href="module-ov_authentication.html">ov/authentication</a></li><li><a href="module-ov_entity.html">ov/entity</a></li><li><a href="module-ov_i18n.html">ov/i18n</a></li><li><a href="module-ov_socket.html">ov/socket</a></li><li><a href="module-ov_storage.html">ov/storage</a></li><li><a href="module-ov_util.html">ov/util</a></li></ul><h3>Classes</h3><ul><li><a href="module-ov_alert-AlertService.html">ov/alert~AlertService</a></li><li><a href="module-ov_authentication-AuthenticationService.html">ov/authentication~AuthenticationService</a></li><li><a href="module-ov_entity-EntityService.html">ov/entity~EntityService</a></li><li><a href="module-ov_i18n-I18nService.html">ov/i18n~I18nService</a></li><li><a href="module-ov_i18n-TranslateFilter.html">ov/i18n~TranslateFilter</a></li><li><a href="module-ov_socket-SocketFactory.html">ov/socket~SocketFactory</a></li><li><a href="module-ov_storage-StorageProvider.html">ov/storage~StorageProvider</a></li><li><a href="module-ov_util-OvUrlFactory.html">ov/util~OvUrlFactory</a></li><li><a href="module-ov_util-UtilService.html">ov/util~UtilService</a></li><li><a href="module-ov-ApplicationService.html">ov~ApplicationService</a></li><li><a href="module-ov-ErrorInterceptor.html">ov~ErrorInterceptor</a></li><li><a href="module-ov-MenuService.html">ov~MenuService</a></li><li><a href="module-ov-ovAutoComplete.html">ov~ovAutoComplete</a></li><li><a href="module-ov-ovDateTimePicker.html">ov~ovDateTimePicker</a></li><li><a href="module-ov-ovMatch.html">ov~ovMatch</a></li><li><a href="module-ov-ovMultiCheckBox.html">ov~ovMultiCheckBox</a></li><li><a href="module-ov-ovTags.html">ov~ovTags</a></li><li><a href="module-ov-TruncateFilter.html">ov~TruncateFilter</a></li><li><a href="module-ov-userService.html">ov~userService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Nov 19 2021 16:51:46 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
