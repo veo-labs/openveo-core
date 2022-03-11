@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: loaders/pluginLoader.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: loaders/pluginLoader.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+/**
+ * Provides functions to load openveo plugins.
+ *
+ * @module core/loaders/pluginLoader
+ */
+
+var fs = require('fs');
+var path = require('path');
+var async = require('async');
+var openVeoApi = require('@openveo/api');
+var migrationLoader = process.require('app/server/loaders/migrationLoader.js');
+var storage = process.require('app/server/storage.js');
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
+
+/**
+ * Filters the list of plugins paths in case the same plugin appears
+ * multiple time at different paths. Filters to keep only the most
+ * top level one.
+ *
+ * @example
+ * var pluginsPaths = [
+ *   '/openveo/node_modules/@openveo/plugin1',
+ *   '/openveo/node_modules/@openveo/plugin2/node_modules/@openveo/plugin1'
+ * ];
+ * console.log(filterPluginsPaths(pluginsPaths));
+ * // [ '/openveo/node_modules/@openveo/plugin1' ]
+ *
+ * @private
+ * @param {Array} pluginsPaths The list of plugins paths to analyze
+ * @return {Array} The filtered list of plugins paths
+ */
+function filterPluginsPaths(pluginsPaths) {
+  var filteredPaths = [];
+
+  // Got at least one path
+  if (pluginsPaths.length) {
+    var analyzedPaths = {};
+
+    pluginsPaths.forEach(function(pluginPath) {
+
+      // Extract plugin name
+      // e.g "/openveo/node_modules/@openveo/plugin1"
+      // becomes "plugin1"
+      var pluginName = path.basename(pluginPath);
+
+      // Plugin already analyzed
+      // Replace it if the path length is shorter
+      if (analyzedPaths[pluginName]) {
+        if (analyzedPaths[pluginName].length > pluginPath.length)
+          analyzedPaths[pluginName] = pluginPath;
+      } else {
+
+        // Plugin name not analyzed yet
+        // Add it to the list of analyzed one
+        analyzedPaths[pluginName] = pluginPath;
+
+      }
+
+    });
+
+    for (var i in analyzedPaths)
+      filteredPaths.push(analyzedPaths[i]);
+
+  }
+
+  return filteredPaths;
+}
+
+/**
+ * Recursively and asynchronously analyze the given directory to get
+ * npm plugins.
+ *
+ * There are two kinds of plugins : plugins maintained by the core team (under @openveo scope)
+ * and contributers' plugins which must be prefixed by **openveo-**.
+ *
+ * @example
+ * getPluginPaths('/openveo', function(error, pluginsPaths){
+ *   console.log(pluginsPaths);
+ *   // [
+ *   //   '/openveo/node_modules/@openveo/plugin',
+ *   //   '/openveo/node_modules/openveo-contrib-plugin'
+ *   // ]
+ * };
+ *
+ * @param {String} startingPath Root path of an NPM module from where looking for plugins
+ * @param {module:core/loaders/pluginLoader~getPluginsPathsCallback} callback A function to call when its done
+ * @throws {TypeError} An error if starting path is not a valid string
+ */
+module.exports.getPluginPaths = function(startingPath, callback) {
+  var self = this;
+  var pluginsPaths = [];
+  var asyncActions = [];
+  startingPath = path.join(startingPath, 'node_modules');
+
+  // Read node_modules directory
+  fs.readdir(startingPath, function(error, resources) {
+    if (error &amp;&amp; error.code === 'ENOENT') {
+
+      // Directory does not exist
+      // No plugin for this path
+      return callback(null, pluginsPaths);
+
+    } else if (error)
+      return callback(error);
+
+    var getPluginPath = function(potentialPluginPath) {
+      return function(callback) {
+        fs.stat(potentialPluginPath, function(statError, stats) {
+          if (statError)
+            return callback(statError);
+
+          if (stats.isDirectory()) {
+
+            // Found a plugin path
+            pluginsPaths.push(potentialPluginPath);
+
+            self.getPluginPaths(potentialPluginPath, function(pathsError, subPluginsPaths) {
+              if (pathsError)
+                return callback(pathsError);
+
+              // Found sub plugin paths
+              pluginsPaths = pluginsPaths.concat(subPluginsPaths);
+
+              // Done with this resource
+              callback();
+            });
+
+          } else {
+
+            // This is not a plugin path
+            // Done with this resource
+            callback();
+
+          }
+        });
+      };
+    };
+
+    var getOfficialPluginsPaths = function(openveoDirPath) {
+      return function(callback) {
+        fs.stat(openveoDirPath, function(statError, stats) {
+          if (statError)
+            return callback(statError);
+
+          if (stats.isDirectory()) {
+
+            // Read directory
+            fs.readdir(openveoDirPath, function(error, potentialPluginsResources) {
+              var asyncActions = [];
+
+              potentialPluginsResources.forEach(function(potentialPluginResource) {
+                asyncActions.push(getPluginPath(path.join(openveoDirPath, potentialPluginResource)));
+              });
+
+              async.parallel(asyncActions, function(error, results) {
+                callback(error);
+              });
+            });
+          } else {
+
+            // This is not a plugin path
+            // Done with this resource
+            callback();
+
+          }
+        });
+      };
+    };
+
+    // Iterate through the list of resources in the directory
+    // to find all resources starting by "openveo-" and if a resource
+    // "@openveo" is present
+    resources.forEach(function(resource) {
+      var resourcePath = path.join(startingPath, resource);
+      if (/^openveo-/.test(resource))
+        asyncActions.push(getPluginPath(resourcePath));
+      else if (resource === '@openveo')
+        asyncActions.push(getOfficialPluginsPaths(resourcePath));
+    });
+
+    async.parallel(asyncActions, function(error, results) {
+      if (error)
+        callback(error);
+
+      else
+        callback(null, pluginsPaths);
+    });
+  });
+
+};
+
+/**
+ * Recursively and asynchronously load all offical and contributed OpenVeo plugins under the given path.
+ *
+ * If the same plugin (same name) is encountered several times, the top level one
+ * will be kept.
+ *
+ * @example
+ * var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
+ *
+ * // Load all potential openveo plugins from directory /home/openveo/openveo
+ * pluginLoader.loadPlugins('/home/openveo/openveo', function(error, plugins){
+ *   console.log(plugins);
+ * };
+ *
+ * @param {String} startingPath Root path of an NPM module from where looking for plugins
+ * @param {module:core/loaders/pluginLoader~loadPluginsCallback} callback A function to call when its done
+ * @throws {TypeError} An error if starting path is not a valid string
+ */
+module.exports.loadPlugins = function(startingPath, callback) {
+  var self = this;
+
+  // Get the list of potential plugins absolute paths
+  this.getPluginPaths(startingPath, function(error, pluginsPaths) {
+
+    // An error occurred while scaning the directory looking for
+    // openveo plugins
+    if (error) {
+      callback(error);
+      return;
+    }
+
+    // Filter duplicate plugins to keep only the top level ones
+    pluginsPaths = filterPluginsPaths(pluginsPaths);
+    var plugins = [];
+    var asyncActions = [];
+
+    pluginsPaths.forEach(function(pluginPath) {
+      asyncActions.push(function(callback) {
+
+        // Load the plugin
+        self.loadPlugin(pluginPath, function(loadError, loadedPlugin) {
+
+          // An error occurred while loading the plugin
+          // Skip the plugin and continue loading the other one
+          if (loadError) {
+            process.logger.warn(loadError.message, {
+              action: 'loadPlugins',
+              plugin: pluginPath
+            });
+            process.logger.info('Plugin ' + pluginPath + ' skipped');
+          } else {
+
+            // Plugin successfully loaded
+            plugins.push(loadedPlugin);
+
+          }
+
+          callback();
+        });
+
+      });
+    });
+
+    async.parallel(asyncActions, function(error, results) {
+      callback(null, plugins);
+    });
+
+  });
+
+};
+
+/**
+ * Loads a single plugin by its path.
+ *
+ * @example
+ * var pluginLoader = process.require('app/server/loaders/pluginLoader.js');
+ *
+ * // Load a plugin
+ * pluginLoader.loadPlugin('/node_modules/@openveo/publish', function(error, loadedPlugin){
+ *   console.log(loadedPlugin);
+ * }
+ *
+ * @param {String} pluginPath Absolute path to the plugin directory
+ * @param {module:core/loaders/pluginLoader~loadPluginCallback} callback A function to call when its done
+ * @throws {TypeError} An error if plugin path or starting path is not a valid string
+ */
+module.exports.loadPlugin = function(pluginPath, callback) {
+  var plugin = null;
+  var pluginComposition = [];
+  var regResults;
+  var reg = /(?:node_modules[/|\\](?:(?:@openveo[/|\\]([^/\\]*))|(?:openveo-([^/\\]*))))/g;
+
+  // Extract the plugin(s) name(s) from the plugin path
+  // e.g :
+  // From plugin path : /www/openveo/node_modules/@openveo/plugin1/node_modules/openveo-plugin2
+  // Retrieve : ['plugin1', 'plugin2']
+  // The plugin to load is plugin2 which is also a sub plugin of plugin1
+  while ((regResults = reg.exec(pluginPath)) !== null) {
+
+    // Remove global match
+    regResults.shift(0);
+
+    // Get plugin name
+    for (var i = 0; i &lt; regResults.length; i++)
+      if (regResults[i])
+        pluginComposition.push(regResults[i]);
+  }
+
+  try {
+
+    // Try to load the main file of the plugin
+    var Plugin = require(pluginPath);
+
+    // Validate that we are sharing the same openveo API and that
+    // the main file returned by the plugin is a valid instance
+    // of the Plugin Object from @openveo/api
+    if (Plugin.prototype instanceof openVeoApi.plugin.Plugin &amp;&amp; pluginComposition.length) {
+
+      // Instanciate the Plugin Object
+      plugin = new Plugin();
+      plugin.path = pluginPath;
+
+      // Define plugin router mount path
+      // Plugin router is mounted on a subpath to avoid collisions
+      // with the main openveo application
+      // e.g "/plugin1"
+      plugin.mountPath = '/' + pluginComposition.join('/');
+
+    }
+
+  } catch (e) {
+    if (e.code === 'MODULE_NOT_FOUND')
+      process.logger.info('Plugin ' + pluginPath + ' doesn\'t have a main file', {
+        action: 'loadPlugin',
+        message: e.message
+      });
+    else
+      process.logger.error('Error while loading plugin ' + pluginPath, {
+        action: 'loadPlugin',
+        error: e.message,
+        stack: e.stack
+      });
+
+    return callback(new Error(e.message));
+  }
+
+  if (!plugin)
+    return callback(new Error('Plugin ' + pluginPath + ' is not an instance of Plugin'));
+
+  // Complete plugin information adding the name of the plugin
+  plugin.name = pluginComposition[pluginComposition.length - 1];
+
+  this.loadPluginMetadata(plugin, callback);
+};
+
+/**
+ * Loads plugin's configuration.
+ *
+ * @param {Plugin} plugin The plugin
+ * @param {callback} callback A function to call when its done
+ */
+module.exports.loadPluginMetadata = function(plugin, callback) {
+  async.parallel(
+    [
+      function(callback) {
+
+        // Test if an assets directory exists at plugin root level
+        fs.stat(path.join(plugin.path, 'assets'), function(error, stats) {
+
+          if (stats &amp;&amp; stats.isDirectory())
+            plugin.assets = path.join(plugin.path, 'assets');
+
+          callback();
+
+        });
+      },
+      function(callback) {
+
+        // Test if an i18n directory exists at plugin's root level
+        fs.stat(path.join(plugin.path, 'i18n'), function(error, stats) {
+
+          if (stats &amp;&amp; stats.isDirectory())
+            plugin.i18nDirectory = path.join(plugin.path, 'i18n');
+
+          callback();
+
+        });
+      },
+      function(callback) {
+
+        // Test if a file "conf.js" exists at plugin root level
+        fs.stat(path.join(plugin.path, 'conf.js'), function(error, stats) {
+
+          if (stats &amp;&amp; stats.isFile()) {
+            try {
+
+              // Try to load plugin configuration file
+              var pluginConf = require(path.join(plugin.path, 'conf.js'));
+
+              plugin.custom = pluginConf['custom'] || null;
+              plugin.webServiceScopes = pluginConf['webServiceScopes'] || null;
+              plugin.permissions = pluginConf['permissions'] || null;
+
+              // Got views folders for this plugin
+              if (pluginConf['viewsFolders'] &amp;&amp; pluginConf['viewsFolders'].length) {
+                plugin.viewsFolders = [];
+                pluginConf['viewsFolders'].forEach(function(viewsFolder) {
+                  plugin.viewsFolders.push(path.join(plugin.path, viewsFolder));
+                });
+              }
+
+              // Got images thumbnailable folders for this plugin
+              var imageProcessing = pluginConf.imageProcessing;
+
+              if (imageProcessing) {
+                if (imageProcessing.folders &amp;&amp; imageProcessing.folders.length) {
+                  plugin.imageProcessingFolders = [];
+                  imageProcessing.folders.forEach(function(folder) {
+                    folder.imagesDirectory = path.join(plugin.path, folder.imagesDirectory);
+
+                    if (folder.cacheDirectory)
+                      folder.cacheDirectory = path.join(plugin.path, folder.cacheDirectory);
+
+                    plugin.imageProcessingFolders.push(folder);
+                  });
+
+                  if (imageProcessing.styles &amp;&amp; imageProcessing.styles.length)
+                    plugin.imageProcessingStyles = imageProcessing.styles;
+                }
+              }
+
+              // Retrieve routes and back end conf from plugin conf
+              var pluginHttp = pluginConf['http'];
+              var pluginSocket = pluginConf['socket'];
+              var backEndConf = pluginConf['backOffice'];
+
+              // Got routes for this plugin
+              // Retrieve public, private and Web Service routes
+              if (pluginHttp &amp;&amp; pluginHttp['routes']) {
+                plugin.routes = pluginHttp['routes']['public'];
+                plugin.privateRoutes = pluginHttp['routes']['private'];
+                plugin.webServiceRoutes = pluginHttp['routes']['ws'];
+              }
+
+              // Got socket namespaces for this plugin
+              if (pluginSocket &amp;&amp; pluginSocket['namespaces'])
+                plugin.namespaces = pluginSocket['namespaces'];
+
+              // Got entities
+              if (pluginConf['entities'])
+                plugin.entities = pluginConf['entities'];
+
+              // Got libraries
+              if (pluginConf['libraries'])
+                plugin.libraries = pluginConf['libraries'];
+
+              // Got back end conf
+              if (backEndConf) {
+
+                // Retrieve back end menu pages from plugin conf
+                plugin.menu = backEndConf['menu'] || null;
+
+                // Retrieve back end scripts and css from plugin conf
+                plugin.scriptLibFiles = backEndConf['scriptLibFiles'] || null;
+                plugin.scriptFiles = backEndConf['scriptFiles'] || null;
+                plugin.cssFiles = backEndConf['cssFiles'] || null;
+
+              }
+            } catch (e) {
+              process.logger.warn(e.message, {
+                action: 'loadPluginMetadata',
+                plugin: plugin.name
+              });
+              callback(new Error(e.message));
+              return;
+            }
+          }
+
+          callback();
+
+        });
+
+      },
+      function(callback) {
+
+        // Test if a package.json file exists at plugin's root level
+        fs.stat(path.join(plugin.path, 'package.json'), function(error, stats) {
+
+          if (stats &amp;&amp; stats.isFile()) {
+            var pluginPackage = require(path.join(plugin.path, 'package.json'));
+            plugin.version = {
+              name: pluginPackage['name'],
+              version: pluginPackage['version']
+            } || null;
+          }
+
+          callback();
+
+        });
+      },
+      function(callback) {
+        var db = storage.getDatabase();
+        db.getOne(
+          'core_system',
+          new ResourceFilter().equal('name', plugin.name),
+          null,
+          function(error, pluginInformation) {
+            if (error) return callback(error);
+
+            var lastVersion = '0.0.0';
+            if (pluginInformation) lastVersion = pluginInformation.version;
+
+            var migrationPath = path.join(plugin.path, 'migrations');
+            migrationLoader.getDiffMigrationScript(migrationPath, lastVersion, function(error, migrations) {
+              if (error) return callback(error);
+              if (migrations &amp;&amp; Object.keys(migrations).length > 0)
+                plugin.migrations = migrations;
+              callback();
+            });
+          }
+        );
+      }
+    ],
+    function(error) {
+
+      // Got all plugin's metadata
+      if (callback)
+        callback(error, plugin);
+
+    }
+  );
+};
+
+/**
+ * @callback module:core/loaders/pluginLoader~getPluginsPathsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Array|Undefined)} paths The list plugins paths
+ */
+
+/**
+ * @callback module:core/loaders/pluginLoader~loadPluginsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Plugin[]|Undefined)} plugins The list of plugins
+ */
+
+/**
+ * @callback module:core/loaders/pluginLoader~loadPluginCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Plugin|Undefined)} plugin The loaded plugin
+ */
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core_api.html">core/api</a></li><li><a href="module-core_authenticator.html">core/authenticator</a></li><li><a href="module-core_controllers_ApplicationController.html">core/controllers/ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController.html">core/controllers/AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController.html">core/controllers/DefaultController</a></li><li><a href="module-core_controllers_ErrorController.html">core/controllers/ErrorController</a></li><li><a href="module-core_controllers_GroupController.html">core/controllers/GroupController</a></li><li><a href="module-core_controllers_I18nController.html">core/controllers/I18nController</a></li><li><a href="module-core_controllers_MenuController.html">core/controllers/MenuController</a></li><li><a href="module-core_controllers_OAuthController.html">core/controllers/OAuthController</a></li><li><a href="module-core_controllers_RoleController.html">core/controllers/RoleController</a></li><li><a href="module-core_controllers_SettingsController.html">core/controllers/SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController.html">core/controllers/TaxonomyController</a></li><li><a href="module-core_controllers_UserController.html">core/controllers/UserController</a></li><li><a href="module-core_httpErrors.html">core/httpErrors</a></li><li><a href="module-core_loaders_entityLoader.html">core/loaders/entityLoader</a></li><li><a href="module-core_loaders_migrationLoader.html">core/loaders/migrationLoader</a></li><li><a href="module-core_loaders_namespaceLoader.html">core/loaders/namespaceLoader</a></li><li><a href="module-core_loaders_permissionLoader.html">core/loaders/permissionLoader</a></li><li><a href="module-core_loaders_pluginLoader.html">core/loaders/pluginLoader</a></li><li><a href="module-core_loaders_routeLoader.html">core/loaders/routeLoader</a></li><li><a href="module-core_migration_migrationProcess.html">core/migration/migrationProcess</a></li><li><a href="module-core_oauth_accessToken.html">core/oauth/accessToken</a></li><li><a href="module-core_oauth_client.html">core/oauth/client</a></li><li><a href="module-core_path.html">core/path</a></li><li><a href="module-core_plugin_CorePlugin.html">core/plugin/CorePlugin</a></li><li><a href="module-core_plugin_CorePluginApi.html">core/plugin/CorePluginApi</a></li><li><a href="module-core_plugin_hooks.html">core/plugin/hooks</a></li><li><a href="module-core_plugin_listener.html">core/plugin/listener</a></li><li><a href="module-core_providers_ClientProvider.html">core/providers/ClientProvider</a></li><li><a href="module-core_providers_GroupProvider.html">core/providers/GroupProvider</a></li><li><a href="module-core_providers_RoleProvider.html">core/providers/RoleProvider</a></li><li><a href="module-core_providers_SettingProvider.html">core/providers/SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider.html">core/providers/TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider.html">core/providers/TokenProvider</a></li><li><a href="module-core_providers_UserProvider.html">core/providers/UserProvider</a></li><li><a href="module-core_servers_ApplicationServer.html">core/servers/ApplicationServer</a></li><li><a href="module-core_servers_Server.html">core/servers/Server</a></li><li><a href="module-core_servers_WebServiceServer.html">core/servers/WebServiceServer</a></li><li><a href="module-core_storage.html">core/storage</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_httpErrors-HTTP_ERRORS.html">core/httpErrors~HTTP_ERRORS</a></li><li><a href="module-core_plugin_hooks-CORE_HOOKS.html">core/plugin/hooks~CORE_HOOKS</a></li></ul><h3>Classes</h3><ul><li><a href="module-core_controllers_ApplicationController-ApplicationController.html">core/controllers/ApplicationController~ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController-AuthenticationController.html">core/controllers/AuthenticationController~AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController-DefaultController.html">core/controllers/DefaultController~DefaultController</a></li><li><a href="module-core_controllers_ErrorController-ErrorController.html">core/controllers/ErrorController~ErrorController</a></li><li><a href="module-core_controllers_GroupController-GroupController.html">core/controllers/GroupController~GroupController</a></li><li><a href="module-core_controllers_I18nController-I18nController.html">core/controllers/I18nController~I18nController</a></li><li><a href="module-core_controllers_MenuController-MenuController.html">core/controllers/MenuController~MenuController</a></li><li><a href="module-core_controllers_OAuthController-OauthController.html">core/controllers/OAuthController~OauthController</a></li><li><a href="module-core_controllers_RoleController-RoleController.html">core/controllers/RoleController~RoleController</a></li><li><a href="module-core_controllers_SettingsController-SettingsController.html">core/controllers/SettingsController~SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController-TaxonomyController.html">core/controllers/TaxonomyController~TaxonomyController</a></li><li><a href="module-core_controllers_UserController-UserController.html">core/controllers/UserController~UserController</a></li><li><a href="module-core_plugin_CorePluginApi-CorePluginApi.html">core/plugin/CorePluginApi~CorePluginApi</a></li><li><a href="module-core_plugin_CorePlugin-CorePlugin.html">core/plugin/CorePlugin~CorePlugin</a></li><li><a href="module-core_providers_ClientProvider-ClientProvider.html">core/providers/ClientProvider~ClientProvider</a></li><li><a href="module-core_providers_GroupProvider-GroupProvider.html">core/providers/GroupProvider~GroupProvider</a></li><li><a href="module-core_providers_RoleProvider-RoleProvider.html">core/providers/RoleProvider~RoleProvider</a></li><li><a href="module-core_providers_SettingProvider-SettingProvider.html">core/providers/SettingProvider~SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider-TaxonomyProvider.html">core/providers/TaxonomyProvider~TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider-TokenProvider.html">core/providers/TokenProvider~TokenProvider</a></li><li><a href="module-core_providers_UserProvider-UserProvider.html">core/providers/UserProvider~UserProvider</a></li><li><a href="module-core_servers_ApplicationServer-ApplicationServer.html">core/servers/ApplicationServer~ApplicationServer</a></li><li><a href="module-core_servers_Server-Server.html">core/servers/Server~Server</a></li><li><a href="module-core_servers_WebServiceServer-WebServiceServer.html">core/servers/WebServiceServer~WebServiceServer</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Mar 11 2022 07:34:44 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

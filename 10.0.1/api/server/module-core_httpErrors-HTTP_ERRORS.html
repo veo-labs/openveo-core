@@ -1,0 +1,2763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Namespace: HTTP_ERRORS</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Namespace: HTTP_ERRORS</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="module-core_httpErrors.html">core/httpErrors</a>~</span>HTTP_ERRORS</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>The list of HTTP errors with, for each error, its associated
+hexadecimal code and HTTP return code.
+HTTP errors are sent by {{#crossLinkModule &quot;controllers&quot;}}{{/crossLinkModule}}.</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line18">line 18</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+            <h3>Example</h3>
+            
+    <pre class="prettyprint"><code>var httpErrors = process.require('app/server/httpErrors.js');
+console.log(httpErrors.UNKNOWN_ERROR);</code></pre>
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id="~AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>AUTHENTICATE_EXTERNAL_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when authenticating to an external provider using wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":777,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line439">line 439</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~AUTHENTICATE_INTERNAL_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>AUTHENTICATE_INTERNAL_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when authenticating to an internal provider using wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":776,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line426">line 426</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~BACK_END_AUTHENTICATION_ERROR"><span class="type-signature">(inner, constant) </span>BACK_END_AUTHENTICATION_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when authenticating the user to the back end.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":4,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line82">line 82</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~BACK_END_AUTHENTICATION_FAILED"><span class="type-signature">(inner, constant) </span>BACK_END_AUTHENTICATION_FAILED<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when user authentication to the back end failed.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":512,"httpCode":401}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line242">line 242</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~BACK_END_EXTERNAL_AUTHENTICATION_ERROR"><span class="type-signature">(inner, constant) </span>BACK_END_EXTERNAL_AUTHENTICATION_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when authenticating using an external provider (which require redirection).</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":10,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line160">line 160</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~BACK_END_EXTERNAL_AUTHENTICATION_FAILED"><span class="type-signature">(inner, constant) </span>BACK_END_EXTERNAL_AUTHENTICATION_FAILED<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when user authentication to the back end failed using an external provider.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":519,"httpCode":401}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line307">line 307</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~BACK_END_FORBIDDEN"><span class="type-signature">(inner, constant) </span>BACK_END_FORBIDDEN<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when user connected to the back end is not authorized to perform an action.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":514,"httpCode":403}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line268">line 268</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~BACK_END_UNAUTHORIZED"><span class="type-signature">(inner, constant) </span>BACK_END_UNAUTHORIZED<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when a back end authentication is needed to perform the action.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":513,"httpCode":401}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line255">line 255</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_APPLICATIONS_ERROR"><span class="type-signature">(inner, constant) </span>GET_APPLICATIONS_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting the list of applications.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":5,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line95">line 95</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_APPLICATIONS_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>GET_APPLICATIONS_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting applications with wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":772,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line374">line 374</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_GROUPS_ERROR"><span class="type-signature">(inner, constant) </span>GET_GROUPS_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting the list of groups.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":3,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line69">line 69</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_GROUPS_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>GET_GROUPS_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting groups with wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":773,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line387">line 387</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_ROLES_ERROR"><span class="type-signature">(inner, constant) </span>GET_ROLES_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting the list of roles.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":6,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line108">line 108</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_ROLES_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>GET_ROLES_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting roles with wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":774,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line400">line 400</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_SETTING_ERROR"><span class="type-signature">(inner, constant) </span>GET_SETTING_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting a setting.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":14,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line186">line 186</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_SETTING_MISSING_PARAMETERS"><span class="type-signature">(inner, constant) </span>GET_SETTING_MISSING_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting a setting with missing parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":782,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line465">line 465</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_SETTINGS_ERROR"><span class="type-signature">(inner, constant) </span>GET_SETTINGS_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting the list of settings.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":11,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line173">line 173</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_SETTINGS_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>GET_SETTINGS_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting settings with wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":778,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line452">line 452</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_TAXONOMIES_ERROR"><span class="type-signature">(inner, constant) </span>GET_TAXONOMIES_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting the list of taxonomies.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":2,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line56">line 56</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_TAXONOMIES_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>GET_TAXONOMIES_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting taxonomies with wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":771,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line361">line 361</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_TAXONOMY_ERROR"><span class="type-signature">(inner, constant) </span>GET_TAXONOMY_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting the list of terms of a taxonomy.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":9,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line147">line 147</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_TAXONOMY_NOT_FOUND"><span class="type-signature">(inner, constant) </span>GET_TAXONOMY_NOT_FOUND<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when requested taxonomy does not exist.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":258,"httpCode":404}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line227">line 227</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_TAXONOMY_TERMS_MISSING_PARAMETERS"><span class="type-signature">(inner, constant) </span>GET_TAXONOMY_TERMS_MISSING_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting taxonomy terms with missing parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":775,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line413">line 413</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_USERS_ERROR"><span class="type-signature">(inner, constant) </span>GET_USERS_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting the list of users.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":7,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line121">line 121</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~GET_USERS_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>GET_USERS_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting users with wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":768,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line322">line 322</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~I18N_DICTIONARY_ERROR"><span class="type-signature">(inner, constant) </span>I18N_DICTIONARY_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when getting a dictionary of translations.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":1,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line43">line 43</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~I18N_DICTIONARY_NOT_FOUND"><span class="type-signature">(inner, constant) </span>I18N_DICTIONARY_NOT_FOUND<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when requested dictionary does not exist.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":257,"httpCode":404}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line214">line 214</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~PATH_NOT_FOUND"><span class="type-signature">(inner, constant) </span>PATH_NOT_FOUND<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when requested path does not exist.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":256,"httpCode":404}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line201">line 201</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~UNKNOWN_ERROR"><span class="type-signature">(inner, constant) </span>UNKNOWN_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when no error were specified.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":0,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line30">line 30</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~UPDATE_USER_ERROR"><span class="type-signature">(inner, constant) </span>UPDATE_USER_ERROR<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when updating information about a user.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":8,"httpCode":500}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line134">line 134</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~UPDATE_USER_MISSING_PARAMETERS"><span class="type-signature">(inner, constant) </span>UPDATE_USER_MISSING_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when updating a user with missing parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":769,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line335">line 335</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~UPDATE_USER_WRONG_PARAMETERS"><span class="type-signature">(inner, constant) </span>UPDATE_USER_WRONG_PARAMETERS<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when updating a user with wrong parameters.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":770,"httpCode":400}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line348">line 348</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~WS_FORBIDDEN"><span class="type-signature">(inner, constant) </span>WS_FORBIDDEN<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when user connected to the Web Service is not authorized to perform an action.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":515,"httpCode":403}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line281">line 281</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+            
+<h4 class="name" id="~WS_UNAUTHORIZED"><span class="type-signature">(inner, constant) </span>WS_UNAUTHORIZED<span class="type-signature"> :Object</span></h4>
+
+
+
+
+<div class="description">
+    <p>A server error occurring when a Web Service authentication is needed to perform an action.</p>
+</div>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">Object</span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-default">Default Value:</dt>
+    <dd class="tag-default"><ul class="dummy">
+            <li class="object-value"><pre class="prettyprint"><code>{"code":516,"httpCode":401}</code></pre></li>
+        </ul></dd>
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="httpErrors.js.html">httpErrors.js</a>, <a href="httpErrors.js.html#line294">line 294</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core_api.html">core/api</a></li><li><a href="module-core_authenticator.html">core/authenticator</a></li><li><a href="module-core_controllers_ApplicationController.html">core/controllers/ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController.html">core/controllers/AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController.html">core/controllers/DefaultController</a></li><li><a href="module-core_controllers_ErrorController.html">core/controllers/ErrorController</a></li><li><a href="module-core_controllers_GroupController.html">core/controllers/GroupController</a></li><li><a href="module-core_controllers_I18nController.html">core/controllers/I18nController</a></li><li><a href="module-core_controllers_MenuController.html">core/controllers/MenuController</a></li><li><a href="module-core_controllers_OAuthController.html">core/controllers/OAuthController</a></li><li><a href="module-core_controllers_RoleController.html">core/controllers/RoleController</a></li><li><a href="module-core_controllers_SettingsController.html">core/controllers/SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController.html">core/controllers/TaxonomyController</a></li><li><a href="module-core_controllers_UserController.html">core/controllers/UserController</a></li><li><a href="module-core_httpErrors.html">core/httpErrors</a></li><li><a href="module-core_loaders_entityLoader.html">core/loaders/entityLoader</a></li><li><a href="module-core_loaders_migrationLoader.html">core/loaders/migrationLoader</a></li><li><a href="module-core_loaders_namespaceLoader.html">core/loaders/namespaceLoader</a></li><li><a href="module-core_loaders_permissionLoader.html">core/loaders/permissionLoader</a></li><li><a href="module-core_loaders_pluginLoader.html">core/loaders/pluginLoader</a></li><li><a href="module-core_loaders_routeLoader.html">core/loaders/routeLoader</a></li><li><a href="module-core_migration_migrationProcess.html">core/migration/migrationProcess</a></li><li><a href="module-core_oauth_accessToken.html">core/oauth/accessToken</a></li><li><a href="module-core_oauth_client.html">core/oauth/client</a></li><li><a href="module-core_path.html">core/path</a></li><li><a href="module-core_plugin_CorePlugin.html">core/plugin/CorePlugin</a></li><li><a href="module-core_plugin_CorePluginApi.html">core/plugin/CorePluginApi</a></li><li><a href="module-core_plugin_hooks.html">core/plugin/hooks</a></li><li><a href="module-core_plugin_listener.html">core/plugin/listener</a></li><li><a href="module-core_providers_ClientProvider.html">core/providers/ClientProvider</a></li><li><a href="module-core_providers_GroupProvider.html">core/providers/GroupProvider</a></li><li><a href="module-core_providers_RoleProvider.html">core/providers/RoleProvider</a></li><li><a href="module-core_providers_SettingProvider.html">core/providers/SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider.html">core/providers/TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider.html">core/providers/TokenProvider</a></li><li><a href="module-core_providers_UserProvider.html">core/providers/UserProvider</a></li><li><a href="module-core_servers_ApplicationServer.html">core/servers/ApplicationServer</a></li><li><a href="module-core_servers_Server.html">core/servers/Server</a></li><li><a href="module-core_servers_WebServiceServer.html">core/servers/WebServiceServer</a></li><li><a href="module-core_storage.html">core/storage</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_httpErrors-HTTP_ERRORS.html">core/httpErrors~HTTP_ERRORS</a></li><li><a href="module-core_plugin_hooks-CORE_HOOKS.html">core/plugin/hooks~CORE_HOOKS</a></li></ul><h3>Classes</h3><ul><li><a href="module-core_controllers_ApplicationController-ApplicationController.html">core/controllers/ApplicationController~ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController-AuthenticationController.html">core/controllers/AuthenticationController~AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController-DefaultController.html">core/controllers/DefaultController~DefaultController</a></li><li><a href="module-core_controllers_ErrorController-ErrorController.html">core/controllers/ErrorController~ErrorController</a></li><li><a href="module-core_controllers_GroupController-GroupController.html">core/controllers/GroupController~GroupController</a></li><li><a href="module-core_controllers_I18nController-I18nController.html">core/controllers/I18nController~I18nController</a></li><li><a href="module-core_controllers_MenuController-MenuController.html">core/controllers/MenuController~MenuController</a></li><li><a href="module-core_controllers_OAuthController-OauthController.html">core/controllers/OAuthController~OauthController</a></li><li><a href="module-core_controllers_RoleController-RoleController.html">core/controllers/RoleController~RoleController</a></li><li><a href="module-core_controllers_SettingsController-SettingsController.html">core/controllers/SettingsController~SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController-TaxonomyController.html">core/controllers/TaxonomyController~TaxonomyController</a></li><li><a href="module-core_controllers_UserController-UserController.html">core/controllers/UserController~UserController</a></li><li><a href="module-core_plugin_CorePluginApi-CorePluginApi.html">core/plugin/CorePluginApi~CorePluginApi</a></li><li><a href="module-core_plugin_CorePlugin-CorePlugin.html">core/plugin/CorePlugin~CorePlugin</a></li><li><a href="module-core_providers_ClientProvider-ClientProvider.html">core/providers/ClientProvider~ClientProvider</a></li><li><a href="module-core_providers_GroupProvider-GroupProvider.html">core/providers/GroupProvider~GroupProvider</a></li><li><a href="module-core_providers_RoleProvider-RoleProvider.html">core/providers/RoleProvider~RoleProvider</a></li><li><a href="module-core_providers_SettingProvider-SettingProvider.html">core/providers/SettingProvider~SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider-TaxonomyProvider.html">core/providers/TaxonomyProvider~TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider-TokenProvider.html">core/providers/TokenProvider~TokenProvider</a></li><li><a href="module-core_providers_UserProvider-UserProvider.html">core/providers/UserProvider~UserProvider</a></li><li><a href="module-core_servers_ApplicationServer-ApplicationServer.html">core/servers/ApplicationServer~ApplicationServer</a></li><li><a href="module-core_servers_Server-Server.html">core/servers/Server~Server</a></li><li><a href="module-core_servers_WebServiceServer-WebServiceServer.html">core/servers/WebServiceServer~WebServiceServer</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Mar 11 2022 07:34:44 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,1529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Module: core/loaders/permissionLoader</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Module: core/loaders/permissionLoader</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        
+            
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Provides functions to interpret permissions definition from core and plugins.</p>
+<p>Permissions comes from 2 different things :</p>
+<ul>
+<li>Core and plugin's configuration files</li>
+<li>Groups of users which are entities</li>
+</ul></div>
+        
+
+        
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_permissionLoader.js.html">loaders/permissionLoader.js</a>, <a href="loaders_permissionLoader.js.html#line3">line 3</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".buildPermissions"><span class="type-signature">(static) </span>buildPermissions<span class="signature">(entities, plugins, callback)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Builds the list of permissions.</p>
+<p>add/delete/update permissions are generated for each entity and get/update/delete permissions are
+created for each group.</p>
+<p>Orphaned permissions are grouped in a generic group of permissions.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>entities</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Entities to build permissions from</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>plugins</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of plugins</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-core_loaders_permissionLoader.html#~buildPermissionsCallback">module:core/loaders/permissionLoader~buildPermissionsCallback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Function to call when its done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_permissionLoader.js.html">loaders/permissionLoader.js</a>, <a href="loaders_permissionLoader.js.html#line362">line 362</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".buildScopes"><span class="type-signature">(static) </span>buildScopes<span class="signature">(entities, plugins)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Builds the list of scopes.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>entities</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Entities to build scopes from</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>plugins</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of plugins</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_permissionLoader.js.html">loaders/permissionLoader.js</a>, <a href="loaders_permissionLoader.js.html#line336">line 336</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The list of generated scopes</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".generateEntityPermissions"><span class="type-signature">(static) </span>generateEntityPermissions<span class="signature">(pluginsEntities)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Generates add/update/delete permissions for entities.</p>
+<p>Permission's translation keys for name and description are generated using the formats
+&quot;PERMISSIONS.{PLUGIN_NAME}<em>{OPERATION}</em>{ENTITY_NAME}<em>NAME&quot; and
+&quot;PERMISSIONS.{PLUGIN_NAME}</em>{OPERATION}_{ENTITY_NAME}_DESCRIPTION&quot;.</p>
+<p>Content entities won't generate any permissions.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginsEntities</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of entities ordered by plugins</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_permissionLoader.js.html">loaders/permissionLoader.js</a>, <a href="loaders_permissionLoader.js.html#line121">line 121</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Permissions for all entities</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var permissionLoader= process.require('app/server/loaders/permissionLoader.js');
+var entities = {
+  {
+    core: {
+      mountPath: '/',
+      path: '/home/openveo/',
+      entities: {
+        applications: 'app/server/controllers/ApplicationController'
+      }
+    },
+    publish: {
+      mountPath: '/publish',
+      path: '/home/openveo/node_modules/@openveo/publish/',
+      entities: {
+        videos: 'app/server/controllers/VideoController'
+      }
+    }
+  }
+};
+
+console.log(permissionLoader.generateEntityPermissions(entities));
+// [
+//   {
+//     label: 'CORE.PERMISSIONS.GROUP_APPLICATIONS',
+//     permissions: [
+//       {
+//         id : 'core-add-applications',
+//         name : 'CORE.PERMISSIONS.ADD_APPLICATIONS_NAME',
+//         description : 'CORE.PERMISSIONS.ADD_APPLICATIONS_DESCRIPTION',
+//         paths : [ 'put /applications*' ]
+//       },
+//       {
+//         id : 'core-update-applications',
+//         name : 'CORE.PERMISSIONS.UPDATE_APPLICATIONS_NAME',
+//         description : 'CORE.PERMISSIONS.UPDATE_APPLICATIONS_DESCRIPTION',
+//         paths : [ 'post /applications*' ]
+//       },
+//       {
+//         id : 'core-delete-applications',
+//         name : 'CORE.PERMISSIONS.DELETE_APPLICATIONS_NAME',
+//         description : 'CORE.PERMISSIONS.DELETE_APPLICATIONS_DESCRIPTION',
+//         paths : [ 'delete /applications*' ]
+//       }
+//     ]
+//   },
+//   {
+//     label: 'PUBLISH.PERMISSIONS.GROUP_VIDEOS',
+//     permissions: [
+//       {
+//         id : 'publish-add-videos',
+//         name : 'PUBLISH.PERMISSIONS.ADD_VIDEOS_NAME',
+//         description : 'PUBLISH.PERMISSIONS.ADD_VIDEOS_DESCRIPTION',
+//         paths : [ 'put /publish/videos*' ]
+//       },
+//       {
+//         id : 'publish-update-videos',
+//         name : 'PUBLISH.PERMISSIONS.UPDATE_VIDEOS_NAME',
+//         description : 'PUBLISH.PERMISSIONS.UPDATE_VIDEOS_DESCRIPTION',
+//         paths : [ 'post /publish/videos*' ]
+//       },
+//       {
+//         id : 'publish-delete-videos',
+//         name : 'PUBLISH.PERMISSIONS.DELETE_VIDEOS_NAME',
+//         description : 'PUBLISH.PERMISSIONS.DELETE_VIDEOS_DESCRIPTION',
+//         paths : [ 'delete /publish/videos*' ]
+//       }
+//     ]
+//   }
+// ]</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".generateEntityScopes"><span class="type-signature">(static) </span>generateEntityScopes<span class="signature">(pluginsEntities)</span><span class="type-signature"> &rarr; {Array}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Builds entities' scopes.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginsEntities</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of entities</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_permissionLoader.js.html">loaders/permissionLoader.js</a>, <a href="loaders_permissionLoader.js.html#line223">line 223</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The list of web service scopes for all entities exposed by all plugins</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>// List of entities by plugin
+{
+  publish: {
+    mountPath: '/publish',
+    path: '/home/openveo/node_modules/@openveo/publish',
+    entities: {
+      videos: 'app/server/controllers/VideoController'
+    }
+  }
+}</code></pre>
+
+    <pre class="prettyprint"><code>// Result
+[
+  {
+    id: 'publish-get-videos',
+    name: 'PUBLISH.WS_SCOPES.GET_VIDEOS_NAME',
+    description: 'PUBLISH.WS_SCOPES.GET_VIDEOS_DESCRIPTON',
+    paths: [
+      'get /publish/videos*'
+    ]
+  },
+  {
+    id: 'publish-add-videos',
+    name: 'PUBLISH.WS_SCOPES.ADD_VIDEOS_NAME',
+    description: 'PUBLISH.WS_SCOPES.ADD_VIDEOS_DESCRIPTON',
+    paths: [
+      'put /publish/videos*'
+    ]
+  },
+  {
+    id: 'publish-update-videos',
+    name: 'PUBLISH.WS_SCOPES.UPDATE_VIDEOS_NAME',
+    description: 'PUBLISH.WS_SCOPES.UPDATE_VIDEOS_DESCRIPTON',
+    paths: [
+      'post /publish/videos*'
+    ]
+  },
+  {
+    id: 'publish-delete-videos',
+    name: 'PUBLISH.WS_SCOPES.DELETE_VIDEOS_NAME',
+    description: 'PUBLISH.WS_SCOPES.DELETE_VIDEOS_DESCRIPTON',
+    paths: [
+      'delete /publish/videos*'
+    ]
+  }
+]</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".groupOrphanedPermissions"><span class="type-signature">(static) </span>groupOrphanedPermissions<span class="signature">(permissions)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Reorganizes orphaned top permissions into a generic group.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>permissions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of permissions with group
+permissions and eventually orphaned permission not attached to any group</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_permissionLoader.js.html">loaders/permissionLoader.js</a>, <a href="loaders_permissionLoader.js.html#line293">line 293</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>An error if permissions is not a valid array</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The same list of permissions except that orphaned
+permissions are extracted into a generic group</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>var permissionLoader= process.require('app/server/loaders/permissionLoader.js');
+var permissions = [
+  {
+    'id' : 'orphaned-permission',
+    'name' : 'ORPHANED_PERM_NAME',
+    'description' : 'ORPHANED_PERM_DESCRIPTION'
+  }
+];
+console.log(permissionLoader.groupOrphanedPermissions(permissions));
+// [
+//   {
+//     label: 'CORE.PERMISSIONS.GROUP_OTHERS',
+//     permissions: [
+//       {
+//         'id' : 'orphaned-permission',
+//         'name' : 'ORPHANED_PERM_NAME',
+//         'description' : 'ORPHANED_PERM_DESCRIPTION'
+//       }
+//     ]
+//   }
+// ]</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="~prefixPermissions"><span class="type-signature">(inner) </span>prefixPermissions<span class="signature">(pluginName, permissions)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Makes sure all permissions of a plugin are prefixed by the name of the plugin.</p>
+<p>If a permission is not prefixed by the name of the plugin, the prefix is automatically added.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>pluginName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Plugin's name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>permissions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Plugin's permissions</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_permissionLoader.js.html">loaders/permissionLoader.js</a>, <a href="loaders_permissionLoader.js.html#line26">line 26</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+
+    
+
+    
+    <h4 class="name" id="~buildPermissionsCallback"><span class="type-signature"></span>buildPermissionsCallback<span class="signature">(error, permissions)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error if an error occurred, null otherwise</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>permissions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of generated permissions</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="loaders_permissionLoader.js.html">loaders/permissionLoader.js</a>, <a href="loaders_permissionLoader.js.html#line392">line 392</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core_api.html">core/api</a></li><li><a href="module-core_authenticator.html">core/authenticator</a></li><li><a href="module-core_controllers_ApplicationController.html">core/controllers/ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController.html">core/controllers/AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController.html">core/controllers/DefaultController</a></li><li><a href="module-core_controllers_ErrorController.html">core/controllers/ErrorController</a></li><li><a href="module-core_controllers_GroupController.html">core/controllers/GroupController</a></li><li><a href="module-core_controllers_I18nController.html">core/controllers/I18nController</a></li><li><a href="module-core_controllers_MenuController.html">core/controllers/MenuController</a></li><li><a href="module-core_controllers_OAuthController.html">core/controllers/OAuthController</a></li><li><a href="module-core_controllers_RoleController.html">core/controllers/RoleController</a></li><li><a href="module-core_controllers_SettingsController.html">core/controllers/SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController.html">core/controllers/TaxonomyController</a></li><li><a href="module-core_controllers_UserController.html">core/controllers/UserController</a></li><li><a href="module-core_httpErrors.html">core/httpErrors</a></li><li><a href="module-core_loaders_entityLoader.html">core/loaders/entityLoader</a></li><li><a href="module-core_loaders_migrationLoader.html">core/loaders/migrationLoader</a></li><li><a href="module-core_loaders_namespaceLoader.html">core/loaders/namespaceLoader</a></li><li><a href="module-core_loaders_permissionLoader.html">core/loaders/permissionLoader</a></li><li><a href="module-core_loaders_pluginLoader.html">core/loaders/pluginLoader</a></li><li><a href="module-core_loaders_routeLoader.html">core/loaders/routeLoader</a></li><li><a href="module-core_migration_migrationProcess.html">core/migration/migrationProcess</a></li><li><a href="module-core_oauth_accessToken.html">core/oauth/accessToken</a></li><li><a href="module-core_oauth_client.html">core/oauth/client</a></li><li><a href="module-core_path.html">core/path</a></li><li><a href="module-core_plugin_CorePlugin.html">core/plugin/CorePlugin</a></li><li><a href="module-core_plugin_CorePluginApi.html">core/plugin/CorePluginApi</a></li><li><a href="module-core_plugin_hooks.html">core/plugin/hooks</a></li><li><a href="module-core_plugin_listener.html">core/plugin/listener</a></li><li><a href="module-core_providers_ClientProvider.html">core/providers/ClientProvider</a></li><li><a href="module-core_providers_GroupProvider.html">core/providers/GroupProvider</a></li><li><a href="module-core_providers_RoleProvider.html">core/providers/RoleProvider</a></li><li><a href="module-core_providers_SettingProvider.html">core/providers/SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider.html">core/providers/TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider.html">core/providers/TokenProvider</a></li><li><a href="module-core_providers_UserProvider.html">core/providers/UserProvider</a></li><li><a href="module-core_servers_ApplicationServer.html">core/servers/ApplicationServer</a></li><li><a href="module-core_servers_Server.html">core/servers/Server</a></li><li><a href="module-core_servers_WebServiceServer.html">core/servers/WebServiceServer</a></li><li><a href="module-core_storage.html">core/storage</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_httpErrors-HTTP_ERRORS.html">core/httpErrors~HTTP_ERRORS</a></li><li><a href="module-core_plugin_hooks-CORE_HOOKS.html">core/plugin/hooks~CORE_HOOKS</a></li></ul><h3>Classes</h3><ul><li><a href="module-core_controllers_ApplicationController-ApplicationController.html">core/controllers/ApplicationController~ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController-AuthenticationController.html">core/controllers/AuthenticationController~AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController-DefaultController.html">core/controllers/DefaultController~DefaultController</a></li><li><a href="module-core_controllers_ErrorController-ErrorController.html">core/controllers/ErrorController~ErrorController</a></li><li><a href="module-core_controllers_GroupController-GroupController.html">core/controllers/GroupController~GroupController</a></li><li><a href="module-core_controllers_I18nController-I18nController.html">core/controllers/I18nController~I18nController</a></li><li><a href="module-core_controllers_MenuController-MenuController.html">core/controllers/MenuController~MenuController</a></li><li><a href="module-core_controllers_OAuthController-OauthController.html">core/controllers/OAuthController~OauthController</a></li><li><a href="module-core_controllers_RoleController-RoleController.html">core/controllers/RoleController~RoleController</a></li><li><a href="module-core_controllers_SettingsController-SettingsController.html">core/controllers/SettingsController~SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController-TaxonomyController.html">core/controllers/TaxonomyController~TaxonomyController</a></li><li><a href="module-core_controllers_UserController-UserController.html">core/controllers/UserController~UserController</a></li><li><a href="module-core_plugin_CorePluginApi-CorePluginApi.html">core/plugin/CorePluginApi~CorePluginApi</a></li><li><a href="module-core_plugin_CorePlugin-CorePlugin.html">core/plugin/CorePlugin~CorePlugin</a></li><li><a href="module-core_providers_ClientProvider-ClientProvider.html">core/providers/ClientProvider~ClientProvider</a></li><li><a href="module-core_providers_GroupProvider-GroupProvider.html">core/providers/GroupProvider~GroupProvider</a></li><li><a href="module-core_providers_RoleProvider-RoleProvider.html">core/providers/RoleProvider~RoleProvider</a></li><li><a href="module-core_providers_SettingProvider-SettingProvider.html">core/providers/SettingProvider~SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider-TaxonomyProvider.html">core/providers/TaxonomyProvider~TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider-TokenProvider.html">core/providers/TokenProvider~TokenProvider</a></li><li><a href="module-core_providers_UserProvider-UserProvider.html">core/providers/UserProvider~UserProvider</a></li><li><a href="module-core_servers_ApplicationServer-ApplicationServer.html">core/servers/ApplicationServer~ApplicationServer</a></li><li><a href="module-core_servers_Server-Server.html">core/servers/Server~Server</a></li><li><a href="module-core_servers_WebServiceServer-WebServiceServer.html">core/servers/WebServiceServer~WebServiceServer</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Mar 11 2022 07:34:44 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ov/ApplicationController.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ov/ApplicationController.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+(function(app) {
+
+  /**
+   * Defines the user controller for the user page.
+   */
+  function ApplicationController($scope, $filter, entityService, scopes) {
+    var entityType = 'applications';
+
+    /**
+     * Translates name and description of each scope.
+     */
+    function translateScopes() {
+      angular.forEach($scope.scopes, function(value) {
+        value.name = $filter('translate')(value.name);
+        value.description = $filter('translate')(value.description);
+      });
+    }
+
+    /**
+     * Removes a list of applications.
+     *
+     * @param {Array} selected The list of application ids to remove
+     * @param {Function} reload The reload Function to force reloading the table
+     */
+    function removeRows(selected, reload) {
+      entityService.removeEntities(entityType, null, selected.join(','))
+        .then(function() {
+          $scope.$emit('setAlert', 'success', $filter('translate')('CORE.APPLICATIONS.REMOVE_SUCCESS'), 4000);
+          reload();
+        });
+    }
+
+    /**
+     * Saves application.
+     *
+     * @param {Object} application The application to save
+     * @return {Promise} Promise resolving when application has been saved
+     */
+    function saveApplication(application) {
+      return entityService.updateEntity(entityType, null, application.id, {
+        name: application.name,
+        scopes: application.scopes
+      });
+    }
+
+    /**
+     * Adds an application.
+     *
+     * @param {Object} application The application to add
+     * @return {Promise} Promise resolving when application has been added
+     */
+    function addApplication(application) {
+      return entityService.addEntities(entityType, null, [application]);
+    }
+
+    $scope.scopes = scopes.data.scopes;
+    translateScopes();
+
+    /*
+     *
+     * RIGHTS
+     *
+     */
+    $scope.rights = {};
+    $scope.rights.add = $scope.checkAccess('core-add-' + entityType);
+    $scope.rights.edit = $scope.checkAccess('core-update-' + entityType);
+    $scope.rights.delete = $scope.checkAccess('core-delete-' + entityType);
+
+    /*
+     *
+     * DATATABLE
+     */
+    var scopeDataTable = $scope.tableContainer = {};
+    scopeDataTable.entityType = entityType;
+    scopeDataTable.filterBy = [
+      {
+        key: 'query',
+        value: '',
+        label: $filter('translate')('CORE.APPLICATIONS.QUERY_FILTER')
+      }
+    ];
+    scopeDataTable.header = [{
+      key: 'name',
+      name: $filter('translate')('CORE.APPLICATIONS.NAME_COLUMN'),
+      class: ['col-xs-11']
+    },
+    {
+      key: 'action',
+      name: $filter('translate')('CORE.UI.ACTIONS_COLUMN'),
+      class: ['col-xs-1']
+    }];
+
+    scopeDataTable.actions = [{
+      label: $filter('translate')('CORE.UI.REMOVE'),
+      warningPopup: true,
+      condition: function(row) {
+        return $scope.rights.delete &amp;&amp; !row.locked &amp;&amp; !row.saving;
+      },
+      callback: function(row, reload) {
+        removeRows([row.id], reload);
+      },
+      global: function(selected, reload) {
+        removeRows(selected, reload);
+      }
+    }];
+
+    /*
+     * FORM
+     */
+    var scopeEditForm = $scope.editFormContainer = {};
+    scopeEditForm.model = {};
+    scopeEditForm.entityType = entityType;
+    scopeEditForm.init = function(row) {
+      scopeEditForm.fields[1].templateOptions.message = row.id;
+      scopeEditForm.fields[2].templateOptions.message = row.secret;
+    };
+    scopeEditForm.fields = [
+      {
+        key: 'name',
+        type: 'horizontalEditableInput',
+        templateOptions: {
+          label: $filter('translate')('CORE.APPLICATIONS.ATTR_NAME'),
+          required: true
+        }
+      },
+      {
+        noFormControl: true,
+        type: 'emptyrow',
+        templateOptions: {
+          label: $filter('translate')('CORE.APPLICATIONS.ATTR_ID'),
+          message: ''
+        }
+      },
+      {
+        noFormControl: true,
+        type: 'emptyrow',
+        templateOptions: {
+          label: $filter('translate')('CORE.APPLICATIONS.ATTR_SECRET'),
+          message: ''
+        }
+      }
+    ];
+    if ($scope.scopes.length != 0)
+      scopeEditForm.fields.push(
+        {
+          key: 'scopes',
+          type: 'horizontalEditableMultiCheckbox',
+          templateOptions: {
+            label: $filter('translate')('CORE.APPLICATIONS.ATTR_SCOPES'),
+            options: $scope.scopes,
+            valueProperty: 'id',
+            labelProperty: 'name'
+          }
+        }
+      );
+    scopeEditForm.conditionEditDetail = function(row) {
+      return $scope.rights.edit &amp;&amp; !row.locked;
+    };
+    scopeEditForm.onSubmit = function(model) {
+      return saveApplication(model);
+    };
+
+    /*
+     *  FORM Add user
+     *
+     */
+
+    var scopeAddForm = $scope.addFormContainer = {};
+    scopeAddForm.model = {};
+    scopeAddForm.fields = [
+      {
+
+        // the key to be used in the model values
+        // so this will be bound to vm.user.username
+        key: 'name',
+        type: 'horizontalInput',
+        templateOptions: {
+          label: $filter('translate')('CORE.APPLICATIONS.FORM_ADD_NAME'),
+          required: true,
+          description: $filter('translate')('CORE.APPLICATIONS.FORM_ADD_NAME_DESC')
+        }
+      }
+    ];
+    if ($scope.scopes.length == 0)
+      scopeAddForm.fields.push({
+        noFormControl: true,
+        template: '&lt;p>' + $filter('translate')('CORE.APPLICATIONS.NO_APPLICATIONS') + '&lt;/p>'
+      });
+    else
+      scopeAddForm.fields.push({
+        key: 'scopes',
+        type: 'horizontalMultiCheckbox',
+        templateOptions: {
+          label: $filter('translate')('CORE.APPLICATIONS.FORM_ADD_SCOPES'),
+          required: false,
+          options: $scope.scopes,
+          valueProperty: 'id',
+          labelProperty: 'name',
+          description: $filter('translate')('CORE.APPLICATIONS.FORM_ADD_SCOPES_DESC')
+        },
+        expressionProperties: {
+          'templateOptions.disabled': '!model.name' // disabled when username is blank
+        }
+      });
+
+    scopeAddForm.onSubmit = function(model) {
+      return addApplication(model);
+    };
+
+  }
+
+  app.controller('ApplicationController', ApplicationController);
+  ApplicationController.$inject = ['$scope', '$filter', 'entityService', 'scopes'];
+
+})(angular.module('ov'));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ov.html">ov</a></li><li><a href="module-ov_alert.html">ov/alert</a></li><li><a href="module-ov_authentication.html">ov/authentication</a></li><li><a href="module-ov_entity.html">ov/entity</a></li><li><a href="module-ov_i18n.html">ov/i18n</a></li><li><a href="module-ov_socket.html">ov/socket</a></li><li><a href="module-ov_storage.html">ov/storage</a></li><li><a href="module-ov_util.html">ov/util</a></li></ul><h3>Classes</h3><ul><li><a href="module-ov_alert-AlertService.html">ov/alert~AlertService</a></li><li><a href="module-ov_authentication-AuthenticationService.html">ov/authentication~AuthenticationService</a></li><li><a href="module-ov_entity-EntityService.html">ov/entity~EntityService</a></li><li><a href="module-ov_i18n-I18nService.html">ov/i18n~I18nService</a></li><li><a href="module-ov_i18n-TranslateFilter.html">ov/i18n~TranslateFilter</a></li><li><a href="module-ov_socket-SocketFactory.html">ov/socket~SocketFactory</a></li><li><a href="module-ov_storage-StorageProvider.html">ov/storage~StorageProvider</a></li><li><a href="module-ov_util-OvUrlFactory.html">ov/util~OvUrlFactory</a></li><li><a href="module-ov_util-UtilService.html">ov/util~UtilService</a></li><li><a href="module-ov-ApplicationService.html">ov~ApplicationService</a></li><li><a href="module-ov-ErrorInterceptor.html">ov~ErrorInterceptor</a></li><li><a href="module-ov-MenuService.html">ov~MenuService</a></li><li><a href="module-ov-ovAutoComplete.html">ov~ovAutoComplete</a></li><li><a href="module-ov-ovDateTimePicker.html">ov~ovDateTimePicker</a></li><li><a href="module-ov-ovMatch.html">ov~ovMatch</a></li><li><a href="module-ov-ovMultiCheckBox.html">ov~ovMultiCheckBox</a></li><li><a href="module-ov-ovTags.html">ov~ovTags</a></li><li><a href="module-ov-TruncateFilter.html">ov~TruncateFilter</a></li><li><a href="module-ov-userService.html">ov~userService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Mar 11 2022 07:34:42 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

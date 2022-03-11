@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: tableForm/tableForm.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: tableForm/tableForm.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+(function(angular) {
+
+  var app = angular.module('ov.tableForm', ['ov.i18n', 'ngSanitize']);
+
+  /**
+   * Defines a service reload Table.
+   */
+  function TableReloadEventService($rootScope) {
+    var sharedService = {};
+
+    // deliver a broadcast service to reload datatable
+    sharedService.broadcast = function(callback) {
+      $rootScope.$broadcast('reloadDataTable', {callback: callback});
+    };
+    return sharedService;
+  }
+
+  /**
+   * Defines a DatePicker controller.
+   */
+  function DatePickerController() {
+    var self = this;
+
+    self.today = function() {
+      self.dt = new Date();
+    };
+    self.today();
+
+    self.clear = function() {
+      self.dt = null;
+    };
+
+    self.toggleMax = function() {
+      self.maxDate = self.maxDate ? null : new Date();
+    };
+    self.toggleMax();
+
+    self.open = function() {
+      self.status.opened = true;
+    };
+
+    self.dateOptions = {
+      startingDay: 1
+    };
+    self.status = {
+      opened: false
+    };
+  }
+
+  /**
+   * Defines a FormEditController.
+   */
+  function FormEditController($scope, $filter, entityService, tableReloadEventService) {
+
+    var self = this;
+    var type = $scope.editFormContainer.entityType || '';
+    var pluginName = $scope.editFormContainer.pluginName;
+
+    // Formly form options
+    // "showForm" property helps switching between edition and literals representation of fields
+    this.options = {
+      formState: {
+        showForm: false
+      }
+    };
+
+    // Force formly fields to execute their expressions when showForm changes
+    // This will execute all hideExpressions
+    $scope.$watch('fec.options.formState.showForm', function() {
+      angular.forEach(self.fields, function(field) {
+        field.runExpressions &amp;&amp; field.runExpressions();
+      });
+    }, true);
+
+    // Reset form model when the scope is destroyed
+    $scope.$on('$destroy', function() {
+      self.cancelForm();
+    });
+
+    // init the form on a row
+    this.init = function(row) {
+      self.model = row;
+
+      // Call init function if defined to set up dynamically some fields
+      if ($scope.editFormContainer.init)
+        $scope.editFormContainer.init(row);
+
+      self.fields = $scope.editFormContainer.fields;
+    };
+
+    // Condition on a row to be edited
+    this.conditionEditDetail = $scope.editFormContainer.conditionEditDetail || function() {
+      return true;
+    };
+
+    this.updateRowBeforeEdit = function(tableRow, lastValueInDb) {
+      if ($scope.editFormContainer.updateRowObjectBeforeEdit)
+        $scope.editFormContainer.updateRowObjectBeforeEdit(tableRow, lastValueInDb);
+      var cacheMustBeDeleted = false;
+      for (var attrname in lastValueInDb) {
+        if (tableRow[attrname] &amp;&amp; typeof tableRow[attrname] !== 'object' &amp;&amp;
+                tableRow[attrname] != lastValueInDb[attrname]) {
+          cacheMustBeDeleted = true;
+          tableRow[attrname] = lastValueInDb[attrname];
+        }
+      }
+
+      // return if cache need to be deleted (true if any value is change between TableRow and lastValueInDb
+      return cacheMustBeDeleted;
+    };
+
+    var oldEditModel;
+
+    // When submit the form
+    this.onSubmit = function() {
+      self.model.saving = true;
+
+      // Call submit function must return Promises
+      $scope.editFormContainer.onSubmit(self.model).then(function() {
+
+        // on success
+        // save value in the fields as initial value
+
+        try {
+          self.options.updateInitialValue();
+        } catch (error) {
+
+          // "updateInitialValue" may fail due to a bug in angularjs-formly:
+          // fields not visible due to "hideExpression" are not properly
+          // initialized making "updateInitialValue" crash
+
+        }
+        self.model.saving = false;
+        self.options.formState.showForm = false;
+        tableReloadEventService.broadcast();
+      }, function() {
+
+        // on error
+        // reset the form
+        self.options.resetModel();
+        self.model.saving = false;
+        self.model = oldEditModel;
+      });
+    };
+
+    // Toggle between show and editable information
+    this.editForm = function() {
+      oldEditModel = angular.copy(self.model);
+      entityService.getEntity(type, pluginName, self.model.id).then(function(response) {
+        if (response.data.entity) {
+          var lastValue = response.data.entity;
+          var cacheMustBeDeleted = self.updateRowBeforeEdit(self.model, lastValue);
+
+          if (cacheMustBeDeleted) {
+            $scope.$emit('setAlert', 'warning', $filter('translate')('CORE.UI.WARNING_ENTITY_MODIFIED'), 8000);
+            entityService.deleteCache(type, pluginName);
+          }
+        } else {
+          entityService.deleteCache(type, pluginName);
+          $scope.$emit('setAlert', 'danger', $filter('translate')('CORE.UI.WARNING_ENTITY_DELETED'), 8000);
+          tableReloadEventService.broadcast();
+          return;
+        }
+        $scope.editFormContainer.pendingEdition = true;
+        self.options.formState.showForm = true;
+      });
+    };
+
+    this.cancelForm = function() {
+      $scope.editFormContainer.pendingEdition = false;
+      if (!self.options.formState)
+        self.options.formState = {};
+
+      self.options.formState.showForm = false;
+
+      self.options.resetModel();
+      self.model = oldEditModel;
+    };
+  }
+
+  /**
+   * Defines a FormAddController.
+   */
+  function FormAddController($scope, $filter, tableReloadEventService) {
+    var self = this;
+    this.model = $scope.addFormContainer.model;
+    this.fields = $scope.addFormContainer.fields;
+    this.isAddButtonDisabled = false;
+
+    this.onSubmit = function() {
+      self.isAddButtonDisabled = true;
+
+      // Call submit function must return Promises
+      $scope.addFormContainer.onSubmit(self.model).then(function() {
+
+        // on success
+        // reset the form
+        self.options.resetModel();
+
+        // Reload the table
+        tableReloadEventService.broadcast();
+
+        // Emit a success message
+        $scope.$emit('setAlert', 'success', $filter('translate')('CORE.UI.SAVE_SUCCESS'), 4000);
+
+        self.isAddButtonDisabled = false;
+      }, function() {
+        self.isAddButtonDisabled = false;
+      });
+    };
+    this.options = {};
+  }
+
+  /**
+   * Defines a DataTableController.
+   */
+  function DataTableController($scope, $uibModal, entityService, $q) {
+    var self = this;
+
+    // All data
+    this.rows = $scope.tableContainer.rows || {};
+
+    // Entity to call
+    this.entityType = $scope.tableContainer.entityType || '';
+
+    // Filter key list
+    this.filterBy = angular.copy($scope.tableContainer.filterBy);
+
+    // Header list
+    this.header = $scope.tableContainer.header || [];
+
+    // action object to display in le actions list
+    this.actions = $scope.tableContainer.actions || [];
+
+    // Column unsortable
+    this.notSortBy = ($scope.tableContainer.init ? $scope.tableContainer.init.notSortBy : []).concat(['action']);
+
+    this.conditionToggleDetail = $scope.editFormContainer.conditionToggleDetail || function() {
+      return true;
+    };
+
+    // hide selected checkbox
+    this.showSelectAll = $scope.tableContainer.showSelectAll || true;
+
+    // is a row selected
+    this.isRowSelected = false;
+
+    // Init Datatable
+    this.init = {
+      count: 10,
+      page: 1,
+      sortBy: $scope.tableContainer.init ? $scope.tableContainer.init.sortBy : this.header[0]['key'],
+      sortOrder: $scope.tableContainer.init ? $scope.tableContainer.init.sortOrder : 'asc',
+      filterBase: false
+    };
+
+    this.customTheme = {
+      iconUp: 'glyphicon glyphicon-triangle-bottom',
+      iconDown: 'glyphicon glyphicon-triangle-top',
+      listItemsPerPage: [5, 10, 20, 30],
+      itemsPerPage: 10,
+      loadOnInit: true,
+      cellTheme: $scope.tableContainer.cellTheme
+    };
+
+    // Enable selectAll option
+    if (this.showSelectAll)
+      this.customTheme['templateHeadUrl'] = 'views/elements/head.html';
+
+    // Pagination template
+    this.customTheme['templateUrl'] = 'views/elements/pagination.html';
+
+    // The name of the plugin the entity belongs to
+    var pluginName = $scope.tableContainer.pluginName;
+
+    // Promise that cancel $http
+    var canceller = $q.defer();
+
+    // Array of callback to execute on reload success
+    var callbackArrayOnReload = [];
+
+    // callback to load Resource on filter, pagination or sort change
+    this.getResource = function(params, paramsObj) {
+      var param = {};
+
+      if (canceller) {
+
+        // Hack to differentiate cancel from server not repond on HttpInterceptor
+        canceller.promise.status = true;
+        canceller.resolve();
+      }
+      canceller = $q.defer();
+
+      // Build query parameters
+      param['limit'] = paramsObj.count;
+      param['page'] = Math.max(paramsObj.page - 1, 0);
+      param['sortBy'] = paramsObj.sortBy;
+      param['sortOrder'] = paramsObj.sortOrder === 'dsc' ? 'desc' : 'asc';
+
+      self.filterBy.forEach(function(filter) {
+        if (filter.value &amp;&amp; filter.value != '') {
+          param[filter.key] = filter.getValue ? filter.getValue(filter.value) : filter.value;
+        }
+      });
+
+      // call entities that match params
+      return entityService.getEntities(self.entityType, pluginName, param, canceller.promise).then(function(response) {
+        self.rows = response.data.entities;
+        self.selectAll = false;
+        self.isRowSelected = false;
+        response.data.pagination.page++;
+
+        // Execute callback array
+        if (callbackArrayOnReload.length) {
+          for (var i = 0; i &lt; callbackArrayOnReload.length; i++) {
+            callbackArrayOnReload[i]();
+          }
+          callbackArrayOnReload = [];
+        }
+
+        return {
+          rows: self.rows,
+          header: self.header,
+          pagination: response.data.pagination
+        };
+      }, function(reject) {
+        return {};
+      });
+    };
+
+    // function to toggle detail
+    this.toggleRowDetails = function(row) {
+      if (self.conditionToggleDetail(row))
+        angular.forEach(self.rows, function(value) {
+          value.opened = (value.id === row.id) ? !value.opened : false;
+          $scope.editFormContainer.pendingEdition = false;
+        });
+    };
+
+    // function to call manually to reload dataTable
+    this.reloadCallback = function() {
+      self.selectAll = false;
+    };
+
+    // Broadcast listner to reload dataTable (on add row for exemple)
+    $scope.$on('reloadDataTable', function(e, arg) {
+      if (arg.callback) callbackArrayOnReload.push(arg.callback);
+      self.reloadCallback();
+    });
+
+    this.commonActionExist = false;
+
+    // call to check all unlocked selection checkbox
+    this.checkAll = function() {
+      self.commonActionExist = false;
+      angular.forEach(self.rows, function(row) {
+        row.selected = self.selectAll;
+      });
+      self.isRowSelected = self.selectAll;
+    };
+
+    /**
+     * Checks / unchecks a table row.
+     */
+    this.check = function() {
+      var allChecked = true;
+      self.isRowSelected = false;
+      self.commonActionExist = false;
+
+      // Check if at least one row is selected and if all rows are selected or not
+      angular.forEach(self.rows, function(row) {
+        if (row.selected)
+          self.isRowSelected = true;
+        else
+          allChecked = false;
+      });
+
+      self.selectAll = allChecked;
+    };
+
+    // Verify if an action is enable for all selected row
+    this.verifyCondition = function(action) {
+      var enable = true;
+      for (var i = 0; i &lt; self.rows.length &amp;&amp; enable; i++) {
+        var row = self.rows[i];
+        if (row.selected) {
+          var condition = !action.condition || action.condition(row);
+          enable = enable &amp;&amp; action.global &amp;&amp; condition;
+        }
+      }
+      self.commonActionExist = self.commonActionExist || enable;
+      return enable;
+    };
+
+    // Execute an action on row after calling a popup verifying and reload table
+    this.prepareSingleAction = function(action, row) {
+      if (action.warningPopup)
+        self.openModal(action.callback, row);
+      else {
+        action.callback(row, self.reloadCallback);
+      }
+    };
+
+    // Execute an action on all selected row after calling a popup verifying
+    this.executeGlobalAction = function(action) {
+      var selected = self.getSelectedId();
+      self.openModal(action.global, selected);
+    };
+
+    // Get All selected row id
+    this.getSelectedId = function() {
+      var selected = [];
+      for (var i = 0; i &lt; self.rows.length; i++) {
+        var row = self.rows[i];
+        if (row.selected)
+          selected.push(row.id);
+      }
+      return selected;
+    };
+
+    // Open a modal, apply callback on OK promise and reload datatable
+    this.openModal = function(action, item) {
+
+      var modalInstance = $uibModal.open({
+        templateUrl: 'tableModal.html',
+        controller: 'ModalInstanceTableController'
+      });
+
+      modalInstance.result.then(function() {
+        action(item, self.reloadCallback);
+      }, function() {
+
+        // Do nothing
+
+      });
+    };
+  }
+
+  /**
+   * Defines a modal instance for all modals related to the table form.
+   */
+  function ModalInstanceTableController($scope, $uibModalInstance) {
+    $scope.ok = function() {
+      $uibModalInstance.close(true);
+    };
+
+    $scope.cancel = function() {
+      $uibModalInstance.dismiss('cancel');
+    };
+  }
+
+  app.controller('DataTableController', DataTableController);
+  app.controller('FormEditController', FormEditController);
+  app.controller('FormAddController', FormAddController);
+  app.controller('ModalInstanceTableController', ModalInstanceTableController);
+  app.controller('DatePickerController', DatePickerController);
+  app.factory('tableReloadEventService', TableReloadEventService);
+
+  // Controller for table, form in table and form outside table
+  DataTableController.$inject = ['$scope', '$uibModal', 'entityService', '$q'];
+  FormEditController.$inject = ['$scope', '$filter', 'entityService', 'tableReloadEventService'];
+  FormAddController.$inject = ['$scope', '$filter', 'tableReloadEventService'];
+  ModalInstanceTableController.$inject = ['$scope', '$uibModalInstance'];
+  DatePickerController.$inject = ['$scope'];
+
+  // Service to reload a displayed table
+  TableReloadEventService.$inject = ['$rootScope'];
+
+})(angular);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ov.html">ov</a></li><li><a href="module-ov_alert.html">ov/alert</a></li><li><a href="module-ov_authentication.html">ov/authentication</a></li><li><a href="module-ov_entity.html">ov/entity</a></li><li><a href="module-ov_i18n.html">ov/i18n</a></li><li><a href="module-ov_socket.html">ov/socket</a></li><li><a href="module-ov_storage.html">ov/storage</a></li><li><a href="module-ov_util.html">ov/util</a></li></ul><h3>Classes</h3><ul><li><a href="module-ov_alert-AlertService.html">ov/alert~AlertService</a></li><li><a href="module-ov_authentication-AuthenticationService.html">ov/authentication~AuthenticationService</a></li><li><a href="module-ov_entity-EntityService.html">ov/entity~EntityService</a></li><li><a href="module-ov_i18n-I18nService.html">ov/i18n~I18nService</a></li><li><a href="module-ov_i18n-TranslateFilter.html">ov/i18n~TranslateFilter</a></li><li><a href="module-ov_socket-SocketFactory.html">ov/socket~SocketFactory</a></li><li><a href="module-ov_storage-StorageProvider.html">ov/storage~StorageProvider</a></li><li><a href="module-ov_util-OvUrlFactory.html">ov/util~OvUrlFactory</a></li><li><a href="module-ov_util-UtilService.html">ov/util~UtilService</a></li><li><a href="module-ov-ApplicationService.html">ov~ApplicationService</a></li><li><a href="module-ov-ErrorInterceptor.html">ov~ErrorInterceptor</a></li><li><a href="module-ov-MenuService.html">ov~MenuService</a></li><li><a href="module-ov-ovAutoComplete.html">ov~ovAutoComplete</a></li><li><a href="module-ov-ovDateTimePicker.html">ov~ovDateTimePicker</a></li><li><a href="module-ov-ovMatch.html">ov~ovMatch</a></li><li><a href="module-ov-ovMultiCheckBox.html">ov~ovMultiCheckBox</a></li><li><a href="module-ov-ovTags.html">ov~ovTags</a></li><li><a href="module-ov-TruncateFilter.html">ov~TruncateFilter</a></li><li><a href="module-ov-userService.html">ov~userService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Mar 11 2022 07:34:42 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

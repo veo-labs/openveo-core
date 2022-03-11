@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: loaders/namespaceLoader.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: loaders/namespaceLoader.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+/**
+ * Provides functions to load namespaces from core and plugins configuration.
+ *
+ * @module core/loaders/namespaceLoader
+ */
+
+var path = require('path');
+var openVeoApi = require('@openveo/api');
+
+/**
+ * The list of socket controllers path with associated controller instance.
+ *
+ * It is used to instantiate each controller only once.
+ *
+ * @type {Object}
+ * @private
+ * @static
+ * @ignore
+ */
+var controllers = {};
+
+/**
+ * Attaches handlers to namespace.
+ *
+ * @example
+ * var namespaceLoader = process.require('app/server/loaders/namespaceLoader.js');
+ * var messagesDescriptors = {
+ *   test1: 'app/server/controllers/TestSocketController.test1Action',
+ *   test2: 'app/server/controllers/TestSocketController.test2Action'
+ * };
+ *
+ * namespaceLoader.addHandlers(namespace, messagesDescriptors, '/home/openveo/node_modules/openveo-plugin');
+ *
+ * @param {SocketNamespace} namespace The socket namespace
+ * @param {Object} messagesDescriptors A list of socket namespace messages with associated controller / action
+ * @param {String} pluginPath The root path of the plugin associated to the namespace used to find controllers
+ * associated to messages
+ */
+module.exports.addHandlers = function(namespace, messagesDescriptors, pluginPath) {
+  var messages = {};
+
+  // Handle event when a client connects to the socket server
+  namespace.on('connection', function(socket) {
+    var socketInfo = {socketId: socket.id, ip: socket.handshake.address};
+    process.logger.silly('Socket client connected', socketInfo);
+
+    // Call action associated to "connection" message
+    if (messages['connection']) messages['connection'](socket);
+
+    // Handle event when a client has been disconnected from the socket server
+    socket.on('disconnect', function(callback) {
+      process.logger.silly('Socket client disconnected', socketInfo);
+
+      // Call action associated to "disconnect" message
+      if (messages['disconnect']) messages['disconnect'](socket, callback);
+
+    });
+
+    // Handle event when an error occurred between client and socket server
+    socket.on('connect_error', function(error, callback) {
+      process.logger.silly('Socket client error', socketInfo);
+
+      // Call action associated to "error" message
+      if (messages['error']) messages['error'](error, socket, callback);
+
+    });
+
+    // Handle custom socket messages
+    for (var id in messages) {
+      (function(id) {
+        if (id === 'connection' || id === 'disconnect' || id === 'error')
+          return;
+
+        socket.on(id, function(data, callback) {
+          process.logger.silly('Socket client message "' + id + '"', socketInfo);
+          messages[id](data, socket, function(data) {
+            callback &amp;&amp; callback(data);
+          });
+        });
+      }(id));
+    }
+  });
+
+  for (var message in messagesDescriptors) {
+    var action = messagesDescriptors[message];
+
+    // e.g. app/server/controllers/TestController.test1Action
+    // becomes ['app/server/controllers/TestController', 'test1Action']
+    var actionChunks = action.split('.');
+
+    // Got a message name and an action for this message
+    if (message &amp;&amp; actionChunks.length === 2) {
+      try {
+
+        // Try to register the controller
+        var controllerFilePath = path.join(pluginPath, actionChunks[0] + '.js');
+        var controllerInstance;
+
+        if (controllers[controllerFilePath]) {
+
+          // Controller instance already in cache
+          controllerInstance = controllers[controllerFilePath];
+
+        } else {
+
+          // Controller has not been instantiated yet
+          // Create an instance of the controller (only once per controller)
+          // and make sure this is an instance of SocketController
+
+          var Controller = require(controllerFilePath);
+          if (!(Controller.prototype instanceof openVeoApi.controllers.SocketController))
+            throw new TypeError(controllerFilePath + ' is not a SocketController');
+
+          controllerInstance = new Controller(namespace);
+
+          // Save controller instance into cache
+          controllers[controllerFilePath] = controllerInstance;
+        }
+
+        // Got a method to call on the controller
+        if (controllerInstance[actionChunks[1]]) {
+          messages[message] = controllerInstance[actionChunks[1]].bind(controllerInstance);
+          process.logger.debug('Socket message "' + message + '" handler attached');
+        } else {
+          process.logger.warn('Action for socket message "' + message + '" is not valid', {
+            action: 'addHandlers'
+          });
+        }
+      } catch (error) {
+        process.logger.warn('Error while attaching handler for socket message "' + message + '"', {
+          action: 'addHandlers',
+          error: error.message,
+          stack: error.stack
+        });
+      }
+
+    }
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core_api.html">core/api</a></li><li><a href="module-core_authenticator.html">core/authenticator</a></li><li><a href="module-core_controllers_ApplicationController.html">core/controllers/ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController.html">core/controllers/AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController.html">core/controllers/DefaultController</a></li><li><a href="module-core_controllers_ErrorController.html">core/controllers/ErrorController</a></li><li><a href="module-core_controllers_GroupController.html">core/controllers/GroupController</a></li><li><a href="module-core_controllers_I18nController.html">core/controllers/I18nController</a></li><li><a href="module-core_controllers_MenuController.html">core/controllers/MenuController</a></li><li><a href="module-core_controllers_OAuthController.html">core/controllers/OAuthController</a></li><li><a href="module-core_controllers_RoleController.html">core/controllers/RoleController</a></li><li><a href="module-core_controllers_SettingsController.html">core/controllers/SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController.html">core/controllers/TaxonomyController</a></li><li><a href="module-core_controllers_UserController.html">core/controllers/UserController</a></li><li><a href="module-core_httpErrors.html">core/httpErrors</a></li><li><a href="module-core_loaders_entityLoader.html">core/loaders/entityLoader</a></li><li><a href="module-core_loaders_migrationLoader.html">core/loaders/migrationLoader</a></li><li><a href="module-core_loaders_namespaceLoader.html">core/loaders/namespaceLoader</a></li><li><a href="module-core_loaders_permissionLoader.html">core/loaders/permissionLoader</a></li><li><a href="module-core_loaders_pluginLoader.html">core/loaders/pluginLoader</a></li><li><a href="module-core_loaders_routeLoader.html">core/loaders/routeLoader</a></li><li><a href="module-core_migration_migrationProcess.html">core/migration/migrationProcess</a></li><li><a href="module-core_oauth_accessToken.html">core/oauth/accessToken</a></li><li><a href="module-core_oauth_client.html">core/oauth/client</a></li><li><a href="module-core_path.html">core/path</a></li><li><a href="module-core_plugin_CorePlugin.html">core/plugin/CorePlugin</a></li><li><a href="module-core_plugin_CorePluginApi.html">core/plugin/CorePluginApi</a></li><li><a href="module-core_plugin_hooks.html">core/plugin/hooks</a></li><li><a href="module-core_plugin_listener.html">core/plugin/listener</a></li><li><a href="module-core_providers_ClientProvider.html">core/providers/ClientProvider</a></li><li><a href="module-core_providers_GroupProvider.html">core/providers/GroupProvider</a></li><li><a href="module-core_providers_RoleProvider.html">core/providers/RoleProvider</a></li><li><a href="module-core_providers_SettingProvider.html">core/providers/SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider.html">core/providers/TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider.html">core/providers/TokenProvider</a></li><li><a href="module-core_providers_UserProvider.html">core/providers/UserProvider</a></li><li><a href="module-core_servers_ApplicationServer.html">core/servers/ApplicationServer</a></li><li><a href="module-core_servers_Server.html">core/servers/Server</a></li><li><a href="module-core_servers_WebServiceServer.html">core/servers/WebServiceServer</a></li><li><a href="module-core_storage.html">core/storage</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_httpErrors-HTTP_ERRORS.html">core/httpErrors~HTTP_ERRORS</a></li><li><a href="module-core_plugin_hooks-CORE_HOOKS.html">core/plugin/hooks~CORE_HOOKS</a></li></ul><h3>Classes</h3><ul><li><a href="module-core_controllers_ApplicationController-ApplicationController.html">core/controllers/ApplicationController~ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController-AuthenticationController.html">core/controllers/AuthenticationController~AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController-DefaultController.html">core/controllers/DefaultController~DefaultController</a></li><li><a href="module-core_controllers_ErrorController-ErrorController.html">core/controllers/ErrorController~ErrorController</a></li><li><a href="module-core_controllers_GroupController-GroupController.html">core/controllers/GroupController~GroupController</a></li><li><a href="module-core_controllers_I18nController-I18nController.html">core/controllers/I18nController~I18nController</a></li><li><a href="module-core_controllers_MenuController-MenuController.html">core/controllers/MenuController~MenuController</a></li><li><a href="module-core_controllers_OAuthController-OauthController.html">core/controllers/OAuthController~OauthController</a></li><li><a href="module-core_controllers_RoleController-RoleController.html">core/controllers/RoleController~RoleController</a></li><li><a href="module-core_controllers_SettingsController-SettingsController.html">core/controllers/SettingsController~SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController-TaxonomyController.html">core/controllers/TaxonomyController~TaxonomyController</a></li><li><a href="module-core_controllers_UserController-UserController.html">core/controllers/UserController~UserController</a></li><li><a href="module-core_plugin_CorePluginApi-CorePluginApi.html">core/plugin/CorePluginApi~CorePluginApi</a></li><li><a href="module-core_plugin_CorePlugin-CorePlugin.html">core/plugin/CorePlugin~CorePlugin</a></li><li><a href="module-core_providers_ClientProvider-ClientProvider.html">core/providers/ClientProvider~ClientProvider</a></li><li><a href="module-core_providers_GroupProvider-GroupProvider.html">core/providers/GroupProvider~GroupProvider</a></li><li><a href="module-core_providers_RoleProvider-RoleProvider.html">core/providers/RoleProvider~RoleProvider</a></li><li><a href="module-core_providers_SettingProvider-SettingProvider.html">core/providers/SettingProvider~SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider-TaxonomyProvider.html">core/providers/TaxonomyProvider~TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider-TokenProvider.html">core/providers/TokenProvider~TokenProvider</a></li><li><a href="module-core_providers_UserProvider-UserProvider.html">core/providers/UserProvider~UserProvider</a></li><li><a href="module-core_servers_ApplicationServer-ApplicationServer.html">core/servers/ApplicationServer~ApplicationServer</a></li><li><a href="module-core_servers_Server-Server.html">core/servers/Server~Server</a></li><li><a href="module-core_servers_WebServiceServer-WebServiceServer.html">core/servers/WebServiceServer~WebServiceServer</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Mar 11 2022 07:34:44 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
