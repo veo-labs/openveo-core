@@ -13,7 +13,7 @@
 
 ## BUG FIXES
 
-- Fix CAS button clickable areea on login page
+- Fix CAS button clickable area on login page
 - Remove error notification with error code 776 when entering wrong login / password on authentication page
 
 ## DEPENDENCIES
