@@ -31,7 +31,7 @@
     "url": "https://github.com/veo-labs/openveo-core.git"
   },
   "dependencies": {
-    "@openveo/api": "^8.0.2",
+    "@openveo/api": "^8.0.3",
     "angular": "1.5.11",
     "angular-animate": "1.5.11",
     "angular-cookies": "1.5.11",

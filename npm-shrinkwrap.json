@@ -10,7 +10,7 @@
       "hasInstallScript": true,
       "license": "AGPL-3.0",
       "dependencies": {
-        "@openveo/api": "^8.0.2",
+        "@openveo/api": "^8.0.3",
         "angular": "1.5.11",
         "angular-animate": "1.5.11",
         "angular-cookies": "1.5.11",
@@ -203,9 +203,9 @@
       "dev": true
     },
     "node_modules/@openveo/api": {
-      "version": "8.0.2",
-      "resolved": "https://registry.npmjs.org/@openveo/api/-/api-8.0.2.tgz",
-      "integrity": "sha512-dtSMzI2+5woJKSUxbsapUc6+IXqPVpaOO3ccM0cdNQAahkzZEDkoKvocMMoMgslRjK4XCybgf6Pjc8FZfJgsmg==",
+      "version": "8.0.3",
+      "resolved": "https://registry.npmjs.org/@openveo/api/-/api-8.0.3.tgz",
+      "integrity": "sha512-XfBFOMSvSr475uZ0QwX3kh8rP8DogWcyx4xFjpuVZWDNcB+BKOgG9+kMz/fF6WwUzH7b0lU0saR4uA3BQIC/mA==",
       "dependencies": {
         "adm-zip": "^0.5.9",
         "async": "^3.2.0",
@@ -7332,9 +7332,9 @@
       "dev": true
     },
     "@openveo/api": {
-      "version": "8.0.2",
-      "resolved": "https://registry.npmjs.org/@openveo/api/-/api-8.0.2.tgz",
-      "integrity": "sha512-dtSMzI2+5woJKSUxbsapUc6+IXqPVpaOO3ccM0cdNQAahkzZEDkoKvocMMoMgslRjK4XCybgf6Pjc8FZfJgsmg==",
+      "version": "8.0.3",
+      "resolved": "https://registry.npmjs.org/@openveo/api/-/api-8.0.3.tgz",
+      "integrity": "sha512-XfBFOMSvSr475uZ0QwX3kh8rP8DogWcyx4xFjpuVZWDNcB+BKOgG9+kMz/fF6WwUzH7b0lU0saR4uA3BQIC/mA==",
       "requires": {
         "adm-zip": "^0.5.9",
         "async": "^3.2.0",
