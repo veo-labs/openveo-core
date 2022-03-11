@@ -1,4 +1,4 @@
-# 10.0.1 / YYYY-MM-DD
+# 10.0.1 / 2022-03-11
 
 ## DEPENDENCIES
 
