@@ -1,3 +1,9 @@
+# 10.0.2 / YYYY-MM-DD
+
+## DEPENDENCIES
+
+- **@openveo/api** has been upgraded from 8.0.3 to **8.0.4**
+
 # 10.0.1 / 2022-03-11
 
 ## DEPENDENCIES
