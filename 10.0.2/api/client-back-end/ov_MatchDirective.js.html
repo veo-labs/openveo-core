@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ov/MatchDirective.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ov/MatchDirective.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+(function(app) {
+
+  /**
+   * Creates a new Angular directive as an HTML element ov-match to be able to associate  a value with
+   * a list of values.
+   *
+   * Match form element is composed of an input element and an ov-tags element.
+   *
+   * Attributes are:
+   *   - ov-available-options to define possible values for the ov-tags element (This must be an assignable
+   *     variable evaluated as an array)
+   *     e.g.
+   *     [
+   *       {
+   *         name: 'First name',
+   *         value: 'firstValue'
+   *       }
+   *       {
+   *         name: 'Second name',
+   *         value: 'secondValue'
+   *       }
+   *     ];
+   *   - ov-multiple to authorize multiple association (This must be an assignable variable evaluated as a boolean)
+   *   - ov-add-label to set the add button label (This must be an assignable variable evaluated as a string)
+   *   - ov-input-placeholder to set the input placeholder (This must be an assignable variable evaluated as a string)
+   *   - ov-tags-placeholder to set the ov-tags placeholder (This must be an assignable variable evaluated as a string)
+   *   - ov-input-property to set the name of the property used to store the input value (This must be an assignable
+   *     variable evaluated as a string)
+   *   - ov-tags-property to set the name of the property used to store the ov-tags values (This must be an assignable
+   *     variable evaluated as a string)
+   *
+   * @example
+   * // Associates "value" with "associatedValue1", "associatedValue2"
+   * var matches = [
+   *   {
+   *     value: 'value',
+   *     values: ['associatedValue1', 'associatedValue2'],
+   *   }
+   * ];
+   *
+   * // Available options which can be entered in ov-tags element
+   * var availableOptions = [
+   *   {
+   *     name: 'Associated value 1',
+   *     value: 'associatedValue1'
+   *   },
+   *   {
+   *     name: 'Associated value 2',
+   *     value: 'associatedValue2'
+   *   },
+   *   {
+   *     name: 'Associated value 3',
+   *     value: 'associatedValue3'
+   *   }
+   * ];
+   *
+   * var inputPlaceholder = 'Input placeholder';
+   * var tagsPlaceholder = 'Tags placeholder';
+   * var inputProperty = 'firstElement';
+   * var tagsProperty = 'secondElement';
+   * var addLabel = 'Add a new association';
+   *
+   * &lt;ov-match ng-model="matches"
+   *           ng-model-options="{allowInvalid: true}"
+   *           ov-multiple="{{true}}"
+   *           ov-available-options="availableOptions"
+   *           ov-input-placeholder="inputPlaceholder"
+   *           ov-tags-placeholder="tagsPlaceholder"
+   *           ov-input-property="inputProperty"
+   *           ov-tags-property="tagsProperty"
+   *           ov-add-label="addLabel">
+   * &lt;/ov-match>
+   *
+   * @class ovMatch
+   * @memberof module:ov
+   * @inner
+   */
+  function ovMatch() {
+    return {
+      restrict: 'E',
+      templateUrl: 'ov-core-match.html',
+      require: ['?ngModel'],
+      replace: true,
+      scope: {
+        ovMultiple: '=?',
+        ovAvailableOptions: '=?',
+        ovAddLabel: '=?',
+        ovInputPlaceholder: '=?',
+        ovTagsPlaceholder: '=?',
+        ovInputProperty: '=?',
+        ovTagsProperty: '=?'
+      },
+      link: function(scope, el, attrs, controllers) {
+        var ngModelCtrl = controllers[0];
+
+        /**
+         * Updates and validates directive attributes.
+         */
+        function updateAttributes() {
+          scope.ovAddLabel =
+          scope.addLabel = (typeof scope.ovAddLabel === 'undefined') ? '' : scope.ovAddLabel;
+
+          scope.ovMultiple =
+          scope.multiple = (typeof scope.ovMultiple === 'undefined') ? true : scope.ovMultiple;
+
+          scope.ovAvailableOptions =
+          scope.availableOptions = (typeof scope.ovAvailableOptions === 'undefined') ? null : scope.ovAvailableOptions;
+
+          scope.ovInputPlaceholder =
+          scope.inputPlaceholder = (typeof scope.ovInputPlaceholder === 'undefined') ? '' : scope.ovInputPlaceholder;
+
+          scope.ovTagsPlaceholder =
+          scope.tagsPlaceholder = (typeof scope.ovTagsPlaceholder === 'undefined') ? '' : scope.ovTagsPlaceholder;
+
+          scope.ovInputProperty =
+          scope.inputProperty = (typeof scope.ovInputProperty === 'undefined') ? 'value' : scope.ovInputProperty;
+
+          scope.ovTagsProperty =
+          scope.tagsProperty = (typeof scope.ovTagsProperty === 'undefined') ? 'values' : scope.ovTagsProperty;
+        }
+
+        /**
+         * Renders the list of matches using the model.
+         *
+         * It overrides AngularJS $render.
+         */
+        ngModelCtrl.$render = function() {
+          scope.matches = angular.copy(ngModelCtrl.$viewValue) || [];
+        };
+
+        /**
+         * Adds a new match.
+         */
+        scope.addMatch = function() {
+          scope.matches.push({});
+          scope.updateModel();
+        };
+
+        /**
+         * Removes a match.
+         *
+         * @param {Number} index The index of the match to remove in the list of matches
+         */
+        scope.removeMatch = function(index) {
+          scope.matches.splice(index, 1);
+          scope.updateModel();
+        };
+
+        /**
+         * Updates model with actual value.
+         */
+        scope.updateModel = function() {
+          ngModelCtrl.$setViewValue(angular.copy(scope.matches));
+          ngModelCtrl.$validate();
+        };
+
+        /**
+         * Tests if the model is empty.
+         *
+         * It overrides AngularJS $isEmpty.
+         * The input and the ov-tags elements must be filled otherwise ov-match is considered empty.
+         *
+         * @param {Array} values The list of matches
+         * @return {Boolean} true if there is no matches, false otherwise
+         */
+        ngModelCtrl.$isEmpty = function(values) {
+          return !values ||
+            values.length === 0 ||
+            (values.length === 1 &amp;&amp; (!values[0].value || !values[0].values || !values[0].values.length));
+        };
+
+        // Watch for attributes changes
+        scope.$watch('ovAddLabel', updateAttributes);
+        scope.$watch('ovMultiple', updateAttributes);
+        scope.$watch('ovAvailableOptions', updateAttributes);
+        scope.$watch('ovInputPlaceholder', updateAttributes);
+        scope.$watch('ovTagsPlaceholder', updateAttributes);
+
+        updateAttributes();
+      }
+    };
+  }
+
+  app.directive('ovMatch', ovMatch);
+
+})(angular.module('ov'));
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ov.html">ov</a></li><li><a href="module-ov_alert.html">ov/alert</a></li><li><a href="module-ov_authentication.html">ov/authentication</a></li><li><a href="module-ov_entity.html">ov/entity</a></li><li><a href="module-ov_i18n.html">ov/i18n</a></li><li><a href="module-ov_socket.html">ov/socket</a></li><li><a href="module-ov_storage.html">ov/storage</a></li><li><a href="module-ov_util.html">ov/util</a></li></ul><h3>Classes</h3><ul><li><a href="module-ov_alert-AlertService.html">ov/alert~AlertService</a></li><li><a href="module-ov_authentication-AuthenticationService.html">ov/authentication~AuthenticationService</a></li><li><a href="module-ov_entity-EntityService.html">ov/entity~EntityService</a></li><li><a href="module-ov_i18n-I18nService.html">ov/i18n~I18nService</a></li><li><a href="module-ov_i18n-TranslateFilter.html">ov/i18n~TranslateFilter</a></li><li><a href="module-ov_socket-SocketFactory.html">ov/socket~SocketFactory</a></li><li><a href="module-ov_storage-StorageProvider.html">ov/storage~StorageProvider</a></li><li><a href="module-ov_util-OvUrlFactory.html">ov/util~OvUrlFactory</a></li><li><a href="module-ov_util-UtilService.html">ov/util~UtilService</a></li><li><a href="module-ov-ApplicationService.html">ov~ApplicationService</a></li><li><a href="module-ov-ErrorInterceptor.html">ov~ErrorInterceptor</a></li><li><a href="module-ov-MenuService.html">ov~MenuService</a></li><li><a href="module-ov-ovAutoComplete.html">ov~ovAutoComplete</a></li><li><a href="module-ov-ovDateTimePicker.html">ov~ovDateTimePicker</a></li><li><a href="module-ov-ovMatch.html">ov~ovMatch</a></li><li><a href="module-ov-ovMultiCheckBox.html">ov~ovMultiCheckBox</a></li><li><a href="module-ov-ovTags.html">ov~ovTags</a></li><li><a href="module-ov-TruncateFilter.html">ov~TruncateFilter</a></li><li><a href="module-ov-userService.html">ov~userService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Apr 04 2022 12:31:47 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
