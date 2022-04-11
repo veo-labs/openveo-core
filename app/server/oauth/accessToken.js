@@ -58,7 +58,8 @@ accessToken.create = function(userId, clientId, scopes, ttl, callback) {
           ttl: new Date().getTime() + ttl * 1000
         }],
         function(error, total, addedTokens) {
-          callback(error, addedTokens[0].token);
+          if (error) return callback(error);
+          callback(null, addedTokens[0].token);
         }
       );
     }

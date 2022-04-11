@@ -1,3 +1,9 @@
+# 10.0.3 / YYYY-MM-DD
+
+## BUG FIXES
+
+- Fix an internal error
+
 # 10.0.2 / 2022-04-04
 
 ## DEPENDENCIES
