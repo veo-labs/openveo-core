@@ -451,8 +451,7 @@ exports.config = {
             port: ldapUrl.port,
             userLoginAttribute: ldapConf.userIdAttribute,
             searchBase: ldapConf.searchBase,
-            searchFilter: ldapConf.searchFilter,
-            bindDn: ldapConf.bindDn
+            searchFilter: ldapConf.searchFilter
           }), {encoding: 'utf8'}, function(error) {
             if (error) return callback(error);
             process.stdout.write(ldapConfPath + ' generated\n');

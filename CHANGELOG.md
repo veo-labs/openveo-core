@@ -3,6 +3,7 @@
 ## BUG FIXES
 
 - Fix an internal error
+- Fix authentication end to end tests using LDAP which weren't working since version 10.0.0
 
 # 10.0.2 / 2022-04-04
 
