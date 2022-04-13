@@ -70,6 +70,7 @@ describe('Left menu', function() {
   });
 
   it('should not display items for a user without permission', function() {
+    this.timeout(400000);
     var menu = process.protractorConf.getMenu();
 
     function checkPermissions(menu) {
