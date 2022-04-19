@@ -1,10 +1,14 @@
-# 10.0.3 / YYYY-MM-DD
+# 10.1.0 / YYYY-MM-DD
 
 ## BUG FIXES
 
 - Fix an internal error
 - Fix authentication end to end tests using LDAP which weren't working since version 10.0.0
 - Fix left menu permissions end to end test which could exceed tests timeout
+
+## DEPENDENCIES
+
+- **@openveo/api** has been upgraded from 8.0.4 to **8.1.0**
 
 # 10.0.2 / 2022-04-04
 
