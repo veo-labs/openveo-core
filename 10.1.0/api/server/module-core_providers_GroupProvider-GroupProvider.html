@@ -1,0 +1,2280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: GroupProvider</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: GroupProvider</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="module-core_providers_GroupProvider.html">core/providers/GroupProvider</a>~</span>GroupProvider<span class="signature">(database)</span><span class="type-signature"></span></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    
+    <h4 class="name" id="GroupProvider"><span class="type-signature"></span>new GroupProvider<span class="signature">(database)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Defines a GroupProvider to get and save content groups.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>database</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Database</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The database to interact with</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li>EntityProvider</li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(groups, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Adds content groups.</p>
+<p>This will execute core hook &quot;GROUPS_ADDED&quot; after adding groups with:</p>
+<ul>
+<li><strong>Array</strong> The list of added groups</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>groups</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The list of groups to store with for each group:
+{String} [groups[].id] The group id, generated if not specified
+{String} groups[].name The group name
+{String} groups[].description The group description</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-core_providers_GroupProvider-GroupProvider.html#~addCallback">module:core/providers/GroupProvider~GroupProvider~addCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The function to call when it's done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line38">line 38</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createGroupPermissions"><span class="type-signature"></span>createGroupPermissions<span class="signature">(id, name)</span><span class="type-signature"> &rarr; {Object}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Creates permissions for a group.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The group id</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The group name</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line208">line 208</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Throws:</h5>
+
+        
+
+<dl>
+    <dt>
+        <div class="param-desc">
+        <p>An error if required parameters are not specified</p>
+        </div>
+    </dt>
+    <dd></dd>
+    <dt>
+        <dl>
+            <dt>
+                Type
+            </dt>
+            <dd>
+                
+<span class="param-type">TypeError</span>
+
+
+            </dd>
+        </dl>
+    </dt>
+    <dd></dd>
+</dl>
+
+
+    
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>The group permissions</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createIndexes"><span class="type-signature"></span>createIndexes<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Creates groups indexes.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#callback">callback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Function to call when it's done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line168">line 168</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="dropIndex"><span class="type-signature"></span>dropIndex<span class="signature">(indexName, callback)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Drops an index from database collection.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>indexName</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The name of the index to drop</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#callback">callback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Function to call when it's done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line191">line 191</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="generateGroupPermissions"><span class="type-signature"></span>generateGroupPermissions<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Generates permissions using groups.</p>
+<p>Permission's translation keys for name and description are generated
+using the formats &quot;GROUP_{OPERATION}<em>NAME&quot; and
+&quot;{GROUP}</em>{OPERATION}_DESCRIPTION&quot;.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-core_providers_GroupProvider-GroupProvider.html#~generateGroupPermissionsCallback">module:core/providers/GroupProvider~GroupProvider~generateGroupPermissionsCallback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Function to
+call when it's done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line267">line 267</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>// Example of generated groups
+// [
+//   {
+//     label: 'My group name',
+//     permissions: [
+//       {
+//         id : 'get-group-groupID',
+//         name : 'CORE.PERMISSIONS.GROUP_GET_NAME',
+//         description : 'CORE.PERMISSIONS.GROUP_GET_DESCRIPTION'
+//       },
+//       {
+//         id : 'update-group-groupID',
+//         name : 'CORE.PERMISSIONS.GROUP_UPDATE_NAME',
+//         description : 'CORE.PERMISSIONS.GROUP_UPDATE_DESCRIPTION'
+//       },
+//       {
+//         id : 'delete-group-groupID',
+//         name : 'CORE.PERMISSIONS.GROUP_DELETE_NAME',
+//         description : 'CORE.PERMISSIONS.GROUP_DELETE_DESCRIPTION'
+//       }
+//     ]
+//   }
+// ]</code></pre>
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">(filter<span class="signature-attributes">opt</span>, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Removes groups.</p>
+<p>This will execute core hook &quot;GROUPS_DELETED&quot; after deleting groups with:</p>
+<ul>
+<li><strong>Array</strong> ids The list of deleted group ids</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ResourceFilter</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Rules to filter groups to remove</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-core_providers_GroupProvider-GroupProvider.html#~removeCallback">module:core/providers/GroupProvider~GroupProvider~removeCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The function to call when it's
+done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line127">line 127</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updateOne"><span class="type-signature"></span>updateOne<span class="signature">(filter<span class="signature-attributes">opt</span>, data, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Updates a group.</p>
+<p>This will execute core hook &quot;GROUP_UPDATED&quot; after updating group with:</p>
+<ul>
+<li><strong>Object</strong> The hook data with:
+<ul>
+<li><strong>String</strong> id The id of updated group</li>
+<li><strong>Object</strong> modifications The list of modifications applied</li>
+</ul>
+</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ResourceFilter</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Rules to filter the group to update</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The modifications to perform</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The group name</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>description</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The group description</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-core_providers_GroupProvider-GroupProvider.html#~updateOneCallback">module:core/providers/GroupProvider~GroupProvider~updateOneCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The function to call when
+it's done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line80">line 80</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+
+    
+
+    
+    <h4 class="name" id="~addCallback"><span class="type-signature"></span>addCallback<span class="signature">(error, total, groups)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error if an error occurred, null otherwise</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>total</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The total amount of groups inserted</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>groups</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of added groups</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line292">line 292</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    
+    <h4 class="name" id="~generateGroupPermissionsCallback"><span class="type-signature"></span>generateGroupPermissionsCallback<span class="signature">(error, permissions)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error if an error occurred, null otherwise</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>permissions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of group permissions</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line311">line 311</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    
+    <h4 class="name" id="~removeCallback"><span class="type-signature"></span>removeCallback<span class="signature">(error, total)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error if an error occurred, null otherwise</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>total</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The number of removed groups</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line305">line 305</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    
+    <h4 class="name" id="~updateOneCallback"><span class="type-signature"></span>updateOneCallback<span class="signature">(error, total)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error if an error occurred, null otherwise</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>total</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>1 if everything went fine</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_GroupProvider.js.html">providers/GroupProvider.js</a>, <a href="providers_GroupProvider.js.html#line299">line 299</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core_api.html">core/api</a></li><li><a href="module-core_authenticator.html">core/authenticator</a></li><li><a href="module-core_controllers_ApplicationController.html">core/controllers/ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController.html">core/controllers/AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController.html">core/controllers/DefaultController</a></li><li><a href="module-core_controllers_ErrorController.html">core/controllers/ErrorController</a></li><li><a href="module-core_controllers_GroupController.html">core/controllers/GroupController</a></li><li><a href="module-core_controllers_I18nController.html">core/controllers/I18nController</a></li><li><a href="module-core_controllers_MenuController.html">core/controllers/MenuController</a></li><li><a href="module-core_controllers_OAuthController.html">core/controllers/OAuthController</a></li><li><a href="module-core_controllers_RoleController.html">core/controllers/RoleController</a></li><li><a href="module-core_controllers_SettingsController.html">core/controllers/SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController.html">core/controllers/TaxonomyController</a></li><li><a href="module-core_controllers_UserController.html">core/controllers/UserController</a></li><li><a href="module-core_httpErrors.html">core/httpErrors</a></li><li><a href="module-core_loaders_entityLoader.html">core/loaders/entityLoader</a></li><li><a href="module-core_loaders_migrationLoader.html">core/loaders/migrationLoader</a></li><li><a href="module-core_loaders_namespaceLoader.html">core/loaders/namespaceLoader</a></li><li><a href="module-core_loaders_permissionLoader.html">core/loaders/permissionLoader</a></li><li><a href="module-core_loaders_pluginLoader.html">core/loaders/pluginLoader</a></li><li><a href="module-core_loaders_routeLoader.html">core/loaders/routeLoader</a></li><li><a href="module-core_migration_migrationProcess.html">core/migration/migrationProcess</a></li><li><a href="module-core_oauth_accessToken.html">core/oauth/accessToken</a></li><li><a href="module-core_oauth_client.html">core/oauth/client</a></li><li><a href="module-core_path.html">core/path</a></li><li><a href="module-core_plugin_CorePlugin.html">core/plugin/CorePlugin</a></li><li><a href="module-core_plugin_CorePluginApi.html">core/plugin/CorePluginApi</a></li><li><a href="module-core_plugin_hooks.html">core/plugin/hooks</a></li><li><a href="module-core_plugin_listener.html">core/plugin/listener</a></li><li><a href="module-core_providers_ClientProvider.html">core/providers/ClientProvider</a></li><li><a href="module-core_providers_GroupProvider.html">core/providers/GroupProvider</a></li><li><a href="module-core_providers_RoleProvider.html">core/providers/RoleProvider</a></li><li><a href="module-core_providers_SettingProvider.html">core/providers/SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider.html">core/providers/TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider.html">core/providers/TokenProvider</a></li><li><a href="module-core_providers_UserProvider.html">core/providers/UserProvider</a></li><li><a href="module-core_servers_ApplicationServer.html">core/servers/ApplicationServer</a></li><li><a href="module-core_servers_Server.html">core/servers/Server</a></li><li><a href="module-core_servers_WebServiceServer.html">core/servers/WebServiceServer</a></li><li><a href="module-core_storage.html">core/storage</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_httpErrors-HTTP_ERRORS.html">core/httpErrors~HTTP_ERRORS</a></li><li><a href="module-core_plugin_hooks-CORE_HOOKS.html">core/plugin/hooks~CORE_HOOKS</a></li></ul><h3>Classes</h3><ul><li><a href="module-core_controllers_ApplicationController-ApplicationController.html">core/controllers/ApplicationController~ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController-AuthenticationController.html">core/controllers/AuthenticationController~AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController-DefaultController.html">core/controllers/DefaultController~DefaultController</a></li><li><a href="module-core_controllers_ErrorController-ErrorController.html">core/controllers/ErrorController~ErrorController</a></li><li><a href="module-core_controllers_GroupController-GroupController.html">core/controllers/GroupController~GroupController</a></li><li><a href="module-core_controllers_I18nController-I18nController.html">core/controllers/I18nController~I18nController</a></li><li><a href="module-core_controllers_MenuController-MenuController.html">core/controllers/MenuController~MenuController</a></li><li><a href="module-core_controllers_OAuthController-OauthController.html">core/controllers/OAuthController~OauthController</a></li><li><a href="module-core_controllers_RoleController-RoleController.html">core/controllers/RoleController~RoleController</a></li><li><a href="module-core_controllers_SettingsController-SettingsController.html">core/controllers/SettingsController~SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController-TaxonomyController.html">core/controllers/TaxonomyController~TaxonomyController</a></li><li><a href="module-core_controllers_UserController-UserController.html">core/controllers/UserController~UserController</a></li><li><a href="module-core_plugin_CorePluginApi-CorePluginApi.html">core/plugin/CorePluginApi~CorePluginApi</a></li><li><a href="module-core_plugin_CorePlugin-CorePlugin.html">core/plugin/CorePlugin~CorePlugin</a></li><li><a href="module-core_providers_ClientProvider-ClientProvider.html">core/providers/ClientProvider~ClientProvider</a></li><li><a href="module-core_providers_GroupProvider-GroupProvider.html">core/providers/GroupProvider~GroupProvider</a></li><li><a href="module-core_providers_RoleProvider-RoleProvider.html">core/providers/RoleProvider~RoleProvider</a></li><li><a href="module-core_providers_SettingProvider-SettingProvider.html">core/providers/SettingProvider~SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider-TaxonomyProvider.html">core/providers/TaxonomyProvider~TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider-TokenProvider.html">core/providers/TokenProvider~TokenProvider</a></li><li><a href="module-core_providers_UserProvider-UserProvider.html">core/providers/UserProvider~UserProvider</a></li><li><a href="module-core_servers_ApplicationServer-ApplicationServer.html">core/servers/ApplicationServer~ApplicationServer</a></li><li><a href="module-core_servers_Server-Server.html">core/servers/Server~Server</a></li><li><a href="module-core_servers_WebServiceServer-WebServiceServer.html">core/servers/WebServiceServer~WebServiceServer</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Apr 19 2022 09:27:23 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

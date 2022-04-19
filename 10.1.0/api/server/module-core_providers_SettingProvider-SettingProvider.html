@@ -1,0 +1,1243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: SettingProvider</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: SettingProvider</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>
+            <span class="ancestors"><a href="module-core_providers_SettingProvider.html">core/providers/SettingProvider</a>~</span>SettingProvider<span class="signature">(database)</span><span class="type-signature"></span></h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+
+    
+    <h4 class="name" id="SettingProvider"><span class="type-signature"></span>new SettingProvider<span class="signature">(database)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Defines a SettingProvider to get and save settings.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>database</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Database</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The database to interact with</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_SettingProvider.js.html">providers/SettingProvider.js</a>, <a href="providers_SettingProvider.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+        <h3 class="subsection-title">Extends</h3>
+
+        
+
+
+    <ul>
+        <li>EntityProvider</li>
+    </ul>
+
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">(settings, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Adds settings.</p>
+<p>If a setting already exists, an update is performed.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>settings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The list of settings to store with for each setting:</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>id</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The setting key</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Mixed</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The setting value</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-core_providers_SettingProvider-SettingProvider.html#~addCallback">module:core/providers/SettingProvider~SettingProvider~addCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The function to call when
+it's done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_SettingProvider.js.html">providers/SettingProvider.js</a>, <a href="providers_SettingProvider.js.html#line37">line 37</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="createIndexes"><span class="type-signature"></span>createIndexes<span class="signature">(callback)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Creates users indexes.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="global.html#callback">callback</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Function to call when it's done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_SettingProvider.js.html">providers/SettingProvider.js</a>, <a href="providers_SettingProvider.js.html#line145">line 145</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="updateOne"><span class="type-signature"></span>updateOne<span class="signature">(filter<span class="signature-attributes">opt</span>, data, callback<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Updates a setting.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">ResourceFilter</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Rules to filter the setting to update</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>data</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The modifications to perform</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>value</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Mixed</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The setting value</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="module-core_providers_SettingProvider-SettingProvider.html#~updateOneCallback">module:core/providers/SettingProvider~SettingProvider~updateOneCallback</a></span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>The function to call
+when it's done</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_SettingProvider.js.html">providers/SettingProvider.js</a>, <a href="providers_SettingProvider.js.html#line133">line 133</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Type Definitions</h3>
+
+        
+                
+
+    
+
+    
+    <h4 class="name" id="~addCallback"><span class="type-signature"></span>addCallback<span class="signature">(error, total, settings)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error if an error occurred, null otherwise</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>total</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The total amount of settings inserted / updated</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>settings</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The list of added / updated settings</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_SettingProvider.js.html">providers/SettingProvider.js</a>, <a href="providers_SettingProvider.js.html#line156">line 156</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+                
+
+    
+
+    
+    <h4 class="name" id="~updateOneCallback"><span class="type-signature"></span>updateOneCallback<span class="signature">(error, total)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>error</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Error</span>
+|
+
+<span class="param-type">null</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>The error if an error occurred, null otherwise</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>total</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+|
+
+<span class="param-type">Undefined</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>1 if everything went fine</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="providers_SettingProvider.js.html">providers/SettingProvider.js</a>, <a href="providers_SettingProvider.js.html#line163">line 163</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core_api.html">core/api</a></li><li><a href="module-core_authenticator.html">core/authenticator</a></li><li><a href="module-core_controllers_ApplicationController.html">core/controllers/ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController.html">core/controllers/AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController.html">core/controllers/DefaultController</a></li><li><a href="module-core_controllers_ErrorController.html">core/controllers/ErrorController</a></li><li><a href="module-core_controllers_GroupController.html">core/controllers/GroupController</a></li><li><a href="module-core_controllers_I18nController.html">core/controllers/I18nController</a></li><li><a href="module-core_controllers_MenuController.html">core/controllers/MenuController</a></li><li><a href="module-core_controllers_OAuthController.html">core/controllers/OAuthController</a></li><li><a href="module-core_controllers_RoleController.html">core/controllers/RoleController</a></li><li><a href="module-core_controllers_SettingsController.html">core/controllers/SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController.html">core/controllers/TaxonomyController</a></li><li><a href="module-core_controllers_UserController.html">core/controllers/UserController</a></li><li><a href="module-core_httpErrors.html">core/httpErrors</a></li><li><a href="module-core_loaders_entityLoader.html">core/loaders/entityLoader</a></li><li><a href="module-core_loaders_migrationLoader.html">core/loaders/migrationLoader</a></li><li><a href="module-core_loaders_namespaceLoader.html">core/loaders/namespaceLoader</a></li><li><a href="module-core_loaders_permissionLoader.html">core/loaders/permissionLoader</a></li><li><a href="module-core_loaders_pluginLoader.html">core/loaders/pluginLoader</a></li><li><a href="module-core_loaders_routeLoader.html">core/loaders/routeLoader</a></li><li><a href="module-core_migration_migrationProcess.html">core/migration/migrationProcess</a></li><li><a href="module-core_oauth_accessToken.html">core/oauth/accessToken</a></li><li><a href="module-core_oauth_client.html">core/oauth/client</a></li><li><a href="module-core_path.html">core/path</a></li><li><a href="module-core_plugin_CorePlugin.html">core/plugin/CorePlugin</a></li><li><a href="module-core_plugin_CorePluginApi.html">core/plugin/CorePluginApi</a></li><li><a href="module-core_plugin_hooks.html">core/plugin/hooks</a></li><li><a href="module-core_plugin_listener.html">core/plugin/listener</a></li><li><a href="module-core_providers_ClientProvider.html">core/providers/ClientProvider</a></li><li><a href="module-core_providers_GroupProvider.html">core/providers/GroupProvider</a></li><li><a href="module-core_providers_RoleProvider.html">core/providers/RoleProvider</a></li><li><a href="module-core_providers_SettingProvider.html">core/providers/SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider.html">core/providers/TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider.html">core/providers/TokenProvider</a></li><li><a href="module-core_providers_UserProvider.html">core/providers/UserProvider</a></li><li><a href="module-core_servers_ApplicationServer.html">core/servers/ApplicationServer</a></li><li><a href="module-core_servers_Server.html">core/servers/Server</a></li><li><a href="module-core_servers_WebServiceServer.html">core/servers/WebServiceServer</a></li><li><a href="module-core_storage.html">core/storage</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_httpErrors-HTTP_ERRORS.html">core/httpErrors~HTTP_ERRORS</a></li><li><a href="module-core_plugin_hooks-CORE_HOOKS.html">core/plugin/hooks~CORE_HOOKS</a></li></ul><h3>Classes</h3><ul><li><a href="module-core_controllers_ApplicationController-ApplicationController.html">core/controllers/ApplicationController~ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController-AuthenticationController.html">core/controllers/AuthenticationController~AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController-DefaultController.html">core/controllers/DefaultController~DefaultController</a></li><li><a href="module-core_controllers_ErrorController-ErrorController.html">core/controllers/ErrorController~ErrorController</a></li><li><a href="module-core_controllers_GroupController-GroupController.html">core/controllers/GroupController~GroupController</a></li><li><a href="module-core_controllers_I18nController-I18nController.html">core/controllers/I18nController~I18nController</a></li><li><a href="module-core_controllers_MenuController-MenuController.html">core/controllers/MenuController~MenuController</a></li><li><a href="module-core_controllers_OAuthController-OauthController.html">core/controllers/OAuthController~OauthController</a></li><li><a href="module-core_controllers_RoleController-RoleController.html">core/controllers/RoleController~RoleController</a></li><li><a href="module-core_controllers_SettingsController-SettingsController.html">core/controllers/SettingsController~SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController-TaxonomyController.html">core/controllers/TaxonomyController~TaxonomyController</a></li><li><a href="module-core_controllers_UserController-UserController.html">core/controllers/UserController~UserController</a></li><li><a href="module-core_plugin_CorePluginApi-CorePluginApi.html">core/plugin/CorePluginApi~CorePluginApi</a></li><li><a href="module-core_plugin_CorePlugin-CorePlugin.html">core/plugin/CorePlugin~CorePlugin</a></li><li><a href="module-core_providers_ClientProvider-ClientProvider.html">core/providers/ClientProvider~ClientProvider</a></li><li><a href="module-core_providers_GroupProvider-GroupProvider.html">core/providers/GroupProvider~GroupProvider</a></li><li><a href="module-core_providers_RoleProvider-RoleProvider.html">core/providers/RoleProvider~RoleProvider</a></li><li><a href="module-core_providers_SettingProvider-SettingProvider.html">core/providers/SettingProvider~SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider-TaxonomyProvider.html">core/providers/TaxonomyProvider~TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider-TokenProvider.html">core/providers/TokenProvider~TokenProvider</a></li><li><a href="module-core_providers_UserProvider-UserProvider.html">core/providers/UserProvider~UserProvider</a></li><li><a href="module-core_servers_ApplicationServer-ApplicationServer.html">core/servers/ApplicationServer~ApplicationServer</a></li><li><a href="module-core_servers_Server-Server.html">core/servers/Server~Server</a></li><li><a href="module-core_servers_WebServiceServer-WebServiceServer.html">core/servers/WebServiceServer~WebServiceServer</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Apr 19 2022 09:27:23 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
