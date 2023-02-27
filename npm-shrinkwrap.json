@@ -37,7 +37,7 @@
         "ng-tasty": "0.6.1",
         "nopt": "^5.0.0",
         "oauth20-provider": "^0.6.0",
-        "passport": "^0.4.1",
+        "passport": "^0.6.0",
         "semver": "^7.3.5",
         "serve-favicon": "^2.5.0",
         "socket.io-client": "^4.2.0",
@@ -237,6 +237,18 @@
       "engines": {
         "node": ">=16.3.0",
         "npm": ">=7.15.1"
+      }
+    },
+    "node_modules/@openveo/api/node_modules/passport": {
+      "version": "0.4.1",
+      "resolved": "https://registry.npmjs.org/passport/-/passport-0.4.1.tgz",
+      "integrity": "sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==",
+      "dependencies": {
+        "passport-strategy": "1.x.x",
+        "pause": "0.0.1"
+      },
+      "engines": {
+        "node": ">= 0.4.0"
       }
     },
     "node_modules/@openveo/rest-nodejs-client": {
@@ -1420,15 +1432,6 @@
         "node": ">= 0.8"
       }
     },
-    "node_modules/connect/node_modules/utils-merge": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz",
-      "integrity": "sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=",
-      "dev": true,
-      "engines": {
-        "node": ">= 0.4.0"
-      }
-    },
     "node_modules/consolidate": {
       "version": "0.16.0",
       "resolved": "https://registry.npmjs.org/consolidate/-/consolidate-0.16.0.tgz",
@@ -2557,14 +2560,6 @@
       "integrity": "sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==",
       "engines": {
         "node": ">= 0.8"
-      }
-    },
-    "node_modules/express/node_modules/utils-merge": {
-      "version": "1.0.1",
-      "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz",
-      "integrity": "sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=",
-      "engines": {
-        "node": ">= 0.4.0"
       }
     },
     "node_modules/extend": {
@@ -4935,15 +4930,20 @@
       }
     },
     "node_modules/passport": {
-      "version": "0.4.1",
-      "resolved": "https://registry.npmjs.org/passport/-/passport-0.4.1.tgz",
-      "integrity": "sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==",
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/passport/-/passport-0.6.0.tgz",
+      "integrity": "sha512-0fe+p3ZnrWRW74fe8+SvCyf4a3Pb2/h7gFkQ8yTJpAO50gDzlfjZUZTO1k5Eg9kUct22OxHLqDZoKUWRHOh9ug==",
       "dependencies": {
         "passport-strategy": "1.x.x",
-        "pause": "0.0.1"
+        "pause": "0.0.1",
+        "utils-merge": "^1.0.1"
       },
       "engines": {
         "node": ">= 0.4.0"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/jaredhanson"
       }
     },
     "node_modules/passport-ldapauth": {
@@ -5668,7 +5668,7 @@
     },
     "node_modules/rimraf": {
       "version": "2.4.5",
-      "resolved": "http://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz",
+      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz",
       "integrity": "sha1-7nEM5dk6j9uFb7Xqj/Di11k0sto=",
       "dev": true,
       "dependencies": {
@@ -6643,6 +6643,14 @@
       "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
       "integrity": "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="
     },
+    "node_modules/utils-merge": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz",
+      "integrity": "sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA==",
+      "engines": {
+        "node": ">= 0.4.0"
+      }
+    },
     "node_modules/uuid": {
       "version": "3.4.0",
       "resolved": "https://registry.npmjs.org/uuid/-/uuid-3.4.0.tgz",
@@ -7298,6 +7306,17 @@
         "tar-fs": "^2.1.1",
         "winston": "^3.3.3",
         "xml2js": "^0.4.23"
+      },
+      "dependencies": {
+        "passport": {
+          "version": "0.4.1",
+          "resolved": "https://registry.npmjs.org/passport/-/passport-0.4.1.tgz",
+          "integrity": "sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==",
+          "requires": {
+            "passport-strategy": "1.x.x",
+            "pause": "0.0.1"
+          }
+        }
       }
     },
     "@openveo/rest-nodejs-client": {
@@ -8265,12 +8284,6 @@
           "resolved": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz",
           "integrity": "sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==",
           "dev": true
-        },
-        "utils-merge": {
-          "version": "1.0.1",
-          "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz",
-          "integrity": "sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=",
-          "dev": true
         }
       }
     },
@@ -9102,11 +9115,6 @@
           "version": "1.3.3",
           "resolved": "https://registry.npmjs.org/parseurl/-/parseurl-1.3.3.tgz",
           "integrity": "sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ=="
-        },
-        "utils-merge": {
-          "version": "1.0.1",
-          "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz",
-          "integrity": "sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM="
         }
       }
     },
@@ -10985,12 +10993,13 @@
       }
     },
     "passport": {
-      "version": "0.4.1",
-      "resolved": "https://registry.npmjs.org/passport/-/passport-0.4.1.tgz",
-      "integrity": "sha512-IxXgZZs8d7uFSt3eqNjM9NQ3g3uQCW5avD8mRNoXV99Yig50vjuaez6dQK2qC0kVWPRTujxY0dWgGfT09adjYg==",
+      "version": "0.6.0",
+      "resolved": "https://registry.npmjs.org/passport/-/passport-0.6.0.tgz",
+      "integrity": "sha512-0fe+p3ZnrWRW74fe8+SvCyf4a3Pb2/h7gFkQ8yTJpAO50gDzlfjZUZTO1k5Eg9kUct22OxHLqDZoKUWRHOh9ug==",
       "requires": {
         "passport-strategy": "1.x.x",
-        "pause": "0.0.1"
+        "pause": "0.0.1",
+        "utils-merge": "^1.0.1"
       }
     },
     "passport-ldapauth": {
@@ -11565,7 +11574,7 @@
     },
     "rimraf": {
       "version": "2.4.5",
-      "resolved": "http://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz",
+      "resolved": "https://registry.npmjs.org/rimraf/-/rimraf-2.4.5.tgz",
       "integrity": "sha1-7nEM5dk6j9uFb7Xqj/Di11k0sto=",
       "dev": true,
       "requires": {
@@ -12334,6 +12343,11 @@
       "version": "1.0.2",
       "resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
       "integrity": "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="
+    },
+    "utils-merge": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/utils-merge/-/utils-merge-1.0.1.tgz",
+      "integrity": "sha512-pMZTvIkT1d+TFGvDOqodOclx0QWkkgi6Tdoa8gC8ffGAAqz9pzPTZWAybbsHHoED/ztMtkv/VoYTYyShUn81hA=="
     },
     "uuid": {
       "version": "3.4.0",

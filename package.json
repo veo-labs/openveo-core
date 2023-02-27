@@ -58,7 +58,7 @@
     "ng-tasty": "0.6.1",
     "nopt": "^5.0.0",
     "oauth20-provider": "^0.6.0",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "semver": "^7.3.5",
     "serve-favicon": "^2.5.0",
     "socket.io-client": "^4.2.0",
