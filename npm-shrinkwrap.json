@@ -1,12 +1,12 @@
 {
   "name": "@openveo/core",
-  "version": "10.1.0",
+  "version": "10.2.0",
   "lockfileVersion": 2,
   "requires": true,
   "packages": {
     "": {
       "name": "@openveo/core",
-      "version": "10.1.0",
+      "version": "10.2.0",
       "hasInstallScript": true,
       "license": "AGPL-3.0",
       "dependencies": {
