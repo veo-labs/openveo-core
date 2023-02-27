@@ -46,7 +46,7 @@
     "api-check": "^7.5.5",
     "async": "^3.2.0",
     "body-parser": "^1.19.0",
-    "bootstrap-sass": "3.3.7",
+    "bootstrap-sass": "3.4.1",
     "consolidate": "^0.16.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
