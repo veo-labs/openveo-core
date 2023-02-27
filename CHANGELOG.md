@@ -1,3 +1,9 @@
+# 10.2.0 / YYYY-MM-DD
+
+## DEPENDENCIES
+
+- **@openveo/api** has been upgraded from 8.1.0 to **8.2.0**
+
 # 10.1.0 / 2022-04-19
 
 ## BUG FIXES
