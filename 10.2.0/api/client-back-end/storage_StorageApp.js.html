@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: storage/StorageApp.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: storage/StorageApp.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+/**
+ * Helper module to manipulate local storage.
+ *
+ * @module ov/storage
+ */
+
+(function(angular) {
+  var app = angular.module('ov.storage', []);
+
+  /**
+   * Defines a storage provider to help store information.
+   * For now sessionStorage and localStorage are supported.
+   *
+   * @class StorageProvider
+   */
+  function StorageProvider() {
+    var self = this;
+
+    // Provider parameters
+    // Prefix to use when adding an entry to the storage
+    // Using a prefix is transparent when using the provider
+    this.prefix = 'ov-';
+
+    // Type of storage to use
+    this.type = 'localStorage';
+
+    this.$get = ['$window', function($window) {
+
+      /**
+       * Gets information from storage using the given key.
+       *
+       * @memberof module:ov/storage~StorageProvider
+       * @private
+       * @instance
+       * @param {String} key The key of the element to retrieve
+       * @return {Object} The stored value for the given key
+       */
+      function getFromStorage(key) {
+        return $window[self.type][self.prefix + key];
+      }
+
+      /**
+       * Adds information to the storage.
+       *
+       * @memberof module:ov/storage~StorageProvider
+       * @private
+       * @instance
+       * @param {String} key The key of the element to add
+       * @param {String} value The value of the element to add
+       */
+      function addToStorage(key, value) {
+        $window[self.type][self.prefix + key] = value;
+      }
+
+      /**
+       * Removes a key from the storage.
+       *
+       * @memberof module:ov/storage~StorageProvider
+       * @private
+       * @instance
+       * @param {String} key The key of the element to remove
+       */
+      function removeFromStorage(key) {
+        $window[self.type].removeItem(self.prefix + key);
+      }
+
+      return {
+
+        /**
+         * @memberof module:ov/storage~StorageProvider
+         * @instance
+         * @method
+         * @see module:ov/storage~StorageProvider#getFromStorage
+         */
+        get: getFromStorage,
+
+        /**
+         * @memberof module:ov/storage~StorageProvider
+         * @instance
+         * @method
+         * @see module:ov/storage~StorageProvider#addToStorage
+         */
+        add: addToStorage,
+
+        /**
+         * @memberof module:ov/storage~StorageProvider
+         * @instance
+         * @method
+         * @see module:ov/storage~StorageProvider#addToStorage
+         */
+        set: addToStorage,
+
+        /**
+         * @memberof module:ov/storage~StorageProvider
+         * @instance
+         * @method
+         * @see module:ov/storage~StorageProvider#removeFromStorage
+         */
+        remove: removeFromStorage
+      };
+
+    }];
+
+  }
+
+  app.provider('storage', StorageProvider);
+
+})(angular);
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ov.html">ov</a></li><li><a href="module-ov_alert.html">ov/alert</a></li><li><a href="module-ov_authentication.html">ov/authentication</a></li><li><a href="module-ov_entity.html">ov/entity</a></li><li><a href="module-ov_i18n.html">ov/i18n</a></li><li><a href="module-ov_socket.html">ov/socket</a></li><li><a href="module-ov_storage.html">ov/storage</a></li><li><a href="module-ov_util.html">ov/util</a></li></ul><h3>Classes</h3><ul><li><a href="module-ov_alert-AlertService.html">ov/alert~AlertService</a></li><li><a href="module-ov_authentication-AuthenticationService.html">ov/authentication~AuthenticationService</a></li><li><a href="module-ov_entity-EntityService.html">ov/entity~EntityService</a></li><li><a href="module-ov_i18n-I18nService.html">ov/i18n~I18nService</a></li><li><a href="module-ov_i18n-TranslateFilter.html">ov/i18n~TranslateFilter</a></li><li><a href="module-ov_socket-SocketFactory.html">ov/socket~SocketFactory</a></li><li><a href="module-ov_storage-StorageProvider.html">ov/storage~StorageProvider</a></li><li><a href="module-ov_util-OvUrlFactory.html">ov/util~OvUrlFactory</a></li><li><a href="module-ov_util-UtilService.html">ov/util~UtilService</a></li><li><a href="module-ov-ApplicationService.html">ov~ApplicationService</a></li><li><a href="module-ov-ErrorInterceptor.html">ov~ErrorInterceptor</a></li><li><a href="module-ov-MenuService.html">ov~MenuService</a></li><li><a href="module-ov-ovAutoComplete.html">ov~ovAutoComplete</a></li><li><a href="module-ov-ovDateTimePicker.html">ov~ovDateTimePicker</a></li><li><a href="module-ov-ovMatch.html">ov~ovMatch</a></li><li><a href="module-ov-ovMultiCheckBox.html">ov~ovMultiCheckBox</a></li><li><a href="module-ov-ovTags.html">ov~ovTags</a></li><li><a href="module-ov-TruncateFilter.html">ov~TruncateFilter</a></li><li><a href="module-ov-userService.html">ov~userService</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Feb 27 2023 15:03:36 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

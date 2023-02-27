@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: authenticator.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: authenticator.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+/**
+ * The authenticator helps manipulate users authenticated by passport strategies.
+ *
+ * Users returned by passport are not necessary OpenVeo users. It could be users from a third party authentication
+ * server. The authenticator helps making sure that the authenticated user is a ready to use OpenVeo user.
+ *
+ * @module core/authenticator
+ */
+
+var async = require('async');
+var openVeoApi = require('@openveo/api');
+var UserProvider = process.require('app/server/providers/UserProvider.js');
+var RoleProvider = process.require('app/server/providers/RoleProvider.js');
+var SettingProvider = process.require('app/server/providers/SettingProvider.js');
+var storage = process.require('app/server/storage.js');
+var ResourceFilter = openVeoApi.storages.ResourceFilter;
+
+/**
+ * Populates user with detailed roles and permissions.
+ *
+ * @private
+ * @param {Object} user The user to populate
+ * @param {Array} [user.roles] The list of role ids
+ * @param {module:core/authenticator~populateUserCallback} callback The function to call when it's done
+ */
+function populateUser(user, callback) {
+  if (!user.roles || !user.roles.length) return callback(null, user);
+
+  var roleProvider = new RoleProvider(storage.getDatabase());
+  roleProvider.get(
+    new ResourceFilter().in('id', user.roles),
+    null,
+    user.roles.length,
+    null,
+    {
+      name: 'asc'
+    },
+    function(error, roles) {
+      if (error) return callback(error);
+      user.permissions = [];
+
+      for (var i = 0; i &lt; roles.length; i++)
+        user.permissions = openVeoApi.util.joinArray(user.permissions, roles[i].permissions);
+
+      user.roles = roles;
+      callback(null, user);
+    }
+  );
+}
+
+/**
+ * Serializes only essential user information required to retrieve it later.
+ *
+ * @param {Object} user The user to serialize
+ * @param {module:core/authenticator~serializeUserCallback} callback The function to call when it's done
+ */
+module.exports.serializeUser = function(user, callback) {
+  if (!user || !user.id)
+    return callback(new Error('Could not serialize user: unknown user "' + (user ? user.id : '') + '"'));
+
+  callback(null, user.id);
+};
+
+/**
+ * Fetches a user with its permissions from serialized data.
+ *
+ * @param {String} data Serialized data as serialized by serializeUser(): the id of the user
+ * @param {module:core/authenticator~deserializeUserCallback} callback The function to call when it's done
+ */
+module.exports.deserializeUser = function(data, callback) {
+  var userProvider = new UserProvider(storage.getDatabase());
+
+  userProvider.getOne(
+    new ResourceFilter().equal('id', data),
+    null,
+    function(error, user) {
+      if (error) return callback(error);
+      if (!user) return callback(new Error('Unkown user "' + data + '"'));
+      if (user.id === process.api.getCoreApi().getSuperAdminId()) return callback(null, user);
+
+      // Get user permissions and roles
+      populateUser(user, callback);
+    }
+  );
+};
+
+/**
+ * Verifies a user as returned by the passport local strategy.
+ *
+ * @param {String} email User email
+ * @param {String} password User password
+ * @param {module:core/authenticator~verifyUserByCredentialsCallback} callback Function to call when its done
+ */
+module.exports.verifyUserByCredentials = function(email, password, callback) {
+  var userProvider = new UserProvider(storage.getDatabase());
+
+  userProvider.getUserByCredentials(email, password, function(error, user) {
+    if (error) return callback(error);
+    if (!user) return callback(new Error('Email and / or password incorrect for "' + email + '"'));
+    if (user.id === process.api.getCoreApi().getSuperAdminId()) return callback(null, user);
+
+    populateUser(user, callback);
+  });
+};
+
+/**
+ * Verifies user as returned by third party providers.
+ *
+ * OpenVeo trusts users from third party providers, if the user does not exist in OpenVeo
+ * it is created with minimum information.
+ *
+ * @param {Object} thirdPartyUser The user from the third party provider
+ * @param {String} strategy The id of the strategy
+ * @param {module:core/authenticator~verifyUserAuthenticationCallback} callback Function to call when its done
+ */
+module.exports.verifyUserAuthentication = function(thirdPartyUser, strategy, callback) {
+  var user;
+  var exists = false;
+  var roles = [];
+  var strategyConfiguration = storage.getConfiguration().auth[strategy];
+  var thirdPartyIdAttribute = strategyConfiguration.userIdAttribute;
+  var thirdPartyNameAttribute = strategyConfiguration.userNameAttribute;
+  var thirdPartyEmailAttribute = strategyConfiguration.userEmailAttribute;
+  var thirdPartyGroupAttribute = strategyConfiguration.userGroupAttribute;
+  var userProvider = new UserProvider(storage.getDatabase());
+  var settingProvider = new SettingProvider(storage.getDatabase());
+  var originId = openVeoApi.util.evaluateDeepObjectProperties(thirdPartyIdAttribute, thirdPartyUser).replace(/ /g, '');
+  var originGroups = openVeoApi.util.evaluateDeepObjectProperties(thirdPartyGroupAttribute, thirdPartyUser);
+  var thirdPartyUserName = openVeoApi.util.evaluateDeepObjectProperties(thirdPartyNameAttribute, thirdPartyUser);
+  var thirdPartyUserEmail = openVeoApi.util.evaluateDeepObjectProperties(thirdPartyEmailAttribute, thirdPartyUser);
+  originGroups = originGroups || [];
+  originGroups = (Array.isArray(originGroups)) ? originGroups : originGroups.split(',');
+
+  async.series([
+
+    // Test if user already exists in OpenVeo
+    function(callback) {
+      if (originId) {
+        userProvider.getOne(
+          new ResourceFilter().equal('origin', strategy).equal('originId', originId),
+          null,
+          function(error, fetchedUser) {
+            if (error) return callback(error);
+            if (fetchedUser) {
+              exists = true;
+              user = fetchedUser;
+            }
+            callback();
+          }
+        );
+      } else {
+        exists = false;
+        callback();
+      }
+    },
+
+    // Attribute OpenVeo roles depending on third party user group
+    // Matching is made in OpenVeo settings page
+    function(callback) {
+      if (!originGroups) return callback();
+
+      settingProvider.getOne(
+        new ResourceFilter().equal('id', 'core-' + strategy),
+        null,
+        function(error, settings) {
+          if (error) return callback(error);
+
+          if (settings &amp;&amp; settings.value &amp;&amp; settings.value.length) {
+
+            // Look for third party user group inside OpenVeo settings
+            settings.value.forEach(function(match) {
+              if (originGroups.indexOf(match.group) >= 0)
+                roles = roles.concat(match.roles);
+            });
+          }
+          callback();
+        }
+      );
+    },
+
+    // Create user if it does not exist yet
+    function(callback) {
+      if (exists) return callback();
+
+      userProvider.addThirdPartyUsers([
+        {
+          name: thirdPartyUserName,
+          email: thirdPartyUserEmail,
+          roles: roles,
+          origin: strategy,
+          originId: originId,
+          originGroups: originGroups
+        }
+      ], function(error, total, addedUsers) {
+        if (addedUsers) user = addedUsers[0];
+        callback(error);
+      });
+    },
+
+    // Update user if information from third party provider have changed (name, email, group)
+    function(callback) {
+      if (user.name !== thirdPartyUserName ||
+        user.email !== thirdPartyUserEmail ||
+        !openVeoApi.util.areSameArrays(user.originGroups, originGroups) ||
+        !openVeoApi.util.areSameArrays(user.roles, roles)
+      ) {
+
+        user.name = thirdPartyUserName;
+        user.email = thirdPartyUserEmail;
+        user.roles = roles;
+        user.originGroups = originGroups;
+
+        userProvider.updateThirdPartyUser(
+          new ResourceFilter().equal('id', user.id),
+          {
+            name: user.name,
+            email: user.email,
+            originGroups: user.originGroups,
+            roles: user.roles
+          },
+          strategy,
+          callback
+        );
+      } else
+        callback();
+    },
+
+    // Fetches the user with its permissions
+    function(callback) {
+      populateUser(user, callback);
+    }
+
+  ], function(error, results) {
+    callback(error, user);
+  });
+
+};
+
+/**
+ * @callback module:core/authenticator~populateUserCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The populated user
+ */
+
+/**
+ * @callback module:core/authenticator~serializeUserCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(String|Undefined)} information The serialized user information
+ */
+
+/**
+ * @callback module:core/authenticator~deserializeUserCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The user with its permissions
+ */
+
+/**
+ * @callback module:core/authenticator~verifyUserByCredentialsCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The user with its permissions
+ */
+
+/**
+ * @callback module:core/authenticator~verifyUserAuthenticationCallback
+ * @param {(Error|null)} error The error if an error occurred, null otherwise
+ * @param {(Object|Undefined)} user The user with its permissions
+ */
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-core_api.html">core/api</a></li><li><a href="module-core_authenticator.html">core/authenticator</a></li><li><a href="module-core_controllers_ApplicationController.html">core/controllers/ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController.html">core/controllers/AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController.html">core/controllers/DefaultController</a></li><li><a href="module-core_controllers_ErrorController.html">core/controllers/ErrorController</a></li><li><a href="module-core_controllers_GroupController.html">core/controllers/GroupController</a></li><li><a href="module-core_controllers_I18nController.html">core/controllers/I18nController</a></li><li><a href="module-core_controllers_MenuController.html">core/controllers/MenuController</a></li><li><a href="module-core_controllers_OAuthController.html">core/controllers/OAuthController</a></li><li><a href="module-core_controllers_RoleController.html">core/controllers/RoleController</a></li><li><a href="module-core_controllers_SettingsController.html">core/controllers/SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController.html">core/controllers/TaxonomyController</a></li><li><a href="module-core_controllers_UserController.html">core/controllers/UserController</a></li><li><a href="module-core_httpErrors.html">core/httpErrors</a></li><li><a href="module-core_loaders_entityLoader.html">core/loaders/entityLoader</a></li><li><a href="module-core_loaders_migrationLoader.html">core/loaders/migrationLoader</a></li><li><a href="module-core_loaders_namespaceLoader.html">core/loaders/namespaceLoader</a></li><li><a href="module-core_loaders_permissionLoader.html">core/loaders/permissionLoader</a></li><li><a href="module-core_loaders_pluginLoader.html">core/loaders/pluginLoader</a></li><li><a href="module-core_loaders_routeLoader.html">core/loaders/routeLoader</a></li><li><a href="module-core_migration_migrationProcess.html">core/migration/migrationProcess</a></li><li><a href="module-core_oauth_accessToken.html">core/oauth/accessToken</a></li><li><a href="module-core_oauth_client.html">core/oauth/client</a></li><li><a href="module-core_path.html">core/path</a></li><li><a href="module-core_plugin_CorePlugin.html">core/plugin/CorePlugin</a></li><li><a href="module-core_plugin_CorePluginApi.html">core/plugin/CorePluginApi</a></li><li><a href="module-core_plugin_hooks.html">core/plugin/hooks</a></li><li><a href="module-core_plugin_listener.html">core/plugin/listener</a></li><li><a href="module-core_providers_ClientProvider.html">core/providers/ClientProvider</a></li><li><a href="module-core_providers_GroupProvider.html">core/providers/GroupProvider</a></li><li><a href="module-core_providers_RoleProvider.html">core/providers/RoleProvider</a></li><li><a href="module-core_providers_SettingProvider.html">core/providers/SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider.html">core/providers/TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider.html">core/providers/TokenProvider</a></li><li><a href="module-core_providers_UserProvider.html">core/providers/UserProvider</a></li><li><a href="module-core_servers_ApplicationServer.html">core/servers/ApplicationServer</a></li><li><a href="module-core_servers_Server.html">core/servers/Server</a></li><li><a href="module-core_servers_WebServiceServer.html">core/servers/WebServiceServer</a></li><li><a href="module-core_storage.html">core/storage</a></li></ul><h3>Namespaces</h3><ul><li><a href="module-core_httpErrors-HTTP_ERRORS.html">core/httpErrors~HTTP_ERRORS</a></li><li><a href="module-core_plugin_hooks-CORE_HOOKS.html">core/plugin/hooks~CORE_HOOKS</a></li></ul><h3>Classes</h3><ul><li><a href="module-core_controllers_ApplicationController-ApplicationController.html">core/controllers/ApplicationController~ApplicationController</a></li><li><a href="module-core_controllers_AuthenticationController-AuthenticationController.html">core/controllers/AuthenticationController~AuthenticationController</a></li><li><a href="module-core_controllers_DefaultController-DefaultController.html">core/controllers/DefaultController~DefaultController</a></li><li><a href="module-core_controllers_ErrorController-ErrorController.html">core/controllers/ErrorController~ErrorController</a></li><li><a href="module-core_controllers_GroupController-GroupController.html">core/controllers/GroupController~GroupController</a></li><li><a href="module-core_controllers_I18nController-I18nController.html">core/controllers/I18nController~I18nController</a></li><li><a href="module-core_controllers_MenuController-MenuController.html">core/controllers/MenuController~MenuController</a></li><li><a href="module-core_controllers_OAuthController-OauthController.html">core/controllers/OAuthController~OauthController</a></li><li><a href="module-core_controllers_RoleController-RoleController.html">core/controllers/RoleController~RoleController</a></li><li><a href="module-core_controllers_SettingsController-SettingsController.html">core/controllers/SettingsController~SettingsController</a></li><li><a href="module-core_controllers_TaxonomyController-TaxonomyController.html">core/controllers/TaxonomyController~TaxonomyController</a></li><li><a href="module-core_controllers_UserController-UserController.html">core/controllers/UserController~UserController</a></li><li><a href="module-core_plugin_CorePluginApi-CorePluginApi.html">core/plugin/CorePluginApi~CorePluginApi</a></li><li><a href="module-core_plugin_CorePlugin-CorePlugin.html">core/plugin/CorePlugin~CorePlugin</a></li><li><a href="module-core_providers_ClientProvider-ClientProvider.html">core/providers/ClientProvider~ClientProvider</a></li><li><a href="module-core_providers_GroupProvider-GroupProvider.html">core/providers/GroupProvider~GroupProvider</a></li><li><a href="module-core_providers_RoleProvider-RoleProvider.html">core/providers/RoleProvider~RoleProvider</a></li><li><a href="module-core_providers_SettingProvider-SettingProvider.html">core/providers/SettingProvider~SettingProvider</a></li><li><a href="module-core_providers_TaxonomyProvider-TaxonomyProvider.html">core/providers/TaxonomyProvider~TaxonomyProvider</a></li><li><a href="module-core_providers_TokenProvider-TokenProvider.html">core/providers/TokenProvider~TokenProvider</a></li><li><a href="module-core_providers_UserProvider-UserProvider.html">core/providers/UserProvider~UserProvider</a></li><li><a href="module-core_servers_ApplicationServer-ApplicationServer.html">core/servers/ApplicationServer~ApplicationServer</a></li><li><a href="module-core_servers_Server-Server.html">core/servers/Server~Server</a></li><li><a href="module-core_servers_WebServiceServer-WebServiceServer.html">core/servers/WebServiceServer~WebServiceServer</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Feb 27 2023 15:03:38 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
